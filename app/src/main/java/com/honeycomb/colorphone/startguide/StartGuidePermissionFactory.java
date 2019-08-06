@@ -144,7 +144,7 @@ public class StartGuidePermissionFactory {
                         return;
                     }
                 }
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
+                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:

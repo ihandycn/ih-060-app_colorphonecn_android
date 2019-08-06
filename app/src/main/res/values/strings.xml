@@ -367,4 +367,7 @@
     <string name="runtime_permission_action">立即开启</string>
     <string name="runtime_permission_continue">继续开启</string>
 
+    <string name="runtime_confirm_permission_description">为确保来电秀功能正常使用，请开启以下必要权限</string>
+    <string name="runtime_confirm_permission_action">去授权</string>
+
 </resources>

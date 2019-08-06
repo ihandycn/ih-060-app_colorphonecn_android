@@ -124,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
         
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/start_guide_permission_anim"
@@ -180,6 +180,11 @@
     <include
         android:id="@+id/start_guide_congratulation_page"
         layout="@layout/start_guide_congratulation"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/start_guide_confirm_permission"
+        layout="@layout/start_guide_confirm_permission"
         android:visibility="gone" />
     
 </android.support.constraint.ConstraintLayout>

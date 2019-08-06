@@ -99,7 +99,7 @@ public class StartGuideItemHolder {
                             super.onAnimationRepeat(animation);
                             loading.cancelAnimation();
                             loading.removeAllAnimatorListeners();
-                            loading.setVisibility(View.GONE);
+                            loading.setVisibility(View.INVISIBLE);
 
                             ok.setVisibility(View.VISIBLE);
                             ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
@@ -107,14 +107,14 @@ public class StartGuideItemHolder {
                         }
                     });
                 } else {
-                    loading.setVisibility(View.GONE);
+                    loading.setVisibility(View.INVISIBLE);
                     ok.setVisibility(View.VISIBLE);
                     ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 }
                 break;
             case PERMISSION_STATUS_FIX:
                 if (fix != null) {
-                    ok.setVisibility(View.GONE);
+                    ok.setVisibility(View.INVISIBLE);
                     fix.setVisibility(View.VISIBLE);
 
                     ok.animate().alpha(0.7f).setDuration(100).start();
@@ -124,26 +124,26 @@ public class StartGuideItemHolder {
             case PERMISSION_STATUS_LOADING:
                 if (lastStatus != PERMISSION_STATUS_OK) {
                     if (loading != null) {
-                        ok.setVisibility(View.GONE);
+                        ok.setVisibility(View.INVISIBLE);
                         loading.setVisibility(View.VISIBLE);
                         loading.useHardwareAcceleration();
                         loading.playAnimation();
                     }
                 }
                 if (fix != null) {
-                    fix.setVisibility(View.GONE);
+                    fix.setVisibility(View.INVISIBLE);
                 }
                 break;
             case PERMISSION_STATUS_NOT_START:
                 ok.setVisibility(View.VISIBLE);
                 ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 if (loading != null) {
-                    loading.setVisibility(View.GONE);
+                    loading.setVisibility(View.INVISIBLE);
                 }
                 break;
             case PERMISSION_STATUS_OK:
                 if (lastStatus == PERMISSION_STATUS_LOADING) {
-                    ok.setVisibility(View.GONE);
+                    ok.setVisibility(View.INVISIBLE);
                     loading.addAnimatorListener(new AnimatorListenerAdapter() {
                         @Override public void onAnimationRepeat(Animator animation) {
                             super.onAnimationRepeat(animation);
@@ -160,7 +160,7 @@ public class StartGuideItemHolder {
                                     ok.setVisibility(View.VISIBLE);
                                     ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
                                     loading.removeAllAnimatorListeners();
-                                    loading.setVisibility(View.GONE);
+                                    loading.setVisibility(View.INVISIBLE);
 //                                    setPermissionStatus(permissionType + 1, PERMISSION_STATUS_LOADING);
                                     HSLog.i(TAG, "onAnimationEnd " + permissionType);
 
@@ -185,7 +185,7 @@ public class StartGuideItemHolder {
                                 ok.setVisibility(View.VISIBLE);
                                 ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
                                 loading.removeAllAnimatorListeners();
-                                loading.setVisibility(View.GONE);
+                                loading.setVisibility(View.INVISIBLE);
 //                                setPermissionStatus(permissionType + 1, PERMISSION_STATUS_LOADING);
                                 HSLog.i(TAG, "onAnimationEnd " + permissionType);
 
@@ -203,7 +203,7 @@ public class StartGuideItemHolder {
                 }
 
                 if (fix != null) {
-                    fix.setVisibility(View.GONE);
+                    fix.setVisibility(View.INVISIBLE);
                 }
 
                 break;

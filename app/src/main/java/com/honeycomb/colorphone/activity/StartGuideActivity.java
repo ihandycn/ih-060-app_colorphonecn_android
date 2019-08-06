@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,7 +35,6 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -71,6 +71,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private int permissionShowCount;
     private String from;
     private boolean directPermission;
+    private boolean oneKeyFixPressed = false;
     private int confirmDialogPermission = 0;
 
     public static @Nullable Intent getIntent(Context context, String from) {
@@ -120,9 +121,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 enableBtn.setOnClickListener(v -> {
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                     if (directPermission) {
-                        directPermission = false;
-                        requiresPermission();
-                    } else {
+                        showPermissionDialog();
+                    }
+
+                    if (!directPermission){
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
                     }
@@ -244,8 +246,17 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
                         from = FROM_KEY_START;
                     }
-                    permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-                    AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
+                    if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                        permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
+                        AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
+                    } else {
+                        if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)) {
+                            AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+                        } else {
+                            requiresPermission(getConfirmRuntimePermission(), CONFIRM_PAGE_PERMISSION_REQUEST);
+                        }
+                    }
+                    oneKeyFixPressed = true;
 
                     Analytics.logEvent("FixAlert_Ok_Click", "From", from);
                 });
@@ -337,9 +348,39 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Analytics.logEvent("FixAlert_Retain_Show", "From", from);
     }
 
+    private boolean showPermissionDialog() {
+        List<String> reqPermission = getFirstRuntimePermission();
+        if (reqPermission.size() == 0) {
+            directPermission = false;
+            return false;
+        }
+
+        View permissionDialog = findViewById(R.id.start_guide_confirm_permission);
+        permissionDialog.setVisibility(View.VISIBLE);
+
+        View layout = permissionDialog.findViewById(R.id.start_guide_confirm_permission_layout);
+        layout.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(16), false));
+
+        View action = permissionDialog.findViewById(R.id.start_guide_confirm_permission_action);
+        action.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
+        action.setOnClickListener(v -> {
+            requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
+
+            layout.setVisibility(View.GONE);
+        });
+
+        layout.setScaleX(0.7f);
+        layout.setScaleY(0.7f);
+        layout.setAlpha(0.3f);
+        layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).start();
+
+        return true;
+    }
+
     private boolean showConfirmDialog(int confirmPermission) {
         if (dialog != null) {
             dialog.dismiss();
+
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, com.acb.call.R.style.Theme_AppCompat_Light_Dialog);
@@ -404,8 +445,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         } else {
             if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE) {
-                if (AutoPermissionChecker.isNotificationListeningGranted()) {
-                    AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+                if (AutoPermissionChecker.isPhonePermissionGranted()) {
+//                    AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
                 }
             }
             return false;
@@ -427,15 +468,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         super.onStart();
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
-
-//        boolean canceledByUser =
-//                !AutoRequestManager.getInstance().isBackPressExecuted()
-//                && AutoRequestManager.getInstance().isRequestFloatPermission();
-//        if (canceledByUser) {
-//            HSLog.d("AutoPermission", "Auto task canceled");
-//            HSPermissionRequestMgr.getInstance().cancelRequest();
-//            needRefreshView = true;
-//        }
 
         if (needRefreshView) {
             HSLog.i("AutoPermission", "onPermissionChanged onStart");
@@ -489,16 +521,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 "Permission", AutoLogger.getGrantRuntimePermissionString());
     }
 
-    /**
-     * Only request first launch. (if Enabled and not has permission)
-     */
-    private void requiresPermission() {
-        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
-                && ScreenFlashSettings.isScreenFlashModuleEnabled();
-        HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
-        if (!isEnabled) {
-            return;
-        }
+    private List<String> getFirstRuntimePermission() {
+        List<String> reqPermission = new ArrayList<>();
 
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.READ_PHONE_STATE);
@@ -509,7 +533,35 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
-        permissions.add(Manifest.permission.WRITE_SETTINGS);
+
+        boolean grant;
+        for (String p : permissions) {
+            grant = RuntimePermissions.checkSelfPermission(this, p)
+                    == RuntimePermissions.PERMISSION_GRANTED;
+            if (!grant) {
+                reqPermission.add(p);
+            }
+        }
+        return reqPermission;
+    }
+
+    private List<String> getConfirmRuntimePermission() {
+        List<String> reqPermission = new ArrayList<>();
+        reqPermission.add(Manifest.permission.READ_PHONE_STATE);
+        reqPermission.add(Manifest.permission.CALL_PHONE);
+        return reqPermission;
+    }
+
+    /**
+     * Only request first launch. (if Enabled and not has permission)
+     */
+    private void requiresPermission(List<String> permissions, int reqCode) {
+        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled();
+        HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
+        if (!isEnabled) {
+            return;
+        }
 
         boolean grantPermission = true;
         boolean grant;
@@ -520,8 +572,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         if (!grantPermission) {
-            // Do not have permissions, request them now
-            RuntimePermissions.requestPermissions(this, permissions.toArray(new String[permissions.size()]), FIRST_LAUNCH_PERMISSION_REQUEST);
+            RuntimePermissions.requestPermissions(this, permissions.toArray(new String[0]), reqCode);
         }
     }
 
@@ -529,6 +580,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        directPermission = false;
 
         List<String> granted = new ArrayList<>();
         List<String> denied = new ArrayList<>();
@@ -544,65 +597,31 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
+
+        ModuleUtils.setAllModuleUserEnable();
+        showAccessibilityPermissionPage();
     }
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
         HSLog.i("Permission", "onPermissionsGranted: " + list);
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-            StringBuilder sb = new StringBuilder();
-            for (String p : list) {
-                switch (p) {
-                    case Manifest.permission.READ_PHONE_STATE:
-                        sb.append("phone+");
-                        break;
-                    case Manifest.permission.READ_CONTACTS:
-                        sb.append("readContact+");
-                        break;
-                    case Manifest.permission.WRITE_CONTACTS:
-                        sb.append("writeContact+");
-                        break;
-                    case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        sb.append("storage+");
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        sb.append("callLog+");
-                        break;
 
-                }
-            }
-
-            ModuleUtils.setAllModuleUserEnable();
-            showAccessibilityPermissionPage();
         } else if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
                         holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            RuntimePermissions.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE, Manifest.permission.ANSWER_PHONE_CALLS }, AUTO_PERMISSION_REQUEST);
-                        }
-                        Analytics.logEvent("Permission_Phone_Allow_Success");
                         break;
-                    case Manifest.permission.WRITE_SETTINGS:
-                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
-                        Analytics.logEvent("Permission_Write_Settings_Allow_Success");
-                        break;
-                    case Manifest.permission.READ_CONTACTS:
-                        break;
-                    case Manifest.permission.WRITE_CONTACTS:
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        break;
-                    case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    default:
                         break;
                 }
             }
-            onPermissionChanged();
+
+            if (oneKeyFixPressed) {
+                AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
+            } else {
+                onPermissionChanged();
+            }
         }
     }
 
@@ -615,19 +634,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-                        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
+//                        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                         break;
-                    case Manifest.permission.WRITE_SETTINGS:
-                        break;
-                    case Manifest.permission.READ_CONTACTS:
-                        break;
-                    case Manifest.permission.WRITE_CONTACTS:
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        break;
-                    case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    default:
                         break;
                 }
             }

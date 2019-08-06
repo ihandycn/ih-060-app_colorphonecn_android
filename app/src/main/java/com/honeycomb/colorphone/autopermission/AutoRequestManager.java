@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -96,6 +100,29 @@ public class AutoRequestManager {
 
     private int executeBackPressTryCount;
 
+    private static final int CHECK_PHONE_PERMISSION = 0x800;
+    private static final int CHECK_PHONE_PERMISSION_TIMEOUT = 0x810;
+    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case CHECK_PHONE_PERMISSION:
+                    if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                        backForPhoneTask.run();
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_PHONE_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_PHONE_PERMISSION_TIMEOUT:
+                    removeMessages(CHECK_PHONE_PERMISSION);
+                    break;
+            }
+        }
+    };
+
     private AutoRequestManager() {}
 
     public static AutoRequestManager getInstance() {
@@ -142,6 +169,30 @@ public class AutoRequestManager {
                     HSLog.d(TAG, "performGlobalAction success");
                     backPressExecuted = true;
                     performPermissionCheck();
+                }
+
+                @Override
+                public void onFailed() {
+                    HSLog.d(TAG, "performGlobalAction fail");
+                    if (executeBackPressTryCount < MAX_RETRY_COUNT) {
+                        executeBackPressTryCount++;
+                        HSLog.d(TAG, "performGlobalAction try , time = " + executeBackPressTryCount);
+                        Threads.postOnMainThreadDelayed(backTask, 200 * executeBackPressTryCount);
+                    }
+                }
+            });
+        }
+    };
+
+    private Runnable backForPhoneTask = new Runnable() {
+        @Override
+        public void run() {
+            HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GlobalActionResult() {
+                @Override
+                public void onSuccess() {
+                    HSLog.d(TAG, "performGlobalAction success");
+                    backPressExecuted = true;
+                    startAutoCheck(AUTO_PERMISSION_FROM_FIX, StartGuideActivity.FROM_KEY_START);
                 }
 
                 @Override
@@ -256,32 +307,8 @@ public class AutoRequestManager {
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }
-
-        ArrayList<String> runtimePermission = new ArrayList<>();
-        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                runtimePermission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
-            }
+        if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
-
-        } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
-
-            if (Compats.IS_XIAOMI_DEVICE) {
-                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
-                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
-            }
-            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
-        }
-
-        for (String p : runtimePermission) {
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                permission.add(p);
-            }
         }
 
         if (permission.isEmpty()) {
@@ -451,8 +478,7 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted()
-                && AutoPermissionChecker.isPhonePermissionGranted()
-                && AutoPermissionChecker.isWriteSettingsPermissionGranted();
+                && AutoPermissionChecker.isPhonePermissionGranted();
     }
 
     public boolean isGrantAllRuntimePermission() {
@@ -554,8 +580,16 @@ public class AutoRequestManager {
                     }, GUIDE_DELAY);
                 }
                 break;
+            case FIX_ALERT_PERMISSION_PHONE:
+                if (AutoPermissionChecker.isAccessibilityGranted()) {
+                    mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                    mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                }
+                type = HSPermissionRequestMgr.TYPE_PHONE;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                    mHandler.removeMessages(CHECK_PHONE_PERMISSION);
+                    mHandler.removeMessages(CHECK_PHONE_PERMISSION_TIMEOUT);
                     return true;
                 } else {
                     Threads.postOnMainThreadDelayed(() -> {
@@ -596,7 +630,9 @@ public class AutoRequestManager {
                 break;
         }
 
-        HSPermissionRequestMgr.getInstance().switchRequestPage(type, new HSPermissionRequestCallback.Stub() {
+        final String permission = type;
+
+        HSPermissionRequestMgr.getInstance().switchRequestPage(permission, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {
                 if (totalCount == 0) {
@@ -611,16 +647,16 @@ public class AutoRequestManager {
                 HSLog.d(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
                 if (isSucceed) {
                     // already has permission.
-                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
+                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(permission)) {
                         AutoPermissionChecker.onAutoStartChange(true);
-                    } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
+                    } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(permission)) {
                         AutoPermissionChecker.onShowOnLockScreenChange(true);
                     }
-                    notifyPermissionGranted(type, true);
+                    notifyPermissionGranted(permission, true);
                 }
                 if (BuildConfig.DEBUG) {
                     String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
-                    Toasts.showToast(type + result, Toast.LENGTH_LONG);
+                    Toasts.showToast(permission + result, Toast.LENGTH_LONG);
                 }
             }
         });

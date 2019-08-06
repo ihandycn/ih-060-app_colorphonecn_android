@@ -1,12 +1,16 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -16,11 +20,11 @@ import android.widget.EditText;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
-import com.acb.colorphone.permissions.FloatWindowManager;
+import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
+import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -91,15 +95,33 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
-        Navigations.startActivitySafely(HSApplication.getContext(), RuntimePermissionActivity.class);
+        Navigations.startActivitySafely(this, PhoneHuawei8GuideActivity.class);
+//        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+//        requestDrawOverLays(this);
     }
 
     public void checkFloatWindow(View view) {
-        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
-        requiresPermission();
+        Navigations.startActivitySafely(this, AutoStartMIUIGuideActivity.class);
+//        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+//        requiresPermission();
+//        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
     }
 
     /**
+     * 启动开启 Draw over other application
+     * @param context
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    public static void requestDrawOverLays(@NonNull Context context) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+
+    }
+
+    /**isFloatWindowAllowed
      * Only request first launch. (if Enabled and not has permission)
      */
     private void requiresPermission() {

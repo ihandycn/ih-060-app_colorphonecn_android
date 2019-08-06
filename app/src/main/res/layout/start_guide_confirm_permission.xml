@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:background="@color/black_70_transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/start_guide_confirm_permission_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginEnd="36dp"
+        android:padding="24dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:background="@android:color/white">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/start_guide_confirm_permission_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:lineSpacingExtra="9sp"
+            android:textColor="@color/black_90_transparent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/runtime_confirm_permission_description" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/start_guide_confirm_permission_action"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text="@string/runtime_confirm_permission_action"
+            tools:background="#6c63ff"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

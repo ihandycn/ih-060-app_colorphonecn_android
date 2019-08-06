@@ -29,6 +29,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/content_view"
+        app:layout_constrainedWidth="true"
         app:layout_constraintDimensionRatio="h,708:510"/>
 
     <RelativeLayout
@@ -51,6 +52,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="@string/app_name"
             android:textColor="#3c3c3c"
+            android:textStyle="bold"
             android:textSize="16sp" />
 
         <android.support.v7.widget.AppCompatTextView
@@ -73,8 +75,8 @@
 
     <ImageView
         android:id="@+id/close_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:padding="8dp"
         android:src="@drawable/close_icon"
         android:layout_marginTop="4dp"

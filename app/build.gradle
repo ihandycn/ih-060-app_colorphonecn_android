@@ -187,7 +187,7 @@ dependencies {
             "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION".toString(),
             "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
             "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support.constraint:constraint-layout:1.0.2",
+            "com.android.support.constraint:constraint-layout:1.1.3",
 
             "com.android.support:multidex:1.0.1",
 
