@@ -132,6 +132,21 @@ public class WallpaperDownloadEngine {
         }
     }
 
+    public static void getVideoWallpaperList(OnLoadWallpaperListener listener) {
+        List<WallpaperInfo> wallpapers = new ArrayList<>();
+        List liveConfigs = new ArrayList<>(CustomizeConfig.getList("Application", "Wallpaper", "Video"));
+
+        for (Object obj : liveConfigs) {
+            if (obj instanceof Map) {
+                String videoUrl = (String) ((Map) obj).get("Original");
+                String previewImage = (String) ((Map) obj).get("Preview");
+                wallpapers.add(WallpaperInfo.newVideoWallpaper(videoUrl,previewImage));
+            }
+        }
+        if (listener != null) {
+            listener.onLoadFinished(wallpapers);
+        }
+    }
 
     /**
      * Second page.

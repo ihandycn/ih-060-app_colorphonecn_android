@@ -28,6 +28,7 @@ public class WallpaperInfo implements Parcelable {
     public static final int WALLPAPER_TYPE_LUCKY = 3;
     public static final int WALLPAPER_TYPE_3D = 4;
     public static final int WALLPAPER_TYPE_LIVE = 5;
+    public static final int WALLPAPER_TYPE_VIDEO = 6;
 
     private static final String JSON_KEY_IS_BUILT_IN = "isBuiltIn"; // Added in 24 (v1.2.0)
     private static final String JSON_KEY_URL = "wallpaperUrl";
@@ -115,6 +116,15 @@ public class WallpaperInfo implements Parcelable {
         info.mSource = url;
         info.mThumbnailUrl = thumb;
         info.mPath = path;
+        return info;
+    }
+
+
+    public static WallpaperInfo newVideoWallpaper(String url, String thumb) {
+        WallpaperInfo info = new WallpaperInfo();
+        info.mType = WALLPAPER_TYPE_VIDEO;
+        info.mSource = url;
+        info.mThumbnailUrl = thumb;
         return info;
     }
 

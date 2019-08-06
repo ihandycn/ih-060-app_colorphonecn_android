@@ -10010,19 +10010,27 @@
 				<array>
 					<dict>
 						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich_preview.png</string>
+					</dict>
+					<dict>
+						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ThousandLove/ThousandLove.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ThousandLove/ThousandLove_preview.png</string>
+					</dict>
+					<dict>
+						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Camel/Camel.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Camel/Camel_preview.png</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Camel/Camel.mp3</string>
 					</dict>
 					<dict>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Boy/Boy.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Boy/Boy_preview.png</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Boy/Boy.mp3</string>
 					</dict>
 				</array>
 			</dict>

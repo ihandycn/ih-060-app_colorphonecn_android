@@ -357,7 +357,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
             return 0;
         }
         int extra = 0;
-        if (mScenario != WallpaperMgr.Scenario.ONLINE_VIDEO || mScenario != WallpaperMgr.Scenario.ONLINE_LIVE) {
+        if (mScenario != WallpaperMgr.Scenario.ONLINE_VIDEO && mScenario != WallpaperMgr.Scenario.ONLINE_LIVE) {
             extra++; // For a WALLPAPER_FOOTER_VIEW_LOAD_MORE
         }
         return mDataSet.size() + extra;
