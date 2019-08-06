@@ -77,8 +77,9 @@ public class WallpaperDownloadEngine {
 
     @SuppressWarnings("unchecked")
     public static void getNextCategoryWallpaperList(int categoryIndex, final OnLoadWallpaperListener listener) {
-        List<Map<String, ?>> wallpaperConfig = (List<Map<String, ?>>) CustomizeConfig.getList("Wallpapers");
-        String baseUrl = CustomizeConfig.getString("", "NewWallpaper", "BaseUrl");
+        List<Map<String, ?>> wallpaperConfig = (List<Map<String, ?>>) CustomizeConfig.getList("Application",
+                "Wallpaper", "ImageWallpapers", "Items");
+        String baseUrl = CustomizeConfig.getString("", "Application", "Wallpaper", "ImageWallpapers", "BaseUrl");
 
         final List<WallpaperInfo> wallpaperInfoList = new ArrayList<>(120);
         String categoryName = wallpaperConfig.get(categoryIndex).get(("Identifier")).toString();
@@ -140,10 +141,10 @@ public class WallpaperDownloadEngine {
     @SuppressWarnings("unchecked")
     public static void getHotWallpaperList(OnLoadWallpaperListener listener) {
         List<WallpaperInfo> wallpapers;
-        List<Object> liveConfigs = new ArrayList<>(CustomizeConfig.getList("LiveWallpapers", "Items"));
+        List<Object> liveConfigs = new ArrayList<>(CustomizeConfig.getList("Application", "Wallpaper", "LiveWallpapers", "Items"));
         List<Map<String, ?>> threeDConfigs = new ArrayList<>();
 
-        List<String> promotedLiveNames = new ArrayList<>((List<String>) CustomizeConfig.getList("LiveWallpapers", "VariantPromotion"));
+        List<String> promotedLiveNames = new ArrayList<>((List<String>) CustomizeConfig.getList("Application", "Wallpaper", "LiveWallpapers", "VariantPromotion"));
         List<String> promoted3DNames = new ArrayList<>();
 
         List<Object> promotedLiveConfigs = new ArrayList<>(promotedLiveNames.size());

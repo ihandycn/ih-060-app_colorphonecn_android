@@ -34,7 +34,7 @@ public class LiveWallpaperManager extends BaseWallpaperManager {
 
     private final Map<String, LiveWallpaper> mWallpapers = new HashMap<>();
     private BitmapDecoder mBitmapDecoder;
-    final String mBaseUrl = CustomizeConfig.getString("", "LiveWallpapers", "BaseUrl");
+    final String mBaseUrl = CustomizeConfig.getString("", "Application", "Wallpaper", "LiveWallpapers", "BaseUrl");
     private HSPreferenceHelper prefs = HSPreferenceHelper.getDefault();
 
     public static LiveWallpaperManager getInstance() {
@@ -109,7 +109,7 @@ public class LiveWallpaperManager extends BaseWallpaperManager {
     @SuppressWarnings("unchecked")
     private int getTypeFromConfig(String wallpaperName) {
         List<?> wallpapers3d = CustomizeConfig.getList("3DWallpapers", "Items");
-        List<?> wallpapersLive = CustomizeConfig.getList("LiveWallpapers", "Items");
+        List<?> wallpapersLive = CustomizeConfig.getList("Application", "Wallpaper", "LiveWallpapers", "Items");
 
         List wallpapers = new ArrayList<>(wallpapers3d.size() + wallpapersLive.size());
         wallpapers.addAll(wallpapers3d);
@@ -233,7 +233,7 @@ public class LiveWallpaperManager extends BaseWallpaperManager {
         if (initWallpaperIfNeeded(wallpaperName)) {
             return mWallpapers.get(wallpaperName).baseUrl;
         }
-        return CustomizeConfig.getString("", "LiveWallpapers", "BaseUrl");
+        return CustomizeConfig.getString("", "Application", "Wallpaper", "LiveWallpapers", "BaseUrl");
     }
 
     /**

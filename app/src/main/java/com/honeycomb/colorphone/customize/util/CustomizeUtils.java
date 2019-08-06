@@ -74,7 +74,6 @@ import static com.honeycomb.colorphone.customize.CustomizeConstants.THEME_PUBLIS
 public final class CustomizeUtils {
 
     public static final String THREE_D_WALLPAPERS = "3DWallpapers";
-    public static final String LIVE_WALLPAPERS = "LiveWallpapers";
     public static final String BASE_URL = "BaseUrl";
     public static final String THUMBNAIL_EXTENSION = "ThumbnailExtension";
 
@@ -114,14 +113,14 @@ public final class CustomizeUtils {
     }
 
     public static String generateLiveWallpaperThumbnailUrl(String name) {
-        Map<String, ?> configMap = CustomizeConfig.getMap(LIVE_WALLPAPERS);
+        Map<String, ?> configMap = CustomizeConfig.getMap("Application", "Wallpaper", "LiveWallpapers");
         return generateThumbnailUrl(configMap, name);
     }
 
     private static String generateThumbnailUrl(Map<String, ?> configMap, String name) {
         return HSMapUtils.optString(configMap, "", BASE_URL)
                 + name + File.separator
-                + "thumb." + HSMapUtils.optString(configMap, "", THUMBNAIL_EXTENSION);
+                + "thumb." + HSMapUtils.optString(configMap, "png", THUMBNAIL_EXTENSION);
     }
 
     public static boolean hasNewThemesToShow() {

@@ -343,7 +343,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
         @SuppressWarnings("unchecked")
         WallpaperPagerAdapter(Context context) {
             mContext = context;
-            mCategoryConfigs = (List<Map<String, ?>>) CustomizeConfig.getList("Wallpapers");
+            mCategoryConfigs = (List<Map<String, ?>>) CustomizeConfig.getList("Application", "Wallpaper",
+                    "ImageWallpapers", "Items");
         }
 
         void setApplyWallpaperInfo(int tabIndex, String paperName) {
@@ -367,8 +368,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
         @Override
         public CharSequence getPageTitle(int positionAbsolute) {
             int position = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
-            if (position == mTabsConfig.tabIndexHot) {
-                return mContext.getString(R.string.online_wallpaper_tab_title_hot);
+            if (position == mTabsConfig.tabIndexVideo) {
+                return mContext.getString(R.string.online_wallpaper_tab_title_video);
             }
             int categoryIndex = position - mTabsConfig.extraTabsCount;
             return Utils.getMultilingualString(mCategoryConfigs.get(categoryIndex), "CategoryName");
@@ -379,10 +380,10 @@ public class OnlineWallpaperPage extends RelativeLayout {
             int position = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
             View initView;
 
-            if (position == mTabsConfig.tabIndexHot) {
+            if (position == mTabsConfig.tabIndexVideo) {
                 OnlineWallpaperListView mHotTabContent = (OnlineWallpaperListView) LayoutInflater.from(
                         getContext()).inflate(R.layout.wallpaper_list_page, OnlineWallpaperPage.this, false);
-                mHotTabContent.setScenario(WallpaperMgr.Scenario.ONLINE_HOT);
+                mHotTabContent.setScenario(WallpaperMgr.Scenario.ONLINE_VIDEO);
                 mHotTabContent.setupAdapter();
                 mHotTabContent.startLoading();
                 initView = mHotTabContent;
@@ -461,11 +462,11 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     public static class TabsConfiguration {
         final int extraTabsCount;
-        public final int tabIndexHot;
+        public final int tabIndexVideo;
 
         public TabsConfiguration() {
             extraTabsCount = 1;
-            tabIndexHot = 0;
+            tabIndexVideo = 0;
         }
     }
 }

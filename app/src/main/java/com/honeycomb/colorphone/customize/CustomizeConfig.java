@@ -1,12 +1,8 @@
 package com.honeycomb.colorphone.customize;
 
-import android.support.v4.os.TraceCompat;
-
-import com.honeycomb.colorphone.customize.util.ConfigRegionsSupport;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.libraryconfig.HSLibraryConfig;
-import com.ihs.commons.libraryconfig.HSLibrarySessionManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
@@ -84,19 +80,19 @@ public class CustomizeConfig implements HSLibraryConfig.ILibraryListener {
     }
 
     public static String getString(String defaultValue, String... path) {
-        return HSMapUtils.optString(getConfigMap(), defaultValue, path);
+        return HSConfig.optString(defaultValue, path);
     }
 
     public static int getInteger(int defaultValue, String... path) {
-        return HSMapUtils.optInteger(getConfigMap(), defaultValue, path);
+        return HSConfig.optInteger(defaultValue, path);
     }
 
     public static boolean getBoolean(boolean defaultValue, String... path) {
-        return HSMapUtils.optBoolean(getConfigMap(), defaultValue, path);
+        return HSConfig.optBoolean(defaultValue, path);
     }
 
     public static Map<String, ?> getConfigMap() {
-        return sConfigMap;
+        return  HSConfig.getConfigMap();
     }
 
     private CustomizeConfig() {
@@ -113,29 +109,29 @@ public class CustomizeConfig implements HSLibraryConfig.ILibraryListener {
     }
 
     private void doInit() {
-        TraceCompat.beginSection("CustomizeConfig Init");
-        try {
-            HSLibrarySessionManager librarySessionManager = HSLibrarySessionManager.getInstance();
-
-            librarySessionManager.startSessionForLibrary(sCommonProvider);
-            Map<String, ?> localCommonData = parseLocalConfig(LOCAL_COMMON_CONFIG_NAME);
-            ConfigRegionsSupport.mergeRegions(localCommonData);
-
-            librarySessionManager.startSessionForLibrary(sVariantProvider);
-            Map<String, ?> localVariantData = parseLocalConfig(LOCAL_VARIANT_CONFIG_NAME);
-            ConfigRegionsSupport.mergeRegions(localVariantData);
-
-            HSLog.d(TAG, "Load customize config, fire a remote fetch");
-            HSLibraryConfig libraryConfig = HSLibraryConfig.getInstance();
-            libraryConfig.startForLibrary("TODO",
-                    localCommonData, sCommonProvider, this);
-            libraryConfig.startForLibrary("TODO",
-                    localVariantData, sVariantProvider, this);
-
-            mergeAndPublish();
-        } finally {
-            TraceCompat.endSection();
-        }
+//        TraceCompat.beginSection("CustomizeConfig Init");
+//        try {
+//            HSLibrarySessionManager librarySessionManager = HSLibrarySessionManager.getInstance();
+//
+//            librarySessionManager.startSessionForLibrary(sCommonProvider);
+//            Map<String, ?> localCommonData = parseLocalConfig(LOCAL_COMMON_CONFIG_NAME);
+//            ConfigRegionsSupport.mergeRegions(localCommonData);
+//
+//            librarySessionManager.startSessionForLibrary(sVariantProvider);
+//            Map<String, ?> localVariantData = parseLocalConfig(LOCAL_VARIANT_CONFIG_NAME);
+//            ConfigRegionsSupport.mergeRegions(localVariantData);
+//
+//            HSLog.d(TAG, "Load customize config, fire a remote fetch");
+//            HSLibraryConfig libraryConfig = HSLibraryConfig.getInstance();
+//            libraryConfig.startForLibrary("TODO",
+//                    localCommonData, sCommonProvider, this);
+//            libraryConfig.startForLibrary("TODO",
+//                    localVariantData, sVariantProvider, this);
+//
+//            mergeAndPublish();
+//        } finally {
+//            TraceCompat.endSection();
+//        }
     }
 
     private Map<String, ?> parseLocalConfig(String localConfigName) {

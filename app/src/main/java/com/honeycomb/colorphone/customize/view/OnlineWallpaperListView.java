@@ -95,7 +95,7 @@ public class OnlineWallpaperListView extends FrameLayout {
         @SuppressWarnings("unchecked")
         private void insertLiveWallpapers(List<WallpaperInfo> toList,
                                           String startIndexPrefKey, int count) {
-            List<?> configs = CustomizeConfig.getList("LiveWallpapers", "Items");
+            List<?> configs = CustomizeConfig.getList("Application", "Wallpaper", "LiveWallpapers", "Items");
             if (configs.size() == 0) {
                 return;
             }
@@ -181,7 +181,7 @@ public class OnlineWallpaperListView extends FrameLayout {
                 case ONLINE_NEW:
                     WallpaperDownloadEngine.getNextNewWallpaperList(mListener);
                     break;
-                case ONLINE_HOT:
+                case ONLINE_VIDEO:
                     WallpaperDownloadEngine.getHotWallpaperList(mListener);
                     break;
                 default:
@@ -209,7 +209,7 @@ public class OnlineWallpaperListView extends FrameLayout {
 
     public void setScenario(WallpaperMgr.Scenario scenario) {
         mScenario = scenario;
-        if (WallpaperMgr.Scenario.ONLINE_HOT.equals(scenario)) {
+        if (WallpaperMgr.Scenario.ONLINE_VIDEO.equals(scenario)) {
             mAdapter = HotOnlineWallpaperGalleryAdapterFactory.createHotOnlineWallpaperGalleryAdapter(getHotOnlineAdapterType(), getContext());
         }
         mAdapter.setScenario(scenario);

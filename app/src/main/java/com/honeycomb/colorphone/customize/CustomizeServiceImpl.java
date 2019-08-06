@@ -52,9 +52,10 @@ public class CustomizeServiceImpl {
     }
 
     public List getOnlineWallpaperConfig() {
-        return CustomizeConfig.getList("Wallpapers");
+        return CustomizeConfig.getList("Application", "Wallpaper", "ImageWallpapers", "Items");
     }
 
+    @Deprecated
     public Map getOnlineThemeConfig() throws RemoteException {
         // This interface shall be never invoked except by old v1.0.0 Pure / Android M / iOS 9 themes
         return CustomizeConfig.getMap("Themes");
