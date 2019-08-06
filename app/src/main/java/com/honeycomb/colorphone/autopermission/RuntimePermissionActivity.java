@@ -104,30 +104,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
                 RuntimePermissions.requestPermissions(RuntimePermissionActivity.this, runtimePermissions.toArray(new String[0]), RUNTIME_PERMISSION_REQUEST_CODE);
             } else if (deniedPermissions.size() > 0) {
-                String permission = "";
-                for (String p : deniedPermissions) {
-                    if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                        permission = p;
-                        break;
-                    }
-                }
-
-                switch (permission) {
-                    case Manifest.permission.READ_CONTACTS:
-                        permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
-                        break;
-                    default:
-                    case Manifest.permission.WRITE_CONTACTS:
-                        permission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        permission = HSPermissionRequestMgr.TYPE_CALL_LOG;
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        permission = HSPermissionRequestMgr.TYPE_STORAGE;
-                        break;
-                }
-                AutoRequestManager.getInstance().openPermission(permission);
+                openSettingsForDeniedPermission();
             } else {
                 HSLog.i("RuntimePermission", "All grant");
                 finish();
@@ -151,6 +128,37 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         success = findViewById(R.id.success);
 
         Analytics.logEvent("Permission_Guide_Show");
+    }
+
+    private void openSettingsForDeniedPermission() {
+        if (deniedPermissions.size() == 0) {
+            return;
+        }
+
+        String permission = "";
+        for (String p : deniedPermissions) {
+            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                permission = p;
+                break;
+            }
+        }
+
+        switch (permission) {
+            case Manifest.permission.READ_CONTACTS:
+                permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
+                break;
+            default:
+            case Manifest.permission.WRITE_CONTACTS:
+                permission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
+                break;
+            case Manifest.permission.READ_CALL_LOG:
+                permission = HSPermissionRequestMgr.TYPE_CALL_LOG;
+                break;
+            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                permission = HSPermissionRequestMgr.TYPE_STORAGE;
+                break;
+        }
+        AutoRequestManager.getInstance().openPermission(permission);
     }
 
     @Override public void onBackPressed() {
@@ -226,7 +234,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         onPermissionsDenied(requestCode, denied);
 
         if (deniedPermissions.size() > 0) {
-            AutoRequestManager.getInstance().openPermission(deniedPermissions.get(0));
+            openSettingsForDeniedPermission();
             String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
             Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
         }
