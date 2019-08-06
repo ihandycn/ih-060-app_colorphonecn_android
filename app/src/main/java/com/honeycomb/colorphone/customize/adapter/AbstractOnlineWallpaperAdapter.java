@@ -112,6 +112,10 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
 //                            "Type", "Live", "Name", clickedWallpaper.getSource());
 //                }
                 break;
+
+            case WallpaperInfo.WALLPAPER_TYPE_VIDEO:
+                mWallpaperLoader = CustomizeUtils.previewLiveWallpaper(activity, clickedWallpaper);
+                break;
             default:
 //                preferences.putString(ShareActivity.PREF_KEY_SHARE_PIC_URL, "");
                 Intent intent = new Intent(activity, WallpaperPreviewActivity.class);

@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.CustomizeConstants;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
+import com.honeycomb.colorphone.customize.activity.VideoWallpaperPreviewActivity;
 import com.honeycomb.colorphone.customize.livewallpaper.BaseWallpaperService;
 import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService;
 import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService2;
@@ -42,13 +43,15 @@ import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService3;
 import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService4;
 import com.honeycomb.colorphone.customize.livewallpaper.LiveWallpaperConsts;
 import com.honeycomb.colorphone.customize.livewallpaper.LiveWallpaperLoader;
+import com.honeycomb.colorphone.customize.livewallpaper.VideoWallpaperLoader;
 import com.honeycomb.colorphone.customize.livewallpaper.WallpaperLoader;
-import com.honeycomb.colorphone.customize.livewallpaper.WallpaperPreloadService;
 import com.honeycomb.colorphone.customize.theme.ThemeInfo;
 import com.honeycomb.colorphone.customize.theme.data.ThemeDataProvider;
 import com.honeycomb.colorphone.customize.view.PercentageProgressDialog;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
@@ -233,8 +236,14 @@ public final class CustomizeUtils {
             return null;
         }
         sLoadingWallpaper = true;
-        LiveWallpaperLoader wallpaperLoader = new LiveWallpaperLoader();
-        String wallpaperName = info.getSource();
+        final boolean isColorPhoneVideo =
+                info.getType() == WallpaperInfo.WALLPAPER_TYPE_VIDEO;
+
+        WallpaperLoader wallpaperLoader = isColorPhoneVideo
+                ? new VideoWallpaperLoader()
+                : new LiveWallpaperLoader();
+
+        final String wallpaperName = info.getSource();
         wallpaperLoader.setWallpaperName(wallpaperName);
         PercentageProgressDialog dialog = null;
         if (showProgress) {
@@ -295,9 +304,11 @@ public final class CustomizeUtils {
 //                    intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
 //                            new ComponentName(activity, getWallpaperService(prefs)));
 //                    Navigations.startActivityForResultSafely(activity, intent, CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER);
+                    String path = isColorPhoneVideo ? TasksManager.getVideoWallpaperPath(info.getSource())
+                            : getLiveVideoPath(wallpaperName);
+                    VideoWallpaperPreviewActivity.start(activity, path, isColorPhoneVideo);
 
-
-                    WallpaperPreloadService.prepareLiveWallpaper(activity);
+//                    WallpaperPreloadService.prepareLiveWallpaper(activity);
                 }
             }
 
@@ -433,5 +444,12 @@ public final class CustomizeUtils {
             }
             return "";
         }
+    }
+
+    public static String getLiveVideoPath(String wallpaperName) {
+        File baseDirectory = Utils.getDirectory(
+                LiveWallpaperConsts.Files.LIVE_DIRECTORY + File.separator + wallpaperName);
+        File videoFile = new File(baseDirectory, "video.mp4");
+        return videoFile.getAbsolutePath();
     }
 }

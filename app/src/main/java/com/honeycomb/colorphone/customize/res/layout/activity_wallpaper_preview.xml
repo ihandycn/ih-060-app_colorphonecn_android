@@ -86,16 +86,10 @@
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/set_wallpaper_button"
-        android:layout_width="match_parent"
-        android:layout_height="68dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/online_wallpaper_preview_apply_btn_bg"
-        android:gravity="center"
         android:text="@string/online_wallpaper_apply_btn"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:typeface="@string/custom_font_semibold" />
+        app:typeface="@string/custom_font_semibold"
+        style="@style/wallpaper_apply_btn" />
 </RelativeLayout>

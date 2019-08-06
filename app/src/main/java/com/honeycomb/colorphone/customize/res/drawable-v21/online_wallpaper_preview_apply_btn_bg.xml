@@ -2,15 +2,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape >
-            <gradient
-                android:angle="270"
-                android:endColor="#73000000"
-                android:startColor="#66000000" />
+            <solid android:color="@color/black_54_transparent"/>
+            <stroke android:color="@color/white_50_transparent" android:width="2px"/>
+            <corners android:radius="24dp"/>
         </shape>
     </item>
 
     <item>
         <ripple
+            android:radius="24dp"
             android:color="@color/material_ripple_white">
             <item
                 android:id="@android:id/mask"

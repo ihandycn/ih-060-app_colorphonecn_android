@@ -237,4 +237,17 @@
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="typeface">@string/custom_font_regular</item>
     </style>
+
+    <style name="wallpaper_apply_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">36dp</item>
+        <item name="android:layout_marginRight">36dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/online_wallpaper_preview_apply_btn_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

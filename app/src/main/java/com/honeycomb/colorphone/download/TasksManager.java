@@ -8,6 +8,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -386,7 +387,21 @@ public class TasksManager {
         return null;
     }
 
-
+    public static String getVideoWallpaperPath(String url) {
+        List<Theme> themes = ThemeList.themes();
+        Theme targetTheme = null;
+        for (Theme theme : themes) {
+            if (TextUtils.equals(theme.getMp4Url(),url)) {
+                targetTheme = theme;
+            }
+        }
+        File file = FileUtils.getMediaDirectory();
+        if (file != null && targetTheme != null) {
+            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), targetTheme.getFileName());
+            return path;
+        }
+        return null;
+    }
 
     private synchronized boolean getTaskExist(Theme theme) {
         for (TasksManagerModel model : modelList) {

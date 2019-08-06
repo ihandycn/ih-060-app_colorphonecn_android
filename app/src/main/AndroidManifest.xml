@@ -749,7 +749,12 @@
             android:screenOrientation="portrait"
             android:taskAffinity=".customize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.VideoWallpaperPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.honeycomb.colorphone.customize.activity.report.SelectReportReasonActivity"
             android:launchMode="singleTask"

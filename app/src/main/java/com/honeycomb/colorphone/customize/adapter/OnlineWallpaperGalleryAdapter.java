@@ -175,7 +175,9 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         switch (viewType) {
             case WALLPAPER_NORMAL_VIEW:
                 View wallpaperImageView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.online_wallpaper_image_normal_item, parent, false);
+                        .inflate(mScenario == WallpaperMgr.Scenario.ONLINE_VIDEO
+                                        ? R.layout.online_wallpaper_image_normal_video_item
+                                        : R.layout.online_wallpaper_image_normal_item, parent, false);
                 wallpaperImageView.setOnClickListener(this);
                 NormalViewHolder holder = new NormalViewHolder(wallpaperImageView);
                 wallpaperImageView.setOnTouchListener(new ImagePressedTouchListener(holder.mImageView));
