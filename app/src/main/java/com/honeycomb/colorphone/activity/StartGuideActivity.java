@@ -682,6 +682,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                         if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
                             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
+                        } else if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                            onPermissionChanged();
                         }
                         break;
                     default:
@@ -705,7 +707,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                         if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
                             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
-                        } else {
+                        } else if (AutoRequestManager.getInstance().isGrantAllPermission()) {
                             onPermissionChanged();
                         }
                         break;
@@ -721,14 +723,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         // ...
 
         HSLog.i("Permission", "onPermissionsDenied: " + list);
-        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
-            for (String p : list) {
-                switch (p) {
-                    case Manifest.permission.READ_PHONE_STATE:
-                        break;
-                    default:
-                        break;
-                }
+        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST
+                || requestCode == AUTO_PERMISSION_REQUEST) {
+            if (!AutoPermissionChecker.isPhonePermissionGranted()) {
+                Analytics.logEvent("FixAlert_Phone_Settings_Request");
+                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
             }
         }
     }
