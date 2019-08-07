@@ -146,20 +146,24 @@ public class StartGuidePermissionFactory {
                 if (activity != null) {
                     List<String> permission = new ArrayList<>();
                     int state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE);
-                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED
+                            && state != RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
                         Analytics.logEvent("FixAlert_ReadPhoneState_Request");
                         permission.add(Manifest.permission.READ_PHONE_STATE);
                     }
 
                     state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE);
-                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED
+                            && state != RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
                         Analytics.logEvent("FixAlert_CallPhone_Request");
                         permission.add(Manifest.permission.CALL_PHONE);
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.ANSWER_PHONE_CALLS);
-                        if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                        if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED
+                                && state != RuntimePermissions.PERMISSION_GRANTED
+                                && state != RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
                             permission.add(Manifest.permission.ANSWER_PHONE_CALLS);
                         }
                     }

@@ -723,13 +723,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         // ...
 
         HSLog.i("Permission", "onPermissionsDenied: " + list);
-        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST
-                || requestCode == AUTO_PERMISSION_REQUEST) {
-            if (!AutoPermissionChecker.isPhonePermissionGranted()) {
-                Analytics.logEvent("FixAlert_Phone_Settings_Request");
-                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
-            }
-        }
+//        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST
+//                || requestCode == AUTO_PERMISSION_REQUEST) {
+//            if (!AutoPermissionChecker.isPhonePermissionGranted()) {
+//                Analytics.logEvent("FixAlert_Phone_Settings_Request");
+//                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+//            }
+//        }
     }
 
 }
