@@ -660,15 +660,15 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
 
-        ModuleUtils.setAllModuleUserEnable();
-        showAccessibilityPermissionPage();
+        if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
+            ModuleUtils.setAllModuleUserEnable();
+            showAccessibilityPermissionPage();
+        }
     }
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
         HSLog.i("Permission", "onPermissionsGranted: " + list);
-        if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-
-        } else if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
+        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
