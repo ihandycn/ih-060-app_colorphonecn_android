@@ -8,78 +8,42 @@
     android:paddingTop="14dp"
     android:orientation="vertical">
 
-    <com.superapps.view.TypefacedTextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="14sp"
-        app:typeface="@string/custom_font_semibold"/>
-
-    <GridView
-        android:id="@+id/categories_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tab_layout_container"
-        android:alpha="0"
-        android:background="@drawable/online_wallpaper_category_view_bg"
-        android:columnWidth="80dp"
-        android:horizontalSpacing="10dp"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="3"
-        android:paddingBottom="24dp"
-        android:paddingEnd="24dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingStart="24dp"
-        android:paddingTop="24dp"
-        android:scrollbars="none"
-        android:verticalSpacing="8dp"
-        android:visibility="gone"/>
-
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/tab_layout_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_navigator_height"
         android:baselineAligned="false"
-        android:layout_marginLeft="12sp"
         android:gravity="center_vertical"
-        android:background="@drawable/wallpaper_tab_bg"
-        android:orientation="horizontal">
+        >
 
-        <FrameLayout
-            android:layout_width="0dp"
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/wallpaper_tabs"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:fadingEdgeLength="6dp"
+            android:requiresFadingEdge="horizontal"
+            android:layout_marginRight="@dimen/wallpaper_tab_more_button_width"
+            tools:ignore="PrivateResource,UnusedAttribute" />
 
-            <net.lucode.hackware.magicindicator.MagicIndicator
-                android:id="@+id/wallpaper_tabs"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="3dp"
-                android:layout_height="match_parent"
-                android:fadingEdgeLength="6dp"
-                android:requiresFadingEdge="horizontal"
-                tools:ignore="PrivateResource,UnusedAttribute" />
-
-            <com.superapps.view.TypefacedTextView
-                android:id="@+id/categories_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:text="@string/online_wallpaper_tab_title_categories"
-                android:textColor="#333333"
-                android:textSize="14sp"
-                android:translationY="@dimen/online_category_title_view_translationY"
-                android:visibility="gone"
-                app:typeface="@string/custom_font_semibold"/>
-        </FrameLayout>
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/categories_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:text="@string/online_wallpaper_tab_title_categories"
+            android:textColor="#333333"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:translationY="@dimen/online_category_title_view_translationY"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/arrow_container"
-            android:layout_width="42dp"
+            android:layout_width="@dimen/wallpaper_tab_more_button_width"
             android:layout_height="match_parent"
+            android:layout_gravity="right|end"
+            android:background="@color/wallpaper_tab_bg_color"
             android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
@@ -130,11 +94,33 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/categories_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tab_layout_container"
+        android:alpha="0"
+        android:columnWidth="80dp"
+        android:horizontalSpacing="10dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:paddingBottom="24dp"
+        android:paddingEnd="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:scrollbars="none"
+        android:verticalSpacing="8dp"
+        android:visibility="gone"/>
 
     <com.superapps.view.ViewPagerFixed
         android:id="@+id/wallpaper_pager"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="14dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:layout_below="@id/tab_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -19,7 +19,7 @@
     <color name="wallpaper_activities_control_highlight">#dadada</color>
     <color name="wallpaper_progressbar_bg">#bdbdbd</color>
     <color name="wallpaper_progressbar_progress">#bdbdbd</color>
-    <color name="wallpaper_category_text_normal_bg">#ebebeb</color>
+    <color name="wallpaper_category_text_normal_bg">@color/black_10_transparent</color>
     <color name="wallpaper_local_bg">#ffffff</color>
     <color name="wallpaper_local_add_btn_text">#666666</color>
     <color name="wallpaper_preview_background">#F2000000</color>

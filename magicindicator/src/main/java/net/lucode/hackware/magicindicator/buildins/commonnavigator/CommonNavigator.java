@@ -137,6 +137,11 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
         initTitlesAndIndicator();
     }
 
+    public HorizontalScrollView getScrollView() {
+        return mScrollView;
+    }
+
+
     /**
      * 初始化title和indicator
      */

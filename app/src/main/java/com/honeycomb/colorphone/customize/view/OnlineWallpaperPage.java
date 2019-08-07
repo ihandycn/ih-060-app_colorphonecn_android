@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.customize.view;
 
 import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -18,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.acb.utils.Utils;
+import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.CategoryItem;
@@ -39,7 +40,6 @@ import com.superapps.util.Dimensions;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.abs.IPagerNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
@@ -113,15 +113,24 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mCategoriesTitle = ViewUtils.findViewById(this, R.id.categories_title);
         mArrowLeftPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_left);
         mArrowRightPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_right);
-
     }
 
     public void setup(int initialTabIndex) {
         mAdapter = new WallpaperPagerAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
 
-        mTabs.setNavigator(createTabNavigator());
+        CommonNavigator commonNavigator = createTabNavigator();
+        mTabs.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mTabs, mViewPager);
+
+        //
+        HorizontalScrollView scrollView = commonNavigator.getScrollView();
+        scrollView.setFadingEdgeLength(Dimensions.pxFromDp(6));
+        scrollView.setHorizontalFadingEdgeEnabled(true);
+        commonNavigator.getTitleContainer().setBackgroundResource(R.drawable.wallpaper_tab_bg);
+
+        int scrollTransX = Dimensions.pxFromDp(12);
+        scrollView.setTranslationX(scrollTransX);
 
         int indexAbsolute = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, mAdapter.getCount(), initialTabIndex);
 
@@ -135,6 +144,10 @@ public class OnlineWallpaperPage extends RelativeLayout {
                     mScrollEventLogger.prepareRight();
                 }
                 sumPositionAndPositionOffset = position + positionOffset;
+
+                if (position == 0) {
+                    scrollView.setTranslationX(scrollTransX * (1 - positionOffset));
+                }
             }
 
             @Override
@@ -144,9 +157,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 }
 
                 mIsTabNoClickSelected = false;
-                resetCategoryGrids();
-                ((CategoryItem) mGridView.getAdapter().getItem(positionAbsolute)).setSelected(true);
-                ((CategoryViewAdapter) mGridView.getAdapter()).notifyDataSetChanged();
                 mScrollEventLogger.tryLogScrollLeftEvent();
                 mScrollEventLogger.tryLogScrollRightEvent();
             }
@@ -212,12 +222,12 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
                 resetCategoryGrids();
                 mViewPager.setCurrentItem(position, true);
-                arrowClicked(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
+                toggleCategoryLayout(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
             }
         });
     }
 
-    private IPagerNavigator createTabNavigator() {
+    private CommonNavigator createTabNavigator() {
         CommonNavigator commonNavigator = new CommonNavigator(getContext());
         commonNavigator.setScrollPivotX(0.35f);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
@@ -253,6 +263,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
         return commonNavigator;
     }
 
+
+
     public void setIndex(int index) {
         if (mViewPager != null) {
             mViewPager.setCurrentItem(index, false);
@@ -264,7 +276,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         super.onDetachedFromWindow();
 
         if (Math.abs((int) mArrowLeftPart.getRotation() % 360) != 0) {
-            arrowClicked(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
+            toggleCategoryLayout(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
         }
     }
 
@@ -276,18 +288,19 @@ public class OnlineWallpaperPage extends RelativeLayout {
         arrowContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrowClicked(categoryView, categoryTitle, arrowLeftPart, arrowRightPart, "ArrowClicked");
+                toggleCategoryLayout(categoryView, categoryTitle, arrowLeftPart, arrowRightPart, "ArrowClicked");
             }
         });
     }
 
-    private void arrowClicked(final GridView categoryView,
-                              final TextView categoryTitle,
-                              final ImageView arrowLeftPart,
-                              final ImageView arrowRightPart, final String flurryClickType) {
+    private void toggleCategoryLayout(final GridView categoryView,
+                                      final TextView categoryTitle,
+                                      final ImageView arrowLeftPart,
+                                      final ImageView arrowRightPart, final String flurryClickType) {
         if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
             mAnimatorSet.end();
         }
+        final int catoViewTransY = Dimensions.pxFromDp(30);
         final int start = Math.abs((int) arrowLeftPart.getRotation() % 360);
         HSLog.d("WallpaperAnimator ", "start value " + start + "");
         float startAlpha = start == 0 ? 0 : 1;
@@ -297,46 +310,43 @@ public class OnlineWallpaperPage extends RelativeLayout {
         // shrink
         if (start == 90) {
 
-
+            // Indictor
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", -degree, 0);
             arrowRotateLeft.setDuration(300);
 
             ObjectAnimator arrowRotateRight = ObjectAnimator.ofFloat(arrowRightPart, "rotation", degree, 0);
             arrowRotateRight.setDuration(300);
 
+            // Display
+            mViewPager.setVisibility(VISIBLE);
+            mViewPager.animate().translationY(0).alpha(1).setDuration(300).start();
             mTabs.setVisibility(VISIBLE);
-            categoryTitle.setVisibility(GONE);
+            ObjectAnimator tabFadeIn = ObjectAnimator.ofFloat(mTabs, "alpha", 0, 1);
+            tabFadeIn.setDuration(200);
+
+            // Hide
+            ObjectAnimator categoryTitleFadeOut = ObjectAnimator.ofFloat(categoryTitle, "alpha", 1, 0);
+            categoryTitleFadeOut.setDuration(200);
+
             ((CategoryViewAdapter) categoryView.getAdapter()).setTextAnimationEnabled(false);
-            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", 0, -categoryView.getHeight());
-            transY.setDuration(160);
+            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", 0, -catoViewTransY);
+            transY.setDuration(300);
 
-            transY.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
+            transY.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     categoryView.setVisibility(GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                    categoryView.setVisibility(GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
+                    categoryTitle.setVisibility(GONE);
                 }
             });
             mAnimatorSet = new AnimatorSet();
-            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, transY);
+            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, categoryTitleFadeOut, alpha, transY, tabFadeIn);
             mAnimatorSet.start();
+
         }
         // expand
         else {
+            showCategoryLayout();
 
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", 0, -degree);
             arrowRotateLeft.setDuration(300);
@@ -344,23 +354,37 @@ public class OnlineWallpaperPage extends RelativeLayout {
             ObjectAnimator arrowRotateRight = ObjectAnimator.ofFloat(arrowRightPart, "rotation", 0, degree);
             arrowRotateRight.setDuration(300);
 
-            Analytics.logEvent("Wallpaper_TabList_Open", true);
-            mTabs.setVisibility(GONE);
-            categoryTitle.setVisibility(VISIBLE);
-            categoryView.setVisibility(VISIBLE);
+            ObjectAnimator tabFadeOut = ObjectAnimator.ofFloat(mTabs, "alpha", 1, 0);
+            tabFadeOut.setDuration(200);
 
-            categoryView.setTranslationY(-categoryView.getHeight());
+            Analytics.logEvent("Wallpaper_TabList_Open", true);
+
+            categoryTitle.setVisibility(VISIBLE);
+            ObjectAnimator categoryTitleFadeIn = ObjectAnimator.ofFloat(categoryTitle, "alpha", 0, 1);
+            categoryTitleFadeIn.setDuration(200);
+
+            categoryView.setVisibility(VISIBLE);
+            categoryView.setTranslationY(-catoViewTransY);
             ((CategoryViewAdapter) categoryView.getAdapter()).setTextAnimationEnabled(true);
 
-            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", -categoryView.getHeight(), 0);
+            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", -catoViewTransY, 0);
             transY.setDuration(300);
 
-            AnimatorSet title = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.online_wallpaper_categories_title_in);
-            title.setTarget(categoryTitle);
+            transY.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mTabs.setVisibility(GONE);
+                    mViewPager.setVisibility(GONE);
+                }
+            });
 
             mAnimatorSet = new AnimatorSet();
-            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, title, alpha, transY);
+            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, categoryTitleFadeIn, alpha, transY, tabFadeOut);
             mAnimatorSet.start();
+            //
+            mViewPager.animate().translationY(Dimensions.pxFromDp(90)).alpha(0).setDuration(300).start();
+
             ((CategoryViewAdapter) categoryView.getAdapter()).notifyDataSetChanged();
         }
     }
@@ -376,9 +400,16 @@ public class OnlineWallpaperPage extends RelativeLayout {
         return mCategoriesTitle.getVisibility() != GONE;
     }
 
+
+    private void showCategoryLayout() {
+        resetCategoryGrids();
+        ((CategoryItem) mGridView.getAdapter().getItem(mViewPager.getCurrentItem())).setSelected(true);
+        ((CategoryViewAdapter) mGridView.getAdapter()).notifyDataSetChanged();
+    }
+
     public void hideCategoriesView() {
         if (isShowingCategories()) {
-            arrowClicked(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "Navigation bar_Back");
+            toggleCategoryLayout(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "Navigation bar_Back");
         }
     }
 

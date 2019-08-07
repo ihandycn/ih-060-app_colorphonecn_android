@@ -117,4 +117,5 @@
     <color name="feedback_primary">#0096fa</color>
     <color name="feedback_hint_text">#bdbdbd</color>
     <color name="feedback_input_text">#626262</color>
+    <color name="wallpaper_tab_bg_color">#48000000</color>
 </resources>

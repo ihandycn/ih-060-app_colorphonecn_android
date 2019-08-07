@@ -17,7 +17,7 @@
 <resources>
 
     <dimen name="customize_report_radio_group_margin">21dp</dimen>
-    <dimen name="online_category_title_view_translationY">-20dp</dimen>
+    <dimen name="online_category_title_view_translationY">0dp</dimen>
     <dimen name="customize_toolbar_height">44dp</dimen>
     <dimen name="customize_toolbar_elevation">1dp</dimen>
     <dimen name="customize_wallpaper_corner_mark">29dp</dimen>
