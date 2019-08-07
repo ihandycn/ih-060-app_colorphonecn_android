@@ -112,7 +112,7 @@ public class StartGuidePermissionFactory {
                 ret = AutoPermissionChecker.hasAutoStartPermission();
                 break;
             case TYPE_PERMISSION_TYPE_PHONE:
-                ret = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
+                ret = AutoPermissionChecker.isPhonePermissionGranted();
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
                 ret = AutoPermissionChecker.isWriteSettingsPermissionGranted();

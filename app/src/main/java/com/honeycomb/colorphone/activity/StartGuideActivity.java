@@ -303,8 +303,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 int confirmPermission = holder.refreshConfirmPage();
                 if (confirmPermission == 0 && confirmDialogPermission != 0) {
                     confirmPermission = confirmDialogPermission;
-                    confirmDialogPermission = 0;
                 }
+                confirmDialogPermission = 0;
                 boolean isGrant = StartGuidePermissionFactory.getItemGrant(confirmPermission);
                 HSLog.i("Permission", "Permission: " + confirmPermission + "  grant: " + isGrant);
                 if (isGrant) {
@@ -417,6 +417,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
 
             permissionDialog.setVisibility(View.GONE);
+            Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
         });
 
         View cancel = permissionDialog.findViewById(R.id.start_guide_confirm_permission_close);
@@ -430,12 +431,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     })
                     .start();
             directPermission = true;
+            Analytics.logEvent("StartGuide_PermissionGuide_Cancel_Clicked");
         });
 
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
         layout.setAlpha(0.3f);
         layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).setListener(null).start();
+        Analytics.logEvent("StartGuide_PermissionGuide_Show");
 
         return true;
     }
@@ -443,7 +446,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private boolean showConfirmDialog(int confirmPermission) {
         if (dialog != null) {
             dialog.dismiss();
-
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, com.acb.call.R.style.Theme_AppCompat_Light_Dialog);
@@ -680,8 +682,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                         if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
                             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
-                        } else {
-                            onPermissionChanged();
                         }
                         break;
                     default:
@@ -725,9 +725,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-//                        if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
-//                            AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
-//                        }
                         break;
                     default:
                         break;

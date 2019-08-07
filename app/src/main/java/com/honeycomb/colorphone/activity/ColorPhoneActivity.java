@@ -268,6 +268,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+
+        dispatchPermissionRequest();
     }
 
     @Override
@@ -606,8 +608,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
-
-        dispatchPermissionRequest();
 
         if (!showAllFeatureGuide) {
             isCreate = false;
