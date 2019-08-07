@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
@@ -395,10 +397,23 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             permissionDialog.setVisibility(View.GONE);
         });
 
+        View cancel = permissionDialog.findViewById(R.id.start_guide_confirm_permission_close);
+        cancel.setOnClickListener(v -> {
+            layout.animate().scaleX(0.7f).scaleY(0.7f).alpha(0f).setDuration(300)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            permissionDialog.setVisibility(View.GONE);
+                        }
+                    })
+                    .start();
+            directPermission = true;
+        });
+
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
         layout.setAlpha(0.3f);
-        layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).start();
+        layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).setListener(null).start();
 
         return true;
     }
@@ -552,6 +567,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.READ_PHONE_STATE);
+        permissions.add(Manifest.permission.CALL_PHONE);
         permissions.add(Manifest.permission.READ_CONTACTS);
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);

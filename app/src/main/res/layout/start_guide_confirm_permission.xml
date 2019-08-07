@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/start_guide_confirm_permission_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,8 +17,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginRight="36dp"
         android:layout_marginEnd="36dp"
-        android:padding="24dp"
         android:orientation="vertical"
+        android:clipChildren="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,8 +29,13 @@
             android:id="@+id/start_guide_confirm_permission_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
             android:layout_marginBottom="24dp"
-            android:lineSpacingExtra="9sp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:lineSpacingExtra="8sp"
             android:textColor="@color/black_90_transparent"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -40,12 +45,31 @@
             android:id="@+id/start_guide_confirm_permission_action"
             android:layout_width="match_parent"
             android:layout_height="42dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_below="@id/start_guide_confirm_permission_title"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:text="@string/runtime_confirm_permission_action"
             tools:background="#6c63ff"/>
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/start_guide_confirm_permission_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/theme_setting_close"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

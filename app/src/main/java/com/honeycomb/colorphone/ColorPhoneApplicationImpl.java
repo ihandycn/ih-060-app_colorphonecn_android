@@ -323,11 +323,14 @@ public class ColorPhoneApplicationImpl {
         HSLog.i("FrameworkFlurryRecorder", "listen HomePressed");
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override public void onHomePressed() {
-                HSLog.i("FrameworkFlurryRecorder", "onHomePressed");
+                int cpuTemp = CpuCoolerManager.getInstance().fetchCpuTemperature();
+                int memory = DeviceManager.getInstance().getRamUsage();
+                HSLog.i("FrameworkFlurryRecorder", "onHomePressed cpu: " + cpuTemp + "  memory: " + memory);
 
                 Analytics.logEvent("Home_Back_Tracked");
+                Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(memory));
 
-                if (CpuCoolerManager.getInstance().fetchCpuTemperature() > 55) {
+                if (cpuTemp > 55) {
                     boolean isTimeInterval = (System.currentTimeMillis() - Preferences.get(Constants.DESKTOP_PREFS).getLong("CPU_hot_time", 0)) > 5 *DateUtils.MINUTE_IN_MILLIS;
                     boolean notReport = !Preferences.get(Constants.DESKTOP_PREFS).getBoolean("CPU_hot_to_report", false);
 
