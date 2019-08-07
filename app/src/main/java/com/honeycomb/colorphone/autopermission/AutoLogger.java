@@ -98,6 +98,7 @@ public class AutoLogger {
     public static String getGrantRuntimePermissionString() {
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.READ_PHONE_STATE);
+        permissions.add(Manifest.permission.CALL_PHONE);
         permissions.add(Manifest.permission.READ_CONTACTS);
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -109,7 +110,10 @@ public class AutoLogger {
             if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-                        sb.append("phone+");
+                        sb.append("ReadPhoneState+");
+                        break;
+                    case Manifest.permission.CALL_PHONE:
+                        sb.append("CallPhone+");
                         break;
                     case Manifest.permission.READ_CONTACTS:
                         sb.append("readContact+");
