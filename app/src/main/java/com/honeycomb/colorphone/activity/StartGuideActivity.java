@@ -230,7 +230,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("Congratulation_Page_Shown",
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
-                        "Permission", AutoLogger.getGrantRuntimePermissionString());
+                        "Permission", AutoLogger.getGrantRuntimePermissions());
             }
 
             newView.setVisibility(View.VISIBLE);
@@ -273,10 +273,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                         AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
                     } else {
-                        if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)) {
+                        if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)
+                                || AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.CALL_PHONE)) {
+                            Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Request");
                             AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
                         } else {
-                            requiresPermission(getConfirmRuntimePermission(), CONFIRM_PAGE_PERMISSION_REQUEST);
+                            if (!AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.READ_PHONE_STATE)) {
+                                Analytics.logEvent("FixAlert_Automatic_ReadPhoneState_Request");
+                            }
+
+                            if (!AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.CALL_PHONE)) {
+                                Analytics.logEvent("FixAlert_Automatic_CallPhone_Request");
+                            }
+                            requiresPermission(AutoRequestManager.getInstance().getConfirmRuntimePermission(), AUTO_PERMISSION_REQUEST);
                         }
                     }
                     oneKeyFixPressed = true;
@@ -300,6 +309,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 HSLog.i("Permission", "Permission: " + confirmPermission + "  grant: " + isGrant);
                 if (isGrant) {
                     holder.requestNextPermission();
+                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE) {
+                        if (oneKeyFixPressed) {
+                            Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Granted");
+                        } else {
+                            Analytics.logEvent("FixAlert_Phone_Settings_Granted");
+                        }
+                    }
+                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
+                        Analytics.logEvent("FixAlert_NA_Granted");
+                    }
+                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
+                        Analytics.logEvent("FixAlert_WriteSetting_Granted");
+                    }
                 } else {
                     showConfirmDialog(confirmPermission);
                 }
@@ -372,7 +394,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private boolean showPermissionDialog() {
-        List<String> reqPermission = getFirstRuntimePermission();
+        List<String> reqPermission = AutoRequestManager.getInstance().getAllRuntimePermission();
         if (reqPermission.size() == 0) {
             directPermission = false;
             return false;
@@ -485,9 +507,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("BackgroundPopupAlert_Show");
 
         } else {
-            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE) {
-                if (AutoPermissionChecker.isPhonePermissionGranted()) {
-//                    AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
+                if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                    Analytics.logEvent("FixAlert_NA_Granted");
+                }
+            }
+            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
+                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                    Analytics.logEvent("FixAlert_WriteSetting_Granted");
                 }
             }
             return false;
@@ -559,32 +586,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Analytics.logEvent("Accessbility_Guide_Show",
                 "Brand", AutoLogger.getBrand(),
                 "Os", AutoLogger.getOSVersion(),
-                "Permission", AutoLogger.getGrantRuntimePermissionString());
-    }
-
-    private List<String> getFirstRuntimePermission() {
-        List<String> reqPermission = new ArrayList<>();
-
-        List<String> permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.READ_PHONE_STATE);
-        permissions.add(Manifest.permission.CALL_PHONE);
-        permissions.add(Manifest.permission.READ_CONTACTS);
-        permissions.add(Manifest.permission.WRITE_CONTACTS);
-        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            permissions.add(Manifest.permission.READ_CALL_LOG);
-        }
-
-        boolean grant;
-        for (String p : permissions) {
-            grant = RuntimePermissions.checkSelfPermission(this, p)
-                    == RuntimePermissions.PERMISSION_GRANTED;
-            if (!grant) {
-                reqPermission.add(p);
-            }
-        }
-        return reqPermission;
+                "Permission", AutoLogger.getGrantRuntimePermissions());
     }
 
     private Toast toast;
@@ -605,13 +607,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         toast.show();
 
         Analytics.logEvent("StartGuide_Privacy_Toast_Show");
-    }
-
-    private List<String> getConfirmRuntimePermission() {
-        List<String> reqPermission = new ArrayList<>();
-        reqPermission.add(Manifest.permission.READ_PHONE_STATE);
-        reqPermission.add(Manifest.permission.CALL_PHONE);
-        return reqPermission;
     }
 
     /**
@@ -671,10 +666,44 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
             for (String p : list) {
                 switch (p) {
+                    case Manifest.permission.CALL_PHONE:
                     case Manifest.permission.READ_PHONE_STATE:
+                    case Manifest.permission.ANSWER_PHONE_CALLS:
                         holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+                        if (TextUtils.equals(p, Manifest.permission.READ_PHONE_STATE)) {
+                            Analytics.logEvent("FixAlert_ReadPhoneState_Granted");
+                        }
 
-                        if (!AutoPermissionChecker.isAccessibilityGranted() && oneKeyFixPressed) {
+                        if (TextUtils.equals(p, Manifest.permission.CALL_PHONE)) {
+                            Analytics.logEvent("FixAlert_CallPhone_Granted");
+                        }
+
+                        if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
+                            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
+                        } else {
+                            onPermissionChanged();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else if (requestCode == AUTO_PERMISSION_REQUEST) {
+            for (String p : list) {
+                switch (p) {
+                    case Manifest.permission.CALL_PHONE:
+                    case Manifest.permission.READ_PHONE_STATE:
+                    case Manifest.permission.ANSWER_PHONE_CALLS:
+                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+                        if (TextUtils.equals(p, Manifest.permission.READ_PHONE_STATE)) {
+                            Analytics.logEvent("FixAlert_Automatic_ReadPhoneState_Granted");
+                        }
+
+                        if (TextUtils.equals(p, Manifest.permission.CALL_PHONE)) {
+                            Analytics.logEvent("FixAlert_Automatic_CallPhone_Granted");
+                        }
+
+                        if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
                             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
                         } else {
                             onPermissionChanged();

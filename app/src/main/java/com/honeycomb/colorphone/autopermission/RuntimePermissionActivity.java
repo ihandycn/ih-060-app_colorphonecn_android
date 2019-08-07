@@ -159,6 +159,9 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 break;
         }
         AutoRequestManager.getInstance().openPermission(permission);
+
+        String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+        Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
     }
 
     @Override public void onBackPressed() {
@@ -190,6 +193,12 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                     }
                 });
             }
+
+            if (requested && deniedPermissions.size() > 0) {
+                String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+                Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+            }
+            requested = false;
         }
     }
 
@@ -235,8 +244,6 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         if (deniedPermissions.size() > 0) {
             openSettingsForDeniedPermission();
-            String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-            Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
         }
     }
 

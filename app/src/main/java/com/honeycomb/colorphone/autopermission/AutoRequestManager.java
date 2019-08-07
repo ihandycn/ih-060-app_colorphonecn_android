@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.Manifest;
 import android.accessibilityservice.AccessibilityService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -51,6 +52,7 @@ import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
@@ -663,4 +665,41 @@ public class AutoRequestManager {
         return false;
     }
 
+    public List<String> getAllRuntimePermission() {
+        List<String> reqPermission = new ArrayList<>();
+
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.READ_PHONE_STATE);
+        permissions.add(Manifest.permission.CALL_PHONE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            permissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
+        }
+        permissions.add(Manifest.permission.READ_CONTACTS);
+        permissions.add(Manifest.permission.WRITE_CONTACTS);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            permissions.add(Manifest.permission.READ_CALL_LOG);
+        }
+
+        boolean grant;
+        for (String p : permissions) {
+            grant = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), p)
+                    == RuntimePermissions.PERMISSION_GRANTED;
+            if (!grant) {
+                reqPermission.add(p);
+            }
+        }
+        return reqPermission;
+    }
+
+    public List<String> getConfirmRuntimePermission() {
+        List<String> reqPermission = new ArrayList<>();
+        reqPermission.add(Manifest.permission.READ_PHONE_STATE);
+        reqPermission.add(Manifest.permission.CALL_PHONE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            reqPermission.add(Manifest.permission.ANSWER_PHONE_CALLS);
+        }
+        return reqPermission;
+    }
 }

@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.startguide;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
@@ -11,6 +12,7 @@ import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
@@ -18,6 +20,8 @@ import com.superapps.util.RuntimePermissions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartGuidePermissionFactory {
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
@@ -138,14 +142,36 @@ public class StartGuidePermissionFactory {
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 break;
             case TYPE_PERMISSION_TYPE_PHONE:
+                AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 if (activity != null) {
-                    if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
-                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.READ_PHONE_STATE }, StartGuideActivity.CONFIRM_PAGE_PERMISSION_REQUEST);
+                    List<String> permission = new ArrayList<>();
+                    int state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE);
+                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                        Analytics.logEvent("FixAlert_ReadPhoneState_Request");
+                        permission.add(Manifest.permission.READ_PHONE_STATE);
+                    }
+
+                    state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE);
+                    if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                        Analytics.logEvent("FixAlert_CallPhone_Request");
+                        permission.add(Manifest.permission.CALL_PHONE);
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        state = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.ANSWER_PHONE_CALLS);
+                        if (state != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED && state != RuntimePermissions.PERMISSION_GRANTED) {
+                            permission.add(Manifest.permission.ANSWER_PHONE_CALLS);
+                        }
+                    }
+
+                    if (permission.size() > 0) {
+                        RuntimePermissions.requestPermissions(activity, permission.toArray(new String[0]), StartGuideActivity.CONFIRM_PAGE_PERMISSION_REQUEST);
                         return;
                     }
                 }
+
+                Analytics.logEvent("FixAlert_Phone_Settings_Request");
                 AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
-                AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);

@@ -95,19 +95,26 @@ public class AutoLogger {
         return stringBuilder.toString();
     }
 
-    public static String getGrantRuntimePermissionString() {
-        List<String> permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.READ_PHONE_STATE);
-        permissions.add(Manifest.permission.CALL_PHONE);
-        permissions.add(Manifest.permission.READ_CONTACTS);
-        permissions.add(Manifest.permission.WRITE_CONTACTS);
-        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        permissions.add(Manifest.permission.READ_CALL_LOG);
+    public static String getGrantRuntimePermissions() {
+        return getRuntimePermissionString(getGrantRuntimePermissions(AutoRequestManager.getInstance().getAllRuntimePermission()));
+    }
 
+    public static List<String> getGrantRuntimePermissions(List<String> permissions) {
+        List<String> grantPermissions = new ArrayList<>();
+        if (permissions != null && permissions.size() > 0) {
+            for (String p : permissions) {
+                if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                    grantPermissions.add(p);
+                }
+            }
+        }
+        return grantPermissions;
+    }
+
+    public static String getRuntimePermissionString(List<String> permissions) {
         StringBuilder sb = new StringBuilder();
-        for (String p : permissions) {
-            if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+        if (permissions != null && permissions.size() > 0) {
+            for (String p : permissions) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
                         sb.append("ReadPhoneState+");
@@ -120,9 +127,6 @@ public class AutoLogger {
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
                         sb.append("writeContact+");
-                        break;
-                    case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Read_Storage_Allow_Success");
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         sb.append("storage+");

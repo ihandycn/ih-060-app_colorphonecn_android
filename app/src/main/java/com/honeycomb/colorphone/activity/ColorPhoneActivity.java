@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.activity;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +42,7 @@ import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.cmgame.CmGameUtil;
@@ -698,32 +698,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (!isEnabled) {
             return;
         }
-
-//        Runnable runnable;
-//
-//        if (Build.VERSION.SDK_INT < 16) {
-//            // Not support lottie.
-//            runnable = () -> requiresPermission();
-//        } else {
-//            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
-//        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
-                == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
-            RuntimePermissions.requestPermissions(this,
-                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.CALL_PHONE}, FIRST_LAUNCH_PERMISSION_REQUEST);
+        List<String> reqPermission = AutoRequestManager.getInstance().getAllRuntimePermission();
+        if (reqPermission.size() > 0) {
+            requiresPermission(reqPermission);
+            Analytics.logEvent("Permission_MainView_Request", "Permission", AutoLogger.getRuntimePermissionString(reqPermission));
         }
-
-//        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
-//                runnable,
-//                "permission_launch", HSConfig.optInteger(2, "Application", "GrantAccess", "MaxCount"));
     }
 
     /**
      * Only request first launch. (if Enabled and not has permission)
+     * @param reqPermission
      */
-    private void requiresPermission() {
+    private void requiresPermission(List<String> reqPermission) {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
         HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
@@ -731,21 +717,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             return;
         }
 
-        String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
-        boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-                == RuntimePermissions.PERMISSION_GRANTED;
-        boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                == RuntimePermissions.PERMISSION_GRANTED;
-        if (!phonePerm) {
-            Analytics.logEvent("Permission_Phone_View_Showed");
-        }
-        if (!contactPerm) {
-            Analytics.logEvent("Permission_Contact_View_Showed");
-        }
-        if (!phonePerm || !contactPerm) {
-            // Do not have permissions, request them now
-            RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
-        }
+        // Do not have permissions, request them now
+        RuntimePermissions.requestPermissions(this, reqPermission.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
     }
 
     @Override
@@ -771,12 +744,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                Analytics.logEvent("Permission_Phone_Allow_Success");
-            }
-            if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                Analytics.logEvent("Permission_Contact_Allow_Success");
-            }
+            Analytics.logEvent("Permission_MainView_Granted", "Permission", AutoLogger.getRuntimePermissionString(list));
         }
     }
 
