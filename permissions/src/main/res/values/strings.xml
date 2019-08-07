@@ -24,6 +24,7 @@
 
     <string name="acb_phone_grant_autostart_access_title_vivo">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_oppo">Enable AutoStart to Show Call Flash</string>
+    <string name="acb_phone_grant_autostart_access_title_huawei_above28">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_huawei_above26">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_huawei_above23">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_huawei">Enable AutoStart to Show Call Flash</string>

@@ -6,7 +6,9 @@ public class AutoStartHuaweiGuideActivity extends LottiePermissionGuideActivity 
 
     @Override
     protected int getTitleStringResId() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return R.string.acb_phone_grant_autostart_access_title_huawei_above28;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return R.string.acb_phone_grant_autostart_access_title_huawei_above26;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return R.string.acb_phone_grant_autostart_access_title_huawei_above23;
