@@ -242,7 +242,6 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
             super(itemView);
 
             mVideoView = ViewUtils.findViewById(itemView, R.id.video_view);
-
             mVideoView.setLooping(true);
 
             HSGlobalNotificationCenter.addObserver(CustomizeActivity.NOTIFICATION_CUSTOMIZE_ACTIVITY_DESTROY, this);

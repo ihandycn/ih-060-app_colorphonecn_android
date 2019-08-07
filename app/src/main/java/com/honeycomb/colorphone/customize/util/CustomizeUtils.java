@@ -87,12 +87,21 @@ public final class CustomizeUtils {
     public static final String PREF_3D_WALLPAPER_TURN_COUNT = "pref_3d_wallpaper_turn_count";
     public static final String PREF_HOT_WALLPAPER_TURN_COUNT = "pref_hot_wallpaper_turn_count";
     public static final String PREF_WALLPAPER_APPLY_TIME = "pref_hot_wallpaper_apply_time";
-
+    public static final String PREF_WALLPAPER_LOCKER = "pref_wallpaper_locker_apply";
     public static final String WEATHER_CLOCK_AB_TEST_THEME = "com.themelab.launcher.clash";
 
     private static final long WALLPAPER_PROGRESS_BAR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
 
     private static boolean sLoadingWallpaper;
+
+    public static void setLockerWallpaperPath(String path) {
+        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putString(PREF_WALLPAPER_LOCKER, path);
+    }
+
+    public static String getLockerWallpaperPath() {
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getString(PREF_WALLPAPER_LOCKER, "");
+    }
+
 
     public interface WallpaperApplyCallback {
         void onWallpaperApplied(Bitmap wallpaper, Intent data);

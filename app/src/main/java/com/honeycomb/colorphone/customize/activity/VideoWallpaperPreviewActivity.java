@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
+import com.superapps.util.Toasts;
 
 /**
  * @author sundxing
@@ -17,6 +19,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
     private TextureVideoView textureVideoView;
     private View ringtoneImage;
+    private String path;
 
     public static void start(Context context, String path, boolean hasAudio) {
         Intent starter = new Intent(context, VideoWallpaperPreviewActivity.class);
@@ -28,7 +31,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String path = getIntent().getStringExtra("path");
+        path = getIntent().getStringExtra("path");
         boolean hasAudio = getIntent().getBooleanExtra("audio", false);
 
         if (TextUtils.isEmpty(path)) {
@@ -44,6 +47,8 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
         textureVideoView = findViewById(R.id.video_view);
         textureVideoView.setVideoPath(path);
+        textureVideoView.setLooping(true);
+        muteOff();
     }
 
     @Override
@@ -74,14 +79,41 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 onSetWallpaper();
                 break;
             case R.id.ringtone_image:
-
+                onRingtoneClick();
                 break;
             default:
                 break;
         }
     }
 
-    private void onSetWallpaper() {
-
+    private void onRingtoneClick() {
+        toggle();
     }
+
+    private void onSetWallpaper() {
+        CustomizeUtils.setLockerWallpaperPath(path);
+        Toasts.showToast(R.string.apply_success);
+    }
+
+    private void toggle() {
+        final boolean currentSelect = ringtoneImage.isActivated();
+        if (currentSelect) {
+            mute();
+        } else {
+            muteOff();
+        }
+    }
+
+    private void mute() {
+        ringtoneImage.setEnabled(true);
+        ringtoneImage.setActivated(false);
+        textureVideoView.mute();
+    }
+
+    private void muteOff() {
+        ringtoneImage.setEnabled(true);
+        ringtoneImage.setActivated(true);
+        textureVideoView.resumeVolume();
+    }
+
 }
