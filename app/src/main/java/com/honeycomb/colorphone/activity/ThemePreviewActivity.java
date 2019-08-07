@@ -66,7 +66,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private int scrollCount = 0;
     private int lastPos = -1;
+    private boolean windowTransitionFlag = true;
+
     private MediaSharedElementCallback mediaSharedElementCallback;
+    private Bundle mSavedState;
 
     public static void start(Context context, int position, Bundle options) {
         start(context, position, FROM_MAIN, options);
@@ -103,6 +106,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mThemes.addAll(getThemes());
+        mSavedState = savedInstanceState;
         int pos = getIntent().getIntExtra("position", 0);
         String from = getIntent().getStringExtra("from");
         mTheme = mThemes.get(pos);
@@ -267,6 +271,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ThemePreviewView themePreviewView = getThemePreview();
+        if (themePreviewView != null) {
+            themePreviewView.saveState(outState);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         for (ThemePreviewView previewView : mViews) {
@@ -280,11 +293,19 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        ThemePreviewView themePreviewView = getThemePreview();
+        if (themePreviewView != null) {
+            themePreviewView.onStop();
+        }
+    }
+
+    private ThemePreviewView getThemePreview() {
         for (ThemePreviewView previewView : mViews) {
             if (previewView.isSelectedPos()) {
-                previewView.onStop();
+                return previewView;
             }
         }
+        return null;
     }
 
 
@@ -364,7 +385,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private class ThemePagerAdapter extends PagerAdapter {
         private int adCount = 0;
-        private boolean windowTranstionFlag = true;
         public void addAdView() {
             adCount++;
         }
@@ -396,12 +416,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position);
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
+                    if (mSavedState != null) {
+                        controller.restoreState(mSavedState);
+                    }
                     controller.setBlockAnimationForPageChange(false);
                     // we set view transition as soon as possible,
                     // only once (for Activity WindowInTransition only do one time)
-                    if (windowTranstionFlag) {
+                    if (windowTransitionFlag) {
                         controller.setWindowInTransition(true);
-                        windowTranstionFlag = false;
+                        windowTransitionFlag = false;
                     }
                 } else {
                     controller.setNoTransition(true);

@@ -29,8 +29,17 @@ public class TimeDurationLogger {
     }
 
     private static String getDurationFormatName(long intervalMills) {
-        long num = intervalMills / 12 / 1000;
-        if (num <= 3) {
+        long seconds = intervalMills / 1000;
+        long num = seconds / 12;
+        if (seconds < 1) {
+            return "0-1s";
+        } else if (seconds < 3) {
+            return "1-3s";
+        } else if (seconds < 6) {
+            return "3-6s";
+        } else if (seconds <= 12) {
+            return "6-12s";
+        } else if (num < 3) {
             return String.valueOf(num);
         } else if (num <= 5) {
             return "3-5";
@@ -38,10 +47,8 @@ public class TimeDurationLogger {
             return "5-10";
         } else if (num <= 20) {
             return "10-20";
-        } else if (num <= 30) {
-            return "30";
-        } else {
-            return "30+";
+        }  else {
+            return "20+";
         }
     }
 }

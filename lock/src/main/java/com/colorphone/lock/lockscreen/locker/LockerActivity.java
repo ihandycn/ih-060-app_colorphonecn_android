@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker;
 import android.os.Build;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
@@ -77,6 +78,13 @@ public class LockerActivity extends BaseKeyguardActivity {
         exist = false;
         super.onDestroy();
         mLocker.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_UnlockType",
+                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
     }
 
     @Override

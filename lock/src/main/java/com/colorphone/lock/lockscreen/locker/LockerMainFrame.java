@@ -5,8 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.PowerManager;
 import android.support.constraint.ConstraintLayout;
@@ -27,11 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
@@ -105,7 +111,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private long mOnStartTime;
 
     private int lockerCount = 0;
-    private int yCoordinatesOfNotificationAbove;
     private boolean ifRegisterForTime = false;
     private ImageView mGameIconEntrance;
 
@@ -243,6 +248,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         });
 
         mUnlockText = (ShimmerTextView) findViewById(R.id.unlock_text);
+        mUnlockText.setCompoundDrawablePadding(Dimensions.pxFromDp(4));
         mShimmer = new Shimmer();
         mShimmer.setDuration(1200);
 
@@ -278,7 +284,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, this);
-
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
         requestAds();
 
         PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
@@ -471,9 +478,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     mShimmer.cancel();
                 }
                 break;
+
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
-
-
                 if (expressAdView == null) {
                     requestAds();
                     showExpressAd();
@@ -506,6 +512,14 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                         }
                     }, 300);
                 }
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+                mUnlockText.setText(R.string.unlock_tint_no_keyguard);
+                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+                mUnlockText.setText(R.string.unlock_tint_keyguard);
+                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
             default:
                 break;
@@ -670,6 +684,17 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 }
             });
             buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                GradientDrawable mask = new GradientDrawable();
+                mask.setColor(Color.WHITE);
+                GradientDrawable shape = new GradientDrawable();
+                shape.setColor(Color.TRANSPARENT);
+                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+
+                buttonNo.setBackground(buttonYesDrawable);
+                buttonYes.setBackground(buttonNoDrawable);
+            }
             buttonYes.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -700,15 +725,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mLockScreen.dismiss(getContext(), true);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        int[] position = new int[2];
-        mNotificationWindowHolder.getmSlidingWindowAbove().getLocationOnScreen(position);
-        yCoordinatesOfNotificationAbove = position[1];
-
-    }
-
     private final BroadcastReceiver timeChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -721,8 +737,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private TimeTextSizeChangeObserver observer = new TimeTextSizeChangeObserver() {
         @Override
-        public void update(int showNumber) {
-            HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinatesOfNotificationAbove);
+        public void update(int showNumber, int yCoordinateOfAboveNotification) {
+            if (BuildConfig.DEBUG) {
+                HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinateOfAboveNotification);
+            }
+
             if (showNumber == 2) {
                 int[] position = new int[2];
                 mTvDate.getLocationOnScreen(position);
@@ -730,11 +749,13 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 mTvDate.getLocalVisibleRect(rect);
                 int yCoordinatesOfBottomForDate = rect.height() + position[1];
                 int phoneHeight = Dimensions.getPhoneHeight(getContext());
-                HSLog.e("AutoSizing For time " + "judgeHeight " + yCoordinatesOfBottomForDate);
 
-                HSLog.e("AutoSizing For time " + "phoneHeight " + phoneHeight);
+                if (BuildConfig.DEBUG) {
+                    HSLog.e("AutoSizing For time " + "yCoordinatesOfBottomForDate " + yCoordinatesOfBottomForDate);
+                    HSLog.e("AutoSizing For time " + "phoneHeight " + phoneHeight);
+                }
 
-                if (yCoordinatesOfNotificationAbove <= yCoordinatesOfBottomForDate) {
+                if (yCoordinateOfAboveNotification <= yCoordinatesOfBottomForDate) {
                     if (phoneHeight <= 1920) {
                         mTvTime.setTextSize(60  * phoneHeight / 1920);
                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mTvTime.getLayoutParams();
@@ -742,7 +763,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                         mTvTime.setLayoutParams(layoutParams);
                     }
                 }
-            } else if (showNumber == 1) {
+            } else {
                 mTvTime.setTextSize(60);
             }
 

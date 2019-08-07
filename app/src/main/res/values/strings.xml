@@ -370,4 +370,8 @@
     <string name="runtime_confirm_permission_description">为确保来电秀功能正常使用，请开启以下必要权限</string>
     <string name="runtime_confirm_permission_action">去授权</string>
 
+
+    <string name="privacy_policy_agree">已同意</string>
+    <string name="privacy_policy_not_agree_toast">请先勾选同意后再开启来电秀</string>
+
 </resources>

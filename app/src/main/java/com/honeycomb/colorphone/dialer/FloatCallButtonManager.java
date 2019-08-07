@@ -64,9 +64,20 @@ public class FloatCallButtonManager implements
         DialerCall firstCall = CallList.getInstance().getFirstCall();
         boolean isSameCall = DialerCall.areSame(firstCall, mOutCall);
         if (isSameCall) {
+            // Need to hide
+            boolean isHangup = firstCall != null
+                    && (firstCall.getState() == DialerCallState.DISCONNECTING
+                    || firstCall.getState() == DialerCallState.DISCONNECTED);
+
+            if (isHangup) {
+                hide();
+                return;
+            }
+
             // Timer or status text.
             boolean isTimerVisible = firstCall != null
                     && firstCall.getState() == DialerCallState.ACTIVE;
+
             if (isTimerVisible) {
                 bottomTimerView.setVisibility(View.VISIBLE);
                 bottomTimerView.setBase(

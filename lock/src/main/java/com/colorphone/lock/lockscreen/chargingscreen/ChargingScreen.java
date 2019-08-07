@@ -8,10 +8,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -241,6 +244,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     };
     private HomeKeyWatcher mHomeKeyWatcher;
     private boolean mActivityMode;
+    private TextView unlockTextView;
 
     private void processPowerStateChanged(boolean isPowerConnected) {
         if (this.isPowerConnected == isPowerConnected) {
@@ -348,6 +352,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED,this);
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED,this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -593,12 +599,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         trickleChargeStateImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_trickle_charge_state_icon);
 
         tipTextView = (TextView) mRootView.findViewById(R.id.charging_screen_tip);
+        unlockTextView = mRootView.findViewById(R.id.unlock_tv);
+        unlockTextView.setCompoundDrawablePadding(Dimensions.pxFromDp(4));
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
         mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
-        mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
-        mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -870,6 +878,17 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 }
             });
             buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                GradientDrawable mask = new GradientDrawable();
+                mask.setColor(Color.WHITE);
+                GradientDrawable shape = new GradientDrawable();
+                shape.setColor(Color.TRANSPARENT);
+                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+
+                buttonNo.setBackground(buttonYesDrawable);
+                buttonYes.setBackground(buttonNoDrawable);
+            }
             buttonYes.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -934,6 +953,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+                unlockTextView.setText(R.string.unlock_tint_no_keyguard);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+                unlockTextView.setText(R.string.unlock_tint_keyguard);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
             default:
                 break;
@@ -1038,15 +1065,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private CharingScreenChangeObserver observer = new CharingScreenChangeObserver() {
         @Override
-        public void onReceive(int s) {
+        public void onReceive(int showNumber) {
             int phoneHeight = Dimensions.getPhoneHeight(getContext());
-            if (s == 1) {
-                chargingQuantityView.setTextSize(90);
-            } else if (s == 2) {
+            if (showNumber == 2) {
                 if (phoneHeight <= 1920) {
                     chargingQuantityView.setTextSize(80  * phoneHeight / 1920 - 5);
                 }
-
+            } else {
+                chargingQuantityView.setTextSize(90);
             }
         }
     };

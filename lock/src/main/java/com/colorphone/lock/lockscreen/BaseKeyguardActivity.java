@@ -4,8 +4,10 @@ import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +24,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
 import com.superapps.util.Compats;
-import com.superapps.util.Threads;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
@@ -30,6 +31,8 @@ import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.NOT
 
 public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
+    public static final String EVENT_KEYGUARD_UNLOCKED = "keyguard_unlock";
+    public static final String EVENT_KEYGUARD_LOCKED = "keyguard_lock";
     public static boolean exist;
 
     private KeyguardManager keyguardManager;
@@ -37,31 +40,19 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
     private KeyguardManager.KeyguardDismissCallback notificaitoHandleCallback;
 
     /**
-     * We should ignore event of UserPresent that trigger by ourself.
-     * but, if user trigger it , we should finish out ourself.
-     * (In case face detect success, user back to home screen in time)
+     * Get USER_PRESENT event when lock exist.
+     * user trigger this by Finger-print or Face-detect.
      */
-    private boolean ingoreUserPresentEvent;
+    protected boolean mUserPresentWithoutSlide;
 
-//    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            HSLog.d("Locker", "UserPresent, ingore = " + ingoreUserPresentEvent);
-//            if (ingoreUserPresentEvent) {
-//                ingoreUserPresentEvent = false;
-////            } else {
-////                finish();
-//            }
-//        }
-//    };
-
-    private Runnable mUserPresentTimeoutChecker = new Runnable() {
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void run() {
-            // Set flag to false.
-            ingoreUserPresentEvent = false;
+        public void onReceive(Context context, Intent intent) {
+            mUserPresentWithoutSlide = true;
+            HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_UNLOCKED);
         }
     };
+
     private boolean keyguardCleaned;
 
     @Override
@@ -110,7 +101,8 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             // When Screen On user may unlock screen by FaceDetect or FingerPrint
             LockerCustomConfig.getLogger().logEvent("LockScreen_Keyguard_User", "Type", isKeyguardSecure ? "Secure" : "None");
         }
-
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_USER_PRESENT);
+        registerReceiver(mBroadcastReceiver, intentFilter);
         onInitView();
     }
 
@@ -123,9 +115,10 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         boolean finishActivityAfterKeyguardDismiss = false;
         final AppNotificationInfo appNotificationInfo = LockNotificationManager.getInstance().getClickedNotification();
 
+        boolean hasNotification = appNotificationInfo != null;
         if (keyguardManager != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (appNotificationInfo != null) {
+            if (hasNotification) {
                 removeNotification(appNotificationInfo);
                 finishActivityAfterKeyguardDismiss = !isKeyguardSecure;
 
@@ -147,8 +140,10 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
         } else {
             DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
-            removeNotification(appNotificationInfo);
-            startNotificationIntent(appNotificationInfo);
+            if (hasNotification) {
+                removeNotification(appNotificationInfo);
+                startNotificationIntent(appNotificationInfo);
+            }
         }
 
         if (finishActivity && !finishActivityAfterKeyguardDismiss) {
@@ -157,10 +152,6 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         }
         keyguardCleaned = true;
 
-        // Trigger by ourself.
-        ingoreUserPresentEvent = true;
-        Threads.removeOnMainThread(mUserPresentTimeoutChecker);
-        Threads.postOnMainThreadDelayed(mUserPresentTimeoutChecker, 8000);
     }
 
     private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
@@ -188,6 +179,21 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            isKeyguardSecure = keyguardManager.isKeyguardSecure();
+            boolean keyguardLocked = keyguardManager.isKeyguardLocked();
+            if (mUserPresentWithoutSlide && keyguardLocked) {
+                HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_LOCKED);
+            }
+            HSLog.d("LockManager", "isKeyguardSecure: " + isKeyguardSecure
+                    + " isKeyguardLocked: " + keyguardLocked);
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
@@ -203,8 +209,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         HSLog.i("LockManager", "BaseKeyguardActivity onDestroy");
         exist = false;
         super.onDestroy();
-//        unregisterReceiver(mBroadcastReceiver);
-        Threads.removeOnMainThread(mUserPresentTimeoutChecker);
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override public void finish() {

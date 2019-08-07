@@ -118,7 +118,7 @@ public class LockNotificationManager {
     @WorkerThread
     public void onNotificationPosted(final StatusBarNotification statusBarNotification) {
         if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotificationManager", "New notification:" + 11);
+            HSLog.e("LockNotification", "New notification" );
         }
         Threads.postOnMainThread(new Runnable() {
             @Override
@@ -129,9 +129,6 @@ public class LockNotificationManager {
     }
 
     private void onNotificationPostedMainThread(StatusBarNotification statusBarNotification) {
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotificationManager", "New notification:" + 11);
-        }
 
         if (eventPkgList.contains(statusBarNotification.getPackageName())) {
             LockerCustomConfig.getLogger().logEvent("ColorPhone_Notification_Receive_All",
@@ -292,7 +289,7 @@ public class LockNotificationManager {
         list1.remove(observer);
     }
 
-    public void sendNotificationForChargingScreen(final int showNumber) {
+    public void notifyForUpdatingChargingNumberSize(final int showNumber) {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
@@ -313,12 +310,12 @@ public class LockNotificationManager {
         timeSizeChangeObserverList.remove(observer);
     }
 
-    public void notifyForUpdateTimeSize(final int showNumber) {
+    public void notifyForUpdatingLockerTimeSize(final int showNumber, final int yCoordinateOfAboveNotification) {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
                 for (TimeTextSizeChangeObserver observer : timeSizeChangeObserverList) {
-                    observer.update(showNumber);
+                    observer.update(showNumber, yCoordinateOfAboveNotification);
                 }
             }
         });
