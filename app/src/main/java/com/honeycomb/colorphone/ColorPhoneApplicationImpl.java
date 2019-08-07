@@ -315,8 +315,16 @@ public class ColorPhoneApplicationImpl {
 
         HSFeast.getInstance().init(mBaseApplication, null);
 
+    }
+
+    private void onWorkProcessCreate() {
+        HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
+
+        HSLog.i("FrameworkFlurryRecorder", "listen HomePressed");
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override public void onHomePressed() {
+                HSLog.i("FrameworkFlurryRecorder", "onHomePressed");
+
                 Analytics.logEvent("Home_Back_Tracked");
 
                 if (CpuCoolerManager.getInstance().fetchCpuTemperature() > 55) {
@@ -337,12 +345,30 @@ public class ColorPhoneApplicationImpl {
 
             }
         });
+        homeKeyWatcher.startWatch();
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        HSLog.i("FrameworkFlurryRecorder", "registerReceiver ACTION_BATTERY_CHANGED");
+        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
+            @Override public void onReceive(Context context, Intent intent) {
+                int curLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 
-    }
+                batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-    private void onWorkProcessCreate() {
-        HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
+                HSChargingManager.BatteryPluggedSource curBatteryPluggedSource = HSChargingManager.BatteryPluggedSource.get(intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, HSChargingManager.BatteryPluggedSource.UNKNOWN.value));
+
+                HSLog.i("FrameworkFlurryRecorder", "Battery c == " + curLevel + "  s == " + batteryScale + "  bps: " +curBatteryPluggedSource);
+                if (batteryLevel != curLevel || batteryPluggedSource != curBatteryPluggedSource) {
+                    batteryPluggedSource = curBatteryPluggedSource;
+
+                    if (batteryLevel >= 20 && curLevel < 20) {
+                        Analytics.logEvent("Battery_Power_LowTo20");
+                    }
+                    batteryLevel = curLevel;
+                }
+            }
+        }, intentFilter);
     }
 
     public static boolean isFabricInited() {
@@ -437,28 +463,6 @@ public class ColorPhoneApplicationImpl {
         }, TIME_NEED_LOW);
 
         HSPermissionRequestMgr.getInstance().init(mBaseApplication);
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-
-        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
-            @Override public void onReceive(Context context, Intent intent) {
-                int curLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-
-                batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-                HSChargingManager.BatteryPluggedSource curBatteryPluggedSource = HSChargingManager.BatteryPluggedSource.get(intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, HSChargingManager.BatteryPluggedSource.UNKNOWN.value));
-
-                if (batteryLevel != curLevel || batteryPluggedSource != curBatteryPluggedSource) {
-                    batteryPluggedSource = curBatteryPluggedSource;
-
-                    if (batteryLevel >= 20 && curLevel < 20) {
-                        Analytics.logEvent("Battery_Power_LowTo20");
-                    }
-                    batteryLevel = curLevel;
-                }
-            }
-        }, intentFilter);
     }
 
     private int batteryScale;
