@@ -480,7 +480,8 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted()
-                && AutoPermissionChecker.isPhonePermissionGranted();
+                && AutoPermissionChecker.isPhonePermissionGranted()
+                && AutoPermissionChecker.isWriteSettingsPermissionGranted();
     }
 
     public boolean isGrantAllRuntimePermission() {
