@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/call_button_height"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="@dimen/call_button_height"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingTop="18dp"
-    android:paddingBottom="16dp"
-    android:background="@drawable/call_float_button_bg">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerInside"
-        android:src="@drawable/call_float_small_icon"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="2dp"/>
-    <Chronometer
-        android:id="@+id/call_chronometer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:visibility="gone"
-        tools:text="33:22"
-        tools:visibility="visible"
-        android:layout_weight="1"/>
+        app:srcCompat="@drawable/dialer_button"/>-->
 
-</LinearLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/call_desktop_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:lottie_autoPlay="true"
+        app:lottie_imageAssetsFolder="lottie/call_float_button/dialer_button.xml"
+        app:lottie_loop="true"/>
+
+    <LinearLayout
+        android:id="@+id/call_answering_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/call_answer_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/dialer_button"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <Chronometer
+            android:id="@+id/call_chronometer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="#46D28A"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            tools:text="13:22" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>
