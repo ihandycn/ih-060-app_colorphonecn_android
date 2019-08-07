@@ -7,6 +7,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -34,7 +36,16 @@ import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Fonts;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.abs.IPagerNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.WrapPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +61,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     TabsConfiguration mTabsConfig;
 
-    private OnlineWallpaperTabLayout mTabs;
+    private MagicIndicator mTabs;
     private GridView mGridView;
     private ImageView mArrowLeftPart;
     private ImageView mArrowRightPart;
@@ -60,7 +71,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private AnimatorSet mAnimatorSet;
     private ScrollEventLogger mScrollEventLogger = new ScrollEventLogger();
     float sumPositionAndPositionOffset;
-    private ViewPager mViewPage;
+    private ViewPager mViewPager;
 
     private boolean mIsRtl;
 
@@ -97,7 +108,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private void setupViews() {
         mTabs = ViewUtils.findViewById(this, R.id.wallpaper_tabs);
-        mViewPage = ViewUtils.findViewById(this, R.id.wallpaper_pager);
+        mViewPager = ViewUtils.findViewById(this, R.id.wallpaper_pager);
         mGridView = ViewUtils.findViewById(this, R.id.categories_grid_view);
         mCategoriesTitle = ViewUtils.findViewById(this, R.id.categories_title);
         mArrowLeftPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_left);
@@ -107,15 +118,15 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     public void setup(int initialTabIndex) {
         mAdapter = new WallpaperPagerAdapter(getContext());
-        mViewPage.setAdapter(mAdapter);
-        mTabs.setupWithViewPager(mViewPage);
-        CustomizeUtils.configTabLayoutText(mTabs, Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD), 14f);
-        mTabs.setOnScrollListener((isScrollLeft, isScrollRight) -> Analytics.logEvent("Wallpaper_TopTab_Slided", true));
+        mViewPager.setAdapter(mAdapter);
+
+        mTabs.setNavigator(createTabNavigator());
+        ViewPagerHelper.bind(mTabs, mViewPager);
 
         int indexAbsolute = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, mAdapter.getCount(), initialTabIndex);
 
-        mViewPage.setCurrentItem(indexAbsolute, false);
-        mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.setCurrentItem(indexAbsolute, false);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position + positionOffset > sumPositionAndPositionOffset) {
@@ -171,7 +182,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         });
 
         if (mIsRtl) {
-            mTabs.scrollToRight();
+//            mTabs.scrollToRight();
             mArrowLeftPart.setImageResource(R.drawable.wallpapers_toptab_arrow_right);
             mArrowRightPart.setImageResource(R.drawable.wallpapers_toptab_arrow_left);
         }
@@ -187,7 +198,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < 0 || position >= mTabs.getTabCount() || position == mTabs.getSelectedTabPosition()) {
+                if (position < 0 || position >= mAdapter.getCount() || position == mViewPager.getCurrentItem()) {
                     return;
                 }
 
@@ -195,20 +206,56 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 mIsTabNoClickSelected = true;
 
                 ((CategoryViewAdapter) parent.getAdapter()).setTextAnimationEnabled(false);
-                ((CategoryItem) parent.getAdapter().getItem(mTabs.getSelectedTabPosition())).setSelected(false);
+                ((CategoryItem) parent.getAdapter().getItem(mViewPager.getCurrentItem())).setSelected(false);
                 ((CategoryItem) parent.getAdapter().getItem(position)).setSelected(true);
                 ((CategoryViewAdapter) parent.getAdapter()).notifyDataSetChanged();
 
                 resetCategoryGrids();
-                mViewPage.setCurrentItem(position, true);
+                mViewPager.setCurrentItem(position, true);
                 arrowClicked(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
             }
         });
     }
 
+    private IPagerNavigator createTabNavigator() {
+        CommonNavigator commonNavigator = new CommonNavigator(getContext());
+        commonNavigator.setScrollPivotX(0.35f);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+            @Override
+            public int getCount() {
+                return mAdapter.getCount();
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
+                simplePagerTitleView.setTextSize(16);
+                simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                simplePagerTitleView.setText(mAdapter.getPageTitle(index));
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.white_80_transparent));
+                simplePagerTitleView.setSelectedColor(Color.BLACK);
+                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewPager.setCurrentItem(index);
+                    }
+                });
+                return simplePagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                WrapPagerIndicator indicator = new WrapPagerIndicator(context);
+                indicator.setFillColor(Color.WHITE);
+                return indicator;
+            }
+        });
+        return commonNavigator;
+    }
+
     public void setIndex(int index) {
-        if (mViewPage != null) {
-            mViewPage.setCurrentItem(index, false);
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(index, false);
         }
     }
 
@@ -320,7 +367,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     @SuppressWarnings("ConstantConditions")
     private void resetCategoryGrids() {
-        for (int i = 0; i < mTabs.getTabCount(); i++) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             ((CategoryItem) mGridView.getAdapter().getItem(i)).setSelected(false);
         }
     }

@@ -255,6 +255,8 @@ dependencies {
     compile project(':libSuperApps')
     compile project(':permissions')
     compile project(':libPermissionacquire')
+    compile project(':magicindicator')
+
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.07.16.002'
