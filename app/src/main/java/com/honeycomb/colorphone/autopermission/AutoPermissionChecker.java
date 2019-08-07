@@ -108,7 +108,8 @@ public class AutoPermissionChecker {
     }
 
     public static boolean isPhonePermissionGranted() {
-        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED
+                    && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE) == RuntimePermissions.PERMISSION_GRANTED;
     }
 
     public static boolean isWriteSettingsPermissionGranted() {
