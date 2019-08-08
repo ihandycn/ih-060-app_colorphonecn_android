@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -127,6 +128,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_PREVIEW = 1;
     private static final int MSG_ENJOY = 2;
     private static final int MSG_DOWNLOAD_OK = 11;
+    private static final int MSG_TRANSITION_TIMEOUT = 21;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -245,6 +247,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 case MSG_DOWNLOAD_OK:
                     onMediaDownloadOK();
+                    return true;
+
+                case MSG_TRANSITION_TIMEOUT:
+                    // Force window transition end
+                    if (mWindowInTransition) {
+                        onWindowTransitionEnd();
+                    }
                     return true;
                 default:
                     return false;
@@ -643,7 +652,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         themeReady = true;
         themeLoading = false;
 
-        setButtonState(isSelectedPos());
+        setButtonState(isCurrentTheme());
 
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
@@ -685,6 +694,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             transEndRunnable.run();
         }
 
+    }
+
+    public void saveState(Bundle bundle) {
+        bundle.putBoolean("waitContact", mWaitContactResult);
+    }
+
+    public void restoreState(Bundle bundle) {
+        mWaitContactResult = bundle.getBoolean("waitContact");
     }
 
     private int getThemeMode() {
@@ -1399,10 +1416,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void setWindowInTransition(boolean inTransition) {
         mWindowInTransition = inTransition;
+        if (mWindowInTransition) {
+            mHandler.sendEmptyMessageDelayed(MSG_TRANSITION_TIMEOUT, 1000);
+        }
     }
 
     public void onWindowTransitionStart() {
         mWindowInTransition = true;
+        mHandler.removeMessages(MSG_TRANSITION_TIMEOUT);
         if (resumed) {
             if (themeLoading) {
                 mProgressViewHolder.hide(false);
@@ -1453,6 +1474,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void onWindowTransitionEnd() {
         mWindowInTransition = false;
+        mHandler.removeMessages(MSG_TRANSITION_TIMEOUT);
         if (mPendingResume) {
             resumeAnimation();
             mPendingResume = false;

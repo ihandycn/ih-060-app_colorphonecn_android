@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Commons;
 
 public class FloatWindowController {
 
@@ -67,8 +68,10 @@ public class FloatWindowController {
     public void hideLockScreen(int closeType) {
         if (null != floatWindowControllerImpl) {
             floatWindowControllerImpl.hideLockScreen(closeType);
-            HSLog.i("NotificationDisplayManager", "sendNotification s: " + NOTIFY_KEY_LOCKER_DISMISS);
-            HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_LOCKER_DISMISS);
+            if (!Commons.isKeyguardLocked(context, false)) {
+                HSLog.i("NotificationDisplayManager", "sendNotification s: " + NOTIFY_KEY_LOCKER_DISMISS);
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_LOCKER_DISMISS);
+            }
         }
     }
 

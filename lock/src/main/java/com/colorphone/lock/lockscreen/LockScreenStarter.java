@@ -145,7 +145,7 @@ public class LockScreenStarter {
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if (!LockerActivity.exit) {
+            if (!LockerActivity.exist) {
                 ChargingScreenUtils.startLockerActivity(false);
             }
         }

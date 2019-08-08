@@ -35,6 +35,7 @@ public abstract class FloatWindowMovableDialog extends FloatWindowDialog {
     public static int viewViewWidth;
     public static int viewViewHeight;
     private boolean isStop = true;
+    protected boolean isShown = false;
 
     private Point point = new Point();
     private Point oldPoint = new Point();

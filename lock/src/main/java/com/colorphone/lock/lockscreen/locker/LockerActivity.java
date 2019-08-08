@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker;
 import android.os.Build;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
@@ -12,8 +13,7 @@ public class LockerActivity extends BaseKeyguardActivity {
     private Locker mLocker;
 
     private boolean noNavigationPadding = false;
-
-    public static boolean exit = false;
+    public static boolean exist = false;
 
     @Override
     protected void onInitView() {
@@ -35,6 +35,7 @@ public class LockerActivity extends BaseKeyguardActivity {
                 ViewGroup container = (ViewGroup) findViewById(R.id.locker_pager);
                 //container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
             }
+            exist = true;
         } catch (Exception e) {
             finish();
         }
@@ -74,9 +75,16 @@ public class LockerActivity extends BaseKeyguardActivity {
 
     @Override
     protected void onDestroy() {
+        exist = false;
         super.onDestroy();
         mLocker.onDestroy();
-        exit = false;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_UnlockType",
+                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
     }
 
     @Override

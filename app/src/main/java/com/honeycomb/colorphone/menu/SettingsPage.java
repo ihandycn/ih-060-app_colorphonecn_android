@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.menu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
@@ -60,7 +61,7 @@ public class SettingsPage implements View.OnClickListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (isChecked) {
-                        DefaultPhoneUtils.checkDefaultWithoutEvent();
+                        DefaultPhoneUtils.checkDefaultWithoutEvent((Activity)rootView.getContext());
                     } else {
                         DefaultPhoneUtils.resetDefaultPhone();
                     }

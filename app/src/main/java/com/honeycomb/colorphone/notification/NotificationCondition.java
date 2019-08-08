@@ -89,6 +89,7 @@ public class NotificationCondition implements INotificationObserver {
     private static final int CHECK_STATE_DONE = -2;
 
     private static final int EVENT_CHECK_NEXT_NOTIFICATION = 100;
+    private static final int EVENT_CHECK_NOTIFICATION = 200;
 
     // 等待通知检查条件时间，超时认为失败检查下一条。
     // 比如 boost+ 或者 junk clean 扫描用时。这里目前没做处理，所以最好是时间足够长，保证能完成扫描。
@@ -137,6 +138,10 @@ public class NotificationCondition implements INotificationObserver {
             switch (msg.what) {
                 case EVENT_CHECK_NEXT_NOTIFICATION:
                     checkNextNotification();
+                    break;
+                case EVENT_CHECK_NOTIFICATION:
+                    removeMessages(EVENT_CHECK_NOTIFICATION);
+                    sendNotificationIfNeeded();
                     break;
                 default:
                     break;
@@ -194,11 +199,7 @@ public class NotificationCondition implements INotificationObserver {
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
             case ScreenStatusReceiver.NOTIFICATION_PRESENT:
-                mHandler.postDelayed(new Runnable() {
-                    @Override public void run() {
-                        NotificationCondition.this.sendNotificationIfNeeded();
-                    }
-                }, AFTER_UNLOCK_TIME);
+                mHandler.sendEmptyMessageDelayed(EVENT_CHECK_NOTIFICATION, AFTER_UNLOCK_TIME);
                 break;
             default:
                 break;

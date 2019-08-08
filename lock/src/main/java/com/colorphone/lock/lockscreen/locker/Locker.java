@@ -24,7 +24,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
-import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -35,6 +35,7 @@ import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
@@ -225,7 +226,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             return;
         }
         mIsSetup = false;
-
+        HSLog.i("LockManager", "L dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                 "Reason", mDismissReason,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
@@ -244,12 +245,13 @@ public class Locker extends LockScreen implements INotificationObserver {
                 // Life cycle
                 LockScreensLifeCycleRegistry.setLockerActive(false);
 
-                if (getContext() instanceof Activity) {
-                    final Activity activity = (Activity) getContext();
-                    activity.finish();
-                    activity.overridePendingTransition(0, 0);
+                if (getContext() instanceof BaseKeyguardActivity) {
+                    final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
                     if (dismissKeyguard) {
-                        DismissKeyguradActivity.startSelfIfKeyguardSecure(activity);
+                        activity.tryDismissKeyguard(true);
+                    } else {
+                        activity.finish();
+                        activity.overridePendingTransition(0, 0);
                     }
                 } else {
                     doDismiss();
@@ -259,7 +261,9 @@ public class Locker extends LockScreen implements INotificationObserver {
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
 
-                HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+                if (!Commons.isKeyguardLocked(context, false)) {
+                    HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+                }
 
             }
         });

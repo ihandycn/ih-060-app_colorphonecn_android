@@ -3,12 +3,12 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.core.NotchProperty;
 import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
-import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
@@ -17,7 +17,7 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
     private ChargingScreen mScreen;
-    public static boolean exist;
+    public static boolean exist = false;
 
     private Runnable displaySuccessChecker = new Runnable() {
         @Override
@@ -46,6 +46,7 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
                 }
             }
         });
+        exist = true;
     }
 
     @Override
@@ -78,16 +79,21 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
 
     @Override
     protected void onDestroy() {
-        mScreen.onDestroy();
         exist = false;
+        mScreen.onDestroy();
         super.onDestroy();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_ChargingScreen_UnlockType",
+                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
+    }
 
     @Override
     public void onBackPressed() {
         mScreen.onBackPressed();
-        DismissKeyguradActivity.startSelfIfKeyguardSecure(ChargingScreenActivity.this);
     }
 
 }

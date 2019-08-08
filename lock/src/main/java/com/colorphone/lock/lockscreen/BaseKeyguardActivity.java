@@ -1,6 +1,9 @@
 package com.colorphone.lock.lockscreen;
 
+import android.annotation.TargetApi;
 import android.app.KeyguardManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,47 +17,43 @@ import android.view.WindowManager.LayoutParams;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
-import com.superapps.util.Threads;
+import com.superapps.util.Compats;
 
-import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
+import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.NOTIFY_KEY_REMOVE_MESSAGE;
 
 public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
+    public static final String EVENT_KEYGUARD_UNLOCKED = "keyguard_unlock";
+    public static final String EVENT_KEYGUARD_LOCKED = "keyguard_lock";
     public static boolean exist;
 
     private KeyguardManager keyguardManager;
     private boolean isKeyguardSecure;
+    private KeyguardManager.KeyguardDismissCallback notificaitoHandleCallback;
 
     /**
-     * We should ignore event of UserPresent that trigger by ourself.
-     * but, if user trigger it , we should finish out ourself.
-     * (In case face detect success, user back to home screen in time)
+     * Get USER_PRESENT event when lock exist.
+     * user trigger this by Finger-print or Face-detect.
      */
-    private boolean ingoreUserPresentEvent;
+    protected boolean mUserPresentWithoutSlide;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            HSLog.d("Locker", "UserPresent, ingore = " + ingoreUserPresentEvent);
-            if (ingoreUserPresentEvent) {
-                ingoreUserPresentEvent = false;
-            } else {
-                finish();
-            }
+            mUserPresentWithoutSlide = true;
+            HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_UNLOCKED);
         }
     };
 
-    private Runnable mUserPresentTimeoutChecker = new Runnable() {
-        @Override
-        public void run() {
-            // Set flag to false.
-            ingoreUserPresentEvent = false;
-        }
-    };
+    private boolean keyguardCleaned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,56 +95,163 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
                     + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
         }
 
-        if (!isKeyguardSecure) {
-            tryDismissKeyguard();
-        }
-
         boolean isScreenOn = Utils.isScreenOn();
         if (!isScreenOn) {
             // Log only screen off,
             // When Screen On user may unlock screen by FaceDetect or FingerPrint
             LockerCustomConfig.getLogger().logEvent("LockScreen_Keyguard_User", "Type", isKeyguardSecure ? "Secure" : "None");
         }
-
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_USER_PRESENT);
         registerReceiver(mBroadcastReceiver, intentFilter);
-
         onInitView();
     }
 
-    private void tryDismissKeyguard() {
-        if (keyguardManager != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            keyguardManager.requestDismissKeyguard(this, null);
-        } else {
-            getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+    public void tryDismissKeyguard(boolean finishActivity) {
+        if (keyguardCleaned) {
+            return;
         }
 
-        // Trigger by ourself.
-        ingoreUserPresentEvent = true;
-        Threads.removeOnMainThread(mUserPresentTimeoutChecker);
-        Threads.postOnMainThreadDelayed(mUserPresentTimeoutChecker, 8000);
+        // keyguard dismiss may black screen.
+        boolean finishActivityAfterKeyguardDismiss = false;
+        final AppNotificationInfo appNotificationInfo = LockNotificationManager.getInstance().getClickedNotification();
+
+        boolean hasNotification = appNotificationInfo != null;
+        if (keyguardManager != null &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (hasNotification) {
+                removeNotification(appNotificationInfo);
+                finishActivityAfterKeyguardDismiss = !isKeyguardSecure;
+
+            }
+            if (finishActivityAfterKeyguardDismiss) {
+                // Handle notification intent after keyguard dismissed.
+                keyguardManager.requestDismissKeyguard(this, getNotificaitonHandleCallback(appNotificationInfo));
+            } else {
+                startNotificationIntent(appNotificationInfo);
+
+                // Call ths for Huawei device to remove notificaiton on keyguard screen.
+                if (isKeyguardSecure && Compats.IS_HUAWEI_DEVICE) {
+                    DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
+                } else {
+                    keyguardManager.requestDismissKeyguard(this, null);
+                }
+            }
+
+
+        } else {
+            DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
+            if (hasNotification) {
+                removeNotification(appNotificationInfo);
+                startNotificationIntent(appNotificationInfo);
+            }
+        }
+
+        if (finishActivity && !finishActivityAfterKeyguardDismiss) {
+            finish();
+            overridePendingTransition(0, 0);
+        }
+        keyguardCleaned = true;
+
+    }
+
+    private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
+        boolean userNotClicked = appNotificationInfo != null;
+        if (userNotClicked) {
+            PendingIntent pendingIntent = appNotificationInfo.notification.contentIntent;
+            if (pendingIntent != null) {
+                try {
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }
+            LockNotificationManager.getInstance().setClickedNotification(null);
+        }
+    }
+
+    protected void removeNotification(AppNotificationInfo appNotificationInfo) {
+        NotificationManager noMan = (NotificationManager)
+                HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        noMan.cancel(appNotificationInfo.tag, appNotificationInfo.notificationId);
+        HSBundle bundle = new HSBundle();
+        bundle.putString(BUNDLE_KEY_PACKAGE_NAME, appNotificationInfo.packageName);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            isKeyguardSecure = keyguardManager.isKeyguardSecure();
+            boolean keyguardLocked = keyguardManager.isKeyguardLocked();
+            if (mUserPresentWithoutSlide && keyguardLocked) {
+                HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_LOCKED);
+            }
+            HSLog.d("LockManager", "isKeyguardSecure: " + isKeyguardSecure
+                    + " isKeyguardLocked: " + keyguardLocked);
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (!isKeyguardSecure) {
-           tryDismissKeyguard();
-        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        keyguardCleaned = false;
     }
 
     @Override
     protected void onDestroy() {
+        HSLog.i("LockManager", "BaseKeyguardActivity onDestroy");
+        exist = false;
         super.onDestroy();
         unregisterReceiver(mBroadcastReceiver);
-        Threads.removeOnMainThread(mUserPresentTimeoutChecker);
+    }
+
+    @Override public void finish() {
+        HSLog.i("LockManager", "BaseKeyguardActivity finish");
+        exist = false;
+        super.finish();
     }
 
     protected abstract void onInitView();
 
     protected boolean fullScreen(){
         return true;
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private KeyguardManager.KeyguardDismissCallback getNotificaitonHandleCallback(final AppNotificationInfo appNotificationInfo) {
+        if (notificaitoHandleCallback == null) {
+            notificaitoHandleCallback = new KeyguardManager.KeyguardDismissCallback() {
+                @Override
+                public void onDismissError() {
+                    super.onDismissError();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
+                }
+
+                @Override
+                public void onDismissSucceeded() {
+                    super.onDismissSucceeded();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
+                }
+
+                @Override
+                public void onDismissCancelled() {
+                    super.onDismissCancelled();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
+                }
+            };
+        }
+        return notificaitoHandleCallback;
+    }
+
+    private void onDismissKeyguardEndAboveOreo(AppNotificationInfo appNotificationInfo) {
+        startNotificationIntent(appNotificationInfo);
     }
 
 }

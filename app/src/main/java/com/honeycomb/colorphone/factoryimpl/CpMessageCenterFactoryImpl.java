@@ -3,9 +3,9 @@ package com.honeycomb.colorphone.factoryimpl;
 import android.content.Context;
 import android.content.Intent;
 
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
+import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -48,12 +48,20 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override public boolean waitForLocker() {
-                return (FloatWindowController.getInstance().isLockScreenShown() || ChargingScreenActivity.exist || LockerActivity.exit)
+                return (FloatWindowController.getInstance().isLockScreenShown() || BaseKeyguardActivity.exist)
                         && !Utils.isKeyguardLocked(HSApplication.getContext(), false);
             }
 
             @Override public String getLockerDismissEvent() {
                 return FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS;
+            }
+
+            @Override public String getRemoveMessageEvent() {
+                return NotificationWindowHolder.NOTIFY_KEY_REMOVE_MESSAGE;
+            }
+
+            @Override public String getRemoveMessageParam() {
+                return NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
             }
 
             @Override

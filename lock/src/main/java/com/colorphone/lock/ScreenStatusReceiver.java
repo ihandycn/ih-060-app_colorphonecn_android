@@ -58,6 +58,7 @@ public class ScreenStatusReceiver {
     }
 
     public static void onUserPresent(Context context) {
+        HSLog.i(TAG, "onUserPresent");
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_PRESENT);
         if (sPresentRunnable != null) {
             sPresentRunnable.run();
