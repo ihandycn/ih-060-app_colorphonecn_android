@@ -10,29 +10,33 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <ImageView
+        <com.superapps.view.RoundImageView
             android:id="@+id/image1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:layout_weight="1" />
+            app:radius_leftTop="16dp" />
 
         <ImageView
             android:id="@+id/image2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:scaleType="centerCrop" />
     </LinearLayout>
 
-    <ImageView
+    <com.superapps.view.RoundImageView
         android:id="@+id/image3"
         android:layout_width="0dp"
-        android:scaleType="centerCrop"
         android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:scaleType="centerCrop"
+        app:radius_rightTop="16dp" />
 
 </LinearLayout>

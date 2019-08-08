@@ -196,20 +196,11 @@ dependencies {
             "com.android.support:multidex:1.0.1",
 
             "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
+            'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta08'
 
     ]
-
-    final COMMON_COLORPHONE = [
-            USE_BETA_ACB_LIBS ?
-                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta08' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
-    ]
-
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
-
-    for (dependency in COMMON_COLORPHONE) colorphoneCompile dependency
-
 
     // ==== Third part ====
     compile 'com.github.bumptech.glide:glide:4.0.0'

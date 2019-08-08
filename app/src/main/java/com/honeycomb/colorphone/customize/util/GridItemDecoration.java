@@ -52,6 +52,8 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
                 itemPosition = itemPosition - adCount.get(itemPosition);
             }
         }
+        itemPosition--;
+
         if (itemPosition == -1) {
             return;
         }

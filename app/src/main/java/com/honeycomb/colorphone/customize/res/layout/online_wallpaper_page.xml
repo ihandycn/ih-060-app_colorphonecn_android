@@ -124,8 +124,6 @@
     <com.superapps.view.ViewPagerFixed
         android:id="@+id/wallpaper_pager"
         android:layout_marginTop="14dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:layout_below="@id/tab_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
