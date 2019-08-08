@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,6 +60,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     TabsConfiguration mTabsConfig;
 
+    private View mTabTransitionWrapper;
     private MagicIndicator mTabs;
     private GridView mGridView;
     private ImageView mArrowLeftPart;
@@ -74,6 +74,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private ViewPager mViewPager;
 
     private boolean mIsRtl;
+    private View arrowContainer;
 
     public OnlineWallpaperPage(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -108,6 +109,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private void setupViews() {
         mTabs = ViewUtils.findViewById(this, R.id.wallpaper_tabs);
+        mTabTransitionWrapper = findViewById(R.id.tab_layout_transition_wrapper);
         mViewPager = ViewUtils.findViewById(this, R.id.wallpaper_pager);
         mGridView = ViewUtils.findViewById(this, R.id.categories_grid_view);
         mCategoriesTitle = ViewUtils.findViewById(this, R.id.categories_title);
@@ -125,8 +127,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         //
         HorizontalScrollView scrollView = commonNavigator.getScrollView();
-        scrollView.setFadingEdgeLength(Dimensions.pxFromDp(6));
-        scrollView.setHorizontalFadingEdgeEnabled(true);
         commonNavigator.getTitleContainer().setBackgroundResource(R.drawable.wallpaper_tab_bg);
 
         int scrollTransX = Dimensions.pxFromDp(12);
@@ -284,7 +284,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                                           final TextView categoryTitle,
                                           final ImageView arrowLeftPart,
                                           final ImageView arrowRightPart) {
-        LinearLayout arrowContainer = ViewUtils.findViewById(this, R.id.arrow_container);
+        arrowContainer = ViewUtils.findViewById(this, R.id.arrow_container);
         arrowContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,8 +320,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
             // Display
             mViewPager.setVisibility(VISIBLE);
             mViewPager.animate().translationY(0).alpha(1).setDuration(300).start();
-            mTabs.setVisibility(VISIBLE);
-            ObjectAnimator tabFadeIn = ObjectAnimator.ofFloat(mTabs, "alpha", 0, 1);
+            mTabTransitionWrapper.setVisibility(VISIBLE);
+            ObjectAnimator tabFadeIn = ObjectAnimator.ofFloat(mTabTransitionWrapper, "alpha", 0, 1);
             tabFadeIn.setDuration(200);
 
             // Hide
@@ -354,7 +354,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
             ObjectAnimator arrowRotateRight = ObjectAnimator.ofFloat(arrowRightPart, "rotation", 0, degree);
             arrowRotateRight.setDuration(300);
 
-            ObjectAnimator tabFadeOut = ObjectAnimator.ofFloat(mTabs, "alpha", 1, 0);
+            ObjectAnimator tabFadeOut = ObjectAnimator.ofFloat(mTabTransitionWrapper, "alpha", 1, 0);
             tabFadeOut.setDuration(200);
 
             Analytics.logEvent("Wallpaper_TabList_Open", true);
@@ -374,7 +374,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mTabs.setVisibility(GONE);
+                    mTabTransitionWrapper.setVisibility(GONE);
                     mViewPager.setVisibility(GONE);
                 }
             });
