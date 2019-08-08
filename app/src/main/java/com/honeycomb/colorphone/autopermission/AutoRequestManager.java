@@ -194,7 +194,9 @@ public class AutoRequestManager {
                 public void onSuccess() {
                     HSLog.d(TAG, "performGlobalAction success");
                     backPressExecuted = true;
-                    startAutoCheck(AUTO_PERMISSION_FROM_FIX, StartGuideActivity.FROM_KEY_START);
+                    if (!isGrantAllPermission()) {
+                        startAutoCheck(AUTO_PERMISSION_FROM_FIX, StartGuideActivity.FROM_KEY_START);
+                    }
                 }
 
                 @Override
