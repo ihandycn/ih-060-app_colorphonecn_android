@@ -226,7 +226,6 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     private void initView() {
         mReturnArrow = findViewById(R.id.wallpaper_view_return);
         mReturnArrow.setOnClickListener(this);
-        mReturnArrow.setBackgroundResource(R.drawable.moment_round_material_compat_dark);
         mEdit = findViewById(R.id.preview_edit_btn);
         if (mOnlySetLockerWallpaper) {
             mEdit.setVisibility(View.GONE);

@@ -31,6 +31,9 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CustomizeUtils.setWallpaperWindowFlags(this);
+
         path = getIntent().getStringExtra("path");
         boolean hasAudio = getIntent().getBooleanExtra("audio", false);
 
