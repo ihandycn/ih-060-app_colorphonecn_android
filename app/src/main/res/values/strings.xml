@@ -236,9 +236,6 @@
     <string name="battery_careful_content">Your battery is draining faster than usual.</string>
 
     <string name="menu_item_settings">Settings</string>
-    <string name="charging_screen_settings_title">Battery protection</string>
-    <string name="charging_screen_settings_subtitle">(May contain ads)</string>
-    <string name="charging_screen_settings_description">Monitor charging status.</string>
     <string name="apply_btn">APPLY</string>
     <string name="battery_clean_title">Battery Saver</string>
     <string name="boost_plus_optimal">OPTIMAL</string>

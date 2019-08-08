@@ -155,10 +155,7 @@
     <string name="battery_clean_description">耗电应用</string>
     <string name="battery_extended">已延长</string>
     <string name="battery_careful_content">您的电池比正常状态耗电得更快！</string>
-    <string name="boost_plus_optimal">已优化</string>
-    <string name="charging_screen_settings_title">充电保护</string>
-    <string name="charging_screen_settings_subtitle">内含广告</string>
-    <string name="charging_screen_settings_description">保护电池防止过度充电</string>
+    <string name="boost_plus_optimal">已优化</string>=
     <string name="promotion_max_card_title_cpu_cooler">CPU降温大师</string>
     <string name="cpu_cooler_list_head_title">导致CPU温度过高的应用</string>
     <string name="cpu_cooler_button_title">一键降温</string>

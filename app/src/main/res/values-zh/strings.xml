@@ -138,9 +138,6 @@
     <string name="battery_extended">已延長</string>
     <string name="battery_careful_content">您的電池比正常狀態耗電得更快！</string>
     <string name="boost_plus_optimal">已優化</string>
-    <string name="charging_screen_settings_title">充電保護</string>
-    <string name="charging_screen_settings_subtitle">內含廣告</string>
-    <string name="charging_screen_settings_description">保護電池防止過度充電</string>
     <string name="promotion_max_card_title_cpu_cooler">CPU降溫大師</string>
     <string name="cpu_cooler_list_head_title">導致CPU溫度過高的應用</string>
     <string name="cpu_cooler_button_title">一鍵降溫</string>

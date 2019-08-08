@@ -702,16 +702,6 @@
 
         </activity>
         <activity
-            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
-            android:icon="@drawable/shape_empty"
-            android:excludeFromRecents="true"
-            android:label="@string/title_locker_activity" />
-        <activity
-            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
-            android:icon="@drawable/shape_empty"
-            android:excludeFromRecents="true"
-            android:label="@string/title_locker_activity" />
-        <activity
             android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -783,11 +773,57 @@
                 <action android:name="com.themelab.launcher.ACTION_CUSTOMIZE_SERVICE" />
             </intent-filter>
         </service>
-        <service
-            android:name=".livewallpaper.WallpaperPreloadService"
-            android:enabled="true"
+
+        <activity android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingGuideActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.colorphone.lock.cp_charging_screen"
+            android:theme="@style/ChargingScreenTransparentTheme"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/title_locker_activity" />
+
+        <activity
+            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
             android:exported="false"
-            android:process=":livewallpaper" />
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.colorphone.lock.cp_locker"
+            android:theme="@style/ChargingScreenTransparentTheme"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/title_locker_activity" />/>
+
+        <activity
+            android:name="com.colorphone.lock.lockscreen.DismissKeyguradActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".cp_locker"
+            android:theme="@style/ChargingScreenTransparentTheme" />
+
+        <activity
+            android:name="com.colorphone.lock.lockscreen.DismissActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" />
+
+        <service
+            android:name="com.colorphone.lock.lockscreen.LockScreenService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="1000">
+                <action android:name="${applicationId}.lockscreen.LockService"/>
+            </intent-filter>
+        </service>
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

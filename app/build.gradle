@@ -76,9 +76,12 @@ android {
                            'src/main/java/com/honeycomb/colorphone/dialer/dialpadview/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
                            'src/main/java/com/honeycomb/colorphone/customize/res',
+                           'src/main/java/com/colorphone/lock/res',
 
                            'src/main/java/com/honeycomb/colorphone/dialer/res']
-            assets.srcDirs = ['src/main/assets']
+            assets.srcDirs = ['src/main/assets',
+                              'src/main/java/com/colorphone/lock/assets',
+            ]
             java.srcDirs = ['src/main/java']
             jniLibs.srcDirs = ['../libs/jniLibs']
         }
@@ -242,7 +245,6 @@ dependencies {
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')
-    compile project(':lock')
     compile project(':libSuperApps')
     compile project(':permissions')
     compile project(':libPermissionacquire')

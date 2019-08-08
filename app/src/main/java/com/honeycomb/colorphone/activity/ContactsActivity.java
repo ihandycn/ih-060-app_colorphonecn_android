@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactAdapter;
@@ -127,7 +126,6 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
                 onConfirmed(mContacts);
             }
         });
-        mConfirmButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         mTopActionView = (TextView)findViewById(R.id.action_bar_op);
         onConfigConfirmButton(mConfirmButton);
         onConfigActionView(mTopActionView);

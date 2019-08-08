@@ -75,9 +75,6 @@
     <string name="upload_wallpaper_tip">Tips：\n1. Image will be automatically scaled to optimum size\n2. Your image will be shown in \"Me\"\n3. High quality images are more possible to be collected by ME Launcher\n4. Your image will show up in the feed after it\'s been reviewed</string>
     <string name="upload_wallpaper_declaration">By uploading, you agree ME Launcher\'s</string>
     <string name="upload_wallpaper_success">Upload successfully</string>
-
-    <string name="wallpaper_network_error">Network errors. Please try again.</string>
-
     <string name="live_wallpaper_loading_text">Downloading…</string>
     <string name="live_wallpaper_loading_percentage" translatable="false">%1$d%%</string>
 
