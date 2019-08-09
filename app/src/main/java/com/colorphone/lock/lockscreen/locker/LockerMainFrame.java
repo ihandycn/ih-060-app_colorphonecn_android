@@ -185,7 +185,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         layoutParams.bottomMargin = Dimensions.pxFromDp(54) + Dimensions.getNavigationBarHeight(getContext());
         mAdContainer.setLayoutParams(layoutParams);
         SlidingDrawer.LayoutParams params = (FrameLayout.LayoutParams) mSlidingDrawerContent.getLayoutParams();
-        params.height = Dimensions.pxFromDp(340) + Dimensions.getNavigationBarHeight(getContext());
+        params.height = getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height) + Dimensions.getNavigationBarHeight(getContext());
         mSlidingDrawerContent.setLayoutParams(params);
         mMenuMore = findViewById(R.id.ic_menu);
         mMenuMore.setOnClickListener(new OnClickListener() {

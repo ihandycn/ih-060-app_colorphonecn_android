@@ -1,8 +1,5 @@
 package com.colorphone.lock.lockscreen.locker.slidingdrawer;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
@@ -36,11 +33,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.colorphone.lock.LockerCustomConfig;
-import com.honeycomb.colorphone.R;
 import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
-import com.colorphone.lock.lockscreen.locker.slidingdrawer.wallpaper.WallpaperContainer;
+import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -155,9 +151,6 @@ public class SlidingDrawerContent extends FrameLayout
 
     public void setLockScreen(Locker locker) {
         mLocker = locker;
-
-        WallpaperContainer wallpaperContainer = (WallpaperContainer) findViewById(R.id.locker_wallpaper_container);
-        wallpaperContainer.setLocker(locker);
     }
 
     public void setDrawerBg(final Bitmap bitmap) {
