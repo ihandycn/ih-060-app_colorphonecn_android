@@ -53,7 +53,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     ViewPagerFixed mViewPager;
     private LockerAdapter mLockerAdapter;
-    private ImageView mLockerWallpaper;
+    private LockerWallpaperView mLockerWallpaper;
 
     private boolean mIsDestroyed;
 
@@ -83,7 +83,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         });
         mHomeKeyWatcher.startWatch();
 
-        mLockerWallpaper = (ImageView) mRootView.findViewById(R.id.locker_wallpaper_view);
+        mLockerWallpaper = mRootView.findViewById(R.id.locker_wallpaper_view);
 
         try {
             initLockerWallpaper();
@@ -327,7 +327,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     }
 
-    public ImageView getIvLockerWallpaper() {
+    public LockerWallpaperView getIvLockerWallpaper() {
         return mLockerWallpaper;
     }
 

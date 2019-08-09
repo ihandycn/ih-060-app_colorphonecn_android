@@ -389,7 +389,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
 
                             @Override
                             public void onResourceReady(final Bitmap resource, Transition<? super Bitmap> transition) {
-                                final ImageView wallpaperView = mLocker.getIvLockerWallpaper();
+                                final ImageView wallpaperView = null;
                                 SlidingDrawerContent silde = (SlidingDrawerContent) getParent().getParent();
                                 if (wallpaperView == null || silde == null) {
                                     mIsDownloadingWallpaper = false;

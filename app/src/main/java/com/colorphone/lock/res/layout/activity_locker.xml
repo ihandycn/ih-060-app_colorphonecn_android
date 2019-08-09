@@ -24,11 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.colorphone.lock.lockscreen.locker.LockerWallpaperView
             android:id="@+id/locker_wallpaper_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:layout_height="match_parent" />
 
         <com.colorphone.lock.lockscreen.locker.ViewPagerFixed
             android:id="@+id/locker_pager"
