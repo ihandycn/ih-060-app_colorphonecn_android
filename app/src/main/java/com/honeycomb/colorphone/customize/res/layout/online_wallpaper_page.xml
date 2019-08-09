@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="14dp"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/tab_layout_container"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_navigator_height"
         android:baselineAligned="false"
@@ -123,8 +123,6 @@
 
     <com.superapps.view.ViewPagerFixed
         android:id="@+id/wallpaper_pager"
-        android:layout_marginTop="14dp"
-        android:layout_below="@id/tab_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </com.honeycomb.colorphone.customize.view.OnlineWallpaperPage>

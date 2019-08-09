@@ -16,14 +16,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.honeycomb.colorphone.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
-import com.honeycomb.colorphone.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
@@ -32,11 +29,15 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
+import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.view.OnlineWallpaperPage;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
+import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
@@ -51,7 +52,12 @@ public class Locker extends LockScreen implements INotificationObserver {
     public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
 
+    // Parent
+    ViewPager mWallpaperViewPaper;
+
+    // Child
     ViewPagerFixed mViewPager;
+    OnlineWallpaperPage mOnlineWallpaperPage;
     private LockerAdapter mLockerAdapter;
     private LockerWallpaperView mLockerWallpaper;
 
@@ -143,6 +149,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     private Runnable foregroundEventLogger = new Runnable() {
         private boolean logOnceFlag = false;
+
         @Override
         public void run() {
             String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
@@ -193,7 +200,15 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     private void configLockViewPager() {
         Context context = mRootView.getContext();
-        mViewPager = (ViewPagerFixed) mRootView.findViewById(R.id.locker_pager);
+
+        mViewPager = new ViewPagerFixed(getContext());
+
+        mOnlineWallpaperPage = mRootView.findViewById(R.id.online_wallpaper_page_container);
+        mOnlineWallpaperPage.setFirstPage(mViewPager);
+        mOnlineWallpaperPage.setup(0);
+        mOnlineWallpaperPage.setPadding(0, Dimensions.getStatusBarHeight(getContext()), 0, 0);
+
+        mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mLockerAdapter = new LockerAdapter(context, this, new LockerSlidingUpCallback(this));
         mViewPager.setAdapter(mLockerAdapter);
         mViewPager.setOffscreenPageLimit(2);

@@ -1,12 +1,11 @@
 package com.colorphone.lock.lockscreen.locker;
 
-import android.os.Build;
 import android.view.ViewGroup;
 
 import com.colorphone.lock.LockerCustomConfig;
-import com.honeycomb.colorphone.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
+import com.honeycomb.colorphone.R;
 
 public class LockerActivity extends BaseKeyguardActivity {
 
@@ -30,11 +29,6 @@ public class LockerActivity extends BaseKeyguardActivity {
             mLocker = new Locker();
             mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {
-                ViewGroup container = (ViewGroup) findViewById(R.id.locker_pager);
-                //container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
-            }
             exist = true;
         } catch (Exception e) {
             finish();

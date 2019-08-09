@@ -29,11 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.colorphone.lock.lockscreen.locker.ViewPagerFixed
-            android:id="@+id/locker_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="true"
-            android:overScrollMode="never"/>
+        <include
+            android:id="@+id/online_wallpaper_page_container"
+            layout="@layout/online_wallpaper_page"/>
+
     </FrameLayout>
 </com.colorphone.lock.lockscreen.LockScreenRootView>

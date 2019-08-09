@@ -75,6 +75,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private boolean mIsRtl;
     private View arrowContainer;
+    private View mFirstPageView;
 
     public OnlineWallpaperPage(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -228,12 +229,13 @@ public class OnlineWallpaperPage extends RelativeLayout {
     }
 
     private CommonNavigator createTabNavigator() {
-        CommonNavigator commonNavigator = new CommonNavigator(getContext());
+        ExtraHeaderNavigator commonNavigator = new ExtraHeaderNavigator(getContext());
+        commonNavigator.setHeadSize(hasFirstPageView() ? 1 : 0);
         commonNavigator.setScrollPivotX(0.35f);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return mAdapter.getCount();
+                return mAdapter.getWallPaperPageCount();
             }
 
             @Override
@@ -241,13 +243,13 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                simplePagerTitleView.setText(mAdapter.getPageTitle(index));
+                simplePagerTitleView.setText(mAdapter.getWallPaperPageTitle(index));
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.white_80_transparent));
                 simplePagerTitleView.setSelectedColor(Color.BLACK);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewPager.setCurrentItem(index);
+                        mViewPager.setCurrentItem(mAdapter.pageIndexToRawIndex(index));
                     }
                 });
                 return simplePagerTitleView;
@@ -413,6 +415,14 @@ public class OnlineWallpaperPage extends RelativeLayout {
         }
     }
 
+    public void setFirstPage(View view) {
+        mFirstPageView = view;
+    }
+
+    private boolean hasFirstPageView() {
+        return mFirstPageView != null;
+    }
+
     private class WallpaperPagerAdapter extends PagerAdapter {
         private final List<Map<String, ?>> mCategoryConfigs;
 
@@ -438,13 +448,42 @@ public class OnlineWallpaperPage extends RelativeLayout {
             }
         }
 
+        private int getRealWallpaperPageIndex(int rawIndex) {
+            if (rawIndex == 0) {
+                return 0;
+            }
+            return rawIndex - (hasFirstPageView() ? 1 : 0);
+        }
+
+        private boolean isFirstPage(int positionAbsolute) {
+            return hasFirstPageView() && positionAbsolute == 0;
+        }
+
+        public int pageIndexToRawIndex(int pageIndex) {
+            return pageIndex + (hasFirstPageView() ? 1 : 0);
+        }
+
         @Override
         public int getCount() {
-            return mCategoryConfigs.size() + mTabsConfig.extraTabsCount;
+            return  getWallPaperPageCount() + (hasFirstPageView() ? 1 : 0);
+        }
+
+        public int getWallPaperPageCount() {
+           return mCategoryConfigs.size() + mTabsConfig.extraTabsCount;
         }
 
         @Override
         public CharSequence getPageTitle(int positionAbsolute) {
+            if (isFirstPage(positionAbsolute)) {
+                return "";
+            } else {
+                positionAbsolute = getRealWallpaperPageIndex(positionAbsolute);
+            }
+
+            return getWallPaperPageTitle(positionAbsolute);
+        }
+
+        public CharSequence getWallPaperPageTitle(int positionAbsolute) {
             int position = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
             if (position == mTabsConfig.tabIndexVideo) {
                 return mContext.getString(R.string.online_wallpaper_tab_title_video);
@@ -457,7 +496,12 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container, int positionAbsolute) {
-            int position = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
+            if (isFirstPage(positionAbsolute)) {
+                container.addView(mFirstPageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                return mFirstPageView;
+            }
+
+            int position = getRealWallpaperPageIndex(positionAbsolute);
             View initView;
 
             if (position == mTabsConfig.tabIndexVideo) {
@@ -483,8 +527,14 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 initView = list;
 
             }
+            initView.setPadding(0, getWallPaperListTopPadding(), 0, 0);
             container.addView(initView);
             return initView;
+        }
+
+        private int getWallPaperListTopPadding() {
+            return getResources().getDimensionPixelOffset(R.dimen.common_navigator_height)
+                    + Dimensions.pxFromDp(32);
         }
 
         @SuppressLint("InflateParams")

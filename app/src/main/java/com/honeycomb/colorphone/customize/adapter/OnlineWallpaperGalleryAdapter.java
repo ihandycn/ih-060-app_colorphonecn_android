@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.customize.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -23,7 +24,6 @@ import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.WallpaperDownloadEngine;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
-import com.honeycomb.colorphone.customize.activity.CustomizeActivity;
 import com.honeycomb.colorphone.customize.util.GridItemDecoration;
 import com.honeycomb.colorphone.customize.view.ImagePressedTouchListener;
 import com.honeycomb.colorphone.customize.view.LoadingProgressBar;
@@ -106,7 +106,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         mContext = context;
         mScreenWidth = Dimensions.getPhoneWidth(context);
 
-        ((CustomizeActivity) mContext).addActivityResultHandler(this);
+//        ((CustomizeActivity) mContext).addActivityResultHandler(this);
 
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -423,8 +423,8 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                         logAppViewEvents(false);
                         return;
                     }
-                    CustomizeActivity hostActivity = (CustomizeActivity) mContext;
-                    if (hostActivity.isDestroying()) {
+                    Activity hostActivity = (Activity) mContext;
+                    if (hostActivity.isFinishing()) {
                         ads.get(0).release();
                         logAppViewEvents(false);
                         return;
