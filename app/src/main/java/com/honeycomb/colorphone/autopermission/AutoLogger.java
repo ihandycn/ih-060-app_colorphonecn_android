@@ -8,7 +8,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.Compats;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,19 +95,7 @@ public class AutoLogger {
     }
 
     public static String getGrantRuntimePermissions() {
-        return getRuntimePermissionString(getGrantRuntimePermissions(AutoRequestManager.getInstance().getAllRuntimePermission()));
-    }
-
-    public static List<String> getGrantRuntimePermissions(List<String> permissions) {
-        List<String> grantPermissions = new ArrayList<>();
-        if (permissions != null && permissions.size() > 0) {
-            for (String p : permissions) {
-                if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                    grantPermissions.add(p);
-                }
-            }
-        }
-        return grantPermissions;
+        return getRuntimePermissionString(AutoRequestManager.getGrantRuntimePermissions(AutoRequestManager.getAllRuntimePermission()));
     }
 
     public static String getRuntimePermissionString(List<String> permissions) {

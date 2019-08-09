@@ -67,6 +67,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String NOTIFICATION_PERMISSION_GRANT = "notification_permission_grant";
     public static final String PREF_KEY_GUIDE_SHOW_WHEN_WELCOME = "pref_key_guide_show_when_welcome";
     private static final String INTENT_KEY_FROM = "intent_key_from";
+    public static final String INTENT_KEY_PERMISSION_TYPE = "intent_key_permission_type";
     public static final String FROM_KEY_GUIDE = "Guide";
     public static final String FROM_KEY_START = "Start";
     public static final String FROM_KEY_APPLY = "Apply";
@@ -297,14 +298,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                             if (!AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.CALL_PHONE)) {
                                 Analytics.logEvent("FixAlert_Automatic_CallPhone_Request");
                             }
-                            requiresPermission(AutoRequestManager.getInstance().getConfirmRuntimePermission(), AUTO_PERMISSION_REQUEST);
+                            requiresPermission(AutoRequestManager.getConfirmRuntimePermission(), AUTO_PERMISSION_REQUEST);
                         }
                     }
                     oneKeyFixPressed = true;
 
                     Analytics.logEvent("FixAlert_Ok_Click", "From", from);
                 });
-
 
                 Analytics.logEvent("FixAlert_Show",
                         "From", from,
@@ -412,7 +412,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private boolean showPermissionDialog() {
-        List<String> reqPermission = AutoRequestManager.getInstance().getAllRuntimePermission();
+        List<String> reqPermission = AutoRequestManager.getNOTGrantRuntimePermissions(AutoRequestManager.getAllRuntimePermission());
         if (reqPermission.size() == 0) {
             directPermission = false;
             return false;
@@ -482,9 +482,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("AutoStartAlert_Yes_Click");
 
                 Analytics.logEvent("FixAlert_AutoStart_Granted");
-                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-                }
                 onPermissionChanged();
             });
 
@@ -500,9 +497,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("LockScreenAlert_Yes_Click");
 
                 Analytics.logEvent("FixALert_Lock_Granted");
-                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-                }
                 onPermissionChanged();
             });
 
@@ -517,9 +511,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("BackgroundPopupAlert_Yes_Click");
 
                 Analytics.logEvent("FixALert_BackgroundPopup_Granted");
-                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-                }
+
+                holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP);
                 onPermissionChanged();
             });
 
@@ -559,6 +552,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         if (needRefreshView) {
             HSLog.i(TAG, "onPermissionChanged onStart");
+            if (getIntent() != null) {
+                confirmDialogPermission = getIntent().getIntExtra(INTENT_KEY_PERMISSION_TYPE, 0);
+            }
             onPermissionChanged();
         }
     }

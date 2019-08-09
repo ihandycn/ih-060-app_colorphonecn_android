@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
+import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -52,7 +53,6 @@ import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
@@ -114,7 +114,7 @@ public class AutoRequestManager {
             switch (msg.what) {
                 case CHECK_PHONE_PERMISSION:
                     if (AutoPermissionChecker.isPhonePermissionGranted()) {
-                        onGrantPermission();
+                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_PHONE_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 500);
@@ -122,7 +122,7 @@ public class AutoRequestManager {
                     break;
                 case CHECK_NOTIFICATION_PERMISSION:
                     if (AutoPermissionChecker.isNotificationListeningGranted()) {
-                        onGrantPermission();
+                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 500);
@@ -130,7 +130,7 @@ public class AutoRequestManager {
                     break;
                 case CHECK_WRITE_SETTINGS_PERMISSION:
                     if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-                        onGrantPermission();
+                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
@@ -145,17 +145,18 @@ public class AutoRequestManager {
         }
     };
 
-    private void onGrantPermission() {
+    private void onGrantPermission(int permissionType) {
         if (AutoPermissionChecker.isAccessibilityGranted()) {
             backForPhoneTask.run();
         } else {
-            startStartGuideActivity();
+            startStartGuideActivity(permissionType);
         }
     }
 
-    private void startStartGuideActivity() {
+    private void startStartGuideActivity(int permissionType) {
         Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.putExtra(StartGuideActivity.INTENT_KEY_PERMISSION_TYPE, permissionType);
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
@@ -710,9 +711,7 @@ public class AutoRequestManager {
         return false;
     }
 
-    public List<String> getAllRuntimePermission() {
-        List<String> reqPermission = new ArrayList<>();
-
+    public static List<String> getAllRuntimePermission() {
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.READ_PHONE_STATE);
         permissions.add(Manifest.permission.CALL_PHONE);
@@ -727,18 +726,10 @@ public class AutoRequestManager {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
 
-        boolean grant;
-        for (String p : permissions) {
-            grant = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), p)
-                    == RuntimePermissions.PERMISSION_GRANTED;
-            if (!grant) {
-                reqPermission.add(p);
-            }
-        }
-        return reqPermission;
+        return permissions;
     }
 
-    public List<String> getConfirmRuntimePermission() {
+    public static List<String> getConfirmRuntimePermission() {
         List<String> reqPermission = new ArrayList<>();
         reqPermission.add(Manifest.permission.READ_PHONE_STATE);
         reqPermission.add(Manifest.permission.CALL_PHONE);
@@ -746,5 +737,29 @@ public class AutoRequestManager {
             reqPermission.add(Manifest.permission.ANSWER_PHONE_CALLS);
         }
         return reqPermission;
+    }
+
+    public static List<String> getGrantRuntimePermissions(List<String> permissions) {
+        List<String> grantPermissions = new ArrayList<>();
+        if (permissions != null && permissions.size() > 0) {
+            for (String p : permissions) {
+                if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                    grantPermissions.add(p);
+                }
+            }
+        }
+        return grantPermissions;
+    }
+
+    public static List<String> getNOTGrantRuntimePermissions(List<String> permissions) {
+        List<String> grantPermissions = new ArrayList<>();
+        if (permissions != null && permissions.size() > 0) {
+            for (String p : permissions) {
+                if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                    grantPermissions.add(p);
+                }
+            }
+        }
+        return grantPermissions;
     }
 }

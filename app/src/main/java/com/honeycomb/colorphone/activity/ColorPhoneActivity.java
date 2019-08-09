@@ -698,7 +698,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (!isEnabled) {
             return;
         }
-        List<String> reqPermission = AutoRequestManager.getInstance().getAllRuntimePermission();
+        List<String> reqPermission = AutoRequestManager.getNOTGrantRuntimePermissions(AutoRequestManager.getAllRuntimePermission());
         if (reqPermission.size() > 0) {
             requiresPermission(reqPermission);
             Analytics.logEvent("Permission_MainView_Request", "Permission", AutoLogger.getRuntimePermissionString(reqPermission));
