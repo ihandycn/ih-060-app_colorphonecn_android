@@ -103,8 +103,10 @@ public class AutoRequestManager {
     private int executeBackPressTryCount;
 
     private static final int CHECK_PHONE_PERMISSION = 0x800;
-    private static final int CHECK_PHONE_PERMISSION_TIMEOUT = 0x810;
-    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
+    private static final int CHECK_NOTIFICATION_PERMISSION = 0x801;
+    private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
+    private static final int CHECK_PERMISSION_TIMEOUT = 0x810;
+//    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override public void handleMessage(Message msg) {
@@ -112,18 +114,50 @@ public class AutoRequestManager {
             switch (msg.what) {
                 case CHECK_PHONE_PERMISSION:
                     if (AutoPermissionChecker.isPhonePermissionGranted()) {
-                        backForPhoneTask.run();
+                        onGrantPermission();
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_PHONE_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 500);
                     }
                     break;
-                case CHECK_PHONE_PERMISSION_TIMEOUT:
+                case CHECK_NOTIFICATION_PERMISSION:
+                    if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                        onGrantPermission();
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_WRITE_SETTINGS_PERMISSION:
+                    if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                        onGrantPermission();
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_PERMISSION_TIMEOUT:
                     removeMessages(CHECK_PHONE_PERMISSION);
+                    removeMessages(CHECK_NOTIFICATION_PERMISSION);
+                    removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
                     break;
             }
         }
     };
+
+    private void onGrantPermission() {
+        if (AutoPermissionChecker.isAccessibilityGranted()) {
+            backForPhoneTask.run();
+        } else {
+            startStartGuideActivity();
+        }
+    }
+
+    private void startStartGuideActivity() {
+        Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+    }
 
     private AutoRequestManager() {}
 
@@ -548,6 +582,12 @@ public class AutoRequestManager {
                 }
                 break;
             case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+                mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+
                 if (Permissions.isNotificationAccessGranted()) {
                     return true;
                 } else {
@@ -585,18 +625,15 @@ public class AutoRequestManager {
                     }, GUIDE_DELAY);
                 }
                 break;
-            case FIX_ALERT_PERMISSION_PHONE:
-                if (AutoPermissionChecker.isAccessibilityGranted()) {
-                    mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-                    mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
-                }
-                type = HSPermissionRequestMgr.TYPE_PHONE;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 if (AutoPermissionChecker.isPhonePermissionGranted()) {
-                    mHandler.removeMessages(CHECK_PHONE_PERMISSION);
-                    mHandler.removeMessages(CHECK_PHONE_PERMISSION_TIMEOUT);
                     return true;
                 } else {
+                    mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()){
                             Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
@@ -610,6 +647,11 @@ public class AutoRequestManager {
                 if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                     return true;
                 } else {
+                    mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         Threads.postOnMainThreadDelayed(() -> {
                             Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);

@@ -172,7 +172,7 @@ public class StartGuidePermissionFactory {
                 }
 
                 Analytics.logEvent("FixAlert_Phone_Settings_Request");
-                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);

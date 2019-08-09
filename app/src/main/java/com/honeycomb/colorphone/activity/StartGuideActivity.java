@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +12,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.airbnb.lottie.LottieAnimationView;
-import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
@@ -43,6 +41,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -130,9 +129,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         });
 
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
-            HSLog.i("AutoPermission", "onPermissionChanged onCreate");
+            HSLog.i(TAG, "onPermissionChanged onCreate");
             onPermissionChanged();
         } else {
+            HSLog.i(TAG, " onCreate");
             if (ModuleUtils.isAllModuleEnabled()) {
                 showAccessibilityPermissionPage();
             } else {
@@ -161,6 +161,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         setUpPrivacyTextView();
     }
 
+    boolean isOnNewIntent = false;
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        HSLog.i(TAG, "onNewIntent");
+        isOnNewIntent = true;
+    }
+
     private void setUpPrivacyTextView() {
         final String privacyPolicyStr = Constants.getUrlPrivacy();
         if (!TextUtils.isEmpty(privacyPolicyStr)) {
@@ -186,11 +193,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private boolean isRetryEnd() {
-        return permissionShowCount >= HSConfig.optInteger(1, "Application", "AutoPermission", "AccessibilityShowCount");
+        return permissionShowCount >= HSConfig.optInteger(1, "Application", TAG, "AccessibilityShowCount");
     }
 
     private boolean canShowSkip() {
-        return permissionShowCount >= HSConfig.optInteger(3, "Application", "AutoPermission", "SkipShowCount")
+        return permissionShowCount >= HSConfig.optInteger(3, "Application", TAG, "SkipShowCount")
                 && !AutoRequestManager.getInstance().isGrantAllPermission();
     }
 
@@ -206,7 +213,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private void onPermissionChanged() {
         if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-            HSLog.i("AutoPermission", "onPermissionChanged congratulation_page");
+            HSLog.i(TAG, "onPermissionChanged congratulation_page");
 
             View oldView = findViewById(R.id.start_guide_function_page);
             if (oldView.isShown()) {
@@ -251,9 +258,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 2000);
+            Threads.postOnMainThreadDelayed(() -> {
+                finish();
+                if (isOnNewIntent) {
+                    Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
+                }
+            }, 2000);
         } else {
-            HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
+            HSLog.i(TAG, "onPermissionChanged holder == " + holder);
             if (holder == null) {
                 View view = findViewById(R.id.start_guide_function_page);
                 view.setVisibility(View.GONE);
@@ -276,7 +288,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)
                                 || AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.CALL_PHONE)) {
                             Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Request");
-                            AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+                            AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                         } else {
                             if (!AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.READ_PHONE_STATE)) {
                                 Analytics.logEvent("FixAlert_Automatic_ReadPhoneState_Request");
@@ -336,6 +348,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                     skip.setOnClickListener(v -> {
                         finish();
+                        if (isOnNewIntent) {
+                            Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
+                        }
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
                         Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
                     });
@@ -380,6 +395,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         btn.setOnClickListener(v -> {
             dismissDialog();
             finish();
+            if (isOnNewIntent) {
+                Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
+            }
             Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
         });
 
@@ -420,19 +438,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
         });
 
-        View cancel = permissionDialog.findViewById(R.id.start_guide_confirm_permission_close);
-        cancel.setOnClickListener(v -> {
-            layout.animate().scaleX(0.7f).scaleY(0.7f).alpha(0f).setDuration(300)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            permissionDialog.setVisibility(View.GONE);
-                        }
-                    })
-                    .start();
-            directPermission = true;
-            Analytics.logEvent("StartGuide_PermissionGuide_Cancel_Clicked");
-        });
+//        View cancel = permissionDialog.findViewById(R.id.start_guide_confirm_permission_close);
+//        cancel.setOnClickListener(v -> {
+//            layout.animate().scaleX(0.7f).scaleY(0.7f).alpha(0f).setDuration(300)
+//                    .setListener(new AnimatorListenerAdapter() {
+//                        @Override public void onAnimationEnd(Animator animation) {
+//                            super.onAnimationEnd(animation);
+//                            permissionDialog.setVisibility(View.GONE);
+//                        }
+//                    })
+//                    .start();
+//            directPermission = true;
+//            Analytics.logEvent("StartGuide_PermissionGuide_Cancel_Clicked");
+//        });
 
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
@@ -540,7 +558,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 && !AutoRequestManager.getInstance().isRequestPermission();
 
         if (needRefreshView) {
-            HSLog.i("AutoPermission", "onPermissionChanged onStart");
+            HSLog.i(TAG, "onPermissionChanged onStart");
             onPermissionChanged();
         }
     }
@@ -551,7 +569,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, s)) {
-            HSLog.i("AutoPermission", "onPermissionChanged onReceive");
+            HSLog.i(TAG, "onPermissionChanged onReceive");
             onPermissionChanged();
         }
     }
@@ -730,7 +748,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 || requestCode == AUTO_PERMISSION_REQUEST) {
             if (!AutoPermissionChecker.isPhonePermissionGranted()) {
                 Analytics.logEvent("FixAlert_Phone_Settings_Request");
-                AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
             }
         }
     }
