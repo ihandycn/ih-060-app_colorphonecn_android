@@ -727,10 +727,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                             Analytics.logEvent("FixAlert_Automatic_CallPhone_Granted");
                         }
 
-                        if (!AutoPermissionChecker.isAccessibilityGranted() && AutoPermissionChecker.isPhonePermissionGranted() && oneKeyFixPressed) {
-                            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
-                        } else if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-                            onPermissionChanged();
+                        if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                            if (!AutoRequestManager.getInstance().isGrantAllPermission()
+                                    && oneKeyFixPressed) {
+                                AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
+                            } else {
+                                confirmDialogPermission = StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
+                                onPermissionChanged();
+                            }
                         }
 
                         if (AutoRequestManager.getInstance().isGrantAllPermission()
