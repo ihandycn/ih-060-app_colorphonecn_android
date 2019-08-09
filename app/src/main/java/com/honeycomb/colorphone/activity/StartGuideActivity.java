@@ -225,7 +225,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 oldView.animate().alpha(0).setDuration(200).start();
             }
             if (holder != null) {
-                if (holder.isManualFix()) {
+                if (holder.isManualFix() && !oneKeyFixPressed) {
                     AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
                 }
             }
