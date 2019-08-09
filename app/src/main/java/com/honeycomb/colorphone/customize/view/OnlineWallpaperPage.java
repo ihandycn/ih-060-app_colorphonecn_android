@@ -77,6 +77,9 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private View arrowContainer;
     private View mFirstPageView;
 
+    private View mTabTransitionSource;
+    private float tabTransStartX;
+    private float tabTransEndX;
     public OnlineWallpaperPage(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -130,8 +133,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         HorizontalScrollView scrollView = commonNavigator.getScrollView();
         commonNavigator.getTitleContainer().setBackgroundResource(R.drawable.wallpaper_tab_bg);
 
-        int scrollTransX = Dimensions.pxFromDp(12);
-        scrollView.setTranslationX(scrollTransX);
+        resetTabsTransitionXY(scrollView);
 
         int indexAbsolute = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, mAdapter.getCount(), initialTabIndex);
 
@@ -147,7 +149,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 sumPositionAndPositionOffset = position + positionOffset;
 
                 if (position == 0) {
-                    scrollView.setTranslationX(scrollTransX * (1 - positionOffset));
+                    transitionTabs(scrollView, positionOffset);
                 }
             }
 
@@ -226,6 +228,22 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 toggleCategoryLayout(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
             }
         });
+    }
+
+    private void transitionTabs(HorizontalScrollView scrollView, float positionOffset) {
+        if (mTabTransitionSource != null) {
+            mTabTransitionSource.setAlpha(1 - positionOffset);
+        }
+        scrollView.setTranslationX(tabTransEndX * positionOffset);
+        mTabTransitionWrapper.setAlpha(positionOffset);
+    }
+
+    private void resetTabsTransitionXY(HorizontalScrollView scrollView) {
+        tabTransStartX = 0;
+        tabTransEndX = Dimensions.pxFromDp(12);
+
+        scrollView.setTranslationX(tabTransStartX);
+        mTabTransitionWrapper.setAlpha(0);
     }
 
     private CommonNavigator createTabNavigator() {
@@ -421,6 +439,14 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private boolean hasFirstPageView() {
         return mFirstPageView != null;
+    }
+
+    public void setTransitionTabIcon(View transitionTabIcon) {
+        mTabTransitionSource = transitionTabIcon;
+    }
+
+    public void toPage(int index) {
+        mViewPager.setCurrentItem(index);
     }
 
     private class WallpaperPagerAdapter extends PagerAdapter {

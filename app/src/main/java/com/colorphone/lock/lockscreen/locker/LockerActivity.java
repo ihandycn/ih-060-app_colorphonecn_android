@@ -6,6 +6,7 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.Analytics;
 
 public class LockerActivity extends BaseKeyguardActivity {
 
@@ -31,6 +32,7 @@ public class LockerActivity extends BaseKeyguardActivity {
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
             exist = true;
         } catch (Exception e) {
+            Analytics.logEvent("LockerStartErr", true, "Type", e.getMessage());
             finish();
         }
     }

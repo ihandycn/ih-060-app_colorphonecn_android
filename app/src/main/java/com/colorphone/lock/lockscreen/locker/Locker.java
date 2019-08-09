@@ -68,6 +68,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mIsSetup;
     private String mDismissReason = "Unkown";
     private boolean mActivityMode;
+    private View mWallpaperIcon;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -233,6 +234,20 @@ public class Locker extends LockScreen implements INotificationObserver {
 
             }
         });
+        mViewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                mWallpaperIcon = mViewPager.findViewById(R.id.wallpaper_icon_entrance);
+                mWallpaperIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mOnlineWallpaperPage.toPage(1);
+                    }
+                });
+                mOnlineWallpaperPage.setTransitionTabIcon(mWallpaperIcon);
+            }
+        });
+
     }
 
     @Override
