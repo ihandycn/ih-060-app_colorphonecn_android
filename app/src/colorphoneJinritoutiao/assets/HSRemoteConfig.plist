@@ -314,7 +314,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can't deliver broadcast</string>
+					<string>can&apos;t deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -343,7 +343,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
+					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -351,7 +351,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
+					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -7771,7 +7771,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d'épice</string>
+							<string>Pain d&apos;épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -7984,7 +7984,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell'oro</string>
+							<string>Il mito dell&apos;oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -9577,12 +9577,6 @@
 					<key>Items</key>
 					<array>
 						<dict>
-							<key>Name</key>
-							<string>love</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/love/thumb.mp4</string>
-						</dict>
-						<dict>
 							<key>IsVideo</key>
 							<true/>
 							<key>Name</key>
@@ -9640,19 +9634,7 @@
 							<key>IsVideo</key>
 							<true/>
 							<key>Name</key>
-							<string>astronaut_water</string>
-							<key>VideoUrl</key>
-							<string>http://appcloudbox.s3.amazonaws.com/launcherapps/apps/launcher/live/astronaut_water/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>IsVideo</key>
-							<true/>
-							<key>Name</key>
 							<string>thunder</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>particleflow</string>
 						</dict>
 						<dict>
 							<key>IsVideo</key>
@@ -9665,14 +9647,6 @@
 							<true/>
 							<key>Name</key>
 							<string>sea</string>
-						</dict>
-						<dict>
-							<key>IsVideo</key>
-							<true/>
-							<key>Name</key>
-							<string>wolf</string>
-							<key>VideoUrl</key>
-							<string>http://appcloudbox.s3.amazonaws.com/launcherapps/apps/launcher/live/wolf/thumb.mp4</string>
 						</dict>
 						<dict>
 							<key>IsVideo</key>
@@ -9693,14 +9667,6 @@
 							<true/>
 							<key>Name</key>
 							<string>traffic</string>
-						</dict>
-						<dict>
-							<key>IsVideo</key>
-							<true/>
-							<key>Name</key>
-							<string>skull_water</string>
-							<key>VideoUrl</key>
-							<string>http://appcloudbox.s3.amazonaws.com/launcherapps/apps/launcher/live/skull_water/thumb.mp4</string>
 						</dict>
 						<dict>
 							<key>IsVideo</key>
@@ -9727,30 +9693,6 @@
 							<string>doglick</string>
 						</dict>
 						<dict>
-							<key>Name</key>
-							<string>birdad</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/birdad/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>archive</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/archive/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>pinkfish</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/pinkfish/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>jellyfish</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/jellyfish/thumb.mp4</string>
-						</dict>
-						<dict>
 							<key>IsVideo</key>
 							<true/>
 							<key>Name</key>
@@ -9773,12 +9715,6 @@
 							<string>donottouch</string>
 						</dict>
 						<dict>
-							<key>Name</key>
-							<string>christmas</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/christmas/thumb.mp4</string>
-						</dict>
-						<dict>
 							<key>IsVideo</key>
 							<true/>
 							<key>Name</key>
@@ -9799,138 +9735,6 @@
 							<string>halloween</string>
 							<key>VideoUrl</key>
 							<string>http://appcloudbox.s3.amazonaws.com/launcherapps/apps/launcher/live/halloween/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>seawave</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/seawave/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>storm</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/storm/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>movingearth</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/movingearth/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>emoji</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/emoji/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>bluestarrysky</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/bluestarrysky/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>snowmoutain</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/snowmoutain/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>heart</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/heart/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>rose</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/rose/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>spacepurple</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/spacepurple/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>abstractad</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/abstractad/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>bearred</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/bearred/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>sunset</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/sunset/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>raining</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/raining/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>waterdrop</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/waterdrop/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>flowheart</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/flowheart/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>net</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/net/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>nighttown</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/nighttown/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>snowdrift</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/snowdrift/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>snowflake</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/snowflake/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>starrysky</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/starrysky/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>sun</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/sun/thumb.mp4</string>
-						</dict>
-						<dict>
-							<key>Name</key>
-							<string>timetunnel</string>
-							<key>VideoUrl</key>
-							<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/live/timetunnel/thumb.mp4</string>
 						</dict>
 					</array>
 				</dict>
@@ -16533,7 +16337,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d'épice</string>
+							<string>Pain d&apos;épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -16668,7 +16472,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell'oro</string>
+							<string>Il mito dell&apos;oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
