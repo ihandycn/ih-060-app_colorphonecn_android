@@ -702,6 +702,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                                 confirmDialogPermission = StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
                                 onPermissionChanged();
                             }
+
+                            if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                                AutoLogger.logEventWithBrandAndOS("All_Granted_From_FixAlert");
+                            }
                         }
                         break;
                     default:
@@ -727,6 +731,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
                         } else if (AutoRequestManager.getInstance().isGrantAllPermission()) {
                             onPermissionChanged();
+                        }
+
+                        if (AutoRequestManager.getInstance().isGrantAllPermission()
+                                && oneKeyFixPressed) {
+                            AutoLogger.logEventWithBrandAndOS("All_Granted_From_FixAlert");
+
+                            Analytics.logEvent("All_Granted_From_Automatic",
+                                    "Brand", AutoLogger.getBrand(),
+                                    "Os", AutoLogger.getOSVersion(),
+                                    "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
                         }
                         break;
                     default:
