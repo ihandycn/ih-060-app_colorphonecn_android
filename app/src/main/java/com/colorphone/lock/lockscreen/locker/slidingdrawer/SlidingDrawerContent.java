@@ -12,8 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -36,6 +34,7 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
+import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -44,10 +43,8 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
-import com.superapps.util.Bitmaps;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
-import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +68,6 @@ public class SlidingDrawerContent extends FrameLayout
     public static final String EVENT_REFRESH_BLUR_WALLPAPER = "EVENT_REFRESH_BLUR_WALLPAPER";
     public final static int DURATION_BALL_DISAPPEAR = 400;
     public final static int DURATION_BALL_APPEAR = 300;
-    private static final int WALLPAPER_BLUR_RADIUS = 8;
 
     private static final int EVENT_SYSTEM_SETTING_WIFI = 100;
     private static final int EVENT_SYSTEM_SETTING_BLUETOOTH = 101;
@@ -154,101 +150,7 @@ public class SlidingDrawerContent extends FrameLayout
     }
 
     public void setDrawerBg(final Bitmap bitmap) {
-        if (bitmap == null || bitmap.isRecycled()) {
-            return;
-        }
-        Threads.postOnThreadPoolExecutor(new Runnable() {
-            @Override public void run() {
-                final Bitmap bluredBitmap = blurBitmap(getContext(), bitmap, WALLPAPER_BLUR_RADIUS);
-                Threads.postOnMainThread(new Runnable() {
-                    @Override public void run() {
-                        /*ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
-                        wallpaperOut.setDuration(400);
-                        wallpaperOut.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ivDrawerBg.setImageBitmap(bluredBitmap);
-                            }
-                        });
-
-                        ObjectAnimator wallpaperIn = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 0.5f, 1f);
-                        wallpaperIn.setDuration(400);
-
-                        AnimatorSet change = new AnimatorSet();
-                        change.playSequentially(wallpaperOut, wallpaperIn);
-                        change.start();*/
-                        ivDrawerBg.setImageBitmap(bluredBitmap);
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Calculate the range of the toggle background, and return the blurred range.
-     *
-     * @return Blurred bitmap. Original bitmap for inputs with illegal dimensions.
-     */
-    static Bitmap blurBitmap(Context context, Bitmap bitmap, int radius) {
-        // resize the bitmap to fit sliding drawer
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        if (width <= 0 || height <= 0) {
-            return bitmap;
-        }
-        int startX;
-        int startY;
-        int rangeHeight;
-
-        int rangeWidth = height * Dimensions.getPhoneWidth(context) / Dimensions.getPhoneHeight(context);
-        if (rangeWidth <= width) {
-            rangeHeight = height * context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height)
-                    / Dimensions.getPhoneHeight(context);
-            startX = (width - rangeWidth) / 2;
-            startY = height - rangeHeight;
-        } else {
-            rangeWidth = width;
-            startX = 0;
-            startY = (height + Dimensions.getPhoneHeight(context)) / 2
-                    - context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height);
-            rangeHeight = context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height);
-        }
-        if (Dimensions.hasNavBar(context)) {
-            startY -= Dimensions.getNavigationBarHeight(context);
-        }
-
-        // Clamp the left & top of blurred area first
-        if (startX < 0) startX = 0;
-        if (startY < 0) startY = 0;
-
-        // If left / top of blurred area is calculated to be out-of-bounds,
-        // the input bitmap must be of illegal dimensions that we cannot blur.
-        if (startX >= width || startY >= height) {
-            return bitmap;
-        }
-
-        // Clamp the right & bottom of blurred area
-        if (startX + rangeWidth > width) rangeWidth = width - startX;
-        if (startY + rangeHeight > height) rangeHeight = height - startY;
-
-        // Guard against negative size of blurred output
-        if (rangeWidth <= 0) rangeWidth = 1;
-        if (rangeHeight <= 0) rangeHeight = 1;
-
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, startX, startY, rangeWidth, rangeHeight);
-
-        // blur resized bitmap
-        Bitmap blurSrcBitmap = Bitmap.createBitmap(Math.max(1, rangeWidth / 8), Math.max(1, rangeHeight / 8), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(blurSrcBitmap);
-        canvas.scale(1 / 8.0f, 1 / 8.0f);
-        Paint paint = new Paint();
-        paint.setFlags(2);
-        canvas.drawBitmap(resizedBitmap, 0.0f, 0.0f, paint);
-        try {
-            return Bitmaps.fastBlur(blurSrcBitmap, 1, radius);
-        } catch (Exception e) {
-            return resizedBitmap;
-        }
+        ivDrawerBg.setImageBitmap(bitmap);
     }
 
     public void onScroll(float cur, float total) {
@@ -426,16 +328,22 @@ public class SlidingDrawerContent extends FrameLayout
             return;
         }
         Drawable currentWallpaper = mLocker.getIvLockerWallpaper().getDrawable();
+
+        Bitmap wallPaperBitmap = null;
         if (currentWallpaper != null && currentWallpaper instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) currentWallpaper).getBitmap();
             if (bitmap != null) {
-                setDrawerBg(bitmap);
+                wallPaperBitmap = bitmap;
             } else {
-                setDrawerBg(BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker));
+                wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
             }
         } else {
-            setDrawerBg(BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker));
+            wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
         }
+        if (wallPaperBitmap != null) {
+            LockerUtils.blurBitmapAsync(getContext(), wallPaperBitmap, ivDrawerBg);
+        }
+
     }
 
     @Override

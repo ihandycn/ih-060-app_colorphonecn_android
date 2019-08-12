@@ -21,8 +21,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.view.GlideApp;
 
-import java.io.File;
-
 /**
  * @author sundxing
  */
@@ -71,7 +69,7 @@ public class LockerWallpaperView extends FrameLayout {
         if (path.endsWith("png") || path.endsWith("jpg")) {
             mType = TYPE_IMAGE;
             setImage(path);
-        } else if (path.endsWith(".mp4")) {
+        } else if (path.endsWith(".mp4") || path.contains("Mp4")) {
             mType = TYPE_VIDEO;
             setVideo(path);
         }
@@ -103,7 +101,7 @@ public class LockerWallpaperView extends FrameLayout {
     private void setImage(String path) {
         GlideApp.with(getContext()).asBitmap()
                 .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE).load(new File(path)).into(new SimpleTarget<Bitmap>() {
+                .diskCacheStrategy(DiskCacheStrategy.NONE).load(path).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 doImageSwitchAnimation(resource);

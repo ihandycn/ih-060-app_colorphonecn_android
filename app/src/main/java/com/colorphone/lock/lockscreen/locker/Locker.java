@@ -5,12 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,20 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
-import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.OnlineWallpaperPage;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -40,15 +34,14 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
-import com.superapps.util.Preferences;
-
-import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
 public class Locker extends LockScreen implements INotificationObserver {
 
     private static final String TAG = "LOCKER_ACTIVITY";
 
     public static final String EVENT_FINISH_SELF = "locker_event_finish_self";
+    public static final String EVENT_WALLPAPER_CHANGE = "locker_event_wallpaper_changed";
+
     public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
     public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
@@ -118,6 +111,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
 
         HSGlobalNotificationCenter.addObserver(EVENT_FINISH_SELF, this);
+        HSGlobalNotificationCenter.addObserver(EVENT_WALLPAPER_CHANGE, this);
 
         LockerSettings.increaseLockerShowCount();
 
@@ -178,23 +172,9 @@ public class Locker extends LockScreen implements INotificationObserver {
     }
 
     private void initLockerWallpaper() {
-        String wallpaperUrl = Preferences.get(LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL, "");
-        if (!TextUtils.isEmpty(wallpaperUrl)) {
-            Glide.with(mRootView.getContext()).asBitmap().load(wallpaperUrl)
-                    .into(new SimpleTarget<Bitmap>() {
-
-                        @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            mLockerWallpaper.setImageBitmap(resource);
-                            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
-                        }
-
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
-                            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
-                        }
-                    });
+        String path = CustomizeUtils.getLockerWallpaperPath();
+        if (!TextUtils.isEmpty(path)) {
+            mLockerWallpaper.setWallPaperFilePath(path);
         } else {
             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
         }
@@ -337,6 +317,9 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
+            case EVENT_WALLPAPER_CHANGE:
+                initLockerWallpaper();
+                break;
             case EVENT_FINISH_SELF:
                 boolean shouldDismissKeyguard = true;
 

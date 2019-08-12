@@ -42,6 +42,7 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.PopupView;
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -51,6 +52,7 @@ import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
 import com.honeycomb.colorphone.customize.livewallpaper.LiveWallpaperConsts;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.PreviewViewPage;
 import com.honeycomb.colorphone.customize.view.ProgressDialog;
 import com.honeycomb.colorphone.customize.wallpaper.WallpaperUtils;
@@ -785,24 +787,29 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                     return;
                 }
 
-                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN
-                        || isSucceed() && !isSettingWallpaper();
-                if (!isWallpaperReady) {
-                    Toasts.showToast(R.string.online_wallpaper_loading);
-                    return;
-                }
+                CustomizeUtils.setLockerWallpaperPath(mCurrentWallpaper.getSource());
+                Toasts.showToast(R.string.apply_success);
 
-                if (mWallpaperPackageInfo == null && mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_ONLINE) {
-//                    LauncherAnalytics.logEvent("Wallpaper_Preview_SetAsWallpaper_Btn_Clicked", "Type", mCurrentWallpaper.getSource());
-                }
-                mSetWallpaperButton.setTextColor(0x80ffffff);
-                mSetWallpaperButton.setClickable(false);
-                mCurrentWallpaper.setEdit("");
-                mCurrentWallpaper.setApplied(true);
-                if (mCurrentWallpaper.getCategory() == null) {
-                    mCurrentWallpaper.setCategory(mCategoryInfo);
-                }
-                applyWallpaper(mCurrentWallpaper.getType() != WallpaperInfo.WALLPAPER_TYPE_GALLERY, false);
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
+
+//                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN
+//                        || isSucceed() && !isSettingWallpaper();
+//                if (!isWallpaperReady) {
+//                    Toasts.showToast(R.string.online_wallpaper_loading);
+//                    return;
+//                }
+//
+//                if (mWallpaperPackageInfo == null && mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_ONLINE) {
+////                    LauncherAnalytics.logEvent("Wallpaper_Preview_SetAsWallpaper_Btn_Clicked", "Type", mCurrentWallpaper.getSource());
+//                }
+//                mSetWallpaperButton.setTextColor(0x80ffffff);
+//                mSetWallpaperButton.setClickable(false);
+//                mCurrentWallpaper.setEdit("");
+//                mCurrentWallpaper.setApplied(true);
+//                if (mCurrentWallpaper.getCategory() == null) {
+//                    mCurrentWallpaper.setCategory(mCategoryInfo);
+//                }
+//                applyWallpaper(mCurrentWallpaper.getType() != WallpaperInfo.WALLPAPER_TYPE_GALLERY, false);
                 break;
             default:
                 break;

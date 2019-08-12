@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Toasts;
 
 /**
@@ -95,6 +97,8 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
     private void onSetWallpaper() {
         CustomizeUtils.setLockerWallpaperPath(path);
+        HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
+
         Toasts.showToast(R.string.apply_success);
     }
 

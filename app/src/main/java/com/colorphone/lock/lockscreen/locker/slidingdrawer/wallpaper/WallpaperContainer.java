@@ -35,10 +35,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.LockerCustomConfig;
-import com.honeycomb.colorphone.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerMainFrame;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
+import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -60,6 +60,8 @@ import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettin
 
 
 public class WallpaperContainer extends LinearLayout implements View.OnClickListener, INotificationObserver {
+
+    private Bitmap bluredBitmap;
 
     private static class CycleList {
         private int mCurrentIndex = 0;
