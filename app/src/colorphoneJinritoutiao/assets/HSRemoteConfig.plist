@@ -954,6 +954,10 @@
 				</dict>
 				<key>SmsAssistant</key>
 				<dict>
+					<key>TextureWireIntervalMinute</key>
+					<integer>0</integer>
+					<key>TextureWireEnable</key>
+					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>
