@@ -5,6 +5,7 @@
     android:id="@+id/lock_main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:paddingTop="12dp"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -17,34 +18,18 @@
         android:contentDescription="@null"
         android:visibility="gone" />
 
-    <FrameLayout
-        android:id="@+id/wallpaper_icon_entrance_container"
-        android:layout_width="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_height="@dimen/common_navigator_height">
-        <ImageView
-            android:id="@+id/wallpaper_icon_entrance"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            android:layout_gravity="center"
-            android:src="@drawable/locker_wallpaper_icon"
-            android:background="@drawable/locker_wallpaper_icon_bg"/>
-    </FrameLayout>
-
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ic_menu"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/common_navigator_height"
-        android:layout_toLeftOf="@id/wallpaper_icon_entrance_container"
-        android:scaleType="fitCenter"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
+        android:paddingStart="20dp"
         android:paddingLeft="20dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:paddingStart="20dp"
+        android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
     <ImageView

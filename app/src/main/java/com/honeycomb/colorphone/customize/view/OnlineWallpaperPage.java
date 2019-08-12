@@ -75,11 +75,12 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private boolean mIsRtl;
     private View arrowContainer;
-    private View mFirstPageView;
+    private View mHeaderPageView;
 
-    private View mTabTransitionSource;
+    private ImageView mTabTransitionSource;
     private float tabTransStartX;
     private float tabTransEndX;
+    private float tabIconTransX;
     private View mTabLayoutContainer;
 
     public OnlineWallpaperPage(Context context, AttributeSet attrs) {
@@ -152,11 +153,11 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 }
                 sumPositionAndPositionOffset = position + positionOffset;
 
-                if (hasFirstPageView() && position == 0) {
+                if (hasHeaderPageView() && position == 0) {
                     transitionTabs(scrollView, positionOffset, positionOffsetPixels);
                 }
 
-                int wallpaperPageStartIndex = hasFirstPageView() ? 1 : 0;
+                int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
                 if (position == wallpaperPageStartIndex) {
                     scrollView.setTranslationX(tabTransEndX * (1 - positionOffset));
                 }
@@ -212,6 +213,10 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         List<CategoryItem> data = new ArrayList<>();
         for (int i = 0; i < mAdapter.getCount(); i++) {
+            if (i == 0 && hasHeaderPageView()) {
+                // Skip extra header page.
+                continue;
+            }
             CategoryItem item = new CategoryItem(mAdapter.getPageTitle(i).toString(), i == indexAbsolute);
             data.add(item);
         }
@@ -220,7 +225,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < 0 || position >= mAdapter.getCount() || position == mViewPager.getCurrentItem()) {
+                if (position < 0 || position >= mAdapter.getCount() || position == getCurrentPageItem()) {
                     return;
                 }
 
@@ -228,40 +233,52 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 mIsTabNoClickSelected = true;
 
                 ((CategoryViewAdapter) parent.getAdapter()).setTextAnimationEnabled(false);
-                ((CategoryItem) parent.getAdapter().getItem(mViewPager.getCurrentItem())).setSelected(false);
+                ((CategoryItem) parent.getAdapter().getItem(getCurrentPageItem())).setSelected(false);
                 ((CategoryItem) parent.getAdapter().getItem(position)).setSelected(true);
                 ((CategoryViewAdapter) parent.getAdapter()).notifyDataSetChanged();
 
                 resetCategoryGrids();
-                mViewPager.setCurrentItem(position, true);
+                mViewPager.setCurrentItem(mAdapter.pageIndexToRawIndex(position), true);
                 toggleCategoryLayout(mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
             }
         });
     }
 
+    int lastTransitionIconId = 0;
     private void transitionTabs(HorizontalScrollView scrollView, float positionOffset,  float offsetPixels) {
-        if (mTabTransitionSource != null) {
-            mTabTransitionSource.setAlpha(1 - positionOffset);
-        }
         mTabLayoutContainer.setTranslationX((tabTransStartX) * (1 - positionOffset) );
-        mTabLayoutContainer.setAlpha(positionOffset);
         mTabLayoutContainer.setVisibility(VISIBLE);
+        scrollView.setAlpha(positionOffset);
+        if (mTabTransitionSource != null) {
+            int targetResId = 0;
+            if (positionOffset < 0.5) {
+                mTabTransitionSource.setAlpha(1 - positionOffset);
+                targetResId = R.drawable.locker_wallpaper_icon;
+            } else {
+                mTabTransitionSource.setAlpha(positionOffset);
+                targetResId = R.drawable.locker_wallpaper_back;
+            }
+
+            if (lastTransitionIconId != targetResId) {
+                mTabTransitionSource.setImageResource(targetResId);
+                lastTransitionIconId = targetResId;
+            }
+        }
     }
 
     private void resetTabsTransitionXY(HorizontalScrollView scrollView) {
-        tabTransStartX = Dimensions.getPhoneWidth(getContext());
+        tabTransStartX = Dimensions.getPhoneWidth(getContext()) - Dimensions.pxFromDp(60);
         tabTransEndX = Dimensions.pxFromDp(12);
 
         mTabLayoutContainer.setTranslationX(tabTransStartX);
         mTabLayoutContainer.setVisibility(GONE);
-        mTabLayoutContainer.setAlpha(0);
-
+        scrollView.setAlpha(0);
         scrollView.setTranslationX(tabTransEndX);
     }
 
     private CommonNavigator createTabNavigator() {
         ExtraHeaderNavigator commonNavigator = new ExtraHeaderNavigator(getContext());
-        commonNavigator.setHeadSize(hasFirstPageView() ? 1 : 0);
+        commonNavigator.setHeadSize(hasHeaderPageView() ? 1 : 0);
         commonNavigator.setScrollPivotX(0.35f);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -424,7 +441,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     @SuppressWarnings("ConstantConditions")
     private void resetCategoryGrids() {
-        for (int i = 0; i < mAdapter.getCount(); i++) {
+        for (int i = 0; i < mAdapter.getWallPaperPageCount(); i++) {
             ((CategoryItem) mGridView.getAdapter().getItem(i)).setSelected(false);
         }
     }
@@ -436,7 +453,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private void showCategoryLayout() {
         resetCategoryGrids();
-        ((CategoryItem) mGridView.getAdapter().getItem(mViewPager.getCurrentItem())).setSelected(true);
+        ((CategoryItem) mGridView.getAdapter().getItem(getCurrentPageItem())).setSelected(true);
         ((CategoryViewAdapter) mGridView.getAdapter()).notifyDataSetChanged();
     }
 
@@ -446,20 +463,29 @@ public class OnlineWallpaperPage extends RelativeLayout {
         }
     }
 
-    public void setFirstPage(View view) {
-        mFirstPageView = view;
+    public void setHeaderPage(View view) {
+        mHeaderPageView = view;
     }
 
-    private boolean hasFirstPageView() {
-        return mFirstPageView != null;
+    private boolean hasHeaderPageView() {
+        return mHeaderPageView != null;
     }
 
-    public void setTransitionTabIcon(View transitionTabIcon) {
+    private int getCurrentPageItem() {
+        return mAdapter.getRealWallpaperPageIndex(mViewPager.getCurrentItem());
+    }
+
+    public void setTransitionTabIcon(ImageView transitionTabIcon) {
         mTabTransitionSource = transitionTabIcon;
     }
 
     public void toPage(int index) {
         mViewPager.setCurrentItem(index);
+    }
+
+    public void comeOrGo() {
+        boolean isHere = mViewPager.getCurrentItem() == 0;
+        mViewPager.setCurrentItem(isHere ? 1 : 0);
     }
 
     private class WallpaperPagerAdapter extends PagerAdapter {
@@ -491,20 +517,20 @@ public class OnlineWallpaperPage extends RelativeLayout {
             if (rawIndex == 0) {
                 return 0;
             }
-            return rawIndex - (hasFirstPageView() ? 1 : 0);
+            return rawIndex - (hasHeaderPageView() ? 1 : 0);
         }
 
         private boolean isFirstPage(int positionAbsolute) {
-            return hasFirstPageView() && positionAbsolute == 0;
+            return hasHeaderPageView() && positionAbsolute == 0;
         }
 
         public int pageIndexToRawIndex(int pageIndex) {
-            return pageIndex + (hasFirstPageView() ? 1 : 0);
+            return pageIndex + (hasHeaderPageView() ? 1 : 0);
         }
 
         @Override
         public int getCount() {
-            return  getWallPaperPageCount() + (hasFirstPageView() ? 1 : 0);
+            return  getWallPaperPageCount() + (hasHeaderPageView() ? 1 : 0);
         }
 
         public int getWallPaperPageCount() {
@@ -536,8 +562,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int positionAbsolute) {
             if (isFirstPage(positionAbsolute)) {
-                container.addView(mFirstPageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                return mFirstPageView;
+                container.addView(mHeaderPageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                return mHeaderPageView;
             }
 
             int position = getRealWallpaperPageIndex(positionAbsolute);

@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -68,7 +69,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mIsSetup;
     private String mDismissReason = "Unkown";
     private boolean mActivityMode;
-    private View mWallpaperIcon;
+    private ImageView mWallpaperIcon;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -203,9 +204,10 @@ public class Locker extends LockScreen implements INotificationObserver {
         Context context = mRootView.getContext();
 
         mViewPager = new ViewPagerFixed(getContext());
+        mViewPager.setClipChildren(false);
 
         mOnlineWallpaperPage = mRootView.findViewById(R.id.online_wallpaper_page_container);
-        mOnlineWallpaperPage.setFirstPage(mViewPager);
+        mOnlineWallpaperPage.setHeaderPage(mViewPager);
         mOnlineWallpaperPage.setup(0);
         mOnlineWallpaperPage.setPadding(0, Dimensions.getStatusBarHeight(getContext()), 0, 0);
 
@@ -234,20 +236,15 @@ public class Locker extends LockScreen implements INotificationObserver {
 
             }
         });
-        mViewPager.post(new Runnable() {
+
+        mWallpaperIcon = mRootView.findViewById(R.id.wallpaper_icon_entrance);
+        mWallpaperIcon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                mWallpaperIcon = mViewPager.findViewById(R.id.wallpaper_icon_entrance);
-                mWallpaperIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mOnlineWallpaperPage.toPage(1);
-                    }
-                });
-                mOnlineWallpaperPage.setTransitionTabIcon(mWallpaperIcon);
+            public void onClick(View view) {
+                mOnlineWallpaperPage.comeOrGo();
             }
         });
-
+        mOnlineWallpaperPage.setTransitionTabIcon(mWallpaperIcon);
     }
 
     @Override
