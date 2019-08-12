@@ -80,6 +80,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private View mTabTransitionSource;
     private float tabTransStartX;
     private float tabTransEndX;
+    private View mTabLayoutContainer;
+
     public OnlineWallpaperPage(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -114,6 +116,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private void setupViews() {
         mTabs = ViewUtils.findViewById(this, R.id.wallpaper_tabs);
         mTabTransitionWrapper = findViewById(R.id.tab_layout_transition_wrapper);
+        mTabLayoutContainer = findViewById(R.id.tab_layout_container);
         mViewPager = ViewUtils.findViewById(this, R.id.wallpaper_pager);
         mGridView = ViewUtils.findViewById(this, R.id.categories_grid_view);
         mCategoriesTitle = ViewUtils.findViewById(this, R.id.categories_title);
@@ -132,6 +135,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         //
         HorizontalScrollView scrollView = commonNavigator.getScrollView();
         commonNavigator.getTitleContainer().setBackgroundResource(R.drawable.wallpaper_tab_bg);
+        commonNavigator.getTitleContainer().setPadding(Dimensions.pxFromDp(3),0,0,0);
 
         resetTabsTransitionXY(scrollView);
 
@@ -148,8 +152,13 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 }
                 sumPositionAndPositionOffset = position + positionOffset;
 
-                if (position == 0) {
-                    transitionTabs(scrollView, positionOffset);
+                if (hasFirstPageView() && position == 0) {
+                    transitionTabs(scrollView, positionOffset, positionOffsetPixels);
+                }
+
+                int wallpaperPageStartIndex = hasFirstPageView() ? 1 : 0;
+                if (position == wallpaperPageStartIndex) {
+                    scrollView.setTranslationX(tabTransEndX * (1 - positionOffset));
                 }
             }
 
@@ -230,20 +239,24 @@ public class OnlineWallpaperPage extends RelativeLayout {
         });
     }
 
-    private void transitionTabs(HorizontalScrollView scrollView, float positionOffset) {
+    private void transitionTabs(HorizontalScrollView scrollView, float positionOffset,  float offsetPixels) {
         if (mTabTransitionSource != null) {
             mTabTransitionSource.setAlpha(1 - positionOffset);
         }
-        scrollView.setTranslationX(tabTransEndX * positionOffset);
-        mTabTransitionWrapper.setAlpha(positionOffset);
+        mTabLayoutContainer.setTranslationX((tabTransStartX) * (1 - positionOffset) );
+        mTabLayoutContainer.setAlpha(positionOffset);
+        mTabLayoutContainer.setVisibility(VISIBLE);
     }
 
     private void resetTabsTransitionXY(HorizontalScrollView scrollView) {
-        tabTransStartX = 0;
+        tabTransStartX = Dimensions.getPhoneWidth(getContext());
         tabTransEndX = Dimensions.pxFromDp(12);
 
-        scrollView.setTranslationX(tabTransStartX);
-        mTabTransitionWrapper.setAlpha(0);
+        mTabLayoutContainer.setTranslationX(tabTransStartX);
+        mTabLayoutContainer.setVisibility(GONE);
+        mTabLayoutContainer.setAlpha(0);
+
+        scrollView.setTranslationX(tabTransEndX);
     }
 
     private CommonNavigator createTabNavigator() {

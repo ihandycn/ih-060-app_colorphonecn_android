@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.superapps.view.ViewPagerFixed
+        android:id="@+id/wallpaper_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <FrameLayout
         android:id="@+id/tab_layout_container"
         android:layout_marginTop="12dp"
@@ -121,8 +126,4 @@
         android:verticalSpacing="8dp"
         android:visibility="gone"/>
 
-    <com.superapps.view.ViewPagerFixed
-        android:id="@+id/wallpaper_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </com.honeycomb.colorphone.customize.view.OnlineWallpaperPage>
