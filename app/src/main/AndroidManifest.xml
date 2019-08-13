@@ -379,28 +379,32 @@
             android:excludeFromRecents="true"
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitalQuietActivity"
             android:excludeFromRecents="true"
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitialActivity"
             android:excludeFromRecents="true"
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitalQuietActivity"
             android:excludeFromRecents="true"
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
@@ -487,7 +491,7 @@
 
         <receiver
             android:name=".notification.NotificationActionReceiver"
-            android:exported="true"></receiver>
+            android:exported="true"/>
 
         <receiver
             android:name=".PermanentService$PermanentReceiver"
