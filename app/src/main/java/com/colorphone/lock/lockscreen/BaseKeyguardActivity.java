@@ -83,7 +83,12 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             }
         }
 
-        window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+        } else {
+            window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        }
+
         window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Check keyguard
