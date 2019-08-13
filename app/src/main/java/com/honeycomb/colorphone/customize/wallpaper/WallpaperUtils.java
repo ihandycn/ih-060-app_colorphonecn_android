@@ -19,9 +19,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.call.assistant.util.CommonUtils;
+import com.colorphone.lock.lockscreen.locker.Locker;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class WallpaperUtils {
 
@@ -391,5 +400,43 @@ public class WallpaperUtils {
 
     public static boolean onlyEnableLockerWallpaper() {
         return true;
+    }
+
+    private static File getLockerWallpaperFile() {
+        File myDir = new File(HSApplication.getContext().getFilesDir() + "/locker_image");
+        myDir.mkdirs();
+        File file = new File(myDir, "wallpaper.jpg");
+        return file;
+    }
+
+    public static void saveAsLockerWallpaper(Bitmap bitmap, String url) {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                if (!bitmap.isRecycled()) {
+                    File file = getLockerWallpaperFile();
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                        CustomizeUtils.setLockerWallpaperPath(file.getAbsolutePath());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Threads.postOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toasts.showToast(R.string.apply_success);
+                            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

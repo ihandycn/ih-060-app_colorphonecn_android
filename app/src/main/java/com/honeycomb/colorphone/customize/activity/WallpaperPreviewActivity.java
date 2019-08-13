@@ -42,7 +42,6 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.PopupView;
-import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -52,7 +51,6 @@ import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
 import com.honeycomb.colorphone.customize.livewallpaper.LiveWallpaperConsts;
-import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.PreviewViewPage;
 import com.honeycomb.colorphone.customize.view.ProgressDialog;
 import com.honeycomb.colorphone.customize.wallpaper.WallpaperUtils;
@@ -787,10 +785,38 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                     return;
                 }
 
-                CustomizeUtils.setLockerWallpaperPath(mCurrentWallpaper.getSource());
-                Toasts.showToast(R.string.apply_success);
+                // Set as locker
+                Bitmap source = null;
+                for (int i = 0; i < mViewPager.getChildCount(); i++) {
+                    PreviewViewPage page = getPreviewPage(i);
+                    if (page != null && (int) page.getTag() == mPaperIndex) {
+                        source = ((BitmapDrawable) page.largeWallpaperImageView.getDrawable()).getBitmap();
+                    }
+                }
 
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
+                if (source != null) {
+                    int sWidth = source.getWidth();
+                    int sHeight = source.getHeight();
+                    int w = Dimensions.getPhoneWidth(getApplicationContext());
+                    int h = Dimensions.getPhoneHeight(getApplicationContext());
+
+                    int nw, nh, retX, retY;
+                    if (sWidth * h > w * sHeight) {
+                        // crop width
+                        nh = sHeight;
+                        nw = sHeight * w / h;
+                        retX = (sWidth - nw) / 2;
+                        retY = 0;
+                    } else {
+                        // crop height
+                        nw = sWidth;
+                        nh = sWidth * h / w;
+                        retX = 0;
+                        retY = (sHeight - nh) / 2;
+                    }
+                    Bitmap bitmap = Bitmap.createBitmap(source, retX, retY, nw, nh);
+                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper.getSource());
+                }
 
 //                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN
 //                        || isSucceed() && !isSettingWallpaper();

@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
@@ -58,6 +57,7 @@ public class LockerWallpaperView extends FrameLayout {
 
         imageView = new ImageView(getContext());
         imageView.setVisibility(INVISIBLE);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
@@ -66,7 +66,7 @@ public class LockerWallpaperView extends FrameLayout {
             return;
         }
         mFilePath = path;
-        if (path.endsWith("png") || path.endsWith("jpg")) {
+        if (path.endsWith("png") || path.endsWith("jpeg") || path.endsWith("jpg")) {
             mType = TYPE_IMAGE;
             setImage(path);
         } else if (path.endsWith(".mp4") || path.contains("Mp4")) {
@@ -101,7 +101,7 @@ public class LockerWallpaperView extends FrameLayout {
     private void setImage(String path) {
         GlideApp.with(getContext()).asBitmap()
                 .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE).load(path).into(new SimpleTarget<Bitmap>() {
+                .load(path).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 doImageSwitchAnimation(resource);
