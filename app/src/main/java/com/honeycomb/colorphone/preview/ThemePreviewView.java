@@ -45,6 +45,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -89,6 +90,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -1748,6 +1750,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
                                     Uri.parse("package:" + getContext().getPackageName()));
                             Navigations.startActivitySafely(getContext(), intent);
+
+                            Threads.postOnMainThreadDelayed(() -> {
+                                Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                            }, 900);
+
                             break;
                         }
                     }

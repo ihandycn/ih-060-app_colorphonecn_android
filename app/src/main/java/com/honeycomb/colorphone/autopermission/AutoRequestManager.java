@@ -346,9 +346,6 @@ public class AutoRequestManager {
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }
-        if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
-        }
 
         if (permission.isEmpty()) {
             notifyAutoTaskOver(true);
@@ -517,14 +514,12 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted()
-                && AutoPermissionChecker.isPhonePermissionGranted()
-                && AutoPermissionChecker.isWriteSettingsPermissionGranted();
+                && AutoPermissionChecker.isPhonePermissionGranted();
     }
 
     public boolean isGrantAllRuntimePermission() {
         List<String> permissions = new ArrayList<>();
         permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
-        permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG);
         }
@@ -648,10 +643,9 @@ public class AutoRequestManager {
                 if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                     return true;
                 } else {
-                    mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
-                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+//                    mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+//                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+//                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         Threads.postOnMainThreadDelayed(() -> {

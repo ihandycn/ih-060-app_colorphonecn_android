@@ -331,9 +331,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
                         Analytics.logEvent("FixAlert_NA_Granted");
                     }
-                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
-                        Analytics.logEvent("FixAlert_WriteSetting_Granted");
-                    }
+//                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
+//                        Analytics.logEvent("FixAlert_WriteSetting_Granted");
+//                    }
                 } else {
                     showConfirmDialog(confirmPermission);
                 }
@@ -525,11 +525,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     Analytics.logEvent("FixAlert_NA_Granted");
                 }
             }
-            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
-                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-                    Analytics.logEvent("FixAlert_WriteSetting_Granted");
-                }
-            }
+//            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
+//                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+//                    Analytics.logEvent("FixAlert_WriteSetting_Granted");
+//                }
+//            }
             return false;
         }
 
