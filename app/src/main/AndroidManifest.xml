@@ -380,7 +380,7 @@
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/LightTheme" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitalQuietActivity"
@@ -388,7 +388,7 @@
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/LightTheme" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitialActivity"
@@ -396,7 +396,7 @@
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/LightTheme" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitalQuietActivity"
@@ -404,7 +404,7 @@
             android:icon="@drawable/shape_empty"
             android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/LightTheme" />
 
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
