@@ -11,7 +11,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -266,11 +265,6 @@ public class SlidingDrawerContent extends FrameLayout
 
         updateSystemToggles();
 
-        postDelayed(new Runnable() {
-            @Override public void run() {
-                refreshDrawerBg();
-            }
-        }, 300);
     }
 
     @Override
@@ -335,13 +329,15 @@ public class SlidingDrawerContent extends FrameLayout
             if (bitmap != null) {
                 wallPaperBitmap = bitmap;
             } else {
-                wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
+//                wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
             }
         } else {
-            wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
+//            wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
         }
         if (wallPaperBitmap != null) {
             LockerUtils.blurBitmapAsync(getContext(), wallPaperBitmap, ivDrawerBg);
+        } else {
+            ivDrawerBg.setBackgroundColor(getResources().getColor(R.color.black_80_transparent));
         }
 
     }

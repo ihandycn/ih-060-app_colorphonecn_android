@@ -151,6 +151,8 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
             pause();
         } else if (mCurrentPlayState == PLAY_STATE_PAUSE && visibility == VISIBLE) {
             resumePlayback();
+        } else if (mCurrentPlayState == PLAY_STATE_INIT && visibility == VISIBLE) {
+            play();
         }
         super.onWindowVisibilityChanged(visibility);
     }

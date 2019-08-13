@@ -78,6 +78,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
     private View mHeaderPageView;
 
     private ImageView mTabTransitionSource;
+    private View mDimCover;
     private float tabTransStartX;
     private float tabTransEndX;
     private float tabIconTransX;
@@ -155,6 +156,9 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
                 if (hasHeaderPageView() && position == 0) {
                     transitionTabs(scrollView, positionOffset, positionOffsetPixels);
+                    if (mDimCover != null) {
+                        mDimCover.setAlpha(positionOffset);
+                    }
                 }
 
                 int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
@@ -477,6 +481,10 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     public void setTransitionTabIcon(ImageView transitionTabIcon) {
         mTabTransitionSource = transitionTabIcon;
+    }
+
+    public void setDimBackground(View dimCover) {
+        mDimCover = dimCover;
     }
 
     public void toPage(int index) {

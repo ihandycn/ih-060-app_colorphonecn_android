@@ -21,6 +21,7 @@ import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.honeycomb.colorphone.BuildConfig;
@@ -34,6 +35,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
+import com.superapps.util.Threads;
 
 public class Locker extends LockScreen implements INotificationObserver {
 
@@ -63,6 +65,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private String mDismissReason = "Unkown";
     private boolean mActivityMode;
     private ImageView mWallpaperIcon;
+    private View mDimCover;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -134,6 +137,10 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     }
 
+    public View getDimCover() {
+        return mDimCover;
+    }
+
     public void onStart() {
         // ======== onStart ========
         if (mLockerAdapter.lockerMainFrame != null) {
@@ -173,21 +180,30 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     private void initLockerWallpaper() {
         String path = CustomizeUtils.getLockerWallpaperPath();
+
         if (!TextUtils.isEmpty(path)) {
             mLockerWallpaper.setWallPaperFilePath(path);
         } else {
             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
         }
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
+            }
+        }, 300);
     }
 
     private void configLockViewPager() {
         Context context = mRootView.getContext();
+        mDimCover = mRootView.findViewById(R.id.dim_cover);
 
         mViewPager = new ViewPagerFixed(getContext());
         mViewPager.setClipChildren(false);
 
         mOnlineWallpaperPage = mRootView.findViewById(R.id.online_wallpaper_page_container);
         mOnlineWallpaperPage.setHeaderPage(mViewPager);
+        mOnlineWallpaperPage.setDimBackground(mDimCover);
         mOnlineWallpaperPage.setup(0);
         mOnlineWallpaperPage.setPadding(0, Dimensions.getStatusBarHeight(getContext()), 0, 0);
 

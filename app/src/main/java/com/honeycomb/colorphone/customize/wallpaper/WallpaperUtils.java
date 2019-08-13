@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
 import android.support.v7.graphics.Palette;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -402,10 +404,10 @@ public class WallpaperUtils {
         return true;
     }
 
-    private static File getLockerWallpaperFile() {
+    private static File getLockerWallpaperFile(String url) {
         File myDir = new File(HSApplication.getContext().getFilesDir() + "/locker_image");
         myDir.mkdirs();
-        File file = new File(myDir, "wallpaper.jpg");
+        File file = new File(myDir, Utils.md5(url) + ".jpg");
         return file;
     }
 
@@ -414,7 +416,7 @@ public class WallpaperUtils {
             @Override
             public void run() {
                 if (!bitmap.isRecycled()) {
-                    File file = getLockerWallpaperFile();
+                    File file = getLockerWallpaperFile(url);
                     if (file.exists()) {
                         file.delete();
                     }
@@ -423,6 +425,12 @@ public class WallpaperUtils {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                         out.flush();
                         out.close();
+                        // delete last
+                        String oldPath = CustomizeUtils.getLockerWallpaperPath();
+                        if (!TextUtils.isEmpty(oldPath)) {
+                            File oldSettings = new File(oldPath);
+                            oldSettings.delete();
+                        }
                         CustomizeUtils.setLockerWallpaperPath(file.getAbsolutePath());
                     } catch (Exception e) {
                         e.printStackTrace();

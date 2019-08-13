@@ -159,6 +159,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         }
     }
 
+    public void setDimCover(View dimCover) {
+        mDimCover = dimCover;
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -169,7 +173,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
         mNotificationWindowHolder = new NotificationWindowHolder(this, NotificationWindowHolder.SOURCE_LOCKER, this);
-        mDimCover = findViewById(R.id.dim_cover);
         mSlidingDrawerContent = (SlidingDrawerContent) findViewById(R.id.sliding_drawer_content);
         //mDrawerHandleUp = findViewById(R.id.handle_action_up);
         mDrawerHandleDown = findViewById(R.id.handle_action_down);
@@ -242,7 +245,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             public void onClick(View v) {
                 if (!mIsSlidingDrawerOpened) {
                     mSlidingDrawer.openDrawer(true);
-                    mDimCover.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -560,7 +562,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     @Override
     public void onScrollStarted() {
         mBottomOperationArea.setVisibility(View.VISIBLE);
-        mDimCover.setVisibility(View.VISIBLE);
         //mAdContainer.setVisibility(View.VISIBLE);
     }
 
@@ -574,7 +575,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_OPENED);
             LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Slided");
         } else {
-            mDimCover.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_CLOSED);
         }
     }
