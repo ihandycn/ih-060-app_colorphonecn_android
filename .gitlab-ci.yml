@@ -53,6 +53,7 @@ build_yingyongbao:
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
+  -   ./gradlew clean
   -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
   -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
   -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone

@@ -4,11 +4,11 @@ from sys import argv
 from datetime import datetime
 
 LAUNCHER_VARIANT_ROOTS = [
-    'app/main',
-    'app/colorphoneCommon',
-    'app/colorphone',
-    'app/colorphoneYingyongbao',
-    'app/colorphoneJinritoutiao',
+    'main',
+    'colorphoneCommon',
+    'colorphone',
+    'colorphoneYingyongbao',
+    'colorphoneJinritoutiao',
 ]
 
 def is_varient_root(root):
@@ -33,7 +33,7 @@ def replace_str_in_dir(directory, str_src, str_dst):
 
 
 if __name__ == '__main__':
-    path = './'
+    path = './app/src/'
     package_name = argv[1]
     application_id = argv[2]
     print package_name
@@ -44,37 +44,15 @@ if __name__ == '__main__':
 
         print 'package modifier - from ' + package_name + ' to ' + application_id
 
-        if application_id.find('themelab') >= 0:
-            directory = 'common'
-            print 'src - ' + path + directory + '/src'
-            replace_str_in_dir(path + directory + '/src', package_name, application_id)
+        for directory in LAUNCHER_VARIANT_ROOTS:
+            print 'src - ' + path + directory + '/java'
+            replace_str_in_dir(path + directory + '/java', package_name, application_id)
             print 'rs - ' + path + directory + '/rs'
             replace_str_in_dir(path + directory + '/rs', package_name, application_id)
             print 'res - ' + path + directory + '/res'
             replace_str_in_dir(path + directory + '/res', package_name, application_id)
 
-            strs1 = application_id.split('com.themelab.launcher.')
-            strs2 = package_name.split('com.themelab.launcher.')
-            varient_id = strs1[1] if len(strs1) == 2 else strs2[1]
-            directory = 'themes' + '/' + varient_id
-            print 'src - ' + path + directory
-            replace_str_in_dir(path + directory + '/src', package_name, application_id)
-            print 'rs - ' + path + directory + '/rs'
-            replace_str_in_dir(path + directory + '/rs', package_name, application_id)
-            print 'res - ' + path + directory + '/res'
-            replace_str_in_dir(path + directory + '/res', package_name, application_id)
-
-            replace_str_in_file('./themes/common/AndroidManifest.xml', package_name, application_id)
-        else:
-            for directory in LAUNCHER_VARIANT_ROOTS:
-                print 'src - ' + path + directory + '/src'
-                replace_str_in_dir(path + directory + '/src', package_name, application_id)
-                print 'rs - ' + path + directory + '/rs'
-                replace_str_in_dir(path + directory + '/rs', package_name, application_id)
-                print 'res - ' + path + directory + '/res'
-                replace_str_in_dir(path + directory + '/res', package_name, application_id)
-
-            replace_str_in_file('./app/src/main/AndroidManifest.xml', package_name, application_id)
+        replace_str_in_file('./app/src/main/AndroidManifest.xml', package_name, application_id)
 
         print 'proguard'
         replace_str_in_file('./app/proguard-rules.pro', package_name, application_id)
