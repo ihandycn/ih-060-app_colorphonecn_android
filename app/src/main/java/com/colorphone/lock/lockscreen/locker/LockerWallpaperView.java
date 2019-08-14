@@ -95,7 +95,17 @@ public class LockerWallpaperView extends FrameLayout {
         }
         textureVideoView.setVisibility(VISIBLE);
         textureVideoView.setVideoPath(path);
-        textureVideoView.play();
+        if (windowFocus) {
+            // Only play video in background
+            textureVideoView.play();
+        }
+    }
+
+    boolean windowFocus = false;
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        windowFocus = hasWindowFocus;
     }
 
     private void setImage(String path) {
@@ -154,5 +164,13 @@ public class LockerWallpaperView extends FrameLayout {
 
     public Drawable getDrawable() {
         return imageView.getDrawable();
+    }
+
+    public void onResume() {
+        textureVideoView.play();
+    }
+
+    public void onPause() {
+        textureVideoView.stop();
     }
 }

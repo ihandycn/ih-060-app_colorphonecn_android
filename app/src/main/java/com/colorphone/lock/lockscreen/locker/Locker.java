@@ -174,6 +174,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
+        mLockerWallpaper.onResume();
 
         mHandler.postDelayed(foregroundEventLogger, 1000);
     }
@@ -315,6 +316,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onPause();
         }
+        mLockerWallpaper.onPause();
     }
 
     public void onStop() {
