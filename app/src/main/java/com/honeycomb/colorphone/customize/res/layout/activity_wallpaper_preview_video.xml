@@ -52,4 +52,41 @@
         android:layout_gravity="bottom"
         android:text="@string/online_wallpaper_apply_btn"
         app:typeface="@string/custom_font_semibold" />
+
+    <LinearLayout
+        android:id="@+id/wallpaper_set_audio_select_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wallpaper_set_use_audio"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="@string/online_wallpaper_set_audio_enable"
+            android:textColor="@color/textBlack"
+            android:textStyle="bold" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black_20_transparent" />
+
+        <TextView
+            android:id="@+id/wallpaper_set_no_audio"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="52dp"
+            android:text="@string/online_wallpaper_set_audio_disable"
+            android:textColor="@color/textBlack"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </FrameLayout>

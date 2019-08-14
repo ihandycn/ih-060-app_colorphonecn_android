@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.customize.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
 /**
@@ -22,6 +25,9 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     private TextureVideoView textureVideoView;
     private View ringtoneImage;
     private String path;
+    private View audioMenuLayout;
+    private View wallpaperSetButtton;
+    private boolean hasAudio;
 
     public static void start(Context context, String path, boolean hasAudio) {
         Intent starter = new Intent(context, VideoWallpaperPreviewActivity.class);
@@ -37,7 +43,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         CustomizeUtils.setWallpaperWindowFlags(this);
 
         path = getIntent().getStringExtra("path");
-        boolean hasAudio = getIntent().getBooleanExtra("audio", false);
+        hasAudio = getIntent().getBooleanExtra("audio", false);
 
         if (TextUtils.isEmpty(path)) {
             finish();
@@ -48,8 +54,26 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         ringtoneImage.setVisibility(hasAudio ? View.VISIBLE : View.GONE);
         ringtoneImage.setOnClickListener(this);
         findViewById(R.id.nav_back).setOnClickListener(this);
-        findViewById(R.id.set_wallpaper_button).setOnClickListener(this);
 
+        wallpaperSetButtton = findViewById(R.id.set_wallpaper_button);
+        wallpaperSetButtton.setOnClickListener(this);
+
+        View useAudioView = findViewById(R.id.wallpaper_set_use_audio);
+        useAudioView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent),
+                Color.parseColor("#33000000"),
+                Dimensions.pxFromDp(16),Dimensions.pxFromDp(16),
+                0, 0,
+                false,true));
+        useAudioView.setOnClickListener(this);
+        View noAudioView = findViewById(R.id.wallpaper_set_no_audio);
+        noAudioView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent),
+                Color.parseColor("#33000000"),
+                0, 0,
+                Dimensions.pxFromDp(16),Dimensions.pxFromDp(16),
+                false,true));
+        noAudioView.setOnClickListener(this);
+
+        audioMenuLayout = findViewById(R.id.wallpaper_set_audio_select_layout);
         textureVideoView = findViewById(R.id.video_view);
         textureVideoView.setVideoPath(path);
         textureVideoView.setLooping(true);
@@ -81,14 +105,51 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 onBackPressed();
                 break;
             case R.id.set_wallpaper_button:
-                onSetWallpaper();
+                if (hasAudio) {
+                    showAudioSelector();
+                } else {
+                    onSetWallpaper();
+                }
                 break;
             case R.id.ringtone_image:
                 onRingtoneClick();
                 break;
+            case R.id.wallpaper_set_no_audio:
+                CustomizeUtils.setVideoMute(true);
+                onSetWallpaper();
+                break;
+            case R.id.wallpaper_set_use_audio:
+                CustomizeUtils.setVideoMute(false);
+                onSetWallpaper();
+                break;
             default:
                 break;
         }
+    }
+
+    private void showAudioSelector() {
+        wallpaperSetButtton.animate().alpha(0).setDuration(200).start();
+
+        audioMenuLayout.setVisibility(View.VISIBLE);
+        audioMenuLayout.setAlpha(0);
+        audioMenuLayout.setScaleX(0.1f);
+        audioMenuLayout.setScaleY(0.1f);
+        audioMenuLayout.setPivotY(Dimensions.pxFromDp(100));
+        audioMenuLayout.animate().alpha(1).scaleX(1).scaleY(1)
+                .setDuration(200).start();
+
+    }
+
+    private void hideAudioSelector() {
+        wallpaperSetButtton.animate().alpha(1).setDuration(200).start();
+        audioMenuLayout.animate().alpha(0).scaleX(0.1f).scaleY(0.1f)
+                .setDuration(200).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                audioMenuLayout.setVisibility(View.GONE);
+            }
+        }).start();
+
     }
 
     private void onRingtoneClick() {
@@ -96,6 +157,8 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     }
 
     private void onSetWallpaper() {
+        hideAudioSelector();
+
         CustomizeUtils.setLockerWallpaperPath(path);
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
 

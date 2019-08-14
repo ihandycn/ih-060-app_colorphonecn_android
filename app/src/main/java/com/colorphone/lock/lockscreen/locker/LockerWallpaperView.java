@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.view.GlideApp;
 
@@ -95,6 +96,11 @@ public class LockerWallpaperView extends FrameLayout {
         }
         textureVideoView.setVisibility(VISIBLE);
         textureVideoView.setVideoPath(path);
+        if (CustomizeUtils.isVideoMute()) {
+            textureVideoView.mute();
+        } else {
+            textureVideoView.resumeVolume();
+        }
         if (windowFocus) {
             // Only play video in background
             textureVideoView.play();

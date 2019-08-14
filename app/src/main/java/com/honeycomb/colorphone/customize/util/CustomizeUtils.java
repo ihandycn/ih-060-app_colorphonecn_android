@@ -91,6 +91,7 @@ public final class CustomizeUtils {
     public static final String PREF_HOT_WALLPAPER_TURN_COUNT = "pref_hot_wallpaper_turn_count";
     public static final String PREF_WALLPAPER_APPLY_TIME = "pref_hot_wallpaper_apply_time";
     public static final String PREF_WALLPAPER_LOCKER = "pref_wallpaper_locker_apply";
+    public static final String PREF_WALLPAPER_LOCKER_MUTE = "pref_wallpaper_locker_video_mute";
     public static final String WEATHER_CLOCK_AB_TEST_THEME = "com.themelab.launcher.clash";
 
     private static final long WALLPAPER_PROGRESS_BAR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
@@ -103,6 +104,14 @@ public final class CustomizeUtils {
 
     public static String getLockerWallpaperPath() {
         return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getString(PREF_WALLPAPER_LOCKER, "");
+    }
+
+    public static void setVideoMute(boolean mute) {
+        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putBoolean(PREF_WALLPAPER_LOCKER_MUTE, mute);
+    }
+
+    public static boolean isVideoMute() {
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean(PREF_WALLPAPER_LOCKER_MUTE, true);
     }
 
     public static void setWallpaperWindowFlags(Activity activity) {
