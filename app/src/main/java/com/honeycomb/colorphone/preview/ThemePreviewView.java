@@ -1115,6 +1115,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (isSetWriteSetting && AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+            Analytics.logEvent("Permission_WriteSetting_Granted");
             mRingtoneViewHolder.setRingtone();
         }
         isSetWriteSetting = false;
@@ -1784,8 +1785,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                             isSetWriteSetting = true;
                             break;
-                        } else {
-                            Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
                         }
                     }
 
@@ -1849,8 +1848,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                 Utils.showApplySuccessToastView(rootView, mTransitionNavView);
-
             }
+            Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
         }
     }
 
