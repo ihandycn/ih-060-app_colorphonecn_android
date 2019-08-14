@@ -31,10 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.honeycomb.colorphone.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
-import com.honeycomb.colorphone.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
@@ -50,8 +48,9 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.ViewUtils;
+import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -288,11 +287,25 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, this);
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
+
         requestAds();
 
-        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-        if (pm.isScreenOn()) {
+        if (isScreenOn()) {
             mShimmer.start(mUnlockText);
+            showExpressAd();
+        }
+    }
+
+    private boolean isScreenOn() {
+        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        if (pm == null) {
+            return false;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            return pm.isInteractive();
+        } else {
+            return pm.isScreenOn();
         }
     }
 
@@ -391,7 +404,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         expressAdView.prepareAdPlus(new AcbExpressAdView.PrepareAdPlusListener() {
             @Override public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
-
             }
         });
 
@@ -413,10 +425,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void onResume() {
-
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.switchAd();
-        }
+        showExpressAd();
     }
 
     public void onPause() {
@@ -485,10 +494,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 if (expressAdView == null) {
                     requestAds();
                     showExpressAd();
-                } else if (expressAdView.getParent() == null) {
-                    showExpressAd();
                 } else {
-                    onResume();
+                    showExpressAd();
                 }
 
                 if (!mShimmer.isAnimating()) {
