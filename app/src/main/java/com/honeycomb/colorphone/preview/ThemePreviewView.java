@@ -66,6 +66,7 @@ import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -133,6 +134,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_ENJOY = 2;
     private static final int MSG_DOWNLOAD_OK = 11;
     private static final int MSG_TRANSITION_TIMEOUT = 21;
+
+    private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x702;
+    private static final int CHECK_PERMISSION_TIMEOUT = 0x710;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -259,6 +263,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onWindowTransitionEnd();
                     }
                     return true;
+                case CHECK_WRITE_SETTINGS_PERMISSION:
+                    if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                        Analytics.logEvent("Permission_WriteSetting_Granted");
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
+                        mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+                    }
+                    return false;
+                case CHECK_PERMISSION_TIMEOUT:
+                    mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
+                    return false;
                 default:
                     return false;
 
@@ -1742,7 +1758,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                     break;
                 case R.id.ringtone_apply_change:
-                    Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
+                    Analytics.logEvent("Ringtone_Video_Set_Clicked");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (!Settings.System.canWrite(getContext())) {
                             // Check permission
@@ -1755,7 +1771,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                                 Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
                             }, 900);
 
+                            Analytics.logEvent("Permission_WriteSetting_Request");
+
+                            mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                            mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                            mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                             break;
+                        } else {
+                            Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
                         }
                     }
 
