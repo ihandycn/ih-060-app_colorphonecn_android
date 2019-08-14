@@ -17,8 +17,9 @@ build_toutiao:
   - fi
   - if [[ $commit_msg == *"[BuildToutiao]"* ]]; then
   -   git submodule update --init
+  -   ./gradlew clean
   -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
-  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease 
+  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease
   -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
