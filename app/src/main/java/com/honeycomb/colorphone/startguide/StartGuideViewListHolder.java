@@ -28,11 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_ON_LOCK;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_SCREEN_FLASH;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS;
 
 public class StartGuideViewListHolder implements INotificationObserver {
     private static final String AUTO_PERMISSION_FAILED = "auto_permission_failed";
@@ -102,7 +101,6 @@ public class StartGuideViewListHolder implements INotificationObserver {
         permissions.add(TYPE_PERMISSION_TYPE_NOTIFICATION);
         permissions.add(TYPE_PERMISSION_TYPE_BG_POP);
         permissions.add(TYPE_PERMISSION_TYPE_PHONE);
-        permissions.add(TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
 
         permissionLayout = container.findViewById(R.id.start_guide_permission_list);
 
@@ -253,7 +251,11 @@ public class StartGuideViewListHolder implements INotificationObserver {
     }
 
     private void updateProgress(int pType, int status) {
-        goalNum += 25;
+        int size = permissionList.size();
+        if (size <= 0) {
+            size = 1;
+        }
+        goalNum += 100 / size;
         progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
         setPermissionStatus(pType, status);
     }

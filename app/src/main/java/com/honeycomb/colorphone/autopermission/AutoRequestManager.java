@@ -347,6 +347,10 @@ public class AutoRequestManager {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }
 
+        if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+        }
+
         if (permission.isEmpty()) {
             notifyAutoTaskOver(true);
             return;

@@ -192,6 +192,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                         }, 200);
                     }
                 });
+
+                Analytics.logEvent("Permission_Guide_All_Granted");
             }
 
             if (requested && deniedPermissions.size() > 0) {
