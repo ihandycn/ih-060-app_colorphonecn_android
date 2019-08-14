@@ -1,9 +1,11 @@
 package com.honeycomb.colorphone.customize.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,6 +21,8 @@ import com.honeycomb.colorphone.customize.adapter.AbstractOnlineWallpaperAdapter
 import com.honeycomb.colorphone.customize.adapter.HotOnlineWallpaperGalleryAdapterFactory;
 import com.honeycomb.colorphone.customize.adapter.OnlineWallpaperGalleryAdapter;
 import com.superapps.util.Arithmetics;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 
@@ -216,5 +220,39 @@ public class OnlineWallpaperListView extends FrameLayout {
             mAdapter = HotOnlineWallpaperGalleryAdapterFactory.createHotOnlineWallpaperGalleryAdapter(getHotOnlineAdapterType(), getContext());
         }
         mAdapter.setScenario(scenario);
+    }
+
+    public void showWallpaperHint() {
+        int hintHeight = getResources().getDimensionPixelOffset(R.dimen.wallpaper_hint_height);
+        final View transDownView = findViewById(R.id.recycler_view_container);
+        transDownView.setTranslationY(hintHeight + Dimensions.pxFromDp(24));
+
+        ViewStub stub = findViewById(R.id.stub_wallpaper_hint);
+        final View hintView = stub.inflate();
+        hintView.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                getResources().getColor(R.color.black_70_transparent),
+                0,
+                1, Color.parseColor("#aa696681"),
+                Dimensions.pxFromDp(16),
+                false,
+                false));
+
+        View closeBtn = hintView.findViewById(R.id.locker_wallpaper_hint_close);
+        closeBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                Color.parseColor("#33c9c6de"),
+                getResources().getColor(R.color.material_ripple_white),
+                Dimensions.pxFromDp(18),
+                false,
+                true));
+        closeBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeBtn.setClickable(false);
+                hintView.animate().alpha(0).setDuration(200).start();
+                transDownView.animate().translationY(0).setDuration(200).start();
+                Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putBoolean(CustomizeConstants.PREFS_LOCKER_HINT_NEED_SHOW, false);
+            }
+        });
+
     }
 }

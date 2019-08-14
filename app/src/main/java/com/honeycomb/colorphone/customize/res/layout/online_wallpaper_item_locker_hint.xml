@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wallpaper_locker_hint"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallpaper_hint_height"
+    android:background="@drawable/online_wallpaper_preview_apply_btn_bg"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableStart="@drawable/locker_wallpaper_icon"
+        android:drawableLeft="@drawable/locker_wallpaper_icon"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/online_wallpaper_locker_hint"
+        android:textColor="#c9c6de"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/locker_wallpaper_hint_close"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center_vertical|end"
+        android:scaleType="centerInside"
+        android:src="@drawable/locker_wallpaper_hint_close" />
+</FrameLayout>

@@ -48,8 +48,8 @@
     <string name="online_theme_tab_title_category">Categories</string>
     <string name="customize_wallpapers_title_local">My Wallpapers</string>
 
+    <string name="online_wallpaper_locker_hint">这里可以设置你的壁纸</string>
     <string name="online_wallpaper_tab_title_categories">分类</string>
-
     <string name="online_wallpaper_tab_title_video">视频主题</string>
     <string name="online_wallpaper_tab_title_live">Live</string>
 

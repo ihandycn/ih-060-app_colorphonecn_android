@@ -6,14 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <ViewStub
+        android:id="@+id/stub_wallpaper_hint"
+        android:inflatedId="@+id/wallpaper_locker_hint"
+        android:layout="@layout/online_wallpaper_item_locker_hint"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="@dimen/wallpaper_hint_height"
+        android:layout_width="match_parent" />
+
     <com.gcssloop.widget.RCRelativeLayout
+        android:id="@+id/recycler_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         app:round_corner_top_left="16dp"
         app:round_corner_top_right="16dp">
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

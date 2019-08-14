@@ -8,4 +8,5 @@ public class CustomizeConstants {
 
     public static final String WALLPAPER_DB = "wallpaper.db";
     public static final String CUSTOMIZE_PREFS = "customize";
+    public static final String PREFS_LOCKER_HINT_NEED_SHOW = "prefs_locker_h_n_s";
 }

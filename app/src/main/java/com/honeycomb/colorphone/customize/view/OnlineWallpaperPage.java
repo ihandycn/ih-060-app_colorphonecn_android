@@ -28,6 +28,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.CategoryItem;
 import com.honeycomb.colorphone.customize.CustomizeConfig;
+import com.honeycomb.colorphone.customize.CustomizeConstants;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
 import com.honeycomb.colorphone.customize.adapter.CategoryViewAdapter;
@@ -36,6 +37,7 @@ import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -584,6 +586,9 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 mHotTabContent.setScenario(WallpaperMgr.Scenario.ONLINE_VIDEO);
                 mHotTabContent.setupAdapter();
                 mHotTabContent.startLoading();
+                if (needShowWallpaperHint()) {
+                    mHotTabContent.showWallpaperHint();
+                }
                 initView = mHotTabContent;
 
             } else if (position == mTabsConfig.tabIndexLive) {
@@ -638,6 +643,11 @@ public class OnlineWallpaperPage extends RelativeLayout {
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
+    }
+
+    private boolean needShowWallpaperHint() {
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean(
+                CustomizeConstants.PREFS_LOCKER_HINT_NEED_SHOW, true);
     }
 
     private static class ScrollEventLogger {

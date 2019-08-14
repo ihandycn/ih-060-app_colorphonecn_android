@@ -35,4 +35,5 @@
     <dimen name="percentage_progress_bar_default_thumb_height">9dp</dimen>
     <dimen name="percentage_progress_bar_default_thumb_center_height">4.7dp</dimen>
     <dimen name="percentage_progress_view_default_text_distance">3dp</dimen>
+    <dimen name="wallpaper_hint_height">72dp</dimen>
 </resources>
