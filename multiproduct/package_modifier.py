@@ -74,7 +74,7 @@ if __name__ == '__main__':
                 print 'res - ' + path + directory + '/res'
                 replace_str_in_dir(path + directory + '/res', package_name, application_id)
 
-            replace_str_in_file('./main/AndroidManifest.xml', package_name, application_id)
+            replace_str_in_file('./src/main/AndroidManifest.xml', package_name, application_id)
 
         print 'proguard'
         replace_str_in_file('./proguard.pro', package_name, application_id)
