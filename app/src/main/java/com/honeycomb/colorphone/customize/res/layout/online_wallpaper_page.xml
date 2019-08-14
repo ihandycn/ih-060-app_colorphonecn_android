@@ -38,12 +38,18 @@
                 android:src="@drawable/locker_wallpaper_icon"
                 android:background="@drawable/locker_wallpaper_icon_bg"/>
 
-            <net.lucode.hackware.magicindicator.MagicIndicator
-                android:id="@+id/wallpaper_tabs"
+            <com.gcssloop.widget.RCRelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:ignore="PrivateResource,UnusedAttribute" />
+                app:round_corner_bottom_left="24dp"
+                app:round_corner_top_left="24dp"
+                android:layout_weight="1">
+                <net.lucode.hackware.magicindicator.MagicIndicator
+                    android:id="@+id/wallpaper_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="PrivateResource,UnusedAttribute" />
+            </com.gcssloop.widget.RCRelativeLayout>
 
             <View
                 android:layout_width="@dimen/wallpaper_tab_more_button_width"
@@ -100,7 +106,8 @@
                         android:layout_marginEnd="-5dp"
                         android:layout_marginRight="-5dp"
                         android:rotation="0"
-                        android:src="@drawable/wallpapers_toptab_arrow_left"/>
+                        android:src="@drawable/wallpapers_toptab_arrow_left"
+                        android:tint="@color/white"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -116,7 +123,8 @@
                         android:layout_marginLeft="-5dp"
                         android:layout_marginStart="-5dp"
                         android:rotation="0"
-                        android:src="@drawable/wallpapers_toptab_arrow_right"/>
+                        android:src="@drawable/wallpapers_toptab_arrow_right"
+                        android:tint="@color/white"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

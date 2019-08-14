@@ -14,14 +14,14 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.superapps.view.RoundImageView
+        <ImageView
             android:id="@+id/image1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            app:radius_leftTop="16dp" />
+            />
 
         <ImageView
             android:id="@+id/image2"
@@ -31,12 +31,12 @@
             android:scaleType="centerCrop" />
     </LinearLayout>
 
-    <com.superapps.view.RoundImageView
+    <ImageView
         android:id="@+id/image3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:scaleType="centerCrop"
-        app:radius_rightTop="16dp" />
+       />
 
 </LinearLayout>

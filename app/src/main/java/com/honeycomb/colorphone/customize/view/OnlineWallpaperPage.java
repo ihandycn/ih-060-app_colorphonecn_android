@@ -136,7 +136,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         //
         HorizontalScrollView scrollView = commonNavigator.getScrollView();
-        commonNavigator.getTitleContainer().setBackgroundResource(R.drawable.wallpaper_tab_bg);
+
+        (scrollView.getChildAt(0)).setBackgroundResource(R.drawable.wallpaper_tab_bg);
         commonNavigator.getTitleContainer().setPadding(Dimensions.pxFromDp(3),0,0,0);
 
         resetTabsTransitionXY(scrollView);
@@ -296,7 +297,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 simplePagerTitleView.setText(mAdapter.getWallPaperPageTitle(index));
-                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.white_80_transparent));
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.white_60_transparent));
                 simplePagerTitleView.setSelectedColor(Color.BLACK);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override

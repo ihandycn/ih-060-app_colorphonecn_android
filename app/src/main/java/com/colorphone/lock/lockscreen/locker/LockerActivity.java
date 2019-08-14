@@ -19,14 +19,6 @@ public class LockerActivity extends BaseKeyguardActivity {
     protected void onInitView() {
         try {
             setContentView(R.layout.activity_locker);
-
-//            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
-//                @Override
-//                public void onNotchPropertyCallback(NotchProperty notchProperty) {
-//
-//                }
-//            });
-
             mLocker = new Locker();
             mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);

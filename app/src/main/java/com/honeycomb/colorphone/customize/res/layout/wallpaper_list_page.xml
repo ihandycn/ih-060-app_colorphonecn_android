@@ -3,15 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <com.gcssloop.widget.RCRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:theme="@style/Theme.CustomOverScroll" />
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        app:round_corner_top_left="16dp"
+        app:round_corner_top_right="16dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/Theme.CustomOverScroll" />
+    </com.gcssloop.widget.RCRelativeLayout>
 
     <ProgressBar
         android:id="@+id/wallpaper_loading_progress_bar"
