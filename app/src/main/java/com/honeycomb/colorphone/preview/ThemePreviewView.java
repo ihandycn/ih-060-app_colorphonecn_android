@@ -1117,6 +1117,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (isSetWriteSetting && AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
             mRingtoneViewHolder.setRingtone();
         }
+        isSetWriteSetting = false;
     }
 
     public void cleanImage() {
