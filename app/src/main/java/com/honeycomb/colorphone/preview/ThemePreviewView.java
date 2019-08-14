@@ -166,6 +166,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private NetworkChangeReceiver networkChangeReceiver;
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
+    private boolean isSetWriteSetting = false;
 
     private TransitionView mTransitionNavView;
     private TransitionView mTransitionActionLayout;
@@ -1112,6 +1113,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
 
         }
+
+        if (isSetWriteSetting && AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+            mRingtoneViewHolder.setRingtone();
+        }
     }
 
     public void cleanImage() {
@@ -1760,7 +1765,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 case R.id.ringtone_apply_change:
                     Analytics.logEvent("Ringtone_Video_Set_Clicked");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (!Settings.System.canWrite(getContext())) {
+                        if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                             // Check permission
                             Toast.makeText(mActivity, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
@@ -1776,6 +1781,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
                             mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                             mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                            isSetWriteSetting = true;
                             break;
                         } else {
                             Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
@@ -1783,18 +1789,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
 
                     hideRingtoneSettings();
-                    if (mApplyForAll) {
-                        // Ringtone enabled
-                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-
-                        onThemeApply();
-                    } else {
-                        setAsRingtone(true, false);
-
-                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
-
-                    }
+                    setRingtone();
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
                     } else {
@@ -1830,15 +1825,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return isEnable;
         }
 
-        public void setApplyForAll(boolean applyForAll) {
+        void setApplyForAll(boolean applyForAll) {
             mApplyForAll = applyForAll;
         }
 
-        public void refreshMuteStatus() {
+        void refreshMuteStatus() {
             if (ThemeStateManager.getInstance().isAudioMute()) {
                 mute();
             } else {
                 muteOff();
+            }
+        }
+
+        void setRingtone() {
+            if (mApplyForAll) {
+                // Ringtone enabled
+                RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
+                onThemeApply();
+            } else {
+                setAsRingtone(true, false);
+
+                ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+
             }
         }
     }
