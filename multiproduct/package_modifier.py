@@ -4,11 +4,11 @@ from sys import argv
 from datetime import datetime
 
 LAUNCHER_VARIANT_ROOTS = [
-    'main',
-    'colorphoneCommon',
-    'colorphone',
-    'colorphoneYingyongbao',
-    'colorphoneJinritoutiao',
+    'app/main',
+    'app/colorphoneCommon',
+    'app/colorphone',
+    'app/colorphoneYingyongbao',
+    'app/colorphoneJinritoutiao',
 ]
 
 def is_varient_root(root):
@@ -74,12 +74,12 @@ if __name__ == '__main__':
                 print 'res - ' + path + directory + '/res'
                 replace_str_in_dir(path + directory + '/res', package_name, application_id)
 
-            replace_str_in_file('./src/main/AndroidManifest.xml', package_name, application_id)
+            replace_str_in_file('./app/src/main/AndroidManifest.xml', package_name, application_id)
 
         print 'proguard'
-        replace_str_in_file('./proguard.pro', package_name, application_id)
-        print 'manifest'
-        replace_str_in_file('./AndroidManifest.xml', package_name, application_id)
+        replace_str_in_file('./app/proguard-rules.pro', package_name, application_id)
+        # print 'manifest'
+        # replace_str_in_file('./AndroidManifest.xml', package_name, application_id)
 
         time_diff = datetime.now() - start
         print 'complete. time cost ' + str(time_diff)
