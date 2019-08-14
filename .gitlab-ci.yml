@@ -13,11 +13,13 @@ build_toutiao:
   -   git submodule update --init
   -   ./gradlew :app:assembleColorphoneJinritoutiaoDebug
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/olorphoneJinritoutiao/debug/*.apk outputs/
+  -   cp app/build/outputs/apk/colorphoneJinritoutiao/debug/*.apk outputs/
   - fi
   - if [[ $commit_msg == *"[BuildToutiao]"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease
+  -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
+  -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphoneJinritoutiao/release/mapping.txt outputs/
@@ -50,7 +52,9 @@ build_yingyongbao:
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneYingyongbaoDebug
+  -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
+  -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
   - fi
