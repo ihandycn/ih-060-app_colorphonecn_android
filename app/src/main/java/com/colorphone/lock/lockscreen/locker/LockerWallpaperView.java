@@ -62,7 +62,7 @@ public class LockerWallpaperView extends FrameLayout {
         addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
-    public void setWallPaperFilePath(String path) {
+    public void setWallPaperFilePath(String path, boolean isLockerPageShow) {
         if (TextUtils.equals(mFilePath, path)) {
             return;
         }
@@ -72,7 +72,8 @@ public class LockerWallpaperView extends FrameLayout {
             setImage(path);
         } else if (path.endsWith(".mp4") || path.contains("Mp4")) {
             mType = TYPE_VIDEO;
-            setVideo(path);
+            boolean autoPlay = isLockerPageShow;
+            setVideo(path, autoPlay);
         }
     }
 
@@ -80,7 +81,7 @@ public class LockerWallpaperView extends FrameLayout {
         return mType;
     }
 
-    private void setVideo(String path) {
+    private void setVideo(String path, boolean autoPlay) {
         boolean hasImageBefore = imageView.getVisibility() == VISIBLE;
         if (hasImageBefore) {
             // Hide image
@@ -101,9 +102,16 @@ public class LockerWallpaperView extends FrameLayout {
         } else {
             textureVideoView.resumeVolume();
         }
-        if (windowFocus) {
-            // Only play video in background
+        if (windowFocus && autoPlay) {
             textureVideoView.play();
+        }
+    }
+
+    public void mute(boolean mute) {
+        if (mute) {
+            textureVideoView.mute();
+        } else {
+            textureVideoView.resumeVolume();
         }
     }
 
@@ -178,5 +186,17 @@ public class LockerWallpaperView extends FrameLayout {
 
     public void onPause() {
         textureVideoView.stop();
+    }
+
+    public void resumePlay() {
+        if (textureVideoView.isPaused()) {
+            textureVideoView.resumePlayback();
+        }
+    }
+
+    public void pausePlay() {
+        if (textureVideoView.isPlaying()) {
+            textureVideoView.pause();
+        }
     }
 }

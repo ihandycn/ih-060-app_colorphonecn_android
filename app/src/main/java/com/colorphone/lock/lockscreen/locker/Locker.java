@@ -66,6 +66,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mActivityMode;
     private ImageView mWallpaperIcon;
     private View mDimCover;
+    private boolean isLockerPageShow;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -183,7 +184,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         String path = CustomizeUtils.getLockerWallpaperPath();
 
         if (!TextUtils.isEmpty(path)) {
-            mLockerWallpaper.setWallPaperFilePath(path);
+            mLockerWallpaper.setWallPaperFilePath(path, isLockerPageShow);
         } else {
             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
         }
@@ -207,6 +208,27 @@ public class Locker extends LockScreen implements INotificationObserver {
         mOnlineWallpaperPage.setDimBackground(mDimCover);
         mOnlineWallpaperPage.setup(0);
         mOnlineWallpaperPage.setPadding(0, Dimensions.getStatusBarHeight(getContext()), 0, 0);
+        mOnlineWallpaperPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                isLockerPageShow = position == 0;
+                if (isLockerPageShow) {
+                    mLockerWallpaper.resumePlay();
+                } else {
+                    mLockerWallpaper.pausePlay();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mLockerAdapter = new LockerAdapter(context, this, new LockerSlidingUpCallback(this));

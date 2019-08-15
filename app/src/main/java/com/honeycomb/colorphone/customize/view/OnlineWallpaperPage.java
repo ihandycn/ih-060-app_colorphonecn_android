@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -127,6 +128,11 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mArrowLeftPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_left);
         mArrowRightPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_right);
     }
+
+    public void addOnPageChangeListener(@NonNull ViewPager.OnPageChangeListener listener) {
+        mViewPager.addOnPageChangeListener(listener);
+    }
+
 
     public void setup(int initialTabIndex) {
         mAdapter = new WallpaperPagerAdapter(getContext());

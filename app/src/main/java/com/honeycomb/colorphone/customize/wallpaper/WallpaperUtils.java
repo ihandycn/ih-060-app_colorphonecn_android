@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
@@ -439,7 +440,7 @@ public class WallpaperUtils {
                     Threads.postOnMainThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toasts.showToast(R.string.apply_success);
+                            Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
                             HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
                         }
                     });

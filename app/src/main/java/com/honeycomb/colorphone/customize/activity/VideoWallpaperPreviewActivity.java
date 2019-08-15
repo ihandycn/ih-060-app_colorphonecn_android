@@ -6,16 +6,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Toasts;
 
 /**
  * @author sundxing
@@ -28,6 +29,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     private View audioMenuLayout;
     private View wallpaperSetButtton;
     private boolean hasAudio;
+    private boolean audioSeletorVisible;
 
     public static void start(Context context, String path, boolean hasAudio) {
         Intent starter = new Intent(context, VideoWallpaperPreviewActivity.class);
@@ -77,6 +79,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         textureVideoView = findViewById(R.id.video_view);
         textureVideoView.setVideoPath(path);
         textureVideoView.setLooping(true);
+        textureVideoView.setOnClickListener(this);
         muteOff();
     }
 
@@ -122,12 +125,18 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 CustomizeUtils.setVideoMute(false);
                 onSetWallpaper();
                 break;
+            case R.id.video_view:
+                if (audioSeletorVisible) {
+                    hideAudioSelector();
+                }
+                break;
             default:
                 break;
         }
     }
 
     private void showAudioSelector() {
+        audioSeletorVisible = true;
         wallpaperSetButtton.animate().alpha(0).setDuration(200).start();
 
         audioMenuLayout.setVisibility(View.VISIBLE);
@@ -141,6 +150,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     }
 
     private void hideAudioSelector() {
+        audioSeletorVisible = false;
         wallpaperSetButtton.animate().alpha(1).setDuration(200).start();
         audioMenuLayout.animate().alpha(0).scaleX(0.1f).scaleY(0.1f)
                 .setDuration(200).withEndAction(new Runnable() {
@@ -161,8 +171,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
         CustomizeUtils.setLockerWallpaperPath(path);
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
-
-        Toasts.showToast(R.string.apply_success);
+        Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
     }
 
     private void toggle() {
@@ -186,4 +195,12 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         textureVideoView.resumeVolume();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (audioSeletorVisible) {
+            hideAudioSelector();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

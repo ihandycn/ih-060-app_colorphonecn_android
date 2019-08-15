@@ -403,7 +403,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
         }
     }
 
-    private void pause() {
+    public void pause() {
         HSLog.d(TAG, "pause");
         mTargetPlayState = PLAY_STATE_PAUSE;
         if (hasPreparedMediaPlayer()) {
@@ -411,7 +411,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
         }
     }
 
-    private void resumePlayback() {
+    public void resumePlayback() {
         HSLog.d(TAG, "resumePlayback");
         mTargetPlayState = PLAY_STATE_PLAYING;
         if (hasPreparedMediaPlayer()) {
@@ -520,6 +520,10 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     public void setLooping(boolean isLoop) {
         mIsLoop = isLoop;
+    }
+
+    public boolean isPaused() {
+        return mMediaPlayer != null && mCurrentPlayState == PLAY_STATE_PAUSE;
     }
 
     public boolean isPlaying() {
