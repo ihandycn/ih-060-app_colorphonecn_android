@@ -149,10 +149,8 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
         HSLog.d(TAG, "onWindowVisibilityChanged: " + visibility);
         if (visibility == GONE || visibility == INVISIBLE) {
             pause();
-        } else if (mCurrentPlayState == PLAY_STATE_PAUSE && visibility == VISIBLE) {
+        } else if (mCurrentPlayState == PLAY_STATE_PAUSE && visibility == VISIBLE ) {
             resumePlayback();
-        } else if (mCurrentPlayState == PLAY_STATE_INIT && visibility == VISIBLE) {
-            play();
         }
         super.onWindowVisibilityChanged(visibility);
     }
@@ -264,14 +262,21 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     @Override
     public void onPrepared(MediaPlayer mp) {
         HSLog.d(TAG, "onPrepared");
-        if (mTargetPlayState == PLAY_STATE_PREPARE && mCurrentPlayState == PLAY_STATE_PREPARE) {
+        if (mCurrentPlayState == PLAY_STATE_PREPARE) {
             mCurrentPlayState = PLAY_STATE_READY;
             if (hasPreparedMediaPlayer()) {
-                HSLog.d(TAG, "real start");
-                mMediaPlayer.start();
-                mCurrentPlayState = PLAY_STATE_PLAYING;
-                mTargetPlayState = PLAY_STATE_PLAYING;
+                if (mTargetPlayState == PLAY_STATE_PAUSE) {
+                    mMediaPlayer.start();
+                    mMediaPlayer.pause();
+                    mCurrentPlayState = PLAY_STATE_PAUSE;
+                } else {
+                    mMediaPlayer.start();
+                    HSLog.d(TAG, "real start");
+                    mCurrentPlayState = PLAY_STATE_PLAYING;
+                    mTargetPlayState = PLAY_STATE_PLAYING;
+                }
             }
+
         }
     }
 
@@ -459,7 +464,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     private void doPlay() {
-        if (mVideoUri != null && mSurface != null && mTargetPlayState == PLAY_STATE_PLAYING) {
+        if (mVideoUri != null && mSurface != null && mTargetPlayState != PLAY_STATE_STOP) {
             if (mGainAudioFocus) {
                 mAudioManager = (AudioManager) HSApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
                 mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -482,7 +487,6 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
                 mMediaPlayer.setLooping(mIsLoop);
                 mMediaPlayer.prepareAsync();
                 mCurrentPlayState = PLAY_STATE_PREPARE;
-                mTargetPlayState = PLAY_STATE_PREPARE;
             } catch (Throwable e2) {
                 mCurrentPlayState = PLAY_STATE_ERROR;
                 mTargetPlayState = PLAY_STATE_ERROR;

@@ -139,11 +139,13 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         audioSeletorVisible = true;
         wallpaperSetButtton.animate().alpha(0).setDuration(200).start();
 
+        float pivotX = Dimensions.getPhoneWidth(getApplicationContext()) / 2 - Dimensions.pxFromDp(32);
         audioMenuLayout.setVisibility(View.VISIBLE);
         audioMenuLayout.setAlpha(0);
         audioMenuLayout.setScaleX(0.1f);
         audioMenuLayout.setScaleY(0.1f);
         audioMenuLayout.setPivotY(Dimensions.pxFromDp(100));
+        audioMenuLayout.setPivotX(pivotX);
         audioMenuLayout.animate().alpha(1).scaleX(1).scaleY(1)
                 .setDuration(200).start();
 

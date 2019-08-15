@@ -66,7 +66,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mActivityMode;
     private ImageView mWallpaperIcon;
     private View mDimCover;
-    private boolean isLockerPageShow;
+    private boolean isLockerPageShow = true;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -175,7 +175,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
-        mLockerWallpaper.onResume();
+        mLockerWallpaper.onResume(isLockerPageShow);
 
         mHandler.postDelayed(foregroundEventLogger, 1000);
     }

@@ -180,8 +180,11 @@ public class LockerWallpaperView extends FrameLayout {
         return imageView.getDrawable();
     }
 
-    public void onResume() {
+    public void onResume(boolean isLockerPageShow) {
         textureVideoView.play();
+        if (!isLockerPageShow) {
+            textureVideoView.pause();
+        }
     }
 
     public void onPause() {
