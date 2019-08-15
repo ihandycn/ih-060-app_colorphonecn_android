@@ -281,7 +281,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
     private void resetTabsTransitionXY(HorizontalScrollView scrollView) {
         tabTransStartX = Dimensions.getPhoneWidth(getContext()) - Dimensions.pxFromDp(60);
-        tabTransEndX = Dimensions.pxFromDp(12);
+        tabTransEndX = 0;
 
         mTabLayoutContainer.setTranslationX(tabTransStartX);
         mTabLayoutContainer.setVisibility(GONE);

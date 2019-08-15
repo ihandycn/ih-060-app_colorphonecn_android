@@ -111,6 +111,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 if (hasAudio) {
                     showAudioSelector();
                 } else {
+                    CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_NO_AUDIO);
                     onSetWallpaper();
                 }
                 break;
@@ -118,11 +119,11 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 onRingtoneClick();
                 break;
             case R.id.wallpaper_set_no_audio:
-                CustomizeUtils.setVideoMute(true);
+                CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_OFF);
                 onSetWallpaper();
                 break;
             case R.id.wallpaper_set_use_audio:
-                CustomizeUtils.setVideoMute(false);
+                CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_ON);
                 onSetWallpaper();
                 break;
             case R.id.video_view:

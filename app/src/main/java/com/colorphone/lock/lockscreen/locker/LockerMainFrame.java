@@ -50,6 +50,7 @@ import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -77,6 +78,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     public static final String EVENT_SLIDING_DRAWER_OPENED = "EVENT_SLIDING_DRAWER_OPENED";
     public static final String EVENT_SLIDING_DRAWER_CLOSED = "EVENT_SLIDING_DRAWER_CLOSED";
+    public static final String EVENT_RINGTONE_CLICK_MUTE = "ringtone_click_mute";
+    public static final String EVENT_RINGTONE_CLICK_MUTE_OFF = "ringtone_click_mute_off";
 
     private boolean mIsSlidingDrawerOpened = false;
     private boolean mIsBlackHoleShowing = false;
@@ -116,6 +119,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private LottieAnimationView mGameLottieEntrance;
     private View mGameLottieTitleEntrance;
     private String gameEntranceType;
+    private ImageView ringtoneImage;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -198,6 +202,15 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             }
         });
 
+        ringtoneImage = findViewById(R.id.ringtone_image);
+        ringtoneImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggle();
+            }
+        });
+        refreshRingtoneStatus();
+
         mGameIconEntrance = findViewById(R.id.lock_game_view);
         mGameLottieEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
         mGameLottieTitleEntrance = findViewById(R.id.animation_game_view_hint);
@@ -261,6 +274,38 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         LockerCustomConfig.get().onEventLockerShow();
     }
 
+    public void refreshRingtoneStatus() {
+        int audioStatus = CustomizeUtils.getVideoAudioStatus();
+        if (audioStatus == CustomizeUtils.VIDEO_NO_AUDIO) {
+            ringtoneImage.setVisibility(GONE);
+        } else {
+            ringtoneImage.setVisibility(VISIBLE);
+            ringtoneImage.setEnabled(true);
+            ringtoneImage.setActivated(audioStatus == CustomizeUtils.VIDEO_AUDIO_ON);
+        }
+    }
+
+    private void toggle() {
+        final boolean currentSelect = ringtoneImage.isActivated();
+        if (currentSelect) {
+            mute();
+        } else {
+            muteOff();
+        }
+    }
+
+    private void mute() {
+        ringtoneImage.setEnabled(true);
+        ringtoneImage.setActivated(false);
+        HSGlobalNotificationCenter.sendNotification(EVENT_RINGTONE_CLICK_MUTE);
+    }
+
+    private void muteOff() {
+        ringtoneImage.setEnabled(true);
+        ringtoneImage.setActivated(true);
+        HSGlobalNotificationCenter.sendNotification(EVENT_RINGTONE_CLICK_MUTE_OFF);
+    }
+
     @Override
     @SuppressWarnings("deprecation")
     protected void onAttachedToWindow() {
@@ -287,6 +332,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, this);
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
+        HSGlobalNotificationCenter.addObserver(Locker.EVENT_WALLPAPER_CHANGE,this);
 
         requestAds();
 
@@ -463,6 +509,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
+            case Locker.EVENT_WALLPAPER_CHANGE:
+                refreshRingtoneStatus();
+                break;
             case SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE:
 //                if (mIsBlackHoleShowing) {
 //                    break;

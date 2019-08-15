@@ -116,7 +116,8 @@ public class Locker extends LockScreen implements INotificationObserver {
 
         HSGlobalNotificationCenter.addObserver(EVENT_FINISH_SELF, this);
         HSGlobalNotificationCenter.addObserver(EVENT_WALLPAPER_CHANGE, this);
-
+        HSGlobalNotificationCenter.addObserver(LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE, this);
+        HSGlobalNotificationCenter.addObserver(LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE_OFF, this);
         LockerSettings.increaseLockerShowCount();
 
         // Life cycle
@@ -357,6 +358,12 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
+            case LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE:
+                mLockerWallpaper.mute(true);
+                break;
+            case LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE_OFF:
+                mLockerWallpaper.mute(false);
+                break;
             case EVENT_WALLPAPER_CHANGE:
                 initLockerWallpaper();
                 break;

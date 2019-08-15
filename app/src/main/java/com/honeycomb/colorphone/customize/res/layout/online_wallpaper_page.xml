@@ -29,14 +29,15 @@
 
             <ImageView
                 android:id="@+id/wallpaper_icon_entrance"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
+                style="@style/NormalButton"
+                android:padding="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:scaleType="fitCenter"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/locker_wallpaper_icon"
-                android:background="@drawable/locker_wallpaper_icon_bg"/>
+                android:background="@drawable/bg_round_material_compat"
+                />
 
             <com.gcssloop.widget.RCRelativeLayout
                 android:layout_width="0dp"

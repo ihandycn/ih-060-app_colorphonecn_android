@@ -96,6 +96,10 @@ public final class CustomizeUtils {
 
     private static final long WALLPAPER_PROGRESS_BAR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
 
+    public static final int VIDEO_NO_AUDIO = 0;
+    public static final int VIDEO_AUDIO_ON = 1;
+    public static final int VIDEO_AUDIO_OFF = 2;
+
     private static boolean sLoadingWallpaper;
 
     public static void setLockerWallpaperPath(String path) {
@@ -106,12 +110,17 @@ public final class CustomizeUtils {
         return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getString(PREF_WALLPAPER_LOCKER, "");
     }
 
-    public static void setVideoMute(boolean mute) {
-        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putBoolean(PREF_WALLPAPER_LOCKER_MUTE, mute);
+    public static void setVideoAudioStatus(int audioStatus) {
+        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putInt(PREF_WALLPAPER_LOCKER_MUTE, audioStatus);
+    }
+
+    public static int getVideoAudioStatus() {
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getInt(PREF_WALLPAPER_LOCKER_MUTE, VIDEO_NO_AUDIO);
     }
 
     public static boolean isVideoMute() {
-        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean(PREF_WALLPAPER_LOCKER_MUTE, true);
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS)
+                .getInt(PREF_WALLPAPER_LOCKER_MUTE, VIDEO_NO_AUDIO) == VIDEO_AUDIO_OFF;
     }
 
     public static void setWallpaperWindowFlags(Activity activity) {
