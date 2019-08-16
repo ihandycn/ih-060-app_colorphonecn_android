@@ -28,13 +28,10 @@
 
         <ImageView
             android:id="@+id/ic_menu"
-            android:layout_width="@dimen/common_navigator_height"
-            android:layout_height="@dimen/common_navigator_height"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:scaleType="fitCenter"
+            style="@style/NormalButton"
+            android:scaleType="centerInside"
             android:background="@drawable/bg_round_material_compat"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+            app:srcCompat="@drawable/locker_menu_icon" />
 
         <ImageView
             android:id="@+id/ringtone_image"
