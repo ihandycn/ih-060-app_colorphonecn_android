@@ -30,7 +30,6 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
-import com.superapps.util.Toasts;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -432,6 +431,7 @@ public class WallpaperUtils {
                             File oldSettings = new File(oldPath);
                             oldSettings.delete();
                         }
+                        CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_NO_AUDIO);
                         CustomizeUtils.setLockerWallpaperPath(file.getAbsolutePath());
                     } catch (Exception e) {
                         e.printStackTrace();
