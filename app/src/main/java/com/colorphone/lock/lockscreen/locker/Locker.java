@@ -164,6 +164,10 @@ public class Locker extends LockScreen implements INotificationObserver {
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", getDeviceInfo());
                 logOnceFlag = true;
+                if (CustomizeUtils.needGuideLockerWallpaper()) {
+                    mOnlineWallpaperPage.guideWallpaper();
+                }
+
                 Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
                         LockerEventUtils.getWallpaperType(mLockerWallpaper.getType()));
             }

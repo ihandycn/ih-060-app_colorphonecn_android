@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.customize.view;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -133,8 +134,21 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mViewPager.addOnPageChangeListener(listener);
     }
 
+    public void guideWallpaper() {
+        mAnimator.start();
+    }
+
+    private ValueAnimator mAnimator = ValueAnimator.ofInt(0, Dimensions.pxFromDp(30), 0, 0, Dimensions.pxFromDp(30), 0).setDuration(3000);
 
     public void setup(int initialTabIndex) {
+        mAnimator.setStartDelay(500);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                mViewPager.scrollTo((Integer) valueAnimator.getAnimatedValue(), 0);
+            }
+        });
+        mAnimator.start();
         mAdapter = new WallpaperPagerAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
 
@@ -172,6 +186,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
                 int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
                 if (position == wallpaperPageStartIndex) {
+                    CustomizeUtils.disableGuideLockerWallpaper();
                     scrollView.setTranslationX(tabTransEndX * (1 - positionOffset));
                 }
             }

@@ -102,6 +102,15 @@ public final class CustomizeUtils {
 
     private static boolean sLoadingWallpaper;
 
+
+    public static boolean needGuideLockerWallpaper() {
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean("guide_locker_wallpaper", true);
+    }
+
+    public static void disableGuideLockerWallpaper() {
+        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putBoolean("guide_locker_wallpaper", false);
+    }
+
     public static void setLockerWallpaperPath(String path) {
         Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putString(PREF_WALLPAPER_LOCKER, path);
     }
@@ -143,7 +152,6 @@ public final class CustomizeUtils {
         activity.getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
-
 
     public interface WallpaperApplyCallback {
         void onWallpaperApplied(Bitmap wallpaper, Intent data);
