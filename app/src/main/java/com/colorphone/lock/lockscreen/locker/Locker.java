@@ -28,6 +28,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.OnlineWallpaperPage;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -163,6 +164,8 @@ public class Locker extends LockScreen implements INotificationObserver {
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", getDeviceInfo());
                 logOnceFlag = true;
+                Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
+                        LockerEventUtils.getWallpaperType(mLockerWallpaper.getType()));
             }
             LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
                     "Brand", Build.BRAND.toLowerCase(),
