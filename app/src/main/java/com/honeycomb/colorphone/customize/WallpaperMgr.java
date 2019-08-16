@@ -180,24 +180,24 @@ public class WallpaperMgr {
     }
 
     private void loadLocalWallpapers() {
-        List<WallpaperInfo> localWallpapers = new ArrayList<>(16);
-        Cursor c = mCr.query(WallpaperProvider.CONTENT_URI, null, null, null,
-                WallpaperProvider.COLUMN_CREATE_TIME + " DESC");
-        if (c == null) {
-            return;
-        }
-        try {
-            while (c.moveToNext()) {
-                WallpaperInfo wallpaper = new WallpaperInfo(c);
-                localWallpapers.add(wallpaper);
-            }
-        } finally {
-            c.close();
-        }
-        synchronized (mLocalWallpapers) {
-            mLocalWallpapers.clear();
-            mLocalWallpapers.addAll(localWallpapers);
-        }
+//        List<WallpaperInfo> localWallpapers = new ArrayList<>(16);
+//        Cursor c = mCr.query(WallpaperProvider.CONTENT_URI, null, null, null,
+//                WallpaperProvider.COLUMN_CREATE_TIME + " DESC");
+//        if (c == null) {
+//            return;
+//        }
+//        try {
+//            while (c.moveToNext()) {
+//                WallpaperInfo wallpaper = new WallpaperInfo(c);
+//                localWallpapers.add(wallpaper);
+//            }
+//        } finally {
+//            c.close();
+//        }
+//        synchronized (mLocalWallpapers) {
+//            mLocalWallpapers.clear();
+//            mLocalWallpapers.addAll(localWallpapers);
+//        }
     }
 
     public void addLocalWallpaperSync(WallpaperInfo wallpaper) {
@@ -211,12 +211,12 @@ public class WallpaperMgr {
     }
 
     private void addLocalWallpapersToDatabaseSync(final List<WallpaperInfo> wallpapers) {
-        for (WallpaperInfo wallpaper : wallpapers) {
-            ContentValues values = new ContentValues();
-            wallpaper.onAdd();
-            wallpaper.onAddToDatabase(values);
-            mCr.insert(WallpaperProvider.CONTENT_URI, values);
-        }
+//        for (WallpaperInfo wallpaper : wallpapers) {
+//            ContentValues values = new ContentValues();
+//            wallpaper.onAdd();
+//            wallpaper.onAddToDatabase(values);
+//            mCr.insert(WallpaperProvider.CONTENT_URI, values);
+//        }
     }
 
     public List<WallpaperInfo> getLocalWallpapers() {
