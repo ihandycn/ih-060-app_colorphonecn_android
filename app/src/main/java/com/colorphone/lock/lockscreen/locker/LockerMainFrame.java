@@ -209,7 +209,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 toggle();
             }
         });
-        refreshRingtoneStatus();
 
         mGameIconEntrance = findViewById(R.id.lock_game_view);
         mGameLottieEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
@@ -335,6 +334,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(Locker.EVENT_WALLPAPER_CHANGE,this);
 
         requestAds();
+
+        refreshRingtoneStatus();
 
         if (isScreenOn()) {
             mShimmer.start(mUnlockText);
