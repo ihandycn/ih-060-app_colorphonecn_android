@@ -166,6 +166,7 @@ public class Locker extends LockScreen implements INotificationObserver {
                 logOnceFlag = true;
                 if (CustomizeUtils.needGuideLockerWallpaper()) {
                     mOnlineWallpaperPage.guideWallpaper();
+                    Analytics.logEvent(Analytics.upperFirstCh("lockscreen_wallpaper_alert_show"));
                 }
 
                 Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
@@ -268,7 +269,11 @@ public class Locker extends LockScreen implements INotificationObserver {
         mWallpaperIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isLockerPageShow) {
+                    Analytics.logEvent(Analytics.upperFirstCh("lockscreen_wallpaper_entrance_click"));
+                }
                 mOnlineWallpaperPage.comeOrGo();
+
             }
         });
         mOnlineWallpaperPage.setTransitionTabIcon(mWallpaperIcon);

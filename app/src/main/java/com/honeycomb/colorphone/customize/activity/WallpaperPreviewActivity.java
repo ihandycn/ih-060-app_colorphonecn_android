@@ -56,6 +56,7 @@ import com.honeycomb.colorphone.customize.view.ProgressDialog;
 import com.honeycomb.colorphone.customize.wallpaper.WallpaperUtils;
 import com.honeycomb.colorphone.customize.wallpaperpackage.WallpaperPackageInfo;
 import com.honeycomb.colorphone.util.ActivityUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Thunk;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -95,11 +96,15 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     private static final boolean DEBUG = true && BuildConfig.DEBUG;
 
     public static final String INTENT_KEY_SCENARIO = "scenario";
+
     public static final String INTENT_KEY_CATEGORY = "category";
     public static final String INTENT_KEY_WALLPAPERS = "wallpapers";
     public static final String INTENT_KEY_INDEX = "index";
     public static final String INTENT_KEY_WALLPAPER_DATA = "wallpaperData";
     public static final String INTENT_KEY_WALLPAPER_PACKAGE_INFO = "wallpaperPackageInfo";
+    public static final String INTENT_KEY_TYPE_NAME = "type_name";
+
+
     @SuppressWarnings("PointlessBooleanExpression")
     private static final String PREF_KEY_PREVIEW_GUIDE_SHOWN = "wallpaper_preview_guide_shown";
     private static final String PREF_KEY_PREVIEW_WALLPAPER_SHOWN_MODE = "pref_key_preview_wallpaper_shown_mode";
@@ -161,6 +166,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
 
     private ValueAnimator mZoomAnimator;
     private boolean mOnlySetLockerWallpaper;
+    private String mTypeName;
 
     public static Intent getLaunchIntent(Context context,
                                          WallpaperMgr.Scenario scenario,
@@ -353,6 +359,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
 
     @Override
     public void onPageSelected(int position) {
+        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_slide"));
         int index = position;
         if (mWallpaperPackageInfo != null) {
             if (position == 0) {
@@ -443,6 +450,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     private boolean initData() {
         WallpaperMgr.Scenario scenario = WallpaperMgr.Scenario.valueOfOrdinal(
                 getIntent().getIntExtra(INTENT_KEY_SCENARIO, 0));
+        mTypeName = getIntent().getStringExtra(INTENT_KEY_TYPE_NAME);
         mCategoryInfo = getIntent().getParcelableExtra(INTENT_KEY_CATEGORY);
         mPaperIndex = getIntent().getIntExtra(INTENT_KEY_INDEX, 0);
         switch (scenario) {
@@ -547,6 +555,9 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
             prepareData();
         }
         mInitialized = true;
+
+        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_show"), "Type", mTypeName);
+
         return true;
     }
 
@@ -784,7 +795,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                 if (mCurrentWallpaper == null) {
                     return;
                 }
-
+                Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_click"), "Type", mTypeName);
                 // Set as locker
                 Bitmap source = null;
                 for (int i = 0; i < mViewPager.getChildCount(); i++) {
@@ -815,7 +826,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                         retY = (sHeight - nh) / 2;
                     }
                     Bitmap bitmap = Bitmap.createBitmap(source, retX, retY, nw, nh);
-                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper.getSource());
+                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper);
                 }
 
 //                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN

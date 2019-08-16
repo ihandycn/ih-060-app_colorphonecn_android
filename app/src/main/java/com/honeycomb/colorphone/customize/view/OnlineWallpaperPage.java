@@ -148,7 +148,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 mViewPager.scrollTo((Integer) valueAnimator.getAnimatedValue(), 0);
             }
         });
-        mAnimator.start();
         mAdapter = new WallpaperPagerAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
 
@@ -186,7 +185,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
                 int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
                 if (position == wallpaperPageStartIndex) {
-                    CustomizeUtils.disableGuideLockerWallpaper();
                     scrollView.setTranslationX(tabTransEndX * (1 - positionOffset));
                 }
             }
@@ -195,6 +193,14 @@ public class OnlineWallpaperPage extends RelativeLayout {
             public void onPageSelected(final int positionAbsolute) {
                 if (!mIsTabNoClickSelected) {
                     Analytics.logEvent("Wallpaper_TopTab_Tab_Selected", true,"type", String.valueOf(mAdapter.getPageTitle(positionAbsolute)));
+                }
+                int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
+                if (positionAbsolute == wallpaperPageStartIndex) {
+                    CustomizeUtils.disableGuideLockerWallpaper();
+                    Analytics.logEvent(Analytics.upperFirstCh("wallpaper_page_show"));
+                }
+                if (positionAbsolute > wallpaperPageStartIndex) {
+                    Analytics.logEvent(Analytics.upperFirstCh("wallpaper_page_tab_change"));
                 }
 
                 mIsTabNoClickSelected = false;
@@ -645,7 +651,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
             String categoryName = "";
             int position = categoryIndex + mTabsConfig.extraTabsCount;
             int positionAbsolute = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), position);
-            CharSequence categoryNameCs = getPageTitle(positionAbsolute);
+            CharSequence categoryNameCs = getWallPaperPageTitle(positionAbsolute);
             if (null != categoryNameCs) {
                 categoryName = categoryNameCs.toString();
             }

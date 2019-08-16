@@ -28,19 +28,19 @@ public class GuideHelper {
     }
 
     public static void logWallpaperPreview(int type) {
-        boolean isLive = true;
-        String name = "Wallpaper_Live_NoGesture_Preview_Shown";
-        if (type == TYPE_3D) {
-            name = "Wallpaper_3D_Preview_Shown";
-            isLive = false;
-        } else if (type == TYPE_LIVE_TOUCH) {
-            name = "Wallpaper_Live_Gesture_Preview_Shown";
-        }
-
-        Analytics.logEvent(name, true);
-        if (isLive) {
-            Analytics.logEvent("Wallpaper_Live_Preview_Shown", true);
-        }
+//        boolean isLive = true;
+//        String name = "Wallpaper_Live_NoGesture_Preview_Shown";
+//        if (type == TYPE_3D) {
+//            name = "Wallpaper_3D_Preview_Shown";
+//            isLive = false;
+//        } else if (type == TYPE_LIVE_TOUCH) {
+//            name = "Wallpaper_Live_Gesture_Preview_Shown";
+//        }
+//
+//        Analytics.logEvent(name, true);
+//        if (isLive) {
+//            Analytics.logEvent("Wallpaper_Live_Preview_Shown", true);
+//        }
 
         HSPreferenceHelper.getDefault().putInt(LiveWallpaperConsts.PREF_KEY_WALLPAPER_PREVIEW_TYPE, type);
     }

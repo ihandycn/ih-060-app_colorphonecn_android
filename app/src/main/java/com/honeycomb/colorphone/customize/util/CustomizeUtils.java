@@ -365,7 +365,7 @@ public final class CustomizeUtils {
 //                    Navigations.startActivityForResultSafely(activity, intent, CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER);
                     String path = isColorPhoneVideo ? TasksManager.getVideoWallpaperPath(info.getSource())
                             : getLiveVideoPath(wallpaperName);
-                    VideoWallpaperPreviewActivity.start(activity, path, isColorPhoneVideo);
+                    VideoWallpaperPreviewActivity.start(activity, path, isColorPhoneVideo, info);
 
 //                    WallpaperPreloadService.prepareLiveWallpaper(activity);
                 }

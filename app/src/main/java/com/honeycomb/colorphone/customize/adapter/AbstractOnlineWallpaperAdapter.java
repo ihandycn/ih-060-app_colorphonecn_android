@@ -122,6 +122,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                 intent.putExtra(WallpaperPreviewActivity.INTENT_KEY_SCENARIO, mScenario.ordinal());
                 intent.putParcelableArrayListExtra(WallpaperPreviewActivity.INTENT_KEY_WALLPAPERS, wallpapersToPreview);
                 intent.putExtra(WallpaperPreviewActivity.INTENT_KEY_INDEX, positionInPreviewWallpapers);
+                intent.putExtra(WallpaperPreviewActivity.INTENT_KEY_TYPE_NAME, mCategoryName);
 //                if (mScenario != WallpaperMgr.Scenario.ONLINE_NEW && mScenario != WallpaperMgr.Scenario.ONLINE_VIDEO) {
 //                    LauncherAnalytics.logEvent("Wallpaper_PaperList_Thumbnail_Clicked", "Type", mCategoryName);
 //                }

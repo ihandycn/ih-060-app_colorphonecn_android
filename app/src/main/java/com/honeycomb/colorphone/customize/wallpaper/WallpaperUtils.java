@@ -23,7 +23,9 @@ import android.widget.Toast;
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -411,7 +413,8 @@ public class WallpaperUtils {
         return file;
     }
 
-    public static void saveAsLockerWallpaper(Bitmap bitmap, String url) {
+    public static void saveAsLockerWallpaper(Bitmap bitmap, WallpaperInfo wallpaperInfo) {
+        final String url = wallpaperInfo.getSource();
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -442,6 +445,8 @@ public class WallpaperUtils {
                         public void run() {
                             Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
                             HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
+                            Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
+                                    "Type", wallpaperInfo.getCategory().categoryName);
                         }
                     });
                 }

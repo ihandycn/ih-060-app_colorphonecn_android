@@ -11,8 +11,10 @@ import android.widget.Toast;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
+import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.BackgroundDrawables;
@@ -30,11 +32,13 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
     private View wallpaperSetButtton;
     private boolean hasAudio;
     private boolean audioSeletorVisible;
+    private WallpaperInfo mWallpaperInfo;
 
-    public static void start(Context context, String path, boolean hasAudio) {
+    public static void start(Context context, String path, boolean hasAudio, WallpaperInfo info) {
         Intent starter = new Intent(context, VideoWallpaperPreviewActivity.class);
         starter.putExtra("path", path);
         starter.putExtra("audio", hasAudio);
+        starter.putExtra("info", info);
         context.startActivity(starter);
     }
 
@@ -46,6 +50,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
         path = getIntent().getStringExtra("path");
         hasAudio = getIntent().getBooleanExtra("audio", false);
+        mWallpaperInfo = getIntent().getParcelableExtra("info");
 
         if (TextUtils.isEmpty(path)) {
             finish();
@@ -81,6 +86,8 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         textureVideoView.setLooping(true);
         textureVideoView.setOnClickListener(this);
         muteOff();
+
+        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_show"), "Type", hasAudio ? "Video" : "Live");
     }
 
     @Override
@@ -108,8 +115,12 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 onBackPressed();
                 break;
             case R.id.set_wallpaper_button:
+                Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_click"),
+                        "Type", hasAudio ? "Video" : "Live");
                 if (hasAudio) {
                     showAudioSelector();
+                    Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_sound_alert_show"));
+
                 } else {
                     CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_NO_AUDIO);
                     onSetWallpaper();
@@ -119,10 +130,12 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 onRingtoneClick();
                 break;
             case R.id.wallpaper_set_no_audio:
+                Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_sound_alert_click"), "sound", "no");
                 CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_OFF);
                 onSetWallpaper();
                 break;
             case R.id.wallpaper_set_use_audio:
+                Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_sound_alert_click"), "sound", "yes");
                 CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_ON);
                 onSetWallpaper();
                 break;
@@ -175,6 +188,8 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         CustomizeUtils.setLockerWallpaperPath(path);
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
         Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
+        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
+                "Type", hasAudio ? "Video" : "Live");
     }
 
     private void toggle() {
