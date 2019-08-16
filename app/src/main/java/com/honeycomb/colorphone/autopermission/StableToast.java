@@ -113,7 +113,7 @@ public class StableToast {
         contentView.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#000000"),
                 Dimensions.pxFromDp(6), false));
 
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, Dimensions.pxFromDp(80));
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, Dimensions.pxFromDp(85));
         toast.setView(contentView);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();

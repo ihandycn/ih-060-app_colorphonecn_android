@@ -587,7 +587,6 @@ public class AutoRequestManager {
                 mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                 mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
-
                 if (Permissions.isNotificationAccessGranted()) {
                     return true;
                 } else {

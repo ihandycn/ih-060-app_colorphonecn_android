@@ -12,6 +12,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -65,6 +67,7 @@ public class StartGuideItemHolder {
         loading = item.findViewById(R.id.start_guide_permission_item_loading);
 
         fix = item.findViewById(R.id.start_guide_permission_auto_start_fix);
+        fix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
         fix.setOnClickListener(v -> {
             clickToFix = true;
             if (fix.getContext() instanceof Activity) {
