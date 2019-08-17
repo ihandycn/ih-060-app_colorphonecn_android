@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -674,8 +675,12 @@ public class OnlineWallpaperPage extends RelativeLayout {
     }
 
     private boolean needShowWallpaperHint() {
-        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean(
-                CustomizeConstants.PREFS_LOCKER_HINT_NEED_SHOW, true);
+        // Only show hint if user never change wallpaper.
+        if (TextUtils.isEmpty(CustomizeUtils.getLockerWallpaperPath())) {
+            return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean(
+                    CustomizeConstants.PREFS_LOCKER_HINT_NEED_SHOW, true);
+        }
+        return false;
     }
 
     private static class ScrollEventLogger {
