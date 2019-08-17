@@ -18,11 +18,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
-import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -35,6 +33,7 @@ import com.superapps.util.Threads;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 
 public class WallpaperUtils {
 
@@ -413,7 +412,7 @@ public class WallpaperUtils {
         return file;
     }
 
-    public static void saveAsLockerWallpaper(Bitmap bitmap, WallpaperInfo wallpaperInfo, String typeName) {
+    public static void saveAsLockerWallpaper(Bitmap bitmap, WallpaperInfo wallpaperInfo, String typeName, WeakReference<Runnable> wallpaperSetCallback) {
         final String url = wallpaperInfo.getSource();
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
@@ -443,10 +442,14 @@ public class WallpaperUtils {
                     Threads.postOnMainThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
                             HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
                             Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
                                     "Type", typeName);
+
+                            Runnable callback = wallpaperSetCallback.get();
+                            if (callback != null) {
+                                callback.run();
+                            }
                         }
                     });
                 }

@@ -83,6 +83,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,6 +168,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     private ValueAnimator mZoomAnimator;
     private boolean mOnlySetLockerWallpaper;
     private String mTypeName;
+    private Runnable wallpaperSetCallback;
 
     public static Intent getLaunchIntent(Context context,
                                          WallpaperMgr.Scenario scenario,
@@ -214,6 +216,27 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
             mAdStep = CustomizeConfig.getInteger(4, "customizeNativeAds", "WallpaperPreview", "AdStep");
             mStartIndex = CustomizeConfig.getInteger(2, "customizeNativeAds", "WallpaperPreview", "StartIndex");
         }
+
+        wallpaperSetCallback = new Runnable() {
+            @Override
+            public void run() {
+                showSuccessToast();
+            }
+        };
+
+    }
+
+    private void showSuccessToast() {
+        View toastView = findViewById(R.id.apply_success_text);
+        toastView.setVisibility(View.VISIBLE);
+        toastView.setAlpha(0);
+        toastView.animate().alpha(1).setDuration(200).start();
+        toastView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toastView.animate().alpha(0).setDuration(200).start();
+            }
+        }, 3000);
     }
 
     @Override
@@ -826,7 +849,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                         retY = (sHeight - nh) / 2;
                     }
                     Bitmap bitmap = Bitmap.createBitmap(source, retX, retY, nw, nh);
-                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper, mTypeName);
+                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper, mTypeName, new WeakReference<>(wallpaperSetCallback));
                 }
 
 //                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN

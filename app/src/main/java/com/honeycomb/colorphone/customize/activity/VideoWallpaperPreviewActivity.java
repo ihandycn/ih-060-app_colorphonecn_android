@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
@@ -15,7 +14,6 @@ import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.util.Analytics;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -187,9 +185,22 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
 
         CustomizeUtils.setLockerWallpaperPath(path);
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
-        Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
+        showSuccessToast();
         Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
                 "Type", hasAudio ? "Video" : "Live");
+    }
+
+    private void showSuccessToast() {
+        View toastView = findViewById(R.id.apply_success_text);
+        toastView.setVisibility(View.VISIBLE);
+        toastView.setAlpha(0);
+        toastView.animate().alpha(1).setDuration(200).start();
+        toastView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toastView.animate().alpha(0).setDuration(200).start();
+            }
+        }, 3000);
     }
 
     private void toggle() {
