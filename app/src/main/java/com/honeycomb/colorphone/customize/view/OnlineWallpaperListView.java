@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.CustomizeConstants;
@@ -20,6 +21,9 @@ import com.honeycomb.colorphone.customize.activity.CustomizeActivity;
 import com.honeycomb.colorphone.customize.adapter.AbstractOnlineWallpaperAdapter;
 import com.honeycomb.colorphone.customize.adapter.HotOnlineWallpaperGalleryAdapterFactory;
 import com.honeycomb.colorphone.customize.adapter.OnlineWallpaperGalleryAdapter;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Arithmetics;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -31,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OnlineWallpaperListView extends FrameLayout {
+public class OnlineWallpaperListView extends FrameLayout implements INotificationObserver {
 
     private static final String PREF_KEY_HOT_3D_WALLPAPER_START_INDEX = "hot_3d_wallpaper_start_index";
     private static final String PREF_KEY_HOT_LIVE_WALLPAPER_START_INDEX = "hot_live_wallpaper_start_index";
@@ -123,6 +127,7 @@ public class OnlineWallpaperListView extends FrameLayout {
             toList.addAll(0, inserted);
         }
     };
+    private View hintView;
 
     public OnlineWallpaperListView(Context context) {
         this(context, null);
@@ -139,10 +144,12 @@ public class OnlineWallpaperListView extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        HSGlobalNotificationCenter.addObserver(Locker.EVENT_WALLPAPER_CHANGE, this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        HSGlobalNotificationCenter.removeObserver(this);
         if (mAdapter != null) {
             mAdapter.onDetachedFromWindow();
         }
@@ -228,7 +235,7 @@ public class OnlineWallpaperListView extends FrameLayout {
         transDownView.setTranslationY(hintHeight + Dimensions.pxFromDp(24));
 
         ViewStub stub = findViewById(R.id.stub_wallpaper_hint);
-        final View hintView = stub.inflate();
+        hintView = stub.inflate();
         hintView.setBackground(BackgroundDrawables.createBackgroundDrawable(
                 getResources().getColor(R.color.black_70_transparent),
                 0,
@@ -254,5 +261,23 @@ public class OnlineWallpaperListView extends FrameLayout {
             }
         });
 
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        switch (s) {
+            case Locker.EVENT_WALLPAPER_CHANGE:
+                // Hide wallpaper-set hint
+                if (hintView != null) {
+                    hintView.setVisibility(GONE);
+                    View transDownView = findViewById(R.id.recycler_view_container);
+                    transDownView.setTranslationY(0);
+                    Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).putBoolean(CustomizeConstants.PREFS_LOCKER_HINT_NEED_SHOW, false);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }
