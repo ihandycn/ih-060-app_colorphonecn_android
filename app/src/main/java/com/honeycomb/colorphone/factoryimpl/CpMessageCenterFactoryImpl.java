@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.factoryimpl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateUtils;
 
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
@@ -146,6 +147,26 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                         && !HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NotShowOnScreen");
             }
 
+            @Override
+            public long getMessageAssistantIntervalInMilli() {
+                return DateUtils.MINUTE_IN_MILLIS *
+                        HSConfig.optInteger( 0, "Application", "ScreenFlash", "MessageAssistant", "IntervalInMinute");
+            }
+
+            @Override
+            public boolean isTextureWireEnable() {
+                return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "TextureWireEnable");
+            }
+
+            @Override
+            public String getTextureWirePlacement() {
+                return Placements.AD_EXIT_TEXTURE_WIRE;
+            }
+
+            @Override
+            public long getTextureWireInterval() {
+                return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "SmsAssistant", "TextureWireIntervalMinute");
+            }
         };
     }
 

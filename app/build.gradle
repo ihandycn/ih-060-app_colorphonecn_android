@@ -199,7 +199,7 @@ dependencies {
             "com.android.support:multidex:1.0.1",
 
             "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
-            'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta08'
+            'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta11'
 
     ]
 
@@ -252,7 +252,7 @@ dependencies {
 
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.07.22.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.08.05.001'
 
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'
