@@ -9397,6 +9397,12 @@
 			</dict>
 			<key>Wallpaper</key>
 			<dict>
+				<key>AlertShow</key>
+				<true/>
+				<key>AlertShowMaxtime</key>
+				<integer>3</integer>
+				<key>EntranceShow</key>
+				<true/>
 				<key>ImageWallpapers</key>
 				<dict>
 					<key>BaseUrl</key>
