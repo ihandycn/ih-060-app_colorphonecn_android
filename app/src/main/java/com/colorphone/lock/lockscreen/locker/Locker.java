@@ -167,6 +167,7 @@ public class Locker extends LockScreen implements INotificationObserver {
                 logOnceFlag = true;
                 if (CustomizeUtils.needGuideLockerWallpaper()) {
                     mOnlineWallpaperPage.guideWallpaper();
+                    CustomizeUtils.countGuideCount();
                     Analytics.logEvent(Analytics.upperFirstCh("lockscreen_wallpaper_alert_show"));
                 }
 
@@ -274,7 +275,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         });
 
         // Red point hint
-        boolean needGuide = CustomizeUtils.needGuideLockerWallpaper();
+        boolean needGuide = CustomizeUtils.needShowGuide();
         mWallpaperIconHint = mRootView.findViewById(R.id.wallpaper_icon_entrance_red_point);
         mWallpaperIconHint.setVisibility(needGuide ? View.VISIBLE : View.GONE);
 

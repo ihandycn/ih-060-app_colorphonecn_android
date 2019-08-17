@@ -56,6 +56,7 @@ import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Calendars;
@@ -104,6 +105,23 @@ public final class CustomizeUtils {
 
 
     public static boolean needGuideLockerWallpaper() {
+        boolean alertEnable = HSConfig.optBoolean(false, "Application", "Wallpaper", "AlertShow");
+        if (!alertEnable) {
+            return false;
+        }
+
+        int count = Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getInt("guide_locker_wallpaper_count", 0);
+        if (count > HSConfig.optInteger(3, "Application", "Wallpaper", "AlertShowMaxtime")) {
+            return false;
+        }
+        return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean("guide_locker_wallpaper", true);
+    }
+
+    public static void countGuideCount() {
+        Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).incrementAndGetInt("guide_locker_wallpaper_count");
+    }
+
+    public static boolean needShowGuide() {
         return Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS).getBoolean("guide_locker_wallpaper", true);
     }
 
