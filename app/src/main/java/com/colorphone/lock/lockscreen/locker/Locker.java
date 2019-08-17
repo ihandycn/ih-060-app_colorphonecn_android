@@ -179,6 +179,10 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     };
 
+    public boolean isLockerPageShow() {
+        return isLockerPageShow;
+    }
+
     public void onResume() {
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
@@ -229,6 +233,8 @@ public class Locker extends LockScreen implements INotificationObserver {
                 isLockerPageShow = position == 0;
                 if (isLockerPageShow) {
                     mLockerWallpaper.resumePlay();
+                    Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
+                            LockerEventUtils.getWallpaperType(mLockerWallpaper.getType()));
                 } else {
                     mLockerWallpaper.pausePlay();
                     mWallpaperIconHint.setVisibility(View.GONE);
