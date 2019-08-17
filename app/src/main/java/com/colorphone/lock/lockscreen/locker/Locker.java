@@ -369,6 +369,10 @@ public class Locker extends LockScreen implements INotificationObserver {
     }
 
     public void onBackPressed() {
+        // Back to locker main page
+        if (!isLockerPageShow) {
+            mOnlineWallpaperPage.comeOrGo();
+        }
         if (mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onBackPressed();
         }
