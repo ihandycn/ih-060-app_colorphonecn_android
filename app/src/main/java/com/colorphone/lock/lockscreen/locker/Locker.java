@@ -372,8 +372,10 @@ public class Locker extends LockScreen implements INotificationObserver {
         switch (s) {
             case LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE:
                 mLockerWallpaper.mute(true);
+                CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_OFF);
                 break;
             case LockerMainFrame.EVENT_RINGTONE_CLICK_MUTE_OFF:
+                CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_ON);
                 mLockerWallpaper.mute(false);
                 break;
             case EVENT_WALLPAPER_CHANGE:
