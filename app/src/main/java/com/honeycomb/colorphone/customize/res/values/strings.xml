@@ -48,16 +48,16 @@
     <string name="online_theme_tab_title_category">Categories</string>
     <string name="customize_wallpapers_title_local">My Wallpapers</string>
 
-    <string name="online_wallpaper_set_audio_enable">同时使用视频声音</string>
-    <string name="online_wallpaper_set_audio_disable">使用视频画面</string>
+    <string name="online_wallpaper_set_audio_enable">有声模式</string>
+    <string name="online_wallpaper_set_audio_disable">无声模式</string>
 
-    <string name="online_wallpaper_locker_hint">这里可以设置你的壁纸</string>
+    <string name="online_wallpaper_locker_hint">选择你最喜欢的锁屏壁纸</string>
     <string name="online_wallpaper_tab_title_categories">分类</string>
-    <string name="online_wallpaper_tab_title_video">视频主题</string>
-    <string name="online_wallpaper_tab_title_live">Live</string>
+    <string name="online_wallpaper_tab_title_video">视频</string>
+    <string name="online_wallpaper_tab_title_live">动态</string>
 
     <string name="online_wallpaper_tab_title_hot">Hot</string>
-    <string name="online_wallpaper_apply_btn">SET AS WALLPAPER</string>
+    <string name="online_wallpaper_apply_btn">立即设置</string>
     <string name="online_wallpaper_edit_reset_btn">RESET</string>
     <string name="online_wallpaper_edit_cancel_btn">CANCEL</string>
     <string name="online_wallpaper_cancel_edit_dialog_content">Discard changes to exit?</string>
@@ -78,7 +78,7 @@
     <string name="upload_wallpaper_tip">Tips：\n1. Image will be automatically scaled to optimum size\n2. Your image will be shown in \"Me\"\n3. High quality images are more possible to be collected by ME Launcher\n4. Your image will show up in the feed after it\'s been reviewed</string>
     <string name="upload_wallpaper_declaration">By uploading, you agree ME Launcher\'s</string>
     <string name="upload_wallpaper_success">Upload successfully</string>
-    <string name="live_wallpaper_loading_text">Downloading…</string>
+    <string name="live_wallpaper_loading_text">下载中…</string>
     <string name="live_wallpaper_loading_percentage" translatable="false">%1$d%%</string>
 
 
