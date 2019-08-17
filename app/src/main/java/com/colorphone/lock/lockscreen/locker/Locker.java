@@ -240,7 +240,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
             }
         });
-
+        final View wallpaperEntranceLayout = mRootView.findViewById(R.id.tab_layout_transition_wrapper);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mLockerAdapter = new LockerAdapter(context, this, new LockerSlidingUpCallback(this));
         mViewPager.setAdapter(mLockerAdapter);
@@ -250,7 +250,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                wallpaperEntranceLayout.setTranslationY(-positionOffsetPixels);
             }
 
             @Override
