@@ -314,7 +314,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can't deliver broadcast</string>
+					<string>can&apos;t deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -343,7 +343,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
+					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -351,7 +351,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
+					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -7771,7 +7771,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d'épice</string>
+							<string>Pain d&apos;épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -7984,7 +7984,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell'oro</string>
+							<string>Il mito dell&apos;oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -9398,11 +9398,11 @@
 			<key>Wallpaper</key>
 			<dict>
 				<key>AlertShow</key>
-				<true/>
+				<false/>
 				<key>AlertShowMaxtime</key>
 				<integer>3</integer>
 				<key>EntranceShow</key>
-				<true/>
+				<false/>
 				<key>ImageWallpapers</key>
 				<dict>
 					<key>BaseUrl</key>
@@ -9748,9 +9748,9 @@
 				<array>
 					<dict>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp4</string>
 						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -9769,12 +9769,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck_preview.png</string>
-					</dict>
-					<dict>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -9868,9 +9862,15 @@
 					</dict>
 					<dict>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich.mp4</string>
 						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea_Preview.jpg</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Rich/Rich_preview.png</string>
+					</dict>
+					<dict>
+						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueSea/BlueSea.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueSea/BlueSea_preview.png</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -9880,9 +9880,9 @@
 					</dict>
 					<dict>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueSea/BlueSea.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ShiningBeauty/ShiningBeauty.mp4</string>
 						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueSea/BlueSea_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ShiningBeauty/ShiningBeauty_preview.png</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -9895,6 +9895,12 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Bamboo/Bamboo.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Bamboo/Bamboo_preview.png</string>
+					</dict>
+					<dict>
+						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea_Preview.jpg</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -10021,12 +10027,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CatDance/CatDance.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CatDance/CatDance_preview.png</string>
-					</dict>
-					<dict>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ShiningBeauty/ShiningBeauty.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ShiningBeauty/ShiningBeauty_preview.png</string>
 					</dict>
 					<dict>
 						<key>Original</key>
