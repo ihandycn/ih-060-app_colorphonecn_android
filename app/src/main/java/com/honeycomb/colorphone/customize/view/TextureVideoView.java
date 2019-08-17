@@ -64,6 +64,15 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     private PlayListener mPlayListener;
 
     private OnSurfaceAvailableListener mOnSurfaceAvailableListener;
+    private String mLogTag;
+
+    public void setLogTag(String logTag) {
+        mLogTag = logTag;
+    }
+
+    public String getLogTag() {
+        return mLogTag;
+    }
 
     public enum ScaleType {
         NONE,
@@ -146,7 +155,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
-        HSLog.d(TAG, "onWindowVisibilityChanged: " + visibility);
+        HSLog.d(getTagLog(), "onWindowVisibilityChanged: " + visibility);
         if (visibility == GONE || visibility == INVISIBLE) {
             pause();
         } else if (mCurrentPlayState == PLAY_STATE_PAUSE && visibility == VISIBLE ) {
@@ -157,13 +166,13 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     protected void onAttachedToWindow() {
-        HSLog.d(TAG, "onAttachedToWindow");
+        HSLog.d(getTagLog(), "onAttachedToWindow");
         super.onAttachedToWindow();
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        HSLog.d(TAG, "onDetachedFromWindow");
+        HSLog.d(getTagLog(), "onDetachedFromWindow");
         super.onDetachedFromWindow();
         HSGlobalNotificationCenter.removeObserver(this);
         stop();
@@ -215,7 +224,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        HSLog.d(TAG, "onSurfaceTextureAvailable");
+        HSLog.d(getTagLog(), "onSurfaceTextureAvailable");
         synchronized (this) {
             if (mSurface != null && mSurfaceTexture != null) {
                 setSurfaceTexture(mSurfaceTexture);
@@ -226,11 +235,16 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
             mIsSurfaceActive = true;
             this.notifyAll();
         }
+
         if (mTargetPlayState == PLAY_STATE_PLAYING) {
             play();
+        } else if (mTargetPlayState == PLAY_STATE_PAUSE) {
+            play();
+            pause();
         } else if (mCurrentPlayState == PLAY_STATE_PAUSE) {
             resumePlayback();
         }
+
         if (mOnSurfaceAvailableListener != null) {
             mOnSurfaceAvailableListener.onSurfaceAvailable();
         }
@@ -243,7 +257,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        HSLog.d(TAG, "onSurfaceTextureDestroyed");
+        HSLog.d(getTagLog(), "onSurfaceTextureDestroyed");
         if (mPlayListener != null) {
             mPlayListener.onSurfaceDestroyed();
         }
@@ -261,17 +275,18 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        HSLog.d(TAG, "onPrepared");
+        HSLog.d(getTagLog(), "onPrepared");
         if (mCurrentPlayState == PLAY_STATE_PREPARE) {
             mCurrentPlayState = PLAY_STATE_READY;
             if (hasPreparedMediaPlayer()) {
                 if (mTargetPlayState == PLAY_STATE_PAUSE) {
+                    HSLog.d(getTagLog(), "real start then pause");
                     mMediaPlayer.start();
                     mMediaPlayer.pause();
                     mCurrentPlayState = PLAY_STATE_PAUSE;
                 } else {
                     mMediaPlayer.start();
-                    HSLog.d(TAG, "real start");
+                    HSLog.d(getTagLog(), "real start");
                     mCurrentPlayState = PLAY_STATE_PLAYING;
                     mTargetPlayState = PLAY_STATE_PLAYING;
                 }
@@ -282,7 +297,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
-        HSLog.d(TAG, "onInfo what: " + what + " extra: " + extra);
+        HSLog.d(getTagLog(), "onInfo what: " + what + " extra: " + extra);
         if (mPlayListener != null) {
             Threads.postOnMainThread(() -> {
                 if (mPlayListener != null) {
@@ -295,7 +310,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        HSLog.d(TAG, "onCompletion");
+        HSLog.d(getTagLog(), "onCompletion");
         mCurrentPlayState = PLAY_STATE_COMPLETE;
         mTargetPlayState = PLAY_STATE_COMPLETE;
         if (mPlayListener != null) {
@@ -309,7 +324,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        HSLog.d(TAG, "onError what: " + what + " extra: " + extra);
+        HSLog.d(getTagLog(), "onError what: " + what + " extra: " + extra);
         mCurrentPlayState = PLAY_STATE_ERROR;
         mTargetPlayState = PLAY_STATE_ERROR;
         if (mPlayListener != null) {
@@ -327,25 +342,25 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
         synchronized (TextureVideoView.class) {
             switch (msg.what) {
                 case PLAY_STATE_PREPARE:
-                    HSLog.d(TAG, "handleMessage: PLAY_STATE_PREPARE");
+                    HSLog.d(getTagLog(), "handleMessage: PLAY_STATE_PREPARE");
                     doPlay();
                     break;
                 case PLAY_STATE_PAUSE:
-                    HSLog.d(TAG, "handleMessage: PLAY_STATE_PAUSE");
+                    HSLog.d(getTagLog(), "handleMessage: PLAY_STATE_PAUSE");
                     if (mMediaPlayer != null) {
                         mMediaPlayer.pause();
                         mCurrentPlayState = PLAY_STATE_PAUSE;
                     }
                     break;
                 case PLAY_STATE_PLAYING:
-                    HSLog.d(TAG, "handleMessage: PLAY_STATE_PLAYING");
+                    HSLog.d(getTagLog(), "handleMessage: PLAY_STATE_PLAYING");
                     if (mMediaPlayer != null && mCurrentPlayState != PLAY_STATE_PLAYING) {
                         mMediaPlayer.start();
                         mCurrentPlayState = PLAY_STATE_PLAYING;
                     }
                     break;
                 case PLAY_STATE_STOP:
-                    HSLog.d(TAG, "handleMessage: PLAY_STATE_STOP");
+                    HSLog.d(getTagLog(), "handleMessage: PLAY_STATE_STOP");
                     release();
                     break;
                 case PLAY_STATE_SEEK:
@@ -382,7 +397,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     public void play() {
-        HSLog.d(TAG, "play");
+        HSLog.d(getTagLog(), "play");
         mTargetPlayState = PLAY_STATE_PLAYING;
         if (hasPreparedMediaPlayer()) {
             mWorkThreadHandler.obtainMessage(PLAY_STATE_STOP).sendToTarget();
@@ -401,7 +416,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     public void stop() {
-        HSLog.d(TAG, "stop");
+        HSLog.d(getTagLog(), "stop");
         mTargetPlayState = PLAY_STATE_COMPLETE;
         if (hasPreparedMediaPlayer()) {
             mWorkThreadHandler.obtainMessage(PLAY_STATE_STOP).sendToTarget();
@@ -409,7 +424,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     public void pause() {
-        HSLog.d(TAG, "pause");
+        HSLog.d(getTagLog(), "pause");
         mTargetPlayState = PLAY_STATE_PAUSE;
         if (hasPreparedMediaPlayer()) {
             mWorkThreadHandler.obtainMessage(PLAY_STATE_PAUSE).sendToTarget();
@@ -417,7 +432,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     public void resumePlayback() {
-        HSLog.d(TAG, "resumePlayback");
+        HSLog.d(getTagLog(), "resumePlayback");
         mTargetPlayState = PLAY_STATE_PLAYING;
         if (hasPreparedMediaPlayer()) {
             mWorkThreadHandler.obtainMessage(PLAY_STATE_PLAYING).sendToTarget();
@@ -453,7 +468,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     }
 
     private void release() {
-        HSLog.d(TAG, "release");
+        HSLog.d(getTagLog(), "release");
         mStartPosition = -1;
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
@@ -504,6 +519,13 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
                 }
             }
         }
+    }
+
+    private String getTagLog() {
+        if (mLogTag != null) {
+            return TAG + "-" + mLogTag;
+        }
+        return TAG;
     }
 
     private boolean hasPreparedMediaPlayer() {

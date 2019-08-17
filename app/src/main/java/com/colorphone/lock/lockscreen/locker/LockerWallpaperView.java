@@ -50,6 +50,7 @@ public class LockerWallpaperView extends FrameLayout {
 
     private void init() {
         textureVideoView = new TextureVideoView(getContext());
+        textureVideoView.setLogTag("LockerWallpaper");
         textureVideoView.setVisibility(INVISIBLE);
         textureVideoView.setLooping(true);
         textureVideoView.setScaleType(TextureVideoView.ScaleType.CENTER_CROP);
