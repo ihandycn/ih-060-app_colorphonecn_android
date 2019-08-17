@@ -10070,9 +10070,21 @@
 				<array>
 					<dict>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose.mp4</string>
 						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose_preview.png</string>
+					</dict>
+					<dict>
+						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog_preview.jpg</string>
+					</dict>
+					<dict>
+						<key>Original</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Meteor/Meteor.mp4</string>
+						<key>Preview</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Meteor/Meteor_preview.png</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -10082,9 +10094,9 @@
 					</dict>
 					<dict>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Meteor/Meteor.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp4</string>
 						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Meteor/Meteor_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
 					</dict>
 					<dict>
 						<key>Original</key>
@@ -10121,18 +10133,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fortune/Fortune.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fortune/Fortune_preview.png</string>
-					</dict>
-					<dict>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog_preview.jpg</string>
-					</dict>
-					<dict>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose_preview.png</string>
 					</dict>
 					<dict>
 						<key>Original</key>
