@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.activity.CustomizeActivity;
 import com.honeycomb.colorphone.customize.util.ServiceHolder;

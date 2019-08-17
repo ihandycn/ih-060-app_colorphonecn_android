@@ -14,7 +14,7 @@ import android.os.RemoteException;
 import android.view.View;
 
 import com.colorphone.lock.util.ViewUtils;
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.CustomizeService;

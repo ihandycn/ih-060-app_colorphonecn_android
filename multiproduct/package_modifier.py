@@ -51,8 +51,6 @@ if __name__ == '__main__':
             replace_str_in_dir(path + directory + '/rs', package_name, application_id)
             print 'res - ' + path + directory + '/res'
             replace_str_in_dir(path + directory + '/res', package_name, application_id)
-            print 'aidl - ' + path + directory + '/aidl'
-            replace_str_in_dir(path + directory + '/aidl', package_name, application_id)
 
         replace_str_in_file('./app/src/main/AndroidManifest.xml', package_name, application_id)
 

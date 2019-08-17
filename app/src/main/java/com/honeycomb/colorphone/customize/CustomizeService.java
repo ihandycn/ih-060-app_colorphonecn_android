@@ -8,7 +8,7 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 
 import java.util.List;
 import java.util.Map;

@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.call.assistant.util.Utils;
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.CustomizeService;

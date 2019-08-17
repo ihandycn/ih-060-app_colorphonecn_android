@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.colorphone.customize;
 
 interface ICustomizeService {
 

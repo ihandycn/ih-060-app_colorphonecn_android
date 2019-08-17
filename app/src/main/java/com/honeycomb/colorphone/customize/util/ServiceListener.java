@@ -1,7 +1,7 @@
 package com.honeycomb.colorphone.customize.util;
 
 
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 
 /**
  * Implemented by views and adapters that needs to be notified when {@link ICustomizeService} is connected.

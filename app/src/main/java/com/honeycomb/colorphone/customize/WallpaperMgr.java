@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.RemoteException;
 
-import com.honeycomb.colorphone.ICustomizeService;
+import com.colorphone.customize.ICustomizeService;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSPreferenceHelper;
