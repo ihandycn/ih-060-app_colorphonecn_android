@@ -10069,12 +10069,16 @@
 				<key>Video</key>
 				<array>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueRose/BlueRose_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog.mp4</string>
 						<key>Preview</key>
@@ -10135,18 +10139,24 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fortune/Fortune_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PinkHeart/PinkHeart.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PinkHeart/PinkHeart_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Waves.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/waves/acb_phone_theme_preview_waves.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/LovelyBear/LovelyBear.mp4</string>
 						<key>Preview</key>
@@ -10171,6 +10181,8 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CoolGirl/CoolGirl_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Petal.mp4</string>
 						<key>Preview</key>
@@ -10195,6 +10207,8 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BlueSea/BlueSea_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Hearts.mp4</string>
 						<key>Preview</key>
@@ -10219,6 +10233,8 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Bamboo/Bamboo_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea.mp4</string>
 						<key>Preview</key>
@@ -10537,282 +10553,376 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/LuckyDeer/LuckyDeer_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dance/Dance.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dance/Dance_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Shining.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/flash/acb_phone_theme_preview_flash.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Venom/Venom.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Venom/Venom_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/FadeColor/FadeColor.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/FadeColor/FadeColor_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorfulRing/ColorfulRing.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorfulRing/ColorfulRing_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Butterfly/Butterfly.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Butterfly/Butterfly_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartTeddy/HeartTeddy.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartTeddy/HeartTeddy_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Spin/Spin.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Spin/Spin_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Discoskull/Discoskull.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Discoskull/Discoskull_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/DeepLove.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/acb_phone_theme_preview_love.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Panda.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/panda/acb_phone_theme_preview_panda.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Heart/Heart.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Heart/Heart_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorray/ColorRay.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorray/ColorRay_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Diamond/Diamond.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Diamond/Diamond_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Squares/Squares.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Squares/Squares_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Multicolor/Multicolor.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Multicolor/Multicolor_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Metalskull/Metalskull.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Metalskull/Metalskull_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Monkey/Monkey.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Monkey/Monkey_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Skeleton/Skeleton.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Skeleton/Skeleton_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Stars.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/stars/theme_preview_stars.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorlight/Colorlight.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorlight/Colorlight_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Stars2.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/stars/acb_phone_theme_preview_stars2.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DropRose/DropRose.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DropRose/DropRose_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceBear/DanceBear.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceBear/DanceBear_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorFox/ColorFox.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorFox/ColorFox_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/rotate/Rotate.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/rotate/Rotate_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Color/Color.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Color/Color_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/DJ.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/dj/acb_phone_theme_preview_dj.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/pub/pub.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/pub/pub_preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Neon.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/neon/theme_preview_neon.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PinkBear/PinkBear.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PinkBear/PinkBear_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PurpleLips/PurpleLips.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/PurpleLips/PurpleLips_preview.png</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Mixture/Mixture.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Mixture/Mixture_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Cash.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/cash/acb_phone_theme_preview_cash.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Floating.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/color/acb_phone_theme_preview_color.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Galaxy/Galaxy.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Galaxy/Galaxy_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Dazzle.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/comet/acb_phone_theme_preview_comet.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Modern.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/square/acb_phone_theme_preview_square.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Universe.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/vitas/acb_phone_theme_preview_vitas.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Brownian.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/sporty/acb_phone_theme_preview_sporty.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Sun.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/sun/theme_preview_sun.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Snow.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/flow/acb_phone_theme_preview_flow.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/video/Raining.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/drop/acb_phone_theme_preview_drop.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Hearts2/Hearts2.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Hearts2/Hearts2_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fancy/Fancy.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fancy/Fancy_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon_Preview.jpg</string>
 					</dict>
 					<dict>
+						<key>AudioFalse</key>
+						<true/>
 						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/merrychristmas/MerryChristmas.mp4</string>
 						<key>Preview</key>
