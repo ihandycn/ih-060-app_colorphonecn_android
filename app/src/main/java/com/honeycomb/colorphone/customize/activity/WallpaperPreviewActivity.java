@@ -826,7 +826,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                         retY = (sHeight - nh) / 2;
                     }
                     Bitmap bitmap = Bitmap.createBitmap(source, retX, retY, nw, nh);
-                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper);
+                    WallpaperUtils.saveAsLockerWallpaper(bitmap, mCurrentWallpaper, mTypeName);
                 }
 
 //                boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN

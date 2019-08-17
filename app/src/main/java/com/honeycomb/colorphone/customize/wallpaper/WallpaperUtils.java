@@ -413,7 +413,7 @@ public class WallpaperUtils {
         return file;
     }
 
-    public static void saveAsLockerWallpaper(Bitmap bitmap, WallpaperInfo wallpaperInfo) {
+    public static void saveAsLockerWallpaper(Bitmap bitmap, WallpaperInfo wallpaperInfo, String typeName) {
         final String url = wallpaperInfo.getSource();
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
@@ -446,7 +446,7 @@ public class WallpaperUtils {
                             Toast.makeText(HSApplication.getContext(), R.string.apply_success, Toast.LENGTH_LONG).show();
                             HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
                             Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
-                                    "Type", wallpaperInfo.getCategory().categoryName);
+                                    "Type", typeName);
                         }
                     });
                 }
