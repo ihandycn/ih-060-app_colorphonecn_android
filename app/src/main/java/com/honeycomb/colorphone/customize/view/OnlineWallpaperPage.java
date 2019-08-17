@@ -135,14 +135,14 @@ public class OnlineWallpaperPage extends RelativeLayout {
     }
 
     public void guideWallpaper() {
-        mAnimator.start();
+        mGuideAnimator.start();
     }
-
-    private ValueAnimator mAnimator = ValueAnimator.ofInt(0, Dimensions.pxFromDp(30), 0, 0, Dimensions.pxFromDp(30), 0).setDuration(3000);
+    
+    private ValueAnimator mGuideAnimator = ValueAnimator.ofInt(0, Dimensions.pxFromDp(30), 0, 0, Dimensions.pxFromDp(30), 0).setDuration(3000);
 
     public void setup(int initialTabIndex) {
-        mAnimator.setStartDelay(500);
-        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mGuideAnimator.setStartDelay(500);
+        mGuideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 mViewPager.scrollTo((Integer) valueAnimator.getAnimatedValue(), 0);
@@ -196,6 +196,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 }
                 int wallpaperPageStartIndex = hasHeaderPageView() ? 1 : 0;
                 if (positionAbsolute == wallpaperPageStartIndex) {
+                    mGuideAnimator.cancel();
                     CustomizeUtils.disableGuideLockerWallpaper();
                     Analytics.logEvent(Analytics.upperFirstCh("wallpaper_page_show"));
                 }

@@ -68,6 +68,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private ImageView mWallpaperIcon;
     private View mDimCover;
     private boolean isLockerPageShow = true;
+    private View mWallpaperIconHint;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -230,6 +231,7 @@ public class Locker extends LockScreen implements INotificationObserver {
                     mLockerWallpaper.resumePlay();
                 } else {
                     mLockerWallpaper.pausePlay();
+                    mWallpaperIconHint.setVisibility(View.GONE);
                 }
             }
 
@@ -264,6 +266,11 @@ public class Locker extends LockScreen implements INotificationObserver {
 
             }
         });
+
+        // Red point hint
+        boolean needGuide = CustomizeUtils.needGuideLockerWallpaper();
+        mWallpaperIconHint = mRootView.findViewById(R.id.wallpaper_icon_entrance_red_point);
+        mWallpaperIconHint.setVisibility(needGuide ? View.VISIBLE : View.GONE);
 
         mWallpaperIcon = mRootView.findViewById(R.id.wallpaper_icon_entrance);
         mWallpaperIcon.setOnClickListener(new View.OnClickListener() {
