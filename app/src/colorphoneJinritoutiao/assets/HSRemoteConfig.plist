@@ -86,7 +86,7 @@
 					<key>Enable</key>
 					<dict>
 						<key>After</key>
-						<false/>
+						<true/>
 						<key>Before</key>
 						<false/>
 						<key>Time</key>
@@ -243,16 +243,16 @@
 			<key>GameCenter</key>
 			<dict>
 				<key>LockScreenEnable</key>
-				<false/>
+				<true/>
 				<key>MainViewEnable</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>GrantAccess</key>
 			<dict>
 				<key>MaxCount</key>
 				<integer>20</integer>
-				<key>RequestOnStartGuide</key>
-				<true/>
+                <key>RequestOnStartGuide</key>
+                <true/>
 			</dict>
 			<key>Guide</key>
 			<dict>
@@ -447,9 +447,9 @@
 				<key>Enable</key>
 				<dict>
 					<key>After</key>
-					<false/>
+					<true/>
 					<key>Before</key>
-					<false/>
+					<true/>
 					<key>Time</key>
 					<string>2018.01.03</string>
 				</dict>
@@ -959,7 +959,7 @@
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>NotShowOnScreen</key>
 					<true/>
 					<key>ShowAds</key>
