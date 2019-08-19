@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
@@ -92,6 +93,7 @@ class BoostPlusResultController extends ResultController {
     private View mFreedResultBtn;
     private Runnable mAdTransitionRunnable;
 
+    private TextView titleAnchor;
 
     BoostPlusResultController(ResultPageActivity activity, int resultType, int cleanedSizeMbs, Type type, List<CardData> cardDataList) {
         mCleanedSizeMbs = cleanedSizeMbs;
@@ -296,11 +298,29 @@ class BoostPlusResultController extends ResultController {
         TimeInterpolator softStopAccDecInterpolator = PathInterpolatorCompat.create(0.79f, 0.37f, 0.28f, 1f);
         mOptimalTv.animate()
                 .translationYBy(newOptimalTvCenterY - oldOptimalTvCenterY)
-                .scaleX(1.8f)
-                .scaleY(1.8f)
                 .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
                 .setInterpolator(softStopAccDecInterpolator)
                 .start();
+
+        mHandler.postDelayed(() -> {
+            int appSize = DeviceManager.getInstance().getRunningApps();
+            String text = getContext().getString(R.string.result_page_boost_plus_optimal) + "\n" + String.format(getContext().getString(R.string.clean_guide_boost_result),
+                    String.valueOf(appSize), getImprove(appSize));
+            mOptimalTv.setText(text);
+        }, DURATION_OPTIMAL_TEXT_TRANSLATION);
+    }
+
+    private String getImprove(int size) {
+        if (size >= 1 && size < 5) {
+            return "10%";
+        } else if (size >= 5 && size < 10) {
+            return "20%";
+        } else if (size >= 10 && size < 20) {
+            return "35%";
+        } else if (size >= 20) {
+            return "40%";
+        }
+        return "5%";
     }
 
     private void startTickAnimation() {

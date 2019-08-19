@@ -563,6 +563,9 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
             logTimeConsumes(System.currentTimeMillis() - startTimeMills);
 
         }
+
+        canBack &= HSConfig.optBoolean(true, "Application", "CleanGuide", "ForbiddenBackWhenCleaning");
+
         if (canBack) {
             super.onBackPressed();
         }

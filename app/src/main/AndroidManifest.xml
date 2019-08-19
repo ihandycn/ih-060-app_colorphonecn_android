@@ -702,26 +702,36 @@
             android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
             android:label="@string/title_message_activity"
             android:icon="@drawable/icon_message"
-            tools:replace="android:label" >
+            tools:replace="android:label" />
 
-        </activity>
         <activity
             android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
+
         <activity
             android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
+
         <activity
             android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForMIUI"/>
+            android:theme="@style/AppTranslucentForMIUI"
+            tools:replace="android:theme" />
+
+        <activity
+            android:name=".notification.CleanGuideActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=":clean"
+            android:label="@string/clean_guide_activity_label"
+            android:icon="@drawable/clean_guide_icon"
+            android:theme="@style/TransparentCompatDialog"/>
 
         <!--Override  - Tag : process-->
 

@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -130,8 +131,10 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
     @Override
     public void onBackPressed() {
-        finishWithoutAnimation();
-        super.onBackPressed();
+        if (HSConfig.optBoolean(true, "Application", "CleanGuide", "ForbiddenBackWhenCleaning")) {
+            finishWithoutAnimation();
+            super.onBackPressed();
+        }
     }
 
     @Override

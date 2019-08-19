@@ -517,6 +517,7 @@ abstract class ResultController implements View.OnClickListener {
 
                 } else {
                     Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
+                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Battery");
                 }
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
@@ -528,6 +529,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostWire_Ad_Shown_FromToolbar");
+                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
@@ -538,6 +540,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
+                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "CPU");
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
             default:
@@ -555,6 +558,7 @@ abstract class ResultController implements View.OnClickListener {
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
                     Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
+                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Battery");
                 }
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
@@ -566,6 +570,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostDone_Ad_Shown_FromToolbar");
+                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
@@ -576,6 +581,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
+                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "CPU");
                 AutoPilotUtils.logCpudoneAdShow();
                 break;
             default:
