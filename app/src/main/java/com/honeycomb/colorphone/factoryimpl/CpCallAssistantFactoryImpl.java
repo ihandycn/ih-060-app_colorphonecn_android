@@ -9,6 +9,7 @@ import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import com.acb.call.VideoManager;
@@ -242,7 +243,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override public void onInsteadViewShown(View view) {
                 ThemeGuide.parser(view);
             }
+
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
+            }
         };
+
     }
 
     @Override
@@ -394,6 +400,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             return Placements.AD_CALL_ASSISTANT_FULL_SCREEN;
         }
 
+
         @Override
         public boolean enableFullScreenAd() {
             return CallFinishUtils.isCallFinishFullScreenAdEnabled();
@@ -413,6 +420,21 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override public int getInsteadLayoutID() {
             return ThemeGuide.getInsteadLayoutID();
+        }
+
+        @Override
+        public boolean isTextureWireEnable() {
+            return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "TextureWireEnable");
+        }
+
+        @Override
+        public String getTextureWirePlacement() {
+            return Placements.AD_EXIT_TEXTURE_WIRE;
+        }
+
+        @Override
+        public long getTextureWireInterval() {
+            return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "CallAssistant", "TextureWireIntervalMinute");
         }
     }
 
