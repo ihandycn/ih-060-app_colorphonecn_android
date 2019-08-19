@@ -961,7 +961,7 @@
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>
-					<false/>
+					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>
