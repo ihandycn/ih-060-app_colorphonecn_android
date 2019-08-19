@@ -937,9 +937,9 @@
 						<key>interval</key>
 						<integer>10</integer>
 					</dict>
-					<key>TextureWireIntervalMinute</key>
+					<key>CallFinishWireIntervalMinute</key>
 					<integer>0</integer>
-					<key>TextureWireEnable</key>
+					<key>CallFinishWireEnable</key>
 					<false/>
 					<key>DefaultEnabled</key>
 					<true/>
