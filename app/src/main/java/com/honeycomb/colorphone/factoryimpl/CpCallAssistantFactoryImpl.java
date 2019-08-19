@@ -426,7 +426,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public boolean isTextureWireEnable() {
-            return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "TextureWireEnable");
+            return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireEnable");
         }
 
         @Override
@@ -436,7 +436,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public long getTextureWireInterval() {
-            return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "CallAssistant", "TextureWireIntervalMinute");
+            return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireIntervalMinute");
         }
     }
 
