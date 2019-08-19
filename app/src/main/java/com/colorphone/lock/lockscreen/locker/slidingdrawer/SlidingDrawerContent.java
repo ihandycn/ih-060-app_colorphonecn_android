@@ -19,6 +19,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -129,6 +131,7 @@ public class SlidingDrawerContent extends FrameLayout
     };
 
     private SystemSettingsManager mSystemSettingsManager;
+    private String mLastWallpaperPath;
 
     public SlidingDrawerContent(Context context) {
         this(context, null);
@@ -264,6 +267,7 @@ public class SlidingDrawerContent extends FrameLayout
         mSystemSettingsManager.register(this);
 
         updateSystemToggles();
+        refreshDrawerBg();
 
     }
 
@@ -316,17 +320,23 @@ public class SlidingDrawerContent extends FrameLayout
     }
 
     private void refreshDrawerBg() {
-        if (isDrawerBgInitial) return;
-        isDrawerBgInitial = true;
         if (mLocker == null) {
             return;
         }
         Drawable currentWallpaper = mLocker.getIvLockerWallpaper().getDrawable();
-
         Bitmap wallPaperBitmap = null;
         if (currentWallpaper != null && currentWallpaper instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) currentWallpaper).getBitmap();
             if (bitmap != null) {
+                // Prevent same wallpaper blur.
+                String path = CustomizeUtils.getLockerWallpaperPath();
+                if (path != null
+                        & !TextUtils.equals(mLastWallpaperPath, path)) {
+                    return;
+                }
+                mLastWallpaperPath = path;
+
+                // New image
                 wallPaperBitmap = bitmap;
             } else {
 //                wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);

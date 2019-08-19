@@ -36,7 +36,6 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
-import com.superapps.util.Threads;
 
 public class Locker extends LockScreen implements INotificationObserver {
 
@@ -202,13 +201,8 @@ public class Locker extends LockScreen implements INotificationObserver {
             mLockerWallpaper.setWallPaperFilePath(path, isLockerPageShow);
         } else {
             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
+            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
         }
-        Threads.postOnMainThreadDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
-            }
-        }, 300);
     }
 
     private void configLockViewPager() {

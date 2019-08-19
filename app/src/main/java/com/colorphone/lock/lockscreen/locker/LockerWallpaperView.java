@@ -17,9 +17,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
 /**
  * @author sundxing
@@ -75,6 +77,7 @@ public class LockerWallpaperView extends FrameLayout {
             mType = TYPE_VIDEO;
             boolean autoPlay = isLockerPageShow;
             setVideo(path, autoPlay);
+            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
         }
     }
 
@@ -156,6 +159,7 @@ public class LockerWallpaperView extends FrameLayout {
                     textureVideoView.setVisibility(INVISIBLE);
                 }
                 wallpaperView.setImageBitmap(bitmap);
+                HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
             }
         });
 
