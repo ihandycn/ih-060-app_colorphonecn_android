@@ -99,6 +99,7 @@ public class AutoRequestManager {
     private boolean isRequestPermission = false;
     private boolean isRequestFloatPermission = false;
     private boolean backPressExecuted = false;
+    private boolean needDoubleCheckFloatPermission = false;
 
     private int executeBackPressTryCount;
 
@@ -260,9 +261,18 @@ public class AutoRequestManager {
                 HSLog.d(TAG, "User start cancel request draw overlay!");
             }
             HSLog.d(TAG, "start request draw overlay!");
+
             ArrayList<String> permission = new ArrayList<String>();
-            if (RomUtils.checkIsMiuiRom() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
-                permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY_SYSTEM);
+            if (RomUtils.checkIsMiuiRom()
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+                if (!needDoubleCheckFloatPermission) {
+                    permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY_SYSTEM);
+                    needDoubleCheckFloatPermission = true;
+                } else {
+                    // Double check
+                    permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
+                    needDoubleCheckFloatPermission = false;
+                }
             } else {
                 permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
             }
@@ -275,8 +285,13 @@ public class AutoRequestManager {
                         AutoPermissionChecker.onFloatPermissionChange(true);
                         AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Success");
                     } else {
-                        notifyAutoTaskOver(false);
-                        AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Failed");
+                        if (needDoubleCheckFloatPermission) {
+                            // Lets check it again.
+                            performPermissionCheck();
+                        } else {
+                            notifyAutoTaskOver(false);
+                            AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Failed");
+                        }
                     }
                 }
 
