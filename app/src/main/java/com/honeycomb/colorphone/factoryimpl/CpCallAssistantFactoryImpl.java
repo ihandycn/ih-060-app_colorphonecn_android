@@ -218,6 +218,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType) {
                 super.onAlertDismiss(dismissType);
+                Analytics.logEvent("CallFinished_View_Closed", "DismissType", dismissType.name());
+
             }
 
             @Override
