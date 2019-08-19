@@ -426,7 +426,18 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public boolean isTextureWireEnable() {
-            return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireEnable");
+            return showAd() && isTextureWireOnLockEnable() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireEnable");
+        }
+
+        @Override
+        public boolean isTextureWireOnLockEnable() {
+            boolean isLocked = Utils.isKeyguardLocked(HSApplication.getContext(), true);
+            boolean config = HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireShowInLock");
+
+            if (isLocked) {
+                return config;
+            }
+            return true;
         }
 
         @Override
