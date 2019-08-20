@@ -939,6 +939,8 @@
 					</dict>
 					<key>CallFinishWireIntervalMinute</key>
 					<integer>0</integer>
+					<key>CallFinishWireShowInLock</key>
+					<false/>
 					<key>CallFinishWireEnable</key>
 					<false/>
 					<key>DefaultEnabled</key>
