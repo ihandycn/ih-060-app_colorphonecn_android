@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.notification;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -52,13 +53,22 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     private AcbExpressAdView adView;
 
     public static void start(@CleanGuideCondition.CLEAN_GUIDE_TYPES int type) {
+        HSLog.i(CleanGuideCondition.TAG, "CleanGuideActivity.start");
         Intent intent = new Intent(HSApplication.getContext(), CleanGuideActivity.class);
         intent.putExtra(EXTRA_KEY_CLEAN_TYPE, type);
-        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(HSApplication.getContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e) {
+            HSLog.i(CleanGuideCondition.TAG, "CleanGuideActivity.start failed");
+            e.printStackTrace();
+        }
     }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HSLog.i(CleanGuideCondition.TAG, "CleanGuideActivity onCreate");
 
         isShowNativeAD = HSConfig.optBoolean(true, "Application", "CleanGuide", "PopUpAdEnable");
         if (isShowNativeAD) {
@@ -268,6 +278,9 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
         Analytics.logEvent("Clean_Guide_Close", "Type", exitReason);
+        if (adView != null) {
+            adView.destroy();
+        }
     }
 
     private void showAdIfProper() {
