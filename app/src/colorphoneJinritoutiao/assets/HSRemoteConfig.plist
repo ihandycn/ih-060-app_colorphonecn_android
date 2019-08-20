@@ -942,7 +942,7 @@
 					<key>CallFinishWireShowInLock</key>
 					<false/>
 					<key>CallFinishWireEnable</key>
-					<true/>
+					<false/>
 					<key>DefaultEnabled</key>
 					<true/>
 					<key>Enable</key>
