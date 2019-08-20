@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.acb.call.service.InCallWindow;
-import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.notification.CleanGuideActivity;
+import com.honeycomb.colorphone.notification.CleanGuideCondition;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -55,9 +56,10 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
+        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
     }
 
     public void checkFloatWindow(View view) {
-        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
     }
 }

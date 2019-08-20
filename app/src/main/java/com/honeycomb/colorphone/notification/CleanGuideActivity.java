@@ -6,10 +6,14 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.boost.BoostActivity;
@@ -25,6 +29,11 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
+import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
+import net.appcloudbox.ads.common.utils.AcbError;
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
+import net.appcloudbox.ads.expressad.AcbExpressAdView;
+
 public class CleanGuideActivity extends HSAppCompatActivity {
     private static final String TAG = CleanGuideActivity.class.getSimpleName();
     public static final String EXTRA_KEY_CLEAN_TYPE = "extra_key_clean_type";
@@ -35,6 +44,12 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     private RevealFlashButton action;
 
     private String exitReason = "Other";
+    private boolean isShowNativeAD;
+
+    private boolean mAdShown;
+
+    private FrameLayout mAdContainer;
+    private AcbExpressAdView adView;
 
     public static void start(@CleanGuideCondition.CLEAN_GUIDE_TYPES int type) {
         Intent intent = new Intent(HSApplication.getContext(), CleanGuideActivity.class);
@@ -45,13 +60,21 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.clean_guide_activity);
+        isShowNativeAD = HSConfig.optBoolean(true, "Application", "CleanGuide", "PopUpAdEnable");
+        if (isShowNativeAD) {
+            setContentView(R.layout.clean_guide_activity_with_ad);
+            AcbExpressAdManager.getInstance().activePlacementInProcess(Placements.AD_CLEAN_GUIDE);
+            AcbExpressAdManager.getInstance().preload(1, Placements.AD_CLEAN_GUIDE);
+        } else {
+            setContentView(R.layout.clean_guide_activity);
 
-        View view = findViewById(R.id.content_view);
-        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+            View view = findViewById(R.id.content_view);
+            view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+        }
 
-        view = findViewById(R.id.close_btn);
-        view.setOnClickListener(v -> {
+
+        View close = findViewById(R.id.close_btn);
+        close.setOnClickListener(v -> {
             finish();
             exitReason = "Close";
         });
@@ -62,6 +85,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         action = findViewById(R.id.clean_action_btn);
 
         configUI();
+
+        showAdIfProper();
     }
 
     private void configUI() {
@@ -167,7 +192,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
                 actionRunnable = () -> {
                     Intent intent = new Intent(this, BoostActivity.class);
-                    intent.putExtra("sss", "s");
                     Navigations.startActivitySafely(this, intent);
                 };
                 break;
@@ -187,7 +211,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
                 actionRunnable = () -> {
                     Intent intent = new Intent(this, BoostActivity.class);
-                    intent.putExtra("sss", "s");
                     Navigations.startActivitySafely(this, intent);
                 };
                 break;
@@ -206,9 +229,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                         new ForegroundColorSpan(0xffd43d3d),
                         index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                actionRunnable = () -> {
-                    Navigations.startActivitySafely(this, CpuCoolDownActivity.class);
-                };
+                actionRunnable = () -> Navigations.startActivitySafely(this, CpuCoolDownActivity.class);
                 break;
         }
 
@@ -235,7 +256,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     }
 
     @Override public void onBackPressed() {
-        String type = HSConfig.optString("：DismissPopUp", "Application", "CleanGuide", "ResponseToBackWhenPopUp");
+        String type = HSConfig.optString("DismissPopUp", "Application", "CleanGuide", "ResponseToBackWhenPopUp");
         if (TextUtils.equals(type, "DismissPopUp")) {
             exitReason = "Back";
             super.onBackPressed();
@@ -247,5 +268,67 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
         Analytics.logEvent("Clean_Guide_Close", "Type", exitReason);
+    }
+
+    private void showAdIfProper() {
+        if (mAdShown) {
+            return;
+        }
+
+        if (!isShowNativeAD) {
+            return;
+        }
+
+        showAd();
+    }
+
+    public void showAd() {
+        if (mAdContainer == null) {
+            mAdContainer = findViewById(R.id.ad_fragment);
+        }
+        addAdView();
+    }
+
+    private void addAdView() {
+        if (adView == null) {
+            adView = new AcbExpressAdView(this, Placements.AD_CLEAN_GUIDE, "");
+            AcbContentLayout layout = new AcbContentLayout(com.messagecenter.R.layout.acb_phone_alert_ad_card_big);
+            layout.setActionId(com.messagecenter.R.id.ad_call_to_action);
+            layout.setChoiceId(com.messagecenter.R.id.ad_conner);
+            layout.setTitleId(com.messagecenter.R.id.ad_title);
+            layout.setDescriptionId(com.messagecenter.R.id.ad_subtitle);
+            layout.setIconId(com.messagecenter.R.id.ad_icon);
+            layout.setPrimaryId(com.messagecenter.R.id.ad_cover_img);
+
+            adView.setCustomLayout(layout);
+            adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+            adView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
+                @Override
+                public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+
+                }
+
+                @Override
+                public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                    mAdShown = true;
+
+                }
+            });
+
+            adView.prepareAd(new AcbExpressAdView.PrepareAdListener() {
+                @Override
+                public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
+                    adView.setGravity(Gravity.CENTER);
+                    mAdContainer.setVisibility(View.VISIBLE);
+                    mAdContainer.addView(acbExpressAdView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                }
+
+                @Override
+                public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView, AcbError acbError) {
+
+                }
+
+            });
+        }
     }
 }

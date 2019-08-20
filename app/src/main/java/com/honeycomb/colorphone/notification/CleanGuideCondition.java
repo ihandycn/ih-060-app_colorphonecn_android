@@ -44,8 +44,8 @@ public class CleanGuideCondition implements INotificationObserver {
     private static final String PREF_KEY_BOOST_APPS_SHOW_TIME = "pref_key_boost_apps_show_time";
     private static final String PREF_KEY_BATTERY_APPS_SHOW_TIME = "pref_key_battery_apps_show_time";
     private static final String PREF_KEY_CLEAN_GUIDE_LAST_SHOW_TIME = "pref_key_clean_guide_last_show_time";
-    private static final String PREF_KEY_BATTERY_NORMAL = "pref_key_battery_normal";
-    private static final String PREF_KEY_CPU_NORMAL = "pref_key_cpu_normal";
+    public static final String PREF_KEY_BATTERY_NORMAL = "pref_key_battery_normal";
+    public static final String PREF_KEY_CPU_NORMAL = "pref_key_cpu_normal";
 
     public static final int CLEAN_GUIDE_TYPE_BATTERY_LOW = 1;
     public static final int CLEAN_GUIDE_TYPE_CPU_HOT = 2;
@@ -189,35 +189,35 @@ public class CleanGuideCondition implements INotificationObserver {
     private boolean showBatteryLowIfNeeded() {
         int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
         boolean changeToLow = Preferences.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_BATTERY_NORMAL, true);
-        if (batteryLevel < 20 && changeToLow) {
-            CleanGuideActivity.start(CLEAN_GUIDE_TYPE_BATTERY_LOW);
-            recordCleanGuideShow(CLEAN_GUIDE_TYPE_BATTERY_LOW);
-            Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_BATTERY_NORMAL, false);
-            return true;
-        } else {
-            if (batteryLevel > 20) {
-                Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_BATTERY_NORMAL, true);
+        if (batteryLevel < 20) {
+            if (changeToLow) {
+                CleanGuideActivity.start(CLEAN_GUIDE_TYPE_BATTERY_LOW);
+                recordCleanGuideShow(CLEAN_GUIDE_TYPE_BATTERY_LOW);
+                Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_BATTERY_NORMAL, false);
+                return true;
             }
-            HSLog.d(TAG, "NOT show BatteryLow");
+        } else {
+            Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_BATTERY_NORMAL, true);
         }
+        HSLog.d(TAG, "NOT show BatteryLow");
         return false;
     }
 
     private boolean showCpuHotIfNeeded() {
         float cpuTemp = DeviceManager.getInstance().getCpuTemperatureCelsius();
         boolean changeToHigh = Preferences.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_CPU_NORMAL, true);
-        if (cpuTemp >= 45 && changeToHigh) {
-            HSLog.i(TAG, "show CpuHot");
-            CleanGuideActivity.start(CLEAN_GUIDE_TYPE_CPU_HOT);
-            Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_CPU_NORMAL, false);
-            recordCleanGuideShow(CLEAN_GUIDE_TYPE_CPU_HOT);
-            return true;
-        } else {
-            if (cpuTemp < 45) {
-                Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_CPU_NORMAL, true);
+        if (cpuTemp >= 45) {
+            if (changeToHigh) {
+                HSLog.i(TAG, "show CpuHot");
+                CleanGuideActivity.start(CLEAN_GUIDE_TYPE_CPU_HOT);
+                Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_CPU_NORMAL, false);
+                recordCleanGuideShow(CLEAN_GUIDE_TYPE_CPU_HOT);
+                return true;
             }
-            HSLog.d(TAG, "NOT show CpuHot");
+        } else {
+            Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_CPU_NORMAL, true);
         }
+        HSLog.d(TAG, "NOT show CpuHot");
         return false;
     }
 

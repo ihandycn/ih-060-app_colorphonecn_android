@@ -33,4 +33,5 @@ public class Placements {
 
     public static final String AD_NEWS = "AirNews";
     public static final String AD_EXIT_TEXTURE_WIRE = "AdExitTextureWire";
+    public static final String AD_CLEAN_GUIDE = "BoostGuide";  // Express
 }

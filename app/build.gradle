@@ -197,7 +197,7 @@ dependencies {
 
     final COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
-                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta10' :
+                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta11' :
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
@@ -253,7 +253,7 @@ dependencies {
     compile project(':libPermissionacquire')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.08.05.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.08.19.001'
 
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'
