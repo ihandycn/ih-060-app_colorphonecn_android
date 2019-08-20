@@ -275,7 +275,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         if (TextUtils.equals(type, "DismissPopUp")) {
             exitReason = "Back";
             super.onBackPressed();
-        } else if (TextUtils.equals(type, "ContunieCleaning")) {
+        } else if (TextUtils.equals(type, "ContinueCleaning")) {
             action.performClick();
         }
     }
