@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -261,8 +262,12 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
     private void startButtonAppearAnimation() {
         action.setVisibility(View.VISIBLE);
-        action.setFlashDuration(560);
-        action.postDelayed(() -> action.flash(), 260);
+        action.setFlashDuration(770);
+        action.setFlashInterpolator(PathInterpolatorCompat.create(.69f, 0f, .56f, .76f));
+        action.postDelayed(() -> action.flash(), 200);
+        action.postDelayed(() -> action.flash(), 1170);
+        action.postDelayed(() -> action.flash(), 2940);
+        action.postDelayed(() -> action.flash(), 3910);
     }
 
     @Override public void onBackPressed() {
@@ -303,6 +308,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     }
 
     private void addAdView() {
+        Analytics.logEvent("Clean_Guide_AD_Should_Show");
+
         if (adView == null) {
             adView = new AcbExpressAdView(this, Placements.AD_CLEAN_GUIDE, "");
             AcbContentLayout layout = new AcbContentLayout(com.messagecenter.R.layout.acb_phone_alert_ad_card_big);
@@ -324,7 +331,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 @Override
                 public void onAdShown(AcbExpressAdView acbExpressAdView) {
                     mAdShown = true;
-
+                    Analytics.logEvent("Clean_Guide_AD_Show");
                 }
             });
 
