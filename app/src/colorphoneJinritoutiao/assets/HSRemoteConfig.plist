@@ -6,6 +6,23 @@
 	<dict>
 		<key>Application</key>
 		<dict>
+			<key>CleanGuide</key>
+			<dict>
+				<key>ActiveAfterInstallMinutes</key>
+				<integer>360</integer>
+				<key>Enable</key>
+				<true/>
+				<key>MaxShowTime</key>
+				<integer>4</integer>
+				<key>MinShowInterval</key>
+				<integer>120</integer>
+				<key>ResponseToBackWhenPopUp</key>
+				<string>DismissPopUp</string>
+				<key>ForbiddenBackWhenCleaning</key>
+				<true/>
+				<key>PopUpAdEnable</key>
+				<false/>
+			</dict>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
