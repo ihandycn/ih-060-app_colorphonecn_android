@@ -197,7 +197,7 @@ dependencies {
 
     final COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
-                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta10' :
+                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta11' :
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
