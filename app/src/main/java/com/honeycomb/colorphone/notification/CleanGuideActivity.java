@@ -118,6 +118,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
         String highlight;
         String titleStr;
+        int actionStr;
         int index;
 
         switch (type) {
@@ -125,9 +126,11 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_battery_apps;
                 descriptionRes = R.string.clean_guide_description_battery_apps;
                 actionColor = 0xff5abc6e;
+                actionStr = R.string.clean_guide_battery_action_optimize;
 
                 highlight = getString(R.string.clean_guide_title_battery_apps_highlight);
                 titleStr = getString(R.string.clean_guide_title_battery_apps);
+
                 index = titleStr.indexOf(highlight);
                 titleText = new SpannableString(titleStr);
 
@@ -145,6 +148,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_battery_low;
                 descriptionRes = R.string.clean_guide_description_battery_low;
                 actionColor = 0xff5abc6e;
+                actionStr = R.string.clean_guide_battery_action_optimize_now;
 
                 highlight = DeviceManager.getInstance().getBatteryLevel() + "%";
                 titleStr = String.format(getString(R.string.clean_guide_title_battery_low), highlight);
@@ -165,6 +169,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_boost_apps;
                 descriptionRes = R.string.clean_guide_description_boost_apps;
                 actionColor = 0xff007ef5;
+                actionStr = R.string.clean_guide_boost_action_fast;
 
                 highlight = String.valueOf(DeviceManager.getInstance().getRunningApps());
                 titleStr = String.format(getString(R.string.clean_guide_title_boost_apps), highlight);
@@ -191,6 +196,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_boost_junk;
                 descriptionRes = R.string.clean_guide_description_boost_junk;
                 actionColor = 0xff007ef5;
+                actionStr = R.string.clean_guide_boost_action_boost;
 
                 highlight = DeviceManager.getInstance().getJunkSize();
                 titleStr = String.format(getString(R.string.clean_guide_title_boost_junk), highlight);
@@ -210,6 +216,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_boost_memory;
                 descriptionRes = R.string.clean_guide_description_boost_memory;
                 actionColor = 0xff007ef5;
+                actionStr = R.string.clean_guide_boost_action_boost;
 
                 highlight = DeviceManager.getInstance().getRamUsage() + "%";
                 titleStr = String.format(getString(R.string.clean_guide_title_boost_memory), highlight);
@@ -230,6 +237,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_cpu_hot;
                 descriptionRes = R.string.clean_guide_description_cpu_hot;
                 actionColor = 0xff58b8ff;
+                actionStr = R.string.clean_guide_cpu_action;
 
                 highlight = getString(R.string.clean_guide_title_cpu_hot_highlight);
                 titleStr = getString(R.string.clean_guide_title_cpu_hot);
@@ -247,6 +255,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         imageView.setImageResource(imageRes);
         description.setText(descriptionRes);
         title.setText(titleText);
+
+        action.setText(actionStr);
         action.setBackground(BackgroundDrawables.createBackgroundDrawable(actionColor, Dimensions.pxFromDp(6), true));
         action.setOnClickListener(v -> {
             finish();

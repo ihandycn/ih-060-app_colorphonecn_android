@@ -385,6 +385,12 @@
     <string name="clean_guide_batter_result">%1$s个运行中的应用已关闭，手机提速%2$s</string>
     <string name="clean_guide_cpu_result">%1$s个运行中的应用已关闭，手机提速%2$s</string>
 
+    <string name="clean_guide_boost_action_boost">立即清理</string>
+    <string name="clean_guide_boost_action_fast">立即加速</string>
+    <string name="clean_guide_battery_action_optimize">一键优化</string>
+    <string name="clean_guide_battery_action_optimize_now">立即优化</string>
+    <string name="clean_guide_cpu_action">一键降温</string>
+
     <string name="clean_guide_activity_label">手机管家</string>
 
 </resources>

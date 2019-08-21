@@ -223,10 +223,15 @@ public class CleanGuideCondition implements INotificationObserver {
 
     private void showCleanGuideByType(@CLEAN_GUIDE_TYPES int showType) {
         HSLog.i(TAG, "show guide, type: " + showType);
-        if (showType == CLEAN_GUIDE_TYPE_BOOST_APPS) {
+        if (showType == CLEAN_GUIDE_TYPE_BOOST_APPS
+                || showType == CLEAN_GUIDE_TYPE_BATTERY_APPS) {
             DeviceManager.getInstance().checkRunningApps(() -> {
-                CleanGuideActivity.start(showType);
-                recordCleanGuideShow(showType);
+                if (DeviceManager.getInstance().getRunningApps() > 0) {
+                    CleanGuideActivity.start(showType);
+                    recordCleanGuideShow(showType);
+                } else {
+                    HSLog.i(TAG, "NOT show guide, type: " + showType + "  running apps == 0");
+                }
             });
         } else {
             CleanGuideActivity.start(showType);
@@ -274,7 +279,7 @@ public class CleanGuideCondition implements INotificationObserver {
         int size = cleanGuideHolderList.size();
         if (size > 0) {
             CleanGuideHolder holder;
-            for (int i = size - 1; i > 0; i--) {
+            for (int i = size - 1; i >= 0; i--) {
                 holder = cleanGuideHolderList.get(i);
                 if (!holder.isValid()) {
                     cleanGuideHolderList.remove(holder);
@@ -315,7 +320,6 @@ public class CleanGuideCondition implements INotificationObserver {
 
     private void saveToPref() {
         if (cleanGuideHolderList.size() > 0) {
-//            List<String> saveStr = new ArrayList<>(cleanGuideHolderList.size());
             JSONArray jArray = new JSONArray();
             for (CleanGuideHolder holder : cleanGuideHolderList) {
                 jArray.put(holder.toJSON());
