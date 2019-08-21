@@ -13,9 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
         android:text="@string/auto_start_toast_huawei"
         android:textColor="@color/white"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
