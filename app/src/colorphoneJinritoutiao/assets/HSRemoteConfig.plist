@@ -19,7 +19,7 @@
 				<key>ResponseToBackWhenPopUp</key>
 				<string>DismissPopUp</string>
 				<key>ForbiddenBackWhenCleaning</key>
-				<true/>
+				<false/>
 				<key>PopUpAdEnable</key>
 				<false/>
 			</dict>
