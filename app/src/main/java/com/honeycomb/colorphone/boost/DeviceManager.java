@@ -325,6 +325,10 @@ public class DeviceManager {
                 HSLog.d(TAG, "onScanFinished appSize == " + runningApps);
                 runningAppsPNs.addAll(list);
 
+                if (runningApps == 0) {
+                    setRunningAppsRandom();
+                }
+
                 mRunningAppsRefreshTime = SystemClock.elapsedRealtime();
 
                 if (listener != null) {
@@ -346,7 +350,7 @@ public class DeviceManager {
     public void setRunningAppsRandom() {
         if (isRandomRunningApps || runningApps <= 0) {
             Random random = new Random();
-            runningApps = random.nextInt(5) + 1;
+            runningApps = random.nextInt(8) + 3;
             isRandomRunningApps = true;
         }
     }
