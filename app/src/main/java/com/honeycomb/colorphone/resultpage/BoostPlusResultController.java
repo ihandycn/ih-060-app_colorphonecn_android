@@ -319,16 +319,7 @@ class BoostPlusResultController extends ResultController {
     }
 
     private String getImprove(int size) {
-        if (size >= 1 && size < 5) {
-            return "10%";
-        } else if (size >= 5 && size < 10) {
-            return "20%";
-        } else if (size >= 10 && size < 20) {
-            return "35%";
-        } else if (size >= 20) {
-            return "40%";
-        }
-        return "5%";
+        return (size * 2) + "%";
     }
 
     private void startTickAnimation() {

@@ -358,7 +358,7 @@ public class DeviceManager {
     public void setRunningAppsRandom() {
         if (isRandomRunningApps || runningApps <= 0) {
             Random random = new Random();
-            runningApps = random.nextInt(8) + 3;
+            runningApps = random.nextInt(10) + 3;
             isRandomRunningApps = true;
         }
     }
