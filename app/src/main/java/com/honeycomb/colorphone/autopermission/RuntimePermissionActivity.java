@@ -315,7 +315,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 holder.refreshHolder(p);
 
                 if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
-                    deniedPermissions.add(p);
+                    deniedPermissions.add(0, p);
                     runtimePermissions.remove(p);
                 }
             }
