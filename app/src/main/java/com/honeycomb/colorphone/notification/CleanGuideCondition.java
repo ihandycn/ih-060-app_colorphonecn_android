@@ -114,6 +114,7 @@ public class CleanGuideCondition implements INotificationObserver {
         boolean enable = HSConfig.optBoolean(true, "Application", "CleanGuide", "Enable");
         if (!enable) {
             HSLog.d(TAG, "没有开启功能");
+            return;
         }
 
         long now = System.currentTimeMillis();
