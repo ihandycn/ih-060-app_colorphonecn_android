@@ -375,7 +375,7 @@
     <string name="clean_guide_title_boost_junk">检测到手机产生垃圾%1$s</string>
     <string name="clean_guide_title_boost_memory">内存已被占用%1$s</string>
     <string name="clean_guide_title_battery_low">检测到手机电量不足%1$s</string>
-    <string name="clean_guide_title_battery_apps">大量耗电应用在后台运行</string>
+    <string name="clean_guide_title_battery_apps">一键休眠后台应用，避免耗电</string>
 
     <string name="clean_guide_title_battery_apps_highlight">耗电应用</string>
     <string name="clean_guide_title_cpu_hot_highlight">过高</string>
@@ -392,5 +392,7 @@
     <string name="clean_guide_cpu_action">一键降温</string>
 
     <string name="clean_guide_activity_label">手机管家</string>
+
+    <string name="auto_start_toast_huawei">为确保来电秀正常启动，请找到焕彩来电秀，关闭自动管理，并手动开启所有启动权限。</string>
 
 </resources>

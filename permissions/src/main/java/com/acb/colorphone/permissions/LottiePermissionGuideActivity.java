@@ -18,7 +18,7 @@ import com.superapps.util.Dimensions;
 
 public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
 
-    private boolean playAnimatation = true;
+    private boolean playAnimation = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
         view = findViewById(R.id.lottie_anim_bg);
         view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF5EB4ED, 0x0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), 0, 0, false, false));
 
-        if (playAnimatation) {
+        if (playAnimation) {
             lottieAnimationView.playAnimation();
             lottieAnimationView.loop(true);
         }

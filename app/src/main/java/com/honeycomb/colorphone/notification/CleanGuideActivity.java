@@ -216,7 +216,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                 imageRes = R.drawable.clean_guide_boost_memory;
                 descriptionRes = R.string.clean_guide_description_boost_memory;
                 actionColor = 0xff007ef5;
-                actionStr = R.string.clean_guide_boost_action_boost;
+                actionStr = R.string.clean_guide_boost_action_fast;
 
                 highlight = DeviceManager.getInstance().getRamUsage() + "%";
                 titleStr = String.format(getString(R.string.clean_guide_title_boost_memory), highlight);
