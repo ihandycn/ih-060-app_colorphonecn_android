@@ -368,14 +368,14 @@
     <string name="clean_guide_description_boost_junk">一键清理加速，释放内存</string>
     <string name="clean_guide_description_boost_memory">马上对您的手机进行加速</string>
     <string name="clean_guide_description_battery_low">立即休眠耗电应用，延长待机</string>
-    <string name="clean_guide_description_battery_apps">立即加速，避免手机卡顿</string>
+    <string name="clean_guide_description_battery_apps">一键休眠后台应用，避免耗电</string>
 
     <string name="clean_guide_title_cpu_hot">检测到CPU温度过高</string>
     <string name="clean_guide_title_boost_apps">%1$s个应用正在消耗内存</string>
     <string name="clean_guide_title_boost_junk">检测到手机产生垃圾%1$s</string>
     <string name="clean_guide_title_boost_memory">内存已被占用%1$s</string>
     <string name="clean_guide_title_battery_low">检测到手机电量不足%1$s</string>
-    <string name="clean_guide_title_battery_apps">一键休眠后台应用，避免耗电</string>
+    <string name="clean_guide_title_battery_apps">大量耗电应用在后台运行</string>
 
     <string name="clean_guide_title_battery_apps_highlight">耗电应用</string>
     <string name="clean_guide_title_cpu_hot_highlight">过高</string>

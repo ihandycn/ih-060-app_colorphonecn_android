@@ -748,7 +748,7 @@
             android:taskAffinity=":clean"
             android:label="@string/clean_guide_activity_label"
             android:icon="@drawable/clean_guide_icon"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/AppTranslucent"/>
 
         <!--Override  - Tag : process-->
 
