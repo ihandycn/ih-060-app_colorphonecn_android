@@ -440,7 +440,7 @@ public class AutoRequestManager {
 
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { guideIntent, intent });
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent });
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }

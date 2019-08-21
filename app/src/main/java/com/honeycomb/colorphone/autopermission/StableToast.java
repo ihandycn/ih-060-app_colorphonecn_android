@@ -12,12 +12,14 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -48,6 +50,23 @@ public class StableToast {
     public static void showHuaweiAutoStartToast() {
         logEvent = "AutoStartPageDuration";
         showStableToast(R.layout.toast_huawei_auto_start, 0);
+        if (toast != null && toast.getView() != null) {
+            TextView tv = toast.getView().findViewById(R.id.toast_tv);
+
+            if (tv != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above23);
+                } else {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei);
+                }
+            } else {
+                HSLog.i("showHuaweiAutoStartToast tv == null");
+            }
+        } else {
+            HSLog.i("showHuaweiAutoStartToast getView == null");
+        }
     }
 
     private static void showStableToast(@LayoutRes int layoutId, int yOffset) {

@@ -6,7 +6,6 @@ import android.text.format.DateUtils;
 import android.util.SparseArray;
 
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.ihs.app.framework.HSSessionMgr;
@@ -151,8 +150,6 @@ public class CleanGuideCondition implements INotificationObserver {
 
         boolean minTimeInterval = System.currentTimeMillis() - Preferences.get(Constants.NOTIFICATION_PREFS).getLong(PREF_KEY_CLEAN_GUIDE_LAST_SHOW_TIME, 0)
                                 < DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(120, "Application", "CleanGuide", "MinShowInterval");
-
-        minTimeInterval &= !BuildConfig.DEBUG;
 
         if (minTimeInterval) {
             HSLog.d(TAG, "NOT show, min time interval");

@@ -105,6 +105,10 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         View close = findViewById(R.id.close_btn);
         close.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(20), true));
         close.setOnClickListener(v -> {
+            String type = HSConfig.optString("DismissPopUp", "Application", "CleanGuide", "ResponseToBackWhenPopUp");
+            if (TextUtils.equals(type, "ContinueCleaning")) {
+                action.performClick();
+            }
             finish();
             exitReason = "Close";
         });
