@@ -16,7 +16,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
@@ -56,7 +55,6 @@ public class RevealFlashButton extends AppCompatButton {
         if (!isInEditMode()) {
             setVisibility(INVISIBLE);
         }
-        setTypeface(Typeface.DEFAULT);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RevealFlashButton);

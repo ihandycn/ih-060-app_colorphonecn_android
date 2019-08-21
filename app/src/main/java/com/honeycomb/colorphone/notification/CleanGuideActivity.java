@@ -82,12 +82,20 @@ public class CleanGuideActivity extends HSAppCompatActivity {
             setContentView(R.layout.clean_guide_activity_with_ad);
             AcbExpressAdManager.getInstance().activePlacementInProcess(Placements.AD_CLEAN_GUIDE);
             AcbExpressAdManager.getInstance().preload(1, Placements.AD_CLEAN_GUIDE);
+
+            View view = findViewById(R.id.content_view);
+            view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(6), false));
+
+            view = findViewById(R.id.ad_fragment);
+            view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(6), false));
+
         } else {
             setContentView(R.layout.clean_guide_activity);
 
             View view = findViewById(R.id.content_view);
             view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
         }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
