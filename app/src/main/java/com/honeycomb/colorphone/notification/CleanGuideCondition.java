@@ -99,7 +99,6 @@ public class CleanGuideCondition implements INotificationObserver {
         }
 
         if (type == CLEAN_GUIDE_TYPE_BOOST_APPS && DeviceManager.getInstance().getRunningApps() == -1) {
-            DeviceManager.getInstance().checkRunningApps(null);
             return false;
         }
 
@@ -164,6 +163,8 @@ public class CleanGuideCondition implements INotificationObserver {
             return;
         }
 
+        DeviceManager.getInstance().checkRunningApps(null);
+
         List<Integer> needToShowGuideTypes = new ArrayList<>(cleanGuidePrefKeys.size() - CLEAN_GUIDE_TYPE_SPECIAL_COUNT);
         @CLEAN_GUIDE_TYPES int type;
         for (int i = CLEAN_GUIDE_TYPE_SPECIAL_COUNT; i < cleanGuidePrefKeys.size(); i++) {
@@ -223,17 +224,18 @@ public class CleanGuideCondition implements INotificationObserver {
 
     private void showCleanGuideByType(@CLEAN_GUIDE_TYPES int showType) {
         HSLog.i(TAG, "show guide, type: " + showType);
-        if (showType == CLEAN_GUIDE_TYPE_BOOST_APPS
-                || showType == CLEAN_GUIDE_TYPE_BATTERY_APPS) {
+        if (showType == CLEAN_GUIDE_TYPE_BOOST_APPS) {
             DeviceManager.getInstance().checkRunningApps(() -> {
-                if (DeviceManager.getInstance().getRunningApps() > 0) {
-                    CleanGuideActivity.start(showType);
-                    recordCleanGuideShow(showType);
-                } else {
-                    HSLog.i(TAG, "NOT show guide, type: " + showType + "  running apps == 0");
-                }
+                DeviceManager.getInstance().setRunningAppsRandom();
+
+                CleanGuideActivity.start(showType);
+                recordCleanGuideShow(showType);
             });
         } else {
+            if (showType == CLEAN_GUIDE_TYPE_BOOST_JUNK
+                    || showType == CLEAN_GUIDE_TYPE_BOOST_MEMORY) {
+                DeviceManager.getInstance().setRunningAppsRandom();
+            }
             CleanGuideActivity.start(showType);
             recordCleanGuideShow(showType);
         }

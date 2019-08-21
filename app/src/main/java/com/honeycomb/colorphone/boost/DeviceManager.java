@@ -314,13 +314,14 @@ public class DeviceManager {
         long now = SystemClock.elapsedRealtime();
         long sinceLastFetch = now - mRunningAppsRefreshTime;
         HSLog.d(TAG, "checkRunningApps(): " + sinceLastFetch + " ms since last Running Apps fetch");
-        if (sinceLastFetch > RUNNING_APPS_REFRESH_DEBOUNCE_INTERVAL) {
+        if (sinceLastFetch > RUNNING_APPS_REFRESH_DEBOUNCE_INTERVAL || runningApps <= 0 || isRandomRunningApps) {
             runningApps = -1;
             HSLog.d(TAG, "getRunningPackageListFromMemory ");
 
             DeviceUtils.getRunningPackageListFromMemory(false, (list, l) -> {
                 runningAppsPNs.clear();
                 runningApps = list.size();
+                isRandomRunningApps = false;
                 HSLog.d(TAG, "onScanFinished appSize == " + runningApps);
                 runningAppsPNs.addAll(list);
 
@@ -339,6 +340,15 @@ public class DeviceManager {
 
     public int getRunningApps() {
         return runningApps;
+    }
+
+    private boolean isRandomRunningApps = false;
+    public void setRunningAppsRandom() {
+        if (isRandomRunningApps || runningApps <= 0) {
+            Random random = new Random();
+            runningApps = random.nextInt(5) + 1;
+            isRandomRunningApps = true;
+        }
     }
 
     public List<String> getRunningAppsPackageNames() {

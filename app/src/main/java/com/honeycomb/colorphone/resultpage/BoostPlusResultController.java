@@ -73,6 +73,7 @@ class BoostPlusResultController extends ResultController {
     BoostBgImageView mTickBgIv;
     ImageView mTickIv;
     TextView mOptimalTv;
+    private TextView mOptimalContentTv;
     TextView mFreedUpNumberTv;
     private TextView mFreedUpTv;
 
@@ -114,6 +115,7 @@ class BoostPlusResultController extends ResultController {
         mTickBgIv = ViewUtils.findViewById(transitionView, R.id.tick_bg);
         mTickIv = ViewUtils.findViewById(transitionView, R.id.tick_iv);
         mOptimalTv = ViewUtils.findViewById(transitionView, R.id.optimal_tv);
+        mOptimalContentTv = ViewUtils.findViewById(transitionView, R.id.optimal_content);
         mFreedUpNumberTv = ViewUtils.findViewById(transitionView, R.id.freed_up_number_tv);
         mFreedUpTv = ViewUtils.findViewById(transitionView, R.id.freed_up_tv);
         mFreedResultBtn = ViewUtils.findViewById(transitionView, R.id.freed_up_action_btn);
@@ -204,6 +206,7 @@ class BoostPlusResultController extends ResultController {
 
     public void resetTextVisible() {
         mOptimalTv.setVisibility(View.VISIBLE);
+        mOptimalContentTv.setVisibility(View.VISIBLE);
     }
 
     private void startCleanResultSizeAnimation() {
@@ -301,12 +304,17 @@ class BoostPlusResultController extends ResultController {
                 .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
                 .setInterpolator(softStopAccDecInterpolator)
                 .start();
+        mOptimalContentTv.animate()
+                .translationYBy(newOptimalTvCenterY - oldOptimalTvCenterY)
+                .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
+                .setInterpolator(softStopAccDecInterpolator)
+                .start();
 
         mHandler.postDelayed(() -> {
             int appSize = DeviceManager.getInstance().getRunningApps();
-            String text = getContext().getString(R.string.result_page_boost_plus_optimal) + "\n" + String.format(getContext().getString(R.string.clean_guide_boost_result),
+            String text = String.format(getContext().getString(R.string.clean_guide_boost_result),
                     String.valueOf(appSize), getImprove(appSize));
-            mOptimalTv.setText(text);
+            mOptimalContentTv.setText(text);
         }, DURATION_OPTIMAL_TEXT_TRANSLATION);
     }
 
@@ -360,6 +368,7 @@ class BoostPlusResultController extends ResultController {
                     // optimal alpha appear animation
                     Animation optimalAlphaAppearAnimation = LauncherAnimationUtils.getAlphaAppearAnimation(DURATION_TICK, 0);
                     LauncherAnimationUtils.startAnimation(mOptimalTv, false, optimalAlphaAppearAnimation);
+                    LauncherAnimationUtils.startAnimation(mOptimalContentTv, false, optimalAlphaAppearAnimation);
                     currentLevel = CLIP_LEVEL_TICK_BG_START;
                 }
                 mIsTickBgFirstStart = false;
