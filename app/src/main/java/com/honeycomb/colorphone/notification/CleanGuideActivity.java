@@ -133,7 +133,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
             }
         });
-        homeKeyWatcher.startWatch();
     }
 
     private void configUI() {
@@ -321,6 +320,16 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         } else if (TextUtils.equals(type, "ContinueCleaning")) {
             action.performClick();
         }
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        homeKeyWatcher.startWatch();
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        homeKeyWatcher.stopWatch();
     }
 
     @Override protected void onDestroy() {
