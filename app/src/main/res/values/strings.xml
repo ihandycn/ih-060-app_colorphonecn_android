@@ -393,6 +393,6 @@
 
     <string name="clean_guide_activity_label">手机管家</string>
 
-    <string name="auto_start_toast_huawei">为确保来电秀正常启动，请找到焕彩来电秀，关闭自动管理，并手动开启所有启动权限。</string>
+    <string name="auto_start_toast_huawei">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
 
 </resources>
