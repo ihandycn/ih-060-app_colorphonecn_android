@@ -68,6 +68,7 @@ abstract class ResultController implements View.OnClickListener {
     protected ResultPageActivity mActivity;
     int mScreenHeight;
     int mResultType;
+    int mEventType;
     Type mType = Type.CARD_VIEW;
 
     private FrameLayout mTransitionView;
@@ -153,6 +154,10 @@ abstract class ResultController implements View.OnClickListener {
                 break;
         }
         mResultView = ViewUtils.findViewById(activity, R.id.result_view);
+    }
+
+    public void setEventType(int type) {
+        mEventType = type;
     }
 
     private void initAdOrFunctionView(Activity activity, LayoutInflater layoutInflater) {
@@ -516,20 +521,30 @@ abstract class ResultController implements View.OnClickListener {
                     Ap.Improver.logEvent("cableimproverwire_show");
 
                 } else {
-                    Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
-                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Battery");
+                    if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
+                        Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Battery");
+                    } else {
+                        Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
+                    }
+
                 }
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
+                if (mEventType == ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE) {
+                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
+                } else {
+                    Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
+                }
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
+                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostWire_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostWire_Ad_Shown_FromToolbar");
-                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
@@ -539,8 +554,11 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
-                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "CPU");
+                if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
+                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Cpu");
+                } else {
+                    Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
+                }
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
             default:
@@ -557,20 +575,29 @@ abstract class ResultController implements View.OnClickListener {
 //                            "Type", ResultPageManager.getInstance().getFromAdPlacement());
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
-                    Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
-                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Battery");
+                    if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
+                        Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Battery");
+                    } else {
+                        Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
+                    }
                 }
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
+                if (mEventType == ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE) {
+                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
+                } else {
+                    Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
+                }
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
+                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostDone_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostDone_Ad_Shown_FromToolbar");
-                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
@@ -580,8 +607,11 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostDone_Ad_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
-                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "CPU");
+                if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
+                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Cpu");
+                } else {
+                    Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
+                }
                 AutoPilotUtils.logCpudoneAdShow();
                 break;
             default:

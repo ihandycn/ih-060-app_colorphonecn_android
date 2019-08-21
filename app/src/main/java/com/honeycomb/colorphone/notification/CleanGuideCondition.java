@@ -98,10 +98,6 @@ public class CleanGuideCondition implements INotificationObserver {
             return false;
         }
 
-        if (type == CLEAN_GUIDE_TYPE_BOOST_APPS && DeviceManager.getInstance().getRunningApps() == -1) {
-            return false;
-        }
-
         long lastShow = Preferences.get(Constants.NOTIFICATION_PREFS).getLong(cleanGuidePrefKeys.get(type), 0);
         boolean isToday = DateUtils.isToday(lastShow);
         return !isToday;
@@ -173,6 +169,8 @@ public class CleanGuideCondition implements INotificationObserver {
                 needToShowGuideTypes.add(type);
             }
         }
+
+        HSLog.d(TAG, "may show type: " + needToShowGuideTypes);
 
         int size = needToShowGuideTypes.size();
 

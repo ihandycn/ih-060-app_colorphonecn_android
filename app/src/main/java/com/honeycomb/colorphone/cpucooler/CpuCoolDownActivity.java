@@ -27,6 +27,7 @@ import com.honeycomb.colorphone.cpucooler.view.CircleView;
 import com.honeycomb.colorphone.cpucooler.view.SnowView;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -50,6 +51,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
 
     public static final String EXTRA_KEY_SELECTED_APP_LIST = "EXTRA_KEY_SELECTED_APP_LIST";
     public static final String EXTRA_KEY_NEED_SCAN = "EXTRA_KEY_NEED_SCAN";
+    public static final String EXTRA_KEY_RESULT_PAGE_TYPE = "RESULT_PAGE_TYPE";
 
     private static final long DURATION_FADE_IN = 225;
     private static final long DURATION_SNOW_GROW = 3980;
@@ -84,6 +86,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
     private Runnable mPendingAnimation;
     private boolean mIsStartToResultPage = false;
     private boolean mIsNeedScan;
+    private int resultPageType;
 
     private int mRandomCoolDownInCelsius;
 
@@ -125,6 +128,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
         if (null != intent) {
             mIsNeedScan = intent.getBooleanExtra(EXTRA_KEY_NEED_SCAN, false);
             mPackageNameList = intent.getStringArrayListExtra(EXTRA_KEY_SELECTED_APP_LIST);
+            resultPageType = intent.getIntExtra(EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_COOLER);
         }
 
         mBoostAnimationManager = new BoostAnimationManager(0f, 0f);
@@ -433,7 +437,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
         HSLog.d(CpuCoolDownActivity.TAG, "Cpu cool down startResultActivity mRandomCoolDownInCelsius = " + mRandomCoolDownInCelsius);
         NotificationManager.getInstance().updateCpuCoolerCoolDown(mRandomCoolDownInCelsius);
         NotificationManager.getInstance().autoUpdateCpuCoolerTemperature();
-        ResultPageActivity.startForCpuCooler(CpuCoolDownActivity.this);
+        ResultPageActivity.startForCpuCooler(CpuCoolDownActivity.this, resultPageType);
         finish();
     }
 
@@ -460,7 +464,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
 
     private void startDoneActivity() {
         HSLog.d(CpuCoolDownActivity.TAG, "Cpu cool down startDoneActivity");
-        ResultPageActivity.startForCpuCooler(CpuCoolDownActivity.this);
+        ResultPageActivity.startForCpuCooler(CpuCoolDownActivity.this, resultPageType);
         finish();
     }
 

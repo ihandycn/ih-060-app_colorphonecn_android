@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.RevealFlashButton;
 import com.ihs.app.framework.HSApplication;
@@ -31,6 +32,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 
 import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
@@ -54,6 +56,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
     private FrameLayout mAdContainer;
     private AcbExpressAdView adView;
+
+    private HomeKeyWatcher homeKeyWatcher;
 
     public static void start(@CleanGuideCondition.CLEAN_GUIDE_TYPES int type) {
         HSLog.i(CleanGuideCondition.TAG, "CleanGuideActivity.start");
@@ -91,7 +95,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         }
 
         View close = findViewById(R.id.close_btn);
-        close.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(0), true));
+        close.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(20), true));
         close.setOnClickListener(v -> {
             finish();
             exitReason = "Close";
@@ -105,6 +109,19 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         configUI();
 
         showAdIfProper();
+
+        homeKeyWatcher = new HomeKeyWatcher(this);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override public void onHomePressed() {
+                finish();
+                Analytics.logEvent("Clean_Guide_Close", "Type", exitReason);
+            }
+
+            @Override public void onRecentsPressed() {
+
+            }
+        });
+        homeKeyWatcher.startWatch();
     }
 
     private void configUI() {
@@ -128,6 +145,9 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         int actionStr;
         int index;
 
+        Runnable boostRunnable = () ->
+            BoostActivity.start(this, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
+
         switch (type) {
             case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_APPS:
                 imageRes = R.drawable.clean_guide_battery_apps;
@@ -147,8 +167,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
                 actionRunnable = () -> {
                     Intent intent = new Intent(this, BatteryCleanActivity.class);
-                    intent.putExtra("sss", "s");
-                    Navigations.startActivitySafely(this, BatteryCleanActivity.class);
+                    intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
+                    Navigations.startActivitySafely(this, intent);
                 };
                 break;
             case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_LOW:
@@ -168,7 +188,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
                 actionRunnable = () -> {
                     Intent intent = new Intent(this, BatteryCleanActivity.class);
-                    intent.putExtra("sss", "s");
+                    intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
                     Navigations.startActivitySafely(this, intent);
                 };
                 break;
@@ -193,11 +213,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                         new ForegroundColorSpan(0xffd43d3d),
                         index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, BoostActivity.class);
-                    intent.putExtra("sss", "s");
-                    Navigations.startActivitySafely(this, intent);
-                };
+                actionRunnable = boostRunnable;
                 break;
             case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_JUNK:
                 imageRes = R.drawable.clean_guide_boost_junk;
@@ -214,10 +230,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                         new ForegroundColorSpan(0xffd43d3d),
                         index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, BoostActivity.class);
-                    Navigations.startActivitySafely(this, intent);
-                };
+                actionRunnable = boostRunnable;
                 break;
             case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_MEMORY:
                 imageRes = R.drawable.clean_guide_boost_memory;
@@ -234,10 +247,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                         new ForegroundColorSpan(0xffd43d3d),
                         index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, BoostActivity.class);
-                    Navigations.startActivitySafely(this, intent);
-                };
+                actionRunnable = boostRunnable;
                 break;
             default:
             case CleanGuideCondition.CLEAN_GUIDE_TYPE_CPU_HOT:
@@ -255,7 +265,11 @@ public class CleanGuideActivity extends HSAppCompatActivity {
                         new ForegroundColorSpan(0xffd43d3d),
                         index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                actionRunnable = () -> Navigations.startActivitySafely(this, CpuCoolDownActivity.class);
+                actionRunnable = () -> {
+                    Intent intent = new Intent(this, CpuCoolDownActivity.class);
+                    intent.putExtra(CpuCoolDownActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE);
+                    Navigations.startActivitySafely(this, intent);
+                };
                 break;
         }
 

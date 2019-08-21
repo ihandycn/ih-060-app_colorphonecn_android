@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -50,6 +52,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     public static final String EXTRA_KEY_SCANNED_LIST = "scanned_list";
     public static final String EXTRA_KEY_SAVE_TIME = "save_time";
     public static final String EXTRA_KEY_COME_FROM_MAIN_PAGE = "come_from_main_page";
+    public static final String EXTRA_KEY_RESULT_PAGE_TYPE = "result_page_type";
 
     private static final int DEFAULT_APP_COUNT_ANIM_INTERVAL = 200;
 
@@ -92,16 +95,18 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     private long startTimeMills;
     private HomeKeyWatcher mHomeKeyWatcher;
     private boolean isFromBatteryImprover;
+    private int resultPageEventType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUtils.configStatusBarColor(this);
 
-
-        mFromMainPage = getIntent().getBooleanExtra(EXTRA_KEY_COME_FROM_MAIN_PAGE, false);
-        cleanAppList = getIntent().getStringArrayListExtra(EXTRA_KEY_SCANNED_LIST);
-        saveTime = getIntent().getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
+        Intent intent = getIntent();
+        mFromMainPage = intent.getBooleanExtra(EXTRA_KEY_COME_FROM_MAIN_PAGE, false);
+        cleanAppList = intent.getStringArrayListExtra(EXTRA_KEY_SCANNED_LIST);
+        saveTime = intent.getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
+        resultPageEventType = intent.getIntExtra(EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
         isFromBatteryImprover = ResultPageManager.getInstance().isFromBatteryImprover();
 
         AcbAds.getInstance().setActivity(this);
@@ -321,7 +326,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
                     return;
                 }
                 if (list.size() == 0) {
-                    ResultPageActivity.startForBattery(BatteryCleanActivity.this, true, 0, 0);
+                    ResultPageActivity.startForBattery(BatteryCleanActivity.this, true, 0, 0, resultPageEventType);
                     NotificationManager.getInstance().updateBattery();
                     finish();
                     return;
@@ -444,7 +449,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
                         boolean isBatteryOptimal = saveTime == 0;
                         int hour = saveTime / 60;
                         int minute = saveTime % 60;
-                        ResultPageActivity.startForBattery(BatteryCleanActivity.this, isBatteryOptimal, hour, minute);
+                        ResultPageActivity.startForBattery(BatteryCleanActivity.this, isBatteryOptimal, hour, minute, resultPageEventType);
                     }
                     finish();
                 }
@@ -558,7 +563,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
             canBack = HSConfig.optBoolean(true, "Application", "ChargingImprover", "CleanAllowBack");
             boolean backToResult = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanClickBackToResultPage");
             if (canBack && backToResult) {
-                ResultPageActivity.startForBattery(this, true, 0, 0);
+                ResultPageActivity.startForBattery(this, true, 0, 0, resultPageEventType);
             }
             logTimeConsumes(System.currentTimeMillis() - startTimeMills);
 
@@ -576,7 +581,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
      */
     public void onSkipPressed() {
         Ap.Improver.logEvent("cleanpage_skip_click");
-        ResultPageActivity.startForBattery(this, true, 0, 0);
+        ResultPageActivity.startForBattery(this, true, 0, 0, resultPageEventType);
         finish();
     }
 

@@ -8,6 +8,7 @@ import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -55,7 +56,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
             if (startResultPage) {
                 ResultPageManager.getInstance().setInBatteryImprover(true);
                 ResultPageManager.getInstance().setFromImproverOK(true);
-                ResultPageActivity.startForBattery(HSApplication.getContext(), true, 0, 0);
+                ResultPageActivity.startForBattery(HSApplication.getContext(), true, 0, 0, ResultConstants.RESULT_TYPE_BATTERY);
             }
         }
     }

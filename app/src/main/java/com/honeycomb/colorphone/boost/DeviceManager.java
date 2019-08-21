@@ -306,6 +306,14 @@ public class DeviceManager {
         return builder.sizeUnit;
     }
 
+    public int getJunkSizeMb() {
+        float[] defaultValue = new float[] { 40.1f, 60.8f, 278, 564, 1174f };
+        Random random = new Random();
+        int seed = random.nextInt(defaultValue.length);
+        float selectSize = defaultValue[seed] * (1 + (random.nextInt(11) - 5) / 100f);
+        return (int) selectSize;
+    }
+
     public interface OnMemoryScanListener {
         void onMemoryScanned();
     }
