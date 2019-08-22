@@ -11,9 +11,13 @@ import android.widget.EditText;
 import com.acb.call.service.InCallWindow;
 import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.ringtones.RingtoneApi;
+import com.colorphone.ringtones.bean.ColumnResultBean;
+import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -45,7 +49,26 @@ public class TestActivity extends AppCompatActivity {
             }
         });
         mInCallWindow = new InCallWindow(this);
+        RingtoneApi api = new RingtoneApi();
+        api.requestBanners(new RingtoneApi.ResultCallback<ColumnResultBean>() {
+            @Override
+            public void onFinish(ColumnResultBean bean) {
+                if (bean != null) {
+                    HSLog.d("RingtoneApi banner" + bean.getTotal());
+                }
+            }
+        });
+        api.requestSubColumns(new RingtoneApi.ResultCallback<ColumnResultBean>() {
+            @Override
+            public void onFinish(ColumnResultBean bean) {
+            }
+        });
 
+        api.requestRingtoneListById(RingtoneApi.getColumnId("Hot"), new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
+            @Override
+            public void onFinish(RingtoneListResultBean bean) {
+            }
+        });
     }
 
     public void startCallRingingWindow(View view) {

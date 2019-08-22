@@ -2,15 +2,14 @@ package com.colorphone.ringtones;
 
 import android.text.TextUtils;
 
+import com.colorphone.ringtones.bean.ColumnResultBean;
+import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.colorphone.ringtones.bean.BaseResultBean;
-import com.colorphone.ringtones.bean.ColumnResultBean;
-import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
@@ -28,8 +27,9 @@ public class RingtoneApi {
     public static final String URL_SEARCH = "/search";
     public static final String URL_COLUM_RES = "/q_colres";
     public static final String URL_COLUM = "/q_cols";
-    private final Gson gson;
 
+    private static final boolean DEBUG_REQUEST = false;
+    private final Gson gson;
 
     public RingtoneApi() {
         gson = new GsonBuilder().registerTypeHierarchyAdapter(List.class, new ArraySecAdapter()).create();
@@ -53,20 +53,32 @@ public class RingtoneApi {
         doRequest(url, ColumnResultBean.class, resultCallback);
     }
 
-    public void requestRingoneListById(String id, ResultCallback<BaseResultBean> resultCallback) {
+    public void requestSubColumns(ResultCallback<ColumnResultBean> resultCallback) {
+        HashMap<String, String> map = new HashMap<>(1);
+        map.put(RequestKeys.COLUMN_ID, getColumnId("SubColumn"));
+        String url = buildUrl(URL_COLUM, map);
+        doRequest(url, ColumnResultBean.class, resultCallback);
+    }
+
+    public void requestRingtoneListById(String id, ResultCallback<RingtoneListResultBean> resultCallback) {
         HashMap<String, String> map = new HashMap<>(1);
         map.put(RequestKeys.COLUMN_ID, id);
         String url = buildUrl(URL_COLUM_RES, map);
-        doRequest(url, BaseResultBean.class, resultCallback);
+        doRequest(url, RingtoneListResultBean.class, resultCallback);
     }
 
-    private <T> void doRequest(String url, final Class<T> clazz, final ResultCallback<T> callback) {
+    private <T> void doRequest(final String url, final Class<T> clazz, final ResultCallback<T> callback) {
         HSHttpConnection connection = new HSHttpConnection(url);
         connection.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override
             public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
+                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
+                    if (DEBUG_REQUEST) {
+                        HSLog.d(TAG, "【Request】" + url);
+                        HSLog.d(TAG,"【Response】" + jsonBody);
+                    }
                     T bean = gson.fromJson(jsonBody, clazz);
                     if (callback != null) {
                         callback.onFinish(bean);
@@ -76,7 +88,6 @@ public class RingtoneApi {
                 if (callback != null) {
                     callback.onFinish(null);
                 }
-                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
             }
 
             @Override
@@ -110,14 +121,16 @@ public class RingtoneApi {
                 sb.append(entry.getValue());
             }
         }
-        return sb.toString();
+        String result = sb.toString();
+        HSLog.d(TAG, "build url = " + result);
+        return result;
     }
 
     public static String getAppId() {
         return HSConfig.optString("", "Application", "Ringtone", "AppId");
     }
 
-    private static String getColumnId(String name) {
+    public static String getColumnId(String name) {
         return HSConfig.optString("", "Application", "Ringtone", "Column", name);
     }
 
