@@ -313,6 +313,10 @@ class BoostPlusResultController extends ResultController {
 
         mHandler.postDelayed(() -> {
             int appSize = DeviceManager.getInstance().getRunningApps();
+            if (appSize <= 0) {
+                DeviceManager.getInstance().setRunningAppsRandom();
+                appSize = DeviceManager.getInstance().getRunningApps();
+            }
             String text = String.format(getContext().getString(R.string.clean_guide_boost_result),
                     String.valueOf(appSize), getImprove(appSize));
             mOptimalContentTv.setText(text);
