@@ -27,5 +27,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation project(':libSuperApps')
+    compileOnly 'com.google.code.gson:gson:2.8.5'
+    compileOnly 'com.android.support:appcompat-v7:27.1.0'
+    compileOnly 'com.ihandy.appframework:libAppframework.beta:4.8.1.beta03'
+
+
 }

@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.ringtones;
+package com.colorphone.ringtones;
 
 import android.text.TextUtils;
 
@@ -8,9 +8,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.honeycomb.colorphone.ringtones.bean.BaseResultBean;
-import com.honeycomb.colorphone.ringtones.bean.ColumnResultBean;
-import com.honeycomb.colorphone.ringtones.bean.RingtoneListResultBean;
+import com.colorphone.ringtones.bean.BaseResultBean;
+import com.colorphone.ringtones.bean.ColumnResultBean;
+import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
@@ -60,7 +60,7 @@ public class RingtoneApi {
         doRequest(url, BaseResultBean.class, resultCallback);
     }
 
-    private <T> void doRequest(String url, Class<T> clazz, ResultCallback<T> callback) {
+    private <T> void doRequest(String url, final Class<T> clazz, final ResultCallback<T> callback) {
         HSHttpConnection connection = new HSHttpConnection(url);
         connection.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override

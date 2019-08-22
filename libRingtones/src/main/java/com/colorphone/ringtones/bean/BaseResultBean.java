@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.ringtones.bean;
+package com.colorphone.ringtones.bean;
 
 /**
  * @author sundxing

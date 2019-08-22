@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.ringtones;
+package com.colorphone.ringtones;
 
 public class RequestKeys {
     public static final String APP_KEY = "a";
