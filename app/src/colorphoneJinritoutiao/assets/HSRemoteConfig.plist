@@ -954,6 +954,12 @@
 						<key>interval</key>
 						<integer>10</integer>
 					</dict>
+					<key>CallFinishWireIntervalMinute</key>
+					<integer>0</integer>
+					<key>CallFinishWireShowInLock</key>
+					<false/>
+					<key>CallFinishWireEnable</key>
+					<false/>
 					<key>DefaultEnabled</key>
 					<true/>
 					<key>Enable</key>
@@ -974,7 +980,7 @@
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>
-					<false/>
+					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>
