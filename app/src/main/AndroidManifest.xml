@@ -745,6 +745,7 @@
         <activity
             android:name=".notification.CleanGuideActivity"
             android:launchMode="singleTask"
+            android:excludeFromRecents="true"
             android:taskAffinity=":clean"
             android:label="@string/clean_guide_activity_label"
             android:icon="@drawable/clean_guide_icon"
