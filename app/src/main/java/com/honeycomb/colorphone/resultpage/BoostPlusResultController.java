@@ -25,6 +25,7 @@ import com.ihs.commons.utils.HSLog;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
+import java.util.Random;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -319,7 +320,8 @@ class BoostPlusResultController extends ResultController {
     }
 
     private String getImprove(int size) {
-        return (size * 2) + "%";
+        Random random = new Random();
+        return (size + size + random.nextInt(size + 2)) + "%";
     }
 
     private void startTickAnimation() {
