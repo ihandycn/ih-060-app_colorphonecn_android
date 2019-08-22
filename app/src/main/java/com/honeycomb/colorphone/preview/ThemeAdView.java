@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -41,7 +40,7 @@ import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 // TODO : clean Theme & Ringtone logic
 public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeListener, INotificationObserver {
 
-    private static final String TAG = ThemePreviewWindow.class.getSimpleName();
+    private static final String TAG = "ThemeFullAd";
 
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
 
@@ -104,11 +103,6 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         }
     };
 
-    private boolean mWaitContactResult;
-    private boolean mWaitForAll;
-    private boolean mWindowInTransition;
-    private boolean mPendingResume;
-
     public ThemeAdView(@NonNull Context context) {
         super(context);
     }
@@ -129,10 +123,6 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         activity.getLayoutInflater().inflate(R.layout.page_theme_ad_page, this, true);
 
         onCreate();
-    }
-
-    public void dismissRingtoneSettingPage() {
-        mEnjoyApplyBtn.setVisibility(VISIBLE);
     }
 
     protected void onCreate() {
@@ -219,24 +209,26 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         // Not called !!
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onVisibilityChanged = " + (visibility == VISIBLE));
+            HSLog.d(TAG, "onVisibilityChanged = " + (visibility == VISIBLE));
         }
+
         super.onVisibilityChanged(changedView, visibility);
     }
 
     @Override
     protected void onAttachedToWindow() {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d(" onAttachedToWindow");
+            HSLog.d(TAG, " onAttachedToWindow");
         }
         super.onAttachedToWindow();
+
         onStart();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d(" onDetachedFromWindow");
+            HSLog.d(TAG, " onDetachedFromWindow");
         }
         onStop();
 
@@ -255,7 +247,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onPageSelected " + position);
+            HSLog.d(TAG, "onPageSelected " + position);
         }
         mPageSelectedPos = position;
 
@@ -267,7 +259,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
     @Override
     public void onPageScrollStateChanged(int state) {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onPageScrollStateChanged " + state
+            HSLog.d(TAG, "onPageScrollStateChanged " + state
                     + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
         }
 
@@ -286,6 +278,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         mThemeContent = resultView.findViewById(R.id.description_content_tv);
         mEnjoyApplyBtn = resultView.findViewById(R.id.result_action_btn);
         mThemeLikeAnim = resultView.findViewById(R.id.like_count_icon);
+        View clickView = resultView.findViewById(R.id.click_view);
 
         mAdImageContainer = resultView.findViewById(R.id.result_image_container_ad);
 
@@ -303,6 +296,10 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         ad.indeedNeedShowFullAd(mAdContainer);
         ad.setMuted(false);
         mAdContainer.fillNativeAd(ad, "");
+
+        clickView.setOnClickListener(v -> {
+            mEnjoyApplyBtn.performClick();
+        });
         PreviewAdManager.getInstance().preload(null);
     }
 
