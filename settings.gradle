@@ -1,4 +1,4 @@
-include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash',
+include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash', ':libringtones',
         ':libMessageCenter', ':libChargingCommon', ':libChargingReport',
         ':permissions', ':libPermissionacquire'
 project(':libSuperApps').projectDir = new File('libs/libSuperApps/lib')
