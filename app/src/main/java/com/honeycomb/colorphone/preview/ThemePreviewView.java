@@ -560,7 +560,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
 
-                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                        || !AutoPermissionChecker.isNotificationListeningGranted()) {
                     Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
                 } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
@@ -573,7 +574,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
 
         mApplyForOne.setOnClickListener(v -> {
-            if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+            if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                    || !AutoPermissionChecker.isNotificationListeningGranted()) {
                 Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
             } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
@@ -1867,7 +1869,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                            && AutoPermissionChecker.isNotificationListeningGranted()) {
                         Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
                         unFoldView();
                     } else {

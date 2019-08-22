@@ -2,12 +2,14 @@ package com.honeycomb.colorphone.autopermission;
 
 import android.Manifest;
 import android.support.annotation.StringDef;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.RuntimePermissions;
 
 import java.lang.annotation.Retention;
@@ -16,12 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RuntimePermissionViewListHolder {
-    private static final String AUTO_PERMISSION_FAILED = "auto_permission_failed";
 
     @StringDef({Manifest.permission.READ_CONTACTS,
             Manifest.permission.WRITE_CONTACTS,
             Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE })
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            AutoRequestManager.TYPE_CUSTOM_NOTIFICATION})
 
     @Retention(RetentionPolicy.SOURCE)
     @interface PERMISSION_TYPES {}
@@ -74,6 +76,8 @@ public class RuntimePermissionViewListHolder {
                 return R.string.acb_phone_permission_write_contact;
             case Manifest.permission.READ_CALL_LOG:
                 return R.string.start_guide_permission_call_log;
+            case AutoRequestManager.TYPE_CUSTOM_NOTIFICATION:
+                return R.string.start_guide_permission_call;
             default:
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                 return R.string.acb_phone_permission_read_storage;
@@ -88,6 +92,8 @@ public class RuntimePermissionViewListHolder {
                 return R.drawable.acb_phone_permission_write_contact;
             case Manifest.permission.READ_CALL_LOG:
                 return R.drawable.acb_phone_permission_read_call_log;
+            case AutoRequestManager.TYPE_CUSTOM_NOTIFICATION:
+                return R.drawable.acb_phone_permission_notification;
             default:
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                 return R.drawable.acb_phone_permission_read_storage;
@@ -95,6 +101,10 @@ public class RuntimePermissionViewListHolder {
     }
 
     static boolean getItemGrant(@PERMISSION_TYPES String type) {
-        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), type) == RuntimePermissions.PERMISSION_GRANTED;
+        if (TextUtils.equals(type, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+            return AutoPermissionChecker.isNotificationListeningGranted();
+        } else {
+            return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), type) == RuntimePermissions.PERMISSION_GRANTED;
+        }
     }
 }

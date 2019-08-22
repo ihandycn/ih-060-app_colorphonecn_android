@@ -2,6 +2,7 @@ package com.honeycomb.colorphone;
 
 import android.os.Build;
 
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.NetUtils;
 
@@ -27,7 +28,8 @@ public class ConfigLogDefault implements ConfigLog {
         @Override
         public void onMainViewOpen() {
             Analytics.logEvent("ColorPhone_MainView_Opened",
-                    "Brand", Build.BRAND.toLowerCase());
+                    "Brand", Build.BRAND.toLowerCase(),
+                    "Permission", AutoRequestManager.getMainOpenGrantPermissionString());
         }
 
         @Override

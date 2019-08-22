@@ -74,6 +74,7 @@ public class AutoRequestManager {
     public static final String AUTO_PERMISSION_FROM_FIX = "fix";
 
     public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
+    public static final String TYPE_CUSTOM_NOTIFICATION = "TYPE_CUSTOM_NOTIFICATION";
 
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
     private static final long GUIDE_DELAY = 900;
@@ -536,6 +537,13 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.isPhonePermissionGranted();
     }
 
+    public boolean isGrantAllWithoutNAPermission() {
+        return AutoPermissionChecker.hasAutoStartPermission()
+                && AutoPermissionChecker.hasBgPopupPermission()
+                && AutoPermissionChecker.hasShowOnLockScreenPermission()
+                && AutoPermissionChecker.isPhonePermissionGranted();
+    }
+
     public boolean isGrantAllRuntimePermission() {
         List<String> permissions = new ArrayList<>();
         permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
@@ -602,6 +610,8 @@ public class AutoRequestManager {
                 mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                 mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
+            case TYPE_CUSTOM_NOTIFICATION:
+                type = HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING;
                 if (Permissions.isNotificationAccessGranted()) {
                     return true;
                 } else {
@@ -773,5 +783,27 @@ public class AutoRequestManager {
             }
         }
         return grantPermissions;
+    }
+
+    public static String getMainOpenGrantPermissionString() {
+        StringBuilder permission = new StringBuilder();
+
+        if (AutoPermissionChecker.hasAutoStartPermission()) {
+            permission.append("AutoStar");
+        }
+
+        if (AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+            permission.append("Lock");
+        }
+
+        if (AutoPermissionChecker.hasBgPopupPermission()) {
+            permission.append("Background");
+        }
+
+        if (AutoPermissionChecker.isNotificationListeningGranted()) {
+            permission.append("NA");
+        }
+
+        return permission.toString();
     }
 }

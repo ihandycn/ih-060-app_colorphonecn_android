@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -67,6 +68,11 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             }
         }
 
+        if (!AutoPermissionChecker.isNotificationListeningGranted()) {
+            allPermissions.add(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION);
+            deniedPermissions.add(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION);
+        }
+
         if (allPermissions.size() > 0) {
             HSLog.i("RuntimePermission", "need request: " + allPermissions.size() + "  denied: " + deniedPermissions.size());
             holder = new RuntimePermissionViewListHolder(root, allPermissions);
@@ -111,7 +117,10 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 return;
             }
             requested = true;
-            action.setText(R.string.runtime_permission_continue);
+            Threads.postOnMainThreadDelayed(() -> {
+                action.setText(R.string.runtime_permission_continue);
+            }, 300);
+
 
             Analytics.logEvent("Permission_Guide_OK_Click");
         });
@@ -143,11 +152,14 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             }
         }
 
+        if (TextUtils.equals(permission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+            Analytics.logEvent("Permission_NA_Request");
+        }
+
         switch (permission) {
             case Manifest.permission.READ_CONTACTS:
                 permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
                 break;
-            default:
             case Manifest.permission.WRITE_CONTACTS:
                 permission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
                 break;
@@ -156,6 +168,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 break;
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                 permission = HSPermissionRequestMgr.TYPE_STORAGE;
+                break;
+            default:
                 break;
         }
         AutoRequestManager.getInstance().openPermission(permission);
@@ -194,6 +208,11 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 });
 
                 Analytics.logEvent("Permission_Guide_All_Granted");
+            }
+
+            if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)
+                    && AutoPermissionChecker.isNotificationListeningGranted()) {
+                Analytics.logEvent("Permission_NA_Granted");
             }
 
             if (requested && deniedPermissions.size() > 0) {
