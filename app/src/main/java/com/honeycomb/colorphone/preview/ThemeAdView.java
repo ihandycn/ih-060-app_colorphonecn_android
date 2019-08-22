@@ -278,6 +278,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         mThemeContent = resultView.findViewById(R.id.description_content_tv);
         mEnjoyApplyBtn = resultView.findViewById(R.id.result_action_btn);
         mThemeLikeAnim = resultView.findViewById(R.id.like_count_icon);
+        View clickView = resultView.findViewById(R.id.click_view);
 
         mAdImageContainer = resultView.findViewById(R.id.result_image_container_ad);
 
@@ -296,7 +297,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         ad.setMuted(false);
         mAdContainer.fillNativeAd(ad, "");
 
-        mAdImageContainer.setOnClickListener(v -> {
+        clickView.setOnClickListener(v -> {
             mEnjoyApplyBtn.performClick();
         });
         PreviewAdManager.getInstance().preload(null);
