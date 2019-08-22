@@ -1,0 +1,5901 @@
+Navigate home
+Navigate up
+More options
+Done
+See all
+Choose an app
+OFF
+ON
+Search…
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Collapse
+Accept
+Ad
+Closed captions
+Closed captions unavailable
+Disconnect
+Image displayed while the cast receiver is playing an ad
+Ad in progress…
+Album art
+Live stream
+Loading…
+Skip
+Forward
+Forward ten seconds
+Forward thirty seconds
+Mute
+Disconnect
+Pause
+Play
+Rewind
+Rewind ten seconds
+Rewind thirty seconds
+Playback seek control
+Skip to next item
+Skip to previous item
+Stop
+Stop live stream
+Audio
+Cancel
+Closed Captions
+No Audio Tracks Available
+No Text Tracks Available
+None
+OK
+Subtitles
+Unmute
+Visit &lt;b>facebook.com/device&lt;/b> and enter the code shown above.
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Enable
+Enable Google Play services
+Install
+Get Google Play services
+Google Play services error
+Update
+Update Google Play services
+New version of Google Play services needed. It will update itself shortly.
+Open on phone
+Sign in
+Sign in with Google
+Allow Ad to create a calendar event?
+Create calendar event
+Ad Information
+Creative Preview
+Select a Debug Mode
+Troubleshooting
+Decline
+Fast forward
+Next track
+Pause
+Play
+Previous track
+Rewind
+Stop
+Send
+Cast button
+Finding devices
+Cast to
+Album art
+Casting screen
+Close
+Collapse
+Disconnect
+Expand
+No info available
+No media selected
+Pause
+Play
+Stop casting
+System
+Devices
+Clear search
+Search
+Search
+999+
+Allow Ad to store image in Picture gallery?
+Save image
+Buy with Google
+sans-serif
+sans-serif-medium
+sans-serif-medium
+sans-serif
+sans-serif
+sans-serif
+sans-serif
+sans-serif-light
+sans-serif
+sans-serif
+sans-serif
+sans-serif-medium
+twelve.zodiac.signs@gmail.com
+Contact Us
+Current Version
+Website
+http://www.12-Zodiac-Signs.com/
+Up-To-Date
+ZodiacSign
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+android.support.design.widget.BottomSheetBehavior
+--:--
+--:--
+CHECK COMPATIBILITY
+Choose Zodiac Sign
+c5337cac-ddf9-4da9-9593-d7bf9b56fdcb
+Compatibility
+YOU
+upload Failed
+Sign in with Facebook to autofill your birthday.
+OR
+Sign in with Facebook
+Select Your Birthday
+735025311215-pkoi95snar9afd05662cpqcmee659g5l.apps.googleusercontent.com
+Your device does not support this.
+Take Photo
+Choose from Album
+Do you want to save your profile? If you quit, your change will be lost.
+QUIT
+SAVE
+No more than 70 characters
+Add your name
+OK
+1506303989446345
+fb1506303989446345
+Sponsored
+Enter your idols name
+Type the full name of your idol.
+Thanks for your feedback!!!
+https://accurate-57d66.firebaseio.com
+serif
+Gallery
+735025311215
+AIzaSyAn45VbhoVmuEbXrRJqi7JCzF2Dt3HSIUg
+AIzaSyBQpvzmjlf8twqEbD6HiV0-1_Fdb-cJcNQ
+1:735025311215:android:4024e5e8cf77c226
+AIzaSyBQpvzmjlf8twqEbD6HiV0-1_Fdb-cJcNQ
+accurate-57d66.appspot.com
+TODAYS STAR RATING
+YOU MAY LIKE
+I dont know my zodiac sign
+Ready to see the magic.
+12 Zodiac Signs
+www.12-Zodiac-Signs.com
+Something went wrong!
+Tap to refresh
+Ooops!
+Sign in with Facebook to select your zodiac sign automatically.
+Facebook Login Failed!
+Privacy Policy
+SKIP
+Sign in with Facebook
+These are the strongest traits of your potential relationship based on an astrological analysis!
+Select your idol and well show you the Match Report between you two.
+Select Your Birth Date
+Please tell us their name and we will add them later.
+Tell Us
+Birth Date
+OK
+Birth Place
+Time of Birth
+If you want to know the romantic compatibility between you and your idol, please sign in with Facebook.
+Sorry！We cant find your idol’s information.
+Complete the information about yourself then you can get the Match Report.
+Confirm the information about yourself then you can get the Match Report.
+Celebrity Match Report
+BIGGEST RELATIONSHIP BENEFIT
+COMPLETE ASPECT CHART
+Select Your Time of Birth
+Celebrity Match
+HARMONY
+LOVE ENERGY
+MUTUAL UNDERSTANDING
+PASSION
+TOTAL POINTS
+Report
+Share
+CHARACTERISTICS
+MONTH
+TODAY
+TOMORROW
+YEAR
+New Articles
+New Features
+Tap to view your todays horoscope.
+Your daily horoscope awaits!
+Tap to view today’s horoscope memes &amp; quotes.
+Today’s Memes &amp; Quotes
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+CANCEL
+OK
+Birth Date
+Birth Place
+Time of Birth
+Sign in with Facebook to autofill your information.
+Facebook
+Name
+OK
+Picture
+set profile error
+Profile
+accurate-57d66
+Do you like our App?
+Do you like 12 Zodiac Signs？Please let us know about your experience. Thanks for your feedback.
+5-Star
+LATER
+LIKE
+NOPE
+Rate It 5-Star
+We are a small team working extremely hard to give you the best app for free. Your 5-Star is better than all the money in the world!
+Failed to refresh
+Pull to refresh
+Release to refresh
+CANCEL
+Thanks for your feedback
+OK
+Do you want to report this picture for Sexually Explicit, Violence, Abusive or Spam?
+About Us
+Choose Theme
+General
+Daily Horoscope Push Time
+Push Notifications
+Notifications
+Privacy Policy
+Rating Us
+Theme
+Stylish themes available.
+Share to Facebook
+Share with
+Set Profile to Unlock
+Sync Data
+com.zodiacsigns.twelve.sync_account
+HOTTEST
+NEWEST
+Continue
+Preview mode updated.
+Preview
+Tap again to exit.
+Choose Theme
+Elegance
+Fashion
+Mystery
+Passion
+Romance
+Sweet
+Youth
+Articles
+Featured
+NEW
+New Articles
+New Featured
+Tomorrow
+Choose Notification Time
+Click here to Change Your Zodiac Sign
+MainActivity
+Articles
+Featured
+Settings
+CHECK OUT the new version NOW!
+Cancel
+Download
+Good News!
+点击加载更多
+已无更多数据
+加载失败，请重试
+加载完成
+松开载入更多
+松开加载更多
+加载完成
+加载失败
+正在加载...
+下拉刷新
+松开刷新数据
+正在刷新...
+上次更新时间：
+从未刷新
+刚刚刷新
+1/20 - 2/18
+3/21 - 4/19
+6/21 - 7/22
+12/22 - 1/19
+5/21 - 6/20
+7/23 - 8/22
+9/23 - 10/22
+2/19 - 3/20
+11/22 - 12/21
+10/23 - 11/21
+4/20 - 5/20
+8/23 - 9/22
+I don’t know my zodiac sign?
+Aquarius
+Aries
+Cancer
+Capricorn
+Gemini
+Leo
+Libra
+Pisces
+Sagittarius
+Scorpio
+Taurus
+Virgo
+Select Your Zodiac Sign
+Change Your Zodiac Sign
+Boost
+Clean
+Cooler
+Flashlight
+Notifications will be hidden here.
+More
+Boost
+Free more to speed up your phone
+Navigate up
+More options
+Done
+See all
+Choose an app
+OFF
+ON
+Search…
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Collapse
+Accept
+Visit &lt;b>facebook.com/device&lt;/b> and enter the code shown above.
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Enable
+Enable Google Play services
+Install
+Get Google Play services
+Google Play services error
+Update
+Update Google Play services
+New version of Google Play services needed. It will update itself shortly.
+Open on phone
+Sign in
+Sign in with Google
+Allow Ad to create a calendar event?
+Create calendar event
+Ad Information
+Creative Preview
+Select a Debug Mode
+Troubleshooting
+Decline
+Fast forward
+Next track
+Pause
+Play
+Previous track
+Rewind
+Stop
+Send
+Search
+999+
+Allow Ad to store image in Picture gallery?
+Save image
+About
+Tap the toggle on the upper right to permit Speed Cleaner accessibilityE
+- Power boost device and stop auto-restartPle
+You may receive system privacy warnings, that’s a standard procedure of Android. Speed Cleaner never collect any private information.
+Settings
+Add to BlackList
+Add to Contacts
+Add To Ignore List
+CONFIRM
+App added to Ignore List will not be closed
+Add to WhiteList
+Add to ignore list
+Block all numbers
+All Calls
+No apk file(s) detected
+APK FILES
+No app(s) detected
+App Manager
+1 app has been uninstalled
+DELETE
+Delete apk files
+INSTALL
+Installed
+Recommended for you
+Select all
+UNINSTALL
+Uninstall apps
+Not installed
+UNINSTALLER
+ENABLE NOW
+Hide unwanted notif
+Never miss any important messages.
+App Junk
+DELETE
+Dont lock this app
+This app will no longer be locked.
+Advanced
+To use this feature, please first lock at least one app.
+Lock settings
+Intruder
+App Locker
+Invisible patterns
+AD
+Done
+Please modify your email
+Modify your email
+Email account for forgotten password
+This app will be locked immediately after screen closed
+Lock setting
+Reset successfully
+Confirm your identity
+Draw unlock pattern
+Confirm your identity
+Enter PIN code
+Modify email
+Linked Email
+Password
+Visible Pattern Line
+Re-lock after app closed
+Re-lock after screen off
+Re-lock Settings
+Reset password
+Settings
+minutes
+minute
+seconds
+second
+TRY AGAIN
+Visible patterns
+App selection
+GOT IT
+Auto booster can automatically boost your phone to keep it run in faster speed.
+Auto-restarting Apps.
+Power consuming apps
+OPTIMIZE
+8 power remaining, kill battery-draining apps nows!
+Battery is below 22, tap to optimize battery now.
+Low battery
+Extend battery life by 50
+Scanning...
+Battery Saver
+Blacklist
+Hidden
+DELETE ALL
+Settings
+DONE
+Select apps you wish to hide notifications from.
+Yesterday
+Notification Organizer
+Today
+Block private numbers
+Block
+Blocker List
+Blocker Mode
+Boost
+Your phone has been optimized
+Freed Up
+Phone Optimized
+Boost your phone now!
+Browsing histories have been cleaned
+FREE DOWNLOAD
+B
+Call Again
+Activate Succeed
+Block Succeed
+- Automatically block calls you dont want to answer.
+- Automatically be reminded of missed calls. Enable and call back with
+- Read and reply to messages in a simpler way.
+Auto remind you of missed calls and block unwanted calls.
+Super Call Assistant
+Call Back
+CALL BLOCKER
+Call Ended
+Block this number now?
+Blocker
+Number Blocked Success
+Turn Off
+Missed call
+Call Declined
+Whitelist
+CALLS LOG
+Mega Pixels
+CANCEL
+Battery Charged
+Charging Status
+Charging Time
+Good
+Overcharge
+Slow
+Time Overcharged
+Charging Report
+Fully charged
+Phone is not charged, but it’s safe to remove charger
+Removing charger would be harmful to your battery
+Reaching a temperature of 55℃ can be harmful for your battery.
+Even though the phone is not charged, it’s safe to remove charger while in the almost charged mode.
+If you turn off smart charging, you wont be able to protect your battery anymore. Are you sure you wish to turn it off?
+TURN OFF
+NOT NOW
+Turn Off Smart Charging?
+Fully Charged
+TURN OFF
+ENABLE
+Its one click to enable smart charging to monitor charging status. (It may contain ads.)
+Enable smart charging to monitor charging status. (It may contain ads.)
+Enable smart charging to prevent your battery from being damaged. (It may contain ads.)
+Enabling smart charging stops background apps to boost charging speed. (It may contain ads.)
+Enable smart charging to monitor charging status. Contains ads.
+Contains ads.
+Charger Connected
+Swipe to unlock
+Clean
+Enable Rocket Clean to clean hidden cache junk files
+CLEAN NOW
+CLEAN
+Clean WhatsApp
+Cleaned
+Cleaning…
+Clipboard content has been cleaned
+CONTACTS
+May contain ads
+- extend battery lif
+- stop auto-restarting memory
+- clean hidden junk files
+Grant the permission to stop auto-restarting memory killers and extend battery life by up to 50
+Grant the permission to extend battery life by 50
+extend battery life by 50
+stop auto-restarting memory killers
+clean hidden junk files
+Grant the permission to:
+Free up more memory?
+Clean hidden junk?
+Battery power drained too fast?
+Activate \App Locker\
+Click to clean.
+Call Assistant enabled
+Automatically block calls you dont want to answer.
+Automatically be reminded of missed calls and return the call with one click.
+Active \Super Call Assistant\
+Information found in clipboard, may cause privacy leak.
+Click to protect privacy.
+COOL
+Click to cool down your phone.
+CPU is overheating
+COOL DOWN
+℃! CPU
+℉! CPU
+Click to cool down your phone
+BOOST
+ Memory
+
+Boost your phone before using the app
+Warning
+Special Recommendation
+Read Now
+CLEAN NOW
+Hide and organize unwanted notifications. Never miss any important messages.
+Too many notifications?
+Permission granted successfully
+Smart Screensaver enabled
+Monitor and report charging status, protect your battery.
+Monitor your phone status to optimize it.
+Manage your notifications better.
+Activate \Smart Screensaver\
+- extend battery lif
+- stop auto-restarting memory
+- clean hidden junk files
+Grant the permission to stop auto-restarting memory killers and extend battery life by up to 50
+Grant the permission to extend battery life by 50
+extend battery life by 50
+stop auto-restarting memory killers
+clean hidden junk files
+Grant the permission to:
+Free up more memory?
+Clean hidden junk?
+Battery power drained too fast?
+Starting cool down...
+CPU Cooler
+CPU Cooler
+to reach the optimal cooling effect
+CPU cooled down
+DELETE
+Delete
+DELETED
+Android
+Basic Info
+Battery
+Brand
+Camera
+Clock Range
+Clock Speed
+Cores
+CPU
+CPU Model
+GPU
+IMEI
+Internal Storage
+Model
+OEM
+RAM
+Resolution
+Storage
+Free:
+Total:
+Temperature
+Device Info
+Version
+App
+Apps
+Warning
+Permission needed
+Yes, I am sure
+You need draw a pattern. Are you sure you want to give up?
+No, draw pattern
+ENABLE
+Unlocking too frequency? Change settings to make re-lock after screen off.
+App will be locked when your phone enters sleep mode.
+Unlock Successfully!
+Include:
+ENABLE NOW
+GOT IT
+Lock Successfully!
+Show a fake app crash message when the app is opened.
+ACTIVATE
+Launch an error message so you can trick snoopers to protect your privacy.
+Crash!
+Unlock Successfully
+Unfortunately, Facebook has stopped.
+Slide your finger as shown 
+ the disguise below.
+Oops,Try again
+Choose apps below to disguise
+Choose apps below to disguise
+Disguised
+Disguise Lock
+This error message will appear to deter snoopers from opening your app.
+Click the OK button to exit the app.
+Slide your finger as shown to unlock this app.
+DONE
+Activate \Smart Screensaver\
+Smart Locker
+Extended
+Battery extension complete
+Extension complete
+Files Scan
+This app will no longer be disguised.
+Disguise lock has enabled，sliding your finger to unlock it.
+Dont disguise this app
+Disguise this app
+Verification Email Already Send
+Email has already been sent. Please check your mailbox.
+Forgot password
+Email sending failed, Please try again later.
+Please enter the code.
+Please check your network settings.
+Connection Error.
+Please Login into your Google account then try it again.
+Forget Password?
+Unknown error. Please try again later.
+Unknown Error
+Your E-mail
+1.We will send a verification code to your Email account.
+Please Login into your Google account to confirm identification before resetting password.
+Cancel
+Confirm
+Forget Password?
+No internet connection. Please check your network.
+RESET PASSWORD
+Verification Code
+2.Enter the verification code and get your password.
+SEND EMAIL
+Forgot Password
+That code doesn’t work. Please try again.
+BLACKLIST
+MISSED CALLS
+From call log
+From Contacts
+Skip
+App Manager
+Phone Boost
+CPU Cooler
+Junk Clean
+Security
+Add
+Added
+Add Game
+Boosting......
+Game Folder Created.
+Game Folder Created.
+Tap Add button to add games.
+Launch games from the Game Folder, boost game speed up to 30!
+Remove
+Games
+Recommended for you
+Create Game Folder on 
+to find &amp; boost games easily.
+CREATE
+Game Booster
+Uninstall
+Memory freed up, please try again later
+Your phone can run games faster and smoother when you launch games from the Games folder.
+Want Games to Run Faster?
+GB
+Keep out these apps from snoopers
+Protect your privacy
+App Locker
+Please enter the correct email
+Email for forgotten password
+Your E-mail
+SKIP
+START
+Enter your email
+Next
+CHANGE TO PATTERN
+CHANGE TO PIN CODE
+Connect at least 4 dots
+Draw an unlock pattern
+Wrong pattern
+PINs dont match
+RESET
+Connect at least 4 dots
+Draw the pattern again
+Your unlock pattern
+Enter 4 numbers
+Enter 4 numbers
+Your PIN code
+Draw your unlock pattern
+Pattern recorded
+Confirm your pattern
+Completed
+Set your PIN code
+PIN recorded
+Confirm your PIN
+Completed
+Take a photo of someone snooping on the selected apps
+One more second
+LEAVE
+LOCK APPS
+Ignore List
+Ignored apps wont be stopped during optimizing
+These apps will not be stopped during optimization
+Ignore List
+Please input number including contry and area code
+Input Number
+Number
+INSTALL
+Delete all photos?
+All intruders photos will be deleted from your phone.
+Prompts
+Delete this intruders photo?
+Automatically take a photo of anyone who tries to break in.
+Take a photo of someone entering with wrong codes
+More
+No Snoopers Found
+Some other snoopers peek on your phone.
+CHANGE
+Selfie Setting
+Take a photo of anyone who enters the wrong pattern or password.
+Snoopers Gallery
+Intruder
+Chances Allowed
+Intruder Mugshot
+Junk Clean
+Junk Found
+KB
+LATER
+Lock settings
+Bad
+Boosting
+Normal
+Optimal
+Settings
+Thousands of free beautiful wallpapers and themes offered.
+Protect your phone from being unlocked by others.
+Use camera, calculator and flashlight without unlocking your phone.
+Download Smart Locker
+MB
+Boost
+Memory Boost
+Memory Junk
+Input Message
+REPLY
+Send Failed
+Send Success
+Battery Saver
+Call Assistant
+CPU Cooler
+File Scan
+Close navigation drawer
+Open navigation drawer
+No available Email app was found
+No Contact Found!
+NO THANKS
+Normal Apps
+Normal Boost
+Can not close Auto-restarting Apps in Normal Boost mode.
+NOT NOW
+NOT NOW
+GOT IT
+Fri
+Mon
+Sat
+Sun
+Thu
+Tue
+Wed
+Yesterday
+App
+Time
+Manage apps you wish to hide notifications.
+Cleaned
+Read Now?
+Notification Organizer
+Useless notifications deleted
+DELETED
+Notification Organizer
+Notification Settings
+Scan
+Scan to keep safe now!
+Virus database updated
+Lock
+Lock to keep snoopers out
+ Apps
+Extend
+Click to extend your battery life
+ Apps
+Cool
+Click to cool down your phone
+℃!
+Check
+Mobile data usage exceeded the limit.
+Data alarm!
+Check
+Find them out now!
+Find it out now!
+ Apps
+Some Apps are stealing data
+ App
+Scan
+Tap to complete all scan tasks!
+Scan Now!
+Tap to find all cache and viruses!
+Hidden Danger
+Tap to scan &amp; keep phone well!
+Long Time No Clean
+Start
+Tap to boost game by up to 30
+Clean
+Clean to save phone space
+
+OK
+memory freed up
+One-Tap Boost
+OPTIMIZED
+ENABLE
+PERMIT
+PB
+Scanning...
+Phone Boost
+Boosting...
+Your phone has been optimized
+Phone optimized
+Power Boost
+Gain an Extra 70 boost effect.
+Power Boost my phone NOW!
+Power Boost my phone now!
+Privacy Policy
+Private Number
+Private Numbers
+Activate now
+Automatically boost your phone to keep it running in faster speed. It may contain ads.
+AUTO BOOSTER
+Activate now
+Enable Smart Charging to monitor charging status to prevent battery damage. It may contain ads.
+Keep Snoopers away from the apps contain privacy information.
+It may contain ads.
+Activate “App Locker”
+Automatically boost your phone to keep it running in faster speed. It may contain ads.
+Auto Booster Enabled
+CLEAN
+Remove junk files completely and save storage space.
+.1fM Junk Found
+BOOST
+Find out the running apps and close them. Release more memory.
+Memory Boost
+ENABLE NOW
+Enable Smart Charging to prevent overcharging efficiently.
+Smart Charging
+Automatically monitor charging status and stop over-charging to prevent battery damage.
+Automatically monitor charging status and stop over-charging to prevent battery damage.
+It may contain ads.
+Smart Charging Enabled
+Activate “Smart Charging”
+Smart Charging Enabled
+VIEW
+Keep snoopers away from the apps contain privacy information.
+ALBUM
+GOOGLE KEEP
+GMAIL
+App Lock
+CHECK NOW
+Too many useless apps are bothering you? App Manager helps you to uninstall unwanted apps and remove unwanted APK files.
+App Manager
+ENABLE
+Automatically clean memory junk, and keep your phone running in faster speed. It may contain ads.
+Auto Booster
+SAVE
+Save power up to 45 by stopping battery-draining apps.
+Battery Saver
+COOL NOW
+CPU is overheating now. Close running apps to cool it down.
+CPU Cooler
+SET NOW
+Set upper limit for monthly data usage in case of overcharging.
+Data Monitor
+ENABLE
+If your phone cant run games smoothly, game booster can automatically boost games at least by 30.
+Game Booster
+CLEAN
+Scan and remove the junk from storage. Reclaim free space.
+Junk Clean
+BOOST NOW
+Find the running apps and stop them. Release more memory.
+ENABLE
+Clean up unwanted notifications, never miss important messages.
+Notification Organizer
+BOOST NOW
+Find out the running apps and stop them. Release more memory.
+Phone Boost
+CHECK NOW
+Free up to 30 of phone storage by automatically identifying and cleaning the similar photos clogging your gallery.
+Duplicate Photos
+SPEED UP
+Find out auto-restart memory killers and stop them. Speed up phone immediately.
+SCAN
+Files Scan
+SCAN
+Last scan: today.
+Never scanned? Scan virus to keep phone safe!
+Virus Scan
+ENABLE
+Automatically clean background apps and monitor battery status to prevent overcharging. It may contain ads.
+Smart Charging
+Smart Charging Enabled
+FREE UP
+Scan and remove the junk from storage. Reclaim free space.
+Storage Cleaner
+BOOST NOW
+Clean background apps to boost Wi-Fi speed.
+Wi-Fi Boost
+- Never miss any important 
+- Read and reply messages in a simple way.
+Message Assistant
+Hide and organize unwanted notif
+ Never miss any important messages.
+OPEN NOW
+Too many notifications?
+Monitor and report charging status, protect your battery.
+Activate \Smart Screensaver\
+Smart Screensaver Enabled
+Activate \Smart Locker\
+Smart Screen Enabled
+Rate 5 Stars in Google Play?
+READ
+RESOLVE
+SCAN
+Browsing history
+Clipboard privacy
+Privacy
+Virus
+The first scan will take about 1 minute. Please wait for a moment.
+Scanning…
+If you turn off smart screensaver, you wont be able to automatically monitor phone status anymore. Are you sure you wish to turn it off?
+Turn Off Smart Screensaver?
+Ignore List
+Ignored apps will no longer be scanned.
+These apps wont be scanned as potential threats.
+Security
+App privacy is secure
+No viruses detected
+Your battery is protected while charging.
+Charging protection enabled
+No clipboard records detected.
+Clipboard is clean
+Category:
+Description:
+IGNORE
+Path:
+UNINSTALL
+Threat harm:
+Threat name:
+Malware detected!
+Risk
+Risks
+All risks are resolved
+Suggestion
+Suggestions
+SAFE
+Virus
+Viruses
+There are no leaks of your browsing history.
+Browsing history is safe
+Ignore List
+Keeps prying eyes out of your privacy apps by locking them.
+NOT NOW
+The last issue
+AUTHORIZE
+REFUSE PROTECTION
+- Give authorization to protect your
+- Give authorization to upgrade security!
+Failure due to lack of authorization
+Not open
+App not locked
+VIEW
+Browsing history is at risk
+- Automatically block calls you dont want to answer, and remind you of miss
+- Read and reply to messages in a simpler way.
+ENABLE
+Automatically monitor charging status and stop over-charging to prevent battery damage.
+Automatically monitor charging status and stop over-charging to prevent batter
+Receive detailed charging reports.
+not yet enabled
+Charging protection
+Private clipboard content may cause privacy leak.
+Read and reply messages in a simpler way.
+Activate Message Assistant
+ENABLE
+Find out threats automatically as soon as theyre installed.
+Real-time Protection
+IGNORE
+UNINSTALL
+DELETE
+The virus na
+Virus harm:
+After the operation may be controlled by a hacker
+May result in property damage
+The virus na
+Virus/Trojan
+Enable web protection to prevent you from browsing phishing sites，deceptive sites and sites that host malware or unwanted software.
+Web protection is disabled
+Detect threats in real-time
+Real-time protection enabled
+RESOLVE ALL
+RESOLVING...
+Security
+All risks are resolved
+SAFE
+APK Remover
+Auto Booster
+Battery Saver
+Blocker Reminder
+Remind you the block calls with notification.
+Boost
+These apps wont be stopped during boost
+Call Reminder
+Remind you after a call with easy shuttles by alert.
+Fully Charged Reminder
+High Temperature Reminder
+Enable Charging Report
+Smart Charging
+Enable Smart Charging
+General
+Communication
+Automatically protect phone battery when charging. May contain ads.
+Automatically monitor phone status all the time. May contain ads.
+Slide to the left to view the weather forecast on your screensaver.
+CONFIRM
+App added to Boost Safe List will not be closed
+Add to Safe List
+ADD
+Ignored apps wont be stopped during boost
+Message Reminder
+Remind when apps frequently steal data in the background
+Abnormal Data Usage Reminder
+Remind of abnormal battery drainage
+Battery Draining Reminder
+Remind when memory usage is high
+Boost Reminder
+Remind when CPU usage is high
+CPU Overuse Reminder
+Remind when data usage is out of limits
+Data Overuse Reminder
+Remind when virus database need update
+Database Update Reminder
+Remind when your phone is not optimized for a long time
+Full Scan Reminder
+Remind when apps of game class can be boosted
+Game Booster Reminder
+Reminder when junk need cleaning
+Junk Reminder
+Remind when apps have privacy disclosure threats
+Privacy disclosure Reminder
+Notification Settings
+Notification
+Notification Toggle
+Residual Junk Removal
+Off
+Auto-scan off
+Once a day
+Auto-scan everyday
+Once a month
+Auto-scan every 1st day of the month
+Once a week
+Auto-scan every Sunday
+Scheduled Scan
+Security
+Auto Update Virus Database
+Wifi only
+Checking...
+Unstable internet connection. Please try again later.
+RETRY
+Virus Definitions Update
+Downloading
+DOWNLOAD
+Switching
+Connection error. Please check your network settings.
+Network Connection Error
+Real-time Protection
+Scheduled Scan
+Cancel failed
+Cancel…
+SCAN
+Update Virus Database
+.2fMB/
+.2fMB
+Updating…
+Virus definition is up-to-date.
+Enable Smart Screensaver
+Smart Screen
+℃
+Celsius
+Fahrenheit
+Temperature Unit
+℉
+Temperature Unit
+Settings
+Language
+SPEED CLEANER
+App Locker
+App Manager
+Battery Saver
+CPU Cooler
+Device Info
+Feedback
+Notification Organizer
+Rate Us
+Settings
+Monitor and report charging status, protect your battery.
+Monitor your phone status to optimize it.
+Manage your notifications better.
+Activate \Smart Charging\
+BATTERY
+If you turn off smart locker, youll not be able to protect your battery and monitor your phone status anymore. Are you sure to turn it off?
+Turn Off Smart Locker?
+CPU TEMP
+MEMORY
+STORAGE
+ Apps
+BOOST
+CPU cooled down
+<Data> CPU is&lt;font color=#ff9641> overheat&lt;/font>. Cool down!</Data>
+ memory freed up
+<Data> Phone slows down.&lt;font color=#ff9641> Boost now!&lt;/font></Data>
+Scanning phone status...
+Agree to the
+START
+Resolve the issues
+ISSUE
+ISSUES
+IN DANGER
+Virus database updated: 
+Need Scan
+SUSPICIOUS
+Scan to keep safe
+Never Scanned
+DANGER
+Last scan: 
+Protecting
+SAFE
+SAFE
+SUBMIT
+Prevent others from seeing your browing history.
+Prevent others from seeing your call history.
+Protect your personal info
+Prevent others from installing apps on your phone.
+Prevent others from making phone calls on your phone.
+Prevent others from seeing your private photos.
+Protect your private data
+Prevent others from seeing your private files.
+Protect your private messages
+Protect your private photos
+Prevent others from seeing your play history/library.
+Prevent others from seeing your search history.
+Protect your private videos
+Prevent others from changing your settings.
+Prevent others from taking photos with your phone.
+Suspicious
+Junk Files Database
+Cleaning…
+Security Report
+DETAILS
+System Junk
+The newly installed app is safe
+IGNORE
+LOCK NOW
+MALWARE FOUND
+PRIVACY RISK
+ left 
+No residual junk files found.
+ residual files. 
+RESIDUAL JUNK
+Malicious behavior:
+UNINSTALL
+Tap to boost your phone now!
+℃
+℉
+TB
+ADD
+Thank You!
+S
+Tap again to exit
+Block all numbers except contacts
+Unknown Numbers
+UPDATE
+New Version
+Turn on notif
+ never miss any important messages.
+You have no notifications.
+Wake screen upon receiving new notifications
+Auto Wake Screen
+Notifications
+Wake duration
+Wake Duration
+WARNING
+Never Block these numbers
+Whitelist
+Your phone state is great!
+sans-serif
+sans-serif-medium
+sans-serif-medium
+sans-serif
+sans-serif
+sans-serif
+sans-serif
+sans-serif-light
+sans-serif
+sans-serif
+sans-serif
+sans-serif-medium
+NAME
+SIZE
+Speed Cleaner
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+android.support.design.widget.BottomSheetBehavior
+...........
+Reaching a temperature of 131℉ can be harmful for your battery.
+edd5711a-9fe4-4417-bb3e-5ac7f96773e1
+Tap \INSTALL\ to get Max Smart Locker for free.
+313752164752-g3vaejkvlgcpakktpce57f0ctn33g4sp.apps.googleusercontent.com
+Disguise Help
+247875662292292
+https://rocket-clean-10553.firebaseio.com
+Download
+It may display ads
+0s
+1s
+2s
+3s
+313752164752
+AIzaSyDizhyIFNOQgDxaxmIf7kGx5Rs_NKyJmjA
+1:313752164752:android:00ee90cf90ec4bdf
+AIzaSyDizhyIFNOQgDxaxmIf7kGx5Rs_NKyJmjA
+rocket-clean-10553.appspot.com
+Notification Cleaner
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+http://hyperspeedapps.weebly.com
+rocket-clean-10553
+Check
+InstaWeather
+Cleaner
+APK REMOVAL
+Navigate up
+More options
+Done
+See all
+Choose an app
+OFF
+ON
+Search…
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Collapse
+Accept
+ and enter the code shown above.
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Enable
+Enable Google Play services
+Install
+Get Google Play services
+Google Play services error
+Update
+Update Google Play services
+New version of Google Play services needed. It will update itself shortly.
+Open on phone
+Sign in
+Sign in with Google
+Allow Ad to create a calendar event?
+Create calendar event
+Ad Information
+Creative Preview
+Select a Debug Mode
+Troubleshooting
+Decline
+Fast forward
+Next track
+Pause
+Play
+Previous track
+Rewind
+Stop
+Send
+Search
+999+
+Allow Ad to store image in Picture gallery?
+Save image
+Duration of last call
+One missed call from
+Call Time :
+Just call with
+It may contain ads.
+OK
+Try the unique call interface to make your phone more fashionable.It may contain ads.
+Try the unique call interface to make your phone more fashionable. Call assistant is included automatically.
+Screen Flash for Calls
+Activate Screen Flash for Calls
+Tech
+Moving
+Neon
+None
+Stars
+Sun
+Call assistant
+System Screen for Calls
+Activate Screen Flash for Calls
+Screen Flash for Calls
+It may contain ads.
+Remove
+You can remove this icon, or search for the app and install it manually.
+App installation has failed
+Search
+Shortcuts to app not created outside Camera Pro
+App installation failed
+OK
+Advanced Cleaning
+All Apps
+Oops… try again later.
+WOW! Check out this amazing app!
+Horizontal
+Vertical
+Nothing found
+ Search Apps
+Toolkit
+Games
+Lifestyle
+Media
+News &amp; Books
+Photography
+Social
+Tools
+System
+Others
+APPLY
+OPEN
+Smart Sort
+Folder
+Your device is already running optimally.
+Auto
+Auto Sync
+Bluetooth
+Brightness
+Careful
+Your battery is draining faster than usual.
+CHARGING COMPLETED
+Please unplug to protect your phones battery.
+3 stage regulated charging will protect your battery from wear.
+CHARGING LEFT
+You have extended battery life
+Congratulations!
+Cleaning…
+Continuous
+Current
+Your current settings will be saved here.
+Excellent
+Your battery is in good condition.
+Haptic Feedback
+Hide System Apps
+Low battery
+You can optimize to extend the battery life of your phone.
+LATER
+TRY IT NOW
+Try battery saver to keep power consumption to a minimum.
+Low Battery!
+Max Saver
+Turn off WiFi, Bluetooth, vibrate and set screen timeout to 15s.
+Mobile Data
+Mode
+Off
+On
+OPTIMIZE
+POWER REMAINING
+Previous
+Change back to your last settings.
+Rank
+Reapply
+Screen Timeout
+Smart Saver
+Turn off Bluetooth, vibrate and set screen timeout to 30s.
+Speed
+STOP
+Battery
+Trickle
+Vibrate
+VIEW
+Wifi
+BOOST
+Boost+ needs accessibility to stop these apps. It boosts phone speed by 80 or more and extends battery life93 of users have turned it on.
+Turn On Accessibility
+Tips: 
+Cleaning Running Apps
+Accessibility is needed for Camera Pro to properly enter Automated hibernation.
+Device administrator is needed for Camera Pro to properly enter Automated hib
+Warning: You may fail to uninstall Camera Pro because of device administrator. Deactivate device administrator and then uninstall Camera Pro.
+Your phone is already optimized!
+Good Work!
+Exiting
+Freed Up
+Cleanable
+Memory Used
+Normal Boost!
+OPTIMAL
+Running Apps
+Select All
+Set up Screen Lock in Lock Screen and Security!
+Automate the hibernation minutes after screen goes off. It will dim the screen, perform the hibernation and then turn off the screen.
+Automated hibernation
+If you wish to uninstall Camera Pro, you are first required to deactivate device administrator.
+Device administrator
+= 5 seconds)! Automated hibernation requires a small delay before screen is locked.
+Ensure Power button instantly locks is NOT checked! Automated hibernation requires a small delay before screen is locked.
+Double-click Boost to start Boost+!
+Once stopped, Boost+ will no longer be able to free up your memory. Are you sure to stop?
+Stop cleaning?
+STOP
+Clean
+Double your battery life.
+Try Boost+ to extend battery life!
+Clean
+Use a more thorough cleaner to save more memory!
+Try Boost+ to better clean your phone!
+Some apps can only be closed by Boost+.
+Still slow? Try Boost+!
+This app may push messages to you. It wont work any more if selected.
+Your phone is optimal now!
+Battery Life Extended
+Phone Cooled Down
+Memory Freed Up
+Boost
+For the sake of security, please draw the original unlock pattern
+Fully charged
+Phone is not charged, and its safe to remove charger
+Removing charger would be harmful to your battery
+...........
+Stop background apps to accelerate charge speed.
+Reaching a temperature of 40℃ can be harmful for your battery.
+Smart Charging monitors your charge status to ensure your battery is in a good state.
+Removing your charger could harm your battery while in the charging battery mode.
+Even though the phone is not charged, its safe to remove charger while in the almost charged mode.
+App is reducing the charge to protect your battery
+If you turn off smart charging, youll not be able to protect your battery anymore. Are you sure to turn it off?
+TURN OFF
+NOT NOW
+Turn Off Smart Charging?
+Turn on Battery Protection to extend battery life!
+Protect device from overcharging!
+Turn on Battery Protection to cool down device!
+Your battery is under protection!
+Turn off
+Protect device from overcharging
+(Contains ads)
+Battery protection
+Swipe to unlock
+AD Cache
+Ad Junk
+App Junk
+CLEAN
+Too many junk files found. Clean to boost your phone.
+Hidden Cache Junk
+Junk Found
+Junk Selected
+Memory Cache
+Obsolete Apk
+Powerful Clean
+Residual Files
+This may lead to unexpected residues. Proceed?
+Stop cleaning
+System Junk
+Junk Cleaner
+JUNK CLEANER
+Clear
+Cloudy
+Cold
+COOL
+COOL DOWN
+Closing CPU consumers…
+Dropped Down
+CPU-heating Apps
+Scanning CPU…
+cool
+Heated
+overheated
+Keyboard
+Me
+Locker
+REMOVE
+Themes
+My Themes
+Personalize
+Wallpapers
+My Wallpapers
+Daily weather forecast
+Remove
+Uninstall
+Desktop grid (Column × Row)
+Desktop grid
+Desktop
+Allow Camera Pro to close battery-draining apps automatically.
+DOWNLOAD
+Downloading…
+Drizzle
+Dust
+Bounce
+Classic
+Cube
+Extrusion
+Flip
+Page Turn
+Roll
+Rotation
+Shrink
+Stack
+Wave
+Windmill
+New Folder
+ENABLE NOW
+Failed to add widget to desktop
+ Your feedback helps us make improvements
+ Please enter your email address
+SEND
+Feedback
+Please write your feedback
+Please enter a valid email address
+Thanks for your feedback!
+Loved it
+Liked it
+How was your experience with us?
+Hated it
+Submit
+It was OK
+Disliked it
+Add Apps
+Cancel
+OK
+You can add any app into this folder.
+Once folder is removed, all the apps in this folder will not appear on the desktop.
+Remove
+Remove Folder
+Once folder is unpacked, its shortcuts will be moved to desktop.
+Unpack
+Unpack Folder
+Friday
+Failed to load widget
+Setup
+Swipe down to instantly open Air Moment
+Swipe down to start one-handed operation
+Two fingers swipe up to open Hide Apps
+Swipe up to instantly open Search
+GOT IT
+Hazy
+Swipe up with one finger
+Swipe up with two fingers
+Choose the apps you want to keep off of desktop
+Hide
+You can add any app to this folder.
+Your recently installed app
+recommended apps
+other apps
+Congratulations!
+HIDE APPS
+Welcome to Private Apps
+Enable lock
+Remove unlock pattern
+Reset unlock pattern
+Private Apps
+Set lock
+Private apps settings
+Hot
+No more room in your apps dock
+Icon label color
+Icon label size
+Launcher Icons
+Icon pack
+Browser
+Camera
+Messenger
+Phone
+Preview
+Icon size
+Icon size
+App info
+Please input your unlock pattern
+INSTALL
+Found a new version
+Installed
+An amazing personalized app
+Keep your apps well organized and make your phone faster.
+Effects
+Widgets
+Boost your phone more effectivly
+About
+Boost automatically when your phone lags
+Auto Boost
+Feedback
+5 star rating
+Set as home
+Tell my friends
+Camera Pro settings
+Update
+1-Tap Boost
+App Mgr
+Battery
+Boost
+Boost
+Data Usage
+Effects
+Feedback
+Flashlight
+Icon Size
+Launcher Settings
+App Picks
+Widgets
+Air Moment
+Nearby
+Screen Manager
+Settings
+System Settings
+Themes
+Time+Weather
+Update
+Wallpapers
+System Widgets
+Loading…
+Loading…
+The select picture cannot be turned into a wallpaper.
+GIF images are not supported
+2G
+3G
+4G
+The locker has been turned off
+Sure to turn off?
+After disabled, features in locker screen will be deactivated, are you sure proceed?
+Get Magic Locker to use these amazing themes.
+INSTALL
+Disable locker
+Locker settings
+(Contains sponsored contents)
+Screen locker
+Locker Wallpaper
+Unk
+Network errors. Please try again.
+Touch &amp; drag a widget to move it.
+Settings
+AD
+Good Afternoon!
+Good Evening!
+Good Morning!
+Good Night!
+(Contains sponsored contents)
+People Nearby Are Using
+News
+Your battery is in protection!
+Set Camera Pro as default launcher to boost your phone!
+Turn on Battery Protection to protect device from overcharging!
+TRY IT NOW
+Monday
+Launcher Settings
+System Settings
+NEARBY
+Network error.
+Reload
+Click To Retry
+Network error.
+Update for the latest news
+Disable pictures under mobile data
+Save data
+Swipe right on home screen
+Headlines settings
+Headlines
+System Icons
+Notice
+Optimize to extend battery life.
+Boost to speed up your phone!
+One-tap boost now!
+Permit access to clean junk notifications!
+CLEAN ALL
+CLEAN NOW
+Hide unwanted notif
+Keep notification bar clean!
+Click notification for details
+Settings for whitelist
+No Notifications
+Select apps to block notifications
+Notification Cleaner
+Home has been cleared
+Clean to save phone space
+SET
+Boost your phone and keep fast.
+Personalize your phone.
+Make your phone run efficiently.
+Set as Home
+Failed to gain notification access
+Badges turned on.
+Failed to turn on Badges.
+All Apps
+Data
+Flashlight
+Search
+Notification toolbar
+Wifi
+Categories
+Hot
+SET AS WALLPAPER
+Discard changes to exit?
+CANCEL
+RESET
+CATEGORIES
+Hot
+No more room on this page
+Overcast
+allows the app to read the Home Page settings and shortcuts
+allows the app to change the Home page settings and shortcuts
+Find ☆Boost+☆ and turn it on.
+read Home settings page and shortcuts
+write Home settings and shortcuts
+Preferences
+Privacy Policy
+Privacy policy
+ACTIVATE
+Camera pro, the beauty selfie cam and FREE photo editor.
+GET IT NOW
+ENABLE
+IGNORE
+Many apps always start automatically. Stop them after accessibility enabled.
+Keep snoopers away from apps with private information.
+Check which apps are still using data while your screen is locked!
+Cant run games smoothly? Game booster boosts games at least by 30 automatically.
+Power Boost
+App Locker
+CPU Cooler
+Data Thieves
+Game Booster
+MAX is an All-in-One phone optimizer with phone booster, junk cleaner &amp; security guard.
+Fancy Emojis &amp; Gifs, customizable stickers, flash swipe input are rolled into one colorful keyboard - RainbowKey.
+Install Super Security to clean this suspect file and protect your phone from malware and viruses.
+Find 1 Suspect File
+Scan and remove apps with malware or viruses that crash or slow your device.
+Your phone is being threatened by hidden risks, activate Super Security to protect your phone.
+Fast and secure, Super Security is the most reliable mobile security app for your phone.
+Super Security
+SET NOW
+Drag to refresh
+Rain
+Heavy Rain
+Refresh
+Unpack
+Release to refresh
+Choose \DEFAULT\
+Tap ALWAYS
+Select
+\Camera Pro\
+You have extended
+OK
+Speed up the phone chargi
+(Contains sponsored contents)
+Battery Protection
+Battery Protection Enabled
+Phone power is draining seriously. Optimize to extend battery life.
+Battery Saver
+BOOST
+Background Apps will cause unusual power usage. Try advanced boost to clean them up!
+Boost+
+Apps running in the background consume power all the time. Using Battery to extend battery life by 50 or more.
+Battery life saver
+Auto-started apps cant be stopped by normal boost and always lag your phone. Use Boost+ to force s
+Boost+ is more effective than 90 cleaner software.
+Why use Boost+?
+CPU overheating will lag your phone, consume power and even cause phone explosion. Use CPU cooler to cool your phone down!
+Why use CPU Cooler?
+Useless cache &amp; junk files always take up large phone space and lag your phone. Use Junk Cleaner to clean them completely.
+Use Junk Cleaner often
+Notification cleaner helps you hide unwanted notifications and clean them by 1 tap. Use it often to keep your phone clean!
+Why use Notification Cleaner?
+This app is disabled in Safe mode
+Widgets are disabled in Safe mode
+Saturday
+You could press and drag pages to change order.
+Shake to sort icons
+Apps
+Search
+
+Remove this search bar?
+Search Bar
+Contacts
+Local Apps
+Contacts
+Internet
+Location
+TRY SEARCHES LIKE…
+Search History
+More
+NEW
+Remove
+Select Search Engine
+Search Settings
+Settings
+Results
+Contacts
+Show Search History
+Apps
+Show Trending News
+Places
+Show Search Suggestions
+Show Trending Words
+Trending News
+More stories
+Update for the latest news
+Trending Words
+Search Widget
+Set Camera Pro as Home.
+LATER
+The attempt to set Camera Pro as home failed. Try again?
+TRY AGAIN
+Set as home
+Memory Freed Up
+OK
+Camera Pro boosts your phone, so you never have to worry about speed! Set Camera Pro as home!
+Camera Pro lets you personalize and stylize your phone! Set Camera Pro as Home!
+Camera Pro makes your phone run more efficiently! Set Camera Pro as Home!
+Select \Camera Pro\
+The pattern wasnt correct, please try again
+Connect at least 4 dots, please try again
+Please draw a pattern
+Pattern turned on
+Please draw the pattern again
+Reset Unlock Pattern
+set up
+Your device does not support this.
+Airplane Mode
+Auto Brightness
+Bluetooth
+Flashlight
+Mobile Data
+Auto Rotate
+Silence
+Vibration
+Wi-Fi
+OK
+Show Badges for unread message on Messages and Phone. Configuration may require permissions.
+How to enable?
+Find \Camera Pro\ and switch it on.
+Common Apps
+Configuration may require notification access
+Recommended Apps
+Configuration may require permissions
+Badges for unread messages
+Unread messages
+Share by
+SKIP
+Sleet
+
+Snow
+Heavy Snow
+Storm
+Sunday
+Sunny
+Terms of Service
+Terms of service
+- We are constantly making more beautiful themes. -
+Do you wish to set the Default Theme as your theme?
+Set as Theme
+Thunderstorm
+Thursday
+Tuesday
+Unhide
+This is a system app and cant be uninstalled
+Uninstalled
+Download Latest Version
+You are using the latest version
+Apk download is currently underway
+Please check connection
+External storage is not available
+Upload Wallpaper
+Upload
+Upload successfully
+1. Image will be automatically scaled to opt
+2. Your image will be shown 
+3. High quality images are more possible to be collected by Air
+4. Your image will show up in the feed after its been reviewed
+More
+Oops! Something went wrong, please try again.
+Try again
+Revert
+Fixed
+Scrollable
+Reload
+Setting wallpaper…
+A problem occurred setting this as your wallpaper, please try again
+Add new city
+No matches found
+Oops, couldnt load the weather.
+Loading…
+You can add up to 12 cities
+Network error.
+Searching…
+Unknown
+Time &amp; Weather
+Humidity:
+km
+km/h
+mi
+mph
+--
+--:--
+DETAILS
+ Type and select your city in English
+°C
+/
+City
+°F
+Add new city
+Distance unit
+Temperature unit
+Weather settings
+Sunrise:
+Sunset:
+Better to stay indoors.
+Pay attention and drive safely.
+Take an umbrella and keep warm.
+Put on warmer clothes.
+Take an umbrella with you.
+Better to stay indoors.
+Weather
+Today
+Visibility:
+Wind Direction:
+Wind Speed:
+Wednesday
+Applying theme
+Fast &amp; Customizable
+Choose the wallpaper you like best
+START
+Remove
+
+Remove \Air Moment\?
+Windy
+Loading your desktop…
+Yesterday
+Gallery
+More info
+Remove Ads
+Set as
+Confirm new password
+No item selected
+Successfully deleted
+Forgot Password?
+Input Password
+Camera
+Delete
+Select
+Share
+New password
+Password not confirmed
+Incorrect, please try again.
+No item selected
+ALL ALBUMS
+MY ALBUM
+PRIVATE ALBUM
+Select A Photo
+Select Photos
+All Albums
+My Album
+Private Album
+Exit without saving changes?
+Exit without saving changes?
+Confirm
+Delete
+The selected item will be deleted.
+Delete selected item?
+To protect your photo gallery privacy, you need first to unlock your device.
+Exit
+Please login to your Google account to verify your account.
+Forgot Password
+set email
+If you dont fill in the email for forgotten password, you cant reset the password.
+Move the file to My Album?
+Move the file to Private Album?
+Tips
+Verify
+LATER
+UPDATE
+Download Latest Version
+Update downloading
+Downloading Update
+You are up to date
+APPLY
+Download failed, please check your network and try again.
+Compare
+Enlarge
+Facelift
+Skin
+Beauty effects dont work when youre applying a sticker.
+Free up space and RAM to improve your phones speed and performance. Contains sponsored contents.
+Phone Boost
+BEAUTY LEVEL
+Camera cant start. Please make sure camera permission is turned on then try restarting your cell phone.
+FILTER
+Full
+Camera Shortcut
+Cancel
+Enable Smart Charging to prevent overcharging efficiently. Contains sponsored content.
+Smart Charging
+Not now
+Disable
+Your battery will not be protected. Are you sure to disable?
+Disable Battery Master?
+Battery Doctor!
+Charge for 10 more minutes to extend your battery capacity.
+Battery Low
+Continuous
+Keep charging your battery to its maximum capacity.
+Fully Charged
+Regular
+Charging your battery at the maximum speed till 80.
+Trickle
+Keep charging to reliably protect battery and explore its optimal performance (About 10 mins).
+Unplugged from charger
+Disable
+Full Charge Left
+Charger Cut off!
+Oops, your mobile phone hasnt fully charged yet. Battery has suffered a damage.
+Battery Master
+Remaining Time
+Fast Charging
+Fully charged
+Low Voltage!
+Opps, the voltage from charger is too low!
+Fully Charged!
+Battery has been fully charged! You can unplug charger anytime you want.
+Full Charge Left
+Full Charge Left
+Charging
+Flip
+Mirror
+Replace
+Rotate
+Ratio
+cover
+Select at least one photo
+NEVER
+5-STAR
+FEEDBACK
+Thanks! Could you please give us a 5-Star on Google Play?
+We need your feedback.
+This month
+This week
+Today
+CANCEL
+DELETE
+The selected item will be deleted.
+Delete selected item?
+The selected items will be deleted.
+Delete selected items?
+ALLOW
+For better ordering and grouping photos, we recommend you to turn on apps with usage access.
+Allow Apps with Usage Access
+NO, THANKS
+YES
+Do you enjoy Beauty Cam? Make us your default Camera!
+DOWNLOAD
+Adjust
+Beauty
+Filter
+Sticker
+SAVE
+Edit Photo
+Enable smart charging to optimize battery. Contains sponsored content.
+Open camera directly from lock screen and never miss a shot again. Contains sponsored content.
+------------ Recommend For You ------------
+Fast Charger
+Update Your App
+Enjoy The New Filter
+DOWNLOAD
+Flash Off
+Flash On
+Download failed
+Download Successfully
+Downloading
+Forget password
+Grid Off
+Grid On
+Beauty
+Camera
+Collage
+Edit
+Effects
+Filter
+Gallery
+Live Sticker
+Sticker
+HOT FEATURES
+MORE
+HOT EFFECTS
+Cancel
+Edit
+Save failed
+Save successfully
+Saving
+Blink to see a new action
+Try opening your mouth
+Try raising your eyebrows
+Lockers
+Album
+Date
+Path
+Resolution
+Size
+Title
+Type
+Moving 1 photo to My Album
+Moving 1 photo to Private Album
+Move failed because there is a problem with the photo.
+Move successfully
+Brightness
+Contrast
+Crop
+Rotate
+Saturation
+Sharpen
+Temperature
+Vignette
+Concealer
+Contacts
+Enlarge
+Facelift
+Female Abs
+Hair Dye
+Lipstick
+Male Abs
+Pecs
+Beauty Contacts
+Smooth
+Taller
+Whiten
+Square
+Free
+Moved to PRIVATE ALBUM
+Horizontal
+Left
+Right
+Vertical
+Moved to MY ALBUM
+Please login to your Google account in case you forget your password.
+No Photos Found
+You can move your private photos to this album.
+Use two fingers to zoom and tap to remove black spots.
+Save
+Battery Protection Enabled
+Express yourself often! There are always new fun stickers and amazing filters!
+Try More Effects
+Saving photo now, please wait a moment
+Saved to Album
+Saving...
+Recommend For You
+View Photo
+OK
+Open camera directly from lock screen and never miss a shot again. Contains sponsored content.
+Add Camera Shortcut
+Shortcut Added
+Screen Locker
+Select 1–9 photos
+Can not edit video
+selected
+Make Your Photos Stand Out
+Send an email to retreave password
+Enter your email
+START
+About
+Screen Flash for Calls
+Camera
+Charging
+Set as default camera
+Default Camera
+Fast Charger
+Settings
+More Settings
+Lockers
+Privacy Policy
+Remove Ads
+Camera Shortcut
+Screen Locker
+Shutter Sound
+Terms of Service
+Size
+START
+DOWNLOAD
+Enjoy The New Stickers
+Sticker Name
+APPLY
+FILTER
+LIVE STICKER
+STICKER
+FREE
+Store
+Area in blue is selected
+Long
+Maximum reached!
+Minimum reached!
+Short
+Timer Off
+Sorry, external storage unavailable!
+Please imput your Google account name.
+Unable to detect face
+Unzip Stickers failed, please download again!
+Hold to record
+tap to take photo
+Failed to gain accessibility for Boost+. Try again to improve phone speed.
+LATER
+TRY NOW
+Try again?
+Auto-organize apps
+COOL
+Cool Phone Down
+Phone is Overheating
+SAVE
+Preserve battery for longer battery life
+Battery Left
+Boost to free up memory
+Memory Used
+Turn on the switch above, theE
+1) Boost 
+2) Kill battery draiThe Boost+ team is devoted to make your phone faster and will never collect any personal data.
+☆Boost+☆
+Battery life has been extended!
+CPU has cooled down.
+Your phone is running at the speed of light now!
+Turn on Battery Protection to protect device from over
+(It may contain ads.)
+Choose from Album
+Recommended Apps
+GOT IT!
+You can hide your private ap
+Swipe up with two fingers to find them.
+Home has been cleared
+Launcher
+Locker
+All
+Most apps cant be stopped by ordinary boost and always lag your phone. Luckily, Boost+ can force s
+Boost+ is more effective than 90 clean softwares.
+Why use Boost+?
+Camera Pro boosts your phone and extends battery life! Set Camera Pro as home!
+Battery Life Extended
+Camera Pro boosts efficiency to keep your phone from overheating! Set Camera Pro as home!
+Cool Phone Down
+Camera Pro boosts your phone, so you never have to worry about speed! Set Camera Pro as home!
+Try a new style for your phone!
+New Theme
+Loading your desktop…
+sans-serif
+sans-serif-medium
+sans-serif-medium
+sans-serif
+sans-serif
+sans-serif
+sans-serif
+sans-serif-light
+sans-serif
+sans-serif
+sans-serif
+sans-serif-medium
+Marry
+012-345-6789
+Unknown
+Turn ON the switch on the top right
+With accessibility authorization, libDeviceMonitor can help you extend battery life more than twiceNote: You may receive a system reminder about authorizing lib Clean. Memory Boost will NEVER collect ANY of your information.
+Install
+ColorCam_A(InterstitialAds)PhoneDefuse
+Sponsored Content
+ColorCam_A(NativeAds)PhotoViewer
+ColorCam_A(NativeAds)FilterDownload
+ColorCam_A(NativeAds)FilterList
+ColorCam_A(NativeAds)HomePage
+ColorCam_A(NativeAds)PhotoViewer
+ColorCam_A(NativeAds)SavedPage
+500_A(NativeAds)SevenInOne
+ColorCam_A(NativeAds)Lumen
+ColorCam_A(NativeAds)Charging
+ColorCam_A(NativeAds)FilterList
+ColorCam_A(NativeAds)ScreenLocker
+ColorCam_A(NativeAds)BoostDone
+subTitle
+title
+Akrobat-Light-simple.ttf
+Lock
+C.Stan
+00:20:05
+Last call time
+The total calling time of this month: 20 minutes
+Set App as Home for an efficient home screen.
+Beauty Gallery
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+Applying...
+Battery
+0
+
+00
+H
+h
+M
+m
+boost_noti_key
+android.support.design.widget.BottomSheetBehavior
+B
+Beauty Cam
+Charger Connected
+enable fassssst charging tip
+Enable Fast Charging
+fast_charger_enabled
+CircularStd-Black.otf
+CircularStd-Bold.otf
+CircularStd-Book.otf
+CircularStd-Medium.otf
+0
+7387d4cd-7c26-47dd-bf8b-f8a947a50f30
+CPU
+℃
+Rate 5 Stars to Unlock
+Wanna unlock this item f
+Just rate us 5 Stars!
+Please check your Google Play
+Tap the number of stars youd give us.
+April
+August
+December
+February
+January
+July
+June
+March
+May
+November
+October
+September
+×
+Desktop settings
+Disable Battery Master
+DS-DIGIB.ttf
+OK
+Are you sure you want to exit?
+766991216798370
+Your current version is too low, please update to lastest version to use it.
+Fill by app
+sans-serif-light
+sans-serif-medium
+sans-serif
+GB
+Slide to open camera quickly
+Slide to open Control Centre
+BEAUTY
+CAM
+Dock label
+KB
+OK
+Air Board
+Desktop Settings
+Enjoy this!
+Applying
+Applied succe
+Set as your lockscreen as well?
+Set as your lockscreen?
+locker_screen_enabled
+MB
+xx.jgp
+NO NETWORK CONNECTION…
+DELETED
+Tap to cool down your phone!
+Camera Pro
+8
+5
+4
+9
+1
+7
+6
+3
+2
+0
+Recent call r
+time
+times
+CANCEL
+DIAL
+CLOSE
+VIEW HISTORY
+OK
+OpenGL ES 2.0 is not supported on this phone.
+Perfect
+Your phone is as fast as a rocket!
+Your phone is clean as new!
+NEW
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+PB
+Fade
+Blush
+Eye Lash
+Eye Shadow
+Eyebrow
+16:9
+3:4
+4:3
+9:16
+HOT
+prefs_notification_enable
+Camera Pro
+Flashlight - the tiny, powerful, long-lasting free flashlight app. Brighten up your world unconsciously with simple one tap!
+Max Optimizer
+RainbowKey
+ProximaNova-Regular.otf
+ProximaNova-Semibold.otf
+com.artw.lockscreen.permission.RECEIVE_LAUNCH_BROADCASTS
+Redirect To Google Play…
+1
+1
+2
+SOLVE
+Battery Left
+BOOST
+Lagging Phone
+CLEAN
+Junk Files
+COOL
+Phone Overheated
+CLEAN
+to clean
+OPEN NOW
+sans-serif-bold
+sans-serif-condensed
+sans-serif-light
+sans-serif-medium
+sans-serif
+sans-serif-thin
+— 0.3km
+— 0.6km
+— 0.9km
+Home
+save_photo
+AD
+Set Ap
+to make your phone run faster!
+Set Ap
+to enjoy a longer battery life!
+Set Ap
+to clean your phone completely!
+camera
+Debug
+setting_key_call_assistant
+setting_key_more
+privacy_policy
+remove_ads
+setting_set_default_key
+shutter_sound
+terms_of_service
+Auto close background apps
+Monitor charging status
+Full charge and overcharge alerts
+Smart Charging
+OPEN NOW
+May contain ads.
+Sync Data
+com.camera.beautycam.sync
+tag_iv_img1
+tag_iv_img1_refresh
+tag_iv_img2
+tag_iv_img2_refresh
+tag_iv_img3
+tag_iv_img3_refresh
+tag_iv_img4
+tag_iv_img4_refresh
+tag_iv_refresh
+TB
+10s
+3s
+00:00:00
+Network errors. Please try again.
+Privacy Policy
+Get Started
+Terms of Service
+The worlds fastest laun
+It is simple and beautiful.
+App boosts yo 80 faster than ever.
+App optimizes power by 20.
+App cleans yas a new one.
+Classic and trendy themes enrich with unique style.
+App
+Fast
+Save Battery
+Cleaning
+Themes
+Current
+Recommended
+Choose your wallpaper
+Navigate up
+More options
+Done
+See all
+Choose an app
+OFF
+ON
+Search…
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Collapse
+Accept
+ and enter the code shown above.
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Enable
+Enable Google Play services
+Install
+Get Google Play services
+Google Play services error
+Update
+Update Google Play services
+New version of Google Play services needed. It will update itself shortly.
+Open on phone
+Sign in
+Sign in with Google
+Allow Ad to create a calendar event?
+Create calendar event
+Ad Information
+Creative Preview
+Select a Debug Mode
+Troubleshooting
+Decline
+Send
+Search
+999+
+Allow Ad to store image in Picture gallery?
+Save image
+sans-serif
+sans-serif-medium
+sans-serif-medium
+sans-serif
+sans-serif
+sans-serif
+sans-serif
+sans-serif-light
+sans-serif
+sans-serif
+sans-serif
+sans-serif-medium
+Tap on the top righThis access will allow you to enable Locker to show notifications on lock screen.
+LibBoost
+Turn ON the switch on the top right
+With accessibility authorization, Memory Boost can help you extend battery life more than twiceNote: You may receive a system reminder about authorizing Memory Boost. Memory Boost will NEVER collect ANY of your information.
+Allow notifications
+The only locker you need.
+Best Locker
+Beautiful, Cool, Personalized.
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+application no access permission
+Apply
+Apply theme
+Your device is already optimal !
+Memory Released
+MB
+android.support.design.widget.BottomSheetBehavior
+For the sake of safety, please draw the unlock pattern
+For the sake of safety, please enter the unlock PIN
+Calling
+Continuous
+0h 00m
+Fully Charge Time Left
+Charging
+Save time: 
+Speed
+Trickle
+Video
+Wi-Fi
+CLEAN
+Cleaning Apps 5/5
+Clean Power Draining Apps
+Clear
+System locker disabled!
+Set password to protect your phone
+Cloudy
+Cold
+5603108c-b314-4758-b0ae-c94549f73c02
+ImageView
+Turn on DailyWallpaper and automatically
+Get a new wallpaper to make your phone unique everyday.
+Daily Wallpaper
+TRY NOW
+change your wallpaper everyday
+Network unavailable, please check it.
+Wi-Fi unavailable, please check it.
+Always On
+Off
+Wi-Fi Only
+Close
+Open
+Locker Settings
+System Settings
+drizzle
+Dust
+1590972734297069
+Your feedback helps us make improvements.
+Please enter your email address.
+Please write your feedback!
+Please enter your email address.
+Thanks for your feedback!
+Feedback
+This will allow Locker access to notifications and show them on lock screen.
+Please grant notification access
+GRANT
+To ensure Locker can fully protect your phone from intruders.
+Please grant App usage access
+Hazy
+Hot
+Get Magic Locker and apply this theme for free
+Get from Google Play
+Install
+Set password to enable Intruder Shot.
+Set Password
+TRY NOW
+Someone enters the wrong password 3 times.
+The intruders photo will be shot secretly.
+Want to know who tries to unlock your phone?
+Intruder Shot
+Password is wrong
+Please wait while the photo is prepared…
+Intruder Shot Demo
+No intruder found. Your phone is safe.
+If someone entered the wrong password. The intruders photo will be shot and saved here.
+Intruder collection
+Enable intruder shot
+SET PASSWORD
+It will help you protect your phone from unlocking by others.
+Please set a password to enable intruder shot
+5 times
+1 time
+Take photo after certain times of wrong entries.
+Wrong password entries
+3 times
+Wrong password entries
+2 times
+Intruder Shot
+Rate
+Surprised? Rate us 5-Stars now
+We caught an intruder for you!
+This one wanted to unlock your phone.
+Get Air Launcher to use these
+fantastic phone themes
+INSTALL
+ECO
+lower brightness to save power and protect eyesight.
+20 battery left
+My Themes
+My Wallpapers
+NOT NOW
+ENABLE
+Calculator not found
+Warning: camera is occupied
+No Bluetooth available
+SIM card not found
+No WiFi available
+Please find Locker and switch it on.
+Show notifications on lock screen
+Select apps to show notifications
+Select apps
+08:00 - 23:00
+Wakeup duration
+delete
+Touch to open Locker
+Grant Locker notificati
+to show messages on lock screen.
+open
+Privacy protection
+Youve received 1 new message.
+Hide the messages content
+Notification
+Wake up screen when you get a notification
+Wake up screen
+Overcast
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+Pattern visible
+Invisible Pattern
+Vibrate with input
+At most 5 apps
+Long press to edit
+Select Apps
+Rain
+Send
+Pattern doesnt match, please try again
+Connect at least 4 dots, please try again
+Please draw a pattern
+Pattern turned on
+Pattern
+Please draw the unlock pattern again
+Reset Password
+PIN doesnt match, please try again
+Please enter your PIN
+PIN turned on
+PIN Code
+Please enter your PIN again
+Speed Charger
+Daily wallpaper changer
+CANCEL
+DISABLE
+Once disabled Locker, it will no longer offer themes and protect your privacy.
+Disable Locker
+Warning
+Enable Locker
+Feedback
+Locker disabled
+Locker enabled
+Main Screen
+Password
+Intruder Shot
+OFF
+ON
+/
+Review
+Lock Settings
+Settings
+Special
+Theme
+Turn off system screen lock
+Select Unlock Motion
+Update
+Wallpaper
+Sleet
+Slide Right
+➔ Slide to unlock
+Slide Up
+Snow
+Snow Shower
+Greatly accelerate your charging speed by 25.
+ENABLE
+Speed Charging
+Storm
+Sunny
+Disable system locker to avoid conflicts.
+DISABLE
+Too many lockers in use
+Applied successfully
+New Themes are coming!
+TRY NOW
+Launcher
+Theme load failed, please try again
+Locker
+Theme
+Thunderstorm
+CANCEL
+CONFIRM
+Wakeup Duration
+Today
+Tomorrow
+h:mm a
+H:mm
+Unknown
+Select unlock motion
+Cancel
+Draw unlock pattern
+Enter password
+Wrong pattern, please try again in 30 seconds
+Incorrect password, please try again in 30 seconds
+Oops, please try again
+Oops, please try again
+Update Magic Locker and apply this theme
+Update
+Cancel
+Categories
+Current
+Daily
+Loading HD wallpaper
+Local
+Network unavailable, please try again later
+Recommended
+Set as wallpaper
+Loading, please wait
+Loading failed, please try again later
+Set successfully
+A problem occurred with this wallpaper, please try again
+No city matched
+Oops, cant load the weather.
+Loading…
+Refresh
+Searching cities…
+clear
+cloudy
+cloudy_night
+cold
+drizzle
+dust
+hazy
+hot
+Humidity:
+km
+km/h
+mi
+mph
+--
+--:--
+overcast
+rain
+rainshower
+ Type and select city
+°C
+/
+City
+°F
+Add new city
+Distance unit
+Temperature unit
+Weather Settings
+sleet
+snow
+snowshower
+sunny
+Sunrise:
+Sunset:
+thunderstorm
+Better to stay indoors.
+Pay attention to drive safety.
+Take an umbrella and keep warm.
+Put on warmer clothes.
+Take an umbrella with you.
+Better to stay indoors.
+Weather
+Today
+unknown
+Visibility:
+Wind Direction:
+Wind Speed:
+windy
+Enable Locker to use this feature?
+Windy
+Home
+Boost
+CPU
+Flashlight
+WiFi
+Clean
+Notifications will be hidden here.
+Free more to speed up your phone
+Boost
+More
+Navigate up
+More options
+Done
+See all
+Choose an app
+OFF
+ON
+Search…
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Collapse
+Accept
+ and enter the code shown above.
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Enable
+Enable Google Play services
+Install
+Get Google Play services
+Google Play services error
+Update
+Update Google Play services
+New version of Google Play services needed. It will update itself shortly.
+Open on phone
+Sign in
+Sign in with Google
+Allow Ad to create a calendar event?
+Create calendar event
+Ad Information
+Creative Preview
+Select a Debug Mode
+Troubleshooting
+Decline
+Fast forward
+Next track
+Pause
+Play
+Previous track
+Rewind
+Stop
+Send
+Search
+999+
+Allow Ad to store image in Picture gallery?
+Save image
+About
+Tap the toggle on the upper right to permit MAX Optimizer accessibilityE
+- Power boost device and get extra 30 pe
+- Stop auto-starting batter
+- Clean system jPle
+You may receive system privacy warnings, that’s a standard procedure of Android. MAX Optimizer never collect any private information.
+IgnoreList
+Settings
+Add to BlackList
+Add to Contacts
+Add to WhiteList
+CONTINUE
+Add to ignore list
+QUIT
+SKIP
+Scan for freeable memory, useless files and possible viruses with one simple tap.
+Start Full Scan
+Block all numbers
+All Calls
+No apk file(s) detected
+APK FILES
+No app(s) detected
+App Manager
+1 app has been uninstalled
+Delete apk files
+INSTALL
+Installed
+Recommended for you
+Select all
+UNINSTALL
+Uninstall apps
+Not installed
+UNINSTALLER
+Analyzing battery usage...
+ENABLE NOW
+Hide unwanted notif
+Never miss any important messages.
+50 OFF
+0.99$/month
+Annual Subscription
+Useless Apk
+App Junk
+Residual Junk
+Dont lock this app
+This app will no longer be locked.
+Advanced
+To use this feature, please first lock at least one app.
+Successfully!
+All apps
+Now enable disgu
+to have double protection
+Lock settings
+Intruder
+App Locker
+Invisible patterns
+AD
+Done
+Please modify your email
+Modify your email
+Email account for forgotten password
+This app will be locked immediately after screen closed
+Lock setting
+Reset successfully
+Confirm your identity
+Draw unlock pattern
+Confirm your identity
+Enter PIN code
+Modify email
+Linked Email
+Password
+Visible Pattern Line
+Re-lock after app closed
+Re-lock after screen off
+Re-lock Settings
+Reset password
+Settings
+minutes
+minute
+seconds
+second
+TRY AGAIN
+Visible patterns
+MAX Optimizer
+App selection
+Apps Closed
+App Closed
+Hidden Cache Junk
+Apps
+Audio Messages
+No audio messages found.
+Running apps
+1 running app closed
+Battery-draining Apps
+OPTIMIZE
+8 power remaining, kill battery-draining apps nows!
+Battery is below 22, tap to optimize battery now.
+Low battery
+OPTIMIZED
+Selected 0 app
+Extend battery life by 50
+Battery is too low, please charge it.
+Click to extend your battery life
+Scanning phone status...
+Battery Saver
+Date:
+Once delete these files, you can’t recover them again.
+Delete selected files?
+Path:
+PLAY
+Size:
+VIEW
+Clean disliked songs to save space.
+Audio Files
+Delete these files won’t cause system crash.
+Clean overdue &amp; useless documents.
+Documents
+No files found
+Free
+Heavy Apps
+Heavy apps occupied too much space.
+Big Media Files
+Clean videos you’ve watched to save space.
+Others
+Rarely Used Files
+Rarely used files are wasting space.
+System is not supported.
+Big Files
+Blacklist
+Hidden
+DELETE ALL
+IgnoreList
+DONE
+Select apps you wish to hide notifications from.
+Yesterday
+Notification Organizer
+Today
+Block private numbers
+Block
+Blocker List
+Blocker Mode
+OPTIMIZED
+Boost your phone now!
+Browsing histories have been cleaned
+FREE DOWNLOAD
+COOL DOWN CPU
+B
+Call Again
+Activate Succeed
+Block Succeed
+- Automatically block calls you dont want to answer.
+- Automatically be reminded of missed calls. Enable and call back with
+- Read and reply to messages in a simpler way.
+Auto remind you of missed calls and block unwanted calls.
+Super Call Assistant
+Call Back
+CALL BLOCKER
+Call Ended
+Block this number now?
+Blocker
+Number Blocked Success
+Turn Off
+Missed call
+Call Declined
+Whitelist
+CALLS LOG
+CANCEL
+Includes recorded audios, please reconfirm them before cleaning.
+Including sent files and received files.
+Includes voice messages from your chats, please clean them carefully.
+Battery Charged
+Charging Status
+Charging Time
+Good
+Overcharge
+Slow
+Time Overcharged
+Charging Report
+Fully charged
+Phone is not charged, but it’s safe to remove charger
+Removing charger would be harmful to your battery
+Reaching a temperature of 55℃ can be harmful for your battery.
+Even though the phone is not charged, it’s safe to remove charger while in the almost charged mode.
+If you turn off smart charging, you wont be able to protect your battery anymore. Are you sure you wish to turn it off?
+TURN OFF
+NOT NOW
+Turn Off Smart Charging?
+Fully Charged
+TURN OFF
+ENABLE
+Its one click to enable smart charging to monitor charging status. (It may contain ads.)
+Enable smart charging to monitor charging status. (It may contain ads.)
+Enable smart charging to prevent your battery from being damaged. (It may contain ads.)
+Enabling smart charging stops background apps to boost charging speed. (It may contain ads.)
+Enable smart charging to monitor charging status. Contains ads.
+Contains ads.
+Charger Connected
+Swipe to unlock
+Please be assured that deleting this file will not affect normal use.
+Clean Hidden Cache Junk
+Enable MAX to clean hidden cache junk files
+Clean to free up phone storage
+Clean to lighten your phone now
+CLEAN
+Scanning WhatsApp usage …
+Clean WhatsApp
+CLEANING…
+Clipboard content has been cleaned
+Closing running apps
+CONTACTS
+May contain ads
+Contain:
+Contains ads.
+- extend battery lif
+- stop auto-restarting memory
+- clean hidden junk files
+Grant the permission to stop auto-restarting memory killers and extend battery life by up to 50
+Grant the permission to extend battery life by 50
+extend battery life by 50
+stop auto-restarting memory killers
+clean hidden junk files
+Grant the permission to:
+Free up more memory?
+Clean hidden junk?
+Battery power drained too fast?
+Activate \App Locker\
+Click to clean.
+Call Assistant enabled
+Automatically block calls you dont want to answer.
+Automatically be reminded of missed calls and return the call with one click.
+Active \Super Call Assistant\
+Cleaning…
+Information found in clipboard, may cause privacy leak.
+Click to protect privacy.
+COOL
+Click to cool down your phone.
+CPU is overheating
+COOL DOWN
+℃! CPU
+℉! CPU
+Click to cool down your phone
+BOOST
+ Memory
+
+Boost your phone before using the app
+Warning
+Special Recommendation
+Read Now
+CLEAN NOW
+Hide and organize unwanted notifications. Never miss any important messages.
+Too many notifications?
+Permission granted successfully
+Smart Screensaver enabled
+Monitor and report charging status, protect your battery.
+Monitor your phone status to optimize it.
+Manage your notifications better.
+Activate \Smart Screensaver\
+- extend battery lif
+- stop auto-restarting memory
+- clean hidden junk files
+Grant the permission to stop auto-restarting memory killers and extend battery life by up to 50
+Grant the permission to extend battery life by 50
+extend battery life by 50
+stop auto-restarting memory killers
+clean hidden junk files
+Grant the permission to:
+Free up more memory?
+Clean hidden junk?
+Battery power drained too fast?
+Turn on to close auto-starting apps.
+Cool down CPU further b
+auto-starting apps.
+Cool down temperature faster
+Closing CPU consumers...
+CPU Cooler
+CPU cooled down
+OPTIMIZED
+cool
+COOL DOWN
+to further optimize your cpu
+extremely heated
+overheated
+CPU Cooler
+Apps
+Billing Cycle
+Date of each month:
+Usage cycle reset date
+Set data usage warning
+/
+We can’t find any info for this month.
+Data recorded when using mobile traffic.
+Worried about excessive da
+Set a plan to avoid overage charges!
+Monthly Data Plan
+Monthly starting on
+NEXT
+Data alarm!
+
+SET
+Settings
+System Apps
+Data Monitor
+Used
+Some apps stolen your data, see now!
+Data thieves found
+1 running app closed
+Delete
+DELETE
+DELETED
+App
+Apps
+Warning
+Permission needed
+Yes, I am sure
+You need draw a pattern. Are you sure you want to give up?
+No, draw pattern
+ENABLE
+Unlocking too frequency? Change settings to make re-lock after screen off.
+App will be locked when your phone enters sleep mode.
+Unlock Successfully!
+ENABLE NOW
+GOT IT
+Lock Successfully!
+Show a fake app crash message when the app is opened.
+ACTIVATE
+Launch an error message so you can trick snoopers to protect your privacy.
+Crash!
+Unlock Successfully
+Unfortunately, Facebook has stopped.
+Slide your finger as shown 
+ the disguise below.
+Oops,Try again
+Choose apps below to disguise
+Choose apps below to disguise
+Disguised
+Disguise Lock
+This error message will appear to deter snoopers from opening your app.
+Click the OK button to exit the app.
+Slide your finger as shown to unlock this app.
+Documents
+No documents found.
+DONE
+Activate \Smart Screensaver\
+Smart Locker
+Estimated
+EXTEND BATTERY LIFE
+Get the latest news for MAX and useful Android tips.
+Follow Us
+Follow us on Facebook
+Scanning...
+Files Scan
+Want to get better service or experience? Please give us some feedback so that we can protect your mobile phone better.
+This app will no longer be disguised.
+Disguise lock has enabled，sliding your finger to unlock it.
+Dont disguise this app
+Disguise this app
+Follow us on Facebook
+Verification Email Already Send
+Email has already been sent. Please check your mailbox.
+Forgot password
+Email sending failed, Please try again later.
+Please enter the code.
+Please check your network settings.
+Connection Error.
+Please Login into your Google account then try it again.
+Forget Password?
+Unknown error. Please try again later.
+Unknown Error
+Your E-mail
+1.We will send a verification code to your Email account.
+Please Login into your Google account to confirm identification before resetting password.
+Cancel
+Confirm
+Forget Password?
+No internet connection. Please check your network.
+RESET PASSWORD
+Verification Code
+2.Enter the verification code and get your password.
+SEND EMAIL
+Forgot Password
+That code doesn’t work. Please try again.
+BLACKLIST
+MISSED CALLS
+From call log
+From Contacts
+Full Scan
+FULL SCAN
+The first scan will take about 1 minute. Please wait for a moment.
+Skip
+Add
+Added
+Add Game
+Boosting......
+Game Folder Created.
+Game Folder Created.
+Tap Add button to add games.
+Launch games from the Game Folder, boost game speed up to 30!
+Remove
+Games
+Recommended for you
+Create Game Folder on 
+to find &amp; boost games easily.
+CREATE
+Game Booster
+Uninstall
+Memory freed up, please try again later
+Your phone can run games faster and smoother when you launch games from the Games folder.
+Want Games to Run Faster?
+GB
+GO
+Keep out these apps from snoopers
+Protect your privacy
+App Locker
+Please enter the correct email
+Email for forgotten password
+Your E-mail
+SKIP
+START
+Enter your email
+No lagging. No freezing.
+Do everything smoothly.
+From sunrise to sunset, have no
+worries about running out of battery.
+MAX Battery Life
+MAX Phone Security
+MAX Phone Speed
+MAX Phone Storage
+Next
+CHANGE TO PATTERN
+CHANGE TO PIN CODE
+Connect at least 4 dots
+Draw an unlock pattern
+Wrong pattern
+PINs dont match
+RESET
+Connect at least 4 dots
+Draw the pattern again
+Your unlock pattern
+Enter 4 numbers
+Enter 4 numbers
+Your PIN code
+Draw your unlock pattern
+Pattern recorded
+Confirm your pattern
+Completed
+Set your PIN code
+PIN recorded
+Confirm your PIN
+Completed
+Remove junk and useless files.
+Save space for the things you love.
+Safe payments, safe network, safe info.
+Rest easy with real-time protection.
+Take a photo of someone snooping on the selected apps
+One more second
+LEAVE
+LOCK APPS
+GET STARTED
+Running Apps
+Battery is draining quickly
+Remove Ads
+REMOVE NOW
+IGNORE
+Ignore List
+Image Messages
+No image messages found.
+Please input number including contry and area code
+Input Number
+Number
+INSTALL
+Delete all photos?
+All intruders photos will be deleted from your phone.
+Prompts
+Delete this intruders photo?
+Automatically take a photo of anyone who tries to break in.
+Take a photo of someone entering with wrong codes
+More
+No Snoopers Found
+Some other snoopers peek on your phone.
+CHANGE
+
+Selfie Setting
+Take a photo of anyone who enters the wrong pattern or password.
+Snoopers Gallery
+Intruder
+Chances Allowed
+Intruder Mugshot
+Removing this file will not affect normal usage.
+Junk Clean
+Junk Found
+NOT NOW
+Junk Selected
+Memory killer found
+Memory killers found
+KB
+LATER
+CPU-heating Apps
+LOCK NOW
+Lock settings
+Thousands of free beautiful wallpapers and themes offered.
+Protect your phone from being unlocked by others.
+Use camera, calculator and flashlight without unlocking your phone.
+Download Smart Locker
+CPU Cooler
+BOOST
+SECURITY
+MB
+Memory Cache
+Boost
+BOOST
+Memory Boost
+Cleaning running apps...
+ memory freed up
+Boost
+OPTIMIZED
+Released
+Reached the best state
+Scanning... 
+Memory Used
+0B/0B
+Input Message
+REPLY
+Send Failed
+Send Success
+Battery Saver
+Call Assistant
+CPU Cooler
+File Scan
+1.99$/month
+Monthly Subscription
+Other
+RETRY
+Sorry, something we
+ please try again later.
+No available Email app was found
+No battery drainers found.
+No Contact Found!
+NO,THANKS
+NOT NOW
+NOT NOW
+GOT IT
+Fri
+Mon
+Sat
+Sun
+Thu
+Tue
+Wed
+Yesterday
+App
+Time
+Manage apps you wish to hide notifications.
+Read Now?
+Useless notifications deleted
+Notification Settings
+Scan
+Scan to keep safe now!
+Virus database updated
+Lock
+Lock to keep snoopers out
+ Apps
+Extend
+Click to extend your battery life
+ Apps
+Cool
+Click to cool down your phone
+℃!
+Check
+Mobile data usage exceeded the limit.
+Data alarm!
+Check
+Find them out now!
+Find it out now!
+ Apps
+Some Apps are stealing data
+ App
+Scan
+Tap to complete all scan tasks!
+Scan Now!
+Tap to find all cache and viruses!
+Hidden Danger
+Tap to scan &amp; keep phone well!
+Long Time No Clean
+Start
+Tap to boost game by up to 30
+Clean to save phone space
+
+OK
+1 item
+memory freed up
+One-Tap Boost
+OPTIMIZED
+Path:
+Ad Junk
+ENABLE
+PERMIT
+PB
+Best photo recommended
+Apps contains cache photos
+No
+Remove all these selected photos?
+Yes
+DELETE SELECTED PHOTOS
+No Blurry Photos Found
+No Cache Photos Found
+No Duplicate Photos Found
+No 
+Photos Found
+No Screenshots Found
+Photos Found
+Select All
+/
+Duplicate Photos
+Blurry Photos
+Cache Photos
+Screenshots
+Duplicate Photos
+CANCEL
+Enabling MAX Boost MAX needs your authorization.
+Permission needed
+Select All
+Boost
+Privacy Policy
+PRIVACY RISK
+Private Number
+Private Numbers
+Automatically monitor charging status and stop over-charging to prevent battery damage.
+Activate \Smart Charging\
+Smart Charging Enabled
+VIEW
+Keep snoopers away from the apps contain privacy information.
+ALBUM
+GOOGLE KEEP
+GMAIL
+App Lock
+CHECK NOW
+Too many useless apps are bothering you? App Manager helps you to uninstall unwanted apps and remove unwanted APK files.
+App Manager
+SAVE
+Save power up to 45 by stopping battery-draining apps.
+Battery Saver
+COOL NOW
+CPU is overheating now. Close running apps to cool it down.
+CPU Cooler
+SET NOW
+Set upper limit for monthly data usage in case of overcharging.
+Data Monitor
+ENABLE
+If your phone cant run games smoothly, game booster can automatically boost games at least by 30.
+Game Booster
+BOOST NOW
+Find the running apps and stop them. Release more memory.
+ENABLE
+Clean up unwanted notifications, never miss important messages.
+CHECK NOW
+Free up to 30 of phone storage by automatically identifying and cleaning the similar photos clogging your gallery.
+Duplicate Photos
+SPEED UP
+Find out auto-restart memory killers and stop them. Speed up phone immediately.
+SCAN
+Files Scan
+SCAN
+Last scan: today.
+Never scanned? Scan virus to keep phone safe!
+Virus Scan
+ENABLE
+Automatically clean background apps and monitor battery status to prevent overcharging. It may contain ads.
+Smart Charging
+Smart Charging Enabled
+FREE UP
+Scan and remove the junk from storage. Reclaim free space.
+Storage Cleaner
+BOOST NOW
+Clean background apps to boost Wi-Fi speed.
+Wi-Fi Boost
+Hide and organize unwanted notif
+ Never miss any important messages.
+OPEN NOW
+Too many notifications?
+Monitor and report charging status, protect your battery.
+Activate \Smart Screensaver\
+Smart Screensaver Enabled
+Activate \Smart Locker\
+Smart Screen Enabled
+ENABLE NOW
+1 app with privacy risk.
+App Locker
+Remove junk files completely and save storage space.
+.1fM Junk Found
+BOOST
+Find out the running apps and close them. Release more memory.
+Memory Boost
+ENABLE NOW
+Hide unwanted notifi
+Never miss any important ones.
+ENABLE NOW
+Enable Smart Charging to prevent overcharging efficiently.
+Smart Charging
+Questionnaire Feedback
+There is currently a scan underway. Do you wish to quit the current scan?
+Quit Full Scan?
+Rate 5 Stars in Google Play?
+Congrats!
+LATER
+SUBMIT
+READ
+Recommend keep awake
+ left 
+No residual junk files found.
+ residual files. 
+RESIDUAL JUNK
+RESOLVE
+Running app closed
+Running apps closed
+SAVE BATTERY
+extended
+SCAN
+scan all the items
+App privacy
+Browsing history
+Clipboard privacy
+Scanning phone status…
+Real-time protection
+Privacy
+Virus
+The first scan will take about 1 minute. Please wait for a moment.
+Scan running apps...
+Scanning CPU...
+If you turn off smart screensaver, you wont be able to automatically monitor phone status anymore. Are you sure you wish to turn it off?
+Turn Off Smart Screensaver?
+Ignore List
+Ignored apps will no longer be scanned.
+These apps wont be scanned as potential threats.
+Security
+Keep Safe
+1 risk is harming your phone, resolve this now!
+1 virus is harming your phone, resolve this now!
+1 virus and 1 risk are harming your phone, resolve this now!
+Nearly 20 million mobile viruses were detected last year. Scan to keep it safe.
+Exit without virus scan?
+Security Report
+DETAILS
+App privacy is secure
+No viruses detected
+Your battery is protected while charging.
+Charging protection enabled
+No clipboard records detected.
+Clipboard is clean
+Category:
+Description:
+IGNORE
+Path:
+UNINSTALL
+Threat harm:
+Threat name:
+Malware detected!
+Risk
+Risks
+All risks are resolved
+Suggestion
+Suggestions
+SAFE
+Virus
+Viruses
+There are no leaks of your browsing history.
+Browsing history is safe
+Ignore List
+Keeps prying eyes out of your privacy apps by locking them.
+NOT NOW
+The last issue
+AUTHORIZE
+REFUSE PROTECTION
+- Give authorization to protect your
+- Give authorization to upgrade security!
+Failure due to lack of authorization
+Not open
+App not locked
+VIEW
+Browsing history is at risk
+- Automatically block calls you dont want to answer, and remind you of miss
+- Read and reply to messages in a simpler way.
+ENABLE
+Automatically monitor charging status and stop over-charging to prevent battery damage.
+Automatically monitor charging status and stop over-charging to prevent batter
+Receive detailed charging reports.
+not yet enabled
+Charging protection
+Private clipboard content may cause privacy leak.
+Read and reply messages in a simpler way.
+Activate Message Assistant
+ENABLE
+Find out threats automatically as soon as theyre installed.
+Real-time Protection
+IGNORE
+UNINSTALL
+The virus na
+Virus harm:
+After the operation may be controlled by a hacker
+May result in property damage
+The virus na
+Virus/Trojan
+Enable web protection to prevent you from browsing phishing sites，deceptive sites and sites that host malware or unwanted software.
+Web protection is disabled
+Detect threats in real-time
+Real-time protection enabled
+RESOLVE ALL
+RESOLVING...
+Security
+Select All
+APK Remover
+Auto Booster
+Battery Saver
+Blocker Reminder
+Remind you the block calls with notification.
+Boost
+These apps wont be stopped during boost
+Call Reminder
+Remind you after a call with easy shuttles by alert.
+Fully Charged Reminder
+High Temperature Reminder
+Enable Charging Report
+Smart Charging
+Enable Smart Charging
+General
+Communication
+Get a reminder to remove APK files once an app installed.
+Get a reminder to remove residual junk files after an app uninstalled.
+Automatically protect phone battery when charging. May contain ads.
+Automatically monitor phone status all the time. May contain ads.
+Slide to the left to view the weather forecast on your screensaver.
+CONFIRM
+App added to Boost Safe List will not be closed
+Add to Safe List
+ADD
+Ignored apps wont be stopped during boost
+Message Reminder
+Remind when apps frequently steal data in the background
+Abnormal Data Usage Reminder
+Remind of abnormal battery drainage
+Battery Draining Reminder
+Remind when memory usage is high
+Boost Reminder
+Remind when CPU usage is high
+CPU Overuse Reminder
+Remind when data usage is out of limits
+Data Overuse Reminder
+Remind when virus database need update
+Database Update Reminder
+Remind when your phone is not optimized for a long time
+Full Scan Reminder
+Remind when apps of game class can be boosted
+Game Booster Reminder
+Reminder when junk need cleaning
+Junk Reminder
+Remind when apps have privacy disclosure threats
+Privacy disclosure Reminder
+Notification Settings
+Notification
+Notification Toggle
+Residual Junk Removal
+Off
+Auto-scan off
+Once a day
+Auto-scan everyday
+Once a month
+Auto-scan every 1st day of the month
+Once a week
+Auto-scan every Sunday
+Scheduled Scan
+Security
+Auto Update Virus Database
+Wifi only
+Checking...
+Unstable internet connection. Please try again later.
+RETRY
+Virus Definitions Update
+Downloading
+DOWNLOAD
+Switching
+Connection error. Please check your network settings.
+Network Connection Error
+Real-time Protection
+Scheduled Scan
+Cancel failed
+Cancel…
+SCAN
+Update Virus Database
+.2fMB/
+.2fMB
+Updating…
+Virus definition is up-to-date.
+Enable Smart Screensaver
+Smart Screen
+℃
+Celsius
+Fahrenheit
+Temperature Unit
+℉
+Temperature Unit
+Settings
+Language
+MAX
+Useful Shortcut
+The shortcut has
+Please use it in APP
+Junk Clean
+About
+App Locker
+App Manager
+Battery Saver
+Big Files
+Data Monitor
+Data Thieves
+Duplicate Photos
+Feedback
+Files Scan
+Game Booster
+Like us
+Max Boost
+Notification Organizer
+Remove Ads
+Settings
+Size:
+Effectively prevent battery
+damage while its charging.
+Auto close background apps
+Monitor charging status
+Full charge and overcharge alerts
+Smart Charging
+OPEN NOW
+May contain ads.
+Monitor and report charging status, protect your battery.
+Monitor your phone status to optimize it.
+Manage your notifications better.
+Activate \Smart Charging\
+BATTERY
+If you turn off smart locker, youll not be able to protect your battery and monitor your phone status anymore. Are you sure to turn it off?
+Turn Off Smart Locker?
+CPU TEMP
+MEMORY
+STORAGE
+ Apps
+BOOST
+CPU cooled down
+
+ memory freed up
+
+Scanning phone status...
+Get More Space
+Enable Smart Screen (Contain Ads)
+START
+14 Essential Tools All-In-One
+Resolve the issues
+ISSUE
+ISSUES
+IN DANGER
+Virus database recently updated
+Need to scan
+SUSPICIOUS
+Scan to keep safe
+Never Scanned
+DANGER
+Last scan: 
+Protecting
+SAFE
+SAFE
+Closing battery-draining apps...
+Storage Used
+0B/0B
+GIVE 5 STAR
+Prevent others from seeing your browing history.
+Prevent others from seeing your call history.
+Protect your personal info
+Prevent others from installing apps on your phone.
+Prevent others from making phone calls on your phone.
+Prevent others from seeing your private photos.
+Protect your private data
+Prevent others from seeing your private files.
+Protect your private messages
+Protect your private photos
+Prevent others from seeing your play history/library.
+Prevent others from seeing your search history.
+Protect your private videos
+Prevent others from changing your settings.
+Prevent others from taking photos with your phone.
+Potential Risk
+Junk Files Database
+System Junk
+The newly installed app is safe
+MALWARE FOUND
+Malicious behavior:
+Tap to boost your phone now!
+℃
+℉
+TB
+Terms of Service
+ADD
+Thank You!
+battery life
+Tap again to exit
+Total
+UNINSTALL
+Block all numbers except contacts
+Unknown Numbers
+UPDATE
+New Version
+version
+Video Messages
+No video messages found.
+Turn on notif
+ never miss any important messages.
+You have no notifications.
+Wake screen upon receiving new notifications
+Auto Wake Screen
+Notifications
+Voice Messages
+No voice messages found.
+Wake duration
+Wake Duration
+WARNING
+This site contains harmful content! We recommend you close this page immediately.
+HARMFUL WEBSITE
+CANCEL
+RECOVER
+Today
+Within a week
+A week ago
+Yesterday
+Days before files are permanently deleted.
+No recoverable files found
+Recycle Bin
+The selected item(s) will be permanently deleted.
+Select All
+Confirm the removal
+The selected items will be kept in Recycle Bin within 7 days. After that time, items will be permanently deleted.
+Never Block these numbers
+Whitelist
+Trusted Apps
+There are no apps burning your data!
+GOT IT
+Help
+Check which apps are burning data while your screen is locked.
+Check which apps are burning data while your screen i
+Click or long press the app which is checked out to handle them.
+Data Real-time Protection
+Check which apps are burning data while your screen is locked.
+STOP
+Data Thieves
+TRUST
+There are no trusted apps.
+Trusted Apps
+Your phone state is great!
+No file selected
+sans-serif
+sans-serif-medium
+sans-serif-light
+NAME
+SIZE
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+android.support.design.widget.BottomSheetBehavior
+Reaching a temperature of 131℉ can be harmful for your battery.
+519362dd-4d3c-413b-98da-ed56c7ede0d1
+Tap \INSTALL\ to get Max Smart Locker FOR FREE!
+Disguise Help
+572945746222716
+Download
+It may display ads
+0s
+1s
+2s
+3s
+APK REMOVAL
+0MB
+Notification Cleaner
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+InstaWeather
+Navigate up
+More options
+Done
+See all
+Choose an app
+Clear query
+Search query
+Search
+Submit query
+Voice search
+Share with
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading...
+Cancel
+Log in
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+New! Youre in control - choose what info you want to share with apps.
+Update Android Wear
+Enable Google Play services
+Enable Google Play services
+Get Google Play services
+Get Google Play services
+The specified account does not exist on this device. Please choose a different account.
+Invalid Account
+An application requires Google Play services to be enabled.
+A data connection is required to connect to Google Play services.
+Network Error
+An application requires an update for Google Play services.
+Google Play services error
+Error signing in the specified account. Please choose a different account.
+Sign in failed
+Unknown issue with Google Play services.
+Google Play services
+Update
+Update Google Play services
+Google Play services are updating
+Open on phone
+Send
+\#Alarm
+\#Alarm Off
+\#Format
+\#Locate
+Search…
+Collapse
+Accept
+Reset password
+Done
+Instruction
+Search
+Set password
+Security question
+Settings
+Wi-Fi security settings
+Enable
+AD
+Add contacts
+Hide (0)
+Add
+Hide successfully
+Add from contacts
+Add new mode
+Add a privacy contact
+Lock settings
+Cancel
+Go to vault
+Moved successfully. Check in privacy vault?
+Make your phone give an alarm / turn the alarm off
+Apply this theme to the lock screen?
+Cancel
+Want to download this Theme to your phone?
+In Android 5.0 or above, 
+enable app lock by giving usag
+to Privacy Master.
+Permission requested
+Please enable \Privacy Master\ usag
+to fix app lock problems, or the 
+locked would lose protection.
+Warning!
+Go
+Please waiting…
+Delete this photo?
+Delete these photos?
+Delete this video?
+Delete these videos?
+Save this image to gallery?
+Unhide this photo?
+Unhide these photos?
+Unhide this video?
+Unhide these videos?
+No Thanks
+OK
+Enable Now
+Permit Now
+Just give Privacy Master usa
+to active power saving mode.
+Active Now
+SAVE 50
+Wanna reduce battery brain?
+Save
+Set
+Want to uninstall this Theme from your phone?
+All photos have been hidden
+All videos have been hidden
+Security question
+App cover
+Unfortunately, Privacy Master has stopped
+Unfortunately,
+has stopped
+Slide on Close to unlock
+Sorry, \Messen
+stopped.
+When a covered app was opened, there 
+fake crash above it, and only you know how to skip.
+Instruction:
+Slide on \Close\ button
+Sorry, \Privacy Mas
+stopped.
+App cover
+Oops! Longer sliding distance
+App lock
+All apps
+Normal apps
+Recommended apps
+App lock
+Privacy Master
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+APPLIED
+APPLY
+Facebook
+Google
+Orders will be sent to friend number via SMS, send now?
+Contro
+ 1.Clean private data
+ 2.Locate position
+ 3.Send alar
+ 4.Turn off alarm: #
+ You can send corresponding orders to control the lost phone.
+
+Bind Phone Number
+Bind your phone with a frien
+then control your phone remotely by se
+with this number.
+Bluetooth
+Loading
+Add to Privacy Master
+Website
+Friend number:
+Cancel
+Delete
+Hide
+Save
+Select all
+Unhide
+Deselect all
+ALTER
+Lock All
+Lock
+Apps
+App
+Contacts
+Contact
+CANCEL
+Please enter a name for the mode
+Cannot make phone calls on this device
+CHANGE
+Not now
+Disable
+Your battery will not be protected, are you sure to disable?
+Disable Battery Master?
+Battery Doctor!
+Charge for 10 more minutes to extend your battery capacity.
+Battery Low
+Continuou
+Keep charging your battery to its maximum capacity.
+Fully Charged
+Regular
+Charging your battery at the maximum speed till 80.
+Trickle
+Keep charging to reliably protect battery and explore its optimal performance (About 10 mins).
+Unplugged from charger
+Disable
+Full Charge Left
+Charger Cut off!
+Oops, your mobile phone hasnt fully charged yet. Battery has suffered a damage.
+Battery Master
+Remaining Time
+Fast Charging
+Fully charged
+Low Voltage!
+Opps, the voltage from charger is too low!
+Fully Charged!
+Battery has been fully charged! You can unplug charger anytime you want.
+Full Charge Left
+Trickle Charge Left
+Charging setting
+Fast
+ screen saver
+Speed up charging and prevent overcharging
+Fast charging screen saver
+Type here
+Check new Wi-Fi automatically
+Scan new wi-fi when it is connected
+Please enter a security question
+Choose wifi to set place lock
+Close
+fde769cf-49e8-462d-927f-72c491d73c58
+Sign in
+Sign in with Google
+Confirm pattern
+Confirm PIN
+This pattern is the same with trick password. If you set this pattern, trick password will be disable, are you sure to continue?
+Allow Ad to create a calendar event?
+Create calendar event
+Privacy is being protected.
+Privacy Master
+Lock these apps to keep your privacy safe.
+Data monitor
+Data alarm!
+Data usage limit exceeded.
+Set your data plan
+Worried about excessive data usage? Set a plan to avoid overage charges!
+Check details
+Data usage:
+Remaining
+Data plan
+Monthly quota:
+OK
+quota
+Data settings
+Trust list
+Warn me over
+Warn me when data abnormal
+Who steal data
+Decline
+Delete all photos?
+All intruders photos will be deleted from your phone.
+Delete this intruders photo?
+Delete
+Avoid being uninstalled
+Activate Privacy Master as device administrator in case of being uninstalled by malicious people.
+Cancel successfully
+Prevent app from being uninstalled by registering it as device administrator.
+Close navigation drawer
+Open navigation drawer
+Enable floating widget
+Protect wi-fi in real time
+Feature enabled and t
+ have been sent to your friend number.
+Enable Now
+Answer:
+This mode has exist.
+937450356326435
+Find phone
+Find phone
+Turn Privacy Master on to enable app protection.
+From calls
+From contacts
+From SMS
+Wrong pattern
+Draw your unlock pattern
+Got it
+Give us feedback
+App lock settings
+System
+Guest mode
+Fold
+Recommended Apps
+Normal Apps
+Lock them to protect your privacy
+Confirm
+Next
+to keep snoopers away
+Hide photos &amp; videos
+Change to Pattern
+Change to PIN Code
+Slide to connect at least 4 dots
+Set Your Unlock Pattern
+Wrong pattern
+PINs dont match
+Enter 4 numbers
+Set Your PIN Code
+Reset
+Connect at least 4 dots
+Your unlock pattern
+Enter 4 numbers
+Draw your unlock pattern
+Pattern recorded
+Confirm your pattern
+Completed
+Set your PIN code
+PIN recorded
+Confirm your PIN
+Completed
+Select All
+More
+Please wait a moment.
+Please wait a moment.
+Please wait a moment.
+Moving
+Remember to clean browser history
+Home mode
+Bind a friend number:
+INSTALL
+INSTALLED
+Give an alarm.
+O I lost my phone ...
+Clean private data remotely.
+Locate phone.
+This feature can help you:
+Click to check out who they are.
+Intruders were found.
+Intruder selfie
+Some other snoopers peek on your phone.
+RATE US 5-STAR
+Love This Feature ?
+Intruder Selfie
+Automatically take a photo of someone who want to break in.
+From calls
+From contacts
+From SMS
+Snoopers peek on your phone
+More
+New number
+important apps with privacy issues
+1 important app with privacy issues
+Loading…
+LOCAL
+Change to pattern
+Change to PIN code
+Forget password
+Invisible patterns
+Visible patterns
+Leave it
+Lock now
+Added lock to
+Lock
+to keep it safe.
+Protect
+Re-lock after screen on
+Re-lock all the applications after the screen is locked.
+Permit usage access
+more private apps &amp; save your battery.
+Lock settings
+Themes
+com.zerogravity.privacy.LOCKTHEME
+Privacy is in Danger
+Add
+Loading...
+Name
+The own number isnt available
+Click to check if it need to be locked.
+New app is at risk.
+Click to check if they need to be locked.
+Click to check if it need to be hidden.
+New photo found.
+New video found.
+Click to check if they need to be hidden.
+Next
+No SMS found
+Add private browser history and bookmarks here to keep them away from snoopers
+No bookmark found in your default browser
+No calls found
+No contacts found
+No history found in your default browser
+No images found
+Add photos to keep the snoopers away.
+You need draw a pattern. Are you sure you want to give up?
+Yes, I am sure
+No, draw pattern
+No SIM card inserted, cant send SMS
+No Snooper Found
+No videos found
+Add videos to keep the snoopers away.
+Enter a phone number
+Enter a valid phone number
+ONLINE
+Password not confirmed
+Enter password to unlock.
+Allow a brief exit
+Set a brief re-locking time after leaving an app.
+Allow a brief exit
+Phone number
+Place lock
+Set place lock
+http://zerogravitylab.weebly.com/
+Power saving mode
+Privacy files
+Privacy files
+Danger
+Excellent
+Safe
+Strong
+Safe
+Low
+Safe
+Middle
+Scanning
+PRIVACY LEVEL
+Privacy Policy
+Delete (0)
+Create a security question in case you forget the password.
+Prompts
+Your phone is in protection.
+Want to get better privacy protection? Please help us choose the next features for Privacy Master.
+Questionnaire feedback
+Intruder Selfie help you find the one attempts to snoop your privacy .
+5-STAR
+If you like this app, please rate it “5-star”.
+Congratulations!
+Congratulations!
+Enjoyed Privacy Master?
+5 Stars Rating
+Recent apps
+Lock recent tasks.
+Orders:
+Remove
+Rename mode
+Draw your unlock pattern
+Reset successfully
+Set your PIN code
+Lock these apps to get excellent privacy protection.
+Security question set successfully
+Selfie Setting
+Take a photo of someone 
+with wrong password.
+Times Settings
+Sent Failed
+Send Email
+Sent Successfully
+Draw your unlock pattern
+Connect at least four dots
+Set successfully
+Set your PIN code
+Enter 4 numbers
+Cancel
+Create
+Just draw a trick pattern to enable the feature.
+Draw a trick pattern
+Message error
+Check
+Share successfully
+More
+Snoopers Gallery
+Agree to the
+© Zero Gravity Ltd.
+START
+999+
+Steal
+These apps stole your data when the screen locked &amp; running in background:
+Allow Ad to store image in Picture gallery?
+Save image
+Cancel
+Hide photos
+Hide videos
+Lock all
+Next
+Hide photos to keep the snoopers away.
+We suggest you lock these apps to protect your privacy.
+3/3
+Recommended apps
+Lock suggested apps
+Hide videos to keep the snoopers away.
+Themes
+minutes
+minute
+seconds
+second
+Find Privacy Master and switch it on to enable App Protection
+Title
+App cover
+Photo vault
+Photo gallery
+Photo preview
+Security question
+Video vault
+Video gallery
+Video preview
+Add bookmarks from
+Data monitor
+Forget password
+Private calls
+Privacy contact
+Photo vault
+Private SMS
+Video vault
+Safe box
+Bookmarks
+History
+Manual
+Bookmarks
+Calls
+Contacts
+Data plan
+Message
+Photo
+Video
+Who steal data
+From bookmarks
+From history
+From manual
+Bookmark vault
+Private calls
+Private contacts
+Private SMS
+Photo vault
+Video vault
+Trusted apps
+to hide your SMS
+to hide your SMS and calls
+to hide your calls
+Today
+10 modes at most
+Real pattern is disabled
+Trick password
+Reset
+If you access Privacy Master with Trick 
+All your operations there will not really work.
+Fool the one who want to snoop your private files. When you open Privacy Master with trick password, it will look like you dont have any files at all!
+Trust
+UNINSTALL
+Advanced protection
+Operate in side column to uninstall.
+Unlock too frequent? You can set re-lock time interval.
+unsupported
+Cancel
+A new version is available. Tap upgrade to enjoy all-round protection!
+Upgrade
+Upgrade available
+Power saving mode
+Save your battery power and lock apps more effectively by giving Privacy Master usage access.
+Give up
+Give usage access
+Lock more apps and save battery power by giving Privacy Master usage access.
+In Android 5.0 or above, you must permit usage access for Privacy Master so that you can lock or cover apps.
+App lock can not work without usage access. Are you sure you want to give up protection?
+Check the app which stole data when the screen locked &amp; running in background.
+Check details
+Data is safe now!
+disconnected
+Wi-Fi
+Wi-Fi is connected
+Internet can be accessed normally
+Router is safe
+Not subjected to ARP attack
+Not a phishing Wi-Fi
+If you like the App, please rate it 5-star on the Goog
+Your 5-star rating will keep the updates coming!
+Rate Now
+Router has not be encrypted.
+Disconnected
+Wifi security
+Wifi security
+Wi-Fi security settings
+Yesterday
+Unexpected error while downloading an image.
+WebView login requires INTERNET permission
+AndroidManifest Error
+Liked
+Like
+Loading…
+Cancel
+Log in
+Continue with Facebook
+Log in with Facebook
+Log out
+Log out
+Logged in using Facebook
+Send
+Share
+To connect your account, open the Facebook app on your mobile device and check for notifications.
+- OR -
+Not you?
+Confirm Login
+Youre in control - choose what info you want to share with apps.
+Done
+Go
+Next
+Pause
+Prev
+Search
+Send
+Wait
+Search
+999+
+Duration of last call
+One missed call from
+Call Time :
+Just call with
+It may contain ads.
+OK
+Try the unique call interface to make your phone more fashionable.It may contain ads.
+Try the unique call interface to make your phone more fashionable. Call assistant is included automatically.
+Screen Flash for Calls
+Activate Screen Flash for Calls
+Tech
+Moving
+Neon
+None
+Stars
+Sun
+Call assistant
+System Screen for Calls
+Activate Screen Flash for Calls
+Screen Flash for Calls
+It may contain ads.
+!,?,\\,,:,;,\,(,),,-,/,@,_
+Remove
+You can remove this icon, or search for the app and install it manually.
+App installation has failed
+Search
+Shortcuts to app not created outside Camera Pro
+App installation failed
+OK
+Advanced Cleaning
+All Apps
+Oops… try again later.
+WOW! Check out this amazing app!
+Horizontal
+Vertical
+Nothing found
+ Search Apps
+Toolkit
+Games
+Lifestyle
+Media
+News &amp; Books
+Photography
+Social
+Tools
+System
+Others
+APPLY
+OPEN
+Smart Sort
+Folder
+Your device is already running optimally.
+Auto
+Auto Sync
+Bluetooth
+Brightness
+Careful
+Your battery is draining faster than usual.
+CHARGING COMPLETED
+Please unplug to protect your phones battery.
+3 stage regulated charging will protect your battery from wear.
+CHARGING LEFT
+You have extended battery life
+Congratulations!
+Cleaning…
+Continuous
+Current
+Your current settings will be saved here.
+Excellent
+Your battery is in good condition.
+Haptic Feedback
+Hide System Apps
+Low battery
+You can optimize to extend the battery life of your phone.
+LATER
+TRY IT NOW
+Try battery saver to keep power consumption to a minimum.
+Low Battery!
+Max Saver
+Turn off WiFi, Bluetooth, vibrate and set screen timeout to 15s.
+Mobile Data
+Mode
+Off
+On
+OPTIMIZE
+POWER REMAINING
+Previous
+Change back to your last settings.
+Rank
+Reapply
+Screen Timeout
+Smart Saver
+Turn off Bluetooth, vibrate and set screen timeout to 30s.
+Speed
+STOP
+Battery
+Trickle
+Vibrate
+VIEW
+Wifi
+BOOST
+Boost+ needs accessibility to stop these apps. It boosts phone speed by 80 or more and extends battery life93 of users have turned it on.
+Turn On Accessibility
+Tips: 
+Cleaning Running Apps
+Accessibility is needed for Camera Pro to properly enter Automated hibernation.
+Device administrator is needed for Camera Pro to properly enter Automated hib
+Warning: You may fail to uninstall Camera Pro because of device administrator. Deactivate device administrator and then uninstall Camera Pro.
+Your phone is already optimized!
+Good Work!
+Exiting
+Freed Up
+Cleanable
+Memory Used
+Normal Boost!
+OPTIMAL
+Running Apps
+Select All
+Set up Screen Lock in Lock Screen and Security!
+Automate the hibernation minutes after screen goes off. It will dim the screen, perform the hibernation and then turn off the screen.
+Automated hibernation
+If you wish to uninstall Camera Pro, you are first required to deactivate device administrator.
+Device administrator
+= 5 seconds)! Automated hibernation requires a small delay before screen is locked.
+Ensure Power button instantly locks is NOT checked! Automated hibernation requires a small delay before screen is locked.
+Double-click Boost to start Boost+!
+Once stopped, Boost+ will no longer be able to free up your memory. Are you sure to stop?
+Stop cleaning?
+STOP
+Clean
+Double your battery life.
+Try Boost+ to extend battery life!
+Clean
+Use a more thorough cleaner to save more memory!
+Try Boost+ to better clean your phone!
+Some apps can only be closed by Boost+.
+Still slow? Try Boost+!
+This app may push messages to you. It wont work any more if selected.
+Your phone is optimal now!
+Battery Life Extended
+Phone Cooled Down
+Memory Freed Up
+Boost
+For the sake of security, please draw the original unlock pattern
+Fully charged
+Phone is not charged, and its safe to remove charger
+Removing charger would be harmful to your battery
+...........
+Stop background apps to accelerate charge speed.
+Reaching a temperature of 40℃ can be harmful for your battery.
+Smart Charging monitors your charge status to ensure your battery is in a good state.
+Removing your charger could harm your battery while in the charging battery mode.
+Even though the phone is not charged, its safe to remove charger while in the almost charged mode.
+App is reducing the charge to protect your battery
+If you turn off smart charging, youll not be able to protect your battery anymore. Are you sure to turn it off?
+TURN OFF
+NOT NOW
+Turn Off Smart Charging?
+Turn on Battery Protection to extend battery life!
+Protect device from overcharging!
+Turn on Battery Protection to cool down device!
+Your battery is under protection!
+Turn off
+Protect device from overcharging
+(Contains ads)
+Battery protection
+Swipe to unlock
+AD Cache
+Ad Junk
+App Junk
+CLEAN
+Too many junk files found. Clean to boost your phone.
+Hidden Cache Junk
+Junk Found
+Junk Selected
+Memory Cache
+Obsolete Apk
+Powerful Clean
+Residual Files
+This may lead to unexpected residues. Proceed?
+Stop cleaning
+System Junk
+Junk Cleaner
+JUNK CLEANER
+Clear
+Cloudy
+Cold
+COOL
+COOL DOWN
+Closing CPU consumers…
+Dropped Down
+CPU-heating Apps
+Scanning CPU…
+cool
+Heated
+overheated
+Keyboard
+Me
+Locker
+REMOVE
+Themes
+My Themes
+Personalize
+Wallpapers
+My Wallpapers
+Daily weather forecast
+Remove
+Uninstall
+Desktop grid (Column × Row)
+Desktop grid
+Desktop
+Allow Camera Pro to close battery-draining apps automatically.
+DOWNLOAD
+Downloading…
+Drizzle
+Dust
+Bounce
+Classic
+Cube
+Extrusion
+Flip
+Page Turn
+Roll
+Rotation
+Shrink
+Stack
+Wave
+Windmill
+New Folder
+ENABLE NOW
+Failed to add widget to desktop
+ Your feedback helps us make improvements
+ Please enter your email address
+SEND
+Feedback
+Please write your feedback
+Please enter a valid email address
+Thanks for your feedback!
+Loved it
+Liked it
+How was your experience with us?
+Hated it
+Submit
+It was OK
+Disliked it
+Add Apps
+Cancel
+OK
+You can add any app into this folder.
+Once folder is removed, all the apps in this folder will not appear on the desktop.
+Remove
+Remove Folder
+Once folder is unpacked, its shortcuts will be moved to desktop.
+Unpack
+Unpack Folder
+Friday
+Failed to load widget
+Setup
+Swipe down to instantly open Air Moment
+Swipe down to start one-handed operation
+Two fingers swipe up to open Hide Apps
+Swipe up to instantly open Search
+GOT IT
+Hazy
+Swipe up with one finger
+Swipe up with two fingers
+Choose the apps you want to keep off of desktop
+Hide
+You can add any app to this folder.
+Your recently installed app
+recommended apps
+other apps
+Congratulations!
+HIDE APPS
+Welcome to Private Apps
+Enable lock
+Remove unlock pattern
+Reset unlock pattern
+Private Apps
+Set lock
+Private apps settings
+Hot
+No more room in your apps dock
+Icon label color
+Icon label size
+Launcher Icons
+Icon pack
+Browser
+Camera
+Messenger
+Phone
+Preview
+Icon size
+Icon size
+App info
+Please input your unlock pattern
+INSTALL
+Found a new version
+Installed
+An amazing personalized app
+Keep your apps well organized and make your phone faster.
+Effects
+Widgets
+Boost your phone more effectivly
+About
+Boost automatically when your phone lags
+Auto Boost
+Feedback
+5 star rating
+Set as home
+Tell my friends
+Camera Pro settings
+Update
+1-Tap Boost
+App Mgr
+Battery
+Boost
+Boost
+Data Usage
+Effects
+Feedback
+Flashlight
+Icon Size
+Launcher Settings
+Lucky
+App Picks
+Widgets
+Air Moment
+Nearby
+Screen Manager
+Settings
+System Settings
+Themes
+Time+Weather
+Update
+Wallpapers
+System Widgets
+Loading…
+Loading…
+The select picture cannot be turned into a wallpaper.
+GIF images are not supported
+2G
+3G
+4G
+The locker has been turned off
+Sure to turn off?
+After disabled, features in locker screen will be deactivated, are you sure proceed?
+Get Magic Locker to use these amazing themes.
+INSTALL
+Disable locker
+Locker settings
+(Contains sponsored contents)
+Screen locker
+Locker Wallpaper
+Unk
+Network errors. Please try again.
+Touch &amp; drag a widget to move it.
+You’ve won a prize!
+GRABS: 
+Congratulations! +3 grabs!
+ACCEPT
+TRY AGAIN
+No network connection!
+DOWNLOAD
+Found a new theme!
+SET AS WALLPAPER
+Wonderful Wallpaper!
+Settings
+AD
+Good Afternoon!
+Good Evening!
+Good Morning!
+Good Night!
+(Contains sponsored contents)
+Lucky Gift Grab
+Find out whats in the box! Grab and enjoy free prizes on LUCKY!
+GRAB NOW!
+People Nearby Are Using
+News
+Your battery is in protection!
+Set Camera Pro as default launcher to boost your phone!
+Turn on Battery Protection to protect device from overcharging!
+TRY IT NOW
+Monday
+Launcher Settings
+System Settings
+NEARBY
+Network error.
+Reload
+Click To Retry
+Network error.
+Update for the latest news
+Disable pictures under mobile data
+Save data
+Swipe right on home screen
+Headlines settings
+Headlines
+System Icons
+NO NETWORK CONNECTION…
+Notice
+Optimize to extend battery life.
+Boost to speed up your phone!
+One-tap boost now!
+Permit access to clean junk notifications!
+CLEAN ALL
+CLEAN NOW
+Hide unwanted notif
+Keep notification bar clean!
+Click notification for details
+Settings for whitelist
+No Notifications
+Select apps to block notifications
+Notification Cleaner
+Home has been cleared
+Clean to save phone space
+SET
+Boost your phone and keep fast.
+Personalize your phone.
+Make your phone run efficiently.
+Set as Home
+Failed to gain notification access
+Badges turned on.
+Failed to turn on Badges.
+All Apps
+Data
+Flashlight
+Search
+Notification toolbar
+Wifi
+Categories
+Hot
+SET AS WALLPAPER
+Discard changes to exit?
+CANCEL
+RESET
+CATEGORIES
+Hot
+No more room on this page
+Overcast
+allows the app to read the Home Page settings and shortcuts
+allows the app to change the Home page settings and shortcuts
+Find ☆Boost+☆ and turn it on.
+read Home settings page and shortcuts
+write Home settings and shortcuts
+Preferences
+Privacy Policy
+Privacy policy
+ACTIVATE
+Camera pro, the beauty selfie cam and FREE photo editor.
+GET IT NOW
+ENABLE
+IGNORE
+Many apps always start automatically. Stop them after accessibility enabled.
+Keep snoopers away from apps with private information.
+Check which apps are still using data while your screen is locked!
+Cant run games smoothly? Game booster boosts games at least by 30 automatically.
+Power Boost
+App Locker
+CPU Cooler
+Data Thieves
+Game Booster
+MAX is an All-in-One phone optimizer with phone booster, junk cleaner &amp; security guard.
+Fancy Emojis &amp; Gifs, customizable stickers, flash swipe input are rolled into one colorful keyboard - RainbowKey.
+Install Super Security to clean this suspect file and protect your phone from malware and viruses.
+Find 1 Suspect File
+Scan and remove apps with malware or viruses that crash or slow your device.
+Your phone is being threatened by hidden risks, activate Super Security to protect your phone.
+Fast and secure, Super Security is the most reliable mobile security app for your phone.
+Super Security
+SET NOW
+Drag to refresh
+Rain
+Heavy Rain
+Refresh
+Unpack
+Release to refresh
+Choose \DEFAULT\
+Tap \ALWAYS\
+Select
+\Camera Pro\
+You have extended
+OK
+Speed up the phone chargi
+(Contains sponsored contents)
+Battery Protection
+Battery Protection Enabled
+Phone power is draining seriously. Optimize to extend battery life.
+Battery Saver
+BOOST
+Background Apps will cause unusual power usage. Try advanced boost to clean them up!
+Boost+
+Apps running in the background consume power all the time. Using Battery to extend battery life by 50 or more.
+Battery life saver
+Auto-started apps cant be stopped by normal boost and always lag your phone. Use Boost+ to force s
+Boost+ is more effective than 90 cleaner software.
+Why use Boost+?
+CPU overheating will lag your phone, consume power and even cause phone explosion. Use CPU cooler to cool your phone down!
+Why use CPU Cooler?
+Useless cache &amp; junk files always take up large phone space and lag your phone. Use Junk Cleaner to clean them completely.
+Use Junk Cleaner often
+Notification cleaner helps you hide unwanted notifications and clean them by 1 tap. Use it often to keep your phone clean!
+Why use Notification Cleaner?
+This app is disabled in Safe mode
+Widgets are disabled in Safe mode
+Saturday
+You could press and drag pages to change order.
+Shake to sort icons
+Apps
+Search
+
+Remove this search bar?
+Search Bar
+Contacts
+Local Apps
+Contacts
+Internet
+Location
+TRY SEARCHES LIKE…
+Search History
+More
+NEW
+Remove
+Select Search Engine
+Search Settings
+Settings
+Results
+Contacts
+Show Search History
+Apps
+Show Trending News
+Places
+Show Search Suggestions
+Show Trending Words
+Trending News
+More stories
+Update for the latest news
+Trending Words
+Search Widget
+Set Camera Pro as Home.
+LATER
+The attempt to set Camera Pro as home failed. Try again?
+TRY AGAIN
+Set as home
+Memory Freed Up
+OK
+Camera Pro boosts your phone, so you never have to worry about speed! Set Camera Pro as home!
+Camera Pro lets you personalize and stylize your phone! Set Camera Pro as Home!
+Camera Pro makes your phone run more efficiently! Set Camera Pro as Home!
+Select \Camera Pro\
+The pattern wasnt correct, please try again
+Connect at least 4 dots, please try again
+Please draw a pattern
+Pattern turned on
+Please draw the pattern again
+Reset Unlock Pattern
+set up
+Your device does not support this.
+Airplane Mode
+Auto Brightness
+Bluetooth
+Flashlight
+Mobile Data
+Auto Rotate
+Silence
+Vibration
+Wi-Fi
+OK
+Show Badges for unread message on Messages and Phone. Configuration may require permissions.
+How to enable?
+Find \Camera Pro\ and switch it on.
+Common Apps
+Configuration may require notification access
+Recommended Apps
+Configuration may require permissions
+Badges for unread messages
+Unread messages
+Share by
+SKIP
+Sleet
+
+Snow
+Heavy Snow
+Storm
+Sunday
+Sunny
+Terms of Service
+Terms of service
+- We are constantly making more beautiful themes. -
+Do you wish to set the Default Theme as your theme?
+Set as Theme
+Thunderstorm
+Thursday
+Tuesday
+Unhide
+This is a system app and cant be uninstalled
+Uninstalled
+Download Latest Version
+You are using the latest version
+Apk download is currently underway
+Please check connection
+External storage is not available
+Upload Wallpaper
+Upload
+By uploading, you agree Air Launchers
+Upload successfully
+More
+Oops! Something went wrong, please try again.
+Try again
+Revert
+Fixed
+Scrollable
+Reload
+Setting wallpaper…
+A problem occurred setting this as your wallpaper, please try again
+Add new city
+No matches found
+Oops, couldnt load the weather.
+Loading…
+You can add up to 12 cities
+Network error.
+Searching…
+Unknown
+Time &amp; Weather
+Humidity:
+km
+km/h
+mi
+mph
+--
+--:--
+DETAILS
+ Type and select your city in English
+°C
+/
+City
+°F
+Add new city
+Distance unit
+Temperature unit
+Weather settings
+Sunrise:
+Sunset:
+Better to stay indoors.
+Pay attention and drive safely.
+Take an umbrella and keep warm.
+Put on warmer clothes.
+Take an umbrella with you.
+Better to stay indoors.
+Weather
+Today
+Visibility:
+Wind Direction:
+Wind Speed:
+Wednesday
+Applying theme
+Fast &amp; Customizable
+Choose the wallpaper you like best
+START
+Remove
+
+Remove \Air Moment\?
+Windy
+Loading your desktop…
+Yesterday
+Return
+Not now
+Disable
+Your battery will not be protected. Are you sure to disable?
+Disable Battery Master?
+Battery Doctor!
+Charge for 10 more minutes to extend your battery capacity.
+Battery Low
+Continuous
+Keep charging your battery to its maximum capacity.
+Fully Charged
+Regular
+Charging your battery at the maximum speed till 80.
+Trickle
+Keep charging to reliably protect battery and explore its optimal performance (About 10 mins).
+Unplugged from charger
+Disable
+Full Charge Left
+Charger Cut off!
+Oops, your mobile phone hasnt fully charged yet. Battery has suffered a damage.
+Battery Master
+Remaining Time
+Fast Charging
+Fully charged
+Low Voltage!
+Opps, the voltage from charger is too low!
+Fully Charged!
+Battery has been fully charged! You can unplug charger anytime you want.
+Full Charge Left
+Full Charge Left
+Leak analysis failed
+LeakCanary was unable to save the analysis result.
+Could not save result.
+Delete
+Delete all
+Are you sure you want to delete all leaks?
+Leaks
+Please report this failure to http://github.com/square/l
+
+The GC was being lazy.
+No leak found
+Click for more details
+Please grant external storage permission, otherwise memory leaks will not be detected.
+Leak detected, need permission
+Share heap dump
+Share info
+Share with…
+Storage permission
+Dumping memory, app will freeze. Brrrr.
+Failed to gain accessibility for Boost+. Try again to improve phone speed.
+LATER
+TRY NOW
+Try again?
+Auto-organize apps
+COOL
+Cool Phone Down
+Phone is Overheating
+SAVE
+Preserve battery for longer battery life
+Battery Left
+Boost to free up memory
+Memory Used
+Turn on the switch above, theE
+1) Boost 
+2) Kill battery draiThe Boost+ team is devoted to make your phone faster and will never collect any personal data.
+☆Boost+☆
+Battery life has been extended!
+CPU has cooled down.
+Your phone is running at the speed of light now!
+Turn on Battery Protection to protect device from over
+(It may contain ads.)
+Choose from Album
+Recommended Apps
+GOT IT!
+You can hide your private ap
+Swipe up with two fingers to find them.
+Home has been cleared
+Launcher
+Locker
+All
+Most apps cant be stopped by ordinary boost and always lag your phone. Luckily, Boost+ can force s
+Boost+ is more effective than 90 clean softwares.
+Why use Boost+?
+Camera Pro boosts your phone and extends battery life! Set Camera Pro as home!
+Battery Life Extended
+Camera Pro boosts efficiency to keep your phone from overheating! Set Camera Pro as home!
+Cool Phone Down
+Camera Pro boosts your phone, so you never have to worry about speed! Set Camera Pro as home!
+Try a new style for your phone!
+New Theme
+Loading your desktop…
+sans-serif
+sans-serif-medium
+Marry
+012-345-6789
+Unknown
+Account
+Activate
+Activate Zmoji Keyboard
+More emojis and gifs are waiting for you. Activate Zmoji Keyboard now！
+Sponsored Content
+500_A(NativeAds)SevenInOne
+ColorCam_A(NativeAds)ScreenLocker
+Master_A((NativeAds)Lucky
+Colorkey_A(NativeAds)ThemeTryAd
+Add
+Add style
+Akrobat-Light-simple.ttf
+C.Stan
+00:20:05
+Last call time
+The total calling time of this month: 20 minutes
+Please set up a Mail account in order to sent email
+No Mail Account
+Set App as Home for an efficient home screen.
+Already have an account?
+KeyboardTemplate Spell Checker Settings
+Zmoji
+App not found!
+App havent been installed
+com.ihs.inputmethod.latin
+android.support.design.widget.AppBarLayout$ScrollingViewBehavior
+Applying...
+com.ihs.inputmethod.dictionarypack.aosp
+Auto-capitalization
+Capitalize the first word of each sentence
+Auto-correction
+Spacebar and punctuation automatically correct mistyped words
+Aggressive
+2
+3
+Modest
+Off
+Very aggressive
+Available Languages
+Would you like to make a boy or a girl
+Delete this avatar?
+Avatar Gallery
+Activate Zmoji Keyboard. Enjoy more emojis and Gifs！
+Battery
+0
+00
+H
+h
+M
+m
+Next-word suggestions
+Use the previous word in making suggestions
+Free up space and RAM to improve your phones speed and performance. Contains sponsored contents.
+Phone Boost
+boost_noti_key
+android.support.design.widget.BottomSheetBehavior
+Boy
+Default
+B
+Cancel
+Cancel
+Problem connecting to dictionary service
+Charger Connected
+enable fassssst charging tip
+Enable Fast Charging
+Refresh
+Choose language
+pref_switch_charge
+Add-on dictionaries
+Configure input methods
+CPU
+℃
+Create Your Avatar
+Current Languages
+Your custom input style needs to be enabled before you start using it. Do you want to enable it now?
+Custom input styles
+Tap the number of stars youd give us.
+Maybe Later
+Rate Now
+Send Email
+Thanks! Please share the love on the Google Play.
+We need your feedback.
+User dictionary
+Delete
+Delete
+Delete this language?
+×
+Desktop settings
+Press to review and download
+No need to download. Use existing dictionary
+Dictionary available
+Installed, disabled
+Download failed. Check your network connection and try again.
+Currently downloading
+Dictionary available
+Installed
+com.ihs.inputmethod.latin
+Dictionary Provider
+Dictionary Service
+Settings for dictionaries
+Add-on dictionaries
+Disable Battery Master
+Download over Wi-Fi
+Dictionary update information
+Dress You Avatar
+DS-DIGIB.ttf
+Personal dictionary
+Emoji prediction
+Enable
+Enable smart charging to optimize battery. Contains Ads.
+Enable Emoji Keyboard
+Zmoji Keyboard
+Find Zmoji Keyboard and turn it on
+Open camera directly from lock screen and never miss a shot again. Contains sponsored contents.
+Zmoji promises that we cant access any information you use the keyboard. When authorized, the Android system routinely prompts for privacy risks. Please feel free to click “OK”.
+Enable Tips
+Android Keyboard Debug settings
+Input options
+KeyboardTemplate
+KeyboardTemplate Settings
+Are you sure you want to exit?
+111111
+1721742448062919
+Multiple Languages
+Feedback
+Fill by app
+Thanks for your feedback! You’re helping us building a better app. Please write your ideas below or tell us how we can improve our app for you:
+Emoji suggestion for following word
+sans-serif-light
+sans-serif-medium
+sans-serif
+Dynamic floating preview
+See the suggested word while gesturing
+Enable gesture typing
+Input a word by sliding through the letters
+Show gesture trail
+Phrase gesture
+Input spaces during gestures by gliding to the space key
+GB
+Girl
+GLIDE_TAG_ID
+Settings
+Slide to open camera quickly
+Slide to open Control Centre
+Dictionary available
+Help &amp; feedback
+Touch again to save
+Touch here to save
+Dock label
+In-App Sounds
+Switch to other input methods
+Language switch key covers other input methods too
+Install
+26 Key Layout
+Default
+Key popup dismiss delay
+No delay
+Keyboard theme
+Layout
+Keyboard Settings
+Keyboard theme
+KB
+Language
+Language and dictionary
+Languages
+Set up Zmoji keyboard so you can send hottest Zmojis to your friends.
+Last Step to Use Zmoji
+Last updated
+Later
+Air Board
+Desktop Settings
+metadata.json
+Applying
+Applied succe
+Set as your lockscreen as well?
+Set as your lockscreen?
+locker_screen_enabled
+
+Main dictionary
+Main dictionary
+MB
+Loading…
+Checking for updates
+Send
+MORE LANGUAGE
+NO
+No dictionaries available
+No Email Account
+Not now
+DELETED
+Tap to cool down your phone!
+Camera Pro
+OK
+Perfect
+Your phone is as fast as a rocket!
+Your phone is clean as new!
+NEW
+Toggle password visibility
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+PB
+Pick Up Your Outfits!
+HOT
+POPULAR NOW
+Popup on keypress
+Do not suggest potentially offensive words
+Block offensive words
+Customize key preview animation
+Debug Mode
+Dump dictionary
+Display emoji predictions while typing
+Display suggested emojis for following word
+Force non-distinct multitouch
+Force physical keyboard special key
+Key long press delay
+Key popup dismiss duration
+Key popup dismiss end X scale
+Key popup dismiss end Y scale
+Key popup show up duration
+Key popup show up start X scale
+Key popup show up start Y scale
+Keypress sound volume
+Keypress vibration duration
+prefs_notification_enable
+Read external dictionary file
+Show correction suggestions
+Display suggested words while typing
+Show UI to accept typed word
+Camera Pro
+Flashlight - the tiny, powerful, long-lasting free flashlight app. Brighten up your world unconsciously with simple one tap!
+Max Optimizer
+RainbowKey
+ProximaNova-Regular.otf
+ProximaNova-Semibold.otf
+Love this App
+There was an error
+Select a dictionary file to install
+No dictionary files in the Downloads folder
+com.artw.lockscreen.permission.RECEIVE_LAUNCH_BROADCASTS
+Recently used emojis will appear here.
+Remove
+This lets you access your camera insideTo enable this, click App Settings below and activate Camera under the Permissions menu.
+Restore Purchase
+When you reinstall an app, or install on another device using the same Apple ID, you can restore in-app purchase by this option.
+SOLVE
+Battery Left
+BOOST
+Lagging Phone
+CLEAN
+Junk Files
+COOL
+Phone Overheated
+CLEAN
+to clean
+OPEN NOW
+sans-serif-bold
+sans-serif-condensed
+sans-serif-light
+sans-serif-medium
+sans-serif
+sans-serif-thin
+— 0.3km
+— 0.6km
+— 0.9km
+Save
+Screen Locker Enabled
+Search
+AD
+Please choose your gender first!
+Select Emoji Keyboard
+Languages
+Set Ap
+to make your phone run faster!
+Set Ap
+to enjoy a longer battery life!
+Set Ap
+to clean your phone completely!
+com.ihs.inputmethod.settings.SettingsActivity
+Auto-Capitalization
+Auto-Correction
+Screen Flash for Calls
+Double-space period
+Double tapping the space bar will insert a period followed by a space.
+Emoji Prediction
+setting_key_call_assistant
+Preferences
+Sound on keypress
+Swipe Input
+Vibrate on keypress
+Word Prediction
+Settings
+Advanced
+Appearance &amp; layouts
+Text correction
+Gesture Typing
+Multilingual options
+Preferences
+Theme
+System default
+Finished
+Next step
+Get started
+Enable in Settings
+1
+Switch input methods
+2
+Configure additional languages
+3
+Congratulations, youre all set!
+with Gesture Typing
+Share your avatar to friends
+RainbowKey
+Share this emoji with:
+ menu of your mobile device.
+Language switch key
+Show when multiple input languages are enabled
+Show app icon
+Display application icon in the launcher
+Show slide indicator
+Display visual cue while sliding from Shift or Symbol keys
+Auto close background apps
+Monitor charging status
+Full charge and overcharge alerts
+Smart Charging
+OPEN NOW
+May contain ads.
+Sound on keypress
+KeyboardTemplate Spell Checker
+0.11
+Emoji
+English (UK)
+English (US)
+Spanish (US)
+Hinglish
+Language
+No language (Alphabet)
+Alphabet (AZERTY)
+Alphabet (Colemak)
+Alphabet (Dvorak)
+Alphabet (PC)
+Alphabet (QWERTY)
+Alphabet (QWERTZ)
+Serbian (Latin)
+Sticker
+Got it
+To switch languages from the keyboard, press and hold the space bar.
+com.honeycomb.launcher.sync_account
+tag_iv_img1
+tag_iv_img1_refresh
+tag_iv_img2
+tag_iv_img2_refresh
+tag_iv_img3
+tag_iv_img3_refresh
+tag_iv_img4
+tag_iv_img4_refresh
+tag_iv_refresh
+TB
+Terms of Use
+Themes
+Suggest Contact names
+Use names from Contacts for suggestions and corrections
+Spell checker uses entries from your contact list
+Look up contact names
+Double-space period
+Double tapping the space bar will insert a period followed by a space.
+Personalized suggestions
+Learn from your communications and typed data to improve suggestions
+ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+OK
+Less options
+More options
+Add to dictionary
+Language:
+Add
+Phrase
+Optional shortcut
+Shortcut:
+Type a word
+Word:
+For all languages
+Delete
+Edit
+Delete
+Edit word
+More languages…
+User dictionaries
+Vibrate on keypress
+Voice input key
+No voice input methods enabled. Check Language &amp; input settings.
+Network errors. Please try again.
+OOPS! No matched emojis found.
+Privacy Policy
+Get Started
+Terms of Service
+App
+Fast
+Save Battery
+Cleaning
+Themes
+Current
+Recommended
+Choose your wallpaper
+Yes
