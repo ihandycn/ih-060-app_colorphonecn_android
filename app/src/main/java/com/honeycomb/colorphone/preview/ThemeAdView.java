@@ -55,6 +55,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
     private static final int THEME_ENJOY_FOLDING = 1;
     private static final int NAV_VISIBLE = 0;
     private TextView mThemeTitle;
+    private TextView mThemeContent;
 
     public static boolean ifShowThemeApplyView = false;
     public static boolean isSelected = false;
@@ -282,6 +283,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
 
         mEnjoyThemeLayout = resultView.findViewById(R.id.enjoy_layout);
         mThemeTitle = resultView.findViewById(R.id.description_title_tv);
+        mThemeContent = resultView.findViewById(R.id.description_content_tv);
         mEnjoyApplyBtn = resultView.findViewById(R.id.result_action_btn);
         mThemeLikeAnim = resultView.findViewById(R.id.like_count_icon);
 
@@ -290,6 +292,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         AcbNativeAdContainerView adContainer = new AcbNativeAdContainerView(getContext());
         adContainer.addContentView(resultView);
         adContainer.setAdTitleView(mThemeTitle);
+        adContainer.setAdBodyView(mThemeContent);
         adContainer.setAdPrimaryView(mAdImageContainer);
         adContainer.setAdActionView(mEnjoyApplyBtn);
 
