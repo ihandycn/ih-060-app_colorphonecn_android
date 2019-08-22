@@ -8,7 +8,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.honeycomb.colorphone.ringtones.bean.RingtoneListBean;
+import com.honeycomb.colorphone.ringtones.bean.BaseResultBean;
+import com.honeycomb.colorphone.ringtones.bean.ColumnResultBean;
+import com.honeycomb.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
@@ -32,8 +34,8 @@ public class RingtoneApi {
     public RingtoneApi() {
         gson = new GsonBuilder().registerTypeHierarchyAdapter(List.class, new ArraySecAdapter()).create();
     }
-    
-    public void search(String txt, ResultCallback<RingtoneListBean> resultCallback) {
+
+    public void search(String txt, ResultCallback<RingtoneListResultBean> resultCallback) {
         if (TextUtils.isEmpty(txt)) {
             // Invalid
             return;
@@ -41,7 +43,21 @@ public class RingtoneApi {
         HashMap<String, String> map = new HashMap<>(1);
         map.put(RequestKeys.SEARCH_KEY, txt);
         String url = buildUrl(URL_SEARCH, map);
-        doRequest(url, RingtoneListBean.class, resultCallback);
+        doRequest(url, RingtoneListResultBean.class, resultCallback);
+    }
+
+    public void requestBanners(ResultCallback<ColumnResultBean> resultCallback) {
+        HashMap<String, String> map = new HashMap<>(1);
+        map.put(RequestKeys.COLUMN_ID, getColumnId("Banner"));
+        String url = buildUrl(URL_COLUM, map);
+        doRequest(url, ColumnResultBean.class, resultCallback);
+    }
+
+    public void requestRingoneListById(String id, ResultCallback<BaseResultBean> resultCallback) {
+        HashMap<String, String> map = new HashMap<>(1);
+        map.put(RequestKeys.COLUMN_ID, id);
+        String url = buildUrl(URL_COLUM_RES, map);
+        doRequest(url, BaseResultBean.class, resultCallback);
     }
 
     private <T> void doRequest(String url, Class<T> clazz, ResultCallback<T> callback) {
@@ -52,7 +68,9 @@ public class RingtoneApi {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
                     T bean = gson.fromJson(jsonBody, clazz);
-                    callback.onFinish(bean);
+                    if (callback != null) {
+                        callback.onFinish(bean);
+                    }
                 }
 
                 if (callback != null) {
@@ -71,13 +89,6 @@ public class RingtoneApi {
             }
         });
         connection.startAsync();
-    }
-
-    public void requestBanners() {
-    }
-
-    public void requestRingoneListById(String id) {
-
     }
 
     public static String getSubscriptionUrl(String ringtoneToken) {

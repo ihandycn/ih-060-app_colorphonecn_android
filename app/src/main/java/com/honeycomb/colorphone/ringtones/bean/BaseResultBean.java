@@ -1,6 +1,9 @@
 package com.honeycomb.colorphone.ringtones.bean;
 
-public class BaseRingtoneBean {
+/**
+ * @author sundxing
+ */
+public class BaseResultBean {
 
     /**
      * retcode : 0000

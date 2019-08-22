@@ -2,7 +2,10 @@ package com.honeycomb.colorphone.ringtones.bean;
 
 import java.util.List;
 
-public class RingtoneListBean extends BaseRingtoneBean {
+/**
+ * @author sundxing
+ */
+public class RingtoneListResultBean extends BaseResultBean {
     private List<RingtoneBean> data;
     public List<RingtoneBean> getData() {
         return data;

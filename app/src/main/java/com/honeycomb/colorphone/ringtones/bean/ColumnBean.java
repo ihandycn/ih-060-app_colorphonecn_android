@@ -1,6 +1,6 @@
 package com.honeycomb.colorphone.ringtones.bean;
 
-public class ColumBean {
+public class ColumnBean {
 
     /**
      * id : 303845
