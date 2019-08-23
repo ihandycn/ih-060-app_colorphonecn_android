@@ -39,6 +39,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
     private boolean needRefresh = false;
     private boolean requested = false;
+    private String requestPermission;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,35 +145,34 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             return;
         }
 
-        String permission = "";
         for (String p : deniedPermissions) {
             if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                permission = p;
+                requestPermission = p;
                 break;
             }
         }
 
-        if (TextUtils.equals(permission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+        if (TextUtils.equals(requestPermission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
             Analytics.logEvent("Permission_NA_Request");
         }
 
-        switch (permission) {
+        switch (requestPermission) {
             case Manifest.permission.READ_CONTACTS:
-                permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
+                requestPermission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
                 break;
             case Manifest.permission.WRITE_CONTACTS:
-                permission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
+                requestPermission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
                 break;
             case Manifest.permission.READ_CALL_LOG:
-                permission = HSPermissionRequestMgr.TYPE_CALL_LOG;
+                requestPermission = HSPermissionRequestMgr.TYPE_CALL_LOG;
                 break;
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                permission = HSPermissionRequestMgr.TYPE_STORAGE;
+                requestPermission = HSPermissionRequestMgr.TYPE_STORAGE;
                 break;
             default:
                 break;
         }
-        AutoRequestManager.getInstance().openPermission(permission);
+        AutoRequestManager.getInstance().openPermission(requestPermission);
 
         String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
         Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
@@ -190,11 +190,29 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         super.onStart();
         if (needRefresh) {
             needRefresh = false;
-            for (String p : allPermissions) {
-                holder.refreshHolder(p);
+
+            if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)
+                    && AutoPermissionChecker.isNotificationListeningGranted()) {
+                Analytics.logEvent("Permission_NA_Granted");
             }
 
-            if (holder.isAllGrant()) {
+            if (requested && deniedPermissions.size() > 0) {
+                String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+                Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+            }
+            requested = false;
+
+            boolean isAllGrant = true;
+            boolean isGrant;
+            for (String p : allPermissions) {
+                isGrant = holder.refreshHolder(p);
+                isAllGrant &= isGrant;
+                if (isGrant) {
+                    deniedPermissions.remove(p);
+                }
+            }
+
+            if (isAllGrant) {
                 action.setVisibility(View.INVISIBLE);
                 success.setVisibility(View.VISIBLE);
                 success.playAnimation();
@@ -208,18 +226,14 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 });
 
                 Analytics.logEvent("Permission_Guide_All_Granted");
+            } else {
+                if (!TextUtils.equals(requestPermission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+                    if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+                        requestPermission = AutoRequestManager.TYPE_CUSTOM_NOTIFICATION;
+                        AutoRequestManager.getInstance().openPermission(requestPermission);
+                    }
+                }
             }
-
-            if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)
-                    && AutoPermissionChecker.isNotificationListeningGranted()) {
-                Analytics.logEvent("Permission_NA_Granted");
-            }
-
-            if (requested && deniedPermissions.size() > 0) {
-                String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-                Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
-            }
-            requested = false;
         }
     }
 
