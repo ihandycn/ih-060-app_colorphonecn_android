@@ -752,6 +752,7 @@
         <activity
             android:name=".autopermission.RuntimePermissionActivity"
             android:launchMode="singleTask"
+            android:taskAffinity=":main"
             android:theme="@style/TransparentCompatDialog" />
 
         <!--Override  - Tag : process-->

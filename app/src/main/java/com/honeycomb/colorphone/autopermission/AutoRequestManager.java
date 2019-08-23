@@ -107,6 +107,7 @@ public class AutoRequestManager {
     private static final int CHECK_NOTIFICATION_PERMISSION = 0x801;
     private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
     private static final int CHECK_NOTIFICATION_PERMISSION_RP = 0x803;
+    private static final int CHECK_RUNTIME_PERMISSION = 0x804;
     private static final int CHECK_PERMISSION_TIMEOUT = 0x810;
 //    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
 
@@ -134,8 +135,20 @@ public class AutoRequestManager {
                     if (AutoPermissionChecker.isNotificationListeningGranted()) {
                         startRuntimePermissionActivity();
                     } else {
-                        HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
+                        HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION_RP");
                         sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 500);
+                    }
+                    break;
+                case CHECK_RUNTIME_PERMISSION:
+                    if (isGrantAllRuntimePermission()) {
+                        if (!AutoPermissionChecker.isNotificationListeningGranted()) {
+                            openPermission(TYPE_CUSTOM_NOTIFICATION);
+                        } else {
+                            startRuntimePermissionActivity();
+                        }
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_RUNTIME_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 500);
                     }
                     break;
                 case CHECK_WRITE_SETTINGS_PERMISSION:
@@ -148,6 +161,7 @@ public class AutoRequestManager {
                     break;
                 case CHECK_PERMISSION_TIMEOUT:
                     removeMessages(CHECK_PHONE_PERMISSION);
+                    removeMessages(CHECK_RUNTIME_PERMISSION);
                     removeMessages(CHECK_NOTIFICATION_PERMISSION);
                     removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
                     removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
@@ -165,17 +179,22 @@ public class AutoRequestManager {
     }
 
     private void startStartGuideActivity(int permissionType) {
+        HSLog.i(TAG, "handleMessage startStartGuideActivity");
         Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         intent.putExtra(StartGuideActivity.INTENT_KEY_PERMISSION_TYPE, permissionType);
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
-
     private void startRuntimePermissionActivity() {
-        Intent intent = new Intent(HSApplication.getContext(), RuntimePermissionActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+        if (AutoPermissionChecker.isAccessibilityGranted()) {
+            backForPhoneTask.run();
+        } else {
+            HSLog.i(TAG, "handleMessage startRuntimePermissionActivity");
+            Intent intent = new Intent(HSApplication.getContext(), RuntimePermissionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            Navigations.startActivitySafely(HSApplication.getContext(), intent);
+        }
     }
 
     private AutoRequestManager() {}
@@ -631,7 +650,7 @@ public class AutoRequestManager {
                     if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
                         mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
 
-                        mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
+                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                         mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     } else {
                         mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
@@ -697,10 +716,6 @@ public class AutoRequestManager {
                 if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                     return true;
                 } else {
-//                    mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-//                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
-//                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         Threads.postOnMainThreadDelayed(() -> {
                             Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
@@ -712,6 +727,11 @@ public class AutoRequestManager {
             case HSPermissionRequestMgr.TYPE_CONTACT_READ:
             case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
             case HSPermissionRequestMgr.TYPE_STORAGE:
+                mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
                 Threads.postOnMainThreadDelayed(() -> {
                     if (RomUtils.checkIsMiuiRom()) {
                         Navigations.startActivitySafely(HSApplication.getContext(), ContactMIUIGuideActivity.class);
