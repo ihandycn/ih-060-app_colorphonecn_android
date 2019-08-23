@@ -61,4 +61,7 @@
     <string name="acb_phone_permission_read_contact">显示联系人名称</string>
     <string name="acb_phone_permission_read_call_log">显示来电号码</string>
     <string name="acb_phone_permission_read_storage">存储来电视频</string>
+
+    <string name="auto_start_toast_huawei">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
+
 </resources>
