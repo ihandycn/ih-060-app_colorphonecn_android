@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
-import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
@@ -432,13 +431,16 @@ public class AutoRequestManager {
                     "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
             Intent guideIntent = null;
             if (RomUtils.checkIsHuaweiRom()) {
-                StableToast.showHuaweiAccToast();
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
+                Intent finalGuideIntent1 = guideIntent;
+                Threads.postOnMainThreadDelayed(() -> {
+                    Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent1);
+                }, GUIDE_DELAY);
+
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-            }
-            if (guideIntent != null) {
-                guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] {intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
