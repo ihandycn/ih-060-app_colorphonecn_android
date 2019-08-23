@@ -106,6 +106,7 @@ public class AutoRequestManager {
     private static final int CHECK_PHONE_PERMISSION = 0x800;
     private static final int CHECK_NOTIFICATION_PERMISSION = 0x801;
     private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
+    private static final int CHECK_NOTIFICATION_PERMISSION_RP = 0x803;
     private static final int CHECK_PERMISSION_TIMEOUT = 0x810;
 //    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
 
@@ -129,6 +130,14 @@ public class AutoRequestManager {
                         sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 500);
                     }
                     break;
+                case CHECK_NOTIFICATION_PERMISSION_RP:
+                    if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                        startRuntimePermissionActivity();
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 500);
+                    }
+                    break;
                 case CHECK_WRITE_SETTINGS_PERMISSION:
                     if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                         onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
@@ -140,6 +149,7 @@ public class AutoRequestManager {
                 case CHECK_PERMISSION_TIMEOUT:
                     removeMessages(CHECK_PHONE_PERMISSION);
                     removeMessages(CHECK_NOTIFICATION_PERMISSION);
+                    removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
                     removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
                     break;
             }
@@ -158,6 +168,13 @@ public class AutoRequestManager {
         Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         intent.putExtra(StartGuideActivity.INTENT_KEY_PERMISSION_TYPE, permissionType);
+        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+    }
+
+
+    private void startRuntimePermissionActivity() {
+        Intent intent = new Intent(HSApplication.getContext(), RuntimePermissionActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
@@ -607,16 +624,23 @@ public class AutoRequestManager {
                 }
                 break;
             case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
-                mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
-                mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
-
             case TYPE_CUSTOM_NOTIFICATION:
-                type = HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING;
                 if (Permissions.isNotificationAccessGranted()) {
                     return true;
                 } else {
+                    if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
+                        mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                        mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                    } else {
+                        mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                    }
+                    type = HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING;
+
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()){
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);

@@ -217,7 +217,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LotteryWheelLayout lotteryWheelLayout;
 
     private static final int TAB_SIZE = 4;
-    private static final int MAIN_POSITION = 0;
+    public static final int MAIN_POSITION = 0;
     private static final int NEWS_POSITION = 1;
     public static final int CASH_POSITION = 2;
     private static final int SETTING_POSITION = 3;

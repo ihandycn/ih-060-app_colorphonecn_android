@@ -4,7 +4,11 @@ import android.Manifest;
 import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
@@ -26,7 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RuntimePermissionActivity extends HSAppCompatActivity {
+    private static final String TAG = RuntimePermissionActivity.class.getSimpleName();
     private static final int RUNTIME_PERMISSION_REQUEST_CODE = 0x333;
+
+    private static final int CHECK_RUNTIME_PERMISSION = 0x300;
+    private static final int CHECK_NOTIFICATION_PERMISSION = 0x301;
+    private static final int CHECK_PERMISSION_TIMEOUT = 0x310;
 
     private RuntimePermissionViewListHolder holder;
     private LottieAnimationView success;
@@ -172,6 +182,19 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             default:
                 break;
         }
+
+        if (TextUtils.equals(requestPermission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+//            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+//
+//            mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+//            mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+        } else {
+            mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+
+            mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+            mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+        }
+
         AutoRequestManager.getInstance().openPermission(requestPermission);
 
         String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
@@ -231,6 +254,11 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                     if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
                         requestPermission = AutoRequestManager.TYPE_CUSTOM_NOTIFICATION;
                         AutoRequestManager.getInstance().openPermission(requestPermission);
+
+//                        mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+//
+//                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+//                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     }
                 }
             }
@@ -405,5 +433,59 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
 
         return sb.toString();
+    }
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case CHECK_RUNTIME_PERMISSION:
+                    boolean runtimeGrant = true;
+                    for (String p : deniedPermissions) {
+                        if (!TextUtils.equals(p, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+                            runtimeGrant &= AutoPermissionChecker.isRuntimePermissionGrant(p);
+                        }
+                    }
+
+                    if (runtimeGrant) {
+                        if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
+                            requestPermission = AutoRequestManager.TYPE_CUSTOM_NOTIFICATION;
+                            AutoRequestManager.getInstance().openPermission(requestPermission);
+
+//                            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+//
+//                            mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+//                            mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                        } else {
+                            returnToColorPhone();
+                        }
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_RUNTIME_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_NOTIFICATION_PERMISSION:
+                    if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                        HSLog.i(TAG, "handleMessage start returnToColorPhone");
+                        returnToColorPhone();
+//                        Intent intent = new Intent(RuntimePermissionActivity.this, RuntimePermissionActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                        Navigations.startActivitySafely(RuntimePermissionActivity.this, intent);
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_PERMISSION_TIMEOUT:
+                    removeMessages(CHECK_RUNTIME_PERMISSION);
+                    removeMessages(CHECK_NOTIFICATION_PERMISSION);
+                    break;
+            }
+        }
+    };
+
+    private void returnToColorPhone() {
+        ColorPhoneActivity.startColorPhone(RuntimePermissionActivity.this, ColorPhoneActivity.MAIN_POSITION);
     }
 }
