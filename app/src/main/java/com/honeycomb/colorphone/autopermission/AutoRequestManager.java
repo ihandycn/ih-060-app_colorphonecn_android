@@ -160,17 +160,25 @@ public class AutoRequestManager {
                     }
                     break;
                 case CHECK_PERMISSION_TIMEOUT:
-                    removeMessages(CHECK_PHONE_PERMISSION);
-                    removeMessages(CHECK_RUNTIME_PERMISSION);
-                    removeMessages(CHECK_NOTIFICATION_PERMISSION);
-                    removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
-                    removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
+                    clearMessage();
                     break;
             }
         }
     };
 
+    private void clearMessage() {
+        mHandler.removeMessages(CHECK_PHONE_PERMISSION);
+        mHandler.removeMessages(CHECK_RUNTIME_PERMISSION);
+        mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION);
+        mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
+        mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
+
+        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+    }
+
     private void onGrantPermission(int permissionType) {
+        clearMessage();
+
         if (AutoPermissionChecker.isAccessibilityGranted()) {
             backForPhoneTask.run();
         } else {
@@ -179,6 +187,8 @@ public class AutoRequestManager {
     }
 
     private void startStartGuideActivity(int permissionType) {
+        clearMessage();
+
         HSLog.i(TAG, "handleMessage startStartGuideActivity");
         Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -628,6 +638,8 @@ public class AutoRequestManager {
     }
 
     public boolean openPermission(String type) {
+        clearMessage();
+
         switch (type) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 if (AutoPermissionChecker.hasAutoStartPermission()) {
@@ -649,15 +661,11 @@ public class AutoRequestManager {
                 } else {
                     if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
                         mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
-                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     } else {
                         mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
-                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     }
+
+                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     type = HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING;
 
                     Threads.postOnMainThreadDelayed(() -> {
@@ -699,8 +707,6 @@ public class AutoRequestManager {
                     return true;
                 } else {
                     mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                    mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                     mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
                     Threads.postOnMainThreadDelayed(() -> {
@@ -728,8 +734,6 @@ public class AutoRequestManager {
             case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
             case HSPermissionRequestMgr.TYPE_STORAGE:
                 mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-
-                mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
                 mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
                 Threads.postOnMainThreadDelayed(() -> {
