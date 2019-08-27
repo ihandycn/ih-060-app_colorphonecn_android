@@ -332,10 +332,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
                         Analytics.logEvent("FixAlert_NA_Granted");
                     }
-//                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
-//                        Analytics.logEvent("FixAlert_WriteSetting_Granted");
-//                    }
                 } else {
+                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION
+                            && AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()) {
+                        finish();
+                        if (isOnNewIntent) {
+                            Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
+                        }
+                        Analytics.logEvent("FixAlert_Auto_Skipped");
+                        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
+                    }
                     showConfirmDialog(confirmPermission);
                 }
             }
