@@ -63,16 +63,20 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private boolean mSelected;
 
     protected int itemViewPadding = 0;
-    protected EventLogger logger = new EventLogger();
+    protected EventLogger logger;
 
     public NewsPage(@NonNull Context context) {
-        super(context);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        this(context, null);
     }
 
     public NewsPage(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        init();
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
+
+    protected void init() {
+        logger = new EventLogger();
     }
 
     @Override protected void onFinishInflate() {

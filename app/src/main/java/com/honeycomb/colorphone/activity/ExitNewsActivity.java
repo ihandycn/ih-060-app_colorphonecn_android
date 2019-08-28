@@ -13,7 +13,6 @@ public class ExitNewsActivity extends HSAppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_exit_page);
-        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
 
         newsPage = findViewById(R.id.news_swipe_layout);
         newsPage.loadNews("");

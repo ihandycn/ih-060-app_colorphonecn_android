@@ -25,14 +25,19 @@ import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
 public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListener {
-    protected EventLogger logger = new ExitEventLogger();
 
     public ExitNewsPage(@NonNull Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ExitNewsPage(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override protected void init() {
+        super.init();
+        onSelected(true);
+        logger = new ExitEventLogger();
     }
 
     @Override protected void onFinishInflate() {
@@ -218,6 +223,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             mTitleTv = ViewUtils.findViewById(view, R.id.news_ad_title);
             mDescriptionTv = ViewUtils.findViewById(view, R.id.news_ad_description);
             mActionBtn = ViewUtils.findViewById(view, R.id.news_ad_action_btn);
+            mClickView = ViewUtils.findViewById(view, R.id.news_ad_click_view);
             
             adContainer.addContentView(view);
             adContainer.setAdTitleView(mTitleTv);
@@ -226,8 +232,6 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             adContainer.setAdChoiceView(mAdChoice);
             adContainer.setAdIconView(mAdIconView);
             adContainer.setAdActionView(mActionBtn);
-
-            mClickView = findViewById(R.id.news_ad_click_view);
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
@@ -247,6 +251,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             mTitleTv.setText(title);
 
             mClickView.setOnClickListener(view -> mActionBtn.performClick());
+
+            HSLog.i("NotificationMessageAlertActivity", "bindView  click w == " + mClickView.getWidth() + "  h == " + mClickView.getHeight());
         }
     }
 
