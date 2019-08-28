@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.dialer.call.CallCompat;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
@@ -55,6 +56,7 @@ import com.honeycomb.colorphone.dialer.incalluilock.InCallUiLock;
 import com.honeycomb.colorphone.dialer.latencyreport.LatencyReport;
 import com.honeycomb.colorphone.dialer.util.GeoUtil;
 import com.honeycomb.colorphone.dialer.util.TouchPointManager;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogActivity;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogFragment;
 import com.ihs.app.framework.HSApplication;
@@ -1562,6 +1564,12 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
 
       if (mFloatCallButtonManager != null) {
         removeListener(mFloatCallButtonManager);
+      }
+
+      if (FiveStarRateTip.canShowWhenEndCall()) {
+        if (com.superapps.util.rom.RomUtils.checkIsHuaweiRom()) {
+          RateAlertActivity.showRateFrom(HSApplication.getContext(), FiveStarRateTip.From.END_CALL);
+        }
       }
 
       if (externalCallNotifier != null && externalCallList != null) {

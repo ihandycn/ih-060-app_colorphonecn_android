@@ -76,5 +76,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/color_phone_logo" />
+        android:src="@drawable/color_phone_logo"
+        android:visibility="gone"/>
 </FrameLayout>
