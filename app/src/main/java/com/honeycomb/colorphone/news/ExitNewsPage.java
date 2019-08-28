@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
@@ -26,6 +25,7 @@ import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
 public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListener {
+    protected EventLogger logger = new ExitEventLogger();
 
     public ExitNewsPage(@NonNull Context context) {
         super(context);
@@ -40,6 +40,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         setEnabled(false);
 
         itemViewPadding = Dimensions.pxFromDp(16);
+
+        Analytics.logEvent("Message_News_Show");
     }
 
     @Override
@@ -149,7 +151,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             HSLog.i(NewsManager.TAG, "ENP onBindViewHolder is position: " + position + "   type: " + viewType);
             if (viewType == NEWS_TYPE_HEAD_AD) {
                 NewsHeadNativeHolder newsHeadNativeHolder = (NewsHeadNativeHolder) holder;
-                newsHeadNativeHolder.bindView(PreviewAdManager.getInstance().getNativeAd());
+                newsHeadNativeHolder.bindView(NewsManager.getInstance().getNativeAd());
                 return;
             }
 
@@ -229,7 +231,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         void bindView(AcbNativeAd acbNativeAd) {
             adContainer.fillNativeAd(acbNativeAd, "");
             acbNativeAd.setNativeClickListener(acbAd -> {
-                Analytics.logEvent("News_List_Ad_Click");
+                Analytics.logEvent("Message_View_Wire_Ad_Click");
             });
 
             mDescriptionTv.setText(acbNativeAd.getTitle());
@@ -241,6 +243,31 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
                 title = acbNativeAd.getTitle();
             }
             mTitleTv.setText(title);
+        }
+    }
+
+    protected class ExitEventLogger extends NewsPage.EventLogger {
+        protected void logListSlide() {
+        }
+
+        protected void logNewsLoad(boolean isRefresh, boolean success) {
+            if (!isRefresh) {
+                Analytics.logEvent("Message_News_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            }
+        }
+
+        protected void logAdClick() {
+        }
+
+        protected void logAdShow() {
+            Analytics.logEvent("Message_News_Ad_Show");
+        }
+
+        protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
+            if (hasNetwork) {
+                Analytics.logEvent("Message_News_Details_Show",
+                        "NewsType", (isVideo ? "Video" : "News") );
+            }
         }
     }
 

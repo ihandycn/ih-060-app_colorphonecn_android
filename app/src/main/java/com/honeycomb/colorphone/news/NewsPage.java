@@ -63,6 +63,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private boolean mSelected;
 
     protected int itemViewPadding = 0;
+    protected EventLogger logger = new EventLogger();
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -162,12 +163,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
                 if ((newState == RecyclerView.SCROLL_STATE_IDLE)
                         && lastVisibleItem > logBigImageIndex) {
-                    Analytics.logEvent("News_List_Slide");
-//                    if (isVideo) {
-//                        Analytics.logEvent("videonews_video_page_slide");
-//                    } else {
-//                        Analytics.logEvent("videonews_news_page_slide");
-//                    }
+                    logger.logListSlide();
                     logBigImageIndex = lastVisibleItem;
                 }
             }
@@ -242,16 +238,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             adapter.notifyDataSetChanged();
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_SUCCESS);
             if (newsPages.isRefreshing()) {
-                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Success");
+                logger.logNewsLoad(true, true);
             } else {
-                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Success");
+                logger.logNewsLoad(false, true);
             }
         } else {
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_FAILED);
             if (newsPages.isRefreshing()) {
-                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Fail");
+                logger.logNewsLoad(true, false);
             } else {
-                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Fail");
+                logger.logNewsLoad(false, false);
             }
         }
 
@@ -264,12 +260,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         if (newsPages.isRefreshing()) {
             loadNews("Refresh");
         }
-
-//        Analytics.logEvent("mainview_news_tab_pull_to_refresh");
-//
-//        if (isVideo) {
-//            Analytics.logEvent("videonews_video_page_pull_to_refresh");
-//        }
     }
 
     public void scrollToTop() {
@@ -536,38 +526,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             image = itemView.findViewById(R.id.news_icon_iv);
         }
 
-//        void bindNewsBean(NewsBean bean) {
-//
-//            title.setText(bean.title);
-//            time.setText(NewsUtils.getNewsVideoLength(bean.length));
-//            time.setBackground(BackgroundDrawables.createBackgroundDrawable(0xCC000000, Dimensions.pxFromDp(5.3f), false));
-//
-//            resource.setText(bean.contentSourceDisplay);
-//            GlideApp.with(image)
-//                    .asDrawable()
-//                    .load(bean.thumbnail)
-//                    .into(image);
-//
-//            if (!TextUtils.isEmpty(bean.contentSourceLogo)) {
-//                GlideApp.with(icon)
-//                        .asDrawable()
-//                        .load(bean.contentSourceLogo)
-//                        .into(icon);
-//            } else {
-//                icon.setVisibility(GONE);
-//            }
-//
-//            itemView.setOnClickListener(v -> {
-//                HSLog.i(NewsManager.TAG, "NP onClicked");
-//                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false, WebViewActivity.FROM_LIST));
-//
-//                Analytics.logEvent("mainview_newstab_news_click",
-//                        "type", "video",
-//                        "user", Utils.isNewUser() ? "new" : "upgrade");
-//
-//                Analytics.logEvent("videonews_video_page_video_click", "NewsType", Strings.stringListToCsv(bean.categoriesEnglish));
-//            });
-//        }
     }
 
     private class NewsFootLoadingHolder extends RecyclerView.ViewHolder {
@@ -619,7 +577,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         void bindView(NewsNativeAdBean bean) {
             adContainer.fillNativeAd(bean.acbNativeAd, "");
             bean.acbNativeAd.setNativeClickListener(acbAd -> {
-                Analytics.logEvent("News_List_Ad_Click");
+                logger.logAdClick();
             });
 
             mDescriptionTv.setText(bean.acbNativeAd.getTitle());
@@ -636,14 +594,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             time.setVisibility(GONE);
 
             if (mSelected) {
-                Analytics.logEvent("News_List_Ad_Show");
+                logger.logAdShow();
             } else {
-                addSelectedRunnableOnce(new Runnable() {
-                    @Override
-                    public void run() {
-                        Analytics.logEvent("News_List_Ad_Show");
-                    }
-                });
+                addSelectedRunnableOnce(() -> logger.logAdShow());
             }
         }
     }
@@ -658,11 +611,43 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             HSLog.i(NewsManager.TAG, "UrlDecode:" + URLDecoder.decode(url));
             Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(URLDecoder.decode(url), false, WebViewActivity.FROM_LIST));
 
-            Analytics.logEvent("News_Details_Show",
-                    "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
+            logger.logShowNewsDetail(true, type == NewsAdapter.NEWS_TYPE_VIDEO);
         } else {
-            Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+            logger.logShowNewsDetail(false, type == NewsAdapter.NEWS_TYPE_VIDEO);
             showToast(R.string.news_network_failed_toast);
         }
+    }
+
+    protected class EventLogger {
+
+        protected void logListSlide() {
+            Analytics.logEvent("News_List_Slide");
+        }
+
+        protected void logNewsLoad(boolean isRefresh, boolean success) {
+            if (isRefresh) {
+                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            } else {
+                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            }
+        }
+
+        protected void logAdClick() {
+            Analytics.logEvent("News_List_Ad_Click");
+        }
+
+        protected void logAdShow() {
+            Analytics.logEvent("News_List_Ad_Show");
+        }
+
+        protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
+            if (hasNetwork) {
+                Analytics.logEvent("News_Details_Show",
+                        "NewsType", (isVideo ? "Video" : "News") );
+            } else {
+                Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+            }
+        }
+
     }
 }

@@ -9,7 +9,7 @@ import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.activity.ExitNewsActivity;
-import com.honeycomb.colorphone.preview.PreviewAdManager;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -176,7 +176,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NewsOnTextureWire");
                 if (ret) {
                     HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preload");
-                    PreviewAdManager.getInstance().preload(null);
+                    NewsManager.getInstance().preload(null);
                 } else {
                     HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable NOT enable");
                 }
@@ -185,7 +185,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showNewsOnTextureWire() {
-                if (PreviewAdManager.getInstance().getNativeAd() != null) {
+                if (NewsManager.getInstance().getNativeAd() != null) {
                     HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire show");
                     Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
                     return true;

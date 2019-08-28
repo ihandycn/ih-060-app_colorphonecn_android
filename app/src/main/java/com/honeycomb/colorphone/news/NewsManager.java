@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.news;
 
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.AcbAds;
 import net.appcloudbox.UnreleasedAdWatcher;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
@@ -48,14 +50,11 @@ public class NewsManager {
     private static String PERF_FILE = "news";
     private static String userID;
     private static String NEWS_LIST_BANNER = Placements.AD_NEWS;
-//    private static String NEWS_WIRE = "NewsWire";
-
-//    private static int LIMIT_SIZE = 10;
-//    private static int LIMIT_PUSH_SIZE = 5;
     public static int AD_INTERVAL = 4;
     public static int NATIVE_AD_SIZE = 4;
     private int adSize = 0;
-//    private AcbInterstitialAd mInterstitialAd;
+
+    private AcbNativeAd mAd;
 
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean, int size);
@@ -239,42 +238,6 @@ public class NewsManager {
         });
         news.startAsync();
     }
-//
-//    public void fetchPushNews(NewsLoadListener loadListener) {
-//        int offset = 0;
-//        HSLog.i(NewsManager.TAG, "fetchPushNews offset == " + offset);
-//        pushBean = null;
-//
-//        HSHttpConnection news = new HSHttpConnection(getURL(false));
-//        news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
-//            @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
-//                if (hsHttpConnection.isSucceeded()) {
-//                    String jsonBody = hsHttpConnection.getBodyString();
-//                    Gson gson = new Gson();
-//                    pushBean = gson.fromJson(jsonBody, NewsResultBean.class);
-//                    HSLog.i(TAG, "result: size == " + (pushBean != null ? pushBean.msg : null));
-//                    if (loadListener != null) {
-//                        loadListener.onNewsLoaded(pushBean);
-//                    }
-//                } else {
-//                    HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
-//                    if (loadListener != null) {
-//                        loadListener.onNewsLoaded(null);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onConnectionFailed(HSHttpConnection hsHttpConnection, HSError hsError) {
-//                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
-//                HSLog.i(TAG, "HSError: " + hsError);
-//                if (loadListener != null) {
-//                    loadListener.onNewsLoaded(null);
-//                }
-//            }
-//        });
-//        news.startAsync();
-//    }
 
     private String getURL(boolean isVideo) {
         final StringBuilder url = new StringBuilder();
@@ -319,6 +282,38 @@ public class NewsManager {
     public static void logNewsListShow(String from) {
         if (!TextUtils.isEmpty(from)) {
             Analytics.logEvent("News_List_Show", "Source", from);
+        }
+    }
+
+    public void preload(Activity activity) {
+        HSLog.d(TAG, "preload");
+
+        if (activity != null) {
+            AcbAds.getInstance().setActivity(activity);
+        }
+        AcbNativeAdManager.getInstance().activePlacementInProcess(getNativeAdPlacementName());
+        AcbNativeAdManager.getInstance().preload(1, getNativeAdPlacementName());
+    }
+
+    private static String getNativeAdPlacementName() {
+        return Placements.AD_EXIT_WIRE_NEW;
+    }
+
+    public AcbNativeAd getNativeAd() {
+        if (mAd == null) {
+            List<AcbNativeAd> ads = AcbNativeAdManager.getInstance().fetch(getNativeAdPlacementName(), 1);
+            if (ads != null && ads.size() > 0) {
+                mAd = ads.get(0);
+                HSLog.i("ThemeFullAd", "new native ad");
+            }
+        }
+        return mAd;
+    }
+
+    public void releaseNativeAd() {
+        if (mAd != null) {
+            mAd.release();
+            mAd = null;
         }
     }
 }
