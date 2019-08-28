@@ -43,14 +43,14 @@ import java.util.ArrayList;
 
 public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private NewsResultBean newsResource;
-    private RecyclerView newsList;
+    protected NewsResultBean newsResource;
+    protected RecyclerView newsList;
     private SwipeRefreshLayout newsPages;
-    private NewsAdapter adapter;
+    protected NewsAdapter adapter;
 
     private boolean isRefreshing = false;
     private boolean showTime;
-    private boolean isVideo = false;
+    protected boolean isVideo = false;
 
     private float startY;
     private float startX;
@@ -124,8 +124,12 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         return super.onInterceptTouchEvent(ev);
     }
 
-    private void initRecyclerView() {
+    protected void initAdapter() {
         adapter = new NewsAdapter();
+    }
+
+    private void initRecyclerView() {
+        initAdapter();
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -281,7 +285,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private void showToast(int toast) {
+    protected void showToast(int toast) {
         if (getContext() instanceof ColorPhoneActivity) {
             if (((ColorPhoneActivity) getContext()).isNewsTab()){
                 Toasts.showToast(toast);
@@ -289,7 +293,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private void showToast(String toast) {
+    protected void showToast(String toast) {
         if (getContext() instanceof ColorPhoneActivity) {
             if (((ColorPhoneActivity) getContext()).isNewsTab()){
                 Toasts.showToast(toast);
@@ -297,7 +301,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private class NewsAdapter extends RecyclerView.Adapter {
+    protected class NewsAdapter extends RecyclerView.Adapter {
 
         static final int NEWS_TYPE_ITEM     = 100;
         static final int NEWS_TYPE_BIG      = 101;
@@ -313,7 +317,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         static final int NEWS_TYPE_IMAGES   = 5;
 
         @Override public int getItemViewType(int position) {
-            if (position == getItemCount() - 1) {
+            if (position == NewsPage.NewsAdapter.this.getItemCount() - 1) {
                 return NEWS_TYPE_FOOT;
             }
 
@@ -343,6 +347,10 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             }
 
             return NEWS_TYPE_ITEM;
+        }
+
+        public int getHeadCount() {
+            return 0;
         }
 
         @NonNull @Override
@@ -386,14 +394,20 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            if (position == getItemCount() - 1) {
+            int type = NewsPage.NewsAdapter.this.getItemViewType(position);
+            HSLog.i(NewsManager.TAG, "NP onBindViewHolder is position: " + position + "   type: " + type);
+
+            onBindNewsHolder(holder, position, type);
+        }
+
+        protected void onBindNewsHolder(RecyclerView.ViewHolder holder, int position, int type) {
+            if (type == NEWS_TYPE_FOOT) {
                 NewsFootLoadingHolder loadingHolder = (NewsFootLoadingHolder) holder;
                 loadingHolder.loading.setAlpha(0);
                 loadingHolder.loading.animate().alpha(1).setDuration(200).start();
                 return;
             }
 
-            int type = getItemViewType(position);
             NewsArticle article = null;
             if (newsResource.articlesList.size() > position) {
                 article = newsResource.articlesList.get(position);
@@ -403,21 +417,19 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             }
 
             if (type == NEWS_TYPE_NATIVE) {
-                ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) article);
+                if (holder instanceof NewsNativeHolder && article instanceof NewsNativeAdBean) {
+                    ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) article);
+                } else {
+                    HSLog.w(NewsManager.TAG, "NewsNative is error: " + article + "   \n holder " + holder);
+                }
                 return;
             }
-//
-//            if (type == NEWS_TYPE_VIDEO) {
-//                ((NewsBeanVideoHolder) holder).bindNewsBean(bean);
-//                return;
-//            }
 
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             beanHolder.bindNewsBean(article, type);
         }
 
         @Override public int getItemCount() {
-//            return newsResource.data.data.items.size();
             return (newsResource != null && newsResource.articlesList.size() > 0) ? newsResource.articlesList.size() + 1 : 0;
         }
     }
@@ -441,6 +453,11 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         void bindNewsBean(NewsArticle bean, int type) {
             String url = null;
+            if (bean == null) {
+                HSLog.w(NewsManager.TAG, "NewsBeanItemHolder bindView bean ==  null");
+                return;
+            }
+
             if (bean.thumbnails != null && bean.thumbnails.size() > 0) {
                 url = bean.thumbnails.get(0).getUrl();
             }

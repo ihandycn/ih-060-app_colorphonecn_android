@@ -8,11 +8,14 @@ import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.activity.ExitNewsActivity;
+import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.messagecenter.notification.NotificationMessageAlertActivity;
 import com.superapps.util.Navigations;
@@ -155,7 +158,14 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean isTextureWireEnable() {
-                return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "TextureWireEnable");
+                boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "TextureWireEnable");
+                if (ret) {
+                    HSLog.i("NotificationMessageAlertActivity", "isTextureWireEnable enable, preload ");
+                    PreviewAdManager.getInstance().preload(null);
+                } else {
+                    HSLog.i("NotificationMessageAlertActivity", "isTextureWireEnable NOT enable ");
+                }
+                return ret;
             }
 
             @Override
@@ -166,6 +176,17 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public long getTextureWireInterval() {
                 return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "SmsAssistant", "TextureWireIntervalMinute");
+            }
+
+            @Override public boolean showExitInfo() {
+                if (PreviewAdManager.getInstance().getNativeAd() != null) {
+                    HSLog.i("NotificationMessageAlertActivity", "showExitInfo show ExitNewsActivity ");
+                    Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
+                    return true;
+                } else {
+                    HSLog.w("NotificationMessageAlertActivity", "showExitInfo NOT show, no AD ");
+                }
+                return false;
             }
         };
     }
