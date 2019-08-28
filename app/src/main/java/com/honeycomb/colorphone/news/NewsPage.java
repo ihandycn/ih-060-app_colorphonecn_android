@@ -62,6 +62,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private int lastNewsSize;
     private boolean mSelected;
 
+    protected int itemViewPadding = 0;
+
     public NewsPage(@NonNull Context context) {
         super(context);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -401,6 +403,10 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
 
         protected void onBindNewsHolder(RecyclerView.ViewHolder holder, int position, int type) {
+            if (itemViewPadding != 0) {
+                holder.itemView.setPadding(itemViewPadding, holder.itemView.getPaddingTop(), itemViewPadding, holder.itemView.getPaddingBottom());
+            }
+
             if (type == NEWS_TYPE_FOOT) {
                 NewsFootLoadingHolder loadingHolder = (NewsFootLoadingHolder) holder;
                 loadingHolder.loading.setAlpha(0);

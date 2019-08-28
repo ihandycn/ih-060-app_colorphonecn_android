@@ -9,10 +9,6 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_list"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:paddingRight="16dp"
-        android:paddingEnd="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

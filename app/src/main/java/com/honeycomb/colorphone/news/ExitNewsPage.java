@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -37,6 +38,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
         setEnabled(false);
+
+        itemViewPadding = Dimensions.pxFromDp(16);
     }
 
     @Override
@@ -142,11 +145,16 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int viewType = getItemViewType(position);
+
             HSLog.i(NewsManager.TAG, "ENP onBindViewHolder is position: " + position + "   type: " + viewType);
             if (viewType == NEWS_TYPE_HEAD_AD) {
                 NewsHeadNativeHolder newsHeadNativeHolder = (NewsHeadNativeHolder) holder;
                 newsHeadNativeHolder.bindView(PreviewAdManager.getInstance().getNativeAd());
                 return;
+            }
+
+            if (itemViewPadding != 0) {
+                holder.itemView.setPadding(itemViewPadding, holder.itemView.getPaddingTop(), itemViewPadding, holder.itemView.getPaddingBottom());
             }
 
             if (viewType == NEWS_TYPE_HEAD_TITLE) {
