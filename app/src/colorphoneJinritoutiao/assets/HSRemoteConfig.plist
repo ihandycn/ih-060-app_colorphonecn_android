@@ -894,7 +894,7 @@
 				<key>ApplyFinished</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 				</dict>
 				<key>CallFinished</key>
 				<dict>
@@ -904,7 +904,7 @@
 				<key>SecondApplyFinished</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 				</dict>
 				<key>UnsupportedCountry</key>
 				<array>
