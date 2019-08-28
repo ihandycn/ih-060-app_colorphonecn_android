@@ -204,6 +204,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         TextView mTitleTv;
         TextView mDescriptionTv;
         View mActionBtn;
+        View mClickView;
 
         NewsHeadNativeHolder(View root) {
             super(root);
@@ -226,6 +227,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             adContainer.setAdIconView(mAdIconView);
             adContainer.setAdActionView(mActionBtn);
 
+            mClickView = findViewById(R.id.news_ad_click_view);
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
@@ -243,6 +245,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
                 title = acbNativeAd.getTitle();
             }
             mTitleTv.setText(title);
+
+            mClickView.setOnClickListener(view -> mActionBtn.performClick());
         }
     }
 
