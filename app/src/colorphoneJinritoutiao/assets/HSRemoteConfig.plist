@@ -940,9 +940,9 @@
 					<key>CallFinishWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>CallFinishWireShowInLock</key>
-					<true/>
+					<false/>
 					<key>CallFinishWireEnable</key>
-					<true/>
+					<false/>
 					<key>DefaultEnabled</key>
 					<true/>
 					<key>Enable</key>
@@ -960,6 +960,8 @@
 				</dict>
 				<key>SmsAssistant</key>
 				<dict>
+					<key>NewsOnTextureWire</key>
+					<true/>
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>
