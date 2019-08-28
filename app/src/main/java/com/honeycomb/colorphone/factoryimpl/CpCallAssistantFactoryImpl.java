@@ -24,14 +24,12 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.ExitNewsActivity;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -48,7 +46,6 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
 import com.superapps.util.Compats;
-import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -429,14 +426,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public boolean isTextureWireEnable() {
-            boolean ret = showAd() && isTextureWireOnLockEnable() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireEnable");
-            if (ret) {
-                HSLog.d("CallIdleAlertActivity", "isTextureWireEnable enable preload ");
-                PreviewAdManager.getInstance().preload(null);
-            } else {
-                HSLog.w("CallIdleAlertActivity", "isTextureWireEnable NOT enable ");
-            }
-            return ret;
+            return showAd() && isTextureWireOnLockEnable() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireEnable");
         }
 
         @Override
@@ -465,18 +455,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         @Override
         public long getTextureWireInterval() {
             return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireIntervalMinute");
-        }
-
-        @Override
-        public boolean showExitInfo() {
-            if (PreviewAdManager.getInstance().getNativeAd() != null) {
-                HSLog.i("CallIdleAlertActivity", "showExitInfo show ExitNewsActivity ");
-                Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
-                return true;
-            } else {
-                HSLog.i("CallIdleAlertActivity", "showExitInfo NO AD ");
-            }
-            return false;
         }
     }
 
