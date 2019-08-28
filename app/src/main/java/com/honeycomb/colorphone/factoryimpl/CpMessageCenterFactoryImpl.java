@@ -158,14 +158,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean isTextureWireEnable() {
-                boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "TextureWireEnable");
-                if (ret) {
-                    HSLog.i("NotificationMessageAlertActivity", "isTextureWireEnable enable, preload ");
-                    PreviewAdManager.getInstance().preload(null);
-                } else {
-                    HSLog.i("NotificationMessageAlertActivity", "isTextureWireEnable NOT enable ");
-                }
-                return ret;
+                return showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "TextureWireEnable");
             }
 
             @Override
@@ -178,13 +171,26 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 return DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(0, "Application", "ScreenFlash", "SmsAssistant", "TextureWireIntervalMinute");
             }
 
-            @Override public boolean showExitInfo() {
+            @Override
+            public boolean isNewsOnTextureWireEnable() {
+                boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NewsOnTextureWire");
+                if (ret) {
+                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preload");
+                    PreviewAdManager.getInstance().preload(null);
+                } else {
+                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable NOT enable");
+                }
+                return ret;
+            }
+
+            @Override
+            public boolean showNewsOnTextureWire() {
                 if (PreviewAdManager.getInstance().getNativeAd() != null) {
-                    HSLog.i("NotificationMessageAlertActivity", "showExitInfo show ExitNewsActivity ");
+                    HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire show");
                     Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
                     return true;
                 } else {
-                    HSLog.w("NotificationMessageAlertActivity", "showExitInfo NOT show, no AD ");
+                    HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire NO ad");
                 }
                 return false;
             }
