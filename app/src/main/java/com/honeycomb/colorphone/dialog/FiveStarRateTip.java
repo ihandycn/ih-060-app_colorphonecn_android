@@ -6,7 +6,9 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -28,6 +30,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSMarketUtils;
@@ -67,7 +70,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
 
     public enum From {
         SET_THEME(0),
-        @Deprecated
+        //@Deprecated
         END_CALL(1);
 
         private int code = 0;
@@ -183,7 +186,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT);
         sCurrentSessionId = SessionMgr.getInstance().getCurrentSessionId();
 
-//        Analytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
+        Analytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
 
     }
 
@@ -264,11 +267,12 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     protected void onClickPositiveButton(View v) {
         if (mCurrentPosition >= 0) {
             if (mCurrentPosition == MAX_POSITION) {
-                HSMarketUtils.browseAPP();
-//                Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
+                //HSMarketUtils.browseAPP();
+                launchAppDetail(HSApplication.getContext().getPackageName(), "com.huawei.appmarket");
+                Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
 //                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
-//                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
+                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
                 Navigations.startActivitySafely(getContext(), FeedbackActivity.class);
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
@@ -276,6 +280,24 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             dismiss();
         } else {
             guideAnim(false);
+        }
+    }
+
+    private void launchAppDetail(String appPkg, String marketPkg) {
+        try {
+            if (TextUtils.isEmpty(appPkg)) {
+                return;
+            }
+
+            Uri uri = Uri.parse("market://details?id=" + appPkg);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            if (!TextUtils.isEmpty(marketPkg)) {
+                intent.setPackage(marketPkg);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            HSApplication.getContext().startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

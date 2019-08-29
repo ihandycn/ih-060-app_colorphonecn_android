@@ -76,6 +76,8 @@ import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.RateAlertActivity;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.HSApplication;
@@ -773,6 +775,16 @@ public final class Utils {
                 backTransition.show(true);
             }
         }, 1382);
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (FiveStarRateTip.canShowWhenApplyTheme()) {
+                    if (com.superapps.util.rom.RomUtils.checkIsHuaweiRom()) {
+                        RateAlertActivity.showRateFrom(rootView.getContext(), FiveStarRateTip.From.SET_THEME);
+                    }
+                }
+            }
+        }, 1548);
     }
 
 
