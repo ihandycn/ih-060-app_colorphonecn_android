@@ -75,7 +75,7 @@
 			<key>CashCenter</key>
 			<dict>
 				<key>Enable</key>
-				<true/>
+				<false/>
 				<key>FloatingGuide</key>
 				<false/>
 			</dict>
@@ -243,16 +243,16 @@
 			<key>GameCenter</key>
 			<dict>
 				<key>LockScreenEnable</key>
-				<true/>
+				<false/>
 				<key>MainViewEnable</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>GrantAccess</key>
 			<dict>
 				<key>MaxCount</key>
 				<integer>20</integer>
-                <key>RequestOnStartGuide</key>
-                <true/>
+				<key>RequestOnStartGuide</key>
+				<true/>
 			</dict>
 			<key>Guide</key>
 			<dict>
@@ -820,7 +820,7 @@
 				<key>Category</key>
 				<string>100</string>
 				<key>IsNewsTabAdEnable</key>
-				<true/>
+				<false/>
 				<key>Key</key>
 				<string>182be0c5cdcd5072bb1864cdee4d3d6e</string>
 				<key>Url</key>
