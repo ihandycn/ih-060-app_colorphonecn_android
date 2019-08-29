@@ -435,7 +435,14 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             boolean config = HSConfig.optBoolean(true, "Application", "ScreenFlash", "CallAssistant", "CallFinishWireShowInLock");
 
             if (isLocked) {
+                if (config) {
+                    HSLog.i("CallIdleAlertActivity", "isTextureWireOnLockEnable locked and enable ");
+                } else {
+                    HSLog.i("CallIdleAlertActivity", "isTextureWireOnLockEnable locked and NOT enable ");
+                }
                 return config;
+            } else {
+                HSLog.i("CallIdleAlertActivity", "isTextureWireOnLockEnable NOT locked enable ");
             }
             return true;
         }

@@ -49,7 +49,6 @@ public class StableToast {
 
     public static void showHuaweiAutoStartToast() {
         logEvent = "AutoStartPageDuration";
-
         int stringId;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26;
@@ -67,7 +66,7 @@ public class StableToast {
 
         long duration = HSConfig.optInteger(18, "Application", "AutoPermission", "ToastDurationSeconds")
                 * DateUtils.SECOND_IN_MILLIS;
-        sHandler.postDelayed(() -> cancelToastInner(), duration);
+        sHandler.postDelayed(StableToast::cancelToastInner, duration);
 
         // Watch home key pressed
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {

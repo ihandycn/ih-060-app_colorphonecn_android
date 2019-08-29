@@ -253,7 +253,7 @@ dependencies {
     compile project(':libPermissionacquire')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.08.05.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.08.28.002'
 
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'
