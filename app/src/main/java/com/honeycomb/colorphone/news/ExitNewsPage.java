@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
@@ -47,34 +48,6 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         itemViewPadding = Dimensions.pxFromDp(16);
 
         Analytics.logEvent("Message_News_Show");
-    }
-
-    @Override
-    public void refreshNews(String from) {
-        super.refreshNews(from);
-    }
-
-    @Override
-    public void loadNews(String from) {
-        super.loadNews(from);
-    }
-
-    @Override public void onNewsLoaded(NewsResultBean bean, int size) {
-        super.onNewsLoaded(bean, size);
-    }
-
-    @Override public void onRefresh() {
-        super.onRefresh();
-    }
-
-    @Override
-    public void scrollToTop() {
-        super.scrollToTop();
-    }
-
-    @Override
-    public void onSelected(boolean onSelected) {
-        super.onSelected(onSelected);
     }
 
     @Override
@@ -210,10 +183,12 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         TextView mDescriptionTv;
         View mActionBtn;
         View mClickView;
+        View mCloseBtn;
 
         NewsHeadNativeHolder(View root) {
             super(root);
 
+            HSLog.i(NewsManager.TAG, "ENP NewsHeadNativeHolder");
             adContainer = (AcbNativeAdContainerView) root;
             View view = LayoutInflater.from(getContext()).inflate(R.layout.exit_page_ad, adContainer, false);
 
@@ -224,7 +199,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             mDescriptionTv = ViewUtils.findViewById(view, R.id.news_ad_description);
             mActionBtn = ViewUtils.findViewById(view, R.id.news_ad_action_btn);
             mClickView = ViewUtils.findViewById(view, R.id.news_ad_click_view);
-            
+            mCloseBtn = ViewUtils.findViewById(view, R.id.news_ad_close);
+
             adContainer.addContentView(view);
             adContainer.setAdTitleView(mTitleTv);
             adContainer.setAdBodyView(mDescriptionTv);
@@ -252,7 +228,49 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
 
             mClickView.setOnClickListener(view -> mActionBtn.performClick());
 
-            HSLog.i("NotificationMessageAlertActivity", "bindView  click w == " + mClickView.getWidth() + "  h == " + mClickView.getHeight());
+            mCloseBtn.setOnClickListener(view -> {
+                if (getContext() instanceof Activity) {
+                    ((Activity) getContext()).finish();
+                }
+            });
+
+            HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
+            adContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    int height = getHeadViewHeight();
+                    int heightSize = height - adContainer.getHeight();
+
+                    HSLog.i(NewsManager.TAG, "ENP bindView onGlobalLayout h == " + height + "  ch == " + heightSize);
+
+                    adContainer.setMinimumHeight(getHeadViewHeight());
+
+                    View imageLayout = adContainer.findViewById(R.id.news_ad_image_layout);
+                    imageLayout.setPadding(imageLayout.getPaddingLeft(),
+                            imageLayout.getPaddingTop() + heightSize / 3,
+                            imageLayout.getPaddingRight(),
+                            imageLayout.getPaddingBottom() + heightSize / 3);
+
+                    mTitleTv.setPadding(mTitleTv.getPaddingLeft(),
+                            mTitleTv.getPaddingTop() + heightSize / 6,
+                            mTitleTv.getPaddingRight(),
+                            mTitleTv.getPaddingBottom());
+
+                    mDescriptionTv.setPadding(mDescriptionTv.getPaddingLeft(),
+                            mDescriptionTv.getPaddingTop(),
+                            mDescriptionTv.getPaddingRight(),
+                            mDescriptionTv.getPaddingBottom() + heightSize / 6);
+                }
+            });
+        }
+
+        private int getHeadViewHeight() {
+            return Dimensions.getPhoneHeight(getContext())
+                    - Dimensions.pxFromDp(70)
+                    - Dimensions.getNavigationBarHeight(getContext())
+                    - Dimensions.getStatusBarHeight(getContext());
         }
     }
 

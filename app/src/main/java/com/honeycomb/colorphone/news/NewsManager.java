@@ -59,14 +59,16 @@ public class NewsManager {
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean, int size);
     }
-//    private NewsLoadListener loadListener;
 
-//    private NewsResultBean resultBean;
     private NewsResultBean pushBean;
+    private NewsResultBean exitNewsBean;
     private boolean showNativeAD;
 
     public NewsResultBean getPushBean() {
         return pushBean;
+    }
+    public NewsResultBean getExitNewsBean() {
+        return exitNewsBean;
     }
 
     void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
@@ -293,6 +295,8 @@ public class NewsManager {
         }
         AcbNativeAdManager.getInstance().activePlacementInProcess(getNativeAdPlacementName());
         AcbNativeAdManager.getInstance().preload(1, getNativeAdPlacementName());
+
+        fetchNews(null, (bean, size) -> exitNewsBean = bean, false);
     }
 
     private static String getNativeAdPlacementName() {

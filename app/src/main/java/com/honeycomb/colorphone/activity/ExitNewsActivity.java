@@ -15,7 +15,7 @@ public class ExitNewsActivity extends HSAppCompatActivity {
         setContentView(R.layout.news_exit_page);
 
         newsPage = findViewById(R.id.news_swipe_layout);
-        newsPage.loadNews("");
+        newsPage.onNewsLoaded(NewsManager.getInstance().getExitNewsBean(), 0);
     }
 
     @Override protected void onDestroy() {
