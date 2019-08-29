@@ -961,7 +961,7 @@
 				<key>SmsAssistant</key>
 				<dict>
 					<key>NewsOnTextureWire</key>
-					<true/>
+					<false/>
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>
