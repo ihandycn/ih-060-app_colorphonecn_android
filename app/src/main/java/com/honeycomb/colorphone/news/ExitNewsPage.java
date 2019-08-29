@@ -232,6 +232,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
                 if (getContext() instanceof Activity) {
                     ((Activity) getContext()).finish();
                 }
+                Analytics.logEvent("Message_View_Wire_Ad_Cancel_Click");
             });
 
             HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
@@ -276,6 +277,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
 
     protected class ExitEventLogger extends NewsPage.EventLogger {
         protected void logListSlide() {
+            Analytics.logEvent("Message_News_List_Slide");
         }
 
         protected void logNewsLoad(boolean isRefresh, boolean success) {

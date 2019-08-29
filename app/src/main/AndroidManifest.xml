@@ -746,7 +746,7 @@
             android:name=".activity.ExitNewsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/LightTheme" />
+            android:theme="@style/LightThemeFull" />
 
         <!--Override  - Tag : process-->
 
