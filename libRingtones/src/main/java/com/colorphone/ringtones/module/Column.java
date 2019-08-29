@@ -10,11 +10,26 @@ public class Column {
     private String name;
     private boolean isSelected;
 
+    public Column() {}
+
+    public Column(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public static Column valueOf(ColumnBean columnBean) {
         Column column = new Column();
         column.id = columnBean.getTargetid();
         column.name = columnBean.getName();
         return column;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {

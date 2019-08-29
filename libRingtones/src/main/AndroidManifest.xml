@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.colorphone.ringtones"/>
+          package="com.colorphone.ringtones">
+
+    <application>
+        <activity android:name=".view.RingtoneEntranceActivity" />
+    </application>
+</manifest>

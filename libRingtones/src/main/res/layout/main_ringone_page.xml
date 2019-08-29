@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#242326"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/search_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="@string/search"
+            android:textColor="@color/ringtone_primary_color"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.colorphone.ringtones.view.TextEditTextView
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toLeftOf="@+id/search_button"
+            android:background="@drawable/ringtone_search_bg"
+            android:drawableLeft="@drawable/ringtone_search_icon"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/ringtone_search_hint"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:singleLine="true"
+            android:textColor="@color/ringtone_text_search"
+            android:textColorHint="@color/ringtone_text_hint" />
+
+        <ImageView
+            android:id="@+id/search_clear_btn"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@id/search_button"
+            android:scaleType="centerInside"
+            android:src="@drawable/ringtone_close"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/classification_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_input_container"
+        android:orientation="vertical">
+
+        <com.colorphone.ringtones.view.ResizeTextTabLayout
+            android:id="@+id/ringtone_tab"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <FrameLayout
+            android:id="@+id/ringtone_list_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_input_container">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ringtone_search_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/ringtone_search_no_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/ringtone_search_no_result"
+            android:textColor="@color/ringtone_text_hint"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+</RelativeLayout>

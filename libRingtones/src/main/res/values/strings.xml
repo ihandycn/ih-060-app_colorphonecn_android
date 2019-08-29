@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">libRingtones</string>
+    <string name="ringtone_search_hint">搜索铃声/歌手</string>
+    <string name="ringtone_search_no_result">找不到相关铃声</string>
+    <string name="search">搜索</string>
 </resources>

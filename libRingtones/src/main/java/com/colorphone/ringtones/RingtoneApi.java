@@ -1,5 +1,6 @@
 package com.colorphone.ringtones;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.colorphone.ringtones.bean.ColumnResultBean;
@@ -48,7 +49,8 @@ public class RingtoneApi {
 
     public void requestBanners(ResultCallback<ColumnResultBean> resultCallback) {
         HashMap<String, String> map = new HashMap<>(1);
-        map.put(RequestKeys.COLUMN_ID, getColumnId("Banner"));
+//        map.put(RequestKeys.COLUMN_ID, getColumnId("Banner"));
+        map.put(RequestKeys.COLUMN_ID, "28181");
         String url = buildUrl(URL_COLUM, map);
         doRequest(url, ColumnResultBean.class, resultCallback);
     }
@@ -83,10 +85,10 @@ public class RingtoneApi {
                     if (callback != null) {
                         callback.onFinish(bean);
                     }
-                }
-
-                if (callback != null) {
-                    callback.onFinish(null);
+                } else {
+                    if (callback != null) {
+                        callback.onFinish(null);
+                    }
                 }
             }
 
@@ -127,7 +129,8 @@ public class RingtoneApi {
     }
 
     public static String getAppId() {
-        return HSConfig.optString("", "Application", "Ringtone", "AppId");
+        // TODO remove default
+        return HSConfig.optString("52dafa090bc7aa53", "Application", "Ringtone", "AppId");
     }
 
     public static String getColumnId(String name) {
@@ -147,6 +150,6 @@ public class RingtoneApi {
     }
 
     public interface ResultCallback<T> {
-        void onFinish(T bean);
+        void onFinish(@Nullable  T bean);
     }
 }

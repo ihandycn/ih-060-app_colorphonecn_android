@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:padding="8dp"
+        android:text="热门"
+        android:textColor="#aaffffff"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:padding="8dp"
+        android:text="最新"
+        android:textColor="#aaffffff"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:padding="8dp"
+        android:text="飙升"
+        android:textColor="#aaffffff"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:padding="8dp"
+        android:text="分类"
+        android:textColor="#aaffffff"
+        android:textStyle="bold" />
+</merge>
