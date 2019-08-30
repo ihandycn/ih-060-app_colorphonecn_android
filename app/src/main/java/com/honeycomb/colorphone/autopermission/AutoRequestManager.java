@@ -432,15 +432,15 @@ public class AutoRequestManager {
             Intent guideIntent = null;
             if (RomUtils.checkIsHuaweiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
-                Navigations.startActivitySafely(HSApplication.getContext(), intent);
-                Intent finalGuideIntent = guideIntent;
+                Intent finalGuideIntent1 = guideIntent;
                 Threads.postOnMainThreadDelayed(() -> {
-                    Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent);
+                    Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent1);
                 }, GUIDE_DELAY);
 
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent });
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }

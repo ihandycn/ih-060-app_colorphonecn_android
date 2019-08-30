@@ -43,14 +43,14 @@ import java.util.ArrayList;
 
 public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private NewsResultBean newsResource;
-    private RecyclerView newsList;
+    protected NewsResultBean newsResource;
+    protected RecyclerView newsList;
     private SwipeRefreshLayout newsPages;
-    private NewsAdapter adapter;
+    protected NewsAdapter adapter;
 
     private boolean isRefreshing = false;
     private boolean showTime;
-    private boolean isVideo = false;
+    protected boolean isVideo = false;
 
     private float startY;
     private float startX;
@@ -62,14 +62,21 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private int lastNewsSize;
     private boolean mSelected;
 
+    protected int itemViewPadding = 0;
+    protected EventLogger logger;
+
     public NewsPage(@NonNull Context context) {
-        super(context);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        this(context, null);
     }
 
     public NewsPage(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        init();
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
+
+    protected void init() {
+        logger = new EventLogger();
     }
 
     @Override protected void onFinishInflate() {
@@ -124,8 +131,12 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         return super.onInterceptTouchEvent(ev);
     }
 
-    private void initRecyclerView() {
+    protected void initAdapter() {
         adapter = new NewsAdapter();
+    }
+
+    private void initRecyclerView() {
+        initAdapter();
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -156,12 +167,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
                 if ((newState == RecyclerView.SCROLL_STATE_IDLE)
                         && lastVisibleItem > logBigImageIndex) {
-                    Analytics.logEvent("News_List_Slide");
-//                    if (isVideo) {
-//                        Analytics.logEvent("videonews_video_page_slide");
-//                    } else {
-//                        Analytics.logEvent("videonews_news_page_slide");
-//                    }
+                    logger.logListSlide();
                     logBigImageIndex = lastVisibleItem;
                 }
             }
@@ -236,16 +242,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             adapter.notifyDataSetChanged();
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_SUCCESS);
             if (newsPages.isRefreshing()) {
-                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Success");
+                logger.logNewsLoad(true, true);
             } else {
-                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Success");
+                logger.logNewsLoad(false, true);
             }
         } else {
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_FAILED);
             if (newsPages.isRefreshing()) {
-                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Fail");
+                logger.logNewsLoad(true, false);
             } else {
-                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", "Fail");
+                logger.logNewsLoad(false, false);
             }
         }
 
@@ -258,12 +264,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         if (newsPages.isRefreshing()) {
             loadNews("Refresh");
         }
-
-//        Analytics.logEvent("mainview_news_tab_pull_to_refresh");
-//
-//        if (isVideo) {
-//            Analytics.logEvent("videonews_video_page_pull_to_refresh");
-//        }
     }
 
     public void scrollToTop() {
@@ -281,7 +281,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private void showToast(int toast) {
+    protected void showToast(int toast) {
         if (getContext() instanceof ColorPhoneActivity) {
             if (((ColorPhoneActivity) getContext()).isNewsTab()){
                 Toasts.showToast(toast);
@@ -289,7 +289,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private void showToast(String toast) {
+    protected void showToast(String toast) {
         if (getContext() instanceof ColorPhoneActivity) {
             if (((ColorPhoneActivity) getContext()).isNewsTab()){
                 Toasts.showToast(toast);
@@ -297,7 +297,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private class NewsAdapter extends RecyclerView.Adapter {
+    protected class NewsAdapter extends RecyclerView.Adapter {
 
         static final int NEWS_TYPE_ITEM     = 100;
         static final int NEWS_TYPE_BIG      = 101;
@@ -313,7 +313,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         static final int NEWS_TYPE_IMAGES   = 5;
 
         @Override public int getItemViewType(int position) {
-            if (position == getItemCount() - 1) {
+            if (position == NewsPage.NewsAdapter.this.getItemCount() - 1) {
                 return NEWS_TYPE_FOOT;
             }
 
@@ -343,6 +343,10 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             }
 
             return NEWS_TYPE_ITEM;
+        }
+
+        public int getHeadCount() {
+            return 0;
         }
 
         @NonNull @Override
@@ -386,14 +390,24 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            if (position == getItemCount() - 1) {
+            int type = NewsPage.NewsAdapter.this.getItemViewType(position);
+            HSLog.i(NewsManager.TAG, "NP onBindViewHolder is position: " + position + "   type: " + type);
+
+            onBindNewsHolder(holder, position, type);
+        }
+
+        protected void onBindNewsHolder(RecyclerView.ViewHolder holder, int position, int type) {
+            if (itemViewPadding != 0) {
+                holder.itemView.setPadding(itemViewPadding, holder.itemView.getPaddingTop(), itemViewPadding, holder.itemView.getPaddingBottom());
+            }
+
+            if (type == NEWS_TYPE_FOOT) {
                 NewsFootLoadingHolder loadingHolder = (NewsFootLoadingHolder) holder;
                 loadingHolder.loading.setAlpha(0);
                 loadingHolder.loading.animate().alpha(1).setDuration(200).start();
                 return;
             }
 
-            int type = getItemViewType(position);
             NewsArticle article = null;
             if (newsResource.articlesList.size() > position) {
                 article = newsResource.articlesList.get(position);
@@ -403,21 +417,19 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             }
 
             if (type == NEWS_TYPE_NATIVE) {
-                ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) article);
+                if (holder instanceof NewsNativeHolder && article instanceof NewsNativeAdBean) {
+                    ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) article);
+                } else {
+                    HSLog.w(NewsManager.TAG, "NewsNative is error: " + article + "   \n holder " + holder);
+                }
                 return;
             }
-//
-//            if (type == NEWS_TYPE_VIDEO) {
-//                ((NewsBeanVideoHolder) holder).bindNewsBean(bean);
-//                return;
-//            }
 
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             beanHolder.bindNewsBean(article, type);
         }
 
         @Override public int getItemCount() {
-//            return newsResource.data.data.items.size();
             return (newsResource != null && newsResource.articlesList.size() > 0) ? newsResource.articlesList.size() + 1 : 0;
         }
     }
@@ -441,6 +453,11 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         void bindNewsBean(NewsArticle bean, int type) {
             String url = null;
+            if (bean == null) {
+                HSLog.w(NewsManager.TAG, "NewsBeanItemHolder bindView bean ==  null");
+                return;
+            }
+
             if (bean.thumbnails != null && bean.thumbnails.size() > 0) {
                 url = bean.thumbnails.get(0).getUrl();
             }
@@ -513,38 +530,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             image = itemView.findViewById(R.id.news_icon_iv);
         }
 
-//        void bindNewsBean(NewsBean bean) {
-//
-//            title.setText(bean.title);
-//            time.setText(NewsUtils.getNewsVideoLength(bean.length));
-//            time.setBackground(BackgroundDrawables.createBackgroundDrawable(0xCC000000, Dimensions.pxFromDp(5.3f), false));
-//
-//            resource.setText(bean.contentSourceDisplay);
-//            GlideApp.with(image)
-//                    .asDrawable()
-//                    .load(bean.thumbnail)
-//                    .into(image);
-//
-//            if (!TextUtils.isEmpty(bean.contentSourceLogo)) {
-//                GlideApp.with(icon)
-//                        .asDrawable()
-//                        .load(bean.contentSourceLogo)
-//                        .into(icon);
-//            } else {
-//                icon.setVisibility(GONE);
-//            }
-//
-//            itemView.setOnClickListener(v -> {
-//                HSLog.i(NewsManager.TAG, "NP onClicked");
-//                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false, WebViewActivity.FROM_LIST));
-//
-//                Analytics.logEvent("mainview_newstab_news_click",
-//                        "type", "video",
-//                        "user", Utils.isNewUser() ? "new" : "upgrade");
-//
-//                Analytics.logEvent("videonews_video_page_video_click", "NewsType", Strings.stringListToCsv(bean.categoriesEnglish));
-//            });
-//        }
     }
 
     private class NewsFootLoadingHolder extends RecyclerView.ViewHolder {
@@ -596,7 +581,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         void bindView(NewsNativeAdBean bean) {
             adContainer.fillNativeAd(bean.acbNativeAd, "");
             bean.acbNativeAd.setNativeClickListener(acbAd -> {
-                Analytics.logEvent("News_List_Ad_Click");
+                logger.logAdClick();
             });
 
             mDescriptionTv.setText(bean.acbNativeAd.getTitle());
@@ -613,14 +598,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             time.setVisibility(GONE);
 
             if (mSelected) {
-                Analytics.logEvent("News_List_Ad_Show");
+                logger.logAdShow();
             } else {
-                addSelectedRunnableOnce(new Runnable() {
-                    @Override
-                    public void run() {
-                        Analytics.logEvent("News_List_Ad_Show");
-                    }
-                });
+                addSelectedRunnableOnce(() -> logger.logAdShow());
             }
         }
     }
@@ -635,11 +615,43 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             HSLog.i(NewsManager.TAG, "UrlDecode:" + URLDecoder.decode(url));
             Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(URLDecoder.decode(url), false, WebViewActivity.FROM_LIST));
 
-            Analytics.logEvent("News_Details_Show",
-                    "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
+            logger.logShowNewsDetail(true, type == NewsAdapter.NEWS_TYPE_VIDEO);
         } else {
-            Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+            logger.logShowNewsDetail(false, type == NewsAdapter.NEWS_TYPE_VIDEO);
             showToast(R.string.news_network_failed_toast);
         }
+    }
+
+    protected class EventLogger {
+
+        protected void logListSlide() {
+            Analytics.logEvent("News_List_Slide");
+        }
+
+        protected void logNewsLoad(boolean isRefresh, boolean success) {
+            if (isRefresh) {
+                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            } else {
+                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            }
+        }
+
+        protected void logAdClick() {
+            Analytics.logEvent("News_List_Ad_Click");
+        }
+
+        protected void logAdShow() {
+            Analytics.logEvent("News_List_Ad_Show");
+        }
+
+        protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
+            if (hasNetwork) {
+                Analytics.logEvent("News_Details_Show",
+                        "NewsType", (isVideo ? "Video" : "News") );
+            } else {
+                Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+            }
+        }
+
     }
 }

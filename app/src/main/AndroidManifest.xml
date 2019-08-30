@@ -40,6 +40,7 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -576,7 +577,7 @@
 
         <activity
             android:name=".activity.StartGuideActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=".main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp" />
@@ -750,6 +751,12 @@
             android:label="@string/clean_guide_activity_label"
             android:icon="@drawable/clean_guide_icon"
             android:theme="@style/AppTranslucent"/>
+
+        <activity
+            android:name=".activity.ExitNewsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/LightThemeFull" />
 
         <!--Override  - Tag : process-->
 

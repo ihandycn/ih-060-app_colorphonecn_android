@@ -911,7 +911,7 @@
 				<key>ApplyFinished</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 				</dict>
 				<key>CallFinished</key>
 				<dict>
@@ -921,7 +921,7 @@
 				<key>SecondApplyFinished</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 				</dict>
 				<key>UnsupportedCountry</key>
 				<array>
@@ -977,6 +977,8 @@
 				</dict>
 				<key>SmsAssistant</key>
 				<dict>
+					<key>NewsOnTextureWire</key>
+					<true/>
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>

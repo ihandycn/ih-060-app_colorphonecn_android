@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.startguide.SetAsDialerDialog;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.rom.RomUtils;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
@@ -32,7 +33,7 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
 
     public static boolean start(Context context, boolean limitOnce) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || (Build.VERSION.SDK_INT < Build.VERSION_CODES.N && RomUtils.checkIsHuaweiRom())) {
             // Not support default phone.
             return false;
         }
