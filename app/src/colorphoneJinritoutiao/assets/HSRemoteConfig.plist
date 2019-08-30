@@ -9697,64 +9697,6 @@
 							<true/>
 						</dict>
 					</dict>
-					<string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-&lt;dict&gt;
-	&lt;key&gt;Description&lt;/key&gt;
-	&lt;string&gt;&lt;/string&gt;
-	&lt;key&gt;DownloadNum&lt;/key&gt;
-	&lt;integer&gt;73622&lt;/integer&gt;
-	&lt;key&gt;Gif&lt;/key&gt;
-	&lt;string&gt;&lt;/string&gt;
-	&lt;key&gt;Hot&lt;/key&gt;
-	&lt;false/&gt;
-	&lt;key&gt;Icon&lt;/key&gt;
-	&lt;string&gt;&lt;/string&gt;
-	&lt;key&gt;IconAccept&lt;/key&gt;
-	&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png&lt;/string&gt;
-	&lt;key&gt;IconReject&lt;/key&gt;
-	&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png&lt;/string&gt;
-	&lt;key&gt;Id&lt;/key&gt;
-	&lt;integer&gt;158&lt;/integer&gt;
-	&lt;key&gt;IdName&lt;/key&gt;
-	&lt;string&gt;TwoBird&lt;/string&gt;
-	&lt;key&gt;LocalPush&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;Enable&lt;/key&gt;
-		&lt;true/&gt;
-		&lt;key&gt;LocalPushIcon&lt;/key&gt;
-		&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png&lt;/string&gt;
-		&lt;key&gt;LocalPushPreviewImage&lt;/key&gt;
-		&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg&lt;/string&gt;
-	&lt;/dict&gt;
-	&lt;key&gt;Mp4&lt;/key&gt;
-	&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/TwoBird/TwoBird.mp4&lt;/string&gt;
-	&lt;key&gt;Name&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;Default&lt;/key&gt;
-		&lt;string&gt;TwoBird&lt;/string&gt;
-		&lt;key&gt;zh-CN&lt;/key&gt;
-		&lt;string&gt;处处闻啼鸟&lt;/string&gt;
-	&lt;/dict&gt;
-	&lt;key&gt;Nickname&lt;/key&gt;
-	&lt;string&gt;风景控&lt;/string&gt;
-	&lt;key&gt;PreviewImage&lt;/key&gt;
-	&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/TwoBird/TwoBird_preview.png&lt;/string&gt;
-	&lt;key&gt;ResType&lt;/key&gt;
-	&lt;string&gt;url&lt;/string&gt;
-	&lt;key&gt;Ringtone&lt;/key&gt;
-	&lt;string&gt;http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/TwoBird/TwoBird.mp3&lt;/string&gt;
-	&lt;key&gt;Status&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;Lock&lt;/key&gt;
-		&lt;false/&gt;
-		&lt;key&gt;StaticPreview&lt;/key&gt;
-		&lt;true/&gt;
-	&lt;/dict&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</string>
 					<dict>
 						<key>Description</key>
 						<string></string>
