@@ -74,7 +74,11 @@ public class RingtoneConfig {
             }
             return file;
         } else {
-            return new File(Downloader.getDirectory("download"), "ringtone");
+            File file = new File(Downloader.getDirectory("download"), "ringtone");
+            if (!file.exists() && !file.mkdirs()) {
+                Log.e("Ringtone File", "Directory not created");
+            }
+            return file;
         }
     }
 

@@ -470,12 +470,12 @@ public class Downloader {
     }
 
     public static String getDownloadPath(String directory, String url) {
-        return new File(getDirectory(directory),
+        return new File(directory,
                 md5(url) + "." + getRemoteFileExtension(url)).getAbsolutePath();
     }
 
     public static File getDownloadFile(String directory, String url) {
-        return new File(getDirectory(directory),
+        return new File(directory,
                 md5(url) + "." + getRemoteFileExtension(url));
     }
 
