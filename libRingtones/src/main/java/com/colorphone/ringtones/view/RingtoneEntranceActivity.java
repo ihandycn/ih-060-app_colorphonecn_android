@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.SparseArray;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -28,6 +29,7 @@ import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneManager;
+import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.SubColumnsAdapter;
 import com.colorphone.ringtones.bean.RingtoneBean;
 import com.colorphone.ringtones.bean.RingtoneListResultBean;
@@ -294,6 +296,14 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRingtoneSetPageShow()) {
+            ringtoneSetViewHolder.hide();
+        }
+    }
+
+    @Override
     public void onSetRingtone(Ringtone ringtone) {
         if (ringtoneSetViewHolder == null) {
             ViewStub stub = findViewById(R.id.stub_ringtone_set_frame);
@@ -306,6 +316,26 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
                 @Override
                 public void onClick(View view) {
                     onBackPressed();
+                }
+            });
+
+            RingtoneSetter ringtoneSetter = RingtoneConfig.getInstance().getRingtoneSetter();
+            ringtoneSetViewHolder.setSomeoneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (ringtoneSetter != null) {
+                        ringtoneSetter.onSetForSomeOne(ringtone);
+                    }
+
+                }
+            });
+
+            ringtoneSetViewHolder.setDefaultButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (ringtoneSetter != null) {
+                        ringtoneSetter.onSetAsDefault(ringtone);
+                    }
                 }
             });
         }
@@ -335,6 +365,14 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
 
         public RingtoneSetViewHolder(View rootView) {
             this.rootView = rootView;
+            rootView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // block event
+                    return true;
+                }
+            });
+
             backButton = rootView.findViewById(R.id.nav_back);
             title = (TextView) rootView.findViewById(R.id.ringtone_title);
             singer = (TextView) rootView.findViewById(R.id.ringtone_singer);

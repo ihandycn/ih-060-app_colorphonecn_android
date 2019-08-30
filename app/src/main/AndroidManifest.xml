@@ -277,6 +277,14 @@
             android:theme="@style/ContactTheme" />
 
         <activity
+            android:name=".activity.ContactsRingtoneSelectActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme" />
+
+        <activity
             android:name="com.acb.call.activity.RequestPermissionsActivity"
             android:taskAffinity=":main"
             tools:node="merge" />

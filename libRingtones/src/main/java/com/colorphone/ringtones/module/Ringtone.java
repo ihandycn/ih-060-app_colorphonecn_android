@@ -7,7 +7,9 @@ import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.bean.RingtoneBean;
 import com.colorphone.ringtones.download2.Downloader;
 
-public class Ringtone {
+import java.io.Serializable;
+
+public class Ringtone implements Serializable {
     private String title;
     private String imgUrl;
     private String singer;

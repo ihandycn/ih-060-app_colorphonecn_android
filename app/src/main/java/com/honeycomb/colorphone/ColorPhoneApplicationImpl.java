@@ -42,9 +42,12 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneImageLoader;
+import com.colorphone.ringtones.RingtoneSetter;
+import com.colorphone.ringtones.module.Ringtone;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
@@ -83,6 +86,7 @@ import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -118,6 +122,7 @@ import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -552,6 +557,21 @@ public class ColorPhoneApplicationImpl {
                         .load(imageUrl)
                         .placeholder(defaultResId)
                         .into(imageView);
+            }
+        });
+
+        RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
+            @Override
+            public boolean onSetAsDefault(Ringtone ringtone) {
+                RingtoneHelper.setDefaultRingtoneInBackground(ringtone.getFilePath(), ringtone.getTitle());
+                Toasts.showToast("设置成功");
+                return true;
+            }
+
+            @Override
+            public boolean onSetForSomeOne(Ringtone ringtone) {
+                ContactsRingtoneSelectActivity.startSelectRingtone(HSApplication.getContext(), ringtone);
+                return true;
             }
         });
 

@@ -21,6 +21,16 @@ public class RingtoneConfig {
     private RingtoneImageLoader mRingtoneImageLoader;
     private WebLauncher mWebLauncher;
     private String mRingtoneDir;
+    private RingtoneSetter mRingtoneSetter;
+
+    public RingtoneSetter getRingtoneSetter() {
+        return mRingtoneSetter;
+    }
+
+    public void setRingtoneSetter(RingtoneSetter ringtoneSetter) {
+        mRingtoneSetter = ringtoneSetter;
+    }
+
 
     public RingtoneImageLoader getRingtoneImageLoader() {
         return mRingtoneImageLoader;

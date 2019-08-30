@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -172,6 +174,15 @@ public class RingtoneHelper {
         });
     }
 
+    public static void setDefaultRingtoneInBackground(String path, String title) {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                setDefaultRingtone(HSApplication.getContext(), path, title);
+            }
+        });
+    }
+
     public static void setDefaultRingtone(Theme theme) {
         setDefaultRingtone(HSApplication.getContext(), getRingtonePath(theme), theme.getIdName());
     }
@@ -312,10 +323,19 @@ public class RingtoneHelper {
     }
 
     @DebugLog
-    public static void setSingleRingtone(Theme theme, String contactId) {
-        String uri = null;
+    public static void setSingleRingtone(@Nullable Theme theme, String contactId) {
         if (theme != null) {
-            Uri ringtoneUri = getRingtoneUri(HSApplication.getContext(), getRingtonePath(theme), theme.getIdName());
+            setSingleRingtone(theme.getIdName(), getRingtonePath(theme), contactId);
+        } else {
+            // Clear
+            setSingleRingtone(null, null, contactId);
+        }
+    }
+
+    public static void setSingleRingtone(@NonNull String name, @Nullable String path, String contactId) {
+        String uri = null;
+        if (path != null && name != null) {
+            Uri ringtoneUri = getRingtoneUri(HSApplication.getContext(), path, name);
             if (ringtoneUri != null) {
                 uri = ringtoneUri.toString();
             }
@@ -328,7 +348,9 @@ public class RingtoneHelper {
         try {
             HSApplication.getContext().getContentResolver()
                     .update(ContactsContract.Contacts.CONTENT_URI, values, Where, WhereParams);
-        } catch (Exception ignore) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         HSLog.d("Ringtone", "set contact id = " + contactId + ", ringtone = " + uri);
 
