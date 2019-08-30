@@ -1,7 +1,9 @@
 package com.colorphone.ringtones.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +17,16 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
+import com.colorphone.ringtones.RingtoneConfig;
+import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneManager;
 import com.colorphone.ringtones.SubColumnsAdapter;
 import com.colorphone.ringtones.bean.RingtoneBean;
@@ -28,6 +34,7 @@ import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
@@ -37,7 +44,7 @@ import java.util.List;
 /**
  * @author sundxing
  */
-public class RingtoneEntranceActivity extends AppCompatActivity implements ResizeTextTabLayout.OnTabSelectListener {
+public class RingtoneEntranceActivity extends AppCompatActivity implements ResizeTextTabLayout.OnTabSelectListener, RingtoneManager.RingtoneSetHandler {
 
     RingtoneApi mRingtoneApi;
     RingtoneSearchAdapter mRingtoneSearchAdapter;
@@ -52,6 +59,7 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
     private SparseArray<View> mRingtoneViewFrames = new SparseArray<>(4);
     private ResizeTextTabLayout columnTabView;
     private ViewGroup columnFrameContainer;
+    private RingtoneSetViewHolder ringtoneSetViewHolder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,7 +135,11 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
         searchListView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,
                 false));
+
         searchEmptyView = findViewById(R.id.ringtone_search_no_result);
+
+        RingtoneManager.getInstance().setRingtoneSetHandler(this);
+
     }
 
     private void initColumns() {
@@ -208,11 +220,17 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
 
     @Override
     public void onBackPressed() {
-        if (inSearchMode) {
+        if (isRingtoneSetPageShow()) {
+            ringtoneSetViewHolder.hide();
+        } else if (inSearchMode) {
             cancelSearchMode();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private boolean isRingtoneSetPageShow() {
+        return ringtoneSetViewHolder != null && ringtoneSetViewHolder.isVisible();
     }
 
     @Override
@@ -273,5 +291,75 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
         columnFrameContainer.removeAllViews();
         columnFrameContainer.addView(targetFrameView);
 
+    }
+
+    @Override
+    public void onSetRingtone(Ringtone ringtone) {
+        if (ringtoneSetViewHolder == null) {
+            ViewStub stub = findViewById(R.id.stub_ringtone_set_frame);
+            if (stub != null) {
+                stub.inflate();
+            }
+            View rootRingtoneSetView = findViewById(R.id.ringtone_set_root);
+            ringtoneSetViewHolder = new RingtoneSetViewHolder(rootRingtoneSetView);
+            ringtoneSetViewHolder.backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+
+        ringtoneSetViewHolder.rootView.setVisibility(View.VISIBLE);
+
+        ringtoneSetViewHolder.title.setText(ringtone.getTitle());
+        ringtoneSetViewHolder.singer.setText(ringtone.getSinger());
+        RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
+        imageLoader.loadImage(
+                ringtoneSetViewHolder.cover.getContext(),
+                ringtone.getImgUrl(),
+                ringtoneSetViewHolder.cover,
+                R.drawable.ringtone_item_cover_default);
+    }
+
+    private static class RingtoneSetViewHolder {
+        private final TextView title;
+        private final TextView singer;
+        private final ImageView cover;
+        private final TextView setDefaultButton;
+        private final TextView setSomeoneButton;
+
+        private View rootView;
+        private View backButton;
+
+
+        public RingtoneSetViewHolder(View rootView) {
+            this.rootView = rootView;
+            backButton = rootView.findViewById(R.id.nav_back);
+            title = (TextView) rootView.findViewById(R.id.ringtone_title);
+            singer = (TextView) rootView.findViewById(R.id.ringtone_singer);
+            cover = (ImageView) rootView.findViewById(R.id.cover_image);
+            setDefaultButton = rootView.findViewById(R.id.ringtone_set_default);
+            setSomeoneButton = rootView.findViewById(R.id.ringtone_set_someone);
+
+
+            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#FFE048"),
+                    Dimensions.pxFromDp(26), true);
+
+            Drawable drawable2 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),
+                    Dimensions.pxFromDp(26), true);
+
+            setDefaultButton.setBackground(drawable1);
+
+            setSomeoneButton.setBackground(drawable2);
+        }
+
+        public boolean isVisible() {
+            return rootView.getVisibility() == View.VISIBLE;
+        }
+
+        public void hide() {
+            rootView.setVisibility(View.GONE);
+        }
     }
 }

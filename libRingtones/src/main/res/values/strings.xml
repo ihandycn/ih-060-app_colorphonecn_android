@@ -3,4 +3,8 @@
     <string name="ringtone_search_hint">搜索铃声/歌手</string>
     <string name="ringtone_search_no_result">找不到相关铃声</string>
     <string name="search">搜索</string>
+    <string name="ringtone_set">设为铃声</string>
+    <string name="ringback_set">设为彩铃</string>
+    <string name="ringtone_set_as_default">设为默认铃声</string>
+    <string name="ringtone_set_as_someone">设给单个联系人</string>
 </resources>

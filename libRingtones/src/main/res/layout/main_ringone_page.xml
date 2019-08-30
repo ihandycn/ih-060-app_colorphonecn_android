@@ -99,4 +99,11 @@
             android:visibility="invisible" />
     </FrameLayout>
 
+    <ViewStub
+        android:id="@+id/stub_ringtone_set_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/frame_set_ringtone"
+        />
+
 </RelativeLayout>

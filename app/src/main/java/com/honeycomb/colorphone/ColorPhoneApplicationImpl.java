@@ -18,6 +18,7 @@ import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.widget.ImageView;
 
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
@@ -39,6 +40,8 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
+import com.colorphone.ringtones.RingtoneConfig;
+import com.colorphone.ringtones.RingtoneImageLoader;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -81,6 +84,7 @@ import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -478,6 +482,8 @@ public class ColorPhoneApplicationImpl {
 
         ContactManager.init();
 
+        initKuyinRingtone();
+
         AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
@@ -536,6 +542,19 @@ public class ColorPhoneApplicationImpl {
                         "Brand", AutoLogger.getBrand(), "Os", AutoLogger.getOSVersion());
             }
         });
+    }
+
+    private void initKuyinRingtone() {
+        RingtoneConfig.getInstance().setRingtoneImageLoader(new RingtoneImageLoader() {
+            @Override
+            public void loadImage(Context context, String imageUrl, ImageView imageView, int defaultResId) {
+                GlideApp.with(context)
+                        .load(imageUrl)
+                        .placeholder(defaultResId)
+                        .into(imageView);
+            }
+        });
+
     }
 
     private void watchLifeTimeAutopilot() {

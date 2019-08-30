@@ -14,10 +14,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.bean.ColumnResultBean;
 import com.colorphone.ringtones.bean.RingtoneListResultBean;
+import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -120,5 +122,9 @@ public class TestActivity extends AppCompatActivity {
 
 //        StartGuideActivity.start(getApplicationContext(), StartGuideActivity.FROM_KEY_BANNER);
         CashCenterGuideDialog.showCashCenterGuideDialog(this);
+    }
+
+    public void openRingtone(View view) {
+        Navigations.startActivity(this, RingtoneEntranceActivity.class);
     }
 }

@@ -5,5 +5,8 @@
     <color name="ringtone_primary_color">#ffffff</color>
     <color name="ringtone_button_color_dark">#aa000000</color>
     <color name="ringtone_button_color">#aaffffff</color>
-    <color name="ringtone_text_black">#aaffffff</color>
+    <color name="ringtone_text_black">#aa000000</color>
+    <color name="ringtone_background">#14131F</color>
+    <color name="ringtone_text_main">#e0ffffff</color>
+    <color name="ringtone_text_secondary">#C9C6DE</color>
 </resources>

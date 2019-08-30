@@ -1,6 +1,7 @@
 package com.colorphone.ringtones;
 
 import com.colorphone.ringtones.module.Column;
+import com.colorphone.ringtones.module.Ringtone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,4 +56,21 @@ public class RingtoneManager {
         }
         return null;
     }
+
+    private RingtoneSetHandler mRingtoneSetHandler;
+
+    public void onSetRingtone(Ringtone ringtone) {
+        if (mRingtoneSetHandler != null) {
+            mRingtoneSetHandler.onSetRingtone(ringtone);
+        }
+    }
+
+    public void setRingtoneSetHandler(RingtoneSetHandler ringtoneSetHandler) {
+        mRingtoneSetHandler = ringtoneSetHandler;
+    }
+
+    public interface RingtoneSetHandler {
+        void onSetRingtone(Ringtone ringtone);
+    }
+
 }

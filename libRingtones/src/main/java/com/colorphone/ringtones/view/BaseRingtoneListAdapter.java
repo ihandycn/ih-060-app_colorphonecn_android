@@ -1,6 +1,8 @@
 package com.colorphone.ringtones.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +17,13 @@ import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneDownloadManager;
 import com.colorphone.ringtones.RingtoneImageLoader;
+import com.colorphone.ringtones.RingtoneManager;
 import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.download2.Downloader;
 import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.holder.HolderCreator;
@@ -31,7 +35,7 @@ import java.util.List;
 /**
  * @author sundxing
  */
-public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneListAdapter.ViewHolder> {
+public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected static int TYPE_NORMAL = 1;
     protected static int TYPE_BANNER = 2;
@@ -58,7 +62,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_NORMAL) {
             final View itemView = getLayoutInflater(parent.getContext()).inflate(R.layout.item_ringone, parent, false);
             final ViewHolder holder = new ViewHolder(itemView);
@@ -87,6 +91,27 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
                 }
             });
 
+            holder.actionSetRingone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Handle by listener.
+                    int pos = (int) itemView.getTag();
+                    Ringtone ringtone = getRingtoneByAdapterPos(pos);
+                    RingtoneManager.getInstance().onSetRingtone(ringtone);
+
+                }
+            });
+
+            holder.actionSetRingback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = (int) itemView.getTag();
+                    Ringtone ringtone = getRingtoneByAdapterPos(pos);
+                    String subscriptionUrl = RingtoneApi.getSubscriptionUrl(ringtone.getRingtoneId());
+                    RingtoneConfig.getInstance().startWeb(subscriptionUrl);
+                }
+            });
+
             return holder;
         } else if (viewType == TYPE_BANNER) {
             BannerViewPager itemView = (BannerViewPager) getLayoutInflater(parent.getContext()).inflate(R.layout.item_banner, parent, false);
@@ -104,7 +129,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
                             onClickBannerItem(position);
                         }
                     });
-            ViewHolder holder = new HeaderViewHolder(itemView);
+            HeaderViewHolder holder = new HeaderViewHolder(itemView);
             return holder;
         }
 
@@ -223,21 +248,22 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
             BannerViewPager<Banner,BannerViewHolder> bannerViewPager = (BannerViewPager<Banner, BannerViewHolder>) holder.itemView;
             bannerViewPager.setData(mBannerList);
             bannerViewPager.create();
-        } else {
+        } else if (holder instanceof ViewHolder){
+            ViewHolder viewHolder = (ViewHolder) holder;
             holder.itemView.setTag(position);
             Ringtone ringtone = getRingtoneByAdapterPos(position);
-            holder.title.setText(ringtone.getTitle());
-            holder.singer.setText(ringtone.getSinger());
-            holder.playTimes.setText(ringtone.getPlayTimes());
-            holder.bindRingtone(ringtone);
+            viewHolder.title.setText(ringtone.getTitle());
+            viewHolder.singer.setText(ringtone.getSinger());
+            viewHolder.playTimes.setText(ringtone.getPlayTimes());
+            viewHolder.bindRingtone(ringtone);
             RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
-            imageLoader.loadImage(holder.cover.getContext(), ringtone.getImgUrl(), holder.cover, R.drawable.ringtone_item_cover_default);
-            mKeepOneHolder.bind(holder,position);
+            imageLoader.loadImage(viewHolder.cover.getContext(), ringtone.getImgUrl(), viewHolder.cover, R.drawable.ringtone_item_cover_default);
+            mKeepOneHolder.bind(viewHolder,position);
         }
     }
 
@@ -265,7 +291,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
         return mBannerList.size() > 0;
     }
 
-    public static class HeaderViewHolder extends ViewHolder {
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
@@ -279,6 +305,9 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
         private ImageView cover;
 
         private View actionContainer;
+        private View actionSetRingone;
+        private View actionSetRingback;
+
         private Ringtone ringtone;
 
         private ImageView playActionButton;
@@ -290,10 +319,22 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<BaseRingtoneLi
             super(view);
             title = (TextView) view.findViewById(R.id.ringtone_name);
             singer = (TextView) view.findViewById(R.id.ringtone_singer);
-            playTimes = view.findViewById(R.id.ringtone_times);
             cover = (ImageView) view.findViewById(R.id.cover_image);
+            playTimes = view.findViewById(R.id.ringtone_times);
 
             actionContainer = view.findViewById(R.id.ringtone_action_container);
+            actionSetRingone = view.findViewById(R.id.ringtone_action_set);
+            actionSetRingback = view.findViewById(R.id.ringtone_action_set_ringback);
+
+            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#FFE048"),
+                    Dimensions.pxFromDp(12), true);
+
+            Drawable drawable2 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),
+                    Dimensions.pxFromDp(12), true);
+
+            actionSetRingone.setBackground(drawable1);
+            actionSetRingback.setBackground(drawable2);
+
             playActionButton = view.findViewById(R.id.ringtone_play_status);
             progressContainer = view.findViewById(R.id.ringtone_download_progress);
         }
