@@ -17,11 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneManager;
+import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.RingtoneSetDelegate;
 import com.colorphone.ringtones.SubColumnsAdapter;
 import com.colorphone.ringtones.bean.RingtoneBean;
@@ -54,6 +56,8 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
     private ResizeTextTabLayout columnTabView;
     private ViewGroup columnFrameContainer;
     private RingtoneSetDelegate mRingtoneSetDelegate;
+    private View searchInputContainer;
+    private View searchIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +77,16 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
 
         columnTabView.setSelected(0);
 
+        searchInputContainer = findViewById(R.id.search_input_container);
+        searchIcon = findViewById(R.id.search_icon);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSearchView();
+            }
+        });
         searchInput = findViewById(R.id.search_input);
+
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -114,6 +127,13 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
             @Override
             public void onClick(View view) {
                 searchInput.setText("");
+            }
+        });
+
+        findViewById(R.id.search_nav_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -160,14 +180,14 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    private void showKeyboard(EditText v) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(v, 0);
+    }
+
     private void cancelSearchMode() {
         if (inSearchMode) {
-            searchInput.setText("");
-            columnRootView.setVisibility(View.VISIBLE);
-
-            searchListView.setVisibility(View.INVISIBLE);
-            searchListView.setAdapter(null);
-            searchEmptyView.setVisibility(View.INVISIBLE);
+            hideSearchView();
             inSearchMode = false;
         }
     }
@@ -199,9 +219,7 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
     }
 
     private void onSearchResultOk(List<Ringtone> results) {
-        inSearchMode = true;
         hideKeyboard();
-        columnRootView.setVisibility(View.GONE);
 
         if (results == null || results.isEmpty()) {
             // No result
@@ -213,6 +231,35 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
             searchEmptyView.setVisibility(View.INVISIBLE);
         }
         mRingtoneSearchAdapter.updateDate(results);
+    }
+
+    private void showSearchView() {
+        inSearchMode = true;
+
+        searchIcon.setVisibility(View.GONE);
+
+        columnRootView.setVisibility(View.GONE);
+        // Reset expanded view
+        RingtonePlayManager.getInstance().pause();
+        searchInputContainer.setVisibility(View.VISIBLE);
+        searchInput.requestFocus();
+        showKeyboard(searchInput);
+    }
+
+    private void hideSearchView() {
+        inSearchMode = false;
+
+        searchIcon.setVisibility(View.VISIBLE);
+
+        columnRootView.setVisibility(View.VISIBLE);
+        searchInputContainer.setVisibility(View.GONE);
+
+        searchInput.clearFocus();
+        searchInput.setText("");
+
+        searchListView.setVisibility(View.INVISIBLE);
+        searchListView.setAdapter(null);
+        searchEmptyView.setVisibility(View.INVISIBLE);
     }
 
     @Override

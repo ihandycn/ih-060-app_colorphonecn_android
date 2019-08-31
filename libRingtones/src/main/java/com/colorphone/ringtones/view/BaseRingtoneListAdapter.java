@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.ringtones.MusicPlayer;
 import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneConfig;
@@ -22,6 +23,7 @@ import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.download2.Downloader;
 import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Ringtone;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.zhpan.bannerview.BannerViewPager;
@@ -34,8 +36,9 @@ import java.util.List;
 /**
  * @author sundxing
  */
-public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RingtonePlayManager.Callback {
 
+    private static final String TAG = BaseRingtoneListAdapter.class.getSimpleName();
     protected static int TYPE_NORMAL = 1;
     protected static int TYPE_BANNER = 2;
     protected static int TYPE_FOOTER = 3;
@@ -64,6 +67,17 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 .inflate(R.layout.stub_download_progress, null);
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RingtonePlayManager.getInstance().registerCallback(this);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        RingtonePlayManager.getInstance().unregisterCallback(this);
+    }
 
     public void setSizeTotalCount(int total) {
         mTotalSize = total;
@@ -277,8 +291,22 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
             imageLoader.loadImage(viewHolder.cover.getContext(), ringtone.getImgUrl(), viewHolder.cover, R.drawable.ringtone_item_cover_default);
             mKeepOneHolder.bind(viewHolder,position);
+            if (mKeepOneHolder.isExpanded(viewHolder)) {
+                // Check play status
+                if (RingtonePlayManager.getInstance().isPlaying()) {
+                    viewHolder.onPlayMusic();
+                } else {
+                    viewHolder.onStopMusic(false);
+                }
+            }
+
         } else if (holder instanceof FooterViewHolder) {
             TextView textView = (TextView) holder.itemView;
+            if (mDataList.size() < mRingtoneApi.getPageSize()) {
+                // No need show
+                textView.setText("");
+                return;
+            }
             boolean hasMore = mDataList.size() < mTotalSize;
             textView.setText(hasMore ? "努力加载中..." : "没有更多啦");
             if (hasMore) {
@@ -307,6 +335,13 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         return mDataList.get(position);
     }
 
+    private int toAdapterPos(int dataPos) {
+        if (showBanner()) {
+            return dataPos + 1;
+        }
+        return dataPos;
+    }
+
     @Override
     public int getItemCount() {
         // Add load more footer
@@ -330,6 +365,25 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     private boolean showBanner() {
         return mBannerList.size() > 0;
+    }
+
+    @Override
+    public void onPlayStateChanged(int state, Ringtone song) {
+        HSLog.d(TAG, song.getTitle() + " playStateChanged:" + state);
+        boolean notPlaying = state >= MusicPlayer.STATE_PAUSED;
+
+        if (notPlaying && song.isPlaying()) {
+            song.setPlaying(false);
+            int dataIndex = mDataList.indexOf(song);
+            int viewItemIndex = toAdapterPos(dataIndex);
+
+            notifyItemChanged(viewItemIndex);
+        }
+    }
+
+    @Override
+    public void onShutdown() {
+
     }
 
     public static class FooterViewHolder extends RecyclerView.ViewHolder {

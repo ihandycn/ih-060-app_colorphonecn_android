@@ -275,7 +275,9 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
      * pause a playing song by user action
      */
     public void pause () {
-        pause(true);
+        if (mService != null) {
+            pause(true);
+        }
     }
 
     /**
@@ -289,16 +291,20 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
     }
 
     public void stop () {
-        mService.stopPlayer();
+        if (mService != null) {
+            mService.stopPlayer();
+        }
     }
 
     /**
      * release a playing song
      */
     public void release () {
-        mService.releasePlayer();
-        mService.setPlayStateChangeListener(null);
-        mService = null;
+        if (mService != null) {
+            mService.releasePlayer();
+            mService.setPlayStateChangeListener(null);
+            mService = null;
+        }
     }
 
     public boolean isPlaying () {
