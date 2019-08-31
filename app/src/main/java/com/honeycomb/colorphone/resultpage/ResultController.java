@@ -522,7 +522,7 @@ abstract class ResultController implements View.OnClickListener {
 
                 } else {
                     if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
-                        Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Battery");
+                        Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Battery");
                     } else {
                         Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
                     }
@@ -531,14 +531,10 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                if (mEventType == ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
-                } else {
-                    Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
-                }
+                Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
-                Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Boost");
+                Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostWire_Ad_Shown_FromPush");
@@ -555,7 +551,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPopUp", "Type", "Cpu");
+                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Cpu");
                 } else {
                     Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 }
@@ -576,7 +572,7 @@ abstract class ResultController implements View.OnClickListener {
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
                     if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
-                        Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Battery");
+                        Analytics.logEvent("CleanDone_Ad_Shown_FromPush", "Type", "Battery");
                     } else {
                         Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
                     }
@@ -584,14 +580,10 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                if (mEventType == ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
-                } else {
-                    Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
-                }
+                Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
-                Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Boost");
+                Analytics.logEvent("CleanDone_Ad_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostDone_Ad_Shown_FromPush");
@@ -608,7 +600,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_Ad_Shown_FromPopUp", "Type", "Cpu");
+                    Analytics.logEvent("CleanDone_Ad_Shown_FromPush", "Type", "Cpu");
                 } else {
                     Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
                 }

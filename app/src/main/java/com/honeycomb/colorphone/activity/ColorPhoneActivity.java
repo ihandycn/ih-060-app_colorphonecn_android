@@ -952,16 +952,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
                 || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
-            boolean visible = mAdapter.isTipHeaderVisible();
-            updatePermissionHeader();
-            if (visible != mAdapter.isTipHeaderVisible()) {
-                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) {
+                boolean visible = mAdapter.isTipHeaderVisible();
+                updatePermissionHeader();
+                if (visible != mAdapter.isTipHeaderVisible()) {
+                    HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         } else if (NotificationConstants.NOTIFICATION_PREVIEW_POSITION.equals(s)) {
-            int pos = hsBundle.getInt("position");
-            HSLog.d("preview pos = " + pos);
-            mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
+            if (mAdapter != null) {
+                int pos = hsBundle.getInt("position");
+                HSLog.d("preview pos = " + pos);
+                mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
+            }
         }
     }
 

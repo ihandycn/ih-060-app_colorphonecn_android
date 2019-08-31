@@ -1,20 +1,42 @@
 package com.honeycomb.colorphone.notification;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.IntDef;
+import android.support.v4.app.NotificationCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.SparseArray;
+import android.view.View;
+import android.widget.RemoteViews;
 
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.battery.BatteryCleanActivity;
+import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
+import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.toolbar.NotificationActivity;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
+import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+import com.superapps.util.rom.RomUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +54,10 @@ import java.util.Random;
 public class CleanGuideCondition implements INotificationObserver {
     public static final String TAG = "CleanGuideCondition";
     private static final String CLEAN_GUIDE_HISTORY = "CLEAN_GUIDE_HISTORY";
+
+    static final String EXTRA_AUTO_COLLAPSE = "auto_collapse";
+    static final String EXTRA_NOTIFICATION_ID = "notification_id";
+    static final String EXTRA_NOTIFICATION_TYPE = "notification_type";
 
     private List<CleanGuideHolder> cleanGuideHolderList;
     private CleanGuideHolder lastHolder;
@@ -118,6 +144,13 @@ public class CleanGuideCondition implements INotificationObserver {
         }
 
         long now = System.currentTimeMillis();
+        long lastShowTime = Preferences.get(Constants.NOTIFICATION_PREFS).getLong(PREF_KEY_CLEAN_GUIDE_LAST_SHOW_TIME, 0);
+
+        if (now - lastShowTime > DateUtils.MINUTE_IN_MILLIS * 30) {
+            NotificationManager.cancelSafely(NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE);
+            Analytics.logEvent("Clean_Guide_Close", "Type", "OverTime");
+        }
+
         int activeAfterInstallMinutes = HSConfig.optInteger(360, "Application", "CleanGuide", "ActiveAfterInstallMinutes");
         boolean newUserTimeInterval = now - HSSessionMgr.getFirstSessionStartTime()
                                     < DateUtils.MINUTE_IN_MILLIS * activeAfterInstallMinutes;
@@ -149,8 +182,10 @@ public class CleanGuideCondition implements INotificationObserver {
             return;
         }
 
-        boolean minTimeInterval = System.currentTimeMillis() - Preferences.get(Constants.NOTIFICATION_PREFS).getLong(PREF_KEY_CLEAN_GUIDE_LAST_SHOW_TIME, 0)
+        boolean minTimeInterval = now - lastShowTime
                                 < DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(120, "Application", "CleanGuide", "MinShowInterval");
+
+        minTimeInterval = !BuildConfig.DEBUG && minTimeInterval;
 
         if (minTimeInterval) {
             HSLog.d(TAG, "NOT show, min time interval");
@@ -188,8 +223,7 @@ public class CleanGuideCondition implements INotificationObserver {
         boolean changeToLow = Preferences.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_BATTERY_NORMAL, true);
         if (batteryLevel < 20) {
             if (changeToLow) {
-                CleanGuideActivity.start(CLEAN_GUIDE_TYPE_BATTERY_LOW);
-                recordCleanGuideShow(CLEAN_GUIDE_TYPE_BATTERY_LOW);
+                showCleanGuideInner(CLEAN_GUIDE_TYPE_BATTERY_LOW);
                 Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_BATTERY_NORMAL, false);
                 return true;
             }
@@ -206,9 +240,8 @@ public class CleanGuideCondition implements INotificationObserver {
         if (cpuTemp >= 45) {
             if (changeToHigh) {
                 HSLog.i(TAG, "show CpuHot");
-                CleanGuideActivity.start(CLEAN_GUIDE_TYPE_CPU_HOT);
+                showCleanGuideInner(CLEAN_GUIDE_TYPE_CPU_HOT);
                 Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_CPU_NORMAL, false);
-                recordCleanGuideShow(CLEAN_GUIDE_TYPE_CPU_HOT);
                 return true;
             }
         } else {
@@ -223,22 +256,22 @@ public class CleanGuideCondition implements INotificationObserver {
         if (showType == CLEAN_GUIDE_TYPE_BOOST_APPS) {
             DeviceManager.getInstance().checkRunningApps(() -> {
                 DeviceManager.getInstance().setRunningAppsRandom();
+                showCleanGuideInner(showType);
 
-                CleanGuideActivity.start(showType);
-                recordCleanGuideShow(showType);
             });
         } else {
             if (showType == CLEAN_GUIDE_TYPE_BOOST_JUNK
                     || showType == CLEAN_GUIDE_TYPE_BOOST_MEMORY) {
                 DeviceManager.getInstance().setRunningAppsRandom();
             }
-            CleanGuideActivity.start(showType);
-            recordCleanGuideShow(showType);
+            showCleanGuideInner(showType);
         }
     }
 
-    void sendCleanGuide(@CLEAN_GUIDE_TYPES int type) {
-        showCleanGuideByType(type);
+    private void showCleanGuideInner(@CLEAN_GUIDE_TYPES int showType) {
+        //            CleanGuideActivity.start(showType);
+        sendNotification(new CleanGuideInfo(HSApplication.getContext(), showType));
+        recordCleanGuideShow(showType);
     }
 
     public void clearData() {
@@ -257,7 +290,8 @@ public class CleanGuideCondition implements INotificationObserver {
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 break;
             case ScreenStatusReceiver.NOTIFICATION_PRESENT:
-                DeviceManager.getInstance().checkRunningApps(null);
+                CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
+//                DeviceManager.getInstance().checkRunningApps(null);
                 break;
             default:
                 break;
@@ -385,5 +419,275 @@ public class CleanGuideCondition implements INotificationObserver {
                     ", sendTime=" + sendTime +
                     '}';
         }
+    }
+
+    static class CleanGuideInfo {
+        @CLEAN_GUIDE_TYPES
+        int cleanGuideType;
+
+        int imageRes;
+        int actionColor;
+        int actionBgId;
+        final Runnable actionRunnable;
+        String actionStr;
+        String intentAction;
+        String descriptionStr;
+        SpannableString titleText;
+
+        CleanGuideInfo(Context context, @CLEAN_GUIDE_TYPES int type) {
+            Runnable boostRunnable = () ->
+                    BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
+
+            cleanGuideType = type;
+            int actionRes;
+            int descriptionRes;
+            String highlight;
+            String titleStr;
+            int index;
+
+            switch (type) {
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_APPS:
+                    imageRes = R.drawable.clean_guide_battery_apps;
+                    descriptionRes = R.string.clean_guide_description_battery_apps;
+                    actionColor = 0xff5abc6e;
+                    actionBgId = R.drawable.clean_guide_action_battery_bg;
+                    actionRes = R.string.clean_guide_battery_action_optimize;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_BATTERY_APPS_ACTION;
+
+                    highlight = context.getString(R.string.clean_guide_title_battery_apps_highlight);
+                    titleStr = context.getString(R.string.clean_guide_title_battery_apps);
+
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = () -> {
+                        Intent intent = new Intent(context, BatteryCleanActivity.class);
+                        intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
+                        Navigations.startActivitySafely(context, intent);
+                    };
+                    break;
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_LOW:
+                    imageRes = R.drawable.clean_guide_battery_low;
+                    descriptionRes = R.string.clean_guide_description_battery_low;
+                    actionColor = 0xff5abc6e;
+                    actionBgId = R.drawable.clean_guide_action_battery_bg;
+                    actionRes = R.string.clean_guide_battery_action_optimize_now;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_BATTERY_LOW_ACTION;
+
+                    highlight = DeviceManager.getInstance().getBatteryLevel() + "%";
+                    titleStr = String.format(context.getString(R.string.clean_guide_title_battery_low), highlight);
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = () -> {
+                        Intent intent = new Intent(context, BatteryCleanActivity.class);
+                        intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
+                        Navigations.startActivitySafely(context, intent);
+                    };
+                    break;
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS:
+                    imageRes = R.drawable.clean_guide_boost_apps;
+                    descriptionRes = R.string.clean_guide_description_boost_apps;
+                    actionColor = 0xff007ef5;
+                    actionBgId = R.drawable.clean_guide_action_battery_bg;
+                    actionRes = R.string.clean_guide_boost_action_fast;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_BOOST_APPS_ACTION;
+
+                    highlight = String.valueOf(DeviceManager.getInstance().getRunningApps());
+                    titleStr = String.format(context.getString(R.string.clean_guide_title_boost_apps), highlight);
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    highlight = context.getString(R.string.clean_guide_title_boost_apps_highlight);
+                    index = titleStr.indexOf(highlight);
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = boostRunnable;
+                    break;
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_JUNK:
+                    imageRes = R.drawable.clean_guide_boost_junk;
+                    descriptionRes = R.string.clean_guide_description_boost_junk;
+                    actionColor = 0xff007ef5;
+                    actionBgId = R.drawable.clean_guide_action_battery_bg;
+                    actionRes = R.string.clean_guide_boost_action_boost;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_BOOST_JUNK_ACTION;
+
+                    highlight = DeviceManager.getInstance().getJunkSize();
+                    titleStr = String.format(context.getString(R.string.clean_guide_title_boost_junk), highlight);
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = boostRunnable;
+                    break;
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_MEMORY:
+                    imageRes = R.drawable.clean_guide_boost_memory;
+                    descriptionRes = R.string.clean_guide_description_boost_memory;
+                    actionColor = 0xff007ef5;
+                    actionBgId = R.drawable.clean_guide_action_battery_bg;
+                    actionRes = R.string.clean_guide_boost_action_fast;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_BOOST_MEMORY_ACTION;
+
+                    highlight = DeviceManager.getInstance().getRamUsage() + "%";
+                    titleStr = String.format(context.getString(R.string.clean_guide_title_boost_memory), highlight);
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = boostRunnable;
+                    break;
+                default:
+                case CleanGuideCondition.CLEAN_GUIDE_TYPE_CPU_HOT:
+                    imageRes = R.drawable.clean_guide_cpu_hot;
+                    descriptionRes = R.string.clean_guide_description_cpu_hot;
+                    actionColor = 0xff58b8ff;
+                    actionBgId = R.drawable.clean_guide_action_cpu_bg;
+                    actionRes = R.string.clean_guide_cpu_action;
+                    intentAction = NotificationManager.CLEAN_GUIDE_TYPE_CPU_HOT_ACTION;
+
+                    highlight = context.getString(R.string.clean_guide_title_cpu_hot_highlight);
+                    titleStr = context.getString(R.string.clean_guide_title_cpu_hot);
+                    index = titleStr.indexOf(highlight);
+                    titleText = new SpannableString(titleStr);
+
+                    titleText.setSpan(
+                            new ForegroundColorSpan(0xffd43d3d),
+                            index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    actionRunnable = () -> {
+                        Intent intent = new Intent(context, CpuCoolDownActivity.class);
+                        intent.putExtra(CpuCoolDownActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE);
+                        Navigations.startActivitySafely(context, intent);
+                    };
+                    break;
+            }
+
+            descriptionStr = context.getString(descriptionRes);
+            actionStr = context.getString(actionRes);
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void sendNotification(CleanGuideInfo info) {
+        HSLog.d(TAG, "sendNotification");
+        LocalNotification localNotification = new LocalNotification();
+
+        localNotification.title = info.titleText;
+        localNotification.description = info.descriptionStr;
+        localNotification.buttonText = info.actionStr;
+        localNotification.buttonBgDrawableId = info.actionBgId;
+        localNotification.iconDrawableIdRealStyle = info.imageRes;
+        localNotification.smallIconDrawableId = info.imageRes;
+        localNotification.isHeadsUp = HSConfig.optBoolean(false, "Application", "Boost", "BoostSuspension");
+        localNotification.notificationId = NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE;
+
+        final int notificationId = localNotification.notificationId;
+        localNotification.pendingIntent = getPendingIntent(
+                info.intentAction, false,
+                new NotificationCondition.ExtraProvider() {
+                    @Override
+                    public void onAddExtras(Intent intent) {
+                        intent.putExtra(EXTRA_NOTIFICATION_ID, notificationId);
+                        intent.putExtra(EXTRA_NOTIFICATION_TYPE, info.cleanGuideType);
+                    }
+                });
+
+        localNotification.deletePendingIntent = getPendingIntent(
+                NotificationManager.CLEAN_GUIDE_DISMISS_ACTION, false
+        );
+        showNotification(localNotification);
+
+        Analytics.logEvent("Clean_Guide_Show", "Type", "Guide" + info.cleanGuideType);
+    }
+
+    private static void showNotification(LocalNotification notificationModel) {
+        if (null == notificationModel) {
+            return;
+        }
+
+        RemoteViews remoteViews = createRealStyleNotification(notificationModel);
+
+        android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(HSApplication.getContext())
+                .setSmallIcon(notificationModel.smallIconDrawableId)
+                .setContent(remoteViews)
+                .setContentIntent(notificationModel.pendingIntent)
+                .setDeleteIntent(notificationModel.deletePendingIntent)
+                .setTicker(notificationModel.title)
+                .setAutoCancel(true);
+
+        if (notificationModel.isHeadsUp) {
+            builder.setDefaults(NotificationCompat.DEFAULT_SOUND
+                    | NotificationCompat.DEFAULT_VIBRATE
+                    | NotificationCompat.DEFAULT_LIGHTS);
+
+            // 测试中存在高版本出现 crash, notified from MAX team
+            try {
+                builder.setPriority(NotificationCompat.PRIORITY_MAX);
+            } catch (Exception e) {
+                HSLog.i(TAG, "builder.setPriority(NotificationCompat.PRIORITY_MAX) EXCEPTION");
+            }
+        } else {
+            builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        }
+
+        NotificationManager.getInstance().hideNotificationToolbar();
+        NotificationManager.notifySafely(notificationModel.notificationId, Utils.buildNotificationSafely(builder));
+    }
+
+    private static RemoteViews createRealStyleNotification(LocalNotification notificationModel) {
+        int layoutId = R.layout.notification_clean_guide_layout;
+
+        RemoteViews remoteViews = new RemoteViews(HSApplication.getContext().getPackageName(), layoutId);
+        remoteViews.setImageViewResource(R.id.protect_image, notificationModel.iconDrawableIdRealStyle);
+        remoteViews.setTextViewText(R.id.action_btn, notificationModel.buttonText);
+        remoteViews.setTextViewText(R.id.clean_guide_title, notificationModel.title);
+        if (RomUtils.checkIsHuaweiRom() && Utils.getEmuiVersion() < 5) {
+            remoteViews.setViewVisibility(R.id.clean_guide_content, View.GONE);
+        } else {
+            remoteViews.setTextViewText(R.id.clean_guide_content, notificationModel.description);
+        }
+        remoteViews.setImageViewResource(R.id.action_btn_bg, notificationModel.buttonBgDrawableId);
+
+        return remoteViews;
+    }
+
+    public PendingIntent getPendingIntent(String action, boolean autoCollapse) {
+        return getPendingIntent(action, autoCollapse, null);
+    }
+
+    public interface ExtraProvider {
+        void onAddExtras(Intent intent);
+    }
+
+    public PendingIntent getPendingIntent(String action, boolean autoCollapse, NotificationCondition.ExtraProvider extras) {
+        Context context = HSApplication.getContext();
+        int requestCode = (int) System.currentTimeMillis();
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.putExtra(EXTRA_AUTO_COLLAPSE, autoCollapse);
+        if (extras != null) {
+            extras.onAddExtras(intent);
+        }
+        intent.setAction(action);
+        return PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

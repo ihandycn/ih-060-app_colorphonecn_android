@@ -26,6 +26,9 @@ public class TabFrameLayout extends FrameLayout {
         View targetView = mTabContentLayoutList.get(pos);
         if (targetView == null) {
             targetView = mFrameProvider.getFrame(this, pos);
+            if (targetView.getParent() != null) {
+                removeView(targetView);
+            }
             addView(targetView);
             mTabContentLayoutList.put(pos, targetView);
         }

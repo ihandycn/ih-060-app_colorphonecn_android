@@ -87,6 +87,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
 
 import java.io.File;
@@ -1020,5 +1021,16 @@ public final class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static double getEmuiVersion() {
+        try {
+            String emuiVersion = RomUtils.getSystemProperty("ro.build.version.emui");
+            String version = emuiVersion.substring(emuiVersion.indexOf("_") + 1);
+            return Double.parseDouble(version);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 4.0;
     }
 }

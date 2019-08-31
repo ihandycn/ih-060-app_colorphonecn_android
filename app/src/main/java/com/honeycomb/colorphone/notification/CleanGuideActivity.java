@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.animation.PathInterpolatorCompat;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +16,6 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.battery.BatteryCleanActivity;
-import com.honeycomb.colorphone.boost.BoostActivity;
-import com.honeycomb.colorphone.boost.DeviceManager;
-import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
-import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.RevealFlashButton;
 import com.ihs.app.framework.HSApplication;
@@ -33,7 +25,6 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
-import com.superapps.util.Navigations;
 
 import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
 import net.appcloudbox.ads.common.utils.AcbError;
@@ -145,154 +136,17 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         @CleanGuideCondition.CLEAN_GUIDE_TYPES
         int type = getIntent().getIntExtra(EXTRA_KEY_CLEAN_TYPE, CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_LOW);
 
-        int descriptionRes;
-        int imageRes;
-        int actionColor;
-        final Runnable actionRunnable;
-        SpannableString titleText;
+        CleanGuideCondition.CleanGuideInfo info = new CleanGuideCondition.CleanGuideInfo(this, type);
 
-        String highlight;
-        String titleStr;
-        int actionStr;
-        int index;
+        imageView.setImageResource(info.imageRes);
+        description.setText(info.descriptionStr);
+        title.setText(info.titleText);
 
-        Runnable boostRunnable = () ->
-            BoostActivity.start(this, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
-
-        switch (type) {
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_APPS:
-                imageRes = R.drawable.clean_guide_battery_apps;
-                descriptionRes = R.string.clean_guide_description_battery_apps;
-                actionColor = 0xff5abc6e;
-                actionStr = R.string.clean_guide_battery_action_optimize;
-
-                highlight = getString(R.string.clean_guide_title_battery_apps_highlight);
-                titleStr = getString(R.string.clean_guide_title_battery_apps);
-
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, BatteryCleanActivity.class);
-                    intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
-                    Navigations.startActivitySafely(this, intent);
-                };
-                break;
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_BATTERY_LOW:
-                imageRes = R.drawable.clean_guide_battery_low;
-                descriptionRes = R.string.clean_guide_description_battery_low;
-                actionColor = 0xff5abc6e;
-                actionStr = R.string.clean_guide_battery_action_optimize_now;
-
-                highlight = DeviceManager.getInstance().getBatteryLevel() + "%";
-                titleStr = String.format(getString(R.string.clean_guide_title_battery_low), highlight);
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, BatteryCleanActivity.class);
-                    intent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
-                    Navigations.startActivitySafely(this, intent);
-                };
-                break;
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS:
-                imageRes = R.drawable.clean_guide_boost_apps;
-                descriptionRes = R.string.clean_guide_description_boost_apps;
-                actionColor = 0xff007ef5;
-                actionStr = R.string.clean_guide_boost_action_fast;
-
-                highlight = String.valueOf(DeviceManager.getInstance().getRunningApps());
-                titleStr = String.format(getString(R.string.clean_guide_title_boost_apps), highlight);
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                highlight = getString(R.string.clean_guide_title_boost_apps_highlight);
-                index = titleStr.indexOf(highlight);
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = boostRunnable;
-                break;
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_JUNK:
-                imageRes = R.drawable.clean_guide_boost_junk;
-                descriptionRes = R.string.clean_guide_description_boost_junk;
-                actionColor = 0xff007ef5;
-                actionStr = R.string.clean_guide_boost_action_boost;
-
-                highlight = DeviceManager.getInstance().getJunkSize();
-                titleStr = String.format(getString(R.string.clean_guide_title_boost_junk), highlight);
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = boostRunnable;
-                break;
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_MEMORY:
-                imageRes = R.drawable.clean_guide_boost_memory;
-                descriptionRes = R.string.clean_guide_description_boost_memory;
-                actionColor = 0xff007ef5;
-                actionStr = R.string.clean_guide_boost_action_fast;
-
-                highlight = DeviceManager.getInstance().getRamUsage() + "%";
-                titleStr = String.format(getString(R.string.clean_guide_title_boost_memory), highlight);
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = boostRunnable;
-                break;
-            default:
-            case CleanGuideCondition.CLEAN_GUIDE_TYPE_CPU_HOT:
-                imageRes = R.drawable.clean_guide_cpu_hot;
-                descriptionRes = R.string.clean_guide_description_cpu_hot;
-                actionColor = 0xff58b8ff;
-                actionStr = R.string.clean_guide_cpu_action;
-
-                highlight = getString(R.string.clean_guide_title_cpu_hot_highlight);
-                titleStr = getString(R.string.clean_guide_title_cpu_hot);
-                index = titleStr.indexOf(highlight);
-                titleText = new SpannableString(titleStr);
-
-                titleText.setSpan(
-                        new ForegroundColorSpan(0xffd43d3d),
-                        index, index + highlight.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                actionRunnable = () -> {
-                    Intent intent = new Intent(this, CpuCoolDownActivity.class);
-                    intent.putExtra(CpuCoolDownActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE);
-                    Navigations.startActivitySafely(this, intent);
-                };
-                break;
-        }
-
-        imageView.setImageResource(imageRes);
-        description.setText(descriptionRes);
-        title.setText(titleText);
-
-        action.setText(actionStr);
-        action.setBackground(BackgroundDrawables.createBackgroundDrawable(actionColor, Dimensions.pxFromDp(6), true));
+        action.setText(info.actionStr);
+        action.setBackground(BackgroundDrawables.createBackgroundDrawable(info.actionColor, Dimensions.pxFromDp(6), true));
         action.setOnClickListener(v -> {
             finish();
-            actionRunnable.run();
+            info.actionRunnable.run();
             Analytics.logEvent("Clean_Guide_Click", "Type", "Guide" + type);
             exitReason = "OKBtn";
         });

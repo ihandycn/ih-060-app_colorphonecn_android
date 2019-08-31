@@ -11,9 +11,8 @@ import android.widget.EditText;
 import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.notification.CleanGuideActivity;
 import com.honeycomb.colorphone.notification.CleanGuideCondition;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -52,14 +51,17 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRate(View view) {
-        RateAlertActivity.showRateFrom(this, FiveStarRateTip.From.SET_THEME);
+//        RateAlertActivity.showRateFrom(this, FiveStarRateTip.From.SET_THEME);
+        NotificationManager.cancelSafely(NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE);
     }
 
     public void startRecentApp(View view) {
-        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
+//        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
+        CleanGuideCondition.getInstance().clearData();
     }
 
     public void checkFloatWindow(View view) {
+//        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
         CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
     }
 }
