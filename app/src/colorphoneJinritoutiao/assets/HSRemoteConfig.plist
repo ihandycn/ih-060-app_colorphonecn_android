@@ -243,9 +243,9 @@
 			<key>GameCenter</key>
 			<dict>
 				<key>LockScreenEnable</key>
-				<false/>
+				<true/>
 				<key>MainViewEnable</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>GrantAccess</key>
 			<dict>
@@ -820,7 +820,7 @@
 				<key>Category</key>
 				<string>100</string>
 				<key>IsNewsTabAdEnable</key>
-				<false/>
+				<true/>
 				<key>Key</key>
 				<string>182be0c5cdcd5072bb1864cdee4d3d6e</string>
 				<key>Url</key>
@@ -939,11 +939,11 @@
 						<key>interval</key>
 						<integer>10</integer>
 					</dict>
+					<key>CallFinishWireEnable</key>
+					<false/>
 					<key>CallFinishWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>CallFinishWireShowInLock</key>
-					<false/>
-					<key>CallFinishWireEnable</key>
 					<false/>
 					<key>DefaultEnabled</key>
 					<true/>
@@ -962,15 +962,11 @@
 				</dict>
 				<key>SmsAssistant</key>
 				<dict>
-					<key>NewsOnTextureWire</key>
-					<true/>
-					<key>TextureWireIntervalMinute</key>
-					<integer>0</integer>
-					<key>TextureWireEnable</key>
-					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>
+					<true/>
+					<key>NewsOnTextureWire</key>
 					<true/>
 					<key>NotShowOnScreen</key>
 					<true/>
@@ -983,6 +979,10 @@
 						<key>WeChat</key>
 						<true/>
 					</dict>
+					<key>TextureWireEnable</key>
+					<true/>
+					<key>TextureWireIntervalMinute</key>
+					<integer>0</integer>
 				</dict>
 			</dict>
 			<key>Share</key>
@@ -3193,7 +3193,7 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<real>157</real>
+						<integer>157</integer>
 						<key>IdName</key>
 						<string>Tulip</string>
 						<key>LocalPush</key>
@@ -3605,7 +3605,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>72864</real>
+						<integer>72864</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -9718,7 +9718,7 @@
 				<key>RingtoneEnable</key>
 				<true/>
 				<key>ScrollShowAds</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>
