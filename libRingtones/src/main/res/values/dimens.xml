@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ringtone_item_height_expand">112dp</dimen>
+    <dimen name="ringtone_item_height_normal">78dp</dimen>
+</resources>

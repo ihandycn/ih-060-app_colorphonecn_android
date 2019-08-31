@@ -55,8 +55,7 @@ public class RingtoneApi {
 
     public void requestBanners(ResultCallback<ColumnResultBean> resultCallback) {
         HashMap<String, String> map = new HashMap<>(1);
-//        map.put(RequestKeys.COLUMN_ID, getColumnId("Banner"));
-        map.put(RequestKeys.COLUMN_ID, "28181");
+        map.put(RequestKeys.COLUMN_ID, getColumnId("Banner"));
         String url = buildUrl(URL_COLUM, map);
         doRequest(url, ColumnResultBean.class, resultCallback);
     }
@@ -143,8 +142,7 @@ public class RingtoneApi {
     }
 
     public static String getAppId() {
-        // TODO remove default
-        return HSConfig.optString("52dafa090bc7aa53", "Application", "Ringtone", "AppId");
+        return HSConfig.optString("", "Application", "Ringtone", "AppId");
     }
 
     public static String getColumnId(String name) {

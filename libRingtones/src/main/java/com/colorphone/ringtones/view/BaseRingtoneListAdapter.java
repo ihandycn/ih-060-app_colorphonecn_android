@@ -362,8 +362,14 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         private LottieAnimationView lottieProgressView;
         private ViewGroup progressContainer;
 
+        private int mHeightNormal;
+        private int mHeightExpand;
+
         public ViewHolder(View view) {
             super(view);
+            mHeightNormal = view.getResources().getDimensionPixelOffset(R.dimen.ringtone_item_height_normal);
+            mHeightExpand = view.getResources().getDimensionPixelOffset(R.dimen.ringtone_item_height_expand);
+
             title = (TextView) view.findViewById(R.id.ringtone_name);
             singer = (TextView) view.findViewById(R.id.ringtone_singer);
             cover = (ImageView) view.findViewById(R.id.cover_image);
@@ -401,7 +407,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
         @Override
         public int[] getItemForcedHeight() {
-            return new int[]{Dimensions.pxFromDp(72), Dimensions.pxFromDp(100)};
+            return new int[]{mHeightNormal, mHeightExpand};
         }
 
         public void bindRingtone(Ringtone ringtone) {

@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="@dimen/ringtone_item_height_normal"
     android:clipChildren="false"
     android:paddingLeft="16dp"
-    android:paddingTop="6dp"
+    android:paddingTop="9dp"
     android:paddingRight="16dp"
-    android:paddingBottom="6dp"
+    android:paddingBottom="9dp"
     tools:background="#000000"
-    tools:layout_height="100dp">
+    >
 
     <FrameLayout
         android:id="@+id/cover_1"
@@ -58,7 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:gravity="center_vertical"
+        android:gravity="top"
+        android:layout_marginTop="6dp"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/cover_1"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,8 +73,8 @@
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"
-            android:textColor="#ffffffff"
-            android:textSize="16sp"
+            android:textColor="@color/ringtone_text_main"
+            android:textSize="16dp"
             android:textStyle="bold"
             tools:text="你的酒馆打样痒痒啦啦啦鬼哦哦噢噢噢噢多多多多" />
 
@@ -82,9 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ringtone_name"
             android:layout_alignLeft="@id/ringtone_name"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:textColor="#ffc9c6de"
-            android:textSize="12sp"
+            android:textSize="12dp"
             tools:text="大狗" />
 
         <TextView
@@ -98,7 +100,7 @@
             android:drawablePadding="4dp"
             android:gravity="center"
             android:textColor="#ffc9c6de"
-            android:textSize="12sp"
+            android:textSize="12dp"
             tools:text="1990" />
 
         <LinearLayout
