@@ -22,7 +22,6 @@ import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.download2.Downloader;
 import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Ringtone;
-import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.zhpan.bannerview.BannerViewPager;
@@ -41,6 +40,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
     protected static int TYPE_BANNER = 2;
 
     private LayoutInflater mLayoutInflater;
+    final protected Context mContext;
 
     protected final List<Ringtone> mDataList = new ArrayList<>();
     protected List<Banner> mBannerList = new ArrayList<>();
@@ -54,9 +54,10 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
      */
     private final LottieAnimationView mSharedLottieProgress;
 
-    public BaseRingtoneListAdapter(@NonNull RingtoneApi ringtoneApi) {
+    public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
-        mSharedLottieProgress = (LottieAnimationView) getLayoutInflater(HSApplication.getContext())
+        mContext = context;
+        mSharedLottieProgress = (LottieAnimationView) getLayoutInflater(context)
                 .inflate(R.layout.stub_download_progress, null);
     }
 
@@ -236,7 +237,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
             RingtoneConfig.getInstance().startWeb(banner.getLinkUrl());
         } else {
             // Ringtone list
-            // TODO
+            BannerListActivity.start(mContext, banner);
         }
     }
 

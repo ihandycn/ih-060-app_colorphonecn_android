@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.colorphone.ringtones.bean.ColumnBean;
 
-public class Banner {
+import java.io.Serializable;
+
+public class Banner implements Serializable {
 
     private static final String TYPE_AD = "2003002";
     /**

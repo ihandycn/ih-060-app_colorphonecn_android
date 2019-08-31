@@ -3,5 +3,6 @@
 
     <application>
         <activity android:name=".view.RingtoneEntranceActivity" />
+        <activity android:name=".view.BannerListActivity" />
     </application>
 </manifest>
