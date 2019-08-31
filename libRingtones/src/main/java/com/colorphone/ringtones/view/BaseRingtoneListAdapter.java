@@ -34,10 +34,11 @@ import java.util.List;
 /**
  * @author sundxing
  */
-public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected static int TYPE_NORMAL = 1;
     protected static int TYPE_BANNER = 2;
+    protected static int TYPE_FOOTER = 3;
 
     private LayoutInflater mLayoutInflater;
     final protected Context mContext;
@@ -46,6 +47,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
     protected List<Banner> mBannerList = new ArrayList<>();
     protected RingtoneApi mRingtoneApi;
     protected boolean hasHeader = false;
+    private boolean isLoading = false;
 
     protected ExpandableViewHoldersUtil.KeepOneHolder<ViewHolder> mKeepOneHolder = new ExpandableViewHoldersUtil.KeepOneHolder<>();
 
@@ -53,6 +55,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
      * To Improve view performance
      */
     private final LottieAnimationView mSharedLottieProgress;
+    private int mTotalSize;
 
     public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
@@ -61,11 +64,16 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 .inflate(R.layout.stub_download_progress, null);
     }
 
+
+    public void setSizeTotalCount(int total) {
+        mTotalSize = total;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_NORMAL) {
-            final View itemView = getLayoutInflater(parent.getContext()).inflate(R.layout.item_ringone, parent, false);
+            final View itemView = getLayoutInflater(mContext).inflate(R.layout.item_ringone, parent, false);
             final ViewHolder holder = new ViewHolder(itemView);
             holder.setSharedLottieProgressView(mSharedLottieProgress);
 
@@ -115,7 +123,7 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             return holder;
         } else if (viewType == TYPE_BANNER) {
-            BannerViewPager itemView = (BannerViewPager) getLayoutInflater(parent.getContext()).inflate(R.layout.item_banner, parent, false);
+            BannerViewPager itemView = (BannerViewPager) getLayoutInflater(mContext).inflate(R.layout.item_banner, parent, false);
             itemView.setRoundCorner(Dimensions.pxFromDp(4))
                     .showIndicator(true)
                     .setHolderCreator(new HolderCreator() {
@@ -132,6 +140,10 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     });
             HeaderViewHolder holder = new HeaderViewHolder(itemView);
             return holder;
+        } else if (viewType == TYPE_FOOTER) {
+            TextView itemView = (TextView) getLayoutInflater(mContext). inflate(
+                    R.layout.item_footer, parent, false);
+            return new FooterViewHolder(itemView);
         }
 
         throw new IllegalStateException("Invalid type");
@@ -265,7 +277,27 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
             RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
             imageLoader.loadImage(viewHolder.cover.getContext(), ringtone.getImgUrl(), viewHolder.cover, R.drawable.ringtone_item_cover_default);
             mKeepOneHolder.bind(viewHolder,position);
+        } else if (holder instanceof FooterViewHolder) {
+            TextView textView = (TextView) holder.itemView;
+            boolean hasMore = mDataList.size() < mTotalSize;
+            textView.setText(hasMore ? "努力加载中..." : "没有更多啦");
+            if (hasMore) {
+                if (!isLoading) {
+                    setLoading(true);
+                    loadMore(mDataList.size() / mRingtoneApi.getPageSize());
+                }
+            }
         }
+    }
+
+    protected abstract void loadMore(int pageIndex);
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
     }
 
     private Ringtone getRingtoneByAdapterPos(int position) {
@@ -277,6 +309,11 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
+        // Add load more footer
+        return getDataItemCount() + 1;
+    }
+
+    private int getDataItemCount() {
         return mDataList.size() + (showBanner() ? 1 : 0);
     }
 
@@ -284,12 +321,21 @@ public class BaseRingtoneListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemViewType(int position) {
         if (position == 0 && showBanner()) {
             return TYPE_BANNER;
+        } else if (position == getDataItemCount()) {
+            // Footer
+            return TYPE_FOOTER;
         }
         return TYPE_NORMAL;
     }
 
     private boolean showBanner() {
         return mBannerList.size() > 0;
+    }
+
+    public static class FooterViewHolder extends RecyclerView.ViewHolder {
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {

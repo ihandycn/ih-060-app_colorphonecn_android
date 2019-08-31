@@ -21,10 +21,13 @@ import java.util.List;
  */
 public class RingtoneListAdapter extends BaseRingtoneListAdapter {
 
+    private String mRingtoneListId;
     public RingtoneListAdapter(@NonNull Context context,  @NonNull RingtoneApi ringtoneApi, final String id, boolean hasHeader) {
         super(context, ringtoneApi);
 
-        requestRingtoneList(id);
+        mRingtoneListId = id;
+
+        requestRingtoneList(0);
 
         this.hasHeader = hasHeader;
         if (hasHeader) {
@@ -47,19 +50,29 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
         }
     }
 
-    public void requestRingtoneList(final String id) {
-        mRingtoneApi.requestRingtoneListById(id, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
+    public void requestRingtoneList(String ringtoneListId) {
+        mRingtoneListId = ringtoneListId;
+        requestRingtoneList(0);
+    }
+
+    public void requestRingtoneList(final int pageIndex) {
+        mRingtoneApi.requestRingtoneListById(mRingtoneListId, pageIndex, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
             @Override
             public void onFinish(RingtoneListResultBean bean) {
+                setLoading(false);
                 if (bean == null) {
-                    Toasts.showToast("Error to get id = " + id);
+                    Toasts.showToast("Error to get id = " + mRingtoneListId);
                     return;
                 }
 
                 List<RingtoneBean> beans = bean.getData();
                 if (beans != null) {
+                    setSizeTotalCount(bean.getTotal());
                     mKeepOneHolder.reset();
-                    mDataList.clear();
+                    // First page, or refresh
+                    if (pageIndex == 0) {
+                        mDataList.clear();
+                    }
 
                     for (RingtoneBean rb : beans) {
                         mDataList.add(Ringtone.valueOf(rb));
@@ -71,4 +84,8 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
         });
     }
 
+    @Override
+    protected void loadMore(int pageIndex) {
+        requestRingtoneList(pageIndex);
+    }
 }

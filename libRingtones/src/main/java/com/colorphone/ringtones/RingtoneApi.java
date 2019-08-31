@@ -29,20 +29,26 @@ public class RingtoneApi {
     public static final String URL_COLUM_RES = "/q_colres";
     public static final String URL_COLUM = "/q_cols";
 
+    // TODO
     private static final boolean DEBUG_REQUEST = false;
     private final Gson gson;
+
+    private int pageSize = 20;
 
     public RingtoneApi() {
         gson = new GsonBuilder().registerTypeHierarchyAdapter(List.class, new ArraySecAdapter()).create();
     }
 
-    public void search(String txt, ResultCallback<RingtoneListResultBean> resultCallback) {
+    public void search(String txt, int pageIndex, ResultCallback<RingtoneListResultBean> resultCallback) {
         if (TextUtils.isEmpty(txt)) {
             // Invalid
             return;
         }
         HashMap<String, String> map = new HashMap<>(1);
         map.put(RequestKeys.SEARCH_KEY, txt);
+        map.put(RequestKeys.PAGE_INDEX, String.valueOf(pageIndex));
+        map.put(RequestKeys.PAGE_SIZE, String.valueOf(pageSize));
+
         String url = buildUrl(URL_SEARCH, map);
         doRequest(url, RingtoneListResultBean.class, resultCallback);
     }
@@ -62,9 +68,12 @@ public class RingtoneApi {
         doRequest(url, ColumnResultBean.class, resultCallback);
     }
 
-    public void requestRingtoneListById(String id, ResultCallback<RingtoneListResultBean> resultCallback) {
+    public void requestRingtoneListById(String id, int pageIndex, ResultCallback<RingtoneListResultBean> resultCallback) {
         HashMap<String, String> map = new HashMap<>(1);
         map.put(RequestKeys.COLUMN_ID, id);
+        map.put(RequestKeys.PAGE_INDEX, String.valueOf(pageIndex));
+        map.put(RequestKeys.PAGE_SIZE, String.valueOf(pageSize));
+
         String url = buildUrl(URL_COLUM_RES, map);
         doRequest(url, RingtoneListResultBean.class, resultCallback);
     }
@@ -126,6 +135,11 @@ public class RingtoneApi {
         String result = sb.toString();
         HSLog.d(TAG, "build url = " + result);
         return result;
+    }
+
+
+    public int getPageSize() {
+        return pageSize;
     }
 
     public static String getAppId() {

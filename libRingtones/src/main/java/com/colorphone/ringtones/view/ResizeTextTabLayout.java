@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.colorphone.ringtones.R;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Toasts;
 
 /**
  * @author sundxing
@@ -143,7 +142,6 @@ public class ResizeTextTabLayout extends LinearLayout implements View.OnClickLis
     @Override
     public void onClick(View view) {
         int index = indexOfChild(view);
-        Toasts.showToast("Select tab = " + index);
         setSelected(index);
     }
 

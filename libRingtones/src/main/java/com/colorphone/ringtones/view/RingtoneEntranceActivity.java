@@ -179,11 +179,13 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
             Toasts.showToast("请输入内容");
             return;
         }
-        mRingtoneApi.search(text, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
+        mRingtoneSearchAdapter.setSearchText(text);
+        mRingtoneApi.search(text, 0, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
             @Override
             public void onFinish(@Nullable RingtoneListResultBean bean) {
                 List<Ringtone> results = new ArrayList<>();
                 if (bean != null) {
+                    mRingtoneSearchAdapter.setSizeTotalCount(bean.getTotal());
                     List<RingtoneBean> beans = bean.getData();
                     if (beans != null) {
                         for (RingtoneBean rb : beans) {
