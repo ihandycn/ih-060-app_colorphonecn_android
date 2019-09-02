@@ -74,7 +74,7 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
 
         columnTabView = findViewById(R.id.ringtone_tab);
         columnTabView.setOnTabSelectListener(this);
-
+        columnTabView.bindData(mTabColumns);
         columnTabView.setSelected(0);
 
         searchInputContainer = findViewById(R.id.search_input_container);
