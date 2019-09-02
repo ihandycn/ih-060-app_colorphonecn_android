@@ -114,6 +114,7 @@ public class NotificationManager implements FlashlightStatusListener {
     private Bitmap mBoostIcon;
     private Canvas mBoostIconCanvas;
     private Paint mClearPaint;
+    private boolean hasInsteadToolbarPush = false;
 
     private Notification foregroundNotification;
 
@@ -190,6 +191,16 @@ public class NotificationManager implements FlashlightStatusListener {
     };
 
     public void showNotificationToolbarIfEnabled() {
+        showNotificationToolbarIfEnabled(hasInsteadToolbarPush);
+    }
+
+    public void showNotificationToolbarIfEnabled(boolean hasOtherPush) {
+        hasInsteadToolbarPush = hasOtherPush;
+        if (hasOtherPush) {
+            HSLog.d("ToolBar.Boost", "showNotificationToolbarIfEnabled has Other push, NOT show");
+            return;
+        }
+
         try {
             if (ModuleUtils.isNotificationToolBarEnabled() && UserSettings.isNotificationToolbarEnabled()) {
                 Context context = HSApplication.getContext();
@@ -208,6 +219,14 @@ public class NotificationManager implements FlashlightStatusListener {
     }
 
     public void hideNotificationToolbar() {
+        hideNotificationToolbar(false);
+    }
+
+    public void hideNotificationToolbar(boolean hasOtherPush) {
+        if (hasOtherPush) {
+            hasInsteadToolbarPush = true;
+        }
+
         if (mNotificationManager == null) {
             Context context = HSApplication.getContext();
             mNotificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

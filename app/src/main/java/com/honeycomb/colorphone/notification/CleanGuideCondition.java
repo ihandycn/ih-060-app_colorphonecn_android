@@ -60,6 +60,7 @@ public class CleanGuideCondition implements INotificationObserver {
 
     private List<CleanGuideHolder> cleanGuideHolderList;
     private CleanGuideHolder lastHolder;
+    private boolean showToolbar = false;
 
     private static final String PREF_KEY_BATTERY_LOW_SHOW_TIME = "pref_key_battery_low_show_time";
     private static final String PREF_KEY_CPU_HOT_SHOW_TIME = "pref_key_cpu_hot_show_time";
@@ -136,6 +137,14 @@ public class CleanGuideCondition implements INotificationObserver {
     }
 
     public void showCleanGuideIfNeeded() {
+        checkCleanGuide();
+        if (showToolbar) {
+            showToolbar = false;
+            NotificationManager.getInstance().showNotificationToolbarIfEnabled(false);
+        }
+    }
+
+    private void checkCleanGuide() {
         boolean enable = HSConfig.optBoolean(true, "Application", "CleanGuide", "Enable");
         if (!enable) {
             HSLog.d(TAG, "没有开启功能");
@@ -147,6 +156,7 @@ public class CleanGuideCondition implements INotificationObserver {
 
         if (now - lastShowTime > DateUtils.MINUTE_IN_MILLIS * 30) {
             NotificationManager.cancelSafely(NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE);
+            showToolbar = true;
         }
 
         int activeAfterInstallMinutes = HSConfig.optInteger(360, "Application", "CleanGuide", "ActiveAfterInstallMinutes");
@@ -616,7 +626,7 @@ public class CleanGuideCondition implements INotificationObserver {
         Analytics.logEvent("Clean_Guide_Show", "Type", "Guide" + info.cleanGuideType);
     }
 
-    private static void showNotification(LocalNotification notificationModel) {
+    private void showNotification(LocalNotification notificationModel) {
         if (null == notificationModel) {
             return;
         }
@@ -646,11 +656,12 @@ public class CleanGuideCondition implements INotificationObserver {
             builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         }
 
-        NotificationManager.getInstance().hideNotificationToolbar();
+        NotificationManager.getInstance().hideNotificationToolbar(true);
+        showToolbar = false;
         NotificationManager.notifySafely(notificationModel.notificationId, Utils.buildNotificationSafely(builder));
     }
 
-    private static RemoteViews createRealStyleNotification(LocalNotification notificationModel) {
+    private RemoteViews createRealStyleNotification(LocalNotification notificationModel) {
         int layoutId = R.layout.notification_clean_guide_layout;
 
         RemoteViews remoteViews = new RemoteViews(HSApplication.getContext().getPackageName(), layoutId);
