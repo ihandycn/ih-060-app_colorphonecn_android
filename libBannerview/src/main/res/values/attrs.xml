@@ -5,7 +5,6 @@
         <attr name="interval" format="integer"/>
         <attr name="isCanLoop" format="boolean"/>
         <attr name="isAutoPlay" format="boolean"/>
-        <!--<attr name="indicator_gravity" format="integer"/>-->
         <attr name="indicator_checked_color" format="color"/>
         <attr name="indicator_normal_color" format="color"/>
         <attr name="indicator_radius" format="dimension"/>

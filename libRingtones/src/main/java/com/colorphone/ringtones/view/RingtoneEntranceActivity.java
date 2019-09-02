@@ -236,8 +236,6 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
     private void showSearchView() {
         inSearchMode = true;
 
-        searchIcon.setVisibility(View.GONE);
-
         columnRootView.setVisibility(View.GONE);
         // Reset expanded view
         RingtonePlayManager.getInstance().pause();
@@ -248,8 +246,6 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
 
     private void hideSearchView() {
         inSearchMode = false;
-
-        searchIcon.setVisibility(View.VISIBLE);
 
         columnRootView.setVisibility(View.VISIBLE);
         searchInputContainer.setVisibility(View.GONE);
@@ -306,10 +302,11 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
                 recyclerViewSubColumns.setLayoutManager(new GridLayoutManager(this, 4));
                 recyclerViewSubColumns.addItemDecoration(new RecyclerView.ItemDecoration() {
                     int space = Dimensions.pxFromDp(4);
+                    int spaceV = Dimensions.pxFromDp(6);
                     @Override
                     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                        outRect.bottom = space;
-                        outRect.top = space;
+                        outRect.bottom = spaceV;
+                        outRect.top = spaceV;
                         outRect.left = space;
                         outRect.right = space;
                     }

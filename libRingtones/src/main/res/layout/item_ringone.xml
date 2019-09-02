@@ -73,7 +73,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"
-            android:textColor="@color/ringtone_text_main"
+            android:textColor="@color/ringtone_text_title"
             android:textSize="16dp"
             android:textStyle="bold"
             tools:text="你的酒馆打样痒痒啦啦啦鬼哦哦噢噢噢噢多多多多" />
@@ -122,7 +122,7 @@
                 android:paddingRight="10dp"
                 android:textStyle="bold"
                 android:text="@string/ringtone_set"
-                android:textColor="@color/ringtone_text_black"
+                android:textColor="@color/ringtone_text_black_main"
                 android:textSize="11dp" />
 
             <TextView
@@ -135,7 +135,7 @@
                 android:paddingRight="10dp"
                 android:textStyle="bold"
                 android:text="@string/ringback_set"
-                android:textColor="@color/ringtone_text_black"
+                android:textColor="@color/ringtone_text_black_main"
                 android:textSize="11dp" />
 
         </LinearLayout>

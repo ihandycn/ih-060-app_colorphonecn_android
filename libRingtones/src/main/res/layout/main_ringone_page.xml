@@ -3,44 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#242326"
+    android:background="@color/ringtone_main_bg"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/classification_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.colorphone.ringtones.view.ResizeTextTabLayout
+            android:layout_marginTop="12dp"
             android:id="@+id/ringtone_tab"
             android:layout_width="match_parent"
-            android:gravity="center_vertical"
+            android:padding="8dp"
             android:layout_height="@dimen/ringtone_tab_height" />
 
         <FrameLayout
             android:layout_marginTop="8dp"
+            android:layout_below="@id/ringtone_tab"
             android:id="@+id/ringtone_list_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/search_icon"
-        android:layout_width="48dp"
-        android:layout_height="@dimen/ringtone_tab_height"
-        android:scaleType="centerInside"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ringtone_search_icon" />
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/ringtone_tab"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/ringtone_button_bg"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ringtone_search_icon_white" />
+    </RelativeLayout>
 
     <!--    Search layout -->
     <RelativeLayout
         android:id="@+id/search_input_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ringtone_search_bar_height"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
         android:focusable="true"
@@ -50,22 +56,27 @@
 
         <ImageView
             android:id="@+id/search_nav_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ringtone_page_back"/>
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ringtone_page_back"
+            android:background="@drawable/ringtone_button_bg"
+            />
 
         <TextView
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/search"
             android:textColor="@color/ringtone_primary_color"
+            android:background="@drawable/ringtone_button_bg"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -80,6 +91,7 @@
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:hint="@string/ringtone_search_hint"
+            android:textSize="12sp"
             android:imeOptions="actionSearch"
             android:lines="1"
             android:paddingLeft="14dp"
