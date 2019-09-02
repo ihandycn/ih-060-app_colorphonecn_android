@@ -51,8 +51,6 @@ import com.honeycomb.colorphone.boost.FloatWindowDialog;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
-import com.honeycomb.colorphone.cmgame.CmGameUtil;
-import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
@@ -296,7 +294,6 @@ public class ColorPhoneApplicationImpl {
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
-        mAppInitList.add(new GameInit());
         mAppInitList.add(new NotificationBarInit());
 
         onAllProcessCreated();
@@ -772,13 +769,11 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
             @Override
             public void startGameCenter(Context context) {
-                CmGameUtil.startCmGameActivity(context, "Locker");
             }
 
             @Override
             public boolean isGameEnable() {
-                return CmGameUtil.canUseCmGame()
-                        && HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+                return false;
             }
         });
 

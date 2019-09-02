@@ -547,34 +547,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".boost.GameStarterActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            android:taskAffinity=".game"
-            android:excludeFromRecents="true"
-            android:theme="@style/INVisibleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".cmgame.CmGameActivity"
-            android:launchMode="singleTop"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".game"
-            />
-
-        <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
-            android:taskAffinity=".game"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            tools:replace="android:taskAffinity"/>
-
         <activity
             android:name=".activity.StartGuideActivity"
             android:launchMode="singleTask"

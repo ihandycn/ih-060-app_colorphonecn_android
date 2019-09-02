@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.battery.BatteryCleanActivity;
@@ -148,7 +147,6 @@ public class CleanGuideCondition implements INotificationObserver {
 
         if (now - lastShowTime > DateUtils.MINUTE_IN_MILLIS * 30) {
             NotificationManager.cancelSafely(NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE);
-            Analytics.logEvent("Clean_Guide_Close", "Type", "OverTime");
         }
 
         int activeAfterInstallMinutes = HSConfig.optInteger(360, "Application", "CleanGuide", "ActiveAfterInstallMinutes");
@@ -184,8 +182,6 @@ public class CleanGuideCondition implements INotificationObserver {
 
         boolean minTimeInterval = now - lastShowTime
                                 < DateUtils.MINUTE_IN_MILLIS * HSConfig.optInteger(120, "Application", "CleanGuide", "MinShowInterval");
-
-        minTimeInterval = !BuildConfig.DEBUG && minTimeInterval;
 
         if (minTimeInterval) {
             HSLog.d(TAG, "NOT show, min time interval");
