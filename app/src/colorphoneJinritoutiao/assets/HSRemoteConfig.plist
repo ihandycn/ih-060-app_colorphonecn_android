@@ -16,11 +16,7 @@
 				<integer>4</integer>
 				<key>MinShowInterval</key>
 				<integer>120</integer>
-				<key>ResponseToBackWhenPopUp</key>
-				<string>DismissPopUp</string>
 				<key>ForbiddenBackWhenCleaning</key>
-				<false/>
-				<key>PopUpAdEnable</key>
 				<false/>
 			</dict>
 			<key>AdProtection</key>

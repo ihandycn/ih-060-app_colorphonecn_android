@@ -68,7 +68,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         HSLog.i(CleanGuideCondition.TAG, "CleanGuideActivity onCreate");
 
-        isShowNativeAD = HSConfig.optBoolean(true, "Application", "CleanGuide", "PopUpAdEnable");
+        isShowNativeAD = false;
         if (isShowNativeAD) {
             setContentView(R.layout.clean_guide_activity_with_ad);
             AcbExpressAdManager.getInstance().activePlacementInProcess(Placements.AD_CLEAN_GUIDE);
@@ -96,10 +96,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         View close = findViewById(R.id.close_btn);
         close.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(20), true));
         close.setOnClickListener(v -> {
-            String type = HSConfig.optString("DismissPopUp", "Application", "CleanGuide", "ResponseToBackWhenPopUp");
-            if (TextUtils.equals(type, "ContinueCleaning")) {
-                action.performClick();
-            }
             finish();
             exitReason = "Close";
         });
@@ -167,13 +163,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
     }
 
     @Override public void onBackPressed() {
-        String type = HSConfig.optString("DismissPopUp", "Application", "CleanGuide", "ResponseToBackWhenPopUp");
-        if (TextUtils.equals(type, "DismissPopUp")) {
-            exitReason = "Back";
-            super.onBackPressed();
-        } else if (TextUtils.equals(type, "ContinueCleaning")) {
-            action.performClick();
-        }
+        exitReason = "Back";
+        super.onBackPressed();
     }
 
     @Override protected void onStart() {
