@@ -1027,7 +1027,12 @@ public final class Utils {
         try {
             String emuiVersion = RomUtils.getSystemProperty("ro.build.version.emui");
             String version = emuiVersion.substring(emuiVersion.indexOf("_") + 1);
-            return Double.parseDouble(version);
+            if (version.length() > 0) {
+                String[] vers = version.split("\\.");
+                if (vers.length > 0) {
+                    return Double.parseDouble(vers[0]);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
