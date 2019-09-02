@@ -66,6 +66,7 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -483,6 +484,7 @@ public class ColorPhoneApplicationImpl {
         AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
+        CleanGuideCondition.getInstance();
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
@@ -571,8 +573,6 @@ public class ColorPhoneApplicationImpl {
                 }
 
                 Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(DeviceManager.getInstance().getRamUsage()));
-
-//                CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
             }
 
             @Override public void onRecentsPressed() {
