@@ -1,5 +1,8 @@
 package com.colorphone.ringtones.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -59,6 +62,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
      */
     private final LottieAnimationView mSharedLottieProgress;
     private int mTotalSize;
+    private boolean mEnableTop3Badge;
 
     public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
@@ -170,6 +174,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         if (viewHolder != null) {
             viewHolder.playActionButton.setVisibility(View.GONE);
             viewHolder.hideProgress();
+            viewHolder.toggleBadgeSize(false);
             stop(viewHolder, ringtone);
         }
 
@@ -178,6 +183,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     protected void onItemSelected(int pos, ViewHolder holder) {
         final Ringtone ringtone = getRingtoneByAdapterPos(pos);
+        holder.toggleBadgeSize(true);
 
         boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
         if (isDownloaded) {
@@ -291,6 +297,8 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
             imageLoader.loadImage(viewHolder.cover.getContext(), ringtone.getImgUrl(), viewHolder.cover, R.drawable.ringtone_item_cover_default);
             mKeepOneHolder.bind(viewHolder,position);
+
+            boolean isExpanded = mKeepOneHolder.isExpanded(viewHolder);
             if (mKeepOneHolder.isExpanded(viewHolder)) {
                 // Check play status
                 if (RingtonePlayManager.getInstance().isPlaying()) {
@@ -298,6 +306,12 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 } else {
                     viewHolder.onStopMusic(false);
                 }
+            }
+
+            if (mEnableTop3Badge) {
+                viewHolder.setBadge(toDataPos(position), isExpanded);
+            } else {
+                viewHolder.badge.setVisibility(View.GONE);
             }
 
         } else if (holder instanceof FooterViewHolder) {
@@ -329,10 +343,14 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     }
 
     private Ringtone getRingtoneByAdapterPos(int position) {
+        return mDataList.get(toDataPos(position));
+    }
+
+    private int toDataPos(int adapterPos) {
         if (showBanner()) {
-            position = position - 1;
+            adapterPos = adapterPos - 1;
         }
-        return mDataList.get(position);
+        return adapterPos;
     }
 
     private int toAdapterPos(int dataPos) {
@@ -386,6 +404,14 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     }
 
+    public void setEnableTop3Badge(boolean enableTop3Badge) {
+        mEnableTop3Badge = enableTop3Badge;
+    }
+
+    public boolean getEnableTop3Badge() {
+        return mEnableTop3Badge;
+    }
+
     public static class FooterViewHolder extends RecyclerView.ViewHolder {
         public FooterViewHolder(View itemView) {
             super(itemView);
@@ -404,6 +430,9 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         private TextView singer;
         private TextView playTimes;
         private ImageView cover;
+        private TextView badge;
+
+        private ValueAnimator mAnimator;
 
         private View actionContainer;
         private View actionSetRingone;
@@ -418,6 +447,11 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
         private int mHeightNormal;
         private int mHeightExpand;
+        /**
+         * {width, height, left-top radius}
+         */
+        private static int[] badgeSmallSize = new int[] {18, 13, 4};
+        private static int[] badgeLargeSize = new int[] {28, 20, 4};
 
         public ViewHolder(View view) {
             super(view);
@@ -428,6 +462,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             singer = (TextView) view.findViewById(R.id.ringtone_singer);
             cover = (ImageView) view.findViewById(R.id.cover_image);
             playTimes = view.findViewById(R.id.ringtone_times);
+            badge = view.findViewById(R.id.ringtone_top_badge);
 
             actionContainer = view.findViewById(R.id.ringtone_action_container);
             actionSetRingone = view.findViewById(R.id.ringtone_action_set);
@@ -444,6 +479,109 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
             playActionButton = view.findViewById(R.id.ringtone_play_status);
             progressContainer = view.findViewById(R.id.ringtone_download_progress);
+
+            itemView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View view) {
+
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View view) {
+                    if (mAnimator != null) {
+                        mAnimator.cancel();
+                        mAnimator.removeAllListeners();
+                        mAnimator.removeAllUpdateListeners();
+                    }
+                    itemView.removeOnAttachStateChangeListener(this);
+                }
+            });
+        }
+
+        public void setBadge(int topIndex, boolean expanded) {
+            if (topIndex > 2) {
+                badge.setVisibility(View.GONE);
+                return;
+            }
+            badge.setVisibility(View.VISIBLE);
+
+            int[] sizeArray = expanded ? badgeLargeSize : badgeSmallSize;
+            ViewGroup.LayoutParams lp = badge.getLayoutParams();
+            lp.width = Dimensions.pxFromDp(sizeArray[0]);
+            lp.height = Dimensions.pxFromDp(sizeArray[1]);
+            badge.setLayoutParams(lp);
+
+            int bgColor = 0;
+            switch (topIndex) {
+                case 0:
+                    bgColor = Color.parseColor("#D43D3D");
+                    badge.setText("#1");
+                    badge.setTextColor(Color.WHITE);
+                    break;
+                case 1:
+                    bgColor = Color.parseColor("#C9C6DE");
+                    badge.setText("#2");
+                    badge.setTextColor(Color.BLACK);
+                    break;
+                case 2:
+                    bgColor = Color.parseColor("#FFB55F");
+                    badge.setText("#3");
+                    badge.setTextColor(Color.BLACK);
+
+                    break;
+                default:
+                    break;
+
+            }
+
+            Drawable drawable = BackgroundDrawables.createBackgroundDrawable(
+                    bgColor,
+                    0,
+                    Dimensions.pxFromDp(4), 0,0,0,
+                    false, false);
+
+            badge.setBackgroundDrawable(drawable);
+
+        }
+
+        public void toggleBadgeSize(boolean expand) {
+            if (badge.getVisibility() == View.VISIBLE) {
+
+                final int oH = badge.getHeight();
+                final int oW = badge.getWidth();
+                int wStepValue = badgeLargeSize[0] - badgeSmallSize[0];
+                int hStepValue = badgeLargeSize[1] - badgeSmallSize[1];
+                int hStep = expand ? hStepValue : -hStepValue;
+                int wStep = expand ? wStepValue : -wStepValue;
+                ViewGroup.LayoutParams lp = badge.getLayoutParams();
+
+                if (mAnimator == null) {
+                    mAnimator = ValueAnimator.ofFloat(0, 1);
+                } else {
+                    mAnimator.removeAllUpdateListeners();
+                    mAnimator.removeAllListeners();
+                }
+                mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float fraction = valueAnimator.getAnimatedFraction();
+                        lp.height = (int) (oH + hStep * fraction);
+                        lp.width = (int) (oW + wStep * fraction);
+                        badge.setLayoutParams(lp);
+                    }
+                });
+
+                mAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        lp.height = oH + hStep;
+                        lp.width = oW + wStep;
+                        badge.setLayoutParams(lp);
+                    }
+                });
+                mAnimator.start();
+            }
+
         }
 
         public void setSharedLottieProgressView(LottieAnimationView lottieProgressView) {

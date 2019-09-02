@@ -34,6 +34,16 @@
             android:layout_height="match_parent"
             app:radius="4dp" />
 
+        <TextView
+            android:id="@+id/ringtone_top_badge"
+            tools:text="#2"
+            tools:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="9dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <ImageView
             android:id="@+id/ringtone_play_status"
             android:layout_width="40dp"

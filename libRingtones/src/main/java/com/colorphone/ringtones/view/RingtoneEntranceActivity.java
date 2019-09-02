@@ -281,7 +281,9 @@ public class RingtoneEntranceActivity extends AppCompatActivity implements Resiz
                 recyclerView.setLayoutManager(new LinearLayoutManager(this,
                         LinearLayoutManager.VERTICAL,
                         false));
-                recyclerView.setAdapter(new RingtoneListAdapter(RingtoneEntranceActivity.this, mRingtoneApi, column.getId(), index == 0));
+                RingtoneListAdapter adapter = new RingtoneListAdapter(RingtoneEntranceActivity.this, mRingtoneApi, column.getId(), index == 0);
+                adapter.setEnableTop3Badge(true);
+                recyclerView.setAdapter(adapter);
 
             } else {
                 // 分类

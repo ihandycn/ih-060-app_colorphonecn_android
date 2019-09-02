@@ -14,5 +14,6 @@
     <color name="ringtone_banner_indicator_checked">#FFE048</color>
     <color name="ringtone_banner_indicator_normal">#868686</color>
     <color name="ringtone_main_bg">#14131F</color>
+    <color name="ringtone_badge_text">#1F1F1F</color>
     <color name="ringtone_material_ripple">#33ffffff</color>
 </resources>
