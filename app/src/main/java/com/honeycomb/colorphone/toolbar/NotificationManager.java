@@ -508,6 +508,7 @@ public class NotificationManager implements FlashlightStatusListener {
             case NotificationManager.ACTION_BOOST_TOOLBAR:
                 Analytics.logEvent("Notification_Toolbar_Boost_Clicked");
                 Analytics.logEvent("Notification_Toolbar_Clicked");
+                DeviceManager.getInstance().setRunningAppsRandom();
                 BoostActivity.start(context,  ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
                 AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
