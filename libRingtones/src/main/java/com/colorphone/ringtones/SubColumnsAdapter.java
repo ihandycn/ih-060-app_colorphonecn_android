@@ -17,10 +17,13 @@ import com.superapps.util.Dimensions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sundxing
+ */
 public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static int sLastPositionFirstLine = 3;
 
-    final private List<Column> mDatas = new ArrayList<>();
+    final private List<Column> mColumns = new ArrayList<>();
     private Drawable mSelectedDrawable;
     private Drawable mNormalDrawable;
 
@@ -31,14 +34,14 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public SubColumnsAdapter() {
         mSelectedDrawable = BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(20), true);
         mNormalDrawable = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ff2c2b36"), Dimensions.pxFromDp(20), true);
-        mDatas.addAll(RingtoneManager.getInstance().getSubColumns());
-        if (!mDatas.isEmpty()) {
-            mDatas.get(0).setSelected(true);
+        mColumns.addAll(RingtoneManager.getInstance().getSubColumns());
+        if (!mColumns.isEmpty()) {
+            mColumns.get(0).setSelected(true);
         }
     }
 
-    public List<Column> getDatas() {
-        return mDatas;
+    public List<Column> getColumns() {
+        return mColumns;
     }
 
     @NonNull
@@ -59,19 +62,19 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void swapData(int position, int positionInTurn) {
-        Column data = mDatas.remove(position);
-        mDatas.add(positionInTurn, data);
+        Column data = mColumns.remove(position);
+        mColumns.add(positionInTurn, data);
     }
 
     private void onSelectColumn(int position) {
-        Column column = mDatas.get(position);
+        Column column = mColumns.get(position);
         if (column.isSelected()) {
             // No change
             return;
         }
 
         // Update selected status
-        for (Column col : mDatas) {
+        for (Column col : mColumns) {
             col.setSelected(false);
         }
         column.setSelected(true);
@@ -94,7 +97,7 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Column column = mDatas.get(position);
+        Column column = mColumns.get(position);
         InnerViewHolder innerViewHolder = (InnerViewHolder) holder;
         innerViewHolder.mTitleView.setText(column.getName());
         innerViewHolder.itemView.setTag(position);
@@ -109,12 +112,12 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return isExpand ? mDatas.size() : (Math.min(sLastPositionFirstLine + 1, mDatas.size()));
+        return isExpand ? mColumns.size() : (Math.min(sLastPositionFirstLine + 1, mColumns.size()));
     }
 
-    public void setDatas(List<Column> datas) {
-        mDatas.clear();
-        mDatas.addAll(datas);
+    public void setColumns(List<Column> columns) {
+        mColumns.clear();
+        mColumns.addAll(columns);
         notifyDataSetChanged();
     }
 

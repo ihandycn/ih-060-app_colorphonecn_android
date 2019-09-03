@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.zhpan.bannerview.Utils.DpUtils;
@@ -50,7 +49,7 @@ public class IndicatorView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension((int) (3 * mRadius * (mPageSize + 1)), (int) (2 * mRadius));
+        setMeasuredDimension((int) (4 * mRadius * (mPageSize + 1)), (int) (2 * mRadius));
         /*if (widthMeasureSpecMode == MeasureSpec.AT_MOST&&heightMeasureSpec == MeasureSpec.AT_MOST) {
             setMeasuredDimension(100, 100);
         } else if (widthMeasureSpecMode == MeasureSpec.AT_MOST) {
@@ -70,7 +69,7 @@ public class IndicatorView extends View {
         super.onDraw(canvas);
         for (int i = 0; i < mPageSize; i++) {
             mPaint.setColor(selectPage == i ? checkedColor : normalColor);
-            canvas.drawCircle(3 * mRadius * (i + 1), height / 2f, mRadius, mPaint);
+            canvas.drawCircle(4 * mRadius * (i + 1), height / 2f, mRadius, mPaint);
         }
     }
 

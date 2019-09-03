@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -460,10 +461,11 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         private int mHeightNormal;
         private int mHeightExpand;
         /**
-         * {width, height, left-top radius}
+         * {width, height, textSize(sp), left-top radius}
          */
-        private static int[] badgeSmallSize = new int[] {18, 13, 4};
-        private static int[] badgeLargeSize = new int[] {28, 20, 4};
+        private static int[] badgeSmallSize = new int[] {18, 13, 8, 4};
+        private static int[] badgeLargeSize = new int[] {28, 20, 14, 4};
+
 
         public ViewHolder(View view) {
             super(view);
@@ -560,12 +562,15 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         public void toggleBadgeSize(boolean expand) {
             if (badge.getVisibility() == View.VISIBLE) {
 
-                final int oH = badge.getHeight();
-                final int oW = badge.getWidth();
+                final int oW = expand ? badgeSmallSize[0] : badgeLargeSize[0];
+                final int oH = expand ? badgeSmallSize[1] : badgeLargeSize[1];
+                final int oSize = Dimensions.pxFromDp(expand ? badgeSmallSize[2] : badgeSmallSize[2]);
                 int wStepValue = badgeLargeSize[0] - badgeSmallSize[0];
                 int hStepValue = badgeLargeSize[1] - badgeSmallSize[1];
-                int hStep = expand ? hStepValue : -hStepValue;
+                int sizeStepValue = Dimensions.pxFromDp(badgeLargeSize[2] - badgeSmallSize[2]);
                 int wStep = expand ? wStepValue : -wStepValue;
+                int hStep = expand ? hStepValue : -hStepValue;
+                int sizeStep = expand ? sizeStepValue : -sizeStepValue;
                 ViewGroup.LayoutParams lp = badge.getLayoutParams();
 
                 if (mAnimator == null) {
@@ -574,6 +579,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     mAnimator.removeAllUpdateListeners();
                     mAnimator.removeAllListeners();
                 }
+
                 mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -581,6 +587,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                         lp.height = (int) (oH + hStep * fraction);
                         lp.width = (int) (oW + wStep * fraction);
                         badge.setLayoutParams(lp);
+                        badge.setTextSize(TypedValue.COMPLEX_UNIT_PX, oSize + sizeStep * fraction);
                     }
                 });
 
@@ -590,6 +597,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                         lp.height = oH + hStep;
                         lp.width = oW + wStep;
                         badge.setLayoutParams(lp);
+                        badge.setTextSize(TypedValue.COMPLEX_UNIT_PX, oSize + sizeStep);
                     }
                 });
                 mAnimator.start();

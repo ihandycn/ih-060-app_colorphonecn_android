@@ -6,7 +6,6 @@
     <color name="ringtone_button_color_dark">#cd000000</color>
     <color name="ringtone_button_color">#aaffffff</color>
     <color name="ringtone_text_black_main">#000000</color>
-    <color name="ringtone_text_black">#aa000000</color>
     <color name="ringtone_background">#14131F</color>
     <color name="ringtone_text_title">#cdffffff</color>
     <color name="ringtone_text_main">#e0ffffff</color>

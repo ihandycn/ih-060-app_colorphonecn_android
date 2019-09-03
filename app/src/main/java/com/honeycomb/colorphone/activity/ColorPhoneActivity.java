@@ -655,6 +655,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         showAllFeatureGuide = false;
 
+        if (mRingtoneFrame != null) {
+            mRingtoneFrame.onStart();
+        }
     }
 
     @Override
@@ -878,7 +881,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onBackPressed() {
-
+        if ((mRingtoneFrame != null && mRingtoneFrame.onBackPressed())) {
+            // Block
+            return;
+        }
         boolean blockBackPress = mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_CASH)
                 && (lotteryWheelLayout != null && lotteryWheelLayout.isSpining());
 
