@@ -687,7 +687,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
         @Override
         public void onActivityPaused(@NonNull Activity activity) {
-          
+
         }
 
         @Override
