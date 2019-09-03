@@ -466,7 +466,6 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         private static int[] badgeSmallSize = new int[] {18, 13, 8, 4};
         private static int[] badgeLargeSize = new int[] {28, 20, 14, 4};
 
-
         public ViewHolder(View view) {
             super(view);
             mHeightNormal = view.getResources().getDimensionPixelOffset(R.dimen.ringtone_item_height_normal);
@@ -564,10 +563,10 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
                 final int oW = expand ? badgeSmallSize[0] : badgeLargeSize[0];
                 final int oH = expand ? badgeSmallSize[1] : badgeLargeSize[1];
-                final int oSize = Dimensions.pxFromDp(expand ? badgeSmallSize[2] : badgeSmallSize[2]);
+                final int oSize = expand ? badgeSmallSize[2] : badgeLargeSize[2];
                 int wStepValue = badgeLargeSize[0] - badgeSmallSize[0];
                 int hStepValue = badgeLargeSize[1] - badgeSmallSize[1];
-                int sizeStepValue = Dimensions.pxFromDp(badgeLargeSize[2] - badgeSmallSize[2]);
+                int sizeStepValue = badgeLargeSize[2] - badgeSmallSize[2];
                 int wStep = expand ? wStepValue : -wStepValue;
                 int hStep = expand ? hStepValue : -hStepValue;
                 int sizeStep = expand ? sizeStepValue : -sizeStepValue;
@@ -584,20 +583,20 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         float fraction = valueAnimator.getAnimatedFraction();
-                        lp.height = (int) (oH + hStep * fraction);
-                        lp.width = (int) (oW + wStep * fraction);
+                        lp.height = Dimensions.pxFromDp(oH + hStep * fraction);
+                        lp.width = Dimensions.pxFromDp(oW + wStep * fraction);
+                        badge.setTextSize(TypedValue.COMPLEX_UNIT_SP, oSize + sizeStep * fraction);
                         badge.setLayoutParams(lp);
-                        badge.setTextSize(TypedValue.COMPLEX_UNIT_PX, oSize + sizeStep * fraction);
                     }
                 });
 
                 mAnimator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        lp.height = oH + hStep;
-                        lp.width = oW + wStep;
+                        lp.height = Dimensions.pxFromDp(oH + hStep);
+                        lp.width = Dimensions.pxFromDp(oW + wStep);
+                        badge.setTextSize(TypedValue.COMPLEX_UNIT_SP, oSize + sizeStep);
                         badge.setLayoutParams(lp);
-                        badge.setTextSize(TypedValue.COMPLEX_UNIT_PX, oSize + sizeStep);
                     }
                 });
                 mAnimator.start();
