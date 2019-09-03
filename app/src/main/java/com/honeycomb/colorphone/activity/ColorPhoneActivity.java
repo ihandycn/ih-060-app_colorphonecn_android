@@ -218,7 +218,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int TAB_SIZE = 4;
     private static final int MAIN_POSITION = 0;
-    private static final int NEWS_POSITION = 1;
+    // Disable news
+    @Deprecated
+    private static final int NEWS_POSITION = -100;
+    private static final int RINGTONE_POSITION = 1;
+
     public static final int CASH_POSITION = 2;
     private static final int SETTING_POSITION = 3;
 
@@ -1011,8 +1015,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             case NEWS_POSITION:
                 if (newsLayout == null) {
-                    frame = getLayoutInflater().inflate(R.layout.news_frame, null, false);
-                    newsLayout = (NewsFrame) frame;
+                    frame = newsLayout = (NewsFrame) getLayoutInflater().inflate(R.layout.news_frame, null, false);
                 } else {
                     frame = newsLayout;
                 }

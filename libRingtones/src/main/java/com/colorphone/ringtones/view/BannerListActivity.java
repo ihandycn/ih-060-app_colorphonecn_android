@@ -1,11 +1,13 @@
 package com.colorphone.ringtones.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.colorphone.ringtones.R;
@@ -58,8 +60,10 @@ public class BannerListActivity extends HSAppCompatActivity {
 
         recyclerView.setAdapter(new RingtoneListAdapter(this, new RingtoneApi(), mBanner.getColumnId(), false));
 
-        mRingtoneSetDelegate = new RingtoneSetDelegate(this);
+        mRingtoneSetDelegate = new RingtoneSetDelegate(getRootView(this));
+
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -73,4 +77,9 @@ public class BannerListActivity extends HSAppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    private static View getRootView(Activity context) {
+        return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
+    }
+
 }

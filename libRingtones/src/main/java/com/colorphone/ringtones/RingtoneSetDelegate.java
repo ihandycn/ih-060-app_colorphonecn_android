@@ -1,6 +1,7 @@
 package com.colorphone.ringtones;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
@@ -16,28 +17,31 @@ import com.superapps.util.Dimensions;
 public class RingtoneSetDelegate implements RingtoneManager.RingtoneSetHandler {
     private RingtoneSetViewHolder ringtoneSetViewHolder;
 
-    private Activity mActivity;
+    private View mRootView;
 
-    public RingtoneSetDelegate(Activity activity) {
-        mActivity = activity;
+    public RingtoneSetDelegate(View rootView) {
+        mRootView = rootView;
     }
 
     @Override
     public void onSetRingtone(Ringtone ringtone) {
         if (ringtoneSetViewHolder == null) {
-            ViewStub stub = mActivity.findViewById(R.id.stub_ringtone_set_frame);
+            ViewStub stub = mRootView.findViewById(R.id.stub_ringtone_set_frame);
             if (stub != null) {
                 stub.inflate();
             } else {
                 throw new IllegalStateException("activity must include stub_ringtone_set_frame");
             }
 
-            View rootRingtoneSetView = mActivity.findViewById(R.id.ringtone_set_root);
+            View rootRingtoneSetView = mRootView.findViewById(R.id.ringtone_set_root);
             ringtoneSetViewHolder = new RingtoneSetViewHolder(rootRingtoneSetView);
             ringtoneSetViewHolder.backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mActivity.onBackPressed();
+                    Context context = mRootView.getContext();
+                    if (context instanceof Activity) {
+                        ((Activity) context).onBackPressed();
+                    }
                 }
             });
 
