@@ -10,6 +10,7 @@ import com.colorphone.ringtones.bean.ColumnResultBean;
 import com.colorphone.ringtones.bean.RingtoneBean;
 import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.colorphone.ringtones.module.Banner;
+import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.superapps.util.Toasts;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public class RingtoneListAdapter extends BaseRingtoneListAdapter {
 
     private String mRingtoneListId;
+    private Column mColumn;
+
     public RingtoneListAdapter(@NonNull Context context,  @NonNull RingtoneApi ringtoneApi, final String id, boolean hasHeader) {
         super(context, ringtoneApi);
 
@@ -75,13 +78,19 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
                     }
 
                     for (RingtoneBean rb : beans) {
-                        mDataList.add(Ringtone.valueOf(rb));
+                        Ringtone ringtone = Ringtone.valueOf(rb);
+                        ringtone.setColumnSource(mColumn != null ? mColumn.getName() : "Banner");
+                        mDataList.add(ringtone);
                     }
+
                     RingtoneListAdapter.this.notifyDataSetChanged();
                 }
-
             }
         });
+    }
+
+    public void setColumn(Column column) {
+        mColumn = column;
     }
 
     @Override

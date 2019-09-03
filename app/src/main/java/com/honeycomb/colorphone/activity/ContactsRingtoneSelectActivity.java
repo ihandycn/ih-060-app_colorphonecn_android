@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.module.Ringtone;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -77,6 +78,12 @@ public class ContactsRingtoneSelectActivity extends ContactsActivity {
         ContactsRingtoneSelectActivity.this.finish();
         ThemeSetHelper.setContactRingtone(mRingtone, selectContacts);
 
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForContact_Success",
+                "Name", mRingtone.getTitle(),
+                "Type:", mRingtone.getColumnSource());
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Success",
+                "Name", mRingtone.getTitle(),
+                "Type:", mRingtone.getColumnSource());
         Toasts.showToast("设置成功");
     }
 

@@ -30,6 +30,7 @@ import com.colorphone.ringtones.RingtoneManager;
 import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.download2.Downloader;
 import com.colorphone.ringtones.module.Banner;
+import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -70,6 +71,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     private final LottieAnimationView mSharedLottieProgress;
     private int mTotalSize;
     private boolean mEnableTop3Badge;
+    private Column mColumn;
 
     public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
@@ -137,6 +139,10 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     // Handle by listener.
                     int pos = (int) itemView.getTag();
                     Ringtone ringtone = getRingtoneByAdapterPos(pos);
+
+                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Click",
+                            "Name", ringtone.getTitle(),
+                            "Type:", ringtone.getColumnSource());
                     RingtoneManager.getInstance().onSetRingtone(ringtone);
 
                 }
@@ -147,6 +153,11 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 public void onClick(View view) {
                     int pos = (int) itemView.getTag();
                     Ringtone ringtone = getRingtoneByAdapterPos(pos);
+
+                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("RingBackTone_Set_Click",
+                            "Name", ringtone.getTitle(),
+                            "Type:", ringtone.getColumnSource());
+
                     String subscriptionUrl = RingtoneApi.getSubscriptionUrl(ringtone.getRingtoneId());
                     RingtoneConfig.getInstance().startWeb(subscriptionUrl);
                 }
@@ -199,6 +210,10 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         holder.toggleBadgeSize(true);
 
         boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Audition_Click",
+                "Name", ringtone.getTitle(),
+                "DownloadOk", isDownloaded ? "Yes" : "No",
+                "Type:", ringtone.getColumnSource());
         if (isDownloaded) {
             play(holder, ringtone);
         } else {
@@ -284,6 +299,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             // Ringtone list
             BannerListActivity.start(mContext, banner);
         }
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Banner_Click");
     }
 
     private LayoutInflater getLayoutInflater(Context context) {

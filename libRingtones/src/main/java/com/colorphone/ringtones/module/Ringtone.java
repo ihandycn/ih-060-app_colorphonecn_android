@@ -23,6 +23,7 @@ public class Ringtone implements Serializable {
 
 
     private boolean isPlaying = false;
+    private String mColumnSource;
 
     public static Ringtone valueOf(RingtoneBean bean) {
         Ringtone ringtone = new Ringtone();
@@ -103,5 +104,13 @@ public class Ringtone implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + ": Name=" + title + ", Url="+ getRingtoneUrl();
+    }
+
+    public String getColumnSource() {
+        return mColumnSource;
+    }
+
+    public void setColumnSource(String columnSource) {
+        mColumnSource = columnSource;
     }
 }

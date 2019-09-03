@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
+import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneManager;
 import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.RingtoneSetDelegate;
@@ -223,6 +224,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                     List<RingtoneBean> beans = bean.getData();
                     if (beans != null) {
                         for (RingtoneBean rb : beans) {
+                            Ringtone ringtone = Ringtone.valueOf(rb);
+                            ringtone.setColumnSource("Search");
                             results.add(Ringtone.valueOf(rb));
                         }
                     }
@@ -298,12 +301,14 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             if (isNormalList) {
                 targetFrameView = mLayoutInflater.inflate(R.layout.frame_ringtone_list_normal, columnFrameContainer, false);
 
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
                 final RecyclerView recyclerView = targetFrameView.findViewById(R.id.ringtone_list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.VERTICAL,
                         false));
                 RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, column.getId(), index == 0);
                 adapter.setEnableTop3Badge(true);
+                adapter.setColumn(column);
                 recyclerView.setAdapter(adapter);
 
             } else {
@@ -319,6 +324,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 String subColumnId = RingtoneManager.getInstance().getSelectedSubColumn().getId();
                 final RingtoneListAdapter adatper = new RingtoneListAdapter(getContext(), mRingtoneApi, subColumnId, false);
                 recyclerView.setAdapter(adatper);
+
 
 
                 final RecyclerView recyclerViewSubColumns = targetFrameView.findViewById(R.id.ringtone_classification_list);
@@ -339,9 +345,12 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 subColumnsAdapter.setOnColumnSelectedListener(new SubColumnsAdapter.OnColumnSelectedListener() {
                     @Override
                     public void onColumnSelect(Column column) {
+                        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
                         adatper.requestRingtoneList(column.getId());
+                        adatper.setColumn(column);
                     }
                 });
+
                 recyclerViewSubColumns.setAdapter(subColumnsAdapter);
 
             }

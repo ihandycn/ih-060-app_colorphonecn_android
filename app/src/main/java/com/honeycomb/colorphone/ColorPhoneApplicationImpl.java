@@ -563,15 +563,35 @@ public class ColorPhoneApplicationImpl {
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
             @Override
             public boolean onSetAsDefault(Ringtone ringtone) {
+                // TODO 检查权限
                 RingtoneHelper.setDefaultRingtoneInBackground(ringtone.getFilePath(), ringtone.getTitle());
                 Toasts.showToast("设置成功");
+
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForAll_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
                 return true;
             }
 
             @Override
             public boolean onSetForSomeOne(Ringtone ringtone) {
+                // TODO 检查权限
                 ContactsRingtoneSelectActivity.startSelectRingtone(HSApplication.getContext(), ringtone);
                 return true;
+            }
+        });
+        RingtoneConfig.getInstance().setRemoteLogger(new RingtoneConfig.RemoteLogger() {
+            @Override
+            public void logEvent(String eventID) {
+                Analytics.logEvent(eventID);
+            }
+
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
             }
         });
 

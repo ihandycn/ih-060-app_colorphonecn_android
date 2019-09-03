@@ -22,6 +22,27 @@ public class RingtoneConfig {
     private WebLauncher mWebLauncher;
     private String mRingtoneDir;
     private RingtoneSetter mRingtoneSetter;
+    private RemoteLogger mRemoteLogger = new RemoteLogger() {
+        @Override
+        public void logEvent(String eventID) {
+
+        }
+
+        @Override
+        public void logEvent(String eventID, String... vars) {
+
+        }
+    };
+
+
+    public RemoteLogger getRemoteLogger() {
+        return mRemoteLogger;
+    }
+
+    public void setRemoteLogger(RemoteLogger remoteLogger) {
+        mRemoteLogger = remoteLogger;
+    }
+
 
     public RingtoneSetter getRingtoneSetter() {
         return mRingtoneSetter;
@@ -89,4 +110,10 @@ public class RingtoneConfig {
         }
         return false;
     }
+
+    public interface RemoteLogger {
+        void logEvent(String eventID);
+        void logEvent(String eventID, String... vars);
+    }
+
 }

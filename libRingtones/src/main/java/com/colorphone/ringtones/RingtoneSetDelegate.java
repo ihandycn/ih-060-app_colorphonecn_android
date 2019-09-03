@@ -50,6 +50,9 @@ public class RingtoneSetDelegate implements RingtoneManager.RingtoneSetHandler {
                 @Override
                 public void onClick(View view) {
                     if (ringtoneSetter != null) {
+                        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForContact_Start",
+                                "Name", ringtone.getTitle(),
+                                "Type:", ringtone.getColumnSource());
                         ringtoneSetter.onSetForSomeOne(ringtone);
                     }
 
@@ -60,6 +63,10 @@ public class RingtoneSetDelegate implements RingtoneManager.RingtoneSetHandler {
                 @Override
                 public void onClick(View view) {
                     if (ringtoneSetter != null) {
+
+                        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForAll_Start",
+                                "Name", ringtone.getTitle(),
+                                "Type:", ringtone.getColumnSource());
                         ringtoneSetter.onSetAsDefault(ringtone);
                     }
                 }

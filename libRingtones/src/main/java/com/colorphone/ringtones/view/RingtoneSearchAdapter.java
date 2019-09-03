@@ -49,7 +49,9 @@ public class RingtoneSearchAdapter extends BaseRingtoneListAdapter {
                     List<RingtoneBean> beans = bean.getData();
                     if (beans != null) {
                         for (RingtoneBean rb : beans) {
-                            results.add(Ringtone.valueOf(rb));
+                            Ringtone ringtone = Ringtone.valueOf(rb);
+                            ringtone.setColumnSource("Search");
+                            results.add(ringtone);
                         }
                     }
                 }
