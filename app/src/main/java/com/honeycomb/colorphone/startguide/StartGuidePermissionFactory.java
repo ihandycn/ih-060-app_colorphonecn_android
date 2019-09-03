@@ -15,7 +15,6 @@ import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.HSPermissionRequestMgr;
-import com.ihs.permission.Utils;
 import com.superapps.util.RuntimePermissions;
 
 import java.lang.annotation.Retention;
@@ -103,7 +102,7 @@ public class StartGuidePermissionFactory {
                 ret = AutoPermissionChecker.hasBgPopupPermission();
                 break;
             case TYPE_PERMISSION_TYPE_NOTIFICATION:
-                ret = Utils.isNotificationListeningGranted();
+                ret = AutoPermissionChecker.isNotificationListeningGranted();
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:
                 ret = AutoPermissionChecker.hasShowOnLockScreenPermission();

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.HSRuntimePermissions;
@@ -96,7 +98,31 @@ public class AutoPermissionChecker {
     }
 
     public static boolean isNotificationListeningGranted() {
-        return Utils.isNotificationListeningGranted();
+        int firstVersion = HSApplication.getFirstLaunchInfo().appVersionCode;
+        if (firstVersion < 160) {
+            return isNotificationListeningGrantedBelow160();
+        } else {
+            return Utils.isNotificationListeningGranted();
+        }
+    }
+
+    private static boolean isNotificationListeningGrantedBelow160() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return true;
+        }
+
+        String listenerString = Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "enabled_notification_listeners");
+        if (TextUtils.isEmpty(listenerString)) {
+            return false;
+        }
+        final String[] listeners = listenerString.split(":");
+        for (String listener : listeners) {
+            if (listener.contains(HSApplication.getContext().getPackageName())
+                    && listener.contains(NotificationServiceV18.class.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int getAutoRequestCount() {
