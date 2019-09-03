@@ -1286,7 +1286,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<integer>73123</integer>
+						<integer>81682</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1298,9 +1298,9 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<integer>161</integer>
+						<integer>163</integer>
 						<key>IdName</key>
-						<string>BigLotus</string>
+						<string>3DFlower</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -1311,22 +1311,22 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>BigLotus</string>
+							<string>3DFlower</string>
 							<key>zh-CN</key>
-							<string>小荷才露尖尖角</string>
+							<string>3D花</string>
 						</dict>
 						<key>Nickname</key>
-						<string>自然控</string>
+						<string>华山派</string>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower_preview.png</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -1604,7 +1604,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<integer>98233</integer>
+						<integer>73123</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1616,9 +1616,9 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<integer>173</integer>
+						<integer>161</integer>
 						<key>IdName</key>
-						<string>Fairyland3</string>
+						<string>BigLotus</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -1629,22 +1629,75 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>Fairyland3</string>
+							<string>BigLotus</string>
 							<key>zh-CN</key>
-							<string>仙境之春</string>
+							<string>小荷才露尖尖角</string>
 						</dict>
 						<key>Nickname</key>
-						<string>风景控</string>
+						<string>自然控</string>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus_preview.png</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BigLotus/BigLotus.mp3</string>
+						<key>Status</key>
+						<dict>
+							<key>Lock</key>
+							<false/>
+							<key>StaticPreview</key>
+							<true/>
+						</dict>
+					</dict>
+					<dict>
+						<key>Description</key>
+						<string></string>
+						<key>DownloadNum</key>
+						<integer>81273</integer>
+						<key>Gif</key>
+						<string></string>
+						<key>Hot</key>
+						<false/>
+						<key>Icon</key>
+						<string></string>
+						<key>IconAccept</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
+						<key>IconReject</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
+						<key>Id</key>
+						<integer>166</integer>
+						<key>IdName</key>
+						<string>Fairyland1</string>
+						<key>LocalPush</key>
+						<dict>
+							<key>Enable</key>
+							<true/>
+							<key>LocalPushIcon</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
+							<key>LocalPushPreviewImage</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
+						</dict>
+						<key>Mp4</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1.mp4</string>
+						<key>Name</key>
+						<dict>
+							<key>Default</key>
+							<string>Fairyland1</string>
+							<key>zh-CN</key>
+							<string>仙境之夏</string>
+						</dict>
+						<key>Nickname</key>
+						<string>华山派</string>
+						<key>PreviewImage</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1_preview.png</string>
+						<key>ResType</key>
+						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -2191,59 +2244,6 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<integer>81682</integer>
-						<key>Gif</key>
-						<string></string>
-						<key>Hot</key>
-						<false/>
-						<key>Icon</key>
-						<string></string>
-						<key>IconAccept</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
-						<key>IconReject</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
-						<key>Id</key>
-						<integer>163</integer>
-						<key>IdName</key>
-						<string>3DFlower</string>
-						<key>LocalPush</key>
-						<dict>
-							<key>Enable</key>
-							<true/>
-							<key>LocalPushIcon</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
-							<key>LocalPushPreviewImage</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
-						</dict>
-						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower.mp4</string>
-						<key>Name</key>
-						<dict>
-							<key>Default</key>
-							<string>3DFlower</string>
-							<key>zh-CN</key>
-							<string>3D花</string>
-						</dict>
-						<key>Nickname</key>
-						<string>华山派</string>
-						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower_preview.png</string>
-						<key>ResType</key>
-						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/3DFlower/3DFlower.mp3</string>
-						<key>Status</key>
-						<dict>
-							<key>Lock</key>
-							<false/>
-							<key>StaticPreview</key>
-							<true/>
-						</dict>
-					</dict>
-					<dict>
-						<key>Description</key>
-						<string></string>
-						<key>DownloadNum</key>
 						<integer>82121</integer>
 						<key>Gif</key>
 						<string></string>
@@ -2350,7 +2350,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<integer>81273</integer>
+						<integer>98233</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -2362,9 +2362,9 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<integer>166</integer>
+						<integer>173</integer>
 						<key>IdName</key>
-						<string>Fairyland1</string>
+						<string>Fairyland3</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -2375,22 +2375,22 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>Fairyland1</string>
+							<string>Fairyland3</string>
 							<key>zh-CN</key>
-							<string>仙境之夏</string>
+							<string>仙境之春</string>
 						</dict>
 						<key>Nickname</key>
-						<string>华山派</string>
+						<string>风景控</string>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3_preview.png</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland1/Fairyland1.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fairyland3/Fairyland3.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
