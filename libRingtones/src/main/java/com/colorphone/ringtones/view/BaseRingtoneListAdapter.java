@@ -3,10 +3,14 @@ package com.colorphone.ringtones.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.download2.Downloader;
 import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Ringtone;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -45,6 +50,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     protected static int TYPE_NORMAL = 1;
     protected static int TYPE_BANNER = 2;
     protected static int TYPE_FOOTER = 3;
+    private Application mApplication;
 
     private LayoutInflater mLayoutInflater;
     final protected Context mContext;
@@ -69,6 +75,12 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         mContext = context;
         mSharedLottieProgress = (LottieAnimationView) getLayoutInflater(context)
                 .inflate(R.layout.stub_download_progress, null);
+
+        Context appContext = HSApplication.getContext().getApplicationContext();
+        if (appContext instanceof Application) {
+            mApplication = (Application) appContext;
+            mApplication.registerActivityLifecycleCallbacks(sActivityLifecycleCallbacks);
+        }
     }
 
     @Override
@@ -496,6 +508,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     itemView.removeOnAttachStateChangeListener(this);
                 }
             });
+
         }
 
         public void setBadge(int topIndex, boolean expanded) {
@@ -654,4 +667,55 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     }
 
 
+    public Application.ActivityLifecycleCallbacks sActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+
+
+        @Override
+        public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
+
+        }
+
+        @Override
+        public void onActivityStarted(@NonNull Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityResumed(@NonNull Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(@NonNull Activity activity) {
+          
+        }
+
+        @Override
+        public void onActivityStopped(@NonNull Activity activity) {
+            if (mContext == activity) {
+                BaseRingtoneListAdapter.this.onActivityPaused();
+            }
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(@NonNull Activity activity) {
+            if (activity == mContext) {
+                mApplication.unregisterActivityLifecycleCallbacks(this);
+            }
+        }
+    };
+
+    private void onActivityPaused() {
+        for (Ringtone ringtone : mDataList) {
+            if (ringtone.isPlaying()) {
+                RingtonePlayManager.getInstance().pause();
+                break;
+            }
+        }
+    }
 }

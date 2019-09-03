@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.broadcast.BroadcastCenter;
+import com.superapps.broadcast.BroadcastListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +68,25 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
         }
     };
 
+    BroadcastListener screenReceiver = new BroadcastListener() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BroadcastCenter.ACTION_UNORDERED_SCREEN_OFF.equals(action)) {
+                pause(false);
+            }
+        }
+    };
+
     private RingtonePlayManager(Context context) {
         mContext = context;
         mCallbacks = new ArrayList<>();
         mProgressCallbacks = new ArrayList<>();
         mHandler = new Handler();
+        final IntentFilter screenFilter = new IntentFilter();
+        screenFilter.addAction(BroadcastCenter.ACTION_UNORDERED_SCREEN_OFF);
+        screenFilter.addAction(BroadcastCenter.ACTION_UNORDERED_SCREEN_ON);
+        BroadcastCenter.register(HSApplication.getContext(), screenReceiver, screenFilter);
     }
 
     private void registerNoisyReceiver () {
