@@ -485,7 +485,11 @@ abstract class ResultController implements View.OnClickListener {
 //                            "From", ResultPageManager.getInstance().getFromTag());
                     Ap.Improver.logEvent("cableimproverwire_should_show");
                 } else {
-                    Analytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
+                    if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
+                        Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "Battery");
+                    } else {
+                        Analytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
+                    }
                 }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
@@ -493,6 +497,9 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromPush");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
+                Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromToolbar");
@@ -504,7 +511,11 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
+                if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
+                    Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "CPU");
+                } else {
+                    Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
+                }
                 break;
             default:
                 break;
