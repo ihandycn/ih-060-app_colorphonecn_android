@@ -377,8 +377,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initTab() {
         mTabItems.add(new TabItem(TabItem.TAB_MAIN,
                 R.drawable.seletor_tab_main, "首页", true));
-//        mTabItems.add(new TabItem(TabItem.TAB_NEWS,
-//                R.drawable.seletor_tab_news, "资讯", true));
+
+        TabItem tabItemNews = new TabItem(TabItem.TAB_NEWS,
+                R.drawable.seletor_tab_news, "资讯", true);
+        // Coo
+        tabItemNews.setColorReversed(true);
+        mTabItems.add(tabItemNews);
+
         mTabItems.add(new TabItem(TabItem.TAB_RINGTONE,
                 R.drawable.seletor_tab_ringtone, "铃声", false));
 
@@ -440,23 +445,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
-            int lastPosition = -1;
+            TabItem lastItem = null;
             @Override
             public void onTabSelected(int pos) {
-                View tabView = mTabLayout.getTabAt(pos);
+                final TabItem tabItem = mTabItems.get(pos);
+                final View tabView = mTabLayout.getTabAt(pos);
 
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
 
                 if (mTabFrameLayout != null) {
                     mTabFrameLayout.setCurrentItem(pos);
                 }
-
                 updateTitle(pos);
                 tabTransController.showNow();
 
                 HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
 
-                final TabItem tabItem = mTabItems.get(pos);
                 if (tabItem.getId().equals(TabItem.TAB_NEWS)) {
                     toolbar.setVisibility(View.VISIBLE);
                     toolbar.setBackgroundColor(Color.WHITE);
@@ -479,10 +483,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     updateTabStyle(true);
 
                 } else {
-                    if (tabItem.getId().equals(TabItem.TAB_CASH) && showTabCashCenter) {
+                    if (tabItem.isEnableToolBarTitle()) {
+                        toolbar.setVisibility(View.VISIBLE);
+                    } else {
                         toolbar.setVisibility(View.GONE);
-                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, 0xffb62121);
+                    }
 
+                    // Cash tab
+                    if (tabItem.getId().equals(TabItem.TAB_CASH)) {
                         Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
                         tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                         tabCashCenterGuide.setVisibility(View.GONE);
@@ -497,11 +505,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         if (newsLayout != null) {
                             newsLayout.onSelected(false);
                         }
+                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, 0xffb62121);
                     } else {
                         ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
-                        toolbar.setVisibility(View.VISIBLE);
                     }
-                    if (lastPosition == -1) {
+
+
+                    if (lastItem == null || lastItem.isColorReversed()) {
                         toolbar.setBackgroundColor(colorPrimary);
                         toolbar.setTitleTextColor(Color.WHITE);
                         updateTabStyle(false);
@@ -524,25 +534,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_RINGTONE:
                         // TODO
-//                        Analytics.logEvent("Tab_News_Show"); 
+//                        Analytics.logEvent("Tab_News_Show");
                         break;
                     case TabItem.TAB_SETTINGS:
-                        if (showTabCashCenter) {
-                            Analytics.logEvent("Tab_Settings_Show");
-                        }
+                        Analytics.logEvent("Tab_Settings_Show");
                         break;
                     case TabItem.TAB_CASH:
-                        if (showTabCashCenter) {
-                            Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
-                        } else {
-                            Analytics.logEvent("Tab_Settings_Show");
-                        }
+                        Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
                         break;
                     default:
                         break;
                 }
 
-                lastPosition = pos;
+                lastItem = tabItem;
 
             }
 

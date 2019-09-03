@@ -19,6 +19,7 @@ public class TabItem {
     private View frameView;
     private boolean enableToolBarTitle;
     private boolean enabled;
+    private boolean mColorReversed;
 
     public TabItem(@NonNull String id, int tabDrawable, @NonNull String tabName, boolean enableToolBarTitle) {
         this.id = id;
@@ -73,5 +74,13 @@ public class TabItem {
 
     public void setEnableToolBarTitle(boolean enableToolBarTitle) {
         this.enableToolBarTitle = enableToolBarTitle;
+    }
+
+    public boolean isColorReversed() {
+        return mColorReversed;
+    }
+
+    public void setColorReversed(boolean colorReversed) {
+        mColorReversed = colorReversed;
     }
 }
