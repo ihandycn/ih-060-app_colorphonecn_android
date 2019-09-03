@@ -13,7 +13,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>MaxShowTime</key>
-				<integer>5</integer>
+				<integer>4</integer>
 				<key>MinShowInterval</key>
 				<integer>120</integer>
 				<key>ForbiddenBackWhenCleaning</key>
