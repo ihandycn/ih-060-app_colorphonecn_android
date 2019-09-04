@@ -333,7 +333,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             final RecyclerView recyclerView = columnFrameContainer.getChildAt(0).findViewById(R.id.ringtone_list);
             BaseRingtoneListAdapter adapter = (BaseRingtoneListAdapter) recyclerView.getAdapter();
             adapter.onDetachedFromRecyclerView(recyclerView);
-            columnFrameContainer.removeViewAt(0);
+            columnFrameContainer.removeAllViews();
         }
 
         View targetFrameView = mRingtoneViewFrames.get(index);
@@ -386,6 +386,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                     @Override
                     public void onColumnSelect(Column column) {
                         RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
+                        RingtonePlayManager.getInstance().pause();
                         adapter.requestRingtoneList(column.getId());
                         adapter.setColumn(column);
                     }

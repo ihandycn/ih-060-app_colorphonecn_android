@@ -3,6 +3,7 @@ package com.colorphone.ringtones.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ public class ExpandableViewHoldersUtil {
     /**
      *     1、holder对象 2、展开部分的View，由holder.getExpandView()方法获取 3、animate参数为true，则有动画效果
      */
-    public static void openHolder(final RecyclerView.ViewHolder holder, final Expandable expandTarget, final boolean animate) {
+    public static Animator openHolder(final RecyclerView.ViewHolder holder, final Expandable expandTarget, final boolean animate) {
         final View expandView = expandTarget.getExpandView();
         int[] forcedHeight = expandTarget.getItemForcedHeight();
         if (animate) {
@@ -29,6 +30,7 @@ public class ExpandableViewHoldersUtil {
                 }
             });
             animator.start();
+            return animator;
         } else { //为false时直接显示
             expandView.setVisibility(View.VISIBLE);
             expandView.setAlpha(1);
@@ -38,10 +40,11 @@ public class ExpandableViewHoldersUtil {
                 holder.itemView.setLayoutParams(layoutParams);
             }
         }
+        return null;
     }
  
     //
-    public static void closeHolder(final RecyclerView.ViewHolder holder, final Expandable expandTarget, final boolean animate) {
+    public static Animator closeHolder(final RecyclerView.ViewHolder holder, final Expandable expandTarget, final boolean animate) {
         final View expandView = expandTarget.getExpandView();
         int[] forcedHeight = expandTarget.getItemForcedHeight();
         if (animate) {
@@ -62,6 +65,7 @@ public class ExpandableViewHoldersUtil {
                 }
             });
             animator.start();
+            return animator;
         } else {
             expandView.setVisibility(View.GONE);
             expandView.setAlpha(0);
@@ -71,6 +75,7 @@ public class ExpandableViewHoldersUtil {
                 holder.itemView.setLayoutParams(layoutParams);
             }
         }
+        return null;
     }
  
     public interface Expandable {
@@ -80,6 +85,9 @@ public class ExpandableViewHoldersUtil {
  
     @SuppressWarnings("deprecation")
     public static class KeepOneHolder<VH extends RecyclerView.ViewHolder & Expandable> {
+
+        Animator mAnimatorOpen;
+        Animator mAnimatorClose;
         //-1表示所有item是关闭状态，opend为pos值的表示pos位置的item为展开的状态
         private int opened = -1;
  
@@ -90,10 +98,26 @@ public class ExpandableViewHoldersUtil {
          * @param pos    下标
          */
         public void bind(VH holder, int pos) {
+            clearAllAnimation();
             if (pos == opened) {
                 ExpandableViewHoldersUtil.openHolder(holder, holder, false);
             } else {
                 ExpandableViewHoldersUtil.closeHolder(holder, holder, false);
+            }
+        }
+
+        public void clearAllAnimation() {
+            clearAnimation(mAnimatorOpen);
+            clearAnimation(mAnimatorClose);
+        }
+
+        private void clearAnimation(Animator animator) {
+            if (animator != null && animator.isRunning()) {
+                animator.cancel();
+                animator.removeAllListeners();
+                if (animator instanceof ValueAnimator) {
+                    ((ValueAnimator) animator).removeAllUpdateListeners();
+                }
             }
         }
 
@@ -114,15 +138,15 @@ public class ExpandableViewHoldersUtil {
             if (opened == holder.getAdapterPosition()) {
                 //点击的就是打开的Item，则关闭item，并将opend置为-1
                 opened = -1;
-                ExpandableViewHoldersUtil.closeHolder(holder, holder, true);
+                mAnimatorClose = ExpandableViewHoldersUtil.closeHolder(holder, holder, true);
             } else {
                 int previous = opened;
                 opened = holder.getAdapterPosition();
-                ExpandableViewHoldersUtil.openHolder(holder, holder, true);
+                mAnimatorOpen = ExpandableViewHoldersUtil.openHolder(holder, holder, true);
                 //动画关闭之前打开的Item
                 final VH oldHolder = (VH) ((RecyclerView) holder.itemView.getParent()).findViewHolderForAdapterPosition(previous);
                 if (oldHolder != null) {
-                    ExpandableViewHoldersUtil.closeHolder(oldHolder, oldHolder, true);
+                    mAnimatorClose = ExpandableViewHoldersUtil.closeHolder(oldHolder, oldHolder, true);
                 }
             }
         }

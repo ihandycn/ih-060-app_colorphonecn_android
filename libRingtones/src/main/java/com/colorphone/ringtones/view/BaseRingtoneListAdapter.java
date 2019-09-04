@@ -96,6 +96,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
+        RingtonePlayManager.getInstance().pause();
         RingtonePlayManager.getInstance().unregisterCallback(this);
     }
 
@@ -348,6 +349,9 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 } else {
                     viewHolder.onStopMusic(false);
                 }
+            } else {
+                viewHolder.playActionButton.setVisibility(View.GONE);
+                viewHolder.hideProgress();
             }
 
             if (mEnableTop3Badge) {
@@ -439,6 +443,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             int dataIndex = mDataList.indexOf(song);
             int viewItemIndex = toAdapterPos(dataIndex);
 
+            mKeepOneHolder.clearAllAnimation();
             notifyItemChanged(viewItemIndex);
         }
     }
@@ -533,6 +538,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 @Override
                 public void onViewDetachedFromWindow(View view) {
                     if (ringtone != null) {
+                        ringtone.setPlaying(false);
                         RingtonePlayManager.getInstance().pause(ringtone);
                     }
                     if (mAnimator != null) {

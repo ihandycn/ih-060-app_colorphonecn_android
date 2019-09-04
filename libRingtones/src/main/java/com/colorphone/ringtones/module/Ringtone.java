@@ -107,7 +107,7 @@ public class Ringtone implements Serializable {
     }
 
     public String getColumnSource() {
-        return mColumnSource;
+        return mColumnSource != null  ? mColumnSource : "";
     }
 
     public void setColumnSource(String columnSource) {

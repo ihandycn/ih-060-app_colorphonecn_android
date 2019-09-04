@@ -3,6 +3,7 @@ package com.colorphone.ringtones.view;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.bean.ColumnBean;
@@ -14,7 +15,10 @@ import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.commons.utils.HSLog;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -22,6 +26,7 @@ import java.util.List;
  */
 public class RingtoneListAdapter extends BaseRingtoneListAdapter {
 
+    private Map<String,List<Ringtone>> mDataCacheMap = new HashMap<>();
     private String mRingtoneListId;
     private Column mColumn;
 
@@ -54,11 +59,36 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
     }
 
     public void requestRingtoneList(String ringtoneListId) {
-        mRingtoneListId = ringtoneListId;
-        requestRingtoneList(0);
+        boolean isChanged = !TextUtils.equals(ringtoneListId, mRingtoneListId);
+        if (isChanged) {
+            mRingtoneListId = ringtoneListId;
+            requestRingtoneList(0, true);
+        }
     }
 
     public void requestRingtoneList(final int pageIndex) {
+        requestRingtoneList(pageIndex, false);
+    }
+
+    public void requestRingtoneList(final int pageIndex, boolean forceRefresh) {
+
+        List<Ringtone> ringtoneList = mDataCacheMap.get(mRingtoneListId);
+        if (ringtoneList == null) {
+            ringtoneList = new ArrayList<>();
+            mDataCacheMap.put(mRingtoneListId, ringtoneList);
+        }
+
+        if (!forceRefresh) {
+            // Try hit cache
+            if (!ringtoneList.isEmpty() && pageIndex == 0) {
+                mDataList.clear();
+                mDataList.addAll(ringtoneList);
+                return;
+            }
+        }
+
+        final List<Ringtone> rintoneListServer = ringtoneList;
+
         mRingtoneApi.requestRingtoneListById(mRingtoneListId, pageIndex, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
             @Override
             public void onFinish(RingtoneListResultBean bean) {
@@ -74,14 +104,18 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
                     mKeepOneHolder.reset();
                     // First page, or refresh
                     if (pageIndex == 0) {
-                        mDataList.clear();
+                        rintoneListServer.clear();
                     }
 
                     for (RingtoneBean rb : beans) {
                         Ringtone ringtone = Ringtone.valueOf(rb);
                         ringtone.setColumnSource(mColumn != null ? mColumn.getName() : "Banner");
-                        mDataList.add(ringtone);
+                        rintoneListServer.add(ringtone);
                     }
+
+                    // bind cache list
+                    mDataList.clear();
+                    mDataList.addAll(rintoneListServer);
 
                     RingtoneListAdapter.this.notifyDataSetChanged();
                 }
