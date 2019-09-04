@@ -11,24 +11,17 @@ import java.util.List;
  */
 public class RingtoneManager {
 
-    private static final boolean TEST_MODE = true;
-
     private List<Column> mSubColumns = new ArrayList<>();
     private static RingtoneManager sColumnManager  = new RingtoneManager();
-
 
     public static RingtoneManager getInstance() {
         return sColumnManager;
     }
 
     public boolean isSubColumnsReady() {
-        // TODO
-        if (TEST_MODE) {
-            ensureSubColumns();
-            return true;
-        }
-
-        return false;
+        // TODO use sub-column api.
+        ensureSubColumns();
+        return true;
     }
 
     private void ensureSubColumns() {

@@ -34,6 +34,7 @@ import com.colorphone.ringtones.bean.RingtoneBean;
 import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Networks;
@@ -205,12 +206,11 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
     }
 
     private void initColumns() {
-        // TODO id from config
-        mTabColumns.add(new Column("304013", "热门"));
-        mTabColumns.add(new Column("304017", "最新"));
-        mTabColumns.add(new Column("304021", "飙升"));
+        mTabColumns.add(new Column(RingtoneApi.getColumnId("Hot"), "热门"));
+        mTabColumns.add(new Column(RingtoneApi.getColumnId("New"), "最新"));
+        mTabColumns.add(new Column(RingtoneApi.getColumnId("Trending"), "飙升"));
         if (RingtoneManager.getInstance().isSubColumnsReady()) {
-            mTabColumns.add(new Column("303989", "分类"));
+            mTabColumns.add(new Column("", "分类"));
         }
     }
 
@@ -348,7 +348,10 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.VERTICAL,
                         false));
-                RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, column.getId(), index == 0);
+
+                boolean hasHeader = index == 0
+                        && HSConfig.optBoolean(false, "Application", "Ringtone", "IsBannerEnabled");
+                RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, column.getId(), hasHeader);
                 adapter.setRingtoneSetHandler(mRingtoneSetDelegate);
                 adapter.setEnableTop3Badge(true);
                 adapter.setColumn(column);

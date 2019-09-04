@@ -330,14 +330,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabItems.add(new TabItem(TabItem.TAB_MAIN,
                 R.drawable.seletor_tab_main, "首页", true));
 
-        TabItem tabItemNews = new TabItem(TabItem.TAB_NEWS,
-                R.drawable.seletor_tab_news, "资讯", true);
-        // Coo
-        tabItemNews.setColorReversed(true);
-        mTabItems.add(tabItemNews);
+//        TabItem tabItemNews = new TabItem(TabItem.TAB_NEWS,
+//                R.drawable.seletor_tab_news, "资讯", true);
+//        // Coo
+//        tabItemNews.setColorReversed(true);
+//        mTabItems.add(tabItemNews);
 
-        mTabItems.add(new TabItem(TabItem.TAB_RINGTONE,
-                R.drawable.seletor_tab_ringtone, "铃声", false));
+        if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
+            mTabItems.add(new TabItem(TabItem.TAB_RINGTONE,
+                    R.drawable.seletor_tab_ringtone, "铃声", false));
+        }
 
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
                 R.drawable.seletor_tab_cash_center, "设置", true));
