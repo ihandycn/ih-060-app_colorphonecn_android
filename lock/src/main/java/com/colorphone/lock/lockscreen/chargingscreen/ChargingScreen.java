@@ -282,7 +282,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
 
-        mIsSetup = true;
 //        adEnabled = CardCustomConfig.get().enableAdChard();
 
         // ======== onCreate ========
@@ -290,18 +289,20 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         final Context context = root.getContext();
 
-        mHomeKeyWatcher = new HomeKeyWatcher(root.getContext());
-        mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                mDismissReason = "Home";
-                dismiss(getContext(), false);
-            }
+        if (mHomeKeyWatcher == null) {
+            mHomeKeyWatcher = new HomeKeyWatcher(root.getContext());
+            mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+                @Override
+                public void onHomePressed() {
+                    mDismissReason = "Home";
+                    dismiss(getContext(), false);
+                }
 
-            @Override
-            public void onRecentsPressed() {
-            }
-        });
+                @Override
+                public void onRecentsPressed() {
+                }
+            });
+        }
         mHomeKeyWatcher.startWatch();
 
         initView(extra);
@@ -326,7 +327,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         updateTimeAndDateView();
 
-        context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        if (!mIsSetup) {
+            context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        }
 
         if (extra == null) {
             isChargingOnInit = false;
@@ -366,6 +369,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
         onStart();
+
+        mIsSetup = true;
     }
 
     public void onStart() {
