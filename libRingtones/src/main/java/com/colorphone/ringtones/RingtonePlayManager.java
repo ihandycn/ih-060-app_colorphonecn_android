@@ -73,7 +73,7 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BroadcastCenter.ACTION_UNORDERED_SCREEN_OFF.equals(action)) {
-                pause(false);
+                pause(true);
             }
         }
     };
@@ -217,22 +217,9 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
     public void onStateChanged(@MusicPlayer.State int state) {
         mState = state;
         switch (state) {
-            case MusicPlayer.STATE_IDLE:
-                isPausedByUser = false;
-                break;
-            case MusicPlayer.STATE_INITIALIZED:
-                isPausedByUser = false;
-                break;
-            case MusicPlayer.STATE_PREPARING:
-                isPausedByUser = false;
-                break;
-            case MusicPlayer.STATE_PREPARED:
-                isPausedByUser = false;
-                break;
             case MusicPlayer.STATE_STARTED:
                 registerNoisyReceiver();
                 startUpdateProgressIfNeed();
-                isPausedByUser = false;
                 break;
             case MusicPlayer.STATE_PAUSED:
                 unregisterNoisyReceiver();
@@ -240,25 +227,21 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
             case MusicPlayer.STATE_ERROR:
                 unregisterNoisyReceiver();
                 releaseAudioFocus();
-                isPausedByUser = false;
                 break;
             case MusicPlayer.STATE_STOPPED:
                 Log.v(TAG, "onStateChanged STATE_STOPPED");
                 unregisterNoisyReceiver();
                 releaseAudioFocus();
-                isPausedByUser = false;
                 break;
             case MusicPlayer.STATE_COMPLETED:
                 Log.v(TAG, "onStateChanged STATE_COMPLETED");
                 unregisterNoisyReceiver();
                 releaseAudioFocus();
-                isPausedByUser = false;
                 break;
             case MusicPlayer.STATE_RELEASED:
                 Log.v(TAG, "onStateChanged STATE_RELEASED");
                 unregisterNoisyReceiver();
                 releaseAudioFocus();
-                isPausedByUser = false;
                 break;
 
             default:
@@ -278,6 +261,7 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
             callback.onShutdown();
         }
     }
+
     /**
      * resume play
      */
