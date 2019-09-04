@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -44,29 +44,38 @@ public class StableToast {
                 : R.layout.toast_huawei_acc_8;
 
         logEvent = "AccessibilityPageDuration";
-        showStableToast(layoutId, 0, Dimensions.pxFromDp(85));
+        showStableToast(layoutId, Dimensions.pxFromDp(85));
     }
 
     public static void showHuaweiAutoStartToast() {
         logEvent = "AutoStartPageDuration";
-        int stringId;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above23;
+        showStableToast(R.layout.toast_huawei_auto_start, 0);
+        if (toast != null && toast.getView() != null) {
+            TextView tv = toast.getView().findViewById(R.id.toast_tv);
+
+            if (tv != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above23);
+                } else {
+                    tv.setText(com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei);
+                }
+            } else {
+                HSLog.i("showHuaweiAutoStartToast tv == null");
+            }
         } else {
-            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei;
+            HSLog.i("showHuaweiAutoStartToast getView == null");
         }
-        showStableToast(R.layout.toast_huawei_auto_start, stringId, 0);
     }
 
-    private static void showStableToast(@LayoutRes int layoutId, @StringRes int stringId, int yOffset) {
+    private static void showStableToast(@LayoutRes int layoutId, int yOffset) {
         timeMills = System.currentTimeMillis();
-        showToastInner(layoutId, stringId, yOffset);
+        showToastInner(layoutId, yOffset);
 
         long duration = HSConfig.optInteger(18, "Application", "AutoPermission", "ToastDurationSeconds")
                 * DateUtils.SECOND_IN_MILLIS;
-        sHandler.postDelayed(StableToast::cancelToastInner, duration);
+        sHandler.postDelayed(() -> cancelToastInner(), duration);
 
         // Watch home key pressed
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
@@ -89,13 +98,9 @@ public class StableToast {
         }
     }
 
-    private static void showToastInner(@LayoutRes int layoutId, @StringRes int stringId, int yOffset) {
+    private static void showToastInner(@LayoutRes int layoutId, int yOffset) {
         toast = new Toast(HSApplication.getContext().getApplicationContext());
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(layoutId, null);
-        if (stringId != 0) {
-            TextView tv = contentView.findViewById(R.id.toast_tv);
-            tv.setText(stringId);
-        }
         contentView.setAlpha(0.9f);
         contentView.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#000000"),
                 Dimensions.pxFromDp(6), false));
@@ -104,7 +109,7 @@ public class StableToast {
         toast.setView(contentView);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
-        sHandler.postDelayed(() -> showToastInner(layoutId, stringId, yOffset), 5000);
+        sHandler.postDelayed(() -> showToastInner(layoutId, yOffset), 5000);
 
     }
 

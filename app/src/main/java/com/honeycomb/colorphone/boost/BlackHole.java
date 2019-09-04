@@ -86,6 +86,9 @@ public class BlackHole extends RelativeLayout {
 
         mBeforeBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
         tvMemory.setText(String.valueOf(mBeforeBoostRamUsage));
+
+        TextView tv = findViewById(R.id.clean_info);
+        tv.setText(String.format(getContext().getString(R.string.clean_guide_boost_animation_info), String.valueOf(DeviceManager.getInstance().getRunningApps())));
     }
 
     public void startAnimation() {

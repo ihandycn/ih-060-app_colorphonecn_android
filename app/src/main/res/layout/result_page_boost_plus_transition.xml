@@ -136,7 +136,19 @@
                     android:gravity="center"
                     android:text="@string/result_page_boost_plus_optimal"
                     android:textColor="@android:color/white"
-                    android:textSize="23sp"
+                    android:textSize="28sp"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/optimal_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/result_page_boost_plus_optimal"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
                     android:visibility="invisible"/>
             </LinearLayout>
         </RelativeLayout>

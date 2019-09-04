@@ -1,13 +1,32 @@
 package com.honeycomb.colorphone.news;
 
+import android.Manifest;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 
+import com.superapps.util.Permissions;
+import com.superapps.util.Preferences;
+
+import java.util.UUID;
+
 public class NewsUtils {
+    private static final String PREF_KEY_IMEI_KEY = "PREF_KEY_IMEI_KEY";
+
     public static String getImei(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String  imei = telephonyManager.getDeviceId();
+        String imei;
+        if (Preferences.getDefault().contains(PREF_KEY_IMEI_KEY)) {
+            imei = Preferences.getDefault().getString(PREF_KEY_IMEI_KEY, "");
+        } else {
+            if (Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
+                TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                imei = telephonyManager.getDeviceId();
+            } else {
+                int code = UUID.randomUUID().toString().hashCode();
+                imei = String.valueOf(code % ((long) Math.pow(10, 14)) + 8 * (long) Math.pow(10, 14));
+            }
+            Preferences.getDefault().putString(PREF_KEY_IMEI_KEY, imei);
+        }
         return imei;
     }
 

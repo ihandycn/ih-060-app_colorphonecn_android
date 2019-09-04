@@ -63,7 +63,8 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:taskAffinity=":guide" />
+            android:taskAffinity=":guide"
+            />
 
         <activity
             android:name=".BackgroundPopupMIUIGuideActivity"

@@ -15,7 +15,7 @@
   <string name="acb_phone_grant_autostart_access_title_vivo">开启加速白名单权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei">请找到焕彩来电秀，并允许开机自动启动，以保持来电秀正常启动</string>
-  <string name="acb_phone_grant_autostart_access_title_huawei_above23">为确保来电秀正常启动，请找到焕彩来电秀，并允许自动启动。</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above26">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
   <string name="acb_phone_grant_autostart_access_title_miui">开启自启动权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_background_popup_title_miui">开启后台弹出界面权限，以保持来电秀正常启动</string>
