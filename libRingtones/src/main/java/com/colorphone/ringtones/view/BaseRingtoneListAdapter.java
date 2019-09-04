@@ -36,6 +36,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Toasts;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.holder.HolderCreator;
 
@@ -139,10 +140,17 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     // Handle by listener.
                     int pos = (int) itemView.getTag();
                     Ringtone ringtone = getRingtoneByAdapterPos(pos);
+                    boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
 
                     RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Click",
                             "Name", ringtone.getTitle(),
+                            "DownloadOK", isDownloaded ? "YES" : "NO",
                             "Type:", ringtone.getColumnSource());
+
+                    if (!isDownloaded) {
+                        Toasts.showToast(R.string.ringtone_download_fail_check);
+                        return;
+                    }
                     RingtoneManager.getInstance().onSetRingtone(ringtone);
 
                 }
@@ -153,11 +161,17 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                 public void onClick(View view) {
                     int pos = (int) itemView.getTag();
                     Ringtone ringtone = getRingtoneByAdapterPos(pos);
+                    boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
 
                     RingtoneConfig.getInstance().getRemoteLogger().logEvent("RingBackTone_Set_Click",
                             "Name", ringtone.getTitle(),
+                            "DownloadOK", isDownloaded ? "YES" : "NO",
                             "Type:", ringtone.getColumnSource());
 
+                    if (!isDownloaded) {
+                        Toasts.showToast(R.string.ringtone_download_fail_network);
+                        return;
+                    }
                     String subscriptionUrl = RingtoneApi.getSubscriptionUrl(ringtone.getRingtoneId());
                     RingtoneConfig.getInstance().startWeb(subscriptionUrl);
                 }
@@ -242,8 +256,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
                 @Override
                 public void onFailed(Downloader.DownloadItem item, String errorMsg) {
-                    holder.hideProgress();
-
+                    Toasts.showToast(R.string.ringtone_download_fail_network);
                 }
             };
             boolean isDownloading = RingtoneDownloadManager.getInstance().isDownloading(ringtone);
@@ -519,6 +532,9 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
                 @Override
                 public void onViewDetachedFromWindow(View view) {
+                    if (ringtone != null) {
+                        RingtonePlayManager.getInstance().pause(ringtone);
+                    }
                     if (mAnimator != null) {
                         mAnimator.cancel();
                         mAnimator.removeAllListeners();

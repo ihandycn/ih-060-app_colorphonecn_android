@@ -186,6 +186,14 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     }
 
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        if (changedView == this) {
+            RingtonePlayManager.getInstance().pause();
+        }
+    }
+
     private void checkNetWorkViewHolder() {
         if (!Networks.isNetworkAvailable(-1)) {
             mRingtoneNetworkErrViewHolder.show();
@@ -321,6 +329,13 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
     public void onTabSelected(int index) {
         final int lastIndex = mCurrentIndex;
         mCurrentIndex = index;
+        if (columnFrameContainer.getChildCount() > 0) {
+            final RecyclerView recyclerView = columnFrameContainer.getChildAt(0).findViewById(R.id.ringtone_list);
+            BaseRingtoneListAdapter adapter = (BaseRingtoneListAdapter) recyclerView.getAdapter();
+            adapter.onDetachedFromRecyclerView(recyclerView);
+            columnFrameContainer.removeViewAt(0);
+        }
+
         View targetFrameView = mRingtoneViewFrames.get(index);
         if (targetFrameView == null) {
             boolean isNormalList = index != 3;
@@ -390,14 +405,11 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 adapter.refresh();
                 needRefresh = false;
                 checkNetWorkViewHolder();
+            } else {
+                mRingtoneNetworkErrViewHolder.hide();
             }
         }
-        if (columnFrameContainer.getChildCount() > 0) {
-            final RecyclerView recyclerView = columnFrameContainer.getChildAt(0).findViewById(R.id.ringtone_list);
-            BaseRingtoneListAdapter adapter = (BaseRingtoneListAdapter) recyclerView.getAdapter();
-            adapter.onDetachedFromRecyclerView(recyclerView);
-            columnFrameContainer.removeViewAt(0);
-        }
+
         columnFrameContainer.addView(targetFrameView);
 
     }

@@ -324,6 +324,13 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
             mService.seekTo(position);
         }
     }
+
+    public void pause(Ringtone ringtone) {
+        if (mSong!= null && mSong.getRingtoneId().equals(ringtone.getRingtoneId())) {
+            pause();
+        }
+    }
+
     public interface Callback {
         void onPlayStateChanged (@MusicPlayer.State int state, Ringtone song);
         void onShutdown ();

@@ -1065,7 +1065,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case TabItem.TAB_RINGTONE:
                 if (mRingtoneFrame == null) {
-                    mRingtoneFrame =new RingtonePageView(this);
+                    mRingtoneFrame = new RingtonePageView(this);
                 }
                 frame = mRingtoneFrame;
                 break;
