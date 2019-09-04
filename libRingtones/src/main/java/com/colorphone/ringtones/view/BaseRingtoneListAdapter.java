@@ -719,7 +719,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         @Override
         public void onBind(View view, Banner data, int position, int size) {
             RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
-            imageLoader.loadImage(view.getContext(), data.getImgUrl(), (ImageView) view, 0);
+            imageLoader.loadImage(view.getContext(), data.getImgUrl(), (ImageView) view, R.drawable.ringtone_banner_bg);
         }
     }
 
