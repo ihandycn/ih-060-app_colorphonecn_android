@@ -103,7 +103,7 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         innerViewHolder.itemView.setTag(position);
         if (column.isSelected()) {
             innerViewHolder.itemView.setBackground(mSelectedDrawable);
-            innerViewHolder.mTitleView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.ringtone_button_color_dark));
+            innerViewHolder.mTitleView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.ringtone_text_black_main));
         } else {
             innerViewHolder.itemView.setBackground(mNormalDrawable);
             innerViewHolder.mTitleView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.ringtone_button_color));
