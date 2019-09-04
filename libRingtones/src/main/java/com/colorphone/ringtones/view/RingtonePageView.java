@@ -202,6 +202,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     private void cancelSearchMode() {
         if (inSearchMode) {
+            hideKeyboard();
             hideSearchView();
             inSearchMode = false;
         }
@@ -237,6 +238,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     private void onSearchResultOk(List<Ringtone> results) {
         hideKeyboard();
+
+        searchInput.clearFocus();
 
         if (results == null || results.isEmpty()) {
             // No result
