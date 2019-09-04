@@ -337,9 +337,9 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         }
 
         View targetFrameView = mRingtoneViewFrames.get(index);
+        Column column = mTabColumns.get(index);
         if (targetFrameView == null) {
             boolean isNormalList = index != 3;
-            Column column = mTabColumns.get(index);
             if (isNormalList) {
                 targetFrameView = mLayoutInflater.inflate(R.layout.frame_ringtone_list_normal, columnFrameContainer, false);
 
@@ -409,6 +409,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             } else {
                 mRingtoneNetworkErrViewHolder.hide();
             }
+            RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
         }
 
         columnFrameContainer.addView(targetFrameView);
