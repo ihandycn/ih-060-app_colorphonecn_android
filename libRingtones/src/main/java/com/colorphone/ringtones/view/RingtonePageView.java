@@ -89,6 +89,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         initColumns();
         mRingtoneApi = new RingtoneApi();
         mRingtoneSearchAdapter = new RingtoneSearchAdapter(getContext(), mRingtoneApi);
+        mRingtoneSearchAdapter.setRingtoneSetHandler(mRingtoneSetDelegate);
         mRingtoneNetworkErrViewHolder = new RingtoneNetworkErrViewHolder(this, new View.OnClickListener() {
 
             @Override
