@@ -343,7 +343,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             if (isNormalList) {
                 targetFrameView = mLayoutInflater.inflate(R.layout.frame_ringtone_list_normal, columnFrameContainer, false);
 
-                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
                 final RecyclerView recyclerView = targetFrameView.findViewById(R.id.ringtone_list);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.VERTICAL,
@@ -363,7 +362,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.VERTICAL,
                         false));
-
                 String subColumnId = RingtoneManager.getInstance().getSelectedSubColumn().getId();
                 final RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, subColumnId, false);
                 adapter.setRingtoneSetHandler(mRingtoneSetDelegate);
@@ -411,11 +409,10 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             } else {
                 mRingtoneNetworkErrViewHolder.hide();
             }
-            RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
         }
 
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
         columnFrameContainer.addView(targetFrameView);
-
     }
 
     private void unBindAdapter() {
