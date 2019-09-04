@@ -956,6 +956,10 @@
 					<key>Trending</key>
 					<string>304021</string>
 				</dict>
+				<key>Enable</key>
+				<true/>
+				<key>IsBannerEnabled</key>
+				<false/>
 			</dict>
 			<key>ScreenFlash</key>
 			<dict>
