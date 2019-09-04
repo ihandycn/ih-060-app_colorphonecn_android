@@ -334,6 +334,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     }
                 } else {
                     if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION
+                            && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted")
                             && AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()) {
                         finish();
                         if (isOnNewIntent) {
@@ -532,11 +533,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     Analytics.logEvent("FixAlert_NA_Granted");
                 }
             }
-//            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS) {
-//                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-//                    Analytics.logEvent("FixAlert_WriteSetting_Granted");
-//                }
-//            }
             return false;
         }
 
