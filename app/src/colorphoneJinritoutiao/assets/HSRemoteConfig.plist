@@ -959,7 +959,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>IsBannerEnabled</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>ScreenFlash</key>
 			<dict>
