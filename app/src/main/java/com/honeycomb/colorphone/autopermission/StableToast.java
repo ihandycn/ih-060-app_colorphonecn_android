@@ -57,7 +57,13 @@ public class StableToast {
         } else {
             stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei;
         }
-        showStableToast(R.layout.toast_huawei_auto_start, stringId, 0);
+
+        int yOffset = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            yOffset = Dimensions.pxFromDp(128);
+        }
+
+        showStableToast(R.layout.toast_huawei_auto_start, stringId, yOffset);
     }
 
     public static void showHuaweiNotificationAccessToast() {
