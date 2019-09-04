@@ -107,9 +107,9 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
                     pause(false);
                 }
             } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                if (isPaused() && !isPausedByUser()) {
-                    resume();
-                }
+//                if (isPaused() && !isPausedByUser()) {
+//                    resume();
+//                }
             }
         }
     };
