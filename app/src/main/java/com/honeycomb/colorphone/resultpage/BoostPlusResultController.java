@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
@@ -24,6 +25,7 @@ import com.ihs.commons.utils.HSLog;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
+import java.util.Random;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -72,6 +74,7 @@ class BoostPlusResultController extends ResultController {
     BoostBgImageView mTickBgIv;
     ImageView mTickIv;
     TextView mOptimalTv;
+    private TextView mOptimalContentTv;
     TextView mFreedUpNumberTv;
     private TextView mFreedUpTv;
 
@@ -92,11 +95,13 @@ class BoostPlusResultController extends ResultController {
     private View mFreedResultBtn;
     private Runnable mAdTransitionRunnable;
 
+    private TextView titleAnchor;
 
     BoostPlusResultController(ResultPageActivity activity, int resultType, int cleanedSizeMbs, Type type, List<CardData> cardDataList) {
         mCleanedSizeMbs = cleanedSizeMbs;
         HSLog.d(TAG, "BoostPlusResultController ***");
         super.init(activity, resultType, type, cardDataList);
+
     }
 
     @Override
@@ -112,6 +117,7 @@ class BoostPlusResultController extends ResultController {
         mTickBgIv = ViewUtils.findViewById(transitionView, R.id.tick_bg);
         mTickIv = ViewUtils.findViewById(transitionView, R.id.tick_iv);
         mOptimalTv = ViewUtils.findViewById(transitionView, R.id.optimal_tv);
+        mOptimalContentTv = ViewUtils.findViewById(transitionView, R.id.optimal_content);
         mFreedUpNumberTv = ViewUtils.findViewById(transitionView, R.id.freed_up_number_tv);
         mFreedUpTv = ViewUtils.findViewById(transitionView, R.id.freed_up_tv);
         mFreedResultBtn = ViewUtils.findViewById(transitionView, R.id.freed_up_action_btn);
@@ -165,6 +171,8 @@ class BoostPlusResultController extends ResultController {
             Analytics.logEvent("BoostDone_Ad_Should_Shown_FromShortcut");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_LOCKER) {
             Analytics.logEvent("BoostDone_Ad_Should_Shown_FromLocker");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE) {
+            Analytics.logEvent("CleanDone_Ad_Should_Shown_FromPush", "Type", "Boost");
         }
 
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
@@ -202,6 +210,7 @@ class BoostPlusResultController extends ResultController {
 
     public void resetTextVisible() {
         mOptimalTv.setVisibility(View.VISIBLE);
+        mOptimalContentTv.setVisibility(View.VISIBLE);
     }
 
     private void startCleanResultSizeAnimation() {
@@ -296,11 +305,26 @@ class BoostPlusResultController extends ResultController {
         TimeInterpolator softStopAccDecInterpolator = PathInterpolatorCompat.create(0.79f, 0.37f, 0.28f, 1f);
         mOptimalTv.animate()
                 .translationYBy(newOptimalTvCenterY - oldOptimalTvCenterY)
-                .scaleX(1.8f)
-                .scaleY(1.8f)
                 .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
                 .setInterpolator(softStopAccDecInterpolator)
                 .start();
+        mOptimalContentTv.animate()
+                .translationYBy(newOptimalTvCenterY - oldOptimalTvCenterY)
+                .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
+                .setInterpolator(softStopAccDecInterpolator)
+                .start();
+
+        mHandler.postDelayed(() -> {
+            int appSize = DeviceManager.getInstance().getRunningApps();
+            String text = String.format(getContext().getString(R.string.clean_guide_boost_result),
+                    String.valueOf(appSize), getImprove(appSize));
+            mOptimalContentTv.setText(text);
+        }, DURATION_OPTIMAL_TEXT_TRANSLATION);
+    }
+
+    private String getImprove(int size) {
+        Random random = new Random();
+        return (size + size + random.nextInt(size + 2)) + "%";
     }
 
     private void startTickAnimation() {
@@ -340,6 +364,7 @@ class BoostPlusResultController extends ResultController {
                     // optimal alpha appear animation
                     Animation optimalAlphaAppearAnimation = LauncherAnimationUtils.getAlphaAppearAnimation(DURATION_TICK, 0);
                     LauncherAnimationUtils.startAnimation(mOptimalTv, false, optimalAlphaAppearAnimation);
+                    LauncherAnimationUtils.startAnimation(mOptimalContentTv, false, optimalAlphaAppearAnimation);
                     currentLevel = CLIP_LEVEL_TICK_BG_START;
                 }
                 mIsTickBgFirstStart = false;

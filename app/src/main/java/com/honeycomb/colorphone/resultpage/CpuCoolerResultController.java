@@ -311,7 +311,11 @@ class CpuCoolerResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
 
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
-        Analytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
+        if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
+            Analytics.logEvent("CleanDone_Ad_Should_Shown_FromPush", "Type", "CPU");
+        } else {
+            Analytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
+        }
 
         HSLog.d(TAG, "Back from Ad Screen ad ==  " + ad);
         if (ad == null) {

@@ -69,6 +69,7 @@ public class NotificationManager implements FlashlightStatusListener {
 
     private static final int TOOLBAR_NOTIFICATION_ID = 0;
     public static final int NOTIFICATION_ID_FOREGROUND = 100;
+    public static final int NOTIFICATION_ID_CLEAN_GUIDE = 2000;
 
     private static final int CLICK_DEBOUNCE_INTERVAL = 400;
 
@@ -84,6 +85,15 @@ public class NotificationManager implements FlashlightStatusListener {
     public static final String ACTION_SETTINGS_CLICK = "action_settings_click";
     static final String ACTION_CPU_COOLER_TOOLBAR = "action_cpu_cooler_toolbar";
     static final String ACTION_BATTERY_TOOLBAR = "action_battery_toolbar";
+
+    public static final String CLEAN_GUIDE_TYPE_BATTERY_LOW_ACTION = "battery_low_action";
+    public static final String CLEAN_GUIDE_TYPE_CPU_HOT_ACTION = "cpu_hot_action";
+    public static final String CLEAN_GUIDE_TYPE_BOOST_MEMORY_ACTION = "memory_action";
+    public static final String CLEAN_GUIDE_TYPE_BOOST_JUNK_ACTION = "boost_junk_action";
+    public static final String CLEAN_GUIDE_TYPE_BOOST_APPS_ACTION = "boost_apps_action";
+    public static final String CLEAN_GUIDE_TYPE_BATTERY_APPS_ACTION = "battery_apps_action";
+    public static final String CLEAN_GUIDE_DISMISS_ACTION = "clean_guide_dismiss_action";
+
     private static final String TAG = "NotificationManager";
 
     private  final String sNotificationChannelId = "notification_tool_bar";
@@ -104,6 +114,7 @@ public class NotificationManager implements FlashlightStatusListener {
     private Bitmap mBoostIcon;
     private Canvas mBoostIconCanvas;
     private Paint mClearPaint;
+    private boolean hasInsteadToolbarPush = false;
 
     private Notification foregroundNotification;
 
@@ -180,6 +191,16 @@ public class NotificationManager implements FlashlightStatusListener {
     };
 
     public void showNotificationToolbarIfEnabled() {
+        showNotificationToolbarIfEnabled(hasInsteadToolbarPush);
+    }
+
+    public void showNotificationToolbarIfEnabled(boolean hasOtherPush) {
+        hasInsteadToolbarPush = hasOtherPush;
+        if (hasOtherPush) {
+            HSLog.d("ToolBar.Boost", "showNotificationToolbarIfEnabled has Other push, NOT show");
+            return;
+        }
+
         try {
             if (ModuleUtils.isNotificationToolBarEnabled() && UserSettings.isNotificationToolbarEnabled()) {
                 Context context = HSApplication.getContext();
@@ -197,7 +218,15 @@ public class NotificationManager implements FlashlightStatusListener {
     private void unregisterListeners() {
     }
 
-    private void hideNotificationToolbar() {
+    public void hideNotificationToolbar() {
+        hideNotificationToolbar(false);
+    }
+
+    public void hideNotificationToolbar(boolean hasOtherPush) {
+        if (hasOtherPush) {
+            hasInsteadToolbarPush = true;
+        }
+
         if (mNotificationManager == null) {
             Context context = HSApplication.getContext();
             mNotificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -479,6 +508,7 @@ public class NotificationManager implements FlashlightStatusListener {
             case NotificationManager.ACTION_BOOST_TOOLBAR:
                 Analytics.logEvent("Notification_Toolbar_Boost_Clicked");
                 Analytics.logEvent("Notification_Toolbar_Clicked");
+                DeviceManager.getInstance().setRunningAppsRandom();
                 BoostActivity.start(context,  ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
                 AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
@@ -515,6 +545,53 @@ public class NotificationManager implements FlashlightStatusListener {
                 batteryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Navigations.startActivitySafely(context, batteryIntent);
                 AutoPilotUtils.logNotificationToolbarBatteryClick();
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_BATTERY_APPS_ACTION:
+                Intent cleanBatteryAppIntent = new Intent(context, BatteryCleanActivity.class);
+                cleanBatteryAppIntent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
+                Navigations.startActivitySafely(context, cleanBatteryAppIntent);
+                showNotificationToolbarIfEnabled(false);
+
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide6");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_BATTERY_LOW_ACTION:
+                Intent cleanBatteryLowIntent = new Intent(context, BatteryCleanActivity.class);
+                cleanBatteryLowIntent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
+                Navigations.startActivitySafely(context, cleanBatteryLowIntent);
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide1");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_APPS_ACTION:
+                BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide5");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_JUNK_ACTION:
+                BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide4");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_MEMORY_ACTION:
+                BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide3");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case NotificationManager.CLEAN_GUIDE_TYPE_CPU_HOT_ACTION:
+                Intent cpuHotIntent = new Intent(context, CpuCoolDownActivity.class);
+                cpuHotIntent.putExtra(CpuCoolDownActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE);
+                Navigations.startActivitySafely(context, cpuHotIntent);
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide2");
+                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
+                break;
+            case CLEAN_GUIDE_DISMISS_ACTION:
+                showNotificationToolbarIfEnabled(false);
+                Analytics.logEvent("Clean_Guide_Close", "Type", "Slide");
                 break;
             default:
                 HSLog.w(TAG, "Unsupported action");

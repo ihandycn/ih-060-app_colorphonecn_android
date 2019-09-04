@@ -57,8 +57,6 @@ import com.honeycomb.colorphone.boost.FloatWindowDialog;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
-import com.honeycomb.colorphone.cmgame.CmGameUtil;
-import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
@@ -72,6 +70,7 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -120,6 +119,7 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
@@ -170,6 +170,7 @@ public class ColorPhoneApplicationImpl {
     private List<AppInit> mAppInitList = new ArrayList<>();
 
     private HSApplication mBaseApplication;
+    private HomeKeyWatcher homeKeyWatcher;
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -302,7 +303,6 @@ public class ColorPhoneApplicationImpl {
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
-        mAppInitList.add(new GameInit());
         mAppInitList.add(new NotificationBarInit());
 
         onAllProcessCreated();
@@ -492,6 +492,7 @@ public class ColorPhoneApplicationImpl {
         AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
+        CleanGuideCondition.getInstance();
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
@@ -547,6 +548,46 @@ public class ColorPhoneApplicationImpl {
                         "Brand", AutoLogger.getBrand(), "Os", AutoLogger.getOSVersion());
             }
         });
+
+        homeKeyWatcher = new HomeKeyWatcher(mBaseApplication);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            long lastRecord;
+            boolean cpuChangeToHigh = false;
+            boolean batteryChangeToLow = false;
+
+            @Override public void onHomePressed() {
+                Analytics.logEvent("Home_Back_Tracked");
+
+                int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
+                if (batteryLevel < 20) {
+                    if (batteryChangeToLow) {
+                        batteryChangeToLow = false;
+                        Analytics.logEvent("Battery_Power_LowTo20");
+                    }
+                } else {
+                    batteryChangeToLow = true;
+                }
+
+                float cpuTemp = DeviceManager.getInstance().getCpuTemperatureCelsius();
+                if (cpuTemp >= 45) {
+                    boolean timeInterVal = System.currentTimeMillis() - lastRecord > 5 * DateUtils.MINUTE_IN_MILLIS;
+                    if (cpuChangeToHigh && timeInterVal) {
+                        cpuChangeToHigh = false;
+                        Analytics.logEvent("CPU_Temp_HighTo55");
+                        lastRecord = System.currentTimeMillis();
+                    }
+                } else {
+                    cpuChangeToHigh = true;
+                }
+
+                Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(DeviceManager.getInstance().getRamUsage()));
+            }
+
+            @Override public void onRecentsPressed() {
+
+            }
+        });
+        homeKeyWatcher.startWatch();
     }
 
     private void initKuyinRingtone() {
@@ -787,13 +828,11 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
             @Override
             public void startGameCenter(Context context) {
-                CmGameUtil.startCmGameActivity(context, "Locker");
             }
 
             @Override
             public boolean isGameEnable() {
-                return CmGameUtil.canUseCmGame()
-                        && HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+                return false;
             }
         });
 

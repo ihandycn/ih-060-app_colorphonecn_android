@@ -33,66 +33,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <LinearLayout
+    <include
+        layout="@layout/news_no_network"
         android:id="@+id/news_no_network"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" >
-
-        <!--<com.superapps.view.TypefacedTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:alpha=".9"-->
-            <!--android:textSize="20sp"-->
-            <!--android:textColor="#e6101010"-->
-            <!--android:textStyle="bold"-->
-            <!--android:text="@string/news_network_err"-->
-            <!--app:typeface="@string/custom_font_bold" />-->
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/news_network_err_image"/>
-
-        <com.superapps.view.TypefacedTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:layout_marginLeft="96dp"
-            android:layout_marginStart="96dp"
-            android:layout_marginRight="96dp"
-            android:layout_marginEnd="96dp"
-            android:gravity="center"
-            android:alpha=".8"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:text="@string/news_network_err_content"
-            app:typeface="@string/custom_font_regular" />
-
-        <com.superapps.view.TypefacedTextView
-            android:id="@+id/news_no_network_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
-            android:gravity="center"
-            android:paddingTop="9dp"
-            android:paddingBottom="9dp"
-            android:paddingLeft="22dp"
-            android:paddingStart="22dp"
-            android:paddingRight="22dp"
-            android:paddingEnd="22dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:text="@string/news_network_err_action"
-            app:typeface="@string/custom_font_bold"
-            tools:background="#7f7f7f"/>
-    </LinearLayout>
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/news_loading"

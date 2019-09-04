@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:clipToPadding="false">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false">
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
@@ -25,14 +26,43 @@
             android:background="@drawable/shape_theme_background">
 
             <TextView
-                android:id="@+id/description_title_tv"
+                android:id="@+id/collect_num"
+                android:layout_width="72dp"
+                android:layout_height="23dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="43.1dp"
+                android:layout_marginBottom="34dp"
+                android:text="65329"
+                android:textColor="#ccffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/description_content_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="176dp"
-                android:layout_marginBottom="58dp"
+                android:layout_marginBottom="4dp"
+                android:layout_above="@id/collect_num"
+                android:shadowColor="#3d000000"
+                android:shadowDy="3"
+                android:shadowRadius="6"
+                android:text="主人那家伙又来电话了"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/primaryText"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/description_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="176dp"
+                android:layout_marginBottom="4dp"
+                android:layout_above="@+id/description_content_tv"
                 android:shadowColor="#3d000000"
                 android:shadowDy="3"
                 android:shadowRadius="6"
@@ -65,17 +95,6 @@
                 android:textSize="8sp"
                 android:textStyle="bold"
                 tools:ignore="SmallSp"/>
-
-            <TextView
-                android:id="@+id/collect_num"
-                android:layout_width="72dp"
-                android:layout_height="23dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="43.1dp"
-                android:layout_marginBottom="34dp"
-                android:text="65329"
-                android:textColor="#ccffffff"
-                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/result_action_btn"
@@ -112,4 +131,10 @@
         </RelativeLayout>
 
     </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:id="@+id/click_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </FrameLayout>

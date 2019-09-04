@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -33,7 +32,6 @@ import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.ringtones.view.RingtonePageView;
 import com.honeycomb.colorphone.AppflyerLogger;
@@ -47,7 +45,6 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
-import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -146,24 +143,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
 
-                LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_guide_game);
-                lottieAnimationView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onGameClick();
-                        hideLottieGuide(lottieAnimationView);
-                    }
-                });
-                gameIcon.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        lottieAnimationView.setVisibility(View.VISIBLE);
-                        lottieAnimationView.playAnimation();
-
-                    }
-                });
-
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
             }
@@ -174,19 +153,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
      * For activity transition
      */
     private MediaSharedElementCallback sharedElementCallback;
-    private boolean gameMainEntranceEnabled;
-
-    private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
-        gameIcon.animate().alpha(1).setDuration(200).start();
-        lottieAnimationView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                lottieAnimationView.setVisibility(View.GONE);
-                lottieAnimationView.setAlpha(1);
-            }
-        }).start();
-
-    }
 
     private Runnable cashCenterGuideRunnable = new Runnable() {
         @Override
@@ -236,8 +202,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
-    private View gameContainer;
-    private View gameIcon;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
 
@@ -331,22 +295,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
-        gameContainer = findViewById(R.id.layout_game);
-
-        gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
-                && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
-        if (gameMainEntranceEnabled) {
-            Analytics.logEvent("MainView_GameCenter_Shown");
-        }
-        gameContainer.setVisibility(gameMainEntranceEnabled ? View.VISIBLE : View.GONE);
-        gameIcon = findViewById(R.id.iv_game);
-        gameIcon.setOnClickListener(this);
-
         mMainViewShowFlag = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-
 
         initTab();
 
@@ -519,10 +471,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     if (newsLayout != null) {
                         newsLayout.onSelected(false);
                     }
-                }
-
-                if (gameMainEntranceEnabled) {
-                    gameContainer.setVisibility(pos == 0 ? View.VISIBLE : View.INVISIBLE);
                 }
 
                 switch (tabItem.getId()) {
@@ -968,17 +916,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_game:
-                onGameClick();
-                break;
             default:
                 break;
         }
-    }
-
-    private void onGameClick() {
-        Analytics.logEvent("MainView_GameCenter_Clicked");
-        CmGameUtil.startCmGameActivity(this, "MainIcon");
     }
 
     @Override
@@ -999,16 +939,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
                 || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
-            boolean visible = mAdapter.isTipHeaderVisible();
-            updatePermissionHeader();
-            if (visible != mAdapter.isTipHeaderVisible()) {
-                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
-                mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) {
+                boolean visible = mAdapter.isTipHeaderVisible();
+                updatePermissionHeader();
+                if (visible != mAdapter.isTipHeaderVisible()) {
+                    HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         } else if (NotificationConstants.NOTIFICATION_PREVIEW_POSITION.equals(s)) {
-            int pos = hsBundle.getInt("position");
-            HSLog.d("preview pos = " + pos);
-            mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
+            if (mAdapter != null) {
+                int pos = hsBundle.getInt("position");
+                HSLog.d("preview pos = " + pos);
+                mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
+            }
         }
     }
 

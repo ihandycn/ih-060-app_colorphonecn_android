@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
-import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
+import com.honeycomb.colorphone.autopermission.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;

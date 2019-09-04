@@ -46,4 +46,7 @@
 
     <string name="acb_request_permission_bg_pop_title">后台弹出界面权限是否已开启？</string>
     <string name="acb_request_permission_bg_pop_content">后台弹出界面权限保证来电时展示来电秀</string>
+
+    <string name="auto_start_toast_huawei">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
+
 </resources>

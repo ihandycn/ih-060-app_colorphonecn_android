@@ -303,7 +303,11 @@ class BatteryResultController extends ResultController {
 //                    "From", ResultPageManager.getInstance().getFromTag());
             Ap.Improver.logEvent("cableimproverdone_should_show");
         } else {
-            Analytics.logEvent("Colorphone_BatteryDone_Ad_Should_Shown");
+            if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
+                Analytics.logEvent("CleanDone_Ad_Should_Shown_FromPush", "Type", "Battery");
+            } else {
+                Analytics.logEvent("Colorphone_BatteryDone_Ad_Should_Shown");
+            }
         }
 
         HSLog.d(TAG, "Back from Ad Screen");

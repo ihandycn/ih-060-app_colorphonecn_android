@@ -88,9 +88,9 @@
     <!-- Suffix added to a number to signify size in kilobytes. -->
     <string name="kilobyte_abbr" translatable="false">KB</string>
     <!-- Suffix added to a number to signify size in megabytes. -->
-    <string name="megabyte_abbr" translatable="false">MB</string>
+    <string name="megabyte_abbr" translatable="false">M</string>
     <!-- Suffix added to a number to signify size in gigabytes. -->
-    <string name="gigabyte_abbr" translatable="false">GB</string>
+    <string name="gigabyte_abbr" translatable="false">G</string>
     <!-- Suffix added to a number to signify size in terabytes. -->
     <string name="terabyte_abbr" translatable="false">TB</string>
     <!-- Suffix added to a number to signify size in petabytes. -->
@@ -362,5 +362,37 @@
 
     <string name="privacy_policy_agree">已同意</string>
     <string name="privacy_policy_not_agree_toast">请先勾选同意后再开启来电秀</string>
+
+    <string name="clean_guide_description_cpu_hot">高温会降低性能，建议立即降温</string>
+    <string name="clean_guide_description_boost_apps">立即加速，避免手机卡顿</string>
+    <string name="clean_guide_description_boost_junk">一键清理加速，释放内存</string>
+    <string name="clean_guide_description_boost_memory">马上对您的手机进行加速</string>
+    <string name="clean_guide_description_battery_low">立即休眠耗电应用，延长待机</string>
+    <string name="clean_guide_description_battery_apps">一键休眠后台应用，避免耗电</string>
+
+    <string name="clean_guide_title_cpu_hot">检测到CPU温度过高</string>
+    <string name="clean_guide_title_boost_apps">%1$s个应用正在消耗内存</string>
+    <string name="clean_guide_title_boost_junk">检测到手机产生垃圾%1$s</string>
+    <string name="clean_guide_title_boost_memory">内存已被占用%1$s</string>
+    <string name="clean_guide_title_battery_low">检测到手机电量不足%1$s</string>
+    <string name="clean_guide_title_battery_apps">大量耗电应用在后台运行</string>
+
+    <string name="clean_guide_title_battery_apps_highlight">耗电应用</string>
+    <string name="clean_guide_title_cpu_hot_highlight">过高</string>
+    <string name="clean_guide_title_boost_apps_highlight">消耗</string>
+    <string name="clean_guide_boost_result">%1$s个运行中的应用已关闭，手机提速%2$s</string>
+    <string name="clean_guide_boost_animation_info">正在关闭运行中的%1$s个应用</string>
+    <string name="clean_guide_batter_result">%1$s个运行中的应用已关闭，手机提速%2$s</string>
+    <string name="clean_guide_cpu_result">%1$s个运行中的应用已关闭，手机提速%2$s</string>
+
+    <string name="clean_guide_boost_action_boost">立即清理</string>
+    <string name="clean_guide_boost_action_fast">立即加速</string>
+    <string name="clean_guide_battery_action_optimize">一键优化</string>
+    <string name="clean_guide_battery_action_optimize_now">立即优化</string>
+    <string name="clean_guide_cpu_action">一键降温</string>
+
+    <string name="clean_guide_activity_label">手机管家</string>
+
+    <string name="auto_start_toast_huawei">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
 
 </resources>

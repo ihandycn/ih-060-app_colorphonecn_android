@@ -84,6 +84,16 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/clean_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -335,8 +335,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (intercept) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             supportFinishAfterTransition();
+        } else {
+            super.onBackPressed();
         }
     }
 
