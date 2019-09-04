@@ -17,6 +17,7 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetDelegate;
 import com.colorphone.ringtones.module.Banner;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Dimensions;
 
 /**
  * @author sundxing
@@ -45,6 +46,10 @@ public class BannerListActivity extends HSAppCompatActivity {
         });
 
         ImageView imageView = findViewById(R.id.banner_image);
+        ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+        lp.height = (int) ((Dimensions.getPhoneWidth(this) - Dimensions.pxFromDp(32)) * 0.4f);
+        imageView.setLayoutParams(lp);
+
         RingtoneImageLoader imageLoader = RingtoneConfig.getInstance().getRingtoneImageLoader();
         imageLoader.loadImage(
                 this,

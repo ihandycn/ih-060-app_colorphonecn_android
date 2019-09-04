@@ -183,6 +183,10 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             return holder;
         } else if (viewType == TYPE_BANNER) {
             BannerViewPager itemView = (BannerViewPager) getLayoutInflater(mContext).inflate(R.layout.item_ringtone_banner, parent, false);
+            ViewGroup.LayoutParams lp = itemView.getLayoutParams();
+            lp.height = (int) ((Dimensions.getPhoneWidth(mContext) - Dimensions.pxFromDp(32)) * 0.4f);
+            itemView.setLayoutParams(lp);
+
             itemView.setRoundCorner(Dimensions.pxFromDp(4))
                     .showIndicator(true)
                     .setHolderCreator(new HolderCreator() {
