@@ -28,6 +28,7 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.permissions.PermissionConstants;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -55,6 +56,7 @@ import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
+import com.honeycomb.colorphone.autopermission.StableToast;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -129,6 +131,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
+import com.superapps.util.rom.RomUtils;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -249,6 +252,13 @@ public class ColorPhoneApplicationImpl {
 
                 } else {
                     HSLog.i("CCTest", "not time");
+                }
+            } else if (TextUtils.equals(PermissionConstants.PERMISSION_GUIDE_EXIT, notificationName)) {
+                String permission = bundle.getString(PermissionConstants.PERMISSION_GUIDE_EXIT);
+                if (TextUtils.equals(permission, PermissionConstants.PERMISSION_NOTIFICATION_ACCESS)) {
+                    if (RomUtils.checkIsHuaweiRom()) {
+                        StableToast.showHuaweiNotificationAccessToast();
+                    }
                 }
             }
         }
@@ -876,6 +886,7 @@ public class ColorPhoneApplicationImpl {
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, mObserver);
         HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY, mObserver);
         HSGlobalNotificationCenter.addObserver(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS, mObserver);
+        HSGlobalNotificationCenter.addObserver(PermissionConstants.PERMISSION_GUIDE_EXIT, mObserver);
 
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
