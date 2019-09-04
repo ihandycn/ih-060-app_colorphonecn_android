@@ -13,6 +13,7 @@ import com.colorphone.ringtones.module.Ringtone;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
+import com.superapps.util.Navigations;
 import com.superapps.util.Toasts;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class ContactsRingtoneSelectActivity extends ContactsActivity {
     public static void startSelectRingtone(Context context, Ringtone ringtone) {
         Intent starter = new Intent(context, ContactsRingtoneSelectActivity.class);
         starter.putExtra(EXTRA_THEME, ringtone);
-        context.startActivity(starter);
+        Navigations.startActivitySafely(context, starter);
     }
 
     private Ringtone mRingtone;
