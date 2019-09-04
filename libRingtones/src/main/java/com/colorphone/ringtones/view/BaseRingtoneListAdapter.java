@@ -74,6 +74,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     private boolean mEnableTop3Badge;
     private Column mColumn;
     private RingtoneManager.RingtoneSetHandler mRingtoneSetHandler;
+    private RecyclerView mRecyclerView;
 
     public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
@@ -90,6 +91,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
         super.onAttachedToRecyclerView(recyclerView);
         RingtonePlayManager.getInstance().registerCallback(this);
     }
@@ -99,6 +101,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         super.onDetachedFromRecyclerView(recyclerView);
         RingtonePlayManager.getInstance().pause();
         RingtonePlayManager.getInstance().unregisterCallback(this);
+        mRecyclerView = null;
     }
 
     public void setSizeTotalCount(int total) {
@@ -441,16 +444,20 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onPlayStateChanged(int state, Ringtone song) {
-        HSLog.d(TAG, song.getTitle() + " playStateChanged:" + state);
         boolean notPlaying = state >= MusicPlayer.STATE_PAUSED;
 
         if (notPlaying && song.isPlaying()) {
+            HSLog.d(TAG, song.getTitle() + " playStateChanged:" + state);
             song.setPlaying(false);
             int dataIndex = mDataList.indexOf(song);
             int viewItemIndex = toAdapterPos(dataIndex);
 
             mKeepOneHolder.clearAllAnimation();
-            notifyItemChanged(viewItemIndex);
+
+            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(viewItemIndex);
+            if (viewHolder instanceof ViewHolder) {
+                ((ViewHolder) viewHolder).onStopMusic(false);
+            }
         }
     }
 
