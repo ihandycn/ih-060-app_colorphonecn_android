@@ -60,6 +60,29 @@ public class RingtoneSearchAdapter extends BaseRingtoneListAdapter {
         });
     }
 
+    @Override
+    protected void refresh() {
+        mRingtoneApi.search(mSearchText, 0, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
+            @Override
+            public void onFinish(@Nullable RingtoneListResultBean bean) {
+                setLoading(false);
+                mDataList.clear();
+                List<Ringtone> results = new ArrayList<>();
+                if (bean != null) {
+                    List<RingtoneBean> beans = bean.getData();
+                    if (beans != null) {
+                        for (RingtoneBean rb : beans) {
+                            Ringtone ringtone = Ringtone.valueOf(rb);
+                            ringtone.setColumnSource("Search");
+                            results.add(ringtone);
+                        }
+                    }
+                }
+                mDataList.addAll(results);
+            }
+        });
+    }
+
     public String getSearchText() {
         return mSearchText;
     }

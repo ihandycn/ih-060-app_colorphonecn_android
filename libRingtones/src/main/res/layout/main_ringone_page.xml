@@ -142,5 +142,17 @@
         android:layout_height="match_parent"
         android:layout="@layout/frame_set_ringtone"
         />
-
+    <ViewStub
+        android:id="@+id/stub_ringtone_network_err"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/stub_ringtone_network_err"
+        />
+    <ProgressBar
+        android:id="@+id/loading_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+     />
 </RelativeLayout>

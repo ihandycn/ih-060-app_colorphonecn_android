@@ -12,7 +12,7 @@ import com.colorphone.ringtones.bean.RingtoneListResultBean;
 import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
-import com.superapps.util.Toasts;
+import com.ihs.commons.utils.HSLog;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
                 @Override
                 public void onFinish(@Nullable ColumnResultBean bean) {
                     if (bean == null) {
-                        Toasts.showToast("Error to get banner");
+                        HSLog.e("Error to get banner");
                         return;
                     }
                     List<ColumnBean> columnBeans = bean.getData().getCols();
@@ -64,7 +64,7 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
             public void onFinish(RingtoneListResultBean bean) {
                 setLoading(false);
                 if (bean == null) {
-                    Toasts.showToast("Error to get id = " + mRingtoneListId);
+                    HSLog.e("Error to get id = " + mRingtoneListId);
                     return;
                 }
 
@@ -96,5 +96,10 @@ public class RingtoneListAdapter extends BaseRingtoneListAdapter {
     @Override
     protected void loadMore(int pageIndex) {
         requestRingtoneList(pageIndex);
+    }
+
+    @Override
+    protected void refresh() {
+        requestRingtoneList(0);
     }
 }

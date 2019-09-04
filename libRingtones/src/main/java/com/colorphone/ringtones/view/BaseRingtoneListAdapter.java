@@ -165,7 +165,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
             return holder;
         } else if (viewType == TYPE_BANNER) {
-            BannerViewPager itemView = (BannerViewPager) getLayoutInflater(mContext).inflate(R.layout.item_banner, parent, false);
+            BannerViewPager itemView = (BannerViewPager) getLayoutInflater(mContext).inflate(R.layout.item_ringtone_banner, parent, false);
             itemView.setRoundCorner(Dimensions.pxFromDp(4))
                     .showIndicator(true)
                     .setHolderCreator(new HolderCreator() {
@@ -184,7 +184,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             return holder;
         } else if (viewType == TYPE_FOOTER) {
             TextView itemView = (TextView) getLayoutInflater(mContext). inflate(
-                    R.layout.item_footer, parent, false);
+                    R.layout.item_ringtone_footer, parent, false);
             return new FooterViewHolder(itemView);
         }
 
@@ -362,6 +362,8 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     }
 
     protected abstract void loadMore(int pageIndex);
+
+    protected abstract void refresh();
 
     public void setLoading(boolean loading) {
         isLoading = loading;

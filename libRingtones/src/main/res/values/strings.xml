@@ -7,4 +7,6 @@
     <string name="ringback_set">设为彩铃</string>
     <string name="ringtone_set_as_default">设为默认铃声</string>
     <string name="ringtone_set_as_someone">设给单个联系人</string>
+    <string name="news_network_err_content">网络错误,请检查你的网络连接再试一次</string>
+    <string name="news_network_err_action">点击重试</string>
 </resources>

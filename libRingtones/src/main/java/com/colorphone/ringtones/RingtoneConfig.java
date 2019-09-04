@@ -116,4 +116,11 @@ public class RingtoneConfig {
         void logEvent(String eventID, String... vars);
     }
 
+    public static class NetworkErrHit {
+        public String retryButtonText;
+        public String statusHit;
+
+        public int statusImageRes;
+    }
+
 }

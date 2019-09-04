@@ -26,6 +26,7 @@ import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneManager;
+import com.colorphone.ringtones.RingtoneNetworkErrViewHolder;
 import com.colorphone.ringtones.RingtonePlayManager;
 import com.colorphone.ringtones.RingtoneSetDelegate;
 import com.colorphone.ringtones.SubColumnsAdapter;
@@ -35,6 +36,7 @@ import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Networks;
 import com.superapps.util.Toasts;
 
 import java.util.ArrayList;
@@ -63,6 +65,9 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
     private View searchIcon;
 
     LayoutInflater mLayoutInflater;
+    private RingtoneNetworkErrViewHolder mRingtoneNetworkErrViewHolder;
+    private boolean needRefresh = false;
+    private int mCurrentIndex;
 
     public RingtonePageView(@NonNull Context context) {
         super(context);
@@ -84,6 +89,14 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         initColumns();
         mRingtoneApi = new RingtoneApi();
         mRingtoneSearchAdapter = new RingtoneSearchAdapter(getContext(), mRingtoneApi);
+        mRingtoneNetworkErrViewHolder = new RingtoneNetworkErrViewHolder(this, new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                needRefresh = true;
+                onTabSelected(mCurrentIndex);
+            }
+        });
 
         mLayoutInflater.inflate(R.layout.main_ringone_page, this);
         columnRootView = findViewById(R.id.classification_container);
@@ -170,6 +183,15 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         searchEmptyView = findViewById(R.id.ringtone_search_no_result);
 
         mRingtoneSetDelegate = new RingtoneSetDelegate(this);
+
+    }
+
+    private void checkNetWorkViewHolder() {
+        if (!Networks.isNetworkAvailable(-1)) {
+            mRingtoneNetworkErrViewHolder.show();
+        } else {
+            mRingtoneNetworkErrViewHolder.hide();
+        }
     }
 
     private void initColumns() {
@@ -210,7 +232,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     private void searchRingtone(String text) {
         HSLog.d("Search Text : " + text);
-
+        checkNetWorkViewHolder();
         if (TextUtils.isEmpty(text)) {
             Toasts.showToast("请输入内容");
             return;
@@ -297,6 +319,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     @Override
     public void onTabSelected(int index) {
+        mCurrentIndex = index;
         View targetFrameView = mRingtoneViewFrames.get(index);
         if (targetFrameView == null) {
             boolean isNormalList = index != 3;
@@ -358,6 +381,18 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
             }
             mRingtoneViewFrames.put(index, targetFrameView);
+
+            checkNetWorkViewHolder();
+        } else {
+            final RecyclerView recyclerView = targetFrameView.findViewById(R.id.ringtone_list);
+            RecyclerView.Adapter adapter = recyclerView.getAdapter();
+            if (needRefresh || adapter.getItemCount() < mRingtoneApi.getPageSize()) {
+                if (adapter instanceof  BaseRingtoneListAdapter) {
+                    ((BaseRingtoneListAdapter) adapter).refresh();
+                }
+                needRefresh = false;
+                checkNetWorkViewHolder();
+            }
         }
         columnFrameContainer.removeAllViews();
         columnFrameContainer.addView(targetFrameView);
