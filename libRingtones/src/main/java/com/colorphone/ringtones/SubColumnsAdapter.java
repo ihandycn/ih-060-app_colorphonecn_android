@@ -35,8 +35,12 @@ public class SubColumnsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mSelectedDrawable = BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(20), true);
         mNormalDrawable = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ff2c2b36"), Dimensions.pxFromDp(20), true);
         mColumns.addAll(RingtoneManager.getInstance().getSubColumns());
-        if (!mColumns.isEmpty()) {
-            mColumns.get(0).setSelected(true);
+        for (int i = 0; i < mColumns.size(); i++) {
+            if (i == 0) {
+                mColumns.get(i).setSelected(true);
+            } else {
+                mColumns.get(i).setSelected(false);
+            }
         }
     }
 
