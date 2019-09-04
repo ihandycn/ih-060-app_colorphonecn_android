@@ -67,7 +67,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
     LayoutInflater mLayoutInflater;
     private RingtoneNetworkErrViewHolder mRingtoneNetworkErrViewHolder;
     private boolean needRefresh = false;
-    private int mCurrentIndex;
+    private int mCurrentIndex = -1;
 
     public RingtonePageView(@NonNull Context context) {
         super(context);
@@ -319,6 +319,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     @Override
     public void onTabSelected(int index) {
+        final int lastIndex = mCurrentIndex;
         mCurrentIndex = index;
         View targetFrameView = mRingtoneViewFrames.get(index);
         if (targetFrameView == null) {
@@ -348,10 +349,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                         false));
 
                 String subColumnId = RingtoneManager.getInstance().getSelectedSubColumn().getId();
-                final RingtoneListAdapter adatper = new RingtoneListAdapter(getContext(), mRingtoneApi, subColumnId, false);
-                recyclerView.setAdapter(adatper);
-
-
+                final RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, subColumnId, false);
+                recyclerView.setAdapter(adapter);
 
                 final RecyclerView recyclerViewSubColumns = targetFrameView.findViewById(R.id.ringtone_classification_list);
                 recyclerViewSubColumns.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -372,8 +371,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                     @Override
                     public void onColumnSelect(Column column) {
                         RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_List_Show", "Type", column.getName());
-                        adatper.requestRingtoneList(column.getId());
-                        adatper.setColumn(column);
+                        adapter.requestRingtoneList(column.getId());
+                        adapter.setColumn(column);
                     }
                 });
 
@@ -385,18 +384,34 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             checkNetWorkViewHolder();
         } else {
             final RecyclerView recyclerView = targetFrameView.findViewById(R.id.ringtone_list);
-            RecyclerView.Adapter adapter = recyclerView.getAdapter();
+            BaseRingtoneListAdapter adapter = (BaseRingtoneListAdapter) recyclerView.getAdapter();
+            adapter.onAttachedToRecyclerView(recyclerView);
             if (needRefresh || adapter.getItemCount() < mRingtoneApi.getPageSize()) {
-                if (adapter instanceof  BaseRingtoneListAdapter) {
-                    ((BaseRingtoneListAdapter) adapter).refresh();
-                }
+                adapter.refresh();
                 needRefresh = false;
                 checkNetWorkViewHolder();
             }
         }
-        columnFrameContainer.removeAllViews();
+        if (columnFrameContainer.getChildCount() > 0) {
+            final RecyclerView recyclerView = columnFrameContainer.getChildAt(0).findViewById(R.id.ringtone_list);
+            BaseRingtoneListAdapter adapter = (BaseRingtoneListAdapter) recyclerView.getAdapter();
+            adapter.onDetachedFromRecyclerView(recyclerView);
+            columnFrameContainer.removeViewAt(0);
+        }
         columnFrameContainer.addView(targetFrameView);
 
     }
 
+    private void unBindAdapter() {
+        final RecyclerView recyclerView = columnFrameContainer.getChildAt(0).findViewById(R.id.ringtone_list);
+        recyclerView.setAdapter(null);
+
+        searchListView.setAdapter(null);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        unBindAdapter();
+        super.onDetachedFromWindow();
+    }
 }
