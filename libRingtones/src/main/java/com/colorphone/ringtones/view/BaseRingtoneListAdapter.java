@@ -73,6 +73,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
     private int mTotalSize;
     private boolean mEnableTop3Badge;
     private Column mColumn;
+    private RingtoneManager.RingtoneSetHandler mRingtoneSetHandler;
 
     public BaseRingtoneListAdapter(@NonNull Context context, @NonNull RingtoneApi ringtoneApi) {
         mRingtoneApi = ringtoneApi;
@@ -152,8 +153,9 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                         Toasts.showToast(R.string.ringtone_download_fail_check);
                         return;
                     }
-                    RingtoneManager.getInstance().onSetRingtone(ringtone);
-
+                    if (mRingtoneSetHandler != null) {
+                        mRingtoneSetHandler.onSetRingtone(ringtone);
+                    }
                 }
             });
 
@@ -459,6 +461,10 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
 
     public boolean getEnableTop3Badge() {
         return mEnableTop3Badge;
+    }
+
+    public void setRingtoneSetHandler(RingtoneManager.RingtoneSetHandler ringtoneSetHandler) {
+        mRingtoneSetHandler = ringtoneSetHandler;
     }
 
     public static class FooterViewHolder extends RecyclerView.ViewHolder {

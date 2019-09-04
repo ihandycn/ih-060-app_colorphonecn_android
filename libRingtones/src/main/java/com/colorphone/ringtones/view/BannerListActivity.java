@@ -14,7 +14,6 @@ import com.colorphone.ringtones.R;
 import com.colorphone.ringtones.RingtoneApi;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneImageLoader;
-import com.colorphone.ringtones.RingtoneManager;
 import com.colorphone.ringtones.RingtoneSetDelegate;
 import com.colorphone.ringtones.module.Banner;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -58,17 +57,23 @@ public class BannerListActivity extends HSAppCompatActivity {
                 LinearLayoutManager.VERTICAL,
                 false));
 
-        recyclerView.setAdapter(new RingtoneListAdapter(this, new RingtoneApi(), mBanner.getColumnId(), false));
 
         mRingtoneSetDelegate = new RingtoneSetDelegate(getRootView(this));
 
+        RingtoneListAdapter adapter = new RingtoneListAdapter(this, new RingtoneApi(), mBanner.getColumnId(), false);
+        adapter.setRingtoneSetHandler(mRingtoneSetDelegate);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        RingtoneManager.getInstance().setRingtoneSetHandler(mRingtoneSetDelegate);
         mRingtoneSetDelegate.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

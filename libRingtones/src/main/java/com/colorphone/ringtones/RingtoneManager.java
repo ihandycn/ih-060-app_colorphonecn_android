@@ -57,18 +57,6 @@ public class RingtoneManager {
         return null;
     }
 
-    private RingtoneSetHandler mRingtoneSetHandler;
-
-    public void onSetRingtone(Ringtone ringtone) {
-        if (mRingtoneSetHandler != null) {
-            mRingtoneSetHandler.onSetRingtone(ringtone);
-        }
-    }
-
-    public void setRingtoneSetHandler(RingtoneSetHandler ringtoneSetHandler) {
-        mRingtoneSetHandler = ringtoneSetHandler;
-    }
-
     public interface RingtoneSetHandler {
         void onSetRingtone(Ringtone ringtone);
     }

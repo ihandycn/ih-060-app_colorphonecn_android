@@ -98,6 +98,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             }
         });
 
+        mRingtoneSetDelegate = new RingtoneSetDelegate(this);
+
         mLayoutInflater.inflate(R.layout.main_ringone_page, this);
         columnRootView = findViewById(R.id.classification_container);
         columnFrameContainer = findViewById(R.id.ringtone_list_frame);
@@ -182,7 +184,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
         searchEmptyView = findViewById(R.id.ringtone_search_no_result);
 
-        mRingtoneSetDelegate = new RingtoneSetDelegate(this);
 
     }
 
@@ -310,7 +311,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
 
     public void onStart() {
-        RingtoneManager.getInstance().setRingtoneSetHandler(mRingtoneSetDelegate);
         mRingtoneSetDelegate.onStart();
     }
 
@@ -349,6 +349,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                         LinearLayoutManager.VERTICAL,
                         false));
                 RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, column.getId(), index == 0);
+                adapter.setRingtoneSetHandler(mRingtoneSetDelegate);
                 adapter.setEnableTop3Badge(true);
                 adapter.setColumn(column);
                 recyclerView.setAdapter(adapter);
@@ -365,6 +366,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
                 String subColumnId = RingtoneManager.getInstance().getSelectedSubColumn().getId();
                 final RingtoneListAdapter adapter = new RingtoneListAdapter(getContext(), mRingtoneApi, subColumnId, false);
+                adapter.setRingtoneSetHandler(mRingtoneSetDelegate);
                 recyclerView.setAdapter(adapter);
 
                 final RecyclerView recyclerViewSubColumns = targetFrameView.findViewById(R.id.ringtone_classification_list);
