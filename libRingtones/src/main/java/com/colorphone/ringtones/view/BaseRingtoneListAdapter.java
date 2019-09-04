@@ -527,7 +527,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             actionSetRingone = view.findViewById(R.id.ringtone_action_set);
             actionSetRingback = view.findViewById(R.id.ringtone_action_set_ringback);
 
-            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#FFE048"),
+            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),
                     Dimensions.pxFromDp(12), true);
 
             Drawable drawable2 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),

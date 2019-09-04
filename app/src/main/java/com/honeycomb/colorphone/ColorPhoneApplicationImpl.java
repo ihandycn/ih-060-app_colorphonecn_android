@@ -43,6 +43,7 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.ringtones.RingtoneConfig;
 import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
+import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
@@ -70,6 +71,7 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.WebViewActivity;
 import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
@@ -120,6 +122,7 @@ import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
@@ -633,6 +636,14 @@ public class ColorPhoneApplicationImpl {
             @Override
             public void logEvent(String eventID, String... vars) {
                 Analytics.logEvent(eventID, vars);
+            }
+        });
+
+        RingtoneConfig.getInstance().setWebLauncher(new WebLauncher() {
+            @Override
+            public boolean handleUrl(String url) {
+                Navigations.startActivitySafely(mBaseApplication, WebViewActivity.newIntent(url, false, WebViewActivity.FROM_LIST));
+                return true;
             }
         });
 

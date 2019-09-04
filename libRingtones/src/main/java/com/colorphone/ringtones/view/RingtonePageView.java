@@ -116,6 +116,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Click");
                 showSearchView();
             }
         });
@@ -247,6 +248,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             Toasts.showToast("请输入内容");
             return;
         }
+
+        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Click");
         mRingtoneSearchAdapter.setSearchText(text);
         mRingtoneApi.search(text, 0, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
             @Override
@@ -262,6 +265,9 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                             results.add(Ringtone.valueOf(rb));
                         }
                     }
+                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "resource");
+                } else {
+                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "network");
                 }
                 onSearchResultOk(results);
             }
@@ -278,6 +284,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             searchListView.setVisibility(View.INVISIBLE);
             searchEmptyView.setVisibility(View.VISIBLE);
         } else {
+            RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Success");
             searchListView.setVisibility(View.VISIBLE);
             searchListView.setAdapter(mRingtoneSearchAdapter);
             searchEmptyView.setVisibility(View.INVISIBLE);
