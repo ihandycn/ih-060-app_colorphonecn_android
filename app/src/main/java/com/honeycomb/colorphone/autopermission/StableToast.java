@@ -66,6 +66,13 @@ public class StableToast {
         showStableToast(R.layout.toast_huawei_auto_start, stringId, yOffset);
     }
 
+    public static void showHuaweiNotificationAccessToast() {
+        logEvent = "NotificationAccessPageDuration";
+
+        int stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_notification_access_title_huawei;
+        showStableToast(R.layout.toast_huawei_auto_start, stringId, 0);
+    }
+
     private static void showStableToast(@LayoutRes int layoutId, @StringRes int stringId, int yOffset) {
         timeMills = System.currentTimeMillis();
         showToastInner(layoutId, stringId, yOffset);
