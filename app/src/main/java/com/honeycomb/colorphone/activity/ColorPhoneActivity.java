@@ -98,6 +98,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_SCROLL_TO_BOTTOM = "prefs_main_scroll_to_bottom";
     private static final String PREFS_CASH_CENTER_SHOW = "prefs_cash_center_show";
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
+    private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
@@ -381,6 +382,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mTabLayout.getTabAt(getTabPos(TabItem.TAB_CASH)).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
         }
 
+        boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
+        if (needRingtoneRemind) {
+            View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
+            if (ringtoneTab != null) {
+                View hintView = ringtoneTab.findViewById(R.id.tab_layout_hint);
+                hintView.getLayoutParams().height = Dimensions.pxFromDp(6);
+                hintView.getLayoutParams().width = Dimensions.pxFromDp(6);
+                hintView.setVisibility(View.VISIBLE);
+                hintView.setTranslationX(-Dimensions.pxFromDp(5));
+                hintView.setTranslationY(Dimensions.pxFromDp(5));
+                hintView.requestLayout();
+            }
+        }
+
         mTabFrameLayout.setFrameChangeListener(new TabFrameLayout.FrameChangeListener() {
             @Override
             public void onFrameChanged(int position) {
@@ -406,7 +421,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 final View tabView = mTabLayout.getTabAt(pos);
 
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
-
                 if (mTabFrameLayout != null) {
                     mTabFrameLayout.setCurrentItem(pos);
                 }
@@ -414,6 +428,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 tabTransController.showNow();
 
                 HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
+
+                // Hide red point for Ringtone Tab
+                if (TabItem.TAB_RINGTONE.equals(tabItem.getId())) {
+                    Preferences.getDefault().putBoolean(PREFS_RINGTONE_SHOW, true);
+                    if (tabView != null) {
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
+                    }
+                }
 
                 if (tabItem.getId().equals(TabItem.TAB_NEWS)) {
                     toolbar.setVisibility(View.VISIBLE);
