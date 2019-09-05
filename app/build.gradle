@@ -24,10 +24,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    aaptOptions {
-        ignoreAssetsPattern "!*.plist:!.DS_Store:!*_custom.json"
-    }
-
     signingConfigs {
         release {
             keyAlias 'light2019'
