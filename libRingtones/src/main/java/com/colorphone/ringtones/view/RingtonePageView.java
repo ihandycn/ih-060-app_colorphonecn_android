@@ -262,7 +262,7 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                         for (RingtoneBean rb : beans) {
                             Ringtone ringtone = Ringtone.valueOf(rb);
                             ringtone.setColumnSource("Search");
-                            results.add(Ringtone.valueOf(rb));
+                            results.add(ringtone);
                         }
                     }
                     RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "resource");
