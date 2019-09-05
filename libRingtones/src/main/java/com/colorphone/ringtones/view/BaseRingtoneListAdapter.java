@@ -33,6 +33,7 @@ import com.colorphone.ringtones.module.Banner;
 import com.colorphone.ringtones.module.Column;
 import com.colorphone.ringtones.module.Ringtone;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -534,10 +535,13 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             actionSetRingone = view.findViewById(R.id.ringtone_action_set);
             actionSetRingback = view.findViewById(R.id.ringtone_action_set_ringback);
 
-            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),
+
+            Drawable drawable1 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor(
+                    HSConfig.optBoolean(false, "Application", "Ringtone", "IsRingtoneBtnYellow") ? "#FFE048" : "#E8E8E9"),
                     Dimensions.pxFromDp(12), true);
 
-            Drawable drawable2 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#E8E8E9"),
+            Drawable drawable2 = BackgroundDrawables.createBackgroundDrawable(Color.parseColor(
+                    HSConfig.optBoolean(false, "Application", "Ringtone", "IsRingbacktoneBtnYellow") ? "#FFE048" : "#E8E8E9"),
                     Dimensions.pxFromDp(12), true);
 
             actionSetRingone.setBackground(drawable1);
