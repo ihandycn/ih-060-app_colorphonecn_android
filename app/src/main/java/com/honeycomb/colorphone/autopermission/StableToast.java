@@ -7,10 +7,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
@@ -20,6 +23,8 @@ import com.ihs.commons.config.HSConfig;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author sundxing
@@ -31,17 +36,43 @@ public class StableToast {
     private static HomeKeyWatcher homeKeyWatcher = new HomeKeyWatcher(HSApplication.getContext());
 
     private static long timeMills;
+    private static String logEvent;
+
     public static void showHuaweiAccToast() {
+        int layoutId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                ? R.layout.toast_huawei_acc
+                : R.layout.toast_huawei_acc_8;
+
+        logEvent = "AccessibilityPageDuration";
+        showStableToast(layoutId, 0, Dimensions.pxFromDp(85));
+    }
+
+    public static void showHuaweiAutoStartToast() {
+        logEvent = "AutoStartPageDuration";
+        int stringId;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above23;
+        } else {
+            stringId = com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei;
+        }
+
+        int yOffset = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            yOffset = Dimensions.pxFromDp(128);
+        }
+
+        showStableToast(R.layout.toast_huawei_auto_start, stringId, yOffset);
+    }
+
+    private static void showStableToast(@LayoutRes int layoutId, @StringRes int stringId, int yOffset) {
         timeMills = System.currentTimeMillis();
-        doShowAccToast();
+        showToastInner(layoutId, stringId, yOffset);
+
         long duration = HSConfig.optInteger(18, "Application", "AutoPermission", "ToastDurationSeconds")
                 * DateUtils.SECOND_IN_MILLIS;
-        sHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cancelToastInner();
-            }
-        }, duration);
+        sHandler.postDelayed(StableToast::cancelToastInner, duration);
 
         // Watch home key pressed
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
@@ -64,66 +95,32 @@ public class StableToast {
         }
     }
 
-    public static Application.ActivityLifecycleCallbacks sActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-            if (activity.getPackageName().equals(HSApplication.getContext().getPackageName())) {
-                cancelToast();
-            }
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-
-        }
-    };
-
-    private static void doShowAccToast() {
+    private static void showToastInner(@LayoutRes int layoutId, @StringRes int stringId, int yOffset) {
         toast = new Toast(HSApplication.getContext().getApplicationContext());
-        int layoutId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ?
-                R.layout.toast_huawei_acc
-                : R.layout.toast_huawei_acc_8;
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(layoutId, null);
+        if (stringId != 0) {
+            TextView tv = contentView.findViewById(R.id.toast_tv);
+            tv.setText(stringId);
+        }
         contentView.setAlpha(0.9f);
         contentView.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#000000"),
                 Dimensions.pxFromDp(6), false));
 
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
         toast.setView(contentView);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
-        sHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doShowAccToast();
-            }
-        }, 5000);
+        sHandler.postDelayed(() -> showToastInner(layoutId, stringId, yOffset), 5000);
 
+    }
+
+    public static void cancelToast() {
+        long curTimeMills = System.currentTimeMillis();
+        long intervalMills = timeMills - curTimeMills;
+        long secondsInTen = intervalMills / 10000 + 1;
+
+        Analytics.logEvent(logEvent, String.valueOf(secondsInTen * 10));
+        cancelToastInner();
     }
 
     private static void cancelToastInner() {
@@ -139,12 +136,30 @@ public class StableToast {
         homeKeyWatcher.stopWatch();
     }
 
-    public static void cancelToast() {
-        long curTimeMills = System.currentTimeMillis();
-        long intervalMills = timeMills - curTimeMills;
-        long secondsInTen = intervalMills / 10000 + 1;
+    private static Application.ActivityLifecycleCallbacks sActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(@NotNull Activity activity, Bundle savedInstanceState) {}
 
-        Analytics.logEvent("AccessibilityPageDuration", String.valueOf(secondsInTen * 10));
-        cancelToastInner();
-    }
+        @Override
+        public void onActivityStarted(Activity activity) {
+            if (activity.getPackageName().equals(HSApplication.getContext().getPackageName())) {
+                cancelToast();
+            }
+        }
+
+        @Override
+        public void onActivityResumed(@NotNull Activity activity) {}
+
+        @Override
+        public void onActivityPaused(@NotNull Activity activity) {}
+
+        @Override
+        public void onActivityStopped(@NotNull Activity activity) {}
+
+        @Override
+        public void onActivitySaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {}
+
+        @Override
+        public void onActivityDestroyed(@NotNull Activity activity) {}
+    };
 }

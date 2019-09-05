@@ -7,7 +7,10 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 
+import com.honeycomb.colorphone.util.DeviceUtils;
+import com.honeycomb.colorphone.util.FormatSizeBuilder;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
@@ -15,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -53,8 +58,9 @@ public class DeviceManager {
             "/sys/devices/platform/tegra-tsensor/tsensor_temperature"
     };
 
-    private static final long BATTERY_DATA_REFRESH_DEBOUNCE_INTERVAL = 30 * 1000;
-    private static final long CPU_TEMPERATURE_REFRESH_DEBOUNCE_INTERVAL = 30 * 1000;
+    private static final long BATTERY_DATA_REFRESH_DEBOUNCE_INTERVAL = 30 * DateUtils.SECOND_IN_MILLIS;
+    private static final long CPU_TEMPERATURE_REFRESH_DEBOUNCE_INTERVAL = 30 * DateUtils.SECOND_IN_MILLIS;
+    private static final long RUNNING_APPS_REFRESH_DEBOUNCE_INTERVAL = 30 * DateUtils.MINUTE_IN_MILLIS;
 
     private static volatile DeviceManager sManager = null;
 
@@ -64,6 +70,10 @@ public class DeviceManager {
 
     private float mCpuTemperature;
     private long mCpuTemperatureRefreshTime;
+
+    private long mRunningAppsRefreshTime;
+    private static int runningApps = -1;
+    private List<String> runningAppsPNs = new ArrayList<>();
 
     public enum RAMStatus {
         EMERGENCY,
@@ -283,5 +293,77 @@ public class DeviceManager {
 
     public long getAvailRam() {
         return mMemoryInfo.availMem;
+    }
+
+    public String getJunkSize() {
+        float[] defaultValue = new float[] { 40.1f, 60.8f, 278, 564, 1174f };
+        Random random = new Random();
+        int seed = random.nextInt(defaultValue.length);
+        float selectSize = defaultValue[seed] * (1 + (random.nextInt(11) - 5) / 100f);
+        long junkSize = (long) (selectSize * (1 << 20));
+        FormatSizeBuilder builder = new FormatSizeBuilder(junkSize);
+
+        return builder.sizeUnit;
+    }
+
+    public int getJunkSizeMb() {
+        float[] defaultValue = new float[] { 40.1f, 60.8f, 278, 564, 1174f };
+        Random random = new Random();
+        int seed = random.nextInt(defaultValue.length);
+        float selectSize = defaultValue[seed] * (1 + (random.nextInt(11) - 5) / 100f);
+        return (int) selectSize;
+    }
+
+    public interface OnMemoryScanListener {
+        void onMemoryScanned();
+    }
+
+    public void checkRunningApps(OnMemoryScanListener listener) {
+        long now = SystemClock.elapsedRealtime();
+        long sinceLastFetch = now - mRunningAppsRefreshTime;
+        HSLog.d(TAG, "checkRunningApps(): " + sinceLastFetch + " ms since last Running Apps fetch");
+        if (sinceLastFetch > RUNNING_APPS_REFRESH_DEBOUNCE_INTERVAL || runningApps <= 0 || isRandomRunningApps) {
+            runningApps = -1;
+            HSLog.d(TAG, "getRunningPackageListFromMemory ");
+
+            DeviceUtils.getRunningPackageListFromMemory(false, (list, l) -> {
+                runningAppsPNs.clear();
+                runningApps = list.size();
+                isRandomRunningApps = false;
+                HSLog.d(TAG, "onScanFinished appSize == " + runningApps);
+                runningAppsPNs.addAll(list);
+
+                if (runningApps == 0) {
+                    setRunningAppsRandom();
+                }
+
+                mRunningAppsRefreshTime = SystemClock.elapsedRealtime();
+
+                if (listener != null) {
+                    listener.onMemoryScanned();
+                }
+            });
+        } else {
+            if (listener != null) {
+                listener.onMemoryScanned();
+            }
+        }
+    }
+
+    public int getRunningApps() {
+        return runningApps;
+    }
+
+    private boolean isRandomRunningApps = false;
+    public void setRunningAppsRandom() {
+        if (isRandomRunningApps || runningApps <= 0) {
+            Random random = new Random();
+            runningApps = random.nextInt(10) + 3;
+            isRandomRunningApps = true;
+        }
+    }
+
+    public List<String> getRunningAppsPackageNames() {
+        return runningAppsPNs;
     }
 }

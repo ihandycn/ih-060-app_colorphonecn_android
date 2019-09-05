@@ -76,6 +76,8 @@ import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.RateAlertActivity;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.HSApplication;
@@ -85,6 +87,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
 
 import java.io.File;
@@ -845,6 +848,16 @@ public final class Utils {
                 backTransition.show(true);
             }
         }, 1382);
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (FiveStarRateTip.canShowWhenApplyTheme()) {
+                    if (com.superapps.util.rom.RomUtils.checkIsHuaweiRom()) {
+                        RateAlertActivity.showRateFrom(rootView.getContext(), FiveStarRateTip.From.SET_THEME);
+                    }
+                }
+            }
+        }, 1548);
     }
 
 
@@ -1080,5 +1093,21 @@ public final class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static double getEmuiVersion() {
+        try {
+            String emuiVersion = RomUtils.getSystemProperty("ro.build.version.emui");
+            String version = emuiVersion.substring(emuiVersion.indexOf("_") + 1);
+            if (version.length() > 0) {
+                String[] vers = version.split("\\.");
+                if (vers.length > 0) {
+                    return Double.parseDouble(vers[0]);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 4.0;
     }
 }

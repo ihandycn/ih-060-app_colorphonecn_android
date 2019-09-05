@@ -13,6 +13,10 @@ public class ResultConstants {
     public static final int RESULT_TYPE_BOOST_LOCKER = 0x5504;
     public static final int RESULT_TYPE_BOOST_SHORTCUT = 0x5505;
 
+    public static final int RESULT_TYPE_BOOST_CLEAN_GUIDE = 0x5506;
+    public static final int RESULT_TYPE_BATTERY_CLEAN_GUIDE = 0x107;
+    public static final int RESULT_TYPE_CPU_CLEAN_GUIDE = 0x308;
+
     public static final int RESULT_TYPE_BOOST_FLAG = 0x5500;
 
     public static final int CARD_VIEW_TYPE_INVALID = 0;

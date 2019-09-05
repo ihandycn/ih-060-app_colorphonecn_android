@@ -113,14 +113,16 @@ public class RingtoneHelper {
     private static void savePrefs(String keyName, Set<Integer> results) {
 
         StringBuilder sb = new StringBuilder();
-        for (Integer id : results) {
-            if (id != null) {
-                sb.append(id.toString());
-                sb.append(SPLIT);
+        if (results != null && results.size() > 0) {
+            for (Integer id : results) {
+                if (id != null) {
+                    sb.append(id.toString());
+                    sb.append(SPLIT);
+                }
             }
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
+            if (sb.length() > 0) {
+                sb.deleteCharAt(sb.length() - 1);
+            }
         }
 
         HSPreferenceHelper.create(HSApplication.getContext(), "ringtone")

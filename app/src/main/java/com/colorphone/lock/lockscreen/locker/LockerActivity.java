@@ -24,7 +24,7 @@ public class LockerActivity extends BaseKeyguardActivity {
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
             exist = true;
         } catch (Exception e) {
-            Analytics.logEvent("LockerStartErr", true, "Type", e.getMessage());
+            LockerCustomConfig.getLogger().logEvent("Locker_Show_Failed", "Reason", e.getMessage());
             finish();
         }
     }
