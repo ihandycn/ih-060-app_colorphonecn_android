@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -291,7 +292,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void showRingtoneHint() {
-        if (Preferences.getDefault().getBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, true)) {
+        if (HSConfig.optBoolean(false, "Application", "Wallpaper", "SoundGuideEnable")
+                &&
+                Preferences.getDefault().getBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, true)) {
             ringtoneHint.setVisibility(VISIBLE);
             ringtoneHint.setAlpha(0);
             ringtoneHint.animate().alpha(1).setDuration(200).start();
