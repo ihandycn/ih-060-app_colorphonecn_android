@@ -50,4 +50,6 @@
   <string name="game_locker_hint">点击开玩</string>
   <string name="unlock_tint_keyguard">上滑解锁</string>
   <string name="unlock_tint_no_keyguard">已解锁 上滑进入</string>
+  <string name="locker_wallpaper_mute_hint">点击声音按钮开启锁屏壁纸声音</string>
+
 </resources>

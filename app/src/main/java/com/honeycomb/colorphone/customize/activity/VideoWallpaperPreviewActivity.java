@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.util.Analytics;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -116,8 +117,13 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_click"),
                         "Type", hasAudio ? "Video" : "Live");
                 if (hasAudio) {
-                    showAudioSelector();
-                    Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_sound_alert_show"));
+                    if (enableAudio()) {
+                        showAudioSelector();
+                        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_sound_alert_show"));
+                    } else {
+                        CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_AUDIO_OFF);
+                        onSetWallpaper();
+                    }
 
                 } else {
                     CustomizeUtils.setVideoAudioStatus(CustomizeUtils.VIDEO_NO_AUDIO);
@@ -145,6 +151,10 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
             default:
                 break;
         }
+    }
+
+    private boolean enableAudio() {
+        return HSConfig.optBoolean( false,"Application", "Wallpaper", "DetailPageSoundChoiceEnable");
     }
 
     private void showAudioSelector() {

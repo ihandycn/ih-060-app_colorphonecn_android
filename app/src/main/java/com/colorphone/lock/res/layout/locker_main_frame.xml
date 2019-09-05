@@ -19,11 +19,12 @@
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/menu_container"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/common_navigator_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="@dimen/locker_menu_margin_right"
         android:orientation="horizontal">
 
         <ImageView
@@ -282,4 +283,20 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
+    <TextView
+        android:layout_below="@id/menu_container"
+        android:layout_alignRight="@id/menu_container"
+        android:id="@+id/locker_wallpaper_hint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:maxWidth="200dp"
+        android:background="@drawable/locker_wallpaper_bubble_bg"
+        android:textColor="#14131F"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="@string/locker_wallpaper_mute_hint"/>
+
 </com.colorphone.lock.lockscreen.locker.LockerMainFrame>

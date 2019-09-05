@@ -120,6 +120,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private View mGameLottieTitleEntrance;
     private String gameEntranceType;
     private ImageView ringtoneImage;
+    private TextView ringtoneHint;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -203,10 +204,26 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         });
 
         ringtoneImage = findViewById(R.id.ringtone_image);
-        ringtoneImage.setOnClickListener(new OnClickListener() {
+        ringtoneImage.setOnClickListener(view -> {
+            Preferences.getDefault().putBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
+            toggle();
+        });
+
+        ringtoneHint = findViewById(R.id.locker_wallpaper_hint_text);
+        ringtoneHint.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggle();
+                Preferences.getDefault().putBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
+            }
+        });
+
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (ringtoneHint.getVisibility() == VISIBLE) {
+                    hideRingtoneHint();
+                }
+                return false;
             }
         });
 
@@ -273,6 +290,25 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         LockerCustomConfig.get().onEventLockerShow();
     }
 
+    public void showRingtoneHint() {
+        if (Preferences.getDefault().getBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, true)) {
+            ringtoneHint.setVisibility(VISIBLE);
+            ringtoneHint.setAlpha(0);
+            ringtoneHint.animate().alpha(1).setDuration(200).start();
+        }
+    }
+
+    public void hideRingtoneHint() {
+        if (ringtoneHint.getVisibility() == VISIBLE) {
+            ringtoneHint.animate().alpha(0).setDuration(200).withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    ringtoneHint.setVisibility(GONE);
+                }
+            }).start();
+        }
+    }
+
     public void refreshRingtoneStatus() {
         int audioStatus = CustomizeUtils.getVideoAudioStatus();
         if (audioStatus == CustomizeUtils.VIDEO_NO_AUDIO) {
@@ -281,6 +317,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             ringtoneImage.setVisibility(VISIBLE);
             ringtoneImage.setEnabled(true);
             ringtoneImage.setActivated(audioStatus == CustomizeUtils.VIDEO_AUDIO_ON);
+            if (audioStatus == CustomizeUtils.VIDEO_AUDIO_OFF) {
+                showRingtoneHint();
+            }
         }
     }
 
