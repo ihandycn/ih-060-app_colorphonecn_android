@@ -330,8 +330,8 @@ public class SlidingDrawerContent extends FrameLayout
             if (bitmap != null) {
                 // Prevent same wallpaper blur.
                 String path = CustomizeUtils.getLockerWallpaperPath();
-                if (path != null
-                        & !TextUtils.equals(mLastWallpaperPath, path)) {
+                if (mLastWallpaperPath != null
+                        && TextUtils.equals(mLastWallpaperPath, path)) {
                     return;
                 }
                 mLastWallpaperPath = path;
@@ -344,6 +344,7 @@ public class SlidingDrawerContent extends FrameLayout
         } else {
 //            wallPaperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper_locker);
         }
+
         if (wallPaperBitmap != null) {
             LockerUtils.blurBitmapAsync(getContext(), wallPaperBitmap, ivDrawerBg);
         } else {

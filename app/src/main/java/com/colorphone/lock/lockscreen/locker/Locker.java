@@ -47,6 +47,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
     public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
+    public static final String PREF_KEY_MUSIC_SWITCH_HINT = "key_music_s_h";
 
     // Parent
     ViewPager mWallpaperViewPaper;
@@ -68,6 +69,8 @@ public class Locker extends LockScreen implements INotificationObserver {
     private View mDimCover;
     private boolean isLockerPageShow = true;
     private View mWallpaperIconHint;
+    private boolean isResumed;
+    private boolean delayBlur;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -184,6 +187,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     }
 
     public void onResume() {
+        isResumed = true;
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mHomeKeyClicked = false;
@@ -192,7 +196,19 @@ public class Locker extends LockScreen implements INotificationObserver {
         mLockerWallpaper.onResume(isLockerPageShow);
 
         mHandler.postDelayed(foregroundEventLogger, 1000);
+
+        if (delayBlur) {
+            mHandler.postDelayed(mBlurRunnable, 300);
+            delayBlur = false;
+        }
     }
+
+    private final Runnable mBlurRunnable = new Runnable() {
+        @Override
+        public void run() {
+            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
+        }
+    };
 
     private void initLockerWallpaper() {
         String path = CustomizeUtils.getLockerWallpaperPath();
@@ -201,9 +217,14 @@ public class Locker extends LockScreen implements INotificationObserver {
             mLockerWallpaper.setWallPaperFilePath(path, isLockerPageShow);
         } else {
             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
-            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
+            if (isResumed) {
+                mHandler.postDelayed(mBlurRunnable, 300);
+            } else {
+                delayBlur = true;
+            }
         }
     }
+
 
     private void configLockViewPager() {
         Context context = mRootView.getContext();
@@ -350,6 +371,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     public void onDestroy() {
         // ======== onDestroy ========
         mHomeKeyWatcher.stopWatch();
+        mHandler.removeCallbacksAndMessages(null);
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;
     }
@@ -360,6 +382,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             mLockerAdapter.lockerMainFrame.onPause();
         }
         mLockerWallpaper.onPause();
+        isResumed = false;
     }
 
     public void onStop() {
