@@ -695,18 +695,6 @@
             tools:replace="android:label" />
 
         <activity
-            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
-            android:icon="@drawable/shape_empty"
-            android:excludeFromRecents="true"
-            android:label="@string/title_locker_activity" />
-
-        <activity
-            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
-            android:icon="@drawable/shape_empty"
-            android:excludeFromRecents="true"
-            android:label="@string/title_locker_activity" />
-
-        <activity
             android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -821,7 +809,7 @@
             android:taskAffinity="com.colorphone.lock.cp_locker"
             android:theme="@style/ChargingScreenTransparentTheme"
             android:icon="@drawable/shape_empty"
-            android:label="@string/title_locker_activity" />/>
+            android:label="@string/title_locker_activity" />
 
         <activity
             android:name="com.colorphone.lock.lockscreen.DismissKeyguradActivity"
