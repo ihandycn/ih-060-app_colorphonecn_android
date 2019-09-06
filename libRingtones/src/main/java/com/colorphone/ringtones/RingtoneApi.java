@@ -89,9 +89,16 @@ public class RingtoneApi {
                         HSLog.d(TAG, "【Request】" + url);
                         HSLog.d(TAG,"【Response】" + jsonBody);
                     }
-                    T bean = gson.fromJson(jsonBody, clazz);
-                    if (callback != null) {
-                        callback.onFinish(bean);
+                    try {
+                        T bean = gson.fromJson(jsonBody, clazz);
+                        if (callback != null) {
+                            callback.onFinish(bean);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (callback != null) {
+                            callback.onFinish(null);
+                        }
                     }
                 } else {
                     if (callback != null) {
