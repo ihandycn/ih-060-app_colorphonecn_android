@@ -10,15 +10,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
@@ -607,7 +610,17 @@ public class ColorPhoneApplicationImpl {
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
             @Override
             public boolean onSetAsDefault(Ringtone ringtone) {
-                // TODO 检查权限
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.System.canWrite(mBaseApplication)) {
+                        // Check permission
+                        Toast.makeText(mBaseApplication, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                                Uri.parse("package:" + mBaseApplication.getPackageName()));
+                        Navigations.startActivitySafely(mBaseApplication, intent);
+                        return false;
+                    }
+                }
+
                 RingtoneHelper.setDefaultRingtoneInBackground(ringtone.getFilePath(), ringtone.getTitle());
                 Toasts.showToast("设置成功");
 
