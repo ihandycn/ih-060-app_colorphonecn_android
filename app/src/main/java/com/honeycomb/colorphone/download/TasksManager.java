@@ -399,8 +399,9 @@ public class TasksManager {
         if (file != null && targetTheme != null) {
             String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), targetTheme.getFileName());
             return path;
+        } else {
+            return FileDownloadUtils.getDefaultSaveFilePath(url);
         }
-        return null;
     }
 
     private synchronized boolean getTaskExist(Theme theme) {
