@@ -11,6 +11,7 @@ import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
+import com.honeycomb.colorphone.customize.livewallpaper.VideoWallpaperLoader;
 import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.TextureVideoView;
 import com.honeycomb.colorphone.util.Analytics;
@@ -197,7 +198,15 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
         showSuccessToast();
         Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
-                "Type", hasAudio ? "Video" : "Live");
+                "Type", hasAudio ? "Video" : "Live", "Name", formatName(mWallpaperInfo));
+    }
+
+    private String formatName(WallpaperInfo wallpaperInfo) {
+        String source = wallpaperInfo.getSource();
+        if (source.contains("/")) {
+            return VideoWallpaperLoader.getFileNameFromUrl(source);
+        }
+        return source;
     }
 
     private void showSuccessToast() {

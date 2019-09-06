@@ -149,7 +149,7 @@ public class VideoWallpaperLoader extends WallpaperLoader {
         this.url = url;
     }
 
-    private static String getFileNameFromUrl(String url) {
+    public static String getFileNameFromUrl(String url) {
         return url.substring(url.lastIndexOf("/") + 1);
     }
 
