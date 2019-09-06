@@ -551,7 +551,7 @@
             android:name=".activity.StartGuideActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:taskAffinity=".main"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp" />
         <activity
             android:name=".news.WebViewActivity"
