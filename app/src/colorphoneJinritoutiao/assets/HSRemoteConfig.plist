@@ -942,9 +942,9 @@
 			<key>Ringtone</key>
 			<dict>
 				<key>IsRingtoneBtnYellow</key>
-				<false/>
+				<true/>
 				<key>IsRingbacktoneBtnYellow</key>
-				<false/>
+				<true/>
 				<key>AppId</key>
 				<string>52dafa090bc7aa53</string>
 				<key>Column</key>
