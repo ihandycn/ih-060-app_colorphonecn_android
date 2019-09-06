@@ -225,7 +225,9 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getFocusedChild().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        View focusView = getFocusedChild();
+        imm.hideSoftInputFromWindow(focusView != null ? focusView.getWindowToken() : getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void showKeyboard(EditText v) {

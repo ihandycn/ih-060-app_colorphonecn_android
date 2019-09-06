@@ -286,8 +286,10 @@ public class RingtonePlayManager implements MusicPlayer.PlayStateChangeListener 
      *                       {@link AudioManager#AUDIOFOCUS_LOSS_TRANSIENT}
      */
     private void pause (boolean isPausedByUser) {
-        mService.pausePlayer();
-        this.isPausedByUser = isPausedByUser;
+        if (mService != null) {
+            mService.pausePlayer();
+            this.isPausedByUser = isPausedByUser;
+        }
     }
 
     public void stop () {
