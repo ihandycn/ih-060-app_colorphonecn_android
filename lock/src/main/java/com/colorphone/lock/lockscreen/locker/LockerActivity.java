@@ -37,6 +37,7 @@ public class LockerActivity extends BaseKeyguardActivity {
             }
             exist = true;
         } catch (Exception e) {
+            LockerCustomConfig.getLogger().logEvent("Locker_Show_Failed", "Reason", e.getMessage());
             finish();
         }
     }

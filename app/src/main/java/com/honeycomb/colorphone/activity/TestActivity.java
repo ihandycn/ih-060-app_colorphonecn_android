@@ -12,9 +12,10 @@ import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.notification.CleanGuideCondition;
-import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.superapps.util.Navigations;
+import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -52,18 +53,18 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRate(View view) {
-//        RateAlertActivity.showRateFrom(this, FiveStarRateTip.From.SET_THEME);
-        NotificationManager.cancelSafely(NotificationManager.NOTIFICATION_ID_CLEAN_GUIDE);
+        RateAlertActivity.showRateFrom(this, FiveStarRateTip.From.SET_THEME);
     }
 
     public void startRecentApp(View view) {
 //        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
-        CleanGuideCondition.getInstance().clearData();
+        FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(HuaweiRateGuideDialog.class));
+
     }
 
     public void checkFloatWindow(View view) {
 //        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
-        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
+        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
     }
 
     public void openRingtone(View view) {
