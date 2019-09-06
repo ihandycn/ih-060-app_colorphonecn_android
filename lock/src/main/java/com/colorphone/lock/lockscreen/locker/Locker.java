@@ -24,6 +24,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
@@ -152,9 +153,11 @@ public class Locker extends LockScreen implements INotificationObserver {
                         "DeviceVersion", getDeviceInfo());
                 logOnceFlag = true;
             }
-            LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
-                    "Brand", Build.BRAND.toLowerCase(),
-                    "DeviceVersion", getDeviceInfo());
+            if (ScreenStatusReceiver.isScreenOn()) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", getDeviceInfo());
+            }
         }
     };
 
