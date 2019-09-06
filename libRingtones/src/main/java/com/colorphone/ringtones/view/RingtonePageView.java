@@ -89,6 +89,8 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
         mLayoutInflater = LayoutInflater.from(getContext());
         initColumns();
         mRingtoneApi = new RingtoneApi();
+        mRingtoneSetDelegate = new RingtoneSetDelegate(this);
+
         mRingtoneSearchAdapter = new RingtoneSearchAdapter(getContext(), mRingtoneApi);
         mRingtoneSearchAdapter.setRingtoneSetHandler(mRingtoneSetDelegate);
         mRingtoneNetworkErrViewHolder = new RingtoneNetworkErrViewHolder(this, new View.OnClickListener() {
@@ -99,8 +101,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                 onTabSelected(mCurrentIndex);
             }
         });
-
-        mRingtoneSetDelegate = new RingtoneSetDelegate(this);
 
         mLayoutInflater.inflate(R.layout.main_ringone_page, this);
         columnRootView = findViewById(R.id.classification_container);
