@@ -18,12 +18,18 @@ import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.FullScreenDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.view.CenterImageSpan;
+import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 
 public class HuaweiRateGuideDialog extends FullScreenDialog {
 
     public static void show(Context context) {
-        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(context));
+        if (HSConfig.optBoolean(true, "Application", "ShowStoreGuide")) {
+            FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(context));
+        } else {
+            HSLog.i("HuaweiRateGuide", "HuaweiRateGuide not enable");
+        }
     }
 
     public HuaweiRateGuideDialog(Context context) {
