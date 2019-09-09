@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<colorphone.acb.com.libweather.DailyForecastView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="#4c6889">
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_daily_forecast_weekday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:maxLength="20"
+        android:textColor="@color/weather_primary"
+        android:textSize="16sp"
+        app:typeface="@string/custom_font_regular"
+        tools:text="Today"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/weather_daily_forecast_condition_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="0dp"/>
+    </FrameLayout>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_daily_forecast_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:maxLength="20"
+        android:textColor="@color/weather_primary"
+        android:textSize="16sp"
+        app:typeface="@string/custom_font_regular"
+        tools:text="8\u00b0/23\u00b0"/>
+</colorphone.acb.com.libweather.DailyForecastView>

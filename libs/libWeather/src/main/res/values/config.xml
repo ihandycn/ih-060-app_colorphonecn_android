@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Weather detail -->
+    <integer name="config_weatherCityMaxCount">12</integer>
+
+</resources>

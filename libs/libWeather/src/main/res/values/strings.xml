@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">libWeather</string>
+
+    <!-- Weather -->
+    <string name="weather_title">Weather</string>
+    <string name="weather_wind_speed">Wind Speed:</string>
+    <string name="weather_wind_direction">Wind Direction:</string>
+    <string name="weather_visibility">Visibility:</string>
+    <string name="weather_humidity">Humidity:</string>
+    <string name="weather_sunrise">Sunrise:</string>
+    <string name="weather_sunset">Sunset:</string>
+    <string name="weather_last_update_today">Updated at %1$s</string>
+    <string name="weather_last_update_before_today">Updated on %1$s</string>
+    <string name="weather_no_info_placeholder" translatable="false">--</string>
+    <string name="weather_no_info_placeholder_time" translatable="false">--:--</string>
+    <string name="weather_high_low_temperature" translatable="false">%1$s\u00b0\u00a0/\u00a0%2$s\u00b0</string>
+    <string name="weather_kph" translatable="false">km/h</string>
+    <string name="weather_mph" translatable="false">mph</string>
+    <string name="weather_km" translatable="false">km</string>
+    <string name="weather_mi" translatable="false">mi</string>
+    <string name="weather_time" translatable="false">%1$s:%2$s</string>
+    <string name="weather_today">Today</string>
+    <string name="weather_settings_title">Weather settings</string>
+    <string name="weather_settings_item_temperature_unit">Temperature unit</string>
+    <string name="weather_settings_item_distance_unit">Distance unit</string>
+    <string name="weather_settings_item_add_new_city">Add new city</string>
+    <string name="weather_settings_celsius" translatable="false">\u00b0C</string>
+    <string name="weather_settings_fahrenheit" translatable="false">\u00b0F</string>
+    <string name="weather_settings_cf_slash" translatable="false">/</string>
+    <string name="weather_settings_cities_title">City</string>
+
+    <!-- [CHAR_LIMIT=30] -->
+    <string name="weather_city_add_new_btn">Add new city</string>
+
+    <string name="weather_city_more_than_limit">You can add up to 12 cities</string>
+    <string name="refresh">Refresh</string>
+    <string name="weather_city_searching_prompt">Searching…</string>
+    <string name="weather_city_empty_result_prompt">No results found</string>
+    <string name="weather_city_search_error_prompt">Network error.</string>
+    <string name="weather_city_loading_message">Loading…</string>
+    <string name="weather_city_load_failed_message">Oops, couldn\'t load the weather.</string>
+    <string name="weather_clock_widget_name">Time &amp; Weather </string>
+    <string name="weather_clock_unknown_weather_message">Unknown</string>
+    <string name="sunny">Sunny</string>
+    <string name="overcast">Overcast</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="rain">Rain</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="rain_shower">Heavy Rain</string>
+    <string name="snow">Snow</string>
+    <string name="snow_shower">Heavy Snow</string>
+    <string name="sleet">Sleet</string>
+    <string name="hazy">Hazy</string>
+    <string name="dust">Dust</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="cold">Cold</string>
+    <string name="hot">Hot</string>
+    <string name="windy">Windy</string>
+    <string name="menu_item_settings">Settings</string>
+
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+
+    <string name="weather_search_hint">" Enter city name in English"</string>
+
+    <!-- Weather clock widget -->
+    <dimen name="clock_time_hour_size">64dp</dimen>
+    <string name="weather_clock_widget_time_typeface">Custom-Thin</string>
+    <string name="weather_clock_widget_time_typeface_file_name">AllerDisplay-Regular.ttf</string>
+    <string name="weather_clock_widget_weather_typeface_file_name">AllerDisplay-Regular.ttf</string>
+
+    <string name="permission_request_allow">Allow</string>
+
+
+    <string name="permission_rationale_app_lock_intruder_selfie">Allow Camera Permission to enable %1$s</string>
+    <string name="permission_rationale_weather_location">Allow Location access to get accurate weather information.</string>
+    <string name="permission_request_call">Call</string>
+    <string name="permission_request_sms">SMS</string>
+    <string name="permission_request_contacts">Contacts</string>
+    <string name="request_sms_permission_guide_title">SMS &amp; Phone</string>
+    <string name="permission_request_contacts_description">Show contacts for calls</string>
+    <string name="request_na_permission_guide_title">Notification Access</string>
+    <string name="request_nc_permission_guide_text">To show unread messages from social apps</string>
+    <string name="normal_permission_guide_permission">Permissions</string>
+    <string name="weather_push_disable_title">Disable Weather Forecast？</string>
+    <string name="weather_push_disable_content">You won\'t receive weather forecast once you disable it. Are you sure to disable it?</string>
+    <string name="not_now">NOT NOW</string>
+    <string name="disable">DISABLE</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="weather_push_content">Pick up to get weather information</string>
+
+</resources>

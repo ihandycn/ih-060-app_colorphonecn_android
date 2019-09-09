@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/permission_request_weather_location_bg"
+    tools:background="#3466ca">
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_location_permission_rationale_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:drawableLeft="@drawable/permission_request_location_icon"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/permission_request_location_icon"
+        android:gravity="center_vertical"
+        android:text="@string/permission_rationale_weather_location"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:typeface="@string/custom_font_semibold" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_location_permission_request_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/weather_location_permission_rationale_text"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/permission_request_weather_location_btn_bg"
+        android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="6dp"
+        android:text="@string/permission_request_allow"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:typeface="@string/custom_font_semibold" />
+</RelativeLayout>
