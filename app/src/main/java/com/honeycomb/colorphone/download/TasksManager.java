@@ -400,7 +400,7 @@ public class TasksManager {
             String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), targetTheme.getFileName());
             return path;
         } else {
-            return FileDownloadUtils.getDefaultSaveFilePath(url);
+            return FileDownloadUtils.getDefaultSaveFilePath(url) + ".mp4";
         }
     }
 
