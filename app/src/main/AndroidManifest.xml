@@ -370,23 +370,6 @@
 
         <activity android:name=".toolbar.NotificationActivity" />
 
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AutoStartHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AccessibilityHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
-
         <activity
             android:name="net.appcloudbox.ads.base.FullAdActivity"
             android:excludeFromRecents="true"
