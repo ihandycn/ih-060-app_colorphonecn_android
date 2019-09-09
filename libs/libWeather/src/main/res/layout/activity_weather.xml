@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,65 +15,50 @@
         <colorphone.acb.com.libweather.WeatherAnimView
             android:id="@+id/weather_anim"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription" />
     </RelativeLayout>
 
     <!-- City weather -->
-    <colorphone.acb.com.libweather.view.WeatherRevealLayout
-        android:id="@+id/weather_reveal_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="76dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        >
-        <RelativeLayout
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/white_toolbar" />
+
+        <com.superapps.view.ViewPagerFixed
+            android:id="@+id/weather_city_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/action_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/abc_action_bar_default_height_material"
-                android:layout_gravity="top"
-                android:background="@android:color/transparent"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="0dp"
-                app:contentInsetStartWithNavigation="0dp"
-                tools:ignore="PrivateResource" >
-                <android.support.v7.widget.ActionMenuView
-                    android:id="@+id/action_menu_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+            android:layout_above="@+id/weather_bottom_layout"
+            android:layout_below="@id/action_bar" />
 
-            </android.support.v7.widget.Toolbar>
-            <com.superapps.view.ViewPagerFixed
-                android:id="@+id/weather_city_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/weather_bottom_bar"
-                android:layout_below="@id/action_bar"/>
+        <LinearLayout
+            android:id="@+id/weather_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/weather_bottom_bar"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_alignParentBottom="true">
+                android:layout_height="35dp">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.3dp"
                     android:layout_alignParentTop="true"
-                    android:background="@color/weather_secondary"/>
+                    android:background="@color/weather_secondary" />
 
                 <!-- Refresh clickable area -->
                 <View
@@ -82,7 +66,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true" />
 
                 <com.superapps.view.TypefacedTextView
                     android:id="@+id/weather_last_update_time"
@@ -99,7 +83,7 @@
                     android:textColor="@color/weather_secondary"
                     android:textSize="11sp"
                     app:typeface="@string/custom_font_regular"
-                    tools:text="08:23"/>
+                    tools:text="08:23" />
 
                 <colorphone.acb.com.libweather.view.StoppableProgressBar
                     android:id="@+id/weather_refresh_indicator"
@@ -110,35 +94,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/small_refresh_icon"/>
+                    android:src="@drawable/small_refresh_icon" />
             </RelativeLayout>
-        </RelativeLayout>
 
-        <FrameLayout
-            android:layout_width="@dimen/abc_action_bar_default_height_material"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:layout_gravity="end|right">
-            <ImageButton
-                android:id="@+id/toolbar_weather_close"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:padding="6dp"
-                android:scaleType="centerInside"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/weather_main_close" />
-        </FrameLayout>
-    </colorphone.acb.com.libweather.view.WeatherRevealLayout>
-
-    <View
-        android:id="@+id/weather_black_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000" />
-    <View
-        android:id="@+id/weather_black_bg_footer"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/weather_footer_bg" />
+        </LinearLayout>
+    </RelativeLayout>
 </merge>

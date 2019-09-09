@@ -123,12 +123,7 @@ public class WeatherActivity extends BaseAppCompatActivity
     @Thunk boolean mStopped;
     private Runnable mPendingActionOnStart;
 
-    @Thunk PageEventLogger mEventLogger;
-
-    public static void start(Context context) {
-        Intent intent = new Intent(context, WeatherActivity.class);
-        context.startActivity(intent);
-    }
+    private PageEventLogger mEventLogger;
 
     @DebugLog
     @Override
@@ -167,10 +162,7 @@ public class WeatherActivity extends BaseAppCompatActivity
 
         mMaxCityCount = getResources().getInteger(R.integer.config_weatherCityMaxCount);
 
-//        LauncherAnalytics.logEvent("Weather_Detail_Pageviewed");
-
         Preferences.get(LauncherFiles.DESKTOP_PREFS).putLong(PREF_KEY_WEATHER_LAST_OPEN_TIME, System.currentTimeMillis());
-//        InterstitialAdsManager.getInstance().onEnterAdFeatures("Weather");
     }
 
     private void configAppBar() {
@@ -203,7 +195,6 @@ public class WeatherActivity extends BaseAppCompatActivity
             onStartAction.run();
         }
         mWeatherAnimView.bindView(mCityPager);
-//        FeatureStats.recordStartTime("UsefulFeature");
     }
 
     private void waitUntilStart(Runnable action) {
@@ -239,7 +230,6 @@ public class WeatherActivity extends BaseAppCompatActivity
         super.onStop();
         mStopped = true;
         mWeatherAnimView.release();
-//        FeatureStats.recordLastTime("UsefulFeature");
     }
 
     @Override
@@ -252,11 +242,6 @@ public class WeatherActivity extends BaseAppCompatActivity
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-//        if (GlobalPopupsManager.shouldShowPopup()) {
-//            InterstitialGiftBroadcastReceiver.sendInterstitialGift(this, true,
-//                    InterstitialGiftBroadcastReceiver.InterstitialSource.WEATHER.getName());
-//        }
     }
 
     @Override
@@ -267,11 +252,11 @@ public class WeatherActivity extends BaseAppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.action_settings) {
-            //                LauncherAnalytics.logEvent("Weather_Detail_Setting_Clicked");
+        } else if (i == R.id.action_settings) {
             startActivity(new Intent(this, WeatherSettingsActivity.class));
             return true;
         }
@@ -337,7 +322,6 @@ public class WeatherActivity extends BaseAppCompatActivity
     @Override
     public void onClick(View v) {
         if (v == mRefreshClickable) {
-//            LauncherAnalytics.logEvent("Weather_Detail_Refresh_Clicked");
         }
         if (v.getId() == R.id.weather_city_refresh_btn) {
             mSuppressToastOnFailure = true;
@@ -473,38 +457,38 @@ public class WeatherActivity extends BaseAppCompatActivity
                 FrequencyCapLocationFetcher.FETCH_MODE_ACTIVE,
                 locationSource,
                 new FrequencyCapLocationFetcher.LocationListener() {
-            @Override
-            public void onLocationFetched(boolean success, double lat, double lon) {
-                if (success) {
-                    fetchWeather(oldData, lat, lon);
-                } else if (locationSource == HSLocationManager.LocationSource.DEVICE) {
-                    FrequencyCapLocationFetcher.fetchLocation(
-                            FrequencyCapLocationFetcher.FETCH_MODE_ACTIVE,
-                            HSLocationManager.LocationSource.IP,
-                            new FrequencyCapLocationFetcher.LocationListener() {
-                        @Override
-                        public void onLocationFetched(boolean success, double lat, double lon) {
-                            if (success) {
-                                fetchWeather(oldData, lat, lon);
-                            } else {
-                                handleWeatherFetchResult(oldData, null);
-                            }
+                    @Override
+                    public void onLocationFetched(boolean success, double lat, double lon) {
+                        if (success) {
+                            fetchWeather(oldData, lat, lon);
+                        } else if (locationSource == HSLocationManager.LocationSource.DEVICE) {
+                            FrequencyCapLocationFetcher.fetchLocation(
+                                    FrequencyCapLocationFetcher.FETCH_MODE_ACTIVE,
+                                    HSLocationManager.LocationSource.IP,
+                                    new FrequencyCapLocationFetcher.LocationListener() {
+                                        @Override
+                                        public void onLocationFetched(boolean success, double lat, double lon) {
+                                            if (success) {
+                                                fetchWeather(oldData, lat, lon);
+                                            } else {
+                                                handleWeatherFetchResult(oldData, null);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCountryAndRegionCodeFetched(String countryAndRegion) {
+                                        }
+                                    });
+
+                        } else {
+                            handleWeatherFetchResult(oldData, null);
                         }
+                    }
 
-                        @Override
-                        public void onCountryAndRegionCodeFetched(String countryAndRegion) {
-                        }
-                    });
-
-                } else {
-                    handleWeatherFetchResult(oldData, null);
-                }
-            }
-
-            @Override
-            public void onCountryAndRegionCodeFetched(String countryAndRegion) {
-            }
-        });
+                    @Override
+                    public void onCountryAndRegionCodeFetched(String countryAndRegion) {
+                    }
+                });
     }
 
     private void fetchWeather(final CityData oldData, double lat, double lon) {
@@ -655,7 +639,6 @@ public class WeatherActivity extends BaseAppCompatActivity
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     updateWeather(0, false);
                     if (mLocalPage != null && mLocalPage.isPermissionRequestPending()) {
-//                        LauncherAnalytics.logEvent("Weather_LocationAccess_Succeed");
                     }
                 } else {
                     updateWeather(0, true);
@@ -676,7 +659,6 @@ public class WeatherActivity extends BaseAppCompatActivity
                         Manifest.permission.ACCESS_FINE_LOCATION) == RuntimePermissions.PERMISSION_GRANTED) {
                     updateWeather(0, false);
                     if (mLocalPage != null && mLocalPage.isPermissionRequestPending()) {
-//                        LauncherAnalytics.logEvent("Weather_LocationAccess_Succeed");
                     }
                 }
                 if (mLocalPage != null) {
@@ -792,7 +774,6 @@ public class WeatherActivity extends BaseAppCompatActivity
                 View addNewBtn = ViewUtils.findViewById(addNewPage, R.id.weather_city_add_new_btn);
                 View addNewBtnCard = ViewUtils.findViewById(addNewPage, R.id.weather_city_add_new_btn_card);
                 View.OnClickListener onClickListener = v -> {
-//                    LauncherAnalytics.logEvent("Weather_Detail_AddCity_BtnClicked");
                     if (getCount() - 1 >= mMaxCityCount) {
                         Toasts.showToast(R.string.weather_city_more_than_limit);
                     } else {
@@ -889,9 +870,7 @@ public class WeatherActivity extends BaseAppCompatActivity
 
         void tryLogPageChangeEvent(int newPage) {
             if (newPage < mPageCount - 1) {
-//                LauncherAnalytics.logEvent("Weather_Detail_SlideToOtherCity", "type", newPage > mCurrentPage ? "Right" : "Left");
             } else {
-//                LauncherAnalytics.logEvent("Weather_Detail_AddCity_Viewed");
             }
             mCurrentPage = newPage;
         }
