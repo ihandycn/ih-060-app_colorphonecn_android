@@ -14,6 +14,8 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -62,7 +64,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-//        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
-        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
+        Navigations.startActivitySafely(this, LifeAssistantActivity.class);
     }
 }

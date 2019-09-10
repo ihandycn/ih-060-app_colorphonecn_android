@@ -61,6 +61,7 @@ import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
@@ -110,6 +111,7 @@ import com.messagecenter.customize.MessageCenterManager;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.occasion.OccasionManager;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -859,6 +861,7 @@ public class ColorPhoneApplicationImpl {
                         HSLog.i("CCTest", "not time");
                     }
 
+                    OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
                 }
             }
         }, screenFilter);

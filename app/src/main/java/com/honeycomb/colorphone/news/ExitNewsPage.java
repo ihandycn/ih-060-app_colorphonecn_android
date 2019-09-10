@@ -17,6 +17,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
@@ -142,6 +143,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             }
 
             if (isNoNews && viewType == NEWS_TYPE_HEAD_NO_NEWS) {
+                ((NewsNoNetworkHolder) holder).bindView();
                 return;
             }
 
@@ -164,6 +166,14 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
     private class NewsNoNetworkHolder extends RecyclerView.ViewHolder {
         NewsNoNetworkHolder(View itemView) {
             super(itemView);
+        }
+
+        void bindView() {
+            View action = itemView.findViewById(R.id.news_no_network_action);
+            action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff696681, Dimensions.pxFromDp(21), true));
+            action.setOnClickListener(v -> {
+                loadNews("");
+            });
         }
     }
 

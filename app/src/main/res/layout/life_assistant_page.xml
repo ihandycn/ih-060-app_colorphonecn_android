@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/darker_gray">
+
+    <ImageView
+        android:id="@+id/life_assistant_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/huawei_rate_guide_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/news_swipe_layout"
+        tools:src="@drawable/huawei_rate_guide_image" />
+
+    <TextView
+        android:id="@+id/life_assistant_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:text="@string/life_assistant_title"
+        app:layout_constraintTop_toTopOf="@id/life_assistant_icon"
+        app:layout_constraintBottom_toBottomOf="@id/life_assistant_icon"
+        app:layout_constraintLeft_toRightOf="@id/life_assistant_icon"/>
+
+    <ImageView
+        android:id="@+id/life_assistant_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/theme_setting_close"
+        app:layout_constraintTop_toTopOf="@id/life_assistant_icon"
+        app:layout_constraintBottom_toBottomOf="@id/life_assistant_icon"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:src="@drawable/theme_setting_close" />
+
+    <ImageView
+        android:id="@+id/life_assistant_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/settings_icon_setting"
+        app:layout_constraintTop_toTopOf="@id/life_assistant_icon"
+        app:layout_constraintBottom_toBottomOf="@id/life_assistant_icon"
+        app:layout_constraintRight_toLeftOf="@id/life_assistant_close"
+        tools:src="@drawable/settings_icon_setting" />
+
+    <com.honeycomb.colorphone.lifeassistant.LifeAssistantNewsPage
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:id="@+id/news_swipe_layout"
+        app:layout_constraintTop_toBottomOf="@id/life_assistant_icon"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.honeycomb.colorphone.lifeassistant.LifeAssistantNewsPage>
+</android.support.constraint.ConstraintLayout>

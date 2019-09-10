@@ -398,4 +398,9 @@
     <string name="huawei_rate_guide_content">点击这里 ICON 给我们一个五星好评吧</string>
     <string name="replace_icon_text" translatable="false">ICON</string>
 
+    <string name="life_assistant_title">生活小助手</string>
+    <string name="life_assistant_news_title">今日热门资讯</string>
+    <string name="life_assistant_welcome_moring">早上好！</string>
+    <string name="life_assistant_welcome_afternoon">晚上好！</string>
+
 </resources>

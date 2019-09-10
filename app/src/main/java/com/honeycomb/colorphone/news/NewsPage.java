@@ -301,7 +301,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         static final int NEWS_TYPE_ITEM     = 100;
         static final int NEWS_TYPE_BIG      = 101;
-        static final int NEWS_TYPE_FOOT     = 102;
+        public static final int NEWS_TYPE_FOOT     = 102;
         static final int NEWS_TYPE_NATIVE   = 103;
         static final int NEWS_TYPE_VIDEO    = 104;
 
