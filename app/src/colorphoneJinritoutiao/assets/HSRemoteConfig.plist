@@ -941,10 +941,6 @@
 			</dict>
 			<key>Ringtone</key>
 			<dict>
-				<key>IsRingtoneBtnYellow</key>
-				<false/>
-				<key>IsRingbacktoneBtnYellow</key>
-				<true/>
 				<key>AppId</key>
 				<string>52dafa090bc7aa53</string>
 				<key>Column</key>
@@ -964,6 +960,10 @@
 				<true/>
 				<key>IsBannerEnabled</key>
 				<true/>
+				<key>IsRingbacktoneBtnYellow</key>
+				<true/>
+				<key>IsRingtoneBtnYellow</key>
+				<false/>
 			</dict>
 			<key>ScreenFlash</key>
 			<dict>
@@ -10755,13 +10755,13 @@
 			<key>Wallpaper</key>
 			<dict>
 				<key>AlertShow</key>
-				<false/>
+				<true/>
 				<key>AlertShowMaxtime</key>
 				<integer>3</integer>
 				<key>DetailPageSoundChoiceEnable</key>
-				<true/>
-				<key>EntranceShow</key>
 				<false/>
+				<key>EntranceShow</key>
+				<true/>
 				<key>ImageWallpapers</key>
 				<dict>
 					<key>BaseUrl</key>
@@ -11104,7 +11104,7 @@
 					</array>
 				</dict>
 				<key>SoundGuideEnable</key>
-				<false/>
+				<true/>
 				<key>Video</key>
 				<array>
 					<dict>
