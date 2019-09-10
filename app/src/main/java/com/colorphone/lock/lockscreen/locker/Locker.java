@@ -43,6 +43,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public static final String EVENT_FINISH_SELF = "locker_event_finish_self";
     public static final String EVENT_WALLPAPER_CHANGE = "locker_event_wallpaper_changed";
+    public static final String EVENT_MAIN_PAGE_SHOW = "locker_event_wallpaper_page_main_s";
 
     public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
     public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
@@ -251,6 +252,7 @@ public class Locker extends LockScreen implements INotificationObserver {
                     mLockerWallpaper.resumePlay();
                     Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
                             LockerEventUtils.getWallpaperType(mLockerWallpaper.getType()));
+                    HSGlobalNotificationCenter.sendNotification(Locker.EVENT_MAIN_PAGE_SHOW);
                 } else {
                     mLockerWallpaper.pausePlay();
                     mWallpaperIconHint.setVisibility(View.GONE);

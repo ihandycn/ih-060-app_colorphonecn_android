@@ -198,7 +198,10 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_WALLPAPER_CHANGE);
         showSuccessToast();
         Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success"),
-                "Type", hasAudio ? "Video" : "Live", "Name", formatName(mWallpaperInfo));
+                "Type", hasAudio ? "Video" : "Live");
+
+        Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success") + (hasAudio ? "Video" : "Live")
+                , formatName(mWallpaperInfo));
     }
 
     private String formatName(WallpaperInfo wallpaperInfo) {

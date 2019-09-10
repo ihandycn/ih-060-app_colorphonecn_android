@@ -123,6 +123,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private String gameEntranceType;
     private ImageView ringtoneImage;
     private TextView ringtoneHint;
+    private boolean audioHint;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -207,7 +208,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         ringtoneImage = findViewById(R.id.ringtone_image);
         ringtoneImage.setOnClickListener(view -> {
-            Preferences.getDefault().putBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
             toggle();
         });
 
@@ -300,6 +300,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             ringtoneHint.setVisibility(VISIBLE);
             ringtoneHint.setAlpha(0);
             ringtoneHint.animate().alpha(1).setDuration(200).start();
+            Preferences.getDefault().getBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
         }
     }
 
@@ -315,6 +316,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void refreshRingtoneStatus() {
+        audioHint = false;
         int audioStatus = CustomizeUtils.getVideoAudioStatus();
         if (audioStatus == CustomizeUtils.VIDEO_NO_AUDIO) {
             ringtoneImage.setVisibility(GONE);
@@ -323,7 +325,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             ringtoneImage.setEnabled(true);
             ringtoneImage.setActivated(audioStatus == CustomizeUtils.VIDEO_AUDIO_ON);
             if (audioStatus == CustomizeUtils.VIDEO_AUDIO_OFF) {
-                showRingtoneHint();
+                audioHint = true;
             }
         }
     }
@@ -378,6 +380,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
         HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
         HSGlobalNotificationCenter.addObserver(Locker.EVENT_WALLPAPER_CHANGE,this);
+        HSGlobalNotificationCenter.addObserver(Locker.EVENT_MAIN_PAGE_SHOW, this);
 
         requestAds();
 
@@ -561,6 +564,13 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             case Locker.EVENT_WALLPAPER_CHANGE:
                 refreshRingtoneStatus();
                 break;
+            case Locker.EVENT_MAIN_PAGE_SHOW:
+                if (audioHint) {
+                    showRingtoneHint();
+                    audioHint = false;
+                }
+                break;
+
             case SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE:
 //                if (mIsBlackHoleShowing) {
 //                    break;
