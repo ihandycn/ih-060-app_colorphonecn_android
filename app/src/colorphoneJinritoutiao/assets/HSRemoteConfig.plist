@@ -327,7 +327,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -356,7 +356,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -364,7 +364,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -939,6 +939,32 @@
 				<key>Usage_Access_Gain_From_First_Screen</key>
 				<false/>
 			</dict>
+			<key>Ringtone</key>
+			<dict>
+				<key>IsRingtoneBtnYellow</key>
+				<true/>
+				<key>IsRingbacktoneBtnYellow</key>
+				<true/>
+				<key>AppId</key>
+				<string>52dafa090bc7aa53</string>
+				<key>Column</key>
+				<dict>
+					<key>Banner</key>
+					<string>28181</string>
+					<key>Hot</key>
+					<string>304013</string>
+					<key>New</key>
+					<string>304017</string>
+					<key>SubColumn</key>
+					<string>303985</string>
+					<key>Trending</key>
+					<string>304021</string>
+				</dict>
+				<key>Enable</key>
+				<false/>
+				<key>IsBannerEnabled</key>
+				<true/>
+			</dict>
 			<key>ScreenFlash</key>
 			<dict>
 				<key>CallAssistant</key>
@@ -994,6 +1020,10 @@
 						<key>WeChat</key>
 						<true/>
 					</dict>
+					<key>TextureWireEnable</key>
+					<false/>
+					<key>TextureWireIntervalMinute</key>
+					<integer>0</integer>
 				</dict>
 			</dict>
 			<key>Share</key>
@@ -9105,7 +9135,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -9271,7 +9301,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>

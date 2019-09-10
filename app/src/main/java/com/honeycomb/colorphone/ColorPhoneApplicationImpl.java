@@ -10,14 +10,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
@@ -40,9 +44,15 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
+import com.colorphone.ringtones.RingtoneConfig;
+import com.colorphone.ringtones.RingtoneImageLoader;
+import com.colorphone.ringtones.RingtoneSetter;
+import com.colorphone.ringtones.WebLauncher;
+import com.colorphone.ringtones.module.Ringtone;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
@@ -65,6 +75,7 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.WebViewActivity;
 import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
@@ -80,7 +91,9 @@ import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -113,8 +126,11 @@ import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
+import com.superapps.util.rom.RomUtils;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -479,6 +495,8 @@ public class ColorPhoneApplicationImpl {
 
         ContactManager.init();
 
+        initKuyinRingtone();
+
         AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
@@ -590,6 +608,72 @@ public class ColorPhoneApplicationImpl {
             }
         });
         homeKeyWatcher.startWatch();
+    }
+
+    private void initKuyinRingtone() {
+        RingtoneConfig.getInstance().setRingtoneImageLoader(new RingtoneImageLoader() {
+            @Override
+            public void loadImage(Context context, String imageUrl, ImageView imageView, int defaultResId) {
+                GlideApp.with(context)
+                        .load(imageUrl)
+                        .placeholder(defaultResId)
+                        .into(imageView);
+            }
+        });
+
+        RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
+            @Override
+            public boolean onSetAsDefault(Ringtone ringtone) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.System.canWrite(mBaseApplication)) {
+                        // Check permission
+                        Toast.makeText(mBaseApplication, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                                Uri.parse("package:" + mBaseApplication.getPackageName()));
+                        Navigations.startActivitySafely(mBaseApplication, intent);
+                        return false;
+                    }
+                }
+
+                RingtoneHelper.setDefaultRingtoneInBackground(ringtone.getFilePath(), ringtone.getTitle());
+                Toasts.showToast("设置成功");
+
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForAll_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
+                return true;
+            }
+
+            @Override
+            public boolean onSetForSomeOne(Ringtone ringtone) {
+                // TODO 检查权限
+                ContactsRingtoneSelectActivity.startSelectRingtone(HSApplication.getContext(), ringtone);
+                return true;
+            }
+        });
+        RingtoneConfig.getInstance().setRemoteLogger(new RingtoneConfig.RemoteLogger() {
+            @Override
+            public void logEvent(String eventID) {
+                Analytics.logEvent(eventID);
+            }
+
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
+            }
+        });
+
+        RingtoneConfig.getInstance().setWebLauncher(new WebLauncher() {
+            @Override
+            public boolean handleUrl(String url) {
+                Navigations.startActivitySafely(mBaseApplication, WebViewActivity.newIntent(url, false, WebViewActivity.FROM_LIST));
+                return true;
+            }
+        });
+
     }
 
     private void watchLifeTimeAutopilot() {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_no_network"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible"
+    tools:background="@color/ringtone_main_bg"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <!--<com.superapps.view.TypefacedTextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:alpha=".9"-->
+    <!--android:textSize="20sp"-->
+    <!--android:textColor="#e6101010"-->
+    <!--android:textStyle="bold"-->
+    <!--android:text="@string/news_network_err"-->
+    <!--app:typeface="@string/custom_font_bold" />-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/news_network_err_image" />
+
+    <com.superapps.view.TypefacedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginRight="96dp"
+        android:alpha=".8"
+        android:gravity="center"
+        android:text="@string/news_network_err_content"
+        android:textColor="@color/ringtone_text_hint"
+        android:textSize="14sp"
+        app:typeface="@string/custom_font_regular" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/no_network_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:gravity="center"
+        android:paddingStart="22dp"
+        android:paddingLeft="22dp"
+        android:paddingTop="9dp"
+        android:paddingEnd="22dp"
+        android:paddingRight="22dp"
+        android:paddingBottom="9dp"
+        android:textStyle="bold"
+        android:text="@string/news_network_err_action"
+        android:textColor="@color/ringtone_button_color"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -10,7 +10,9 @@ import android.widget.EditText;
 
 import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
+import com.superapps.util.Navigations;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
@@ -35,7 +37,6 @@ public class TestActivity extends AppCompatActivity {
         final LottieAnimationView lottieAnimationView2 = findViewById(R.id.lottie_anim_2);
         lottieAnimationView2.setOnClickListener(v -> lottieAnimationView2.playAnimation());
         mInCallWindow = new InCallWindow(this);
-
     }
 
     public void startCallRingingWindow(View view) {
@@ -64,5 +65,9 @@ public class TestActivity extends AppCompatActivity {
     public void checkFloatWindow(View view) {
 //        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
         FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
+    }
+
+    public void openRingtone(View view) {
+        Navigations.startActivity(this, RingtoneEntranceActivity.class);
     }
 }

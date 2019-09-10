@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ringtone_item_height_expand">112dp</dimen>
+    <dimen name="ringtone_item_height_normal">78dp</dimen>
+    <dimen name="ringtone_search_bar_height">64dp</dimen>
+    <dimen name="ringtone_tab_height">56dp</dimen>
+</resources>

@@ -35,10 +35,10 @@
         android:textSize="4sp"
         android:textColor="@android:color/white"
         android:background="@drawable/hint_bg_red"
-        android:text="  "
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="@id/tab_layout_title"
         tools:ignore="SmallSp"
-        tools:text="10+"/>
+        tools:visibility="visible"
+       />
 
 </android.support.constraint.ConstraintLayout>
