@@ -300,7 +300,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             ringtoneHint.setVisibility(VISIBLE);
             ringtoneHint.setAlpha(0);
             ringtoneHint.animate().alpha(1).setDuration(200).start();
-            Preferences.getDefault().getBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
+            Preferences.getDefault().putBoolean(Locker.PREF_KEY_MUSIC_SWITCH_HINT, false);
         }
     }
 
