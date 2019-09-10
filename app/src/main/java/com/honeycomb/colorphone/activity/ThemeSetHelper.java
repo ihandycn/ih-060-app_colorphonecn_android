@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.support.annotation.Nullable;
 
+import com.colorphone.ringtones.module.Ringtone;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -13,6 +14,8 @@ import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.RingtoneHelper;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +100,16 @@ public class ThemeSetHelper {
 
     public static List<SimpleContact> getCacheContactList() {
         return sCacheContactList;
+    }
+
+    public static void setContactRingtone(Ringtone ringtone, List<SimpleContact> selectContacts) {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                for (SimpleContact contact : selectContacts) {
+                    RingtoneHelper.setSingleRingtone(ringtone.getTitle(), ringtone.getFilePath(), String.valueOf(contact.getContactId()));
+                }
+            }
+        });
     }
 }

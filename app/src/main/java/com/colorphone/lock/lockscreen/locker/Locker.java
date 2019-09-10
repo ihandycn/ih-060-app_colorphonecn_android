@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
@@ -177,9 +178,11 @@ public class Locker extends LockScreen implements INotificationObserver {
                 Analytics.logEvent(Analytics.upperFirstCh("lockscreen_show"), "Wallpaper",
                         LockerEventUtils.getWallpaperType(mLockerWallpaper.getType()));
             }
-            LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
-                    "Brand", Build.BRAND.toLowerCase(),
-                    "DeviceVersion", getDeviceInfo());
+            if (ScreenStatusReceiver.isScreenOn()) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", getDeviceInfo());
+            }
         }
     };
 

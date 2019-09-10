@@ -939,6 +939,32 @@
 				<key>Usage_Access_Gain_From_First_Screen</key>
 				<false/>
 			</dict>
+			<key>Ringtone</key>
+			<dict>
+				<key>IsRingtoneBtnYellow</key>
+				<true/>
+				<key>IsRingbacktoneBtnYellow</key>
+				<true/>
+				<key>AppId</key>
+				<string>52dafa090bc7aa53</string>
+				<key>Column</key>
+				<dict>
+					<key>Banner</key>
+					<string>28181</string>
+					<key>Hot</key>
+					<string>304013</string>
+					<key>New</key>
+					<string>304017</string>
+					<key>SubColumn</key>
+					<string>303985</string>
+					<key>Trending</key>
+					<string>304021</string>
+				</dict>
+				<key>Enable</key>
+				<false/>
+				<key>IsBannerEnabled</key>
+				<true/>
+			</dict>
 			<key>ScreenFlash</key>
 			<dict>
 				<key>CallAssistant</key>
