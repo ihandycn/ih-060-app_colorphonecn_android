@@ -10,13 +10,16 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
+import com.acb.colorphone.permissions.StableToast;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
@@ -60,7 +63,7 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
 
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
-    private static final long GUIDE_DELAY = 900;
+    private static final long GUIDE_DELAY = 750;
 
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;

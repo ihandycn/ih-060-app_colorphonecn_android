@@ -24,6 +24,7 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.permissions.StableToast;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -572,6 +573,18 @@ public class ColorPhoneApplicationImpl {
                 }
 
                 Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(DeviceManager.getInstance().getRamUsage()));
+
+                boolean cancel = StableToast.cancelToast();
+                if (cancel) {
+                    long curTimeMills = System.currentTimeMillis();
+                    long intervalMills = StableToast.timeMills - curTimeMills;
+                    long secondsInTen = intervalMills / 10000 + 1;
+
+                    if (!TextUtils.isEmpty(StableToast.logEvent)) {
+                        Analytics.logEvent(StableToast.logEvent, "Duration", String.valueOf(secondsInTen * 10));
+                        StableToast.logEvent = null;
+                    }
+                }
             }
 
             @Override public void onRecentsPressed() {
@@ -639,6 +652,20 @@ public class ColorPhoneApplicationImpl {
                 activityStack.push(1);
                 HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
                 ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
+
+                if (activity.getPackageName().equals(HSApplication.getContext().getPackageName())) {
+                    boolean cancel = StableToast.cancelToast();
+                    if (cancel) {
+                        long curTimeMills = System.currentTimeMillis();
+                        long intervalMills = StableToast.timeMills - curTimeMills;
+                        long secondsInTen = intervalMills / 10000 + 1;
+
+                        if (!TextUtils.isEmpty(StableToast.logEvent)) {
+                            Analytics.logEvent(StableToast.logEvent, "Duration", String.valueOf(secondsInTen * 10));
+                            StableToast.logEvent = null;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -667,7 +694,6 @@ public class ColorPhoneApplicationImpl {
         });
 
     }
-
 
     private void updateCallFinishFullScreenAdPlacement() {
         if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
@@ -893,6 +919,7 @@ public class ColorPhoneApplicationImpl {
 
     public void onTerminate() {
         HSGlobalNotificationCenter.removeObserver(mObserver);
+        homeKeyWatcher.stopWatch();
     }
 
     public static void checkCallAssistantAdPlacement() {

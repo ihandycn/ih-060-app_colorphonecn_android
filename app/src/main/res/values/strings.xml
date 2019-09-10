@@ -393,4 +393,7 @@
 
     <string name="auto_start_toast_huawei">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
 
+    <string name="huawei_rate_guide_content">点击这里 ICON 给我们一个五星好评吧</string>
+    <string name="replace_icon_text" translatable="false">ICON</string>
+
 </resources>

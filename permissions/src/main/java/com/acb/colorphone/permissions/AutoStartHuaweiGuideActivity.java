@@ -1,19 +1,19 @@
-package com.honeycomb.colorphone.autopermission;
+package com.acb.colorphone.permissions;
 
 import android.os.Build;
 
-import com.acb.colorphone.permissions.LottiePermissionGuideActivity;
+import com.superapps.util.Dimensions;
 
 public class AutoStartHuaweiGuideActivity extends LottiePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above26;
+            return R.string.acb_phone_grant_autostart_access_title_huawei_above26;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei_above23;
+            return R.string.acb_phone_grant_autostart_access_title_huawei_above23;
         } else {
-            return com.acb.colorphone.permissions.R.string.acb_phone_grant_autostart_access_title_huawei;
+            return R.string.acb_phone_grant_autostart_access_title_huawei;
         }
     }
 
@@ -29,8 +29,12 @@ public class AutoStartHuaweiGuideActivity extends LottiePermissionGuideActivity 
         }
     }
 
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        StableToast.showHuaweiAutoStartToast();
+    @Override protected void showExitStableToast() {
+        int yOffset = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            yOffset = Dimensions.pxFromDp(128);
+        }
+
+        StableToast.showStableToast(R.layout.toast_one_line_text, getTitleStringResId(), yOffset, "AutoStartPageDuration");
     }
 }

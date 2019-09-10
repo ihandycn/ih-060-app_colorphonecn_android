@@ -140,7 +140,7 @@
         </activity>
 
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name="com.honeycomb.colorphone.activity.WelcomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
@@ -370,23 +370,6 @@
 
         <activity android:name=".toolbar.NotificationActivity" />
 
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AutoStartHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AccessibilityHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
-
         <activity
             android:name="net.appcloudbox.ads.base.FullAdActivity"
             android:excludeFromRecents="true"
@@ -551,7 +534,7 @@
             android:name=".activity.StartGuideActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:taskAffinity=".main"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp" />
         <activity
             android:name=".news.WebViewActivity"

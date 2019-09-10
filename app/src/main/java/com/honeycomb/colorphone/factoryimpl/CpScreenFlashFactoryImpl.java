@@ -13,7 +13,7 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
-import com.honeycomb.colorphone.autopermission.AutoStartHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
