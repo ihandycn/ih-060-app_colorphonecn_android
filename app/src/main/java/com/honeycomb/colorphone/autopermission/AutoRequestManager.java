@@ -63,7 +63,7 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
 
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
-    private static final long GUIDE_DELAY = 750;
+    private static final long GUIDE_DELAY = 900;
 
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;
