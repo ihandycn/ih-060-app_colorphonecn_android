@@ -201,7 +201,7 @@ public class VideoWallpaperPreviewActivity extends BaseAppCompatActivity impleme
                 "Type", hasAudio ? "Video" : "Live");
 
         Analytics.logEvent(Analytics.upperFirstCh("wallpaper_detail_set_success") + (hasAudio ? "Video" : "Live")
-                , formatName(mWallpaperInfo));
+                , "Name", formatName(mWallpaperInfo));
     }
 
     private String formatName(WallpaperInfo wallpaperInfo) {
