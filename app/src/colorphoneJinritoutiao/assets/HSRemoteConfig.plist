@@ -942,7 +942,7 @@
 			<key>Ringtone</key>
 			<dict>
 				<key>IsRingtoneBtnYellow</key>
-				<true/>
+				<false/>
 				<key>IsRingbacktoneBtnYellow</key>
 				<true/>
 				<key>AppId</key>
@@ -961,7 +961,7 @@
 					<string>304021</string>
 				</dict>
 				<key>Enable</key>
-				<false/>
+				<true/>
 				<key>IsBannerEnabled</key>
 				<true/>
 			</dict>
