@@ -11157,14 +11157,6 @@
 						<key>AudioFalse</key>
 						<true/>
 						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon_preview.jpg</string>
-					</dict>
-					<dict>
-						<key>AudioFalse</key>
-						<true/>
-						<key>Original</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/wallpaper_new/19/19.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/wallpaper_new/19/19.jpg</string>
@@ -11376,38 +11368,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/wallpaper_new/13/13.mp4</string>
 						<key>Preview</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/wallpaper_new/13/13.jpg</string>
-					</dict>
-					<dict>
-						<key>AudioFalse</key>
-						<true/>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Hearts2/Hearts2.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Hearts2/Hearts2_preview.jpg</string>
-					</dict>
-					<dict>
-						<key>AudioFalse</key>
-						<true/>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Floating/Floating.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Floating/Floating_preview.jpg</string>
-					</dict>
-					<dict>
-						<key>AudioFalse</key>
-						<true/>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Stars/Stars.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Stars/Stars_preview.jpg</string>
-					</dict>
-					<dict>
-						<key>AudioFalse</key>
-						<true/>
-						<key>Original</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorfulRing/ColorfulRing.mp4</string>
-						<key>Preview</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorfulRing/ColorfulRing_preview.jpg</string>
 					</dict>
 					<dict>
 						<key>AudioFalse</key>
