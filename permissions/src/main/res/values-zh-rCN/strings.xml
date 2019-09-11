@@ -15,7 +15,7 @@
   <string name="acb_phone_grant_autostart_access_title_vivo">开启加速白名单权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei">请找到焕彩来电秀，并允许开机自动启动，以保持来电秀正常启动</string>
-  <string name="acb_phone_grant_autostart_access_title_huawei_above23">为确保来电秀正常启动，请找到焕彩来电秀，并允许自动启动。</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above26">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above28">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
   <string name="acb_phone_grant_autostart_access_title_miui">为确保来电秀正常启动，请开启自启动权限</string>
@@ -24,7 +24,7 @@
   <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">请进入软件权限管理，开启锁屏显示权限，以在锁屏时展示来电秀</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_huawei">Enable Notification On Lock Screen to Show Call Flash</string>
-  <string name="acb_phone_grant_show_onlockscreen_access_title_miui">开启锁屏显示权限，以在锁屏时正常展示来电秀</string>
+  <string name="acb_phone_grant_show_onlockscreen_access_title_miui">为确保锁屏时正常展示来电秀，请开启锁屏显示权限</string>
 
   <string name="acb_phone_permission_haode">好的</string>
   <string name="acb_phone_grant_notification_access_title_huawei">为确保成功读取来电时通知，请开启通知使用权</string>

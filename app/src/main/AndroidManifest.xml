@@ -140,7 +140,7 @@
         </activity>
 
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name="com.honeycomb.colorphone.activity.WelcomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
@@ -278,6 +278,14 @@
             android:theme="@style/ContactTheme" />
 
         <activity
+            android:name=".activity.ContactsRingtoneSelectActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme" />
+
+        <activity
             android:name="com.acb.call.activity.RequestPermissionsActivity"
             android:taskAffinity=":main"
             tools:node="merge" />
@@ -369,23 +377,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".toolbar.NotificationActivity" />
-
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AutoStartHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
-
-        <activity
-            android:name="com.honeycomb.colorphone.autopermission.AccessibilityHuaweiGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
 
         <activity
             android:name="net.appcloudbox.ads.base.FullAdActivity"
@@ -547,39 +538,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".boost.GameStarterActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            android:taskAffinity=".game"
-            android:excludeFromRecents="true"
-            android:theme="@style/INVisibleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".cmgame.CmGameActivity"
-            android:launchMode="singleTop"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".game"
-            />
-
-        <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
-            android:taskAffinity=".game"
-            android:icon="@drawable/icon_game_launch"
-            android:label="@string/title_game_center"
-            tools:replace="android:taskAffinity"/>
-
         <activity
             android:name=".activity.StartGuideActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:taskAffinity=".main"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp" />
         <activity
             android:name=".news.WebViewActivity"
@@ -720,19 +683,20 @@
             android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
             android:label="@string/title_message_activity"
             android:icon="@drawable/icon_message"
-            tools:replace="android:label" >
+            tools:replace="android:label" />
 
-        </activity>
         <activity
             android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
+
         <activity
             android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
+
         <activity
             android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
             android:excludeFromRecents="true"
@@ -754,6 +718,15 @@
             android:launchMode="singleTask"
             android:taskAffinity=":main"
             android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name=".notification.CleanGuideActivity"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=":clean"
+            android:label="@string/clean_guide_activity_label"
+            android:icon="@drawable/clean_guide_icon"
+            android:theme="@style/AppTranslucent"/>
 
         <activity
             android:name=".activity.ExitNewsActivity"

@@ -10,15 +10,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.os.BatteryManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
@@ -26,6 +29,7 @@ import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
 import com.acb.colorphone.permissions.PermissionConstants;
+import com.acb.colorphone.permissions.StableToast;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -41,24 +45,26 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
+import com.colorphone.ringtones.RingtoneConfig;
+import com.colorphone.ringtones.RingtoneImageLoader;
+import com.colorphone.ringtones.RingtoneSetter;
+import com.colorphone.ringtones.WebLauncher;
+import com.colorphone.ringtones.module.Ringtone;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
-import com.honeycomb.colorphone.autopermission.StableToast;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
-import com.honeycomb.colorphone.cmgame.CmGameUtil;
-import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -70,6 +76,8 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.WebViewActivity;
+import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -84,7 +92,9 @@ import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -117,9 +127,10 @@ import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
-import com.superapps.util.rom.RomUtils;
+import com.superapps.util.Toasts;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -167,7 +178,7 @@ public class ColorPhoneApplicationImpl {
     private List<AppInit> mAppInitList = new ArrayList<>();
 
     private HSApplication mBaseApplication;
-    private static HomeKeyWatcher homeKeyWatcher = new HomeKeyWatcher(HSApplication.getContext());
+    private static HomeKeyWatcher homeKeyWatcher;
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -241,13 +252,6 @@ public class ColorPhoneApplicationImpl {
                 } else {
                     HSLog.i("CCTest", "not time");
                 }
-            } else if (TextUtils.equals(PermissionConstants.PERMISSION_GUIDE_EXIT, notificationName)) {
-                String permission = bundle.getString(PermissionConstants.PERMISSION_GUIDE_EXIT);
-                if (TextUtils.equals(permission, PermissionConstants.PERMISSION_NOTIFICATION_ACCESS)) {
-                    if (RomUtils.checkIsHuaweiRom()) {
-                        StableToast.showHuaweiNotificationAccessToast();
-                    }
-                }
             }
         }
     };
@@ -307,7 +311,6 @@ public class ColorPhoneApplicationImpl {
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
-        mAppInitList.add(new GameInit());
         mAppInitList.add(new NotificationBarInit());
 
         onAllProcessCreated();
@@ -329,59 +332,6 @@ public class ColorPhoneApplicationImpl {
 
     private void onWorkProcessCreate() {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
-
-        HSLog.i("FrameworkFlurryRecorder", "listen HomePressed");
-        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
-            @Override public void onHomePressed() {
-                int cpuTemp = CpuCoolerManager.getInstance().fetchCpuTemperature();
-                int memory = DeviceManager.getInstance().getRamUsage();
-                HSLog.i("FrameworkFlurryRecorder", "onHomePressed cpu: " + cpuTemp + "  memory: " + memory);
-
-                Analytics.logEvent("Home_Back_Tracked");
-                Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(memory));
-
-                if (cpuTemp > 55) {
-                    boolean isTimeInterval = (System.currentTimeMillis() - Preferences.get(Constants.DESKTOP_PREFS).getLong("CPU_hot_time", 0)) > 5 *DateUtils.MINUTE_IN_MILLIS;
-                    boolean notReport = !Preferences.get(Constants.DESKTOP_PREFS).getBoolean("CPU_hot_to_report", false);
-
-                    if (isTimeInterval && notReport) {
-                        Preferences.get(Constants.DESKTOP_PREFS).putLong("CPU_hot_time", System.currentTimeMillis());
-                        Preferences.get(Constants.DESKTOP_PREFS).putBoolean("CPU_hot_to_report", true);
-                        Analytics.logEvent("CPU_Temp_HighTo55");
-                    }
-                } else {
-                    Preferences.get(Constants.DESKTOP_PREFS).putBoolean("CPU_hot_to_report", false);
-                }
-            }
-
-            @Override public void onRecentsPressed() {
-
-            }
-        });
-        homeKeyWatcher.startWatch();
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        HSLog.i("FrameworkFlurryRecorder", "registerReceiver ACTION_BATTERY_CHANGED");
-        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
-            @Override public void onReceive(Context context, Intent intent) {
-                int curLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-
-                batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-                HSChargingManager.BatteryPluggedSource curBatteryPluggedSource = HSChargingManager.BatteryPluggedSource.get(intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, HSChargingManager.BatteryPluggedSource.UNKNOWN.value));
-
-                HSLog.i("FrameworkFlurryRecorder", "Battery c == " + curLevel + "  s == " + batteryScale + "  bps: " +curBatteryPluggedSource);
-                if (batteryLevel != curLevel || batteryPluggedSource != curBatteryPluggedSource) {
-                    batteryPluggedSource = curBatteryPluggedSource;
-
-                    if (batteryLevel >= 20 && curLevel < 20) {
-                        Analytics.logEvent("Battery_Power_LowTo20");
-                    }
-                    batteryLevel = curLevel;
-                }
-            }
-        }, intentFilter);
     }
 
     public static boolean isFabricInited() {
@@ -549,9 +499,12 @@ public class ColorPhoneApplicationImpl {
 
         ContactManager.init();
 
+        initKuyinRingtone();
+
         AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
+        CleanGuideCondition.getInstance();
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
@@ -607,6 +560,124 @@ public class ColorPhoneApplicationImpl {
                         "Brand", AutoLogger.getBrand(), "Os", AutoLogger.getOSVersion());
             }
         });
+
+        homeKeyWatcher = new HomeKeyWatcher(mBaseApplication);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            long lastRecord;
+            boolean cpuChangeToHigh = false;
+            boolean batteryChangeToLow = false;
+
+            @Override public void onHomePressed() {
+                Analytics.logEvent("Home_Back_Tracked");
+
+                int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
+                if (batteryLevel < 20) {
+                    if (batteryChangeToLow) {
+                        batteryChangeToLow = false;
+                        Analytics.logEvent("Battery_Power_LowTo20");
+                    }
+                } else {
+                    batteryChangeToLow = true;
+                }
+
+                float cpuTemp = DeviceManager.getInstance().getCpuTemperatureCelsius();
+                if (cpuTemp >= 45) {
+                    boolean timeInterVal = System.currentTimeMillis() - lastRecord > 5 * DateUtils.MINUTE_IN_MILLIS;
+                    if (cpuChangeToHigh && timeInterVal) {
+                        cpuChangeToHigh = false;
+                        Analytics.logEvent("CPU_Temp_HighTo55");
+                        lastRecord = System.currentTimeMillis();
+                    }
+                } else {
+                    cpuChangeToHigh = true;
+                }
+
+                Analytics.logEvent("Storage_Occupied", "Memory", String.valueOf(DeviceManager.getInstance().getRamUsage()));
+
+                boolean cancel = StableToast.cancelToast();
+                if (cancel) {
+                    long curTimeMills = System.currentTimeMillis();
+                    long intervalMills = StableToast.timeMills - curTimeMills;
+                    long secondsInTen = intervalMills / 10000 + 1;
+
+                    if (!TextUtils.isEmpty(StableToast.logEvent)) {
+                        Analytics.logEvent(StableToast.logEvent, "Duration", String.valueOf(secondsInTen * 10));
+                        StableToast.logEvent = null;
+                    }
+                }
+            }
+
+            @Override public void onRecentsPressed() {
+
+            }
+        });
+        homeKeyWatcher.startWatch();
+    }
+
+    private void initKuyinRingtone() {
+        RingtoneConfig.getInstance().setRingtoneImageLoader(new RingtoneImageLoader() {
+            @Override
+            public void loadImage(Context context, String imageUrl, ImageView imageView, int defaultResId) {
+                GlideApp.with(context)
+                        .load(imageUrl)
+                        .placeholder(defaultResId)
+                        .into(imageView);
+            }
+        });
+
+        RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
+            @Override
+            public boolean onSetAsDefault(Ringtone ringtone) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.System.canWrite(mBaseApplication)) {
+                        // Check permission
+                        Toast.makeText(mBaseApplication, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                                Uri.parse("package:" + mBaseApplication.getPackageName()));
+                        Navigations.startActivitySafely(mBaseApplication, intent);
+                        return false;
+                    }
+                }
+
+                RingtoneHelper.setDefaultRingtoneInBackground(ringtone.getFilePath(), ringtone.getTitle());
+                Toasts.showToast("设置成功");
+
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_SetForAll_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Success",
+                        "Name", ringtone.getTitle(),
+                        "Type:", ringtone.getColumnSource());
+                return true;
+            }
+
+            @Override
+            public boolean onSetForSomeOne(Ringtone ringtone) {
+                // TODO 检查权限
+                ContactsRingtoneSelectActivity.startSelectRingtone(HSApplication.getContext(), ringtone);
+                return true;
+            }
+        });
+        RingtoneConfig.getInstance().setRemoteLogger(new RingtoneConfig.RemoteLogger() {
+            @Override
+            public void logEvent(String eventID) {
+                Analytics.logEvent(eventID);
+            }
+
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
+            }
+        });
+
+        RingtoneConfig.getInstance().setWebLauncher(new WebLauncher() {
+            @Override
+            public boolean handleUrl(String url) {
+                Navigations.startActivitySafely(mBaseApplication, WebViewActivity.newIntent(url, false, WebViewActivity.FROM_LIST));
+                return true;
+            }
+        });
+
     }
 
     private void watchLifeTimeAutopilot() {
@@ -667,6 +738,20 @@ public class ColorPhoneApplicationImpl {
                 activityStack.push(1);
                 HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
                 ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
+
+                if (activity.getPackageName().equals(HSApplication.getContext().getPackageName())) {
+                    boolean cancel = StableToast.cancelToast();
+                    if (cancel) {
+                        long curTimeMills = System.currentTimeMillis();
+                        long intervalMills = StableToast.timeMills - curTimeMills;
+                        long secondsInTen = intervalMills / 10000 + 1;
+
+                        if (!TextUtils.isEmpty(StableToast.logEvent)) {
+                            Analytics.logEvent(StableToast.logEvent, "Duration", String.valueOf(secondsInTen * 10));
+                            StableToast.logEvent = null;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -695,7 +780,6 @@ public class ColorPhoneApplicationImpl {
         });
 
     }
-
 
     private void updateCallFinishFullScreenAdPlacement() {
         if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
@@ -799,13 +883,11 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
             @Override
             public void startGameCenter(Context context) {
-                CmGameUtil.startCmGameActivity(context, "Locker");
             }
 
             @Override
             public boolean isGameEnable() {
-                return CmGameUtil.canUseCmGame()
-                        && HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+                return false;
             }
         });
 
@@ -924,6 +1006,7 @@ public class ColorPhoneApplicationImpl {
 
     public void onTerminate() {
         HSGlobalNotificationCenter.removeObserver(mObserver);
+        homeKeyWatcher.stopWatch();
     }
 
     public static void checkCallAssistantAdPlacement() {

@@ -31,7 +31,7 @@ public abstract class FullScreenDialog extends FloatWindowDialog {
         init();
     }
 
-    private void init() {
+    protected void init() {
         mContentView = (ViewGroup) View.inflate(getContext(), getLayoutResId(), this);
         if (IsInitStatusBarPadding()) {
             mContentView.getChildAt(0).setPadding(mContentView.getPaddingLeft(),

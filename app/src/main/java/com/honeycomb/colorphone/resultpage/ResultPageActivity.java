@@ -54,6 +54,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
     public static final String EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT = "EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT";
     public static final String EXTRA_KEY_SHOULD_START_TO_LAUNCHER = "EXTRA_KEY_SHOULD_START_TO_LAUNCHER";
 
+    public static final String EXTRA_KEY_EVENT_TYPE = "EXTRA_KEY_EVENT_TYPE";
+
     public static final String PREF_KEY_INTO_BATTERY_PROTECTION_COUNT = "into_battery_protection_count";
     public static final String PREF_KEY_INTO_NOTIFICATION_CLEANER_COUNT = "into_notification_cleaner_count";
     public static final String PREF_KEY_INTO_APP_LOCK_COUNT = "into_app_lock_count";
@@ -69,6 +71,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
     private ResultPagePresenter mPresenter;
 
     private int mResultType;
+    private int mEventType;
     private boolean mIsResultPageShow;
 
     /**
@@ -97,19 +100,21 @@ public class ResultPageActivity extends BaseAppCompatActivity
         }
         Intent intent = new Intent(activity, ResultPageActivity.class);
         intent.putExtra(EXTRA_KEY_RESULT_TYPE, resultType);
+        intent.putExtra(EXTRA_KEY_EVENT_TYPE, resultType);
         intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
 //        activity.overridePendingTransition(0, 0);
     }
 
-    public static void startForBattery(Context context, boolean isBatteryOptimal, int extendHour, int extendMinute) {
+    public static void startForBattery(Context context, boolean isBatteryOptimal, int extendHour, int extendMinute, int eventType) {
         if (context == null) {
             return;
         }
 
         Intent intent = new Intent(context, ResultPageActivity.class);
         intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
+        intent.putExtra(EXTRA_KEY_EVENT_TYPE, eventType);
         intent.putExtra(EXTRA_KEY_BATTERY_OPTIMAL, isBatteryOptimal);
         intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, extendHour);
         intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, extendMinute);
@@ -122,13 +127,14 @@ public class ResultPageActivity extends BaseAppCompatActivity
         }
     }
 
-    public static void startForCpuCooler(Activity activity) {
+    public static void startForCpuCooler(Activity activity, int eventType) {
         if (activity == null) {
             return;
         }
 
         Intent intent = new Intent(activity, ResultPageActivity.class);
         intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_CPU_COOLER);
+        intent.putExtra(EXTRA_KEY_EVENT_TYPE, eventType);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
@@ -153,6 +159,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
         Intent intent = getIntent();
         if (null != intent) {
             mResultType = intent.getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
+            mEventType = intent.getIntExtra(EXTRA_KEY_EVENT_TYPE, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
             mClearNotificationsCount = intent.getIntExtra(EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT, 0);
             mPresenter = new ResultPagePresenter(this, mResultType);
 
@@ -236,7 +243,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
         } else {
             throw new IllegalArgumentException("Unsupported result type.");
         }
-
+        mEventType = intent.getIntExtra(EXTRA_KEY_EVENT_TYPE, 0);
+        mResultController.setEventType(mEventType);
 
         ActivityUtils.configSimpleAppBar(this, titleText,
                 FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);

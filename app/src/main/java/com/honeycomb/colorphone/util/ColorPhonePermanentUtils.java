@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.util;
 
 import android.content.Intent;
+import android.os.Build;
 
 import com.acb.call.customize.ScreenFlashSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -51,11 +52,13 @@ public class ColorPhonePermanentUtils {
      */
     public static void startKeepAlive(boolean guardByAccountSync, boolean guardByNativeProcess, String uninstallFeedbackUrl,
                                       PermanentServiceListener listener) {
-        try {
-            Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
-            HSApplication.getContext().startService(serviceIntent);
-        } catch (Exception ignore) {
-            // DeadObjectException
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            try {
+                Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
+                HSApplication.getContext().startService(serviceIntent);
+            } catch (Exception ignore) {
+                // DeadObjectException
+            }
         }
 
     }
@@ -72,8 +75,10 @@ public class ColorPhonePermanentUtils {
     }
 
     public static void stopSelf() {
-        Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
-        HSApplication.getContext().stopService(serviceIntent);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
+            HSApplication.getContext().stopService(serviceIntent);
+        }
     }
 
     private static class PermanentServiceListener {

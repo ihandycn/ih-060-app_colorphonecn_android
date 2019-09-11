@@ -103,7 +103,7 @@
     <string name="notification_common">通用程序</string>
     <string name="notification_other">其他程序</string>
     <string name="battery_clean_title">电池医生</string>
-    <string name="cpu_positive_feedback_title">已降温</string>
+    <string name="cpu_positive_feedback_title">已降温，建议静置60s</string>
     <string name="result_page_click_guide_tip">继续优化</string>
     <string name="desktop_tips_content_guide_msg">开心一刻</string>
     <string name="apply_btn">应用</string>
@@ -152,8 +152,8 @@
     <string name="battery_call_time">通话</string>
     <string name="battery_wifi_time">WiFi</string>
     <string name="battery_video_time">视频</string>
-    <string name="battery_clean_description">耗电应用</string>
-    <string name="battery_extended">已延长</string>
+    <string name="battery_clean_description">正在关闭耗电应用</string>
+    <string name="battery_extended">已延长，电量已达最佳状态</string>
     <string name="battery_careful_content">您的电池比正常状态耗电得更快！</string>
     <string name="boost_plus_optimal">已优化</string>
     <string name="charging_screen_settings_title">充电保护</string>
@@ -166,7 +166,7 @@
     <string name="cpu_cooler_state_cool">温度正常</string>
     <string name="cpu_cooler_state_overheated">温度过高</string>
     <string name="cpu_cooler_state_extremely_heated">温度较热</string>
-    <string name="cpu_cooler_cleaning_hint">正在关闭后台应用</string>
+    <string name="cpu_cooler_cleaning_hint">正在关闭导致 CPU 发热的应用</string>
     <string name="cool_capital">一键降温</string>
     <string name="notification_toolbar_clock">时钟</string>
 
@@ -241,4 +241,6 @@
     <string name="feedback_toast_empty_content">请输入您的反馈建议</string>
     <string name="feedback_toast_invalid_email">请输入有效邮箱地址</string>
     <string name="feedback_toast_send_success">感谢您的反馈！</string>
+
+
 </resources>

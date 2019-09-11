@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhpan.bannerview.BannerViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="18dp"
+    app:indicator_checked_color="@color/ringtone_banner_indicator_checked"
+    app:indicator_normal_color="@color/ringtone_banner_indicator_normal"
+    app:indicator_radius="3dp"
+    >
+
+</com.zhpan.bannerview.BannerViewPager>

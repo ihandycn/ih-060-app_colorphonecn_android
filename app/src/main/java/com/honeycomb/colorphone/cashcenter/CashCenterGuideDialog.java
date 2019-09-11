@@ -19,6 +19,7 @@ import com.honeycomb.colorphone.boost.FloatWindowDialog;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.FloatWindowMovableDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
+import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -133,7 +134,7 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
     }
 
     @Override public void onClick() {
-        ColorPhoneActivity.startColorPhone(getContext(), ColorPhoneActivity.CASH_POSITION);
+        ColorPhoneActivity.startColorPhone(getContext(), TabItem.TAB_CASH);
         Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod(), "content", String.valueOf(contentIndex + 1));
         dismiss();
     }

@@ -60,4 +60,13 @@ public abstract class SimplePermissionGuideActivity extends AppCompatActivity {
         TextView descTv = findViewById(R.id.description);
         descTv.setText(descText);
     }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        showExitStableToast();
+    }
+
+    protected void showExitStableToast() {
+        StableToast.showStableToast(getTitleStringResId());
+    }
 }

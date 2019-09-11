@@ -19,34 +19,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <FrameLayout
-            android:id="@+id/layout_game"
-            android:layout_width="140dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/iv_game"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/material_compat_button_round_side_bg"
-                android:padding="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/game_icon_inapp"
-                />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_guide_game"
-                android:layout_width="140dp"
-                android:layout_height="54dp"
-                android:layout_gravity="center_vertical|end"
-                android:visibility="gone"
-                app:lottie_loop="false"
-                app:lottie_imageAssetsFolder="lottie/game_center"
-                app:lottie_fileName="lottie/game_center.json"/>
-        </FrameLayout>
     </android.support.v7.widget.Toolbar>
 
     <com.honeycomb.colorphone.view.TabFrameLayout

@@ -79,6 +79,11 @@
 *;
 }
 
+
+-keepclasseswithmembers class com.colorphone.ringtones.bean.** {
+*;
+}
+
 -keep class com.feast.nativegamecenter.withdraw.module.**{*;}
 
 -keep class com.acb.cashcenter.HSCashCenterManager{*;}

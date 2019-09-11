@@ -70,7 +70,15 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
             lottieAnimationView.playAnimation();
             lottieAnimationView.loop(true);
         }
+    }
 
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        showExitStableToast();
+    }
+
+    protected void showExitStableToast() {
+        StableToast.showStableToast(getTitleStringResId());
     }
 
     protected abstract @StringRes int getTitleStringResId();

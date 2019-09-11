@@ -16,11 +16,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.honeycomb.colorphone.R;
@@ -39,6 +39,7 @@ public class RevealFlashButton extends AppCompatButton {
 
     Animator mFlashAnimation;
     float mLightTranslateProgress = -1f;
+    private Interpolator mFlashInterpolator;
 
     private Paint mLightPaint;
     private Bitmap mLight;
@@ -54,7 +55,6 @@ public class RevealFlashButton extends AppCompatButton {
         if (!isInEditMode()) {
             setVisibility(INVISIBLE);
         }
-        setTypeface(Typeface.DEFAULT);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RevealFlashButton);
@@ -98,6 +98,9 @@ public class RevealFlashButton extends AppCompatButton {
     public void setFlashDuration(long flashDuration) {
         mFlashDuration = flashDuration;
     }
+    public void setFlashInterpolator(Interpolator interpolator) {
+        mFlashInterpolator = interpolator;
+    }
 
     public void revealWithoutAnimator() {
         setVisibility(VISIBLE);
@@ -108,12 +111,9 @@ public class RevealFlashButton extends AppCompatButton {
         mTotalTranslation = getWidth() + mLightWidth;
 
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mLightTranslateProgress = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        animator.addUpdateListener(animation -> {
+            mLightTranslateProgress = (float) animation.getAnimatedValue();
+            invalidate();
         });
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -124,7 +124,11 @@ public class RevealFlashButton extends AppCompatButton {
             }
         });
         animator.setDuration(mFlashDuration);
-        animator.setInterpolator(PathInterpolatorCompat.create(.45f, .87f, .76f, .88f));
+        if (mFlashInterpolator != null) {
+            animator.setInterpolator(mFlashInterpolator);
+        } else {
+            animator.setInterpolator(PathInterpolatorCompat.create(.45f, .87f, .76f, .88f));
+        }
         animator.start();
         mFlashAnimation = animator;
     }

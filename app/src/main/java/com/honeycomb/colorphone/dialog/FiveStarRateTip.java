@@ -30,10 +30,10 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
+import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
-import com.ihs.app.utils.HSMarketUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -296,6 +296,10 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             HSApplication.getContext().startActivity(intent);
+
+            Threads.postOnMainThreadDelayed(() -> {
+                HuaweiRateGuideDialog.show(getContext());
+            }, 2000);
         } catch (Exception e) {
             e.printStackTrace();
         }

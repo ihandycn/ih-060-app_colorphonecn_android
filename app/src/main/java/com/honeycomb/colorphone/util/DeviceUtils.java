@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.PermanentService;
@@ -84,8 +85,11 @@ public class DeviceUtils {
     }
 
     public static void triggerRebirth(Context context) {
-        Intent intent = new Intent(context, PermanentService.class);
-        context.startService(intent);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Intent intent = new Intent(context, PermanentService.class);
+            context.startService(intent);
+        }
+        
         if (context instanceof Activity) {
             ((Activity) context).finish();
         }
