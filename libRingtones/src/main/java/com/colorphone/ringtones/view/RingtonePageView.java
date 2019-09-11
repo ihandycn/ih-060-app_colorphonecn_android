@@ -251,7 +251,6 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
             return;
         }
 
-        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Click");
         mRingtoneSearchAdapter.setSearchText(text);
         mRingtoneApi.search(text, 0, new RingtoneApi.ResultCallback<RingtoneListResultBean>() {
             @Override
@@ -267,7 +266,11 @@ public class RingtonePageView extends FrameLayout implements ResizeTextTabLayout
                             results.add(ringtone);
                         }
                     }
-                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "resource");
+
+                    if (results.isEmpty()) {
+                        RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "resource");
+                    }
+
                 } else {
                     RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Search_Failed", "Type", "network");
                 }
