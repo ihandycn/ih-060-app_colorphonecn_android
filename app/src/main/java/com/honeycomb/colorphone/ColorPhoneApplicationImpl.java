@@ -30,6 +30,7 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -131,6 +132,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
+import com.superapps.util.rom.RomUtils;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -634,7 +636,20 @@ public class ColorPhoneApplicationImpl {
                         Toast.makeText(mBaseApplication, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
                                 Uri.parse("package:" + mBaseApplication.getPackageName()));
-                        Navigations.startActivitySafely(mBaseApplication, intent);
+
+                        if (RomUtils.checkIsHuaweiRom()) {
+                            Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
+                            Threads.postOnMainThreadDelayed(() -> {
+                                Navigations.startActivitySafely(mBaseApplication, guideIntent);
+                            }, 900);
+
+                            Navigations.startActivitySafely(mBaseApplication, intent);
+                        } else if (RomUtils.checkIsMiuiRom()) {
+                            Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
+                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[] { intent, guideIntent});
+                        } else {
+                            Navigations.startActivitySafely(mBaseApplication, intent);
+                        }
                         return false;
                     }
                 }

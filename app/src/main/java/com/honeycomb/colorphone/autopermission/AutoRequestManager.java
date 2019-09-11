@@ -659,7 +659,7 @@ public class AutoRequestManager {
                 break;
             case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
             case TYPE_CUSTOM_NOTIFICATION:
-                if (Permissions.isNotificationAccessGranted()) {
+                if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     return true;
                 } else {
                     if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
