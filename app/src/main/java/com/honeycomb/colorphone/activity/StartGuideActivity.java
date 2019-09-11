@@ -255,7 +255,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 2000);
+            Threads.postOnMainThreadDelayed(() -> {
+                finish();
+                ColorPhoneActivity.startColorPhone(this, "");
+            }, 2000);
         } else {
             HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
             if (holder == null) {
@@ -444,7 +447,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override protected void onStart() {
         super.onStart();
         if (isSkip) {
-            Navigations.startActivitySafely(this, WelcomeActivity.class);
+            ColorPhoneActivity.startColorPhone(this, "");
             finish();
             return;
         }
