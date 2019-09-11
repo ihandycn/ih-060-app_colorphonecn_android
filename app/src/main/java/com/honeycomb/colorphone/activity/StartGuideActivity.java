@@ -72,6 +72,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private boolean isAgreePrivacy;
     private boolean isSkip = false;
 
+    private VideoView videoView;
+
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
                 || RomUtils.checkIsHuaweiRom()) {
@@ -135,6 +137,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (agree.isChecked()) {
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
+
+                        videoView.stopPlayback();
+                        videoView = null;
                     } else {
                         showToast();
                     }
@@ -142,23 +147,26 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
+
+                initVideoView();
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
 
         setUpPrivacyTextView();
-
-        initVideoView();
     }
 
     private void initVideoView() {
-        VideoView videoView = findViewById(R.id.start_guide_video);
+        videoView = findViewById(R.id.start_guide_video);
 
         videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.start_guide);
+        videoView.setOnPreparedListener(mediaPlayer -> {
+            mediaPlayer.setVolume(0.15f, 0.15f);
+        });
+
         videoView.setOnCompletionListener(mediaPlayer -> {
             mediaPlayer.start();
         });
-        videoView.start();
     }
 
     private void setUpPrivacyTextView() {
@@ -437,6 +445,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         super.onStart();
         if (isSkip) {
             Navigations.startActivitySafely(this, WelcomeActivity.class);
+            finish();
             return;
         }
 
@@ -447,11 +456,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             HSLog.i("AutoPermission", "onPermissionChanged onStart");
             onPermissionChanged();
         }
+
+        if (videoView != null && videoView.getVisibility() == View.VISIBLE) {
+            videoView.start();
+        }
     }
 
     @Override protected void onStop() {
         super.onStop();
         HSGlobalNotificationCenter.removeObserver(this::onReceive);
+
+        if (videoView != null) {
+            videoView.stopPlayback();
+        }
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {

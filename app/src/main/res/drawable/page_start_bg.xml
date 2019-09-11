@@ -1,7 +1,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
     <!-- The background color, preferably the same as your normal theme -->
     <item android:drawable="@color/colorPrimary"/>
-    <item android:bottom="42dp">
+    <item android:bottom="84dp">
         <bitmap
             android:src="@drawable/start_page"
             android:gravity="center"/>
