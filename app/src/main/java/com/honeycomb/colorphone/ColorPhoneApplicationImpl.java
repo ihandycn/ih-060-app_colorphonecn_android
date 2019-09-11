@@ -58,6 +58,9 @@ import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -628,6 +631,15 @@ public class ColorPhoneApplicationImpl {
         });
 
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
+            @Override public boolean onSetRingtone(Ringtone ringtone) {
+                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                        || !AutoPermissionChecker.isNotificationListeningGranted()) {
+                    Navigations.startActivitySafely(mBaseApplication, RuntimePermissionActivity.class);
+                    return false;
+                }
+                return true;
+            }
+
             @Override
             public boolean onSetAsDefault(Ringtone ringtone) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

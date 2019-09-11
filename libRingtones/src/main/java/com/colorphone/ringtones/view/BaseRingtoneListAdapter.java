@@ -117,42 +117,34 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             final ViewHolder holder = new ViewHolder(itemView);
             holder.setSharedLottieProgressView(mSharedLottieProgress);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = (int) itemView.getTag();
-                    int lastExpandPos = mKeepOneHolder.getExpandedPos();
-                    if (lastExpandPos >= 0) {
-                        onItemUnselected(lastExpandPos, ((RecyclerView) holder.itemView.getParent()));
-                    }
-
-                    if (lastExpandPos != pos) {
-                        onItemSelected(pos, holder);
-                    }
-                    // View animation
-                    mKeepOneHolder.toggle(holder);
+            itemView.setOnClickListener(view -> {
+                int pos = (int) itemView.getTag();
+                int lastExpandPos = mKeepOneHolder.getExpandedPos();
+                if (lastExpandPos >= 0) {
+                    onItemUnselected(lastExpandPos, ((RecyclerView) holder.itemView.getParent()));
                 }
-            });
-            holder.playActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    togglePlayStatus(holder);
+
+                if (lastExpandPos != pos) {
+                    onItemSelected(pos, holder);
                 }
+                // View animation
+                mKeepOneHolder.toggle(holder);
             });
+            holder.playActionButton.setOnClickListener(view -> togglePlayStatus(holder));
 
-            holder.actionSetRingone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Handle by listener.
-                    int pos = (int) itemView.getTag();
-                    Ringtone ringtone = getRingtoneByAdapterPos(pos);
-                    boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
+            holder.actionSetRingtone.setOnClickListener(view -> {
 
-                    RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Click",
-                            "Name", ringtone.getTitle(),
-                            "DownloadOK", isDownloaded ? "YES" : "NO",
-                            "Type:", ringtone.getColumnSource());
+                // Handle by listener.
+                int pos = (int) itemView.getTag();
+                Ringtone ringtone = getRingtoneByAdapterPos(pos);
+                boolean isDownloaded = RingtoneDownloadManager.getInstance().isDownloaded(ringtone);
 
+                RingtoneConfig.getInstance().getRemoteLogger().logEvent("Ringtone_Set_Click",
+                        "Name", ringtone.getTitle(),
+                        "DownloadOK", isDownloaded ? "YES" : "NO",
+                        "Type:", ringtone.getColumnSource());
+
+                if (RingtoneConfig.getInstance().getRingtoneSetter().onSetRingtone(ringtone)) {
                     if (!isDownloaded) {
                         Toasts.showToast(R.string.ringtone_download_fail_check);
                         return;
@@ -160,6 +152,8 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     if (mRingtoneSetHandler != null) {
                         mRingtoneSetHandler.onSetRingtone(ringtone);
                     }
+                } else {
+                    HSLog.d(TAG, "SetRingtone no Permission");
                 }
             });
 
@@ -502,7 +496,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
         private ValueAnimator mAnimator;
 
         private View actionContainer;
-        private View actionSetRingone;
+        private View actionSetRingtone;
         private View actionSetRingback;
 
         private Ringtone ringtone;
@@ -532,7 +526,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
             badge = view.findViewById(R.id.ringtone_top_badge);
 
             actionContainer = view.findViewById(R.id.ringtone_action_container);
-            actionSetRingone = view.findViewById(R.id.ringtone_action_set);
+            actionSetRingtone = view.findViewById(R.id.ringtone_action_set);
             actionSetRingback = view.findViewById(R.id.ringtone_action_set_ringback);
 
 
@@ -544,7 +538,7 @@ public abstract class BaseRingtoneListAdapter extends RecyclerView.Adapter<Recyc
                     HSConfig.optBoolean(false, "Application", "Ringtone", "IsRingbacktoneBtnYellow") ? "#FFE048" : "#E8E8E9"),
                     Dimensions.pxFromDp(12), true);
 
-            actionSetRingone.setBackground(drawable1);
+            actionSetRingtone.setBackground(drawable1);
             actionSetRingback.setBackground(drawable2);
 
             playActionButton = view.findViewById(R.id.ringtone_play_status);
