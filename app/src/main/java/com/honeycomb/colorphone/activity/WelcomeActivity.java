@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.VideoView;
 
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.R;
@@ -27,6 +28,8 @@ public class WelcomeActivity extends Activity {
     private static boolean coldLaunch = true;
     private boolean mediaFinished;
 
+    private boolean isAgreePrivacy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,28 +42,79 @@ public class WelcomeActivity extends Activity {
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
 
+        if (needShowPermissionGuideActivity()) {
+//            cover.setBackgroundResource(R.drawable.page_start_bg);
+            toMainView();
+//            setContentView(R.layout.start_guide_all_features);
+//
+//
+//            TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
+//            CheckBox agree = findViewById(R.id.start_guide_check);
+//            isAgreePrivacy = agree.isChecked();
+//
+//            agree.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//                if (isChecked != isAgreePrivacy) {
+//                    isAgreePrivacy = isChecked;
+//                    Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
+//                }
+//            });
+//
+//            enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+//            enableBtn.setOnClickListener(v -> {
+//                if (agree.isChecked()) {
+//                    ModuleUtils.setAllModuleUserEnable();
+//                    showAccessibilityPermissionPage();
+//                }
+//
+//                Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+//            });
+//            Analytics.logEvent("ColorPhone_StartGuide_Show");
+//
+//            initVideoView();
+            return;
+        }
 
+        boolean playSuccess = false;
         if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom()) {
             setContentView(R.layout.activity_welcome);
-            mVidView = findViewById(R.id.welcome_video);
             View cover = findViewById(R.id.welcome_cover);
+            mVidView = findViewById(R.id.welcome_video);
 
             if (coldLaunch) {
                 mVidView.setCover(cover);
                 mVidView.setPlayEndListener(() -> toMainView());
-                boolean playSuccess = showVideo(mVidView);
-                if (!playSuccess) {
-                    toMainView();
-                }
+                playSuccess = showVideo(mVidView);
+
                 coldLaunch = false;
             } else {
                 cover.setBackgroundResource(R.drawable.page_start_bg);
-                toMainView();
             }
-        } else {
+        }
+
+        if (!playSuccess) {
             toMainView();
         }
 
+    }
+
+    private void initVideoView() {
+        VideoView videoView = findViewById(R.id.start_guide_video);
+
+        videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.start_guide);
+        videoView.setOnCompletionListener(mediaPlayer -> {
+            mediaPlayer.start();
+        });
+        videoView.start();
+    }
+
+    private void showAccessibilityPermissionPage() {
+        View view = findViewById(R.id.start_guide_function_page);
+        view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.start_guide_permission_page);
+        view.setVisibility(View.VISIBLE);
+
+//        loadingForPermission();
     }
 
     private void toMainView() {
@@ -73,13 +127,18 @@ public class WelcomeActivity extends Activity {
         finish();
     }
 
-    public void launchMainActivityWithGuide() {
-        Intent guideIntent = null;
-        // Huawei & Xiaomi use auto permission guide window.
+    private boolean needShowPermissionGuideActivity() {
         boolean needShowGuidePermissionActivity =
                 !StartGuideActivity.isStarted()
                         && (!AutoRequestManager.getInstance().isGrantAllPermission());
-        if (needShowGuidePermissionActivity) {
+        return needShowGuidePermissionActivity;
+    }
+
+    public void launchMainActivityWithGuide() {
+        Intent guideIntent = null;
+        // Huawei & Xiaomi use auto permission guide window.
+
+        if (needShowPermissionGuideActivity()) {
             guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_GUIDE);
             HSAlertMgr.delayRateAlert();
         }

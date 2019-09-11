@@ -18,6 +18,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
@@ -69,6 +70,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private int permissionShowCount;
     private String from;
     private boolean isAgreePrivacy;
+    private boolean isSkip = false;
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
@@ -95,6 +97,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+            isSkip = true;
+            return;
+        }
+
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
@@ -139,6 +147,18 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
 
         setUpPrivacyTextView();
+
+        initVideoView();
+    }
+
+    private void initVideoView() {
+        VideoView videoView = findViewById(R.id.start_guide_video);
+
+        videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.start_guide);
+        videoView.setOnCompletionListener(mediaPlayer -> {
+            mediaPlayer.start();
+        });
+        videoView.start();
     }
 
     private void setUpPrivacyTextView() {
@@ -415,17 +435,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override protected void onStart() {
         super.onStart();
+        if (isSkip) {
+            Navigations.startActivitySafely(this, WelcomeActivity.class);
+            return;
+        }
+
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
-
-//        boolean canceledByUser =
-//                !AutoRequestManager.getInstance().isBackPressExecuted()
-//                && AutoRequestManager.getInstance().isRequestFloatPermission();
-//        if (canceledByUser) {
-//            HSLog.d("AutoPermission", "Auto task canceled");
-//            HSPermissionRequestMgr.getInstance().cancelRequest();
-//            needRefreshView = true;
-//        }
 
         if (needRefreshView) {
             HSLog.i("AutoPermission", "onPermissionChanged onStart");

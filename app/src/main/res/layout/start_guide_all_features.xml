@@ -15,13 +15,6 @@
         android:layout_height="match_parent"
         tools:visibility="visible">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/start_guide_image" />
-
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/start_guide_tv_title"
             app:layout_widthPercent="60%"
@@ -36,6 +29,19 @@
             android:textStyle="bold"
             android:text="@string/guide_first_page_title_new"
             tools:text="Please enable the features and permissions: Remind your missed calls"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/start_guide_tv_title">
+
+            <VideoView
+                android:id="@+id/start_guide_video"
+                android:layout_width="235dp"
+                android:layout_height="360dp"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/start_guide_function_enable_btn"
@@ -147,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
         
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/start_guide_permission_anim"
