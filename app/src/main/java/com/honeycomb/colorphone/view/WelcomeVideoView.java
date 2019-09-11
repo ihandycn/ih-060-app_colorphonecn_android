@@ -26,6 +26,9 @@ public class WelcomeVideoView extends SurfaceView {
 
     private PlayEndListener mPlayEndListener;
     private View mCover;
+    private boolean isRepeat = false;
+    private float scaleVideo = 9 / 16f;
+    private float videoVolume = -1;
 
     public WelcomeVideoView(Context context) {
         super(context);
@@ -73,10 +76,13 @@ public class WelcomeVideoView extends SurfaceView {
                 mediaPlayer.setDataSource(mAssetFile.getFileDescriptor(), mAssetFile.getStartOffset(), mAssetFile.getLength());
                 mediaPlayer.setDisplay(surfaceHolder);
                 mediaPlayer.prepareAsync();
-                mediaPlayer.setLooping(false);
+                mediaPlayer.setLooping(isRepeat);
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
+                        if (videoVolume >= 0f && videoVolume <= 1f) {
+                            mp.setVolume(videoVolume, videoVolume);
+                        }
                         setCenterCrop();
                         mp.start();
 
@@ -144,7 +150,6 @@ public class WelcomeVideoView extends SurfaceView {
             if (width > 0 && height > 0) {
                 final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
 
-                float scaleVideo =  9f / 16f;
                 float scaleSurface = width / (float) height;
                 if (scaleVideo < scaleSurface) {
                     params.width = width;
@@ -163,6 +168,12 @@ public class WelcomeVideoView extends SurfaceView {
 
     public void setAssetFile(AssetFileDescriptor assetFile) {
         mAssetFile = assetFile;
+    }
+
+    public void setPlayConfig(float volume, float scale, boolean repeat) {
+        scaleVideo = scale;
+        isRepeat = repeat;
+        videoVolume = volume;
     }
 
     public void setPlayEndListener(PlayEndListener playEndListener) {

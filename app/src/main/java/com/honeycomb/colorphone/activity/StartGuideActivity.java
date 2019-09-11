@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
+import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
@@ -44,6 +45,8 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
+
+import java.io.IOException;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -72,7 +75,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private boolean isAgreePrivacy;
     private boolean isSkip = false;
 
-    private VideoView videoView;
+    private WelcomeVideoView videoView;
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
@@ -138,7 +141,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
 
-                        videoView.stopPlayback();
+                        videoView.play();
                         videoView = null;
                     } else {
                         showToast();
@@ -158,15 +161,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private void initVideoView() {
         videoView = findViewById(R.id.start_guide_video);
+        AssetManager assetManager = getAssets();
+        try {
+            videoView.setAssetFile(assetManager.openFd("start_guide.mp4"));
+            videoView.setCover(findViewById(R.id.start_guide_video_cover));
+            videoView.setPlayConfig(0.35f, 270 / 413f ,true);
+            videoView.play();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.start_guide);
-        videoView.setOnPreparedListener(mediaPlayer -> {
-            mediaPlayer.setVolume(0.15f, 0.15f);
-        });
-
-        videoView.setOnCompletionListener(mediaPlayer -> {
-            mediaPlayer.start();
-        });
     }
 
     private void setUpPrivacyTextView() {
@@ -461,7 +465,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         if (videoView != null && videoView.getVisibility() == View.VISIBLE) {
-            videoView.start();
+            videoView.play();
         }
     }
 
@@ -470,7 +474,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         HSGlobalNotificationCenter.removeObserver(this::onReceive);
 
         if (videoView != null) {
-            videoView.stopPlayback();
+            videoView.stop();
         }
     }
 

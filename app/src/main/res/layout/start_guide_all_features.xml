@@ -15,18 +15,6 @@
         android:layout_height="match_parent"
         tools:visibility="visible">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="413dp" >
-
-            <VideoView
-                android:id="@+id/start_guide_video"
-                android:layout_width="270dp"
-                android:layout_height="413dp"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/start_guide_tv_title"
             app:layout_widthPercent="60%"
@@ -41,6 +29,26 @@
             android:textStyle="bold"
             android:text="@string/guide_first_page_title_new"
             tools:text="Please enable the features and permissions: Remind your missed calls"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/start_guide_tv_title">
+
+            <com.honeycomb.colorphone.view.WelcomeVideoView
+                android:id="@+id/start_guide_video"
+                android:layout_width="270dp"
+                android:layout_height="413dp"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/start_guide_video_cover"
+                android:layout_width="270dp"
+                android:layout_height="413dp"
+                android:src="@drawable/video_cover"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/start_guide_function_enable_btn"
