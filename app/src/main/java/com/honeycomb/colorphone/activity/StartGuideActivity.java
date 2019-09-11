@@ -200,7 +200,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private boolean canShowSkip() {
         return (permissionShowCount >= HSConfig.optInteger(3, "Application", TAG, "SkipShowCount")
                     && !AutoRequestManager.getInstance().isGrantAllPermission())
-                || AutoRequestManager.getInstance().isGrantAllWithoutNAPermission();
+                || (AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()
+                    && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted"));
     }
 
     private void showAccessibilityPermissionPage() {
