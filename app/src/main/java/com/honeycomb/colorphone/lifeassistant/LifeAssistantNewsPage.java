@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone.lifeassistant;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
@@ -16,10 +19,21 @@ import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsPage;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.weather.CurrentCondition;
+import com.ihs.weather.DailyForecast;
+import com.ihs.weather.HSWeatherQueryResult;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import colorphone.acb.com.libweather.WeatherActivity;
+import colorphone.acb.com.libweather.WeatherClockManager;
+import colorphone.acb.com.libweather.WeatherUtils;
+import colorphone.acb.com.libweather.util.CommonUtils;
 
 public class LifeAssistantNewsPage extends NewsPage {
 
@@ -101,8 +115,8 @@ public class LifeAssistantNewsPage extends NewsPage {
             }
 
             if (viewType == NEWS_TYPE_HEAD_WEATHER) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.news_head_title, parent, false);
-                return new TitleViewHolder(view);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.news_weather, parent, false);
+                return new WeatherViewHolder(view);
             }
 
             if (isNoNews && viewType == NEWS_TYPE_HEAD_NO_NEWS) {
@@ -123,8 +137,12 @@ public class LifeAssistantNewsPage extends NewsPage {
                 holder.itemView.setPadding(itemViewPadding, holder.itemView.getPaddingTop(), itemViewPadding, holder.itemView.getPaddingBottom());
             }
 
-            if (viewType == NEWS_TYPE_HEAD_TITLE
-                    || viewType == NEWS_TYPE_HEAD_WEATHER) {
+            if (viewType == NEWS_TYPE_HEAD_TITLE) {
+                return;
+            }
+
+            if (viewType == NEWS_TYPE_HEAD_WEATHER) {
+                ((WeatherViewHolder) holder).bindView();
                 return;
             }
 
@@ -158,6 +176,114 @@ public class LifeAssistantNewsPage extends NewsPage {
                 super(view);
                 TextView tv = view.findViewById(R.id.title_tv);
                 tv.setText(R.string.life_assistant_news_title);
+            }
+        }
+
+        private class WeatherViewHolder extends ViewHolder {
+            private View mNightContainer;
+            private View mMorningContainer;
+            private View mNoneDataContainer;
+
+            private TextView mTemperature;
+            private TextView mTemperatureDes;
+            private ImageView mCondition;
+            private final List<WeatherDaysItemView> mDays = new ArrayList<>();
+
+            private boolean mDataRequestFinished;
+            private volatile HSWeatherQueryResult mData;
+
+            public WeatherViewHolder(View itemView) {
+                super(itemView);
+                mNightContainer = itemView.findViewById(R.id.night_container);
+                mMorningContainer = itemView.findViewById(R.id.morning_container);
+                mNoneDataContainer = itemView.findViewById(R.id.none_data_container);
+
+                mTemperature = itemView.findViewById(R.id.detail_weather_temperature);
+                mTemperatureDes = itemView.findViewById(R.id.detail_weather_temperature_des);
+                mCondition = itemView.findViewById(R.id.detail_weather_icon);
+
+                mDays.add(itemView.findViewById(R.id.weather_days_first));
+                mDays.add(itemView.findViewById(R.id.weather_days_second));
+                mDays.add(itemView.findViewById(R.id.weather_days_third));
+                mDays.add(itemView.findViewById(R.id.weather_days_forth));
+                mDays.add(itemView.findViewById(R.id.weather_days_fifth));
+
+                // 在ViewHolder里做数据请求 实在是不对的，暂时先这样吧
+                WeatherClockManager.getInstance().updateWeather(new WeatherClockManager.WeatherUpdateListener() {
+                    @Override
+                    public void onWeatherUpdateFinished() {
+                        mData = WeatherClockManager.getInstance().getWeather();
+                        synchronized (WeatherViewHolder.this) {
+                            mDataRequestFinished = true;
+                            WeatherViewHolder.this.notifyAll();
+                        }
+                    }
+                });
+            }
+
+            void bindView () {
+                itemView.setOnClickListener(view -> {
+                    if (mDataRequestFinished && mData != null) {
+                        Context context = getContext();
+                        Intent intent = new Intent(context, WeatherActivity.class);
+                        CommonUtils.startActivitySafely(context, intent);
+                    }
+                });
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                if (hour >= 5 && hour < 11) {
+                    itemView.setBackgroundColor(Color.RED);
+                    mMorningContainer.setVisibility(VISIBLE);
+
+                    mNightContainer.setVisibility(GONE);
+                    mNoneDataContainer.setVisibility(GONE);
+                } else {
+                    itemView.setBackgroundColor(0xff14131F);
+                    mMorningContainer.setVisibility(GONE);
+                    mNoneDataContainer.setVisibility(GONE);
+
+                    mNightContainer.setVisibility(VISIBLE);
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            synchronized (WeatherViewHolder.this) {
+                                while (!mDataRequestFinished) {
+                                    try {
+                                        WeatherViewHolder.this.wait();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            Threads.postOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mData != null) {
+                                        HSWeatherQueryResult weather = mData;
+                                        mNoneDataContainer.setVisibility(GONE);
+                                        mNightContainer.setVisibility(VISIBLE);
+
+                                        CurrentCondition condition = weather.getCurrentCondition();
+                                        mTemperature.setText(condition.getCelsius() + "°");
+                                        mTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
+                                        mCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
+
+                                        List<DailyForecast> dailyForecasts = weather.getDailyForecasts();
+                                        for (int i = 0; i < dailyForecasts.size() && i < mDays.size(); i++) {
+                                            DailyForecast dailyForecast = dailyForecasts.get(i);
+                                            WeatherDaysItemView daysItemView = mDays.get(i);
+                                            daysItemView.bindDailyForecast(dailyForecast, i == 0, i == 1, false);
+                                        }
+
+                                    } else {
+                                        mNoneDataContainer.setVisibility(VISIBLE);
+                                        mNightContainer.setVisibility(GONE);
+                                    }
+                                }
+                            });
+                        }
+                    }.start();
+                }
             }
         }
 

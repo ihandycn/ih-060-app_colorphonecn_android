@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.lifeassistant.WeatherDaysItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/minus_one_weather"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/minus_one_weather_days_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:alpha="0.9"
+        app:typeface="@string/custom_font_bold" />
+
+    <ImageView
+        android:id="@+id/minus_one_weather_days_item_weather_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8.5dp"
+        android:layout_marginBottom="8.5dp"
+        android:src="@drawable/weather_clear" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/minus_one_weather_days_item_temperature_low_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:alpha="0.9"
+        app:typeface="@string/custom_font_bold" />
+</com.honeycomb.colorphone.lifeassistant.WeatherDaysItemView>

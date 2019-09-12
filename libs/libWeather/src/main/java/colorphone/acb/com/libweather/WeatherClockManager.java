@@ -189,19 +189,7 @@ public class WeatherClockManager {
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                Pair<String, Boolean> firstItemInfo = getFirstItemInfo();
-                String queryId = firstItemInfo == null ? null : firstItemInfo.first;
-                Boolean isLocal = firstItemInfo == null ? null : firstItemInfo.second;
-                if (queryId == null || isLocal) {
-                    HSLog.i(TAG, "No existing query ID or local, update local weather");
-                    updateLocalWeather(listener);
-                } else {
-                    HSLog.i(TAG, "Update weather of city " + queryId);
-                    updateCityWeatherSync(queryId);
-                    if (mStatus == UpdateStatus.SUCCEEDED) {
-                        notifyWeatherUpdateFinished(listener);
-                    }
-                }
+                updateLocalWeather(listener);
             }
         });
     }
@@ -272,14 +260,15 @@ public class WeatherClockManager {
                         setLocalWeather(result);
                         HSLog.d(TAG, "" + mWeatherCondition);
                     }
+                    mWeatherCondition = newCondition;
                     mStatus = UpdateStatus.SUCCEEDED;
                     saveWeatherToDatabase(result, true);
-                    if (mWeatherCondition != null) {
-                        notifyWeatherUpdateFinished(listener);
-                    }
+
+                    notifyWeatherUpdateFinished(listener);
                 } else {
                     HSLog.w(TAG, "Local weather update failed");
                     mStatus = UpdateStatus.FAILED;
+                    notifyWeatherUpdateFinished(listener);
                 }
                 notifyWeatherConditionChanged();
             }
@@ -301,9 +290,6 @@ public class WeatherClockManager {
         } catch (RuntimeException ignored) {
         }
         if (!granted || WeatherUtils.onlyIpLocation()) {
-            if (listener != null) {
-                listener.onQueryFinished(false, null);
-            }
             doFetchWeather(HSLocationManager.LocationSource.IP);
         } else {
             doFetchWeather(HSLocationManager.LocationSource.DEVICE);

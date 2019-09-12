@@ -288,7 +288,7 @@ public class CommonUtils {
         return null;
     }
 
-    private static boolean startActivitySafely(Context context, Intent intent) {
+    public static boolean startActivitySafely(Context context, Intent intent) {
         try {
             addNewTaskFlagIfNeeded(context, intent);
             context.startActivity(intent);

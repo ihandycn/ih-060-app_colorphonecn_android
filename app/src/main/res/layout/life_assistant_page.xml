@@ -7,13 +7,13 @@
     android:background="@android:color/darker_gray">
 
     <include
+        android:id="@+id/life_assistant_head_layout"
+        layout="@layout/life_assistant_head_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/life_assistant_head_layout"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout="@layout/life_assistant_head_layout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.honeycomb.colorphone.lifeassistant.LifeAssistantNewsPage
         android:layout_width="match_parent"

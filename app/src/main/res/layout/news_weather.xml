@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/minus_one_weather"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/night_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingTop="21dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp">
+
+        <ImageView
+            android:id="@+id/detail_weather_icon"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/detail_weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="48sp"
+            app:typeface="@string/custom_font_bold" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/detail_weather_temperature_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/detail_weather_temperature"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/detail_weather_temperature"
+            android:layout_toRightOf="@+id/detail_weather_temperature"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            app:typeface="@string/custom_font_light" />
+
+        <LinearLayout
+            android:id="@+id/weather_days_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_weather_icon"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/weather_days_first"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_second"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_third"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_forth"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_fifth"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/morning_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/none_data_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></RelativeLayout>
+</FrameLayout>
