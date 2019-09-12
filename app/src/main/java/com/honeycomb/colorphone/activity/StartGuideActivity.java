@@ -141,8 +141,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
 
-                        videoView.stop();
-                        videoView = null;
+                        if (videoView != null) {
+                            videoView.stop();
+                            videoView = null;
+                        }
                     } else {
                         showToast();
                     }
