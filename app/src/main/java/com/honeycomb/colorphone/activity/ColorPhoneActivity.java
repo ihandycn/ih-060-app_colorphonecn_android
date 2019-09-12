@@ -379,7 +379,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-            mTabLayout.getTabAt(getTabPos(TabItem.TAB_CASH)).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
+            mTabLayout.getTabAt(getTabPos(TabItem.TAB_CASH)).findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
         }
 
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
