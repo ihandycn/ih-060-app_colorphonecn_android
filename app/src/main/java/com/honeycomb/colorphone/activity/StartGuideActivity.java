@@ -474,6 +474,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         HSGlobalNotificationCenter.removeObserver(this::onReceive);
 
         if (videoView != null) {
+            if (videoView.getCover() != null) {
+                videoView.getCover().setVisibility(View.VISIBLE);
+            }
             videoView.stop();
         }
     }

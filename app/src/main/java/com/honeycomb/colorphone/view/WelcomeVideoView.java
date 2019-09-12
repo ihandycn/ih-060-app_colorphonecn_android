@@ -97,7 +97,7 @@ public class WelcomeVideoView extends SurfaceView {
                                 public void run() {
                                     mCover.setVisibility(INVISIBLE);
                                 }
-                            }, 100);
+                            }, 10);
                         }
                         return false;
                     }
