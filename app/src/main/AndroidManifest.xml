@@ -716,12 +716,12 @@
             android:name=".lifeassistant.LifeAssistantActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/LightThemeFull"/>
+            android:theme="@style/LightTheme"/>
         <activity
             android:name=".lifeassistant.LifeAssistantSettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/LightThemeFull"/>
+            android:theme="@style/LightTheme"/>
 
         <!--Override  - Tag : process-->
 

@@ -6,7 +6,6 @@ import android.view.View;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.news.NewsManager;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.superapps.util.Navigations;
 
 public class LifeAssistantActivity extends HSAppCompatActivity {
     private LifeAssistantNewsPage newsPage;
@@ -18,15 +17,15 @@ public class LifeAssistantActivity extends HSAppCompatActivity {
         newsPage = findViewById(R.id.news_swipe_layout);
         newsPage.onNewsLoaded(NewsManager.getInstance().getExitNewsBean(), 0);
 
-        View close = findViewById(R.id.life_assistant_close);
+        View close = findViewById(R.id.close_view);
         close.setOnClickListener(v -> {
             finish();
         });
 
-        View setting = findViewById(R.id.life_assistant_setting);
-        setting.setOnClickListener(v -> {
-            Navigations.startActivitySafely(this, LifeAssistantSettingActivity.class);
-        });
+//        View setting = findViewById(R.id.life_assistant_setting);
+//        setting.setOnClickListener(v -> {
+//            Navigations.startActivitySafely(this, LifeAssistantSettingActivity.class);
+//        });
     }
 
     @Override protected void onDestroy() {

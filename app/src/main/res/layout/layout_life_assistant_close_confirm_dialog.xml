@@ -12,7 +12,7 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
-    tools:background="@android:color/white">
+    tools:background="@android:color/darker_gray">
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineEnd"
@@ -71,7 +71,7 @@
         android:layout_height="42dp"
         android:textSize="14sp"
         android:textColor="@color/white"
-        android:text="@string/start_guide_skip_dialog_ok"
+        android:text="@string/life_assistant_confirm_cancel"
         android:layout_marginTop="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
@@ -92,7 +92,7 @@
         android:textColor="@color/start_guide_not_now_selector"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/start_guide_skip_dialog_cancel"
+        android:text="@string/life_assistant_confirm_close"
         android:background="@drawable/material_compat_bg"
         app:typeface="@string/custom_font_semibold"
         app:layout_constraintStart_toStartOf="parent"

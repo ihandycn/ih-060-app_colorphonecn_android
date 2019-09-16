@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/white">
 
-    <include
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/life_assistant_head_layout"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout="@layout/life_assistant_head_layout" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <RelativeLayout
         android:id="@+id/life_assistant_setting_layout"
@@ -25,7 +25,7 @@
         android:paddingTop="10dp"
         android:minHeight="54dp"
         android:background="@drawable/material_compat_bg"
-        app:layout_constraintTop_toBottomOf="@id/life_assistant_head_layout"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:clickable="true" >
@@ -38,16 +38,29 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
-            android:id="@+id/life_assistant_setting_switch_txt"
-            style="@style/NormalText.Settings"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/life_assistant_setting_switch"
-            android:layout_toStartOf="@id/life_assistant_setting_switch"
-            android:text="@string/settings_activity_notification_reminder" />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:text="@string/life_assistant_title"
+                android:textColor="#FF252525"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:text="@string/life_assistant_subtitle"
+                android:textColor="@color/black_60_transparent"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

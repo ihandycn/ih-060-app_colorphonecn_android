@@ -37,6 +37,7 @@ import colorphone.acb.com.libweather.WeatherUtils;
 import colorphone.acb.com.libweather.util.CommonUtils;
 
 public class LifeAssistantNewsPage extends NewsPage {
+    private ImageView closeView;
 
     public LifeAssistantNewsPage(@NonNull Context context) {
         super(context);
@@ -56,7 +57,16 @@ public class LifeAssistantNewsPage extends NewsPage {
         super.onFinishInflate();
         setEnabled(false);
 
+//        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+//        divider.setDrawable(getResources().getDrawable(R.drawable.empty_divider));
+//        newsList.addItemDecoration(divider, 0);
+//        newsList.addItemDecoration(divider, 1);
+
         Analytics.logEvent("Message_News_Show");
+    }
+
+    public void setCloseView(ImageView view) {
+        closeView = view;
     }
 
     @Override
@@ -65,7 +75,6 @@ public class LifeAssistantNewsPage extends NewsPage {
     }
 
     protected class LifeAssistantNewsAdapter extends NewsAdapter {
-        static final int NEWS_TYPE_HEAD_WELCOME = 1000;
         static final int NEWS_TYPE_HEAD_WEATHER = 1001;
         static final int NEWS_TYPE_HEAD_TITLE   = 1002;
         static final int NEWS_TYPE_HEAD_NO_NEWS = 1003;
@@ -74,18 +83,14 @@ public class LifeAssistantNewsPage extends NewsPage {
 
         @Override public int getItemViewType(int position) {
             if (position == 0) {
-                return NEWS_TYPE_HEAD_WELCOME;
-            }
-
-            if (position == 1) {
                 return NEWS_TYPE_HEAD_WEATHER;
             }
 
-            if (position == 2) {
+            if (position == 1) {
                 return NEWS_TYPE_HEAD_TITLE;
             }
 
-            if (isNoNews && position == 3) {
+            if (isNoNews && position == 2) {
                 return NEWS_TYPE_HEAD_NO_NEWS;
             }
 
@@ -99,16 +104,12 @@ public class LifeAssistantNewsPage extends NewsPage {
         }
 
         public int getHeadCount() {
-            return 3;
+            return 2;
         }
 
         @NonNull @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = null;
-            if (viewType == NEWS_TYPE_HEAD_WELCOME) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.news_head_welcome, parent, false);
-                return new WelcomeHolder(view);
-            }
 
             if (viewType == NEWS_TYPE_HEAD_TITLE) {
                 view = LayoutInflater.from(getContext()).inflate(R.layout.news_head_title, parent, false);
@@ -144,11 +145,6 @@ public class LifeAssistantNewsPage extends NewsPage {
 
             if (viewType == NEWS_TYPE_HEAD_WEATHER) {
                 ((WeatherViewHolder) holder).bindView();
-                return;
-            }
-
-            if (viewType == NEWS_TYPE_HEAD_WELCOME) {
-                ((WelcomeHolder) holder).bindView();
                 return;
             }
 

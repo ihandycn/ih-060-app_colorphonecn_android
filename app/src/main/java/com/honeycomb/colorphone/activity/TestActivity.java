@@ -11,10 +11,9 @@ import android.widget.EditText;
 import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantSettingActivity;
 import com.superapps.util.Navigations;
 
 /**
@@ -58,9 +57,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
-//        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
-        FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(HuaweiRateGuideDialog.class));
-
+        Navigations.startActivitySafely(this, LifeAssistantSettingActivity.class);
     }
 
     public void checkFloatWindow(View view) {

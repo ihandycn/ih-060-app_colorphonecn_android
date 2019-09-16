@@ -36,7 +36,7 @@ public final class DataUsageAlertDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_data_usage_confirm_dialog);
-        findViewById(R.id.tv_ok).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_first).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (positiveListener != null) {
@@ -45,7 +45,7 @@ public final class DataUsageAlertDialog extends AlertDialog {
             }
         });
 
-        findViewById(R.id.tv_turn_off).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (negativeListener != null) {

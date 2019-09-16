@@ -960,7 +960,7 @@ public final class Utils {
         return sInstallTime;
     }
 
-    public static long getInstallTime() {
+    private static long getInstallTime() {
         long firstSessionTime = HSSessionMgr.getFirstSessionStartTime();
         return firstSessionTime > 0 ? firstSessionTime : System.currentTimeMillis();
     }

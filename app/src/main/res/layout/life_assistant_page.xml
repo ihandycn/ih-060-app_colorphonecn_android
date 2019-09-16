@@ -6,32 +6,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/darker_gray">
 
-    <include
-        android:id="@+id/life_assistant_head_layout"
-        layout="@layout/life_assistant_head_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.honeycomb.colorphone.lifeassistant.LifeAssistantNewsPage
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:background="@android:color/white"
         android:id="@+id/news_swipe_layout"
-        app:layout_constraintTop_toBottomOf="@id/life_assistant_head_layout"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/news_list"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:paddingRight="16dp"
-            android:paddingEnd="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
     </com.honeycomb.colorphone.lifeassistant.LifeAssistantNewsPage>
+
+    <ImageView
+        android:id="@+id/close_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/life_assistant_close_night"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostConfig;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -132,6 +133,18 @@ public class SettingsActivity extends HSAppCompatActivity {
                         (isChecked ? "Enabled" : "Disabled"));
                 UserSettings.setNotificationToolbarEnabled(isChecked);
                 NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+            }
+        });
+
+        mModuleStates.add(new ModuleState(LifeAssistantConfig.isLifeAssistantConfigEnable(),
+                LifeAssistantConfig.isLifeAssistantSettingEnable(),
+                R.id.setting_item_life_assistant_toggle,
+                R.id.setting_item_life_assistant) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+//                Analytics.logEvent("Settings_Toolbar_Clicked_" +
+//                        (isChecked ? "Enabled" : "Disabled"));
+                LifeAssistantConfig.setLifeAssistantSettingEnable(isChecked);
             }
         });
 

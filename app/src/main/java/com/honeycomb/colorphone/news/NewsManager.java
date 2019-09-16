@@ -57,6 +57,7 @@ public class NewsManager {
     private AcbNativeAd mAd;
 
     public interface NewsLoadListener {
+        boolean addNews = true;
         void onNewsLoaded(NewsResultBean bean, int size);
     }
 
@@ -90,7 +91,9 @@ public class NewsManager {
                         if (bean != null && loadListener != null) {
                             bean.parseArticles();
                             int size = bean.articlesList.size();
-                            replaceADs(bean, 0);
+                            if (loadListener.addNews) {
+                                replaceADs(bean, 0);
+                            }
                             loadListener.onNewsLoaded(bean, size);
                             return;
                         }
@@ -213,7 +216,7 @@ public class NewsManager {
                         int newSize = bean.articlesList.size();
                         resultBean.articlesList.addAll(bean.articlesList);
                         if (loadListener != null) {
-                            if (resultBean != null) {
+                            if (loadListener.addNews) {
                                 replaceADs(resultBean, size);
                             }
                             loadListener.onNewsLoaded(resultBean, newSize);
