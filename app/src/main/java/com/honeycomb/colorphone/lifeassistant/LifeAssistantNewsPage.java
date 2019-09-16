@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.lifeassistant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -184,6 +185,13 @@ public class LifeAssistantNewsPage extends NewsPage {
             private View mMorningContainer;
             private View mNoneDataContainer;
 
+            private TextView mNoData;
+
+            private TextView mMTemperature;
+            private TextView mMTemperatureDes;
+            private TextView mMDate;
+            private ImageView mMCondition;
+
             private TextView mTemperature;
             private TextView mTemperatureDes;
             private ImageView mCondition;
@@ -198,9 +206,16 @@ public class LifeAssistantNewsPage extends NewsPage {
                 mMorningContainer = itemView.findViewById(R.id.morning_container);
                 mNoneDataContainer = itemView.findViewById(R.id.none_data_container);
 
+                mNoData = itemView.findViewById(R.id.no_data);
+
                 mTemperature = itemView.findViewById(R.id.detail_weather_temperature);
                 mTemperatureDes = itemView.findViewById(R.id.detail_weather_temperature_des);
                 mCondition = itemView.findViewById(R.id.detail_weather_icon);
+
+                mMTemperature = itemView.findViewById(R.id.morning__weather_temperature);
+                mMTemperatureDes = itemView.findViewById(R.id.morning__weather_temperature_des);
+                mMCondition = itemView.findViewById(R.id.morning__weather_icon);
+                mMDate = itemView.findViewById(R.id.morning__weather_date);
 
                 mDays.add(itemView.findViewById(R.id.weather_days_first));
                 mDays.add(itemView.findViewById(R.id.weather_days_second));
@@ -230,12 +245,28 @@ public class LifeAssistantNewsPage extends NewsPage {
                     }
                 });
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if (hour >= 5 && hour < 11) {
-                    itemView.setBackgroundColor(Color.RED);
+                if (hour >= 5 && hour < 12) {
+                    itemView.setBackgroundResource(R.drawable.life_assiatant_morning_weather_bg);
                     mMorningContainer.setVisibility(VISIBLE);
 
                     mNightContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            synchronized (WeatherViewHolder.this) {
+                                while (!mDataRequestFinished) {
+                                    try {
+                                        WeatherViewHolder.this.wait();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            Threads.postOnMainThread(() -> applyData(false));
+                        }
+                    }.start();
                 } else {
                     itemView.setBackgroundColor(0xff14131F);
                     mMorningContainer.setVisibility(GONE);
@@ -255,35 +286,94 @@ public class LifeAssistantNewsPage extends NewsPage {
                                     }
                                 }
                             }
-                            Threads.postOnMainThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mData != null) {
-                                        HSWeatherQueryResult weather = mData;
-                                        mNoneDataContainer.setVisibility(GONE);
-                                        mNightContainer.setVisibility(VISIBLE);
-
-                                        CurrentCondition condition = weather.getCurrentCondition();
-                                        mTemperature.setText(condition.getCelsius() + "°");
-                                        mTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
-                                        mCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
-
-                                        List<DailyForecast> dailyForecasts = weather.getDailyForecasts();
-                                        for (int i = 0; i < dailyForecasts.size() && i < mDays.size(); i++) {
-                                            DailyForecast dailyForecast = dailyForecasts.get(i);
-                                            WeatherDaysItemView daysItemView = mDays.get(i);
-                                            daysItemView.bindDailyForecast(dailyForecast, i == 0, i == 1, false);
-                                        }
-
-                                    } else {
-                                        mNoneDataContainer.setVisibility(VISIBLE);
-                                        mNightContainer.setVisibility(GONE);
-                                    }
-                                }
-                            });
+                            Threads.postOnMainThread(() -> applyData(true));
                         }
                     }.start();
                 }
+            }
+
+            private void applyData(boolean isNight) {
+                if (isNight) {
+                    if (mData != null) {
+                        HSWeatherQueryResult weather = mData;
+                        mNoneDataContainer.setVisibility(GONE);
+                        mMorningContainer.setVisibility(GONE);
+                        mNightContainer.setVisibility(VISIBLE);
+
+                        CurrentCondition condition = weather.getCurrentCondition();
+                        mTemperature.setText(condition.getCelsius() + "°");
+                        mTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
+                        mCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
+
+                        List<DailyForecast> dailyForecasts = weather.getDailyForecasts();
+                        for (int i = 0; i < dailyForecasts.size() && i < mDays.size(); i++) {
+                            DailyForecast dailyForecast = dailyForecasts.get(i);
+                            WeatherDaysItemView daysItemView = mDays.get(i);
+                            daysItemView.bindDailyForecast(dailyForecast, i == 0, i == 1, false);
+                        }
+
+                    } else {
+                        mNoData.setTextColor(Color.WHITE);
+                        mNoneDataContainer.setVisibility(VISIBLE);
+                        mNightContainer.setVisibility(INVISIBLE);
+                    }
+                } else {
+                    if (mData != null) {
+                        HSWeatherQueryResult weather = mData;
+                        mNoneDataContainer.setVisibility(GONE);
+                        mNightContainer.setVisibility(GONE);
+                        mMorningContainer.setVisibility(VISIBLE);
+
+                        CurrentCondition condition = weather.getCurrentCondition();
+                        mMTemperature.setText(condition.getCelsius() + "°");
+                        mMTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
+                        mMCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
+                        mMDate.setText(getDateString());
+                    } else {
+                        mNoData.setTextColor(Color.BLACK);
+                        mNoneDataContainer.setVisibility(VISIBLE);
+                        mMorningContainer.setVisibility(INVISIBLE);
+                    }
+                }
+            }
+
+            private String getDateString() {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int day_of_week = calendar.get(Calendar.DAY_OF_WEEK);
+
+                String dayOfWeek;
+                Resources resources = getContext().getResources();
+                switch (day_of_week) {
+                    case 1:
+                        dayOfWeek = resources.getString(R.string.sunday);
+                        break;
+                    case 2:
+                        dayOfWeek = resources.getString(R.string.monday);
+                        break;
+                    case 3:
+                        dayOfWeek = resources.getString(R.string.tuesday);
+                        break;
+                    case 4:
+                        dayOfWeek = resources.getString(R.string.wednesday);
+                        break;
+                    case 5:
+                        dayOfWeek = resources.getString(R.string.thursday);
+                        break;
+                    case 6:
+                        dayOfWeek = resources.getString(R.string.friday);
+                        break;
+                    case 7:
+                        dayOfWeek = resources.getString(R.string.saturday);
+                        break;
+                    default:
+                        dayOfWeek = "";
+                }
+
+                return year + "/" + month + "/" + day + " " + dayOfWeek;
+
             }
         }
 

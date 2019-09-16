@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/minus_one_weather"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/night_container"
@@ -118,10 +116,68 @@
     <RelativeLayout
         android:id="@+id/morning_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></RelativeLayout>
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingTop="21dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="50sp"
+            app:typeface="@string/custom_font_bold" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_temperature_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/morning__weather_temperature"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/morning__weather_temperature"
+            android:layout_toRightOf="@+id/morning__weather_temperature"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:typeface="@string/custom_font_light" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_date"
+            android:layout_below="@+id/morning__weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:alpha="0.7"
+            android:textSize="12sp"
+            app:typeface="@string/custom_font_regular" />
+
+        <ImageView
+            android:id="@+id/morning__weather_icon"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/none_data_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></RelativeLayout>
+        android:layout_height="wrap_content">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="#000000"
+            android:alpha="0.90"
+            android:text="暂无天气信息"
+            android:textSize="12sp"
+            app:typeface="@string/custom_font_regular" />
+
+
+    </RelativeLayout>
 </FrameLayout>
