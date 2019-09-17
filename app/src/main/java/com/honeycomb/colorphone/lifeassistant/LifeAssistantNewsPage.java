@@ -73,9 +73,9 @@ public class LifeAssistantNewsPage extends NewsPage {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int position = layoutManager.findFirstVisibleItemPosition();
                 if (position > 0) {
-                    closeView.setImageResource(R.drawable.life_assistant_close_float);
+                    closeView.setVisibility(VISIBLE);
                 } else {
-                    closeView.setImageResource(R.drawable.life_assistant_close_night);
+                    closeView.setVisibility(GONE);
                 }
             }
         });
@@ -267,6 +267,10 @@ public class LifeAssistantNewsPage extends NewsPage {
                     Navigations.startActivitySafely(getContext(), LifeAssistantSettingActivity.class);
                 };
 
+                OnClickListener onCloseClickListener = view -> {
+                    closeView.performClick();
+                };
+
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour >= 5 && hour < 12) {
                     ActivityUtils.setCustomColorStatusBar((Activity) getContext(), 0xFF199FEB);
@@ -284,6 +288,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                     });
 
                     itemView.findViewById(R.id.life_assistant_setting_morning).setOnClickListener(onSettingClickListener);
+                    itemView.findViewById(R.id.life_assistant_close_morning).setOnClickListener(onCloseClickListener);
 
                     mNightContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
@@ -323,6 +328,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                     });
 
                     itemView.findViewById(R.id.life_assistant_setting_night).setOnClickListener(onSettingClickListener);
+                    itemView.findViewById(R.id.life_assistant_close_morning).setOnClickListener(onCloseClickListener);
 
                     welcomeNight.setText(LifeAssistantConfig.getWelcomeStr(false));
 
@@ -377,10 +383,10 @@ public class LifeAssistantNewsPage extends NewsPage {
                         mMorningContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();
-                        mMTemperature.setText(condition.getCelsius() + "°");
+//                        mMTemperature.setText(condition.getCelsius() + "°");
                         mMTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
                         mMCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
-                        mMDate.setText(getDateString());
+//                        mMDate.setText(getDateString());
                     } else {
                         mNoData.setTextColor(Color.BLACK);
                         mNoneDataContainer.setVisibility(VISIBLE);

@@ -132,7 +132,7 @@
     </style>
     <style name="NormalText.SettingsHint">
         <item name="android:textColor">@color/primarySubText</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="LayoutSettings">

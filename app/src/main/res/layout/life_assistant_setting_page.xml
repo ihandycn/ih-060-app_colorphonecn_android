@@ -51,15 +51,14 @@
             <com.honeycomb.colorphone.view.TypefacedTextView
                 android:text="@string/life_assistant_title"
                 android:textColor="#FF252525"
-                android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.honeycomb.colorphone.view.TypefacedTextView
                 android:text="@string/life_assistant_subtitle"
                 android:textColor="@color/black_60_transparent"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

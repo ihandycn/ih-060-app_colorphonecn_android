@@ -56,7 +56,6 @@ public class LifeAssistantActivity extends HSAppCompatActivity implements INotif
     @Override protected void onDestroy() {
         super.onDestroy();
         Analytics.logEvent("Life_Assistant_Close", "Type", closeReson);
-        NewsManager.getInstance().releaseNewsAD(NewsManager.getInstance().getLifeAssistantBean());
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
