@@ -12,7 +12,7 @@ public class LifeAssistantOccasion implements Occasion {
     }
 
     @Override public boolean isValid() {
-        return true;
+        return LifeAssistantConfig.canShowLifeAssistant();
     }
 
     @Override public int getPriority() {

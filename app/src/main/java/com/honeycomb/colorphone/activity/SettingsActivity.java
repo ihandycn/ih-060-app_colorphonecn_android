@@ -245,6 +245,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             dismissDialog();
             confirmClose = false;
             lifeAssistant.switchCompat.setChecked(false);
+
+            Analytics.logEvent("Life_Assistant_Settings_Disable", "Source", "Settings");
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
@@ -253,7 +255,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         dialog = builder.create();
 
         showDialog(dialog);
-
+        Analytics.logEvent("Life_Assistant_Settings_PopUp_Show", "Source", "Settings");
     }
 
     private abstract class ModuleState {

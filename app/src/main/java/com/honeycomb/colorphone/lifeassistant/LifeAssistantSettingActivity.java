@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
@@ -83,6 +84,8 @@ public class LifeAssistantSettingActivity extends HSAppCompatActivity {
             dismissDialog();
             confirmClose = false;
             switchView.setChecked(false);
+
+            Analytics.logEvent("Life_Assistant_Settings_Disable", "Source", "LifeAssistant");
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
@@ -92,6 +95,7 @@ public class LifeAssistantSettingActivity extends HSAppCompatActivity {
 
         showDialog(dialog);
 
+        Analytics.logEvent("Life_Assistant_Settings_PopUp_Show", "Source", "LifeAssistant");
     }
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {

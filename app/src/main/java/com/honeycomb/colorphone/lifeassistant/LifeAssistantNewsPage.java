@@ -263,6 +263,7 @@ public class LifeAssistantNewsPage extends NewsPage {
 
             void bindView () {
                 OnClickListener onSettingClickListener = view -> {
+                    Analytics.logEvent("Life_Assistant_Settings_Click");
                     Navigations.startActivitySafely(getContext(), LifeAssistantSettingActivity.class);
                 };
 
@@ -277,6 +278,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                             Context context = getContext();
                             Intent intent = new Intent(context, WeatherActivity.class);
                             Navigations.startActivitySafely(context, intent);
+
+                            Analytics.logEvent("Life_Assistant_Weather_Click", "Type", "Morning");
                         }
                     });
 
@@ -314,6 +317,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                             Context context = getContext();
                             Intent intent = new Intent(context, WeatherActivity.class);
                             Navigations.startActivitySafely(context, intent);
+
+                            Analytics.logEvent("Life_Assistant_Weather_Click", "Type", "Evening");
                         }
                     });
 
@@ -424,26 +429,6 @@ public class LifeAssistantNewsPage extends NewsPage {
             }
         }
 
-        private class WelcomeHolder extends ViewHolder {
-            TextView title;
-            TextView content;
-            WelcomeHolder(View view) {
-                super(view);
-                title = view.findViewById(R.id.welcome_title);
-                content = view.findViewById(R.id.welcome_content);
-            }
-
-            void bindView() {
-                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if (hour >= 5 && hour < 11) {
-                    title.setText(R.string.life_assistant_welcome_morning);
-                } else {
-                    title.setText(R.string.life_assistant_welcome_night);
-                }
-                // TODO: 问候语
-            }
-        }
-
         private class NewsNoNetworkHolder extends RecyclerView.ViewHolder {
             NewsNoNetworkHolder(View itemView) {
                 super(itemView);
@@ -465,23 +450,22 @@ public class LifeAssistantNewsPage extends NewsPage {
         }
 
         protected void logNewsLoad(boolean isRefresh, boolean success) {
-//            if (!isRefresh) {
-//                Analytics.logEvent("Message_News_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
-//            }
+            if (!isRefresh) {
+                Analytics.logEvent("Life_Assistant_News_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+            }
         }
 
         protected void logAdClick() {
         }
 
         protected void logAdShow() {
-//            Analytics.logEvent("Message_News_Ad_Show");
+            Analytics.logEvent("Life_Assistant_News_Ad_Show");
         }
 
         protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
-//            if (hasNetwork) {
-//                Analytics.logEvent("Message_News_Details_Show",
-//                        "NewsType", (isVideo ? "Video" : "News") );
-//            }
+            if (hasNetwork) {
+                Analytics.logEvent("Life_Assistant_News_Details_Show");
+            }
         }
     }
 }

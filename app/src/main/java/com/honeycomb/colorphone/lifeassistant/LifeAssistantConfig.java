@@ -10,6 +10,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 import com.superappscommon.util.Strings;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,10 @@ public class LifeAssistantConfig {
     public static boolean canShowLifeAssistant() {
         if (isLifeAssistantConfigEnable() && isLifeAssistantSettingEnable()) {
             long installTime = Utils.getAppInstallTimeMillis();
-            return (System.currentTimeMillis() - installTime) > getActiveAfterInstall() * DateUtils.MINUTE_IN_MILLIS;
+            boolean timeInterval = (System.currentTimeMillis() - installTime) > getActiveAfterInstall() * DateUtils.MINUTE_IN_MILLIS;
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            boolean time = (hour >= 5 && hour < 9) || (hour >= 17 && hour < 23);
+            return timeInterval && time;
         }
         return false;
     }

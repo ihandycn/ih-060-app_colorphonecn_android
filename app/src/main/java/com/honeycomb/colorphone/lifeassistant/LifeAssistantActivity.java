@@ -6,14 +6,18 @@ import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.news.NewsManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 
+import java.util.Calendar;
+
 public class LifeAssistantActivity extends HSAppCompatActivity implements INotificationObserver {
     private LifeAssistantNewsPage newsPage;
+    private String closeReson = "Other";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +33,29 @@ public class LifeAssistantActivity extends HSAppCompatActivity implements INotif
 
         ImageView close = findViewById(R.id.close_view);
         close.setOnClickListener(v -> {
+            closeReson = "Close";
             finish();
         });
         newsPage.setCloseView(close);
 
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        String source = "";
+        if (hour >= 5 && hour < 9) {
+            source = "Morning";
+        } else if ((hour >= 17 && hour < 23)) {
+            source = "Evening";
+        }
+        Analytics.logEvent("Life_Assistant_Show", "Source", source);
+    }
+
+    @Override public void onBackPressed() {
+        super.onBackPressed();
+        closeReson = "Back";
     }
 
     @Override protected void onDestroy() {
         super.onDestroy();
+        Analytics.logEvent("Life_Assistant_Close", "Type", closeReson);
         NewsManager.getInstance().releaseNewsAD(NewsManager.getInstance().getLifeAssistantBean());
     }
 
