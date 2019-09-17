@@ -175,8 +175,8 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public boolean isNewsOnTextureWireEnable() {
                 boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NewsOnTextureWire");
                 if (ret) {
-                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preload");
-                    NewsManager.getInstance().preload(null);
+                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preloadForExitNews");
+                    NewsManager.getInstance().preloadForExitNews(null);
                 } else {
                     HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable NOT enable");
                 }

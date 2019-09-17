@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.messagecenter.customize.MessageCenterSettings;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
@@ -36,6 +39,10 @@ public class SettingsActivity extends HSAppCompatActivity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
 
     private List<ModuleState> mModuleStates = new ArrayList<>();
+
+    private AlertDialog dialog;
+    private ModuleState lifeAssistant;
+    private boolean confirmClose = true;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
@@ -136,17 +143,25 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(LifeAssistantConfig.isLifeAssistantConfigEnable(),
+        lifeAssistant = new ModuleState(LifeAssistantConfig.isLifeAssistantConfigEnable(),
                 LifeAssistantConfig.isLifeAssistantSettingEnable(),
                 R.id.setting_item_life_assistant_toggle,
                 R.id.setting_item_life_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                if (!isChecked && confirmClose) {
+                    lifeAssistant.switchCompat.setChecked(true);
+                    showConfirmDialog();
+                } else {
+                    confirmClose = true;
+                    LifeAssistantConfig.setLifeAssistantSettingEnable(isChecked);
+                }
 //                Analytics.logEvent("Settings_Toolbar_Clicked_" +
 //                        (isChecked ? "Enabled" : "Disabled"));
-                LifeAssistantConfig.setLifeAssistantSettingEnable(isChecked);
             }
-        });
+        };
+
+        mModuleStates.add(lifeAssistant);
 
         for (final ModuleState moduleState : mModuleStates) {
             View rootView = findViewById(moduleState.itemLayoutId);
@@ -206,6 +221,39 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         }
         super.onStop();
+
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
+    private void showConfirmDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+
+        View view = getLayoutInflater().inflate(R.layout.layout_life_assistant_close_confirm_dialog, null);
+
+        View btn = view.findViewById(R.id.tv_first);
+        btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
+        btn.setOnClickListener(v -> {
+            dismissDialog();
+        });
+
+        btn = view.findViewById(R.id.tv_second);
+        btn.setOnClickListener(v -> {
+            dismissDialog();
+            confirmClose = false;
+            lifeAssistant.switchCompat.setChecked(false);
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
+        builder.setCancelable(false);
+        builder.setView(view);
+        dialog = builder.create();
+
+        showDialog(dialog);
+
     }
 
     private abstract class ModuleState {

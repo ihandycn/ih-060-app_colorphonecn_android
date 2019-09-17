@@ -199,7 +199,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     public void loadNews(String from) {
         HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
         if (Networks.isNetworkAvailable(-1)) {
-            NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
+            NewsManager.getInstance().fetchNews(this, isVideo);
             NewsManager.logNewsListShow(from);
         } else {
             showToast(R.string.news_network_failed_toast);

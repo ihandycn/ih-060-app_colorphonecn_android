@@ -58,6 +58,13 @@ public class LifeAssistantSettingActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override protected void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
     private void showConfirmDialog() {
         if (dialog != null) {
             dialog.dismiss();
@@ -65,8 +72,6 @@ public class LifeAssistantSettingActivity extends HSAppCompatActivity {
 
         View view = getLayoutInflater().inflate(R.layout.layout_life_assistant_close_confirm_dialog, null);
 
-        View bgView = view.findViewById(R.id.content_layout);
-        bgView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
         View btn = view.findViewById(R.id.tv_first);
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {

@@ -66,6 +66,7 @@ import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
@@ -861,6 +862,7 @@ public class ColorPhoneApplicationImpl {
                         HSLog.i("CCTest", "not time");
                     }
 
+                    NewsManager.getInstance().preloadForLifeAssistant(null);
                     OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
                 }
             }

@@ -63,7 +63,7 @@
 //
 //        pushTypeAsNewsTab = !NewsTest.isNewsAlertWithBigPic();
 //
-//        newsResource = NewsManager.getInstance().getPushBean();
+//        newsResource = NewsManager.getInstance().getLifeAssistantBean();
 //        initRecyclerView();
 //
 //        View view = findViewById(R.id.news_push_close);

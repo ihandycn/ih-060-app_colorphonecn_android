@@ -6,10 +6,12 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSError;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Networks;
@@ -25,6 +27,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class NewsManager {
+    public static final String NOTIFY_KEY_NEWS_LOADED = "NOTIFY_KEY_NEWS_LOADED";
+
     private static class NewsManagerHolder {
         private static final NewsManager instance = new NewsManager();
     }
@@ -52,27 +56,27 @@ public class NewsManager {
     private static String NEWS_LIST_BANNER = Placements.AD_NEWS;
     public static int AD_INTERVAL = 4;
     public static int NATIVE_AD_SIZE = 4;
-    private int adSize = 0;
 
     private AcbNativeAd mAd;
 
     public interface NewsLoadListener {
-        boolean addNews = true;
         void onNewsLoaded(NewsResultBean bean, int size);
+        default boolean isLoadNewsAd() { return true; }
+        default int getNewsAdOffset() { return 1; }
     }
 
-    private NewsResultBean pushBean;
+    private NewsResultBean lifeAssistantBean;
     private NewsResultBean exitNewsBean;
     private boolean showNativeAD;
 
-    public NewsResultBean getPushBean() {
-        return pushBean;
+    public NewsResultBean getLifeAssistantBean() {
+        return lifeAssistantBean;
     }
     public NewsResultBean getExitNewsBean() {
         return exitNewsBean;
     }
 
-    void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
+    void fetchNews(NewsLoadListener loadListener, boolean isVideo) {
         showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
         if (showNativeAD) {
             AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
@@ -91,10 +95,13 @@ public class NewsManager {
                         if (bean != null && loadListener != null) {
                             bean.parseArticles();
                             int size = bean.articlesList.size();
-                            if (loadListener.addNews) {
+                            if (loadListener.isLoadNewsAd()) {
+                                bean.adOffset = loadListener.getNewsAdOffset();
                                 replaceADs(bean, 0);
                             }
                             loadListener.onNewsLoaded(bean, size);
+                            HSLog.i(NewsManager.TAG, "onNewsLoaded sendNotification");
+                            HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_NEWS_LOADED);
                             return;
                         }
                     } catch (Exception e) {
@@ -105,6 +112,7 @@ public class NewsManager {
                 if (loadListener != null) {
                     loadListener.onNewsLoaded(null, 0);
                 }
+
                 HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
             }
 
@@ -148,9 +156,9 @@ public class NewsManager {
             return;
         }
 
-        int index = 1;
+        int index = resultBean.adOffset;
         if (size > 0) {
-            index = size + AD_INTERVAL - (size - adSize - 1) % AD_INTERVAL;
+            index = size + AD_INTERVAL - (size - resultBean.adSize - 1) % AD_INTERVAL;
         }
 
         size = (resultBean.articlesList != null ? resultBean.articlesList.size() : size);
@@ -187,7 +195,7 @@ public class NewsManager {
             }
 
             HSLog.i(TAG, "replaceADs AfterSize: " + resultBean.articlesList.size());
-            adSize += ads.size();
+            resultBean.adSize += ads.size();
         }
 
         showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
@@ -216,7 +224,8 @@ public class NewsManager {
                         int newSize = bean.articlesList.size();
                         resultBean.articlesList.addAll(bean.articlesList);
                         if (loadListener != null) {
-                            if (loadListener.addNews) {
+                            if (loadListener.isLoadNewsAd()) {
+                                resultBean.adOffset = loadListener.getNewsAdOffset();
                                 replaceADs(resultBean, size);
                             }
                             loadListener.onNewsLoaded(resultBean, newSize);
@@ -290,16 +299,51 @@ public class NewsManager {
         }
     }
 
-    public void preload(Activity activity) {
-        HSLog.d(TAG, "preload");
-
+    public void preloadForExitNews(Activity activity) {
+        HSLog.d(TAG, "preloadForExitNews");
+        exitNewsBean = null;
         if (activity != null) {
             AcbAds.getInstance().setActivity(activity);
         }
         AcbNativeAdManager.getInstance().activePlacementInProcess(getNativeAdPlacementName());
         AcbNativeAdManager.getInstance().preload(1, getNativeAdPlacementName());
 
-        fetchNews(null, (bean, size) -> exitNewsBean = bean, false);
+        fetchNews((bean, size) -> {
+            HSLog.d(TAG, "preloadForExitNews  onNewsLoaded ");
+            exitNewsBean = bean;
+        }, false);
+    }
+
+    public void preloadForLifeAssistant(Activity activity) {
+        HSLog.d(TAG, "preloadForLifeAssistant");
+        lifeAssistantBean = null;
+
+        NewsLoadListener loadListener = new NewsLoadListener() {
+            @Override public void onNewsLoaded(NewsResultBean bean, int size) {
+                HSLog.d(TAG, "preloadForLifeAssistant  onNewsLoaded ");
+                lifeAssistantBean = bean;
+            }
+
+            @Override public boolean isLoadNewsAd() {
+                return LifeAssistantConfig.isLifeAssistantAdEnable();
+            }
+
+            @Override public int getNewsAdOffset() {
+                return 0;
+            }
+        };
+        fetchNews(loadListener, false);
+    }
+
+    public void releaseNewsAD(NewsResultBean bean) {
+        if (bean != null && bean.articlesList != null && bean.articlesList.size() > 0) {
+            for (NewsArticle article : bean.articlesList) {
+                if (article instanceof NewsNativeAdBean) {
+                    ((NewsNativeAdBean) article).acbNativeAd.release();
+                }
+            }
+        }
+        bean = null;
     }
 
     private static String getNativeAdPlacementName() {

@@ -198,6 +198,10 @@
         <item name="colorControlActivated">#3ada45</item>
     </style>
 
+    <style name="LightThemeLifeAssistant" parent="LightTheme">
+        <item name="colorControlActivated">#6C63FF</item>
+    </style>
+
     <style name="ResultPagePrimaryImage">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/result_page_image_frame_height</item>

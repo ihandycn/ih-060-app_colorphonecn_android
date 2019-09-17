@@ -1,11 +1,13 @@
 package com.honeycomb.colorphone.lifeassistant;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsPage;
+import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.weather.CurrentCondition;
@@ -25,6 +28,7 @@ import com.ihs.weather.DailyForecast;
 import com.ihs.weather.HSWeatherQueryResult;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -34,7 +38,6 @@ import java.util.List;
 import colorphone.acb.com.libweather.WeatherActivity;
 import colorphone.acb.com.libweather.WeatherClockManager;
 import colorphone.acb.com.libweather.WeatherUtils;
-import colorphone.acb.com.libweather.util.CommonUtils;
 
 public class LifeAssistantNewsPage extends NewsPage {
     private ImageView closeView;
@@ -51,11 +54,31 @@ public class LifeAssistantNewsPage extends NewsPage {
         super.init();
         onSelected(true);
         logger = new LifeAssistantEventLogger();
+
+        itemViewPadding = Dimensions.pxFromDp(16);
     }
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
         setEnabled(false);
+
+        newsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int position = layoutManager.findFirstVisibleItemPosition();
+                if (position > 0) {
+                    closeView.setImageResource(R.drawable.life_assistant_close_float);
+                } else {
+                    closeView.setImageResource(R.drawable.life_assistant_close_night);
+                }
+            }
+        });
 
 //        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 //        divider.setDrawable(getResources().getDrawable(R.drawable.empty_divider));
@@ -133,18 +156,18 @@ public class LifeAssistantNewsPage extends NewsPage {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             int viewType = getItemViewType(position);
 
-            HSLog.i(NewsManager.TAG, "ENP onBindViewHolder is position: " + position + "   type: " + viewType);
+            HSLog.i(NewsManager.TAG, "LNP onBindViewHolder is position: " + position + "   type: " + viewType);
+
+            if (viewType == NEWS_TYPE_HEAD_WEATHER) {
+                ((WeatherViewHolder) holder).bindView();
+                return;
+            }
 
             if (itemViewPadding != 0) {
                 holder.itemView.setPadding(itemViewPadding, holder.itemView.getPaddingTop(), itemViewPadding, holder.itemView.getPaddingBottom());
             }
 
             if (viewType == NEWS_TYPE_HEAD_TITLE) {
-                return;
-            }
-
-            if (viewType == NEWS_TYPE_HEAD_WEATHER) {
-                ((WeatherViewHolder) holder).bindView();
                 return;
             }
 
@@ -193,6 +216,9 @@ public class LifeAssistantNewsPage extends NewsPage {
             private ImageView mCondition;
             private final List<WeatherDaysItemView> mDays = new ArrayList<>();
 
+            private TextView welcomeMorning;
+            private TextView welcomeNight;
+
             private boolean mDataRequestFinished;
             private volatile HSWeatherQueryResult mData;
 
@@ -212,6 +238,9 @@ public class LifeAssistantNewsPage extends NewsPage {
                 mMTemperatureDes = itemView.findViewById(R.id.morning__weather_temperature_des);
                 mMCondition = itemView.findViewById(R.id.morning__weather_icon);
                 mMDate = itemView.findViewById(R.id.morning__weather_date);
+
+                welcomeMorning = itemView.findViewById(R.id.welcome_content_morning);
+                welcomeNight = itemView.findViewById(R.id.welcome_content_night);
 
                 mDays.add(itemView.findViewById(R.id.weather_days_first));
                 mDays.add(itemView.findViewById(R.id.weather_days_second));
@@ -233,20 +262,30 @@ public class LifeAssistantNewsPage extends NewsPage {
             }
 
             void bindView () {
-                itemView.setOnClickListener(view -> {
-                    if (mDataRequestFinished && mData != null) {
-                        Context context = getContext();
-                        Intent intent = new Intent(context, WeatherActivity.class);
-                        CommonUtils.startActivitySafely(context, intent);
-                    }
-                });
+                OnClickListener onSettingClickListener = view -> {
+                    Navigations.startActivitySafely(getContext(), LifeAssistantSettingActivity.class);
+                };
+
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour >= 5 && hour < 12) {
+                    ActivityUtils.setCustomColorStatusBar((Activity) getContext(), 0xFF199FEB);
+
                     itemView.setBackgroundResource(R.drawable.life_assiatant_morning_weather_bg);
                     mMorningContainer.setVisibility(VISIBLE);
+                    mMorningContainer.setOnClickListener(view -> {
+                        if (mDataRequestFinished && mData != null) {
+                            Context context = getContext();
+                            Intent intent = new Intent(context, WeatherActivity.class);
+                            Navigations.startActivitySafely(context, intent);
+                        }
+                    });
+
+                    itemView.findViewById(R.id.life_assistant_setting_morning).setOnClickListener(onSettingClickListener);
 
                     mNightContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
+
+                    welcomeMorning.setText(LifeAssistantConfig.getWelcomeStr(true));
 
                     new Thread() {
                         @Override
@@ -264,11 +303,23 @@ public class LifeAssistantNewsPage extends NewsPage {
                         }
                     }.start();
                 } else {
-                    itemView.setBackgroundColor(0xff14131F);
+                    ActivityUtils.setCustomColorStatusBar((Activity) getContext(), 0xFF14131F);
+                    itemView.setBackgroundColor(0xFF14131F);
                     mMorningContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
 
                     mNightContainer.setVisibility(VISIBLE);
+                    mNightContainer.setOnClickListener(view -> {
+                        if (mDataRequestFinished && mData != null) {
+                            Context context = getContext();
+                            Intent intent = new Intent(context, WeatherActivity.class);
+                            Navigations.startActivitySafely(context, intent);
+                        }
+                    });
+
+                    itemView.findViewById(R.id.life_assistant_setting_night).setOnClickListener(onSettingClickListener);
+
+                    welcomeNight.setText(LifeAssistantConfig.getWelcomeStr(false));
 
                     new Thread() {
                         @Override
@@ -385,9 +436,9 @@ public class LifeAssistantNewsPage extends NewsPage {
             void bindView() {
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour >= 5 && hour < 11) {
-                    title.setText(R.string.life_assistant_welcome_moring);
+                    title.setText(R.string.life_assistant_welcome_morning);
                 } else {
-                    title.setText(R.string.life_assistant_welcome_afternoon);
+                    title.setText(R.string.life_assistant_welcome_night);
                 }
                 // TODO: 问候语
             }
