@@ -716,6 +716,8 @@
             android:name=".lifeassistant.LifeAssistantActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:label="@string/life_assistant_title"
+            android:icon="@drawable/life_assistant_icon"
             android:theme="@style/LightTheme"/>
         <activity
             android:name=".lifeassistant.LifeAssistantSettingActivity"
