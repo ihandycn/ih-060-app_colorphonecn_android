@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.lifeassistant;
 
 import android.text.format.DateUtils;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -35,6 +36,9 @@ public class LifeAssistantConfig {
     }
 
     private static boolean isShowHour() {
+        if (BuildConfig.DEBUG)
+            return true;
+
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         int hour = cal.get(Calendar.HOUR_OF_DAY);

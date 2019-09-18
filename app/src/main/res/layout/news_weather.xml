@@ -38,9 +38,8 @@
             android:id="@+id/life_assistant_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginEnd="48dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/life_assistant_setting_night"
@@ -50,7 +49,6 @@
             android:id="@+id/life_assistant_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:src="@drawable/life_assistant_close_night"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -62,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_layout"
         android:paddingLeft="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="17dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp"
         android:visibility="gone"
@@ -97,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_layout"
         android:paddingLeft="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="17dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp">
 
@@ -210,7 +208,7 @@
         android:layout_below="@id/welcome_layout"
         android:visibility="gone"
         android:paddingLeft="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="21dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp"
         tools:visibility="visible">
@@ -236,9 +234,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_layout"
-        tools:visibility="visible"
+        android:visibility="visible"
         android:paddingLeft="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="21dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp">
 
@@ -267,9 +265,10 @@
             android:layout_below="@+id/morning__weather_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
             android:textColor="@android:color/white"
-            android:alpha="0.7"
             android:textSize="12sp"
+            tools:text="333333333333333333"
             app:typeface="@string/custom_font_regular" />
 
         <ImageView
@@ -287,6 +286,7 @@
     <RelativeLayout
         android:id="@+id/none_data_container"
         android:layout_below="@id/welcome_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

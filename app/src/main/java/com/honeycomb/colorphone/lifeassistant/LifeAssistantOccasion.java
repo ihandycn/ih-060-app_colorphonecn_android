@@ -16,6 +16,6 @@ public class LifeAssistantOccasion implements Occasion {
     }
 
     @Override public int getPriority() {
-        return OccasionPriority.SCREEN_GREETING.getPriority();
+        return OccasionPriority.CALL_ASSISTANT.getPriority() + 1;
     }
 }

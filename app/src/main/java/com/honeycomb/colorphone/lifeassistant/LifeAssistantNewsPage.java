@@ -315,7 +315,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                     mNoneDataContainer.setVisibility(GONE);
 
                     welcomeTitle.setAlpha(1f);
-                    welcomeContent.setAlpha(1f);
+                    welcomeTitle.setText(R.string.life_assistant_welcome_morning);
+                    welcomeContent.setAlpha(0.9f);
                     welcomeContent.setText(LifeAssistantConfig.getWelcomeStr(true));
                     welcomeSetting.setImageResource(R.drawable.life_assistant_setting_morning);
                     welcomeClose.setImageResource(R.drawable.life_assistant_close_morning);
@@ -354,6 +355,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                     });
 
                     welcomeTitle.setAlpha(0.9f);
+                    welcomeTitle.setText(R.string.life_assistant_welcome_night);
                     welcomeContent.setAlpha(0.6f);
                     welcomeContent.setText(LifeAssistantConfig.getWelcomeStr(false));
                     welcomeSetting.setImageResource(R.drawable.life_assistant_setting_night);
