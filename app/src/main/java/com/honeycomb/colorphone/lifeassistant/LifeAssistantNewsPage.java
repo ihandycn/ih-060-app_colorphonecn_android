@@ -216,8 +216,10 @@ public class LifeAssistantNewsPage extends NewsPage {
             private ImageView mCondition;
             private final List<WeatherDaysItemView> mDays = new ArrayList<>();
 
-            private TextView welcomeMorning;
-            private TextView welcomeNight;
+            private TextView welcomeTitle;
+            private TextView welcomeContent;
+            private ImageView welcomeSetting;
+            private ImageView welcomeClose;
 
             private boolean mDataRequestFinished;
             private volatile HSWeatherQueryResult mData;
@@ -239,8 +241,10 @@ public class LifeAssistantNewsPage extends NewsPage {
                 mMCondition = itemView.findViewById(R.id.morning__weather_icon);
                 mMDate = itemView.findViewById(R.id.morning__weather_date);
 
-                welcomeMorning = itemView.findViewById(R.id.welcome_content_morning);
-                welcomeNight = itemView.findViewById(R.id.welcome_content_night);
+                welcomeTitle = itemView.findViewById(R.id.welcome_title);
+                welcomeContent = itemView.findViewById(R.id.welcome_content);
+                welcomeSetting = itemView.findViewById(R.id.life_assistant_setting);
+                welcomeClose = itemView.findViewById(R.id.life_assistant_close);
 
                 mDays.add(itemView.findViewById(R.id.weather_days_first));
                 mDays.add(itemView.findViewById(R.id.weather_days_second));
@@ -262,14 +266,15 @@ public class LifeAssistantNewsPage extends NewsPage {
             }
 
             void bindView () {
-                OnClickListener onSettingClickListener = view -> {
+
+                welcomeSetting.setOnClickListener(view -> {
                     Analytics.logEvent("Life_Assistant_Settings_Click");
                     Navigations.startActivitySafely(getContext(), LifeAssistantSettingActivity.class);
-                };
+                });
 
-                OnClickListener onCloseClickListener = view -> {
+                welcomeClose.setOnClickListener(view -> {
                     closeView.performClick();
-                };
+                });
 
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour >= 5 && hour < 12) {
@@ -287,13 +292,15 @@ public class LifeAssistantNewsPage extends NewsPage {
                         }
                     });
 
-                    itemView.findViewById(R.id.life_assistant_setting_morning).setOnClickListener(onSettingClickListener);
-                    itemView.findViewById(R.id.life_assistant_close_morning).setOnClickListener(onCloseClickListener);
 
                     mNightContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
 
-                    welcomeMorning.setText(LifeAssistantConfig.getWelcomeStr(true));
+                    welcomeTitle.setAlpha(1f);
+                    welcomeContent.setAlpha(1f);
+                    welcomeContent.setText(LifeAssistantConfig.getWelcomeStr(true));
+                    welcomeSetting.setImageResource(R.drawable.life_assistant_setting_morning);
+                    welcomeClose.setImageResource(R.drawable.life_assistant_close_morning);
 
                     new Thread() {
                         @Override
@@ -327,10 +334,11 @@ public class LifeAssistantNewsPage extends NewsPage {
                         }
                     });
 
-                    itemView.findViewById(R.id.life_assistant_setting_night).setOnClickListener(onSettingClickListener);
-                    itemView.findViewById(R.id.life_assistant_close_morning).setOnClickListener(onCloseClickListener);
-
-                    welcomeNight.setText(LifeAssistantConfig.getWelcomeStr(false));
+                    welcomeTitle.setAlpha(0.9f);
+                    welcomeContent.setAlpha(0.6f);
+                    welcomeContent.setText(LifeAssistantConfig.getWelcomeStr(false));
+                    welcomeSetting.setImageResource(R.drawable.life_assistant_setting_night);
+                    welcomeClose.setImageResource(R.drawable.life_assistant_close_night);
 
                     new Thread() {
                         @Override
@@ -383,10 +391,10 @@ public class LifeAssistantNewsPage extends NewsPage {
                         mMorningContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();
-//                        mMTemperature.setText(condition.getCelsius() + "°");
+                        mMTemperature.setText(condition.getCelsius() + "°");
                         mMTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
                         mMCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
-//                        mMDate.setText(getDateString());
+                        mMDate.setText(getDateString());
                     } else {
                         mNoData.setTextColor(Color.BLACK);
                         mNoneDataContainer.setVisibility(VISIBLE);
