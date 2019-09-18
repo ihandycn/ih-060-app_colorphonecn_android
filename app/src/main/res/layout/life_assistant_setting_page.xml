@@ -65,4 +65,9 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <include
+        android:id="@+id/close_confirm_dialog"
+        layout="@layout/layout_life_assistant_close_confirm_dialog"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>

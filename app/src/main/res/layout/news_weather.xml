@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_layout"
         android:paddingLeft="24dp"
-        android:paddingTop="17dp"
+        android:paddingTop="18dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp"
         android:visibility="gone"
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_layout"
         android:paddingLeft="24dp"
-        android:paddingTop="17dp"
+        android:paddingTop="18dp"
         android:paddingRight="24dp"
         android:paddingBottom="21dp">
 
@@ -134,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_weather_icon"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="19dp"
             android:orientation="horizontal">
 
             <include
@@ -246,6 +246,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="50sp"
+            tools:text="26C"
             app:typeface="@string/custom_font_bold" />
 
         <com.superapps.view.TypefacedTextView
@@ -276,7 +277,7 @@
             android:layout_width="54dp"
             android:layout_height="54dp"
             android:layout_alignTop="@id/morning__weather_temperature"
-            android:layout_alignBottom="@id/morning__weather_temperature"
+            android:layout_alignBottom="@id/morning__weather_date"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:scaleType="centerInside" />

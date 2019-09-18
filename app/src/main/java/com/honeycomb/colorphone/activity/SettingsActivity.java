@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ public class SettingsActivity extends HSAppCompatActivity {
 
     private List<ModuleState> mModuleStates = new ArrayList<>();
 
-    private AlertDialog dialog;
+    private View confirmDialog;
     private ModuleState lifeAssistant;
     private boolean confirmClose = true;
 
@@ -208,6 +207,14 @@ public class SettingsActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override public void onBackPressed() {
+        if (confirmDialog != null && confirmDialog.getVisibility() == View.VISIBLE) {
+            confirmDialog.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     protected void onStop() {
         for (ModuleState moduleState : mModuleStates) {
@@ -222,41 +229,37 @@ public class SettingsActivity extends HSAppCompatActivity {
         }
         super.onStop();
 
-        if (dialog != null) {
-            dialog.dismiss();
+        if (confirmDialog != null) {
+            confirmDialog.setVisibility(View.GONE);
         }
     }
 
     private void showConfirmDialog() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
+        confirmDialog = findViewById(R.id.close_confirm_dialog);
 
-        View view = getLayoutInflater().inflate(R.layout.layout_life_assistant_close_confirm_dialog, null);
+        View content = confirmDialog.findViewById(R.id.content_layout);
+        content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
 
-        View btn = view.findViewById(R.id.tv_first);
+        View btn = confirmDialog.findViewById(R.id.tv_first);
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
-            dismissDialog();
+            confirmDialog.setVisibility(View.GONE);
         });
 
-        btn = view.findViewById(R.id.tv_second);
+        btn = confirmDialog.findViewById(R.id.tv_second);
         btn.setOnClickListener(v -> {
-            dismissDialog();
+            confirmDialog.setVisibility(View.GONE);
             confirmClose = false;
             lifeAssistant.switchCompat.setChecked(false);
 
             Analytics.logEvent("Life_Assistant_Settings_Disable", "Source", "Settings");
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
-        builder.setCancelable(false);
-        builder.setView(view);
-        dialog = builder.create();
+        confirmDialog.setVisibility(View.VISIBLE);
 
-        showDialog(dialog);
         Analytics.logEvent("Life_Assistant_Settings_PopUp_Show", "Source", "Settings");
     }
+
 
     private abstract class ModuleState {
         private final SwitchCompat switchCompat;
