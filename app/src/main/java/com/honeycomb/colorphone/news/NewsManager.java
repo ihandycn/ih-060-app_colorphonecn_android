@@ -335,17 +335,6 @@ public class NewsManager {
         fetchNews(loadListener, false);
     }
 
-    public void releaseNewsAD(NewsResultBean bean) {
-        if (bean != null && bean.articlesList != null && bean.articlesList.size() > 0) {
-            for (NewsArticle article : bean.articlesList) {
-                if (article instanceof NewsNativeAdBean) {
-                    ((NewsNativeAdBean) article).acbNativeAd.release();
-                }
-            }
-        }
-        bean = null;
-    }
-
     private static String getNativeAdPlacementName() {
         return Placements.AD_EXIT_WIRE_NEW;
     }

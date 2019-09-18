@@ -240,6 +240,10 @@ public class ColorPhoneApplicationImpl {
                 } else {
                     HSLog.i("CCTest", "not time");
                 }
+
+                NewsManager.getInstance().preloadForLifeAssistant(null);
+                LifeAssistantConfig.recordLifeAssistantCheck();
+                OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
             }
         }
     };
@@ -863,9 +867,11 @@ public class ColorPhoneApplicationImpl {
                         HSLog.i("CCTest", "not time");
                     }
 
-                    LifeAssistantConfig.recordLifeAssistantCheck();
                     NewsManager.getInstance().preloadForLifeAssistant(null);
-                    OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
+                    if (!MessageCenterManager.getInstance().getConfig().waitForLocker()) {
+                        LifeAssistantConfig.recordLifeAssistantCheck();
+                        OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
+                    }
                 }
             }
         }, screenFilter);
