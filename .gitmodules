@@ -16,3 +16,6 @@
 [submodule "libs/libCashCenter"]
 	path = libs/libCashCenter
 	url = https://git.ihandysoft.com/bingroup/lib_feast_android_outter.git
+[submodule "libs/libRingtones"]
+	path = libs/libRingtones
+	url = https://git.ihandysoft.com/nogroup/lib_ringtone_android.git

@@ -1,8 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.colorphone.ringtones">
-
-    <application>
-        <activity android:name=".view.RingtoneEntranceActivity" />
-        <activity android:name=".view.BannerListActivity" />
-    </application>
-</manifest>
