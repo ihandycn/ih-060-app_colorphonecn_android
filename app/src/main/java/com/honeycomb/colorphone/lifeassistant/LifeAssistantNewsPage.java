@@ -446,7 +446,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                         dayOfWeek = "";
                 }
 
-                return year + "/" + month + "/" + day + " " + dayOfWeek;
+                return month + "月" + day + "日 " + dayOfWeek;
 
             }
         }
