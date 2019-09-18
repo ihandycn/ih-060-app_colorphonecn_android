@@ -10,11 +10,12 @@ import android.widget.EditText;
 
 import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
-import com.honeycomb.colorphone.lifeassistant.LifeAssistantSettingActivity;
 import com.superapps.util.Navigations;
+import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -36,7 +37,6 @@ public class TestActivity extends AppCompatActivity {
         final LottieAnimationView lottieAnimationView2 = findViewById(R.id.lottie_anim_2);
         lottieAnimationView2.setOnClickListener(v -> lottieAnimationView2.playAnimation());
         mInCallWindow = new InCallWindow(this);
-
     }
 
     public void startCallRingingWindow(View view) {
@@ -57,10 +57,17 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
-        Navigations.startActivitySafely(this, LifeAssistantSettingActivity.class);
+//        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
+        FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(HuaweiRateGuideDialog.class));
+
     }
 
     public void checkFloatWindow(View view) {
-        Navigations.startActivitySafely(this, LifeAssistantActivity.class);
+//        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
+        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
+    }
+
+    public void openRingtone(View view) {
+        Navigations.startActivity(this, RingtoneEntranceActivity.class);
     }
 }

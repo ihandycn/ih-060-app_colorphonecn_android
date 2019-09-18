@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.menu.TabItem;
+
+import java.util.List;
 
 public class TabFrameLayout extends FrameLayout {
 
@@ -18,6 +20,7 @@ public class TabFrameLayout extends FrameLayout {
     private FrameProvider mFrameProvider;
 
     private SparseArray<View> mTabContentLayoutList = new SparseArray<>();
+    private List<TabItem> mTabItems;
 
     private @Nullable View getFrameItem(int pos) {
         if (pos < 0) {
@@ -53,7 +56,8 @@ public class TabFrameLayout extends FrameLayout {
 
             View oldFrame = getFrameItem(mSelectedFramePos);
             if (oldFrame != null) {
-                boolean needRemove = mSelectedFramePos == ColorPhoneActivity.CASH_POSITION;
+                TabItem tabItem = mTabItems.get(mSelectedFramePos);
+                boolean needRemove = TabItem.TAB_CASH.equals(tabItem.getId());
                 if (needRemove) {
                     mTabContentLayoutList.remove(mSelectedFramePos);
                     removeView(oldFrame);
@@ -88,6 +92,14 @@ public class TabFrameLayout extends FrameLayout {
 
     public void setFrameProvider(FrameProvider frameProvider) {
         mFrameProvider = frameProvider;
+    }
+
+    public void setTabItems(List<TabItem> tabItems) {
+        mTabItems = tabItems;
+    }
+
+    public List<TabItem> getTabItems() {
+        return mTabItems;
     }
 
     public interface FrameChangeListener {

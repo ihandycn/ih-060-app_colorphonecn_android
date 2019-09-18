@@ -1,6 +1,6 @@
-include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash',
+include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash', ':libRingtones',
         ':libMessageCenter', ':libChargingCommon', ':libChargingReport',
-        ':permissions', ':libPermissionacquire', 'libWeather'
+        ':permissions', ':libPermissionacquire', ':libBannerview', 'libWeather'
 project(':libSuperApps').projectDir = new File('libs/libSuperApps/lib')
 project(':libCallAssistant').projectDir = new File('libs/libNewColorPhone/libCallAssistant')
 project(':libScreenFlash').projectDir = new File('libs/libNewColorPhone/libScreenFlash')
@@ -10,3 +10,4 @@ project(':libChargingCommon').projectDir = new File('libs/libChargingImprover/li
 project(':libChargingReport').projectDir = new File('libs/libChargingImprover/libChargingReport')
 project(':libPermissionacquire').projectDir = new File('libs/libPermissionacquire/libpermissionrequest')
 project(':libWeather').projectDir = new File('libs/libWeather')
+project(':libRingtones').projectDir = new File('libs/libRingtones')
