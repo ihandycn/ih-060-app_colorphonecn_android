@@ -114,11 +114,13 @@ public class WeatherDetailPage extends ScrollView implements Comparable {
     }
 
     public void setLocationPermissionRationaleVisibility(boolean visible) {
-        if (visible) {
-            mPermissionRationale.setVisibility(VISIBLE);
-        } else if (mPermissionRationale != null) {
-            mPermissionRationale.setVisibility(GONE);
-            mPermissionRequestPending = false;
+        if (mPermissionRationale != null) {
+            if (visible) {
+                mPermissionRationale.setVisibility(VISIBLE);
+            } else {
+                mPermissionRationale.setVisibility(GONE);
+                mPermissionRequestPending = false;
+            }
         }
     }
 
