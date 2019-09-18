@@ -18,16 +18,101 @@ public class LifeAssistantConfig {
     private static final String PREF_KEY_LIFE_ASSISTANT_SETTING_ENABLE = "life_assistant_setting_enable";
     private static final String PREF_KEY_LIFE_ASSISTANT_MORNING_STRING_UNUSED = "life_assistant_morning_string_unused";
     private static final String PREF_KEY_LIFE_ASSISTANT_NIGHT_STRING_UNUSED = "life_assistant_night_string_unused";
+    private static final String PREF_KEY_LIFE_ASSISTANT_MORNING_SHOWN_TIME = "life_assistant_morning_shown_time";
+    private static final String PREF_KEY_LIFE_ASSISTANT_MORNING_CHECK_TIME = "life_assistant_morning_check_time";
+    private static final String PREF_KEY_LIFE_ASSISTANT_NIGHT_SHOWN_TIME = "life_assistant_night_shown_time";
 
     public static boolean canShowLifeAssistant() {
         if (isLifeAssistantConfigEnable() && isLifeAssistantSettingEnable()) {
             long installTime = Utils.getAppInstallTimeMillis();
             boolean timeInterval = (System.currentTimeMillis() - installTime) > getActiveAfterInstall() * DateUtils.MINUTE_IN_MILLIS;
-            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-            boolean time = (hour >= 5 && hour < 9) || (hour >= 17 && hour < 23);
-            return timeInterval && time;
+            if (timeInterval) {
+                return isShowHour();
+            }
+
         }
         return false;
+    }
+
+    private static boolean isShowHour() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+        if (hour >= 5 && hour < 9) {
+            int lastShow = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_LIFE_ASSISTANT_MORNING_SHOWN_TIME, 0);
+            int showDate = lastShow / 100;
+            int showCount = lastShow % 100;
+
+            int lastCheck = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_LIFE_ASSISTANT_MORNING_CHECK_TIME, 0);
+            int checkDate = lastCheck / 100;
+            int checkCount = lastCheck % 100;
+
+            int todayInt = cal.get(Calendar.YEAR) * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+
+            if ((showDate != todayInt || showCount < 1) && (checkCount > 1)) {
+                return true;
+            }
+        }
+
+        if (hour >= 17 && hour < 23) {
+            int lastShowDate = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_LIFE_ASSISTANT_NIGHT_SHOWN_TIME, 0);
+            int showDate = lastShowDate / 100;
+            int todayInt = cal.get(Calendar.YEAR) * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+            return todayInt != showDate;
+        }
+
+        return false;
+    }
+
+    public static void recordLifeAssistantCheck() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+        if (hour >= 5 && hour < 9) {
+            int lastCheck = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_LIFE_ASSISTANT_MORNING_CHECK_TIME, 0);
+            int checkDate = lastCheck / 100;
+
+            int todayInt = cal.get(Calendar.YEAR) * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+
+            if (checkDate == todayInt) {
+                Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_LIFE_ASSISTANT_MORNING_CHECK_TIME);
+            } else {
+                Preferences.get(Constants.DESKTOP_PREFS).putInt(PREF_KEY_LIFE_ASSISTANT_MORNING_CHECK_TIME, todayInt * 100 + 1);
+            }
+        }
+
+    }
+
+    public static void recordLifeAssistantShow() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+        String prefKey;
+        if (hour >= 5 && hour <= 9) {
+            prefKey = PREF_KEY_LIFE_ASSISTANT_MORNING_SHOWN_TIME;
+        } else if (hour >= 17 && hour <= 23) {
+            prefKey = PREF_KEY_LIFE_ASSISTANT_NIGHT_SHOWN_TIME;
+        } else {
+            return;
+        }
+
+        int lastShow = Preferences.get(Constants.DESKTOP_PREFS).getInt(prefKey, 0);
+        int showDate = lastShow / 100;
+        int showCount = lastShow % 100;
+
+        int todayInt = cal.get(Calendar.YEAR) * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+
+        if (todayInt == showDate) {
+            showCount++;
+        } else {
+            showCount = 1;
+        }
+        int shown = todayInt * 100 + showCount;
+
+        Preferences.get(Constants.DESKTOP_PREFS).putInt(prefKey, shown);
     }
 
     public static boolean isLifeAssistantConfigEnable() {

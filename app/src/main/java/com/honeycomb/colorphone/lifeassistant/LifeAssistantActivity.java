@@ -17,7 +17,7 @@ import java.util.Calendar;
 
 public class LifeAssistantActivity extends HSAppCompatActivity implements INotificationObserver {
     private LifeAssistantNewsPage newsPage;
-    private String closeReson = "Other";
+    private String closeReason = "Other";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class LifeAssistantActivity extends HSAppCompatActivity implements INotif
 
         ImageView close = findViewById(R.id.close_view);
         close.setOnClickListener(v -> {
-            closeReson = "Close";
+            closeReason = "Close";
             finish();
         });
         newsPage.setCloseView(close);
@@ -45,17 +45,19 @@ public class LifeAssistantActivity extends HSAppCompatActivity implements INotif
         } else if ((hour >= 17 && hour < 23)) {
             source = "Evening";
         }
+
+        LifeAssistantConfig.recordLifeAssistantShow();
         Analytics.logEvent("Life_Assistant_Show", "Source", source);
     }
 
     @Override public void onBackPressed() {
         super.onBackPressed();
-        closeReson = "Back";
+        closeReason = "Back";
     }
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        Analytics.logEvent("Life_Assistant_Close", "Type", closeReson);
+        Analytics.logEvent("Life_Assistant_Close", "Type", closeReason);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
