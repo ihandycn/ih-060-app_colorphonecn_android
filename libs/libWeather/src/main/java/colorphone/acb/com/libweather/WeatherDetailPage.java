@@ -115,46 +115,10 @@ public class WeatherDetailPage extends ScrollView implements Comparable {
 
     public void setLocationPermissionRationaleVisibility(boolean visible) {
         if (visible) {
-            inflateLocationPermissionRationaleIfNeeded();
             mPermissionRationale.setVisibility(VISIBLE);
         } else if (mPermissionRationale != null) {
             mPermissionRationale.setVisibility(GONE);
             mPermissionRequestPending = false;
-        }
-    }
-
-    private void inflateLocationPermissionRationaleIfNeeded() {
-        if (mPermissionRationale == null) {
-            ViewStub stub = findViewById(R.id.weather_location_permission_request_banner_stub);
-            mPermissionRationale = stub.inflate();
-
-//            LauncherAnalytics.logEvent("Weather_LocationAccess_Banner_Showed", true);
-
-            View requestButton = mPermissionRationale.findViewById(
-                    R.id.weather_location_permission_request_btn);
-            requestButton.setOnClickListener(v -> {
-//                LauncherAnalytics.logEvent("Weather_LocationAccess_Banner_Allow_Clicked", true);
-
-                int permissionStatus = RuntimePermissions.checkSelfPermission(mActivity,
-                        Manifest.permission.ACCESS_FINE_LOCATION);
-                switch (permissionStatus) {
-                    case RuntimePermissions.PERMISSION_GRANTED:
-//                        LauncherAnalytics.logEvent("Weather_LocationAccess_Succeed");
-                        setLocationPermissionRationaleVisibility(false);
-                        break;
-                    case RuntimePermissions.PERMISSION_NOT_GRANTED:
-//                        LauncherAnalytics.logEvent("Weather_LocationAccess_Requested");
-                        mPermissionRequestPending = true;
-                    case RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST:
-                        RuntimePermissions.requestPermissions(mActivity,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                WeatherActivity.REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
-                        break;
-                    case RuntimePermissions.PERMISSION_PERMANENTLY_DENIED:
-                        PermissionUtils.tryRequestPermissionFromSystemSettings(mActivity, false);
-                        break;
-                }
-            });
         }
     }
 
