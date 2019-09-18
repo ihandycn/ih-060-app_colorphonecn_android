@@ -203,6 +203,8 @@ public class LifeAssistantNewsPage extends NewsPage {
             private View mNightContainer;
             private View mMorningContainer;
             private View mNoneDataContainer;
+            private View mNightLoadingContainer;
+            private View mMorningLoadingContainer;
 
             private TextView mNoData;
 
@@ -229,6 +231,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                 mNightContainer = itemView.findViewById(R.id.night_container);
                 mMorningContainer = itemView.findViewById(R.id.morning_container);
                 mNoneDataContainer = itemView.findViewById(R.id.none_data_container);
+                mNightLoadingContainer = itemView.findViewById(R.id.night_loading_container);
+                mMorningLoadingContainer = itemView.findViewById(R.id.morning_loading_container);
 
                 mNoData = itemView.findViewById(R.id.no_data);
 
@@ -281,7 +285,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                     ActivityUtils.setCustomColorStatusBar((Activity) getContext(), 0xFF199FEB);
 
                     itemView.setBackgroundResource(R.drawable.life_assiatant_morning_weather_bg);
-                    mMorningContainer.setVisibility(VISIBLE);
+                    mMorningLoadingContainer.setVisibility(VISIBLE);
+                    mMorningContainer.setVisibility(INVISIBLE);
                     mMorningContainer.setOnClickListener(view -> {
                         if (mDataRequestFinished && mData != null) {
                             Context context = getContext();
@@ -323,7 +328,8 @@ public class LifeAssistantNewsPage extends NewsPage {
                     mMorningContainer.setVisibility(GONE);
                     mNoneDataContainer.setVisibility(GONE);
 
-                    mNightContainer.setVisibility(VISIBLE);
+                    mNightLoadingContainer.setVisibility(VISIBLE);
+                    mNightContainer.setVisibility(INVISIBLE);
                     mNightContainer.setOnClickListener(view -> {
                         if (mDataRequestFinished && mData != null) {
                             Context context = getContext();
@@ -364,6 +370,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                         HSWeatherQueryResult weather = mData;
                         mNoneDataContainer.setVisibility(GONE);
                         mMorningContainer.setVisibility(GONE);
+                        mNightLoadingContainer.setVisibility(GONE);
                         mNightContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();
@@ -388,6 +395,7 @@ public class LifeAssistantNewsPage extends NewsPage {
                         HSWeatherQueryResult weather = mData;
                         mNoneDataContainer.setVisibility(GONE);
                         mNightContainer.setVisibility(GONE);
+                        mMorningLoadingContainer.setVisibility(GONE);
                         mMorningContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();

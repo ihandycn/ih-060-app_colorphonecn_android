@@ -57,6 +57,41 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/night_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:paddingLeft="24dp"
+        android:paddingTop="16dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="56dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="125dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="40dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginTop="98dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/night_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -165,6 +200,34 @@
                 android:orientation="vertical" />
 
         </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/morning_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:visibility="gone"
+        android:paddingLeft="24dp"
+        android:paddingTop="16dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="56dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.4"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="125dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="40dp"
+            android:alpha="0.4"
+            android:background="#fff" />
 
     </RelativeLayout>
 
