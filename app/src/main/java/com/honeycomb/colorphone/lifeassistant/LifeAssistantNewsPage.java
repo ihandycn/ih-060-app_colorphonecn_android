@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -97,6 +99,19 @@ public class LifeAssistantNewsPage extends NewsPage {
         adapter = new LifeAssistantNewsAdapter();
     }
 
+    @Override protected void initDivider() {
+        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL) {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                if (parent.getChildAdapterPosition(view) > 2) {
+                    super.getItemOffsets(outRect, view, parent, state);
+                } else {
+                    outRect.set(0, 0, 0, 0);
+                }
+            }
+        };
+    }
+
     protected class LifeAssistantNewsAdapter extends NewsAdapter {
         static final int NEWS_TYPE_HEAD_WEATHER = 1001;
         static final int NEWS_TYPE_HEAD_TITLE   = 1002;
@@ -135,7 +150,7 @@ public class LifeAssistantNewsPage extends NewsPage {
             View view = null;
 
             if (viewType == NEWS_TYPE_HEAD_TITLE) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.news_head_title, parent, false);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.news_life_head_title, parent, false);
                 return new TitleViewHolder(view);
             }
 
@@ -194,8 +209,6 @@ public class LifeAssistantNewsPage extends NewsPage {
         private class TitleViewHolder extends ViewHolder {
             TitleViewHolder(View view) {
                 super(view);
-                TextView tv = view.findViewById(R.id.title_tv);
-                tv.setText(R.string.life_assistant_news_title);
             }
         }
 

@@ -57,7 +57,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     // 记录viewPager是否拖拽的标记
     private boolean mIsVpDragger;
     private final int mTouchSlop;
-    private DividerItemDecoration divider;
+    protected DividerItemDecoration divider;
     private String lastNewsContentID;
     private int lastNewsSize;
     private boolean mSelected;
@@ -134,14 +134,19 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     protected void initAdapter() {
         adapter = new NewsAdapter();
     }
+    protected void initDivider() {
+        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+    }
 
     private void initRecyclerView() {
         initAdapter();
+        initDivider();
+
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         HSLog.i(NewsManager.TAG, "NP initRecyclerView: " + isVideo);
-        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+
         divider.setDrawable(getResources().getDrawable(R.drawable.news_divider));
         newsList.addItemDecoration(divider);
 
