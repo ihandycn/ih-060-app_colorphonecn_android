@@ -9,3 +9,4 @@ project(':libMessageCenter').projectDir = new File('libs/libNewColorPhone/libMes
 project(':libChargingCommon').projectDir = new File('libs/libChargingImprover/libChargingCommon')
 project(':libChargingReport').projectDir = new File('libs/libChargingImprover/libChargingReport')
 project(':libPermissionacquire').projectDir = new File('libs/libPermissionacquire/libpermissionrequest')
+project(':libRingtones').projectDir = new File('libs/libRingtones')
