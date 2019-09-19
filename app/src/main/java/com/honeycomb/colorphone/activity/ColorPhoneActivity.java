@@ -377,11 +377,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
             }
         });
-
-        if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-            mTabLayout.getTabAt(getTabPos(TabItem.TAB_CASH)).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
-        }
-
+        
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
             View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
