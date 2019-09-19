@@ -15,8 +15,11 @@ import android.widget.TextView;
 import com.ihs.weather.CurrentCondition;
 import com.ihs.weather.DailyForecast;
 import com.ihs.weather.HSWeatherQueryResult;
+import com.ihs.weather.HourlyForecast;
+import com.superapps.util.Calendars;
 import com.superapps.util.RuntimePermissions;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -135,7 +138,20 @@ public class WeatherDetailPage extends ScrollView implements Comparable {
 
         CurrentCondition currentCondition = mWeather.getCurrentCondition();
         if (currentCondition != null) {
-            int temperature = fahrenheit ? currentCondition.getFahrenheit() : currentCondition.getCelsius();
+            int temperature = Integer.MIN_VALUE;
+
+            List<HourlyForecast> hourlyForecasts = mWeather.getHourlyForecasts();
+            Calendar calendar = Calendar.getInstance();
+            int h = calendar.get(Calendar.HOUR_OF_DAY);
+            for (HourlyForecast hf : hourlyForecasts) {
+                if (hf.getHour() == h) {
+                    temperature = fahrenheit ? hf.getFahrenheit() : hf.getCelsius();
+                    break;
+                }
+            }
+            if (temperature == Integer.MIN_VALUE) {
+                temperature = fahrenheit ? currentCondition.getFahrenheit() : currentCondition.getCelsius();
+            }
             mCurrentTempText.setText(WeatherUtils.filterInt(temperature));
             WeatherClockManager manager = WeatherClockManager.getInstance();
             String simpleConditionDesc = manager.getSimpleConditionDescription(currentCondition.getCondition());

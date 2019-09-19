@@ -27,6 +27,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.weather.CurrentCondition;
 import com.ihs.weather.DailyForecast;
 import com.ihs.weather.HSWeatherQueryResult;
+import com.ihs.weather.HourlyForecast;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import colorphone.acb.com.libweather.WeatherActivity;
 import colorphone.acb.com.libweather.WeatherClockManager;
+import colorphone.acb.com.libweather.WeatherSettings;
 import colorphone.acb.com.libweather.WeatherUtils;
 
 public class LifeAssistantNewsPage extends NewsPage {
@@ -388,7 +390,22 @@ public class LifeAssistantNewsPage extends NewsPage {
                         mNightContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();
-                        mTemperature.setText(condition.getCelsius() + "°");
+                        boolean fahrenheit = WeatherSettings.shouldDisplayFahrenheit();
+                        int temperature = Integer.MIN_VALUE;
+
+                        List<HourlyForecast> hourlyForecasts = weather.getHourlyForecasts();
+                        Calendar calendar = Calendar.getInstance();
+                        int h = calendar.get(Calendar.HOUR_OF_DAY);
+                        for (HourlyForecast hf : hourlyForecasts) {
+                            if (hf.getHour() == h) {
+                                temperature = fahrenheit ? hf.getFahrenheit() : hf.getCelsius();
+                                break;
+                            }
+                        }
+                        if (temperature == Integer.MIN_VALUE) {
+                            temperature = fahrenheit ? condition.getFahrenheit() : condition.getCelsius();
+                        }
+                        mTemperature.setText(temperature + "°");
                         mTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
                         mCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
 
@@ -415,7 +432,22 @@ public class LifeAssistantNewsPage extends NewsPage {
                         mMorningContainer.setVisibility(VISIBLE);
 
                         CurrentCondition condition = weather.getCurrentCondition();
-                        mMTemperature.setText(condition.getCelsius() + "°");
+                        boolean fahrenheit = WeatherSettings.shouldDisplayFahrenheit();
+                        int temperature = Integer.MIN_VALUE;
+
+                        List<HourlyForecast> hourlyForecasts = weather.getHourlyForecasts();
+                        Calendar calendar = Calendar.getInstance();
+                        int h = calendar.get(Calendar.HOUR_OF_DAY);
+                        for (HourlyForecast hf : hourlyForecasts) {
+                            if (hf.getHour() == h) {
+                                temperature = fahrenheit ? hf.getFahrenheit() : hf.getCelsius();
+                                break;
+                            }
+                        }
+                        if (temperature == Integer.MIN_VALUE) {
+                            temperature = fahrenheit ? condition.getFahrenheit() : condition.getCelsius();
+                        }
+                        mMTemperature.setText(temperature + "°");
                         mMTemperatureDes.setText(WeatherClockManager.getInstance().getSimpleConditionDescription(condition.getCondition()));
                         mMCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
                         mMDate.setText(getDateString());
