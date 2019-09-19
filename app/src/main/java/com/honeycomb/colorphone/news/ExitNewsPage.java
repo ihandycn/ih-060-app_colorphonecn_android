@@ -221,6 +221,10 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
+            if (acbNativeAd == null || acbNativeAd.isAdReleased()) {
+                return;
+            }
+            
             try {
                 adContainer.fillNativeAd(acbNativeAd, "");
                 acbNativeAd.setNativeClickListener(acbAd -> {
