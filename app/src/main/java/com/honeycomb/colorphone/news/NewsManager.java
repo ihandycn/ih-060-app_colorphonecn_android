@@ -335,6 +335,14 @@ public class NewsManager {
         fetchNews(loadListener, false);
     }
 
+    public void releaseLifeNews() {
+        lifeAssistantBean = null;
+    }
+
+    public void releaseExitNews() {
+        exitNewsBean = null;
+    }
+
     private static String getNativeAdPlacementName() {
         return Placements.AD_EXIT_WIRE_NEW;
     }
@@ -355,5 +363,7 @@ public class NewsManager {
             mAd.release();
             mAd = null;
         }
+
+        releaseExitNews();
     }
 }
