@@ -1164,6 +1164,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mPosition == mPageSelectedPos;
     }
 
+    public boolean isNextPos() {
+        return mPosition == mPageSelectedPos + 1;
+    }
+
     public void setPageSelectedPos(int pos) {
         mPageSelectedPos = pos;
     }
@@ -1180,7 +1184,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     final DownloadTask task = mDownloadTasks.valueAt(i);
                     if (isTaskIdle(task)) {
                         // Direct start download tasks in current page
-                        if (isSelectedPos()) {
+                        if (isSelectedPos() || isNextPos()) {
                             download(task);
                         } else {
                             task.setStatus(DownloadTask.PENDING);
