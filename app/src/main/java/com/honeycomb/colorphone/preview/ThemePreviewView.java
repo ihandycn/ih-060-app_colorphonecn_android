@@ -1379,6 +1379,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
         }
 
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            // Clear block flag
+            setBlockAnimationForPageChange(false);
+        }
+
+        // Resume video
         if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
             triggerPageChangeWhenIdle = false;
             if (isSelectedPos()) {
@@ -1395,11 +1401,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        // Check loading state
+        // Check loading state, resume loading animation
         if (themeLoading) {
             if (state == ViewPager.SCROLL_STATE_IDLE && isSelectedPos()) {
-                // Clear block flag
-                setBlockAnimationForPageChange(false);
                 mProgressViewHolder.mDotsPictureView.resumeAnimation();
             } else {
                 mProgressViewHolder.mDotsPictureView.pauseAnimation();
