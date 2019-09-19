@@ -221,7 +221,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
-            if (acbNativeAd == null || acbNativeAd.isAdReleased()) {
+            if (acbNativeAd == null || acbNativeAd.isAdReleased() || acbNativeAd.isExpired()) {
                 return;
             }
             

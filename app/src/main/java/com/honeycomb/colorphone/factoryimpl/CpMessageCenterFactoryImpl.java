@@ -188,7 +188,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public boolean showNewsOnTextureWire() {
                 AcbNativeAd ad = NewsManager.getInstance().getNativeAd();
-                if (ad != null && !ad.isAdReleased()) {
+                if (ad != null && !ad.isAdReleased() && !ad.isExpired()) {
                     HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire show");
                     Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
                     return true;
