@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -401,9 +400,11 @@ public class LifeAssistantNewsPage extends NewsPage {
                         }
 
                     } else {
-                        mNoData.setTextColor(Color.WHITE);
+                        mNoData.setAlpha(1f);
+                        mNoneDataContainer.setPadding(mNoneDataContainer.getPaddingLeft(), Dimensions.pxFromDp(56), mNoneDataContainer.getPaddingRight(), mNightContainer.getPaddingBottom());
                         mNoneDataContainer.setVisibility(VISIBLE);
                         mNightContainer.setVisibility(INVISIBLE);
+                        mNightLoadingContainer.setVisibility(GONE);
                     }
                 } else {
                     if (mData != null) {
@@ -419,9 +420,11 @@ public class LifeAssistantNewsPage extends NewsPage {
                         mMCondition.setImageResource(WeatherUtils.getWeatherConditionIconResourceId(weather));
                         mMDate.setText(getDateString());
                     } else {
-                        mNoData.setTextColor(Color.BLACK);
+                        mNoData.setAlpha(0.6f);
+                        mNoneDataContainer.setPadding(mNoneDataContainer.getPaddingLeft(), Dimensions.pxFromDp(37), mNoneDataContainer.getPaddingRight(), mNightContainer.getPaddingBottom());
                         mNoneDataContainer.setVisibility(VISIBLE);
                         mMorningContainer.setVisibility(INVISIBLE);
+                        mMorningLoadingContainer.setVisibility(GONE);
                     }
                 }
             }

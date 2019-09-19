@@ -289,19 +289,18 @@
         android:layout_below="@id/welcome_layout"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:minHeight="120dp">
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/no_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textColor="#000000"
-            android:alpha="0.90"
+            android:textColor="#ffffff"
             android:text="暂无天气信息"
             android:textSize="12sp"
             app:typeface="@string/custom_font_regular" />
-
 
     </RelativeLayout>
 </RelativeLayout>

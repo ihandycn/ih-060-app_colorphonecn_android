@@ -221,60 +221,62 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
-            adContainer.fillNativeAd(acbNativeAd, "");
-            acbNativeAd.setNativeClickListener(acbAd -> {
-                Analytics.logEvent("Message_View_Wire_Ad_Click");
-            });
+            try {
+                adContainer.fillNativeAd(acbNativeAd, "");
+                acbNativeAd.setNativeClickListener(acbAd -> {
+                    Analytics.logEvent("Message_View_Wire_Ad_Click");
+                });
 
-            mDescriptionTv.setText(acbNativeAd.getTitle());
-            String title = acbNativeAd.getBody();
-            if (TextUtils.isEmpty(title)) {
-                title = acbNativeAd.getSubtitle();
-            }
-            if (TextUtils.isEmpty(title)) {
-                title = acbNativeAd.getTitle();
-            }
-            mTitleTv.setText(title);
-
-            mClickView.setOnClickListener(view -> mActionBtn.performClick());
-
-            mCloseBtn.setOnClickListener(view -> {
-                if (getContext() instanceof Activity) {
-                    ((Activity) getContext()).finish();
+                mDescriptionTv.setText(acbNativeAd.getTitle());
+                String title = acbNativeAd.getBody();
+                if (TextUtils.isEmpty(title)) {
+                    title = acbNativeAd.getSubtitle();
                 }
-                Analytics.logEvent("Message_View_Wire_Ad_Cancel_Click");
-            });
-
-            HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
-            adContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    int height = getHeadViewHeight();
-                    int heightSize = height - adContainer.getHeight();
-
-                    HSLog.i(NewsManager.TAG, "ENP bindView onGlobalLayout h == " + height + "  ch == " + heightSize);
-
-                    adContainer.setMinimumHeight(getHeadViewHeight());
-
-                    View imageLayout = adContainer.findViewById(R.id.news_ad_image_layout);
-                    imageLayout.setPadding(imageLayout.getPaddingLeft(),
-                            imageLayout.getPaddingTop() + heightSize / 3,
-                            imageLayout.getPaddingRight(),
-                            imageLayout.getPaddingBottom() + heightSize / 3);
-
-                    mTitleTv.setPadding(mTitleTv.getPaddingLeft(),
-                            mTitleTv.getPaddingTop() + heightSize / 6,
-                            mTitleTv.getPaddingRight(),
-                            mTitleTv.getPaddingBottom());
-
-                    mDescriptionTv.setPadding(mDescriptionTv.getPaddingLeft(),
-                            mDescriptionTv.getPaddingTop(),
-                            mDescriptionTv.getPaddingRight(),
-                            mDescriptionTv.getPaddingBottom() + heightSize / 6);
+                if (TextUtils.isEmpty(title)) {
+                    title = acbNativeAd.getTitle();
                 }
-            });
+                mTitleTv.setText(title);
+
+                mClickView.setOnClickListener(view -> mActionBtn.performClick());
+
+                mCloseBtn.setOnClickListener(view -> {
+                    if (getContext() instanceof Activity) {
+                        ((Activity) getContext()).finish();
+                    }
+                    Analytics.logEvent("Message_View_Wire_Ad_Cancel_Click");
+                });
+
+                HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
+                adContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                        int height = getHeadViewHeight();
+                        int heightSize = height - adContainer.getHeight();
+
+                        HSLog.i(NewsManager.TAG, "ENP bindView onGlobalLayout h == " + height + "  ch == " + heightSize);
+
+                        adContainer.setMinimumHeight(getHeadViewHeight());
+
+                        View imageLayout = adContainer.findViewById(R.id.news_ad_image_layout);
+                        imageLayout.setPadding(imageLayout.getPaddingLeft(),
+                                imageLayout.getPaddingTop() + heightSize / 3,
+                                imageLayout.getPaddingRight(),
+                                imageLayout.getPaddingBottom() + heightSize / 3);
+
+                        mTitleTv.setPadding(mTitleTv.getPaddingLeft(),
+                                mTitleTv.getPaddingTop() + heightSize / 6,
+                                mTitleTv.getPaddingRight(),
+                                mTitleTv.getPaddingBottom());
+
+                        mDescriptionTv.setPadding(mDescriptionTv.getPaddingLeft(),
+                                mDescriptionTv.getPaddingTop(),
+                                mDescriptionTv.getPaddingRight(),
+                                mDescriptionTv.getPaddingBottom() + heightSize / 6);
+                    }
+                });
+            } catch (Exception e) {}
         }
 
         private int getHeadViewHeight() {
