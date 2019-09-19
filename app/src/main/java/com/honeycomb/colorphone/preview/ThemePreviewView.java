@@ -1217,6 +1217,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         task.setStatus(DownloadTask.DOWNLOADING);
+
+        setBlockAnimationForPageChange(false);
+
         if (task.isMediaTheme()) {
             downloadTheme(task.getTasksManagerModel());
         } else if (task.isRingtone()) {
@@ -1229,8 +1232,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (percent == 0f || Float.isNaN(percent)) {
             ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_DETAIL);
         }
-
-        setBlockAnimationForPageChange(false);
 
         TasksManager.doDownload(model, null);
 
@@ -1397,6 +1398,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         // Check loading state
         if (themeLoading) {
             if (state == ViewPager.SCROLL_STATE_IDLE && isSelectedPos()) {
+                // Clear block flag
+                setBlockAnimationForPageChange(false);
                 mProgressViewHolder.mDotsPictureView.resumeAnimation();
             } else {
                 mProgressViewHolder.mDotsPictureView.pauseAnimation();
