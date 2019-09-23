@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone.autopermission;
 
-import android.os.Build;
-
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.permission.HSPermissionRequestMgr;
@@ -11,10 +9,14 @@ import com.superapps.util.Compats;
  * @author sundxing
  */
 public class AutoLogger {
+
     public static void logAutomaticPermissionResult(String typeName, boolean isSucceed, String reason) {
-        Analytics.logEvent("Automatic_" + (isSucceed ? "Success_" : "Failed_") + getBrand() + "_" + formatPermissionName(typeName),
+        Analytics.logEvent("Automatic_" + (isSucceed ? "Success" : "Failed"),
+                "Brand", getBrand(),
+                "Permission", formatPermissionName(typeName),
                 "Reason", reason == null ? "None" : reason,
-                "Os", getOSVersion(), "Version", RomUtils.getRomVersion());
+                "Os", getOSVersion(),
+                "Version", RomUtils.getRomVersion());
 
     }
 
@@ -55,7 +57,8 @@ public class AutoLogger {
         } else if (Compats.IS_XIAOMI_DEVICE) {
             brand = "Xiaomi";
         } else {
-            brand = Build.BRAND;
+            // TODO
+            brand = "Others";
         }
         return brand.toLowerCase();
     }
