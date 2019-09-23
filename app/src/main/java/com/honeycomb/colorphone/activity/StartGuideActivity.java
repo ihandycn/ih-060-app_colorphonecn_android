@@ -766,6 +766,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST
                 || requestCode == AUTO_PERMISSION_REQUEST) {
             if (!AutoPermissionChecker.isPhonePermissionGranted()) {
+                if ((list.contains(Manifest.permission.ANSWER_PHONE_CALLS) && list.size() == 1)
+                        || list.size() == 0) {
+                    AutoPermissionChecker.skipPhonePermission = true;
+                    onPermissionChanged();
+                    return;
+                }
                 Analytics.logEvent("FixAlert_Phone_Settings_Request");
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
             }

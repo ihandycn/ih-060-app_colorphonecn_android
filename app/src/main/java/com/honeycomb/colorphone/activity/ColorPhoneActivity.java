@@ -146,6 +146,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
+                guideLottie = findViewById(R.id.lottie_guide);
+                guideLottie.setVisibility(View.VISIBLE);
+                guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
+                guideLottie.playAnimation();
             }
         }
     };
@@ -199,6 +203,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
+    private LottieAnimationView guideLottie;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
 

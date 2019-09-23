@@ -19,6 +19,24 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
+        <FrameLayout
+            android:id="@+id/layout_guide"
+            android:layout_width="55dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginRight="11dp"
+            android:layout_height="40dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_guide"
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|end"
+                android:visibility="gone"
+                app:lottie_loop="false"
+                app:lottie_imageAssetsFolder="lottie/ringtone_guide_images"
+                app:lottie_fileName="lottie/ringtone_guide.json"/>
+        </FrameLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <com.honeycomb.colorphone.view.TabFrameLayout
