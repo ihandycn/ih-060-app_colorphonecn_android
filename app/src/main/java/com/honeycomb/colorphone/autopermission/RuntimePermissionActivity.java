@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.autopermission;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,11 +14,13 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
@@ -27,6 +30,8 @@ import java.util.List;
 
 public class RuntimePermissionActivity extends HSAppCompatActivity {
     private static final String TAG = RuntimePermissionActivity.class.getSimpleName();
+    private static final String FROM = "from";
+    private static final String FROM_RINGTONE = "ringtone";
     private static final int RUNTIME_PERMISSION_REQUEST_CODE = 0x333;
 
     private RuntimePermissionViewListHolder holder;
@@ -41,11 +46,22 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     private boolean needRefresh = false;
     private boolean requested = false;
     private String requestPermission;
+    private String from;
+
+    public static void startForRingtone() {
+        Intent intent = new Intent(HSApplication.getContext(), RuntimePermissionActivity.class);
+        intent.putExtra(FROM, FROM_RINGTONE);
+        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+    }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.runtime_permission_activity);
         View root = findViewById(R.id.permission_list);
+
+        if (getIntent() != null) {
+            from = getIntent().getStringExtra(FROM);
+        }
 
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.READ_CONTACTS);
@@ -85,6 +101,10 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
         View layout = findViewById(R.id.layout);
         layout.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+
+        if (TextUtils.equals(FROM_RINGTONE, from)) {
+            ((TextView) findViewById(R.id.title)).setText(R.string.runtime_permission_ringtone_title);
+        }
 
         toast = findViewById(R.id.close_toast);
         toast.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0x99d43d3d, Dimensions.pxFromDp(16), false));

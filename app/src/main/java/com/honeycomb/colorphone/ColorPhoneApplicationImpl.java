@@ -642,7 +642,7 @@ public class ColorPhoneApplicationImpl {
             @Override public boolean onSetRingtone(Ringtone ringtone) {
                 if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                         || !AutoPermissionChecker.isNotificationListeningGranted()) {
-                    Navigations.startActivitySafely(mBaseApplication, RuntimePermissionActivity.class);
+                    RuntimePermissionActivity.startForRingtone();
                     return false;
                 }
                 return true;

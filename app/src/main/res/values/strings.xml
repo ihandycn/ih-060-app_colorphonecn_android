@@ -363,6 +363,7 @@
     <string name="cash_center_guide_content12">7234人已提现</string>
 
     <string name="runtime_permission_title">开启所有权限后才能成功应用当前主题哦</string>
+    <string name="runtime_permission_ringtone_title">开启所有权限后才能成功应用当前铃声哦</string>
     <string name="runtime_permission_cancel_toast">来电秀可能无法正常使用, 仍要退出请点击关闭</string>
     <string name="runtime_permission_action">立即开启</string>
     <string name="runtime_permission_continue">继续开启</string>
