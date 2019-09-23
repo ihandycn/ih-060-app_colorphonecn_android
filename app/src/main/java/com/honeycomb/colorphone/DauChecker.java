@@ -104,12 +104,12 @@ public class DauChecker {
                 return;
             }
             // Log
-            Analytics.logEvent("DAU_Application_Check_" + Utils.getDeviceInfo(),
+            Analytics.logEvent("DAU_Application_Check" ,
+                    "AndroidVersion", Utils.getDeviceInfo(),
+                    "Brand", Build.BRAND.toUpperCase(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
-            Analytics.logEvent("DAU_Application_Check_" + Build.BRAND.toUpperCase(),
-                    "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
-                    "Count", String.valueOf(count));
+
             // Reset
             Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(KEY_COUNT_LIVE_TOTAL, 0);
             Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(KEY_TIME_LIVE_TOTAL, 0);
