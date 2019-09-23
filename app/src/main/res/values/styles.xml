@@ -132,7 +132,7 @@
     </style>
     <style name="NormalText.SettingsHint">
         <item name="android:textColor">@color/primarySubText</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="LayoutSettings">
@@ -196,6 +196,10 @@
 
     <style name="SwitchCompatTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorControlActivated">#3ada45</item>
+    </style>
+
+    <style name="LightThemeLifeAssistant" parent="LightTheme">
+        <item name="colorControlActivated">#6C63FF</item>
     </style>
 
     <style name="ResultPagePrimaryImage">

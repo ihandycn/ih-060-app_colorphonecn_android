@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+    android:layout_height="@dimen/air_launcher_settings_single_line_item_row_height"
+                android:background="@drawable/material_compat_bg"
+                tools:ignore="RtlHardcoded,RelativeOverlap">
+
+    <com.superapps.view.TypefacedTextView
+        style="@style/SettingsItem.SingleLine"
+        android:layout_toLeftOf="@+id/weather_settings_celsius"
+        android:layout_toStartOf="@+id/weather_settings_celsius"
+        android:text="@string/weather_settings_item_temperature_unit"
+        app:typeface="@string/custom_font_regular"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_settings_celsius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:maxLength="5"
+        android:text="@string/weather_settings_celsius"
+        android:textColor="@color/weather_settings_inactive_text"
+        android:textSize="@dimen/settings_item_text_size"
+        app:typeface="@string/custom_font_regular"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="39dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="39dp"
+        android:layout_marginStart="3dp"
+        android:maxLength="5"
+        android:text="@string/weather_settings_cf_slash"
+        android:textColor="@color/weather_settings_inactive_text"
+        android:textSize="@dimen/settings_item_text_size"
+        app:typeface="@string/custom_font_regular"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/weather_settings_fahrenheit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:maxLength="5"
+        android:text="@string/weather_settings_fahrenheit"
+        android:textColor="@color/weather_settings_inactive_text"
+        android:textSize="@dimen/settings_item_text_size"
+        app:typeface="@string/custom_font_regular"/>
+</RelativeLayout>

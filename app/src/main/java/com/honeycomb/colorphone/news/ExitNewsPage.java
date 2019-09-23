@@ -17,6 +17,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
@@ -142,6 +143,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             }
 
             if (isNoNews && viewType == NEWS_TYPE_HEAD_NO_NEWS) {
+                ((NewsNoNetworkHolder) holder).bindView();
                 return;
             }
 
@@ -164,6 +166,14 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
     private class NewsNoNetworkHolder extends RecyclerView.ViewHolder {
         NewsNoNetworkHolder(View itemView) {
             super(itemView);
+        }
+
+        void bindView() {
+            View action = itemView.findViewById(R.id.news_no_network_action);
+            action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff696681, Dimensions.pxFromDp(21), true));
+            action.setOnClickListener(v -> {
+                loadNews("");
+            });
         }
     }
 
@@ -211,60 +221,66 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         }
 
         void bindView(AcbNativeAd acbNativeAd) {
-            adContainer.fillNativeAd(acbNativeAd, "");
-            acbNativeAd.setNativeClickListener(acbAd -> {
-                Analytics.logEvent("Message_View_Wire_Ad_Click");
-            });
-
-            mDescriptionTv.setText(acbNativeAd.getTitle());
-            String title = acbNativeAd.getBody();
-            if (TextUtils.isEmpty(title)) {
-                title = acbNativeAd.getSubtitle();
+            if (acbNativeAd == null || acbNativeAd.isAdReleased() || acbNativeAd.isExpired()) {
+                return;
             }
-            if (TextUtils.isEmpty(title)) {
-                title = acbNativeAd.getTitle();
-            }
-            mTitleTv.setText(title);
+            
+            try {
+                adContainer.fillNativeAd(acbNativeAd, "");
+                acbNativeAd.setNativeClickListener(acbAd -> {
+                    Analytics.logEvent("Message_View_Wire_Ad_Click");
+                });
 
-            mClickView.setOnClickListener(view -> mActionBtn.performClick());
-
-            mCloseBtn.setOnClickListener(view -> {
-                if (getContext() instanceof Activity) {
-                    ((Activity) getContext()).finish();
+                mDescriptionTv.setText(acbNativeAd.getTitle());
+                String title = acbNativeAd.getBody();
+                if (TextUtils.isEmpty(title)) {
+                    title = acbNativeAd.getSubtitle();
                 }
-                Analytics.logEvent("Message_View_Wire_Ad_Cancel_Click");
-            });
-
-            HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
-            adContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    int height = getHeadViewHeight();
-                    int heightSize = height - adContainer.getHeight();
-
-                    HSLog.i(NewsManager.TAG, "ENP bindView onGlobalLayout h == " + height + "  ch == " + heightSize);
-
-                    adContainer.setMinimumHeight(getHeadViewHeight());
-
-                    View imageLayout = adContainer.findViewById(R.id.news_ad_image_layout);
-                    imageLayout.setPadding(imageLayout.getPaddingLeft(),
-                            imageLayout.getPaddingTop() + heightSize / 3,
-                            imageLayout.getPaddingRight(),
-                            imageLayout.getPaddingBottom() + heightSize / 3);
-
-                    mTitleTv.setPadding(mTitleTv.getPaddingLeft(),
-                            mTitleTv.getPaddingTop() + heightSize / 6,
-                            mTitleTv.getPaddingRight(),
-                            mTitleTv.getPaddingBottom());
-
-                    mDescriptionTv.setPadding(mDescriptionTv.getPaddingLeft(),
-                            mDescriptionTv.getPaddingTop(),
-                            mDescriptionTv.getPaddingRight(),
-                            mDescriptionTv.getPaddingBottom() + heightSize / 6);
+                if (TextUtils.isEmpty(title)) {
+                    title = acbNativeAd.getTitle();
                 }
-            });
+                mTitleTv.setText(title);
+
+                mClickView.setOnClickListener(view -> mActionBtn.performClick());
+
+                mCloseBtn.setOnClickListener(view -> {
+                    if (getContext() instanceof Activity) {
+                        ((Activity) getContext()).finish();
+                    }
+                    Analytics.logEvent("Message_View_Wire_Ad_Cancel_Click");
+                });
+
+                HSLog.i(NewsManager.TAG, "ENP bindView h: " + adContainer.getHeight());
+                adContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                        int height = getHeadViewHeight();
+                        int heightSize = height - adContainer.getHeight();
+
+                        HSLog.i(NewsManager.TAG, "ENP bindView onGlobalLayout h == " + height + "  ch == " + heightSize);
+
+                        adContainer.setMinimumHeight(getHeadViewHeight());
+
+                        View imageLayout = adContainer.findViewById(R.id.news_ad_image_layout);
+                        imageLayout.setPadding(imageLayout.getPaddingLeft(),
+                                imageLayout.getPaddingTop() + heightSize / 3,
+                                imageLayout.getPaddingRight(),
+                                imageLayout.getPaddingBottom() + heightSize / 3);
+
+                        mTitleTv.setPadding(mTitleTv.getPaddingLeft(),
+                                mTitleTv.getPaddingTop() + heightSize / 6,
+                                mTitleTv.getPaddingRight(),
+                                mTitleTv.getPaddingBottom());
+
+                        mDescriptionTv.setPadding(mDescriptionTv.getPaddingLeft(),
+                                mDescriptionTv.getPaddingTop(),
+                                mDescriptionTv.getPaddingRight(),
+                                mDescriptionTv.getPaddingBottom() + heightSize / 6);
+                    }
+                });
+            } catch (Exception e) {}
         }
 
         private int getHeadViewHeight() {

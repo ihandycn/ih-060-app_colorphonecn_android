@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <color name="status_bar" tools:ignore="all">#d9d9d9</color>
+
+    <!-- Weather -->
+    <color name="weather_add_new_city_card_bg">#26bdd2f9</color>
+    <color name="weather_primary">#eeffffff</color>
+    <color name="weather_secondary">#77ffffff</color>
+    <color name="weather_settings_inactive_text">#afafaf</color>
+    <color name="weather_wind_bg_bottom">#5e9496</color>
+    <color name="weather_wind_bg_top">#5e9496</color>
+    <color name="weather_cloudy_night_bg_bottom">#3a4168</color>
+    <color name="weather_cloudy_night_bg_top">#262b49</color>
+    <color name="weather_cloudy_day_bg_bottom">#2f6fd9</color>
+    <color name="weather_cloudy_day_bg_top">#1e57c9</color>
+    <color name="weather_sunny_night_bg_bottom">#3a4168</color>
+    <color name="weather_sunny_night_bg_top">#262b49</color>
+    <color name="weather_sunny_day_bg_bottom">#2f6fd9</color>
+    <color name="weather_sunny_day_bg_top">#1e57c9</color>
+    <color name="weather_haze_bg_bottom">#8893ae</color>
+    <color name="weather_haze_bg_top">#99a3be</color>
+    <color name="weather_hot_bg_bottom">#eb331f</color>
+    <color name="weather_hot_bg_top">#ffb007</color>
+    <color name="weather_cold_bg_bottom">#475379</color>
+    <color name="weather_cold_bg_top">#a5b4e3</color>
+    <color name="weather_dust_bg_bottom">#ab997d</color>
+    <color name="weather_dust_bg_top">#88755a</color>
+    <color name="weather_snow_bg_bottom">#5b6681</color>
+    <color name="weather_snow_bg_top">#5b6681</color>
+    <color name="weather_sleet_bg_bottom">#666b7e</color>
+    <color name="weather_sleet_bg_top">#343a4f</color>
+    <color name="weather_overcast_bg_bottom">#666b7e</color>
+    <color name="weather_overcast_bg_top">#343a4f</color>
+    <color name="weather_rainy_bg_bottom">#666b7e</color>
+    <color name="weather_rainy_bg_top">#343a4f</color>
+
+    <!-- Launcher settings -->
+    <color name="launcher_settings_light_gray_bg">#F6F6F6</color>
+
+    <!-- Material Design -->
+    <color name="material_text_white_primary">#deffffff</color>
+    <color name="material_text_white_secondary">#8affffff</color>
+    <color name="material_text_black_secondary">#8a000000</color>
+    <color name="material_text_black_primary">#de000000</color>
+    <color name="material_text_button_positive">#ff000000</color> <!-- TODO de000000 87% alpha-->
+    <color name="material_ripple_dark">#66000000</color>
+    <color name="material_ripple">#33000000</color>
+    <color name="material_ripple_white">#33FFFFFF</color>
+    <color name="material_ripple_button_white">#e0e1e2</color>
+
+    <color name="button_pressed_bg">#0d000000</color>
+
+    <color name="button_disable">#FFE7E9EC</color>
+
+    <color name="list_item_divider">#c7c7c7</color>
+
+    <!-- Material Design -->
+    <color name="material_text_black_hint">#61000000</color>
+    <color name="material_text_black_p70">#b2000000</color>
+    <color name="material_color_accent">#448aff</color>
+    <color name="material_color_switch_thumb">#ffffff</color>
+    <color name="material_color_foreground">#cccccc</color>
+
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.superapps.view.TypefacedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@drawable/material_compat_bg"
+    android:gravity="center_vertical|start"
+    android:maxLines="1"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:textColor="@color/material_text_black_primary"
+    android:textSize="17sp"
+    tools:text="New York, America"/>

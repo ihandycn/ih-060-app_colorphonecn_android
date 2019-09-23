@@ -57,7 +57,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     // 记录viewPager是否拖拽的标记
     private boolean mIsVpDragger;
     private final int mTouchSlop;
-    private DividerItemDecoration divider;
+    protected DividerItemDecoration divider;
     private String lastNewsContentID;
     private int lastNewsSize;
     private boolean mSelected;
@@ -134,14 +134,19 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     protected void initAdapter() {
         adapter = new NewsAdapter();
     }
+    protected void initDivider() {
+        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+    }
 
     private void initRecyclerView() {
         initAdapter();
+        initDivider();
+
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         HSLog.i(NewsManager.TAG, "NP initRecyclerView: " + isVideo);
-        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+
         divider.setDrawable(getResources().getDrawable(R.drawable.news_divider));
         newsList.addItemDecoration(divider);
 
@@ -199,7 +204,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     public void loadNews(String from) {
         HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
         if (Networks.isNetworkAvailable(-1)) {
-            NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
+            NewsManager.getInstance().fetchNews(this, isVideo);
             NewsManager.logNewsListShow(from);
         } else {
             showToast(R.string.news_network_failed_toast);
@@ -301,7 +306,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         static final int NEWS_TYPE_ITEM     = 100;
         static final int NEWS_TYPE_BIG      = 101;
-        static final int NEWS_TYPE_FOOT     = 102;
+        public static final int NEWS_TYPE_FOOT     = 102;
         static final int NEWS_TYPE_NATIVE   = 103;
         static final int NEWS_TYPE_VIDEO    = 104;
 

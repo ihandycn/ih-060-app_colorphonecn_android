@@ -10,8 +10,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "28.0.3"
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 23
+        targetSdkVersion 22
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -55,8 +55,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 165
-            versionName "1.3.60"
+            versionCode 1013
+            versionName "1.3.62"
         }
     }
 
@@ -187,7 +187,7 @@ dependencies {
             "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION".toString(),
             "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
             "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support.constraint:constraint-layout:1.1.3",
+            "com.android.support.constraint:constraint-layout:1.0.2",
 
             "com.android.support:multidex:1.0.1",
 
@@ -251,8 +251,8 @@ dependencies {
     compile project(':libSuperApps')
     compile project(':permissions')
     compile project(':libPermissionacquire')
+    compile project(':libWeather')
     compile project(':libRingtones')
-
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.09.02.001'

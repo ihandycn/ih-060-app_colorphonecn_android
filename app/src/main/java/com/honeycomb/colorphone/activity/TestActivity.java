@@ -1,42 +1,19 @@
 package com.honeycomb.colorphone.activity;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.acb.call.customize.ScreenFlashManager;
-import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
-import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
-import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
-import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
-import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Navigations;
-import com.superapps.util.RuntimePermissions;
-import com.superapps.util.Threads;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.superapps.util.Navigations;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
@@ -47,8 +24,6 @@ import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
  */
 
 public class TestActivity extends AppCompatActivity {
-    private static int FIRST_LAUNCH_PERMISSION_REQUEST = 1110;
-    private static int PERMISSION_REQUEST = 1111;
 
     Handler mHandler = new Handler();
     EditText editText;
@@ -90,12 +65,11 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-//        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
-        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
+        NewsManager.getInstance().preloadForLifeAssistant(this);
+        Navigations.startActivitySafely(this, LifeAssistantActivity.class);
     }
 
     public void openRingtone(View view) {
         Navigations.startActivity(this, RingtoneEntranceActivity.class);
     }
-
 }

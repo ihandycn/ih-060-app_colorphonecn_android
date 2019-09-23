@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/welcome_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/welcome_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/life_assistant_welcome_night"
+            tools:text="@string/life_assistant_welcome_night" />
+
+        <TextView
+            android:id="@+id/welcome_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/welcome_title"
+            tools:text="问候语" />
+
+        <ImageView
+            android:id="@+id/life_assistant_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="48dp"
+            android:layout_marginEnd="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/life_assistant_setting_night"
+            tools:src="@drawable/life_assistant_setting_night" />
+
+        <ImageView
+            android:id="@+id/life_assistant_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/life_assistant_close_night"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/night_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:paddingLeft="24dp"
+        android:paddingTop="18dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="56dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="125dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="40dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginTop="98dp"
+            android:alpha="0.15"
+            android:background="#fff" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/night_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:paddingLeft="24dp"
+        android:paddingTop="18dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp">
+
+        <ImageView
+            android:id="@+id/detail_weather_icon"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_alignTop="@+id/detail_weather_temperature"
+            android:layout_alignBottom="@+id/detail_weather_temperature"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/detail_weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="48sp"
+            app:typeface="@string/custom_font_bold" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/detail_weather_temperature_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/detail_weather_temperature"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/detail_weather_temperature"
+            android:layout_toRightOf="@+id/detail_weather_temperature"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            app:typeface="@string/custom_font_light" />
+
+        <LinearLayout
+            android:id="@+id/weather_days_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_weather_icon"
+            android:layout_marginTop="19dp"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/weather_days_first"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_second"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_third"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_forth"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/weather_days_fifth"
+                layout="@layout/news_weather_days_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/morning_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:visibility="gone"
+        android:paddingLeft="24dp"
+        android:paddingTop="21dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="56dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.4"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="125dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="40dp"
+            android:alpha="0.4"
+            android:background="#fff" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/morning_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_layout"
+        android:visibility="visible"
+        android:paddingLeft="24dp"
+        android:paddingTop="21dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="21dp">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="50sp"
+            tools:text="26C"
+            app:typeface="@string/custom_font_bold" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_temperature_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/morning__weather_temperature"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/morning__weather_temperature"
+            android:layout_toRightOf="@+id/morning__weather_temperature"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:typeface="@string/custom_font_light" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/morning__weather_date"
+            android:layout_below="@+id/morning__weather_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            tools:text="333333333333333333"
+            app:typeface="@string/custom_font_regular" />
+
+        <ImageView
+            android:id="@+id/morning__weather_icon"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_alignTop="@id/morning__weather_temperature"
+            android:layout_alignBottom="@id/morning__weather_date"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/none_data_container"
+        android:layout_below="@id/welcome_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:minHeight="120dp">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="暂无天气信息"
+            android:textSize="12sp"
+            app:typeface="@string/custom_font_regular" />
+
+    </RelativeLayout>
+</RelativeLayout>

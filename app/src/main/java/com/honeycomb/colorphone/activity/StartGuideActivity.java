@@ -388,9 +388,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         View view = getLayoutInflater().inflate(R.layout.layout_skip_confirm_dialog, null);
 
-        View bgView = view.findViewById(R.id.skip_layout);
+        View bgView = view.findViewById(R.id.content_layout);
         bgView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
-        View btn = view.findViewById(R.id.tv_ok);
+        View btn = view.findViewById(R.id.tv_first);
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
             dismissDialog();
@@ -400,7 +400,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
         });
 
-        btn = view.findViewById(R.id.tv_turn_off);
+        btn = view.findViewById(R.id.tv_second);
         btn.setOnClickListener(v -> {
             dismissDialog();
             finish();

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<colorphone.acb.com.libweather.WeatherDetailPage xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/weather_bottom_bar"
+    android:layout_below="@id/action_bar"
+    android:scrollbars="none"
+    tools:background="#4c6889">
+
+    <LinearLayout
+        android:id="@+id/weather_scrollable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <ViewStub
+            android:id="@+id/weather_location_permission_request_banner_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:layout="@layout/weather_location_permission_request_banner" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/weather_current_temp_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                tools:ignore="RtlHardcoded">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_current_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="10dp"
+                    android:lines="1"
+                    android:text="@string/weather_no_info_placeholder"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="132sp"
+                    app:typeface="@string/custom_font_thin"
+                    tools:text="23" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="33dp"
+                    android:src="@drawable/weather_detail_temperature_unit"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+            </FrameLayout>
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/weather_current_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weather_current_temp_wrapper"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="36dp"
+                android:maxLines="1"
+                android:textColor="@color/weather_primary"
+                android:textSize="17sp"
+                app:typeface="@string/custom_font_regular"
+                tools:text="Cloudy" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/weather_high_low_temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weather_current_condition"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="-7dp"
+                android:maxLines="1"
+                android:textColor="@color/weather_secondary"
+                android:textSize="13sp"
+                app:typeface="@string/custom_font_regular"
+                tools:text="23\u00b0/8\u00b0" />
+        </RelativeLayout>
+
+        <colorphone.acb.com.libweather.HourlyForecastScrollView
+            android:id="@+id/weather_hourly_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="205dp"
+            android:layout_marginTop="20dp"
+            android:clipChildren="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:orientation="vertical">
+
+                <colorphone.acb.com.libweather.HourlyForecastCurve
+                    android:id="@+id/weather_hourly_forecast_curve"
+                    android:layout_width="1000dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1" />
+
+                <colorphone.acb.com.libweather.HourlyForecastIcons
+                    android:id="@+id/weather_hourly_forecast_icons"
+                    android:layout_width="1000dp"
+                    android:layout_height="72dp" />
+            </LinearLayout>
+        </colorphone.acb.com.libweather.HourlyForecastScrollView>
+
+        <colorphone.acb.com.libweather.DailyForecastListView
+            android:id="@+id/weather_daily_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/weather_secondary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/weather_wind_speed"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_wind_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/weather_no_info_placeholder"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="12 km/h" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/weather_wind_direction"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_wind_direction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/weather_no_info_placeholder"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="Northeast" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/weather_humidity"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_humidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/weather_no_info_placeholder"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="68%" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/weather_sunrise"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_sunrise_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/weather_no_info_placeholder_time"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="06:23" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/weather_sunset"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_sunset_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/weather_no_info_placeholder_time"
+                    android:textColor="@color/weather_primary"
+                    android:textSize="16sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="18:35" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+    </LinearLayout>
+</colorphone.acb.com.libweather.WeatherDetailPage>

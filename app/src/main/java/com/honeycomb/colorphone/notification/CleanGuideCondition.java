@@ -642,9 +642,7 @@ public class CleanGuideCondition implements INotificationObserver {
                 .setAutoCancel(true);
 
         if (notificationModel.isHeadsUp) {
-            builder.setDefaults(NotificationCompat.DEFAULT_SOUND
-                    | NotificationCompat.DEFAULT_VIBRATE
-                    | NotificationCompat.DEFAULT_LIGHTS);
+            builder.setDefaults(0);
 
             // 测试中存在高版本出现 crash, notified from MAX team
             try {
@@ -653,7 +651,7 @@ public class CleanGuideCondition implements INotificationObserver {
                 HSLog.i(TAG, "builder.setPriority(NotificationCompat.PRIORITY_MAX) EXCEPTION");
             }
         } else {
-            builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+            builder.setDefaults(0);
         }
 
         NotificationManager.getInstance().hideNotificationToolbar(true);

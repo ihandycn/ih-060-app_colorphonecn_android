@@ -17,6 +17,8 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.messagecenter.notification.NotificationMessageAlertActivity;
 import com.superapps.util.Navigations;
 
+import net.appcloudbox.ads.base.AcbNativeAd;
+
 /**
  * Created by jelly on 2018/3/17.
  */
@@ -171,8 +173,8 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public boolean isNewsOnTextureWireEnable() {
                 boolean ret = showAd() && HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NewsOnTextureWire");
                 if (ret) {
-                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preload");
-                    NewsManager.getInstance().preload(null);
+                    HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable enable preloadForExitNews");
+                    NewsManager.getInstance().preloadForExitNews(null);
                 } else {
                     HSLog.i("NotificationMessageAlertActivity", "isNewsOnTextureWireEnable NOT enable");
                 }
@@ -181,11 +183,13 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showNewsOnTextureWire() {
-                if (NewsManager.getInstance().getNativeAd() != null) {
+                AcbNativeAd ad = NewsManager.getInstance().getNativeAd();
+                if (ad != null && !ad.isAdReleased() && !ad.isExpired()) {
                     HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire show");
                     Navigations.startActivitySafely(HSApplication.getContext(), ExitNewsActivity.class);
                     return true;
                 } else {
+                    NewsManager.getInstance().releaseNativeAd();
                     HSLog.i("NotificationMessageAlertActivity", "showNewsOnTextureWire NO ad");
                 }
                 return false;

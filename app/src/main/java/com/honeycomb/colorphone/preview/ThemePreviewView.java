@@ -1198,6 +1198,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mPosition == mPageSelectedPos;
     }
 
+    public boolean isNextPos() {
+        return mPosition == mPageSelectedPos + 1;
+    }
+
     public void setPageSelectedPos(int pos) {
         mPageSelectedPos = pos;
     }
@@ -1214,7 +1218,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     final DownloadTask task = mDownloadTasks.valueAt(i);
                     if (isTaskIdle(task)) {
                         // Direct start download tasks in current page
-                        if (isSelectedPos()) {
+                        if (isSelectedPos() || isNextPos()) {
                             download(task);
                         } else {
                             task.setStatus(DownloadTask.PENDING);
@@ -1247,6 +1251,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         task.setStatus(DownloadTask.DOWNLOADING);
+
+        setBlockAnimationForPageChange(false);
+
         if (task.isMediaTheme()) {
             downloadTheme(task.getTasksManagerModel());
         } else if (task.isRingtone()) {
@@ -1259,8 +1266,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (percent == 0f || Float.isNaN(percent)) {
             ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_DETAIL);
         }
-
-        setBlockAnimationForPageChange(false);
 
         TasksManager.doDownload(model, null);
 
@@ -1408,6 +1413,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
         }
 
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            // Clear block flag
+            setBlockAnimationForPageChange(false);
+        }
+
+        // Resume video
         if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
             triggerPageChangeWhenIdle = false;
             if (isSelectedPos()) {
@@ -1424,7 +1435,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        // Check loading state
+        // Check loading state, resume loading animation
         if (themeLoading) {
             if (state == ViewPager.SCROLL_STATE_IDLE && isSelectedPos()) {
                 mProgressViewHolder.mDotsPictureView.resumeAnimation();
