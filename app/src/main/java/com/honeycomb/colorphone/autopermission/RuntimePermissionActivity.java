@@ -62,6 +62,9 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         if (getIntent() != null) {
             from = getIntent().getStringExtra(FROM);
+            if (TextUtils.isEmpty(from)) {
+                from = FROM_SCREEN_FLASH;
+            }
         }
 
         List<String> permissions = new ArrayList<>();
