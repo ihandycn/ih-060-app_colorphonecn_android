@@ -104,7 +104,6 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import hugo.weaving.DebugLog;
 
@@ -760,13 +759,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
         GuideSetDefaultActivity.start(mActivity, false);
-
-
-        if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
-            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
-            Analytics.logEvent(event,
-                    "RingtoneState", mRingtoneViewHolder.isMusicOn() ? "On" : "Off");
-        }
+        
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
         if (ConfigSettings.showAdOnApplyTheme()) {
@@ -1188,10 +1181,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressViewHolder.startLoadingAnimation();
         }
 
-        if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
-            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Show", mTheme.getIdName());
-            Analytics.logEvent(event);
-        }
     }
 
     public boolean isSelectedPos() {
