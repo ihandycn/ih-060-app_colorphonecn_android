@@ -31,7 +31,8 @@ import java.util.List;
 public class RuntimePermissionActivity extends HSAppCompatActivity {
     private static final String TAG = RuntimePermissionActivity.class.getSimpleName();
     private static final String FROM = "from";
-    private static final String FROM_RINGTONE = "ringtone";
+    private static final String FROM_RINGTONE = "ringtones";
+    private static final String FROM_SCREEN_FLASH = "screenflash";
     private static final int RUNTIME_PERMISSION_REQUEST_CODE = 0x333;
 
     private RuntimePermissionViewListHolder holder;
@@ -46,7 +47,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     private boolean needRefresh = false;
     private boolean requested = false;
     private String requestPermission;
-    private String from;
+    private String from = FROM_SCREEN_FLASH;
 
     public static void startForRingtone() {
         Intent intent = new Intent(HSApplication.getContext(), RuntimePermissionActivity.class);
@@ -116,16 +117,16 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 for (String p : runtimePermissions) {
                     switch (p) {
                         case Manifest.permission.READ_CONTACTS:
-                            Analytics.logEvent("Permission_ReadContact_Alert_Request");
+                            Analytics.logEvent("Permission_ReadContact_Alert_Request", "occasion", from);
                             break;
                         case Manifest.permission.WRITE_CONTACTS:
-                            Analytics.logEvent("Permission_WriteContact_Alert_Request");
+                            Analytics.logEvent("Permission_WriteContact_Alert_Request", "occasion", from);
                             break;
                         case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                            Analytics.logEvent("Permission_Storage_Alert_Request");
+                            Analytics.logEvent("Permission_Storage_Alert_Request", "occasion", from);
                             break;
                         case Manifest.permission.READ_CALL_LOG:
-                            Analytics.logEvent("Permission_CallLog_Alert_Request");
+                            Analytics.logEvent("Permission_CallLog_Alert_Request", "occasion", from);
                             break;
                     }
                 }
@@ -144,7 +145,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             }, 300);
 
 
-            Analytics.logEvent("Permission_Guide_OK_Click");
+            Analytics.logEvent("Permission_Guide_OK_Click", "occasion", from);
         });
 
         View cancel = findViewById(R.id.close_btn);
@@ -158,7 +159,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         success = findViewById(R.id.success);
 
-        Analytics.logEvent("Permission_Guide_Show");
+        Analytics.logEvent("Permission_Guide_Show", "occasion", from);
     }
 
     private void openSettingsForDeniedPermission() {
@@ -174,7 +175,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
 
         if (TextUtils.equals(requestPermission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
-            Analytics.logEvent("Permission_NA_Request");
+            Analytics.logEvent("Permission_NA_Request", "occasion", from);
         }
 
         switch (requestPermission) {
@@ -197,7 +198,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         AutoRequestManager.getInstance().openPermission(requestPermission);
 
         String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-        Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
+        Analytics.logEvent(eventID, "Permission", getDeniedPermissionString(), "occasion", from);
     }
 
     @Override public void onBackPressed() {
@@ -215,12 +216,12 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
             if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)
                     && AutoPermissionChecker.isNotificationListeningGranted()) {
-                Analytics.logEvent("Permission_NA_Granted");
+                Analytics.logEvent("Permission_NA_Granted", "occasion", from);
             }
 
             if (requested && deniedPermissions.size() > 0) {
                 String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-                Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+                Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString(), "occasion", from);
             }
             requested = false;
 
@@ -247,7 +248,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                     }
                 });
 
-                Analytics.logEvent("Permission_Guide_All_Granted");
+                Analytics.logEvent("Permission_Guide_All_Granted", "occasion", from);
             } else {
                 if (!TextUtils.equals(requestPermission, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
                     if (deniedPermissions.contains(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
@@ -274,7 +275,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         if (requested && deniedPermissions.size() > 0) {
             String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-            Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+            Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString(), "occasion", from);
         }
     }
 
@@ -317,16 +318,16 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
                 switch (p) {
                     case Manifest.permission.READ_CONTACTS:
-                        Analytics.logEvent("Permission_ReadContact_Granted");
+                        Analytics.logEvent("Permission_ReadContact_Granted", "occasion", from);
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
-                        Analytics.logEvent("Permission_WriteContact_Granted");
+                        Analytics.logEvent("Permission_WriteContact_Granted", "occasion", from);
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Storage_Granted");
+                        Analytics.logEvent("Permission_Storage_Granted", "occasion", from);
                         break;
                     case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_CallLog_Granted");
+                        Analytics.logEvent("Permission_CallLog_Granted", "occasion", from);
                         break;
                 }
             }
@@ -344,7 +345,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                     }
                 });
 
-                Analytics.logEvent("Permission_Guide_All_Granted");
+                Analytics.logEvent("Permission_Guide_All_Granted", "occasion", from);
             }
         }
     }
