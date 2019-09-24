@@ -96,7 +96,8 @@ public class NotificationManager implements FlashlightStatusListener {
 
     private static final String TAG = "NotificationManager";
 
-    private  final String sNotificationChannelId = "notification_tool_bar";
+    private final String sNotificationChannelId = "notification_tool_bar";
+    private final String sCleanGuideChannelId = "notification_clean_guide";
 
     private static final int NOTIFICATION_TOOLBAR_ICON_BITMAP_SIZE = Dimensions.pxFromDp(30);
 
@@ -147,16 +148,24 @@ public class NotificationManager implements FlashlightStatusListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Set<String> existChannels = getAllExistingChannelIds(HSApplication.getContext());
             if (!existChannels.contains(sNotificationChannelId)) {
-                createChannel(HSApplication.getContext());
+                createChannel(HSApplication.getContext(), sNotificationChannelId);
+            }
+
+            if (!existChannels.contains(sCleanGuideChannelId)) {
+                createChannel(HSApplication.getContext(), sCleanGuideChannelId);
             }
         }
     }
 
+    public String getCleanGuideChannelId() {
+        return sCleanGuideChannelId;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createChannel(@NonNull Context context) {
+    private void createChannel(@NonNull Context context, String channelId) {
         NotificationChannel channel =
                 new NotificationChannel(
-                        sNotificationChannelId,
+                        channelId,
                         context.getText(R.string.notification_permission_toolbar_title),
                         android.app.NotificationManager.IMPORTANCE_DEFAULT);
         channel.setShowBadge(false);
