@@ -55,7 +55,7 @@ public class TabFrameLayout extends FrameLayout {
         if (tabPos >= getChildCount()) {
             HSLog.e("Item index out of bound");
         }
-        tabPos = Math.min(tabPos, getChildCount() - 1);
+        tabPos = Math.min(tabPos, mTabItems.size() - 1);
 
         boolean changed = mSelectedFramePos != tabPos;
         if (changed && tabPos >= 0) {
