@@ -404,11 +404,11 @@ public class AutoRequestManager {
             boolean configEnable = HSConfig.optBoolean(false,
                     "Application", "AutoPermission", "IngoreBattery");
             if (configEnable) {
-                permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+                permission.add(HSPermissionRequestMgr.TYPE_IGNORE_BATTERY_OPTIMIZATION);
             }
         }
         if (!Permissions.isNotificationAccessGranted()) {
-            permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
+            permission.add(HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS);
         }
 
         if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
@@ -463,7 +463,7 @@ public class AutoRequestManager {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
                         break;
-                    case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+                    case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
 
                         break;
                     case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
@@ -657,7 +657,7 @@ public class AutoRequestManager {
                     }, GUIDE_DELAY);
                 }
                 break;
-            case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+            case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
             case TYPE_CUSTOM_NOTIFICATION:
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     return true;
@@ -669,7 +669,7 @@ public class AutoRequestManager {
                     }
 
                     mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
-                    type = HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING;
+                    type = HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS;
 
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()){

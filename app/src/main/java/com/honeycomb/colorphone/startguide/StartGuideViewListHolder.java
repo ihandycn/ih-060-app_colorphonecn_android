@@ -229,7 +229,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
                     updateProgress(TYPE_PERMISSION_TYPE_ON_LOCK, status);
                     HSLog.w(TAG, "cast time 22 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
-                case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+                case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                     updateProgress(TYPE_PERMISSION_TYPE_NOTIFICATION, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;

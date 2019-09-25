@@ -37,7 +37,7 @@ public class AutoLogger {
         switch (type) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 return "AutoStart";
-            case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+            case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 return "NA";
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                 return "Lock";
@@ -82,7 +82,7 @@ public class AutoLogger {
         }
 
         if (AutoPermissionChecker.isNotificationListeningGranted()) {
-            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING)).append("_");
+            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS)).append("_");
         }
 
         if (AutoPermissionChecker.hasBgPopupPermission()) {

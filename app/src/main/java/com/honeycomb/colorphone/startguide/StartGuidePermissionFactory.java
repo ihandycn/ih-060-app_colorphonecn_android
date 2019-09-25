@@ -129,7 +129,7 @@ public class StartGuidePermissionFactory {
                 AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
                 break;
             case TYPE_PERMISSION_TYPE_NOTIFICATION:
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS);
                 AutoLogger.logEventWithBrandAndOS("FixALert_NA_Click");
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:

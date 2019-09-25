@@ -69,10 +69,8 @@ public class AutoPermissionChecker {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 return powerManager.isIgnoringBatteryOptimizations(HSApplication.getContext().getPackageName());
             }
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public static void onShowOnLockScreenChange(boolean hasPermission) {
@@ -144,5 +142,5 @@ public class AutoPermissionChecker {
         }
         return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), perm) == RuntimePermissions.PERMISSION_GRANTED;
     }
-
+    
 }

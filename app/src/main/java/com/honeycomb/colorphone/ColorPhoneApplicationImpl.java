@@ -438,7 +438,9 @@ public class ColorPhoneApplicationImpl {
             }
         }, TIME_NEED_LOW);
 
-        HSPermissionRequestMgr.getInstance().init(mBaseApplication);
+        HSPermissionRequestMgr.InitOptions initOptions = new HSPermissionRequestMgr.InitOptions();
+        initOptions.setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
+        HSPermissionRequestMgr.getInstance().init(initOptions);
     }
 
     private int batteryScale;
