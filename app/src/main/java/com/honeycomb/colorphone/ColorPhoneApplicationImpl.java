@@ -130,7 +130,6 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
-import com.superapps.util.rom.RomUtils;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -622,6 +621,11 @@ public class ColorPhoneApplicationImpl {
         });
 
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
+            @Override
+            public boolean onSetRingtone(Ringtone ringtone) {
+                return false;
+            }
+
             @Override
             public boolean onSetAsDefault(Ringtone ringtone) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
