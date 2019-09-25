@@ -556,7 +556,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 return i;
             }
         }
-        return -1;
+        return 0;
     }
 
     private void setTabInitPosition() {
