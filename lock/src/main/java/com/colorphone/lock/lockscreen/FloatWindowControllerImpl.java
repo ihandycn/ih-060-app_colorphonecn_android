@@ -26,6 +26,7 @@ import com.colorphone.lock.lockscreen.locker.Locker;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
+import com.superapps.util.Permissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +173,7 @@ public class FloatWindowControllerImpl {
     public boolean showChargingScreen(Bundle bundle) {
         // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                || !canDrawOverlays()) {
+                || !Permissions.isFloatWindowAllowed(context)) {
             return false;
         }
         if (addedToWindowMgr && isShowLockScreen) {
@@ -199,7 +200,7 @@ public class FloatWindowControllerImpl {
     public void showLockScreen() {
         // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                || !canDrawOverlays()) {
+                || !Permissions.isFloatWindowAllowed(context)) {
             return;
         }
         HSLog.i("LockManager", "showLockScreen ");
@@ -308,13 +309,5 @@ public class FloatWindowControllerImpl {
         }
         return granted;
     }
-
-    public static boolean canDrawOverlays() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return Settings.canDrawOverlays(HSApplication.getContext());
-        }
-        return true;
-    }
-
 
 }
