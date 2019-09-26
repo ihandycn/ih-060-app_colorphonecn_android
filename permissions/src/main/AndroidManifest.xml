@@ -67,6 +67,46 @@
             />
 
         <activity
+            android:name=".AutoStartOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".NAOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".NotificationManagementOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".PhoneOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name=".DangerousOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
             android:name=".AutoStartHuaweiGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
