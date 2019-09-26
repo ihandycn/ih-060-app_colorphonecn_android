@@ -21,15 +21,20 @@ import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
+import com.acb.colorphone.permissions.AutoStartOppoGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
 import com.acb.colorphone.permissions.ContactMIUIGuideActivity;
+import com.acb.colorphone.permissions.DangerousOppoGuideActivity;
+import com.acb.colorphone.permissions.NAOppoGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
+import com.acb.colorphone.permissions.NotificationManagementOppoGuideActivity;
 import com.acb.colorphone.permissions.OppoPermissionsGuideUtil;
 import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
 import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
+import com.acb.colorphone.permissions.PhoneOppoGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.StableToast;
@@ -693,6 +698,10 @@ public class AutoRequestManager {
     public boolean openPermission(String type) {
         clearMessage();
 
+        if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsHuaweiRom()) {
+            return openPermissionIntent(type);
+        }
+
         switch (type) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 if (AutoPermissionChecker.hasAutoStartPermission()) {
@@ -875,6 +884,203 @@ public class AutoRequestManager {
             }
         });
         return false;
+    }
+
+    private boolean openPermissionIntent(final String type) {
+        String permissionString = type;
+        switch (type) {
+            case HSPermissionRequestMgr.TYPE_AUTO_START:
+                if (AutoPermissionChecker.hasAutoStartPermission()) {
+                    return true;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
+            case TYPE_CUSTOM_NOTIFICATION:
+                if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                    return true;
+                } else {
+                    permissionString = HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
+                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                    return true;
+                }
+                break;
+
+            case TYPE_CUSTOM_BACKGROUND_POPUP:
+                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
+                    return true;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_PHONE:
+                if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                    return true;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:
+                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                    return true;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
+                if (AutoPermissionChecker.hasFloatWindowPermission()) {
+                    return true;
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
+                if (AutoPermissionChecker.hasFloatWindowPermission()) {
+                    return true;
+                }
+                break;
+
+            case HSPermissionRequestMgr.TYPE_CALL_LOG:
+            case HSPermissionRequestMgr.TYPE_CONTACT_READ:
+            case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
+            case HSPermissionRequestMgr.TYPE_STORAGE:
+                break;
+        }
+
+        final String permission = permissionString;
+
+        HSPermissionRequestMgr.getInstance().getPermissionPageIntent(permission, new HSPermissionRequestCallback.Stub() {
+            @Override
+            public void onFinished(int succeedCount, int totalCount) {
+                if (totalCount == 0) {
+                    if (BuildConfig.DEBUG) {
+                        Toasts.showToast("Not match andy permissions!", Toast.LENGTH_LONG);
+                    }
+                }
+            }
+
+            @Override
+            public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                HSLog.d(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
+                if (isSucceed) {
+                    // already has permission.
+                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(permission)) {
+                        AutoPermissionChecker.onAutoStartChange(true);
+                    } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(permission)) {
+                        AutoPermissionChecker.onShowOnLockScreenChange(true);
+                    }
+                    notifyPermissionGranted(permission, true);
+                }
+                if (BuildConfig.DEBUG) {
+                    String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
+                    Toasts.showToast(permission + result, Toast.LENGTH_LONG);
+                }
+            }
+
+            @Override public void onOpenAction(Intent intent) {
+                Class guideClass = null;
+                switch (type) {
+                    case HSPermissionRequestMgr.TYPE_AUTO_START:
+                        if (RomUtils.checkIsHuaweiRom()) {
+                            guideClass = AutoStartHuaweiGuideActivity.class;
+                        } else if (RomUtils.checkIsMiuiRom()){
+                            guideClass = AutoStartMIUIGuideActivity.class;
+                        } else if (RomUtils.checkIsOppoRom()){
+                            guideClass = AutoStartOppoGuideActivity.class;
+                        }
+                        break;
+                    case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
+                    case TYPE_CUSTOM_NOTIFICATION:
+                        if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
+                            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
+                        } else {
+                            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                        }
+
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+                        if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = NotificationMIUIGuideActivity.class;
+                        } else if (RomUtils.checkIsOppoRom()) {
+                            guideClass = NAOppoGuideActivity.class;
+                        } else {
+                            guideClass = NotificationGuideActivity.class;
+                        }
+
+                        break;
+                    case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
+                        if (RomUtils.checkIsMiuiRom()){
+                            guideClass = ShowOnLockScreenMIUIGuideActivity.class;
+                        } else {
+                            guideClass = ShowOnLockScreenGuideActivity.class;
+                        }
+                        break;
+
+                    case TYPE_CUSTOM_BACKGROUND_POPUP:
+                        guideClass = BackgroundPopupMIUIGuideActivity.class;
+                        break;
+                    case HSPermissionRequestMgr.TYPE_PHONE:
+                        mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+                        if (RomUtils.checkIsMiuiRom()){
+                            guideClass = PhoneMiuiGuideActivity.class;
+                        } else if (RomUtils.checkIsHuaweiRom()) {
+                            guideClass = PhoneHuawei8GuideActivity.class;
+                        } else if (RomUtils.checkIsOppoRom()) {
+                            guideClass = PhoneOppoGuideActivity.class;
+                        }
+                        break;
+                    case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:
+                        guideClass = WriteSettingsPopupGuideActivity.class;
+                        break;
+                    case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
+                        mHandler.sendEmptyMessageDelayed(CHECK_OVERLAY_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+                        guideClass = AccessibilityMIUIGuideActivity.class;
+                        break;
+                    case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
+                        mHandler.sendEmptyMessageDelayed(CHECK_POST_NATIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+                        guideClass = NotificationManagementOppoGuideActivity.class;
+                        break;
+
+                    case HSPermissionRequestMgr.TYPE_CALL_LOG:
+                    case HSPermissionRequestMgr.TYPE_CONTACT_READ:
+                    case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
+                    case HSPermissionRequestMgr.TYPE_STORAGE:
+                        mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+
+                            if (RomUtils.checkIsMiuiRom()) {
+                                guideClass = ContactMIUIGuideActivity.class;
+                            } else if (RomUtils.checkIsHuaweiRom()) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    guideClass = ContactHuawei9GuideActivity.class;
+                                } else {
+                                    guideClass = ContactHuawei8GuideActivity.class;
+                                }
+                            } else if (RomUtils.checkIsOppoRom()) {
+                                guideClass = DangerousOppoGuideActivity.class;
+                            }
+                        break;
+                }
+                if (guideClass != null) {
+                    Intent guideIntent = new Intent(HSApplication.getContext(), guideClass);
+                    if (RomUtils.checkIsHuaweiRom()) {
+                        Intent finalGuideIntent1 = guideIntent;
+                        Threads.postOnMainThreadDelayed(() -> {
+                            Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent1);
+                        }, GUIDE_DELAY);
+
+                        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+
+                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
+                        Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                    }
+                }
+            }
+        });
+        return true;
     }
 
     public static List<String> getAllRuntimePermission() {
