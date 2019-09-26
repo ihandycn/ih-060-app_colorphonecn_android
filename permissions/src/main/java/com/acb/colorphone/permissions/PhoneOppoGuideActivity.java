@@ -22,8 +22,6 @@ public class PhoneOppoGuideActivity extends LottiePermissionGuideActivity {
     }
 
     @Override protected void showExitStableToast() {
-        int yOffset = 0;
-
-        StableToast.showStableToast(R.layout.toast_one_line_text, getTitleStringResId(), yOffset, "AutoStartPageDuration");
+        // do nothing since we can't show toast when our app isn't on the top on oppo device.
     }
 }
