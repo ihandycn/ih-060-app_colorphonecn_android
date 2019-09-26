@@ -424,8 +424,13 @@ public class AutoRequestManager {
 //                permission.add(HSPermissionRequestMgr.TYPE_ADD_SHORTCUT);
 //            }
 
-            List<String> runtimePermissions = getNOTGrantRuntimePermissions(getAllRuntimePermission());
-            permission.addAll(runtimePermissions);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                permission.add(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG);
+            }
         }
 
         if (permission.isEmpty()) {
