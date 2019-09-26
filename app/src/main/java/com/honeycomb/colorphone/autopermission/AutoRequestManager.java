@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
@@ -26,12 +27,13 @@ import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
 import com.acb.colorphone.permissions.ContactMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
+import com.acb.colorphone.permissions.OppoPermissionsGuideUtil;
 import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
 import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
-import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
@@ -111,7 +113,8 @@ public class AutoRequestManager {
     private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
     private static final int CHECK_NOTIFICATION_PERMISSION_RP = 0x803;
     private static final int CHECK_RUNTIME_PERMISSION = 0x804;
-    private static final int CHECK_RUNTIME_OVERLAY = 0x805;
+    private static final int CHECK_OVERLAY_PERMISSION = 0x805;
+    private static final int CHECK_POST_NATIFICATION_PERMISSION = 0x806;
     private static final int CHECK_PERMISSION_TIMEOUT = 0x810;
 //    public static final String FIX_ALERT_PERMISSION_PHONE = "permission_phone_for_fix_alert";
 
@@ -155,12 +158,12 @@ public class AutoRequestManager {
                         sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 500);
                     }
                     break;
-                case CHECK_RUNTIME_OVERLAY:
+                case CHECK_OVERLAY_PERMISSION:
                     if (AutoPermissionChecker.hasFloatWindowPermission()) {
                         onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_OVERLAY);
                     } else {
-                        HSLog.i(TAG, "handleMessage CHECK_RUNTIME_OVERLAY");
-                        sendEmptyMessageDelayed(CHECK_RUNTIME_OVERLAY, 500);
+                        HSLog.i(TAG, "handleMessage CHECK_OVERLAY_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_OVERLAY_PERMISSION, 500);
                     }
                     break;
                 case CHECK_WRITE_SETTINGS_PERMISSION:
@@ -168,6 +171,14 @@ public class AutoRequestManager {
                         onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_WRITE_SETTINGS);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
+                        sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+                    }
+                    break;
+                case CHECK_POST_NATIFICATION_PERMISSION:
+                    if (AutoPermissionChecker.isPostNotificationPermissionGrant()) {
+                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_POST_NOTIFICATION);
+                    } else {
+                        HSLog.i(TAG, "handleMessage PERMISSION_TYPE_POST_NOTIFICATION");
                         sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
                     }
                     break;
@@ -181,7 +192,7 @@ public class AutoRequestManager {
     private void clearMessage() {
         mHandler.removeMessages(CHECK_PHONE_PERMISSION);
         mHandler.removeMessages(CHECK_RUNTIME_PERMISSION);
-        mHandler.removeMessages(CHECK_RUNTIME_OVERLAY);
+        mHandler.removeMessages(CHECK_OVERLAY_PERMISSION);
         mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION);
         mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
         mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
@@ -592,6 +603,8 @@ public class AutoRequestManager {
             Analytics.logEvent("Automatic_Permission_Granted_Xiaomi", "AccessType", AutoLogger.getPermissionString(false));
         } else if (RomUtils.checkIsHuaweiRom()) {
             Analytics.logEvent("Automatic_Permission_Granted_Huawei", "AccessType", AutoLogger.getPermissionString(true));
+        } else if (RomUtils.checkIsOppoRom()) {
+            Analytics.logEvent("Automatic_Permission_Granted_Oppo", "AccessType", AutoLogger.getPermissionString(true));
         }
     }
 
@@ -667,6 +680,9 @@ public class AutoRequestManager {
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
                 Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
+            } else if (RomUtils.checkIsOppoRom()) {
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityOppoGuideActivity.class);
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
@@ -687,6 +703,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
                         } else if (RomUtils.checkIsMiuiRom()){
                             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                        } else if (RomUtils.checkIsOppoRom()){
+                            OppoPermissionsGuideUtil.showAutoStartGuide();
                         }
                     }, GUIDE_DELAY);
                 }
@@ -706,8 +724,10 @@ public class AutoRequestManager {
                     type = HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS;
 
                     Threads.postOnMainThreadDelayed(() -> {
-                        if (RomUtils.checkIsMiuiRom()){
+                        if (RomUtils.checkIsMiuiRom()) {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
+                        } else if (RomUtils.checkIsOppoRom()) {
+                            OppoPermissionsGuideUtil.showNAGuide();
                         } else {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
                         }
@@ -751,6 +771,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
                         } else if (RomUtils.checkIsHuaweiRom()) {
                             Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
+                        } else if (RomUtils.checkIsOppoRom()) {
+                            OppoPermissionsGuideUtil.showPhoneGuide();
                         }
                     }, GUIDE_DELAY);
                 }
@@ -770,16 +792,35 @@ public class AutoRequestManager {
                 if (AutoPermissionChecker.hasFloatWindowPermission()) {
                     return true;
                 } else {
-                    mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_OVERLAY, 2 * DateUtils.SECOND_IN_MILLIS);
+                    mHandler.sendEmptyMessageDelayed(CHECK_OVERLAY_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
                     mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         Threads.postOnMainThreadDelayed(() -> {
-//                            Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                            if (RomUtils.checkIsOppoRom()) {
+                                OppoPermissionsGuideUtil.showOverlayGuide(HSApplication.getContext());
+                            }
                         }, GUIDE_DELAY);
                     }
                 }
                 break;
+            case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
+                if (AutoPermissionChecker.hasFloatWindowPermission()) {
+                    return true;
+                } else {
+                    mHandler.sendEmptyMessageDelayed(CHECK_POST_NATIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Threads.postOnMainThreadDelayed(() -> {
+                            if (RomUtils.checkIsOppoRom()) {
+                                OppoPermissionsGuideUtil.showNotificationManageGuide();
+                            }
+                        }, GUIDE_DELAY);
+                    }
+                }
+                break;
+
             case HSPermissionRequestMgr.TYPE_CALL_LOG:
             case HSPermissionRequestMgr.TYPE_CONTACT_READ:
             case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
@@ -796,6 +837,8 @@ public class AutoRequestManager {
                         } else {
                             Navigations.startActivitySafely(HSApplication.getContext(), ContactHuawei8GuideActivity.class);
                         }
+                    } else if (RomUtils.checkIsOppoRom()) {
+                        OppoPermissionsGuideUtil.showDangerousPermissionsGuide();
                     }
                 }, GUIDE_DELAY);
                 break;
