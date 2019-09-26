@@ -266,6 +266,8 @@
 			<dict>
 				<key>MaxCount</key>
 				<integer>20</integer>
+				<key>RequestOnStartGuide</key>
+				<true/>
 			</dict>
 			<key>Guide</key>
 			<dict>
