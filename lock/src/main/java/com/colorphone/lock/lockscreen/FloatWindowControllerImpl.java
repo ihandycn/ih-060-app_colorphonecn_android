@@ -173,7 +173,7 @@ public class FloatWindowControllerImpl {
     public boolean showChargingScreen(Bundle bundle) {
         // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                || !Permissions.isFloatWindowAllowed(context)) {
+                && !Permissions.isFloatWindowAllowed(context)) {
             return false;
         }
         if (addedToWindowMgr && isShowLockScreen) {
@@ -200,7 +200,7 @@ public class FloatWindowControllerImpl {
     public void showLockScreen() {
         // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                || !Permissions.isFloatWindowAllowed(context)) {
+                && !Permissions.isFloatWindowAllowed(context)) {
             return;
         }
         HSLog.i("LockManager", "showLockScreen ");
