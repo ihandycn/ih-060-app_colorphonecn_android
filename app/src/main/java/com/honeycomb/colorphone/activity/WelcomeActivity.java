@@ -41,7 +41,7 @@ public class WelcomeActivity extends Activity {
         }
 
 
-        if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom()) {
+        if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
             setContentView(R.layout.activity_welcome);
             mVidView = findViewById(R.id.welcome_video);
             View cover = findViewById(R.id.welcome_cover);
@@ -81,7 +81,7 @@ public class WelcomeActivity extends Activity {
         boolean needShowGuidePermissionActivity =
                 !StartGuideActivity.isStarted()
                         && (!AutoRequestManager.getInstance().isGrantAllPermission());
-        HSLog.i("StartGuide", "started: " + !StartGuideActivity.isStarted() + "  AllP: " + !AutoRequestManager.getInstance().isGrantAllPermission());
+        HSLog.i("AutoPermission", "started: " + !StartGuideActivity.isStarted() + "  AllP: " + !AutoRequestManager.getInstance().isGrantAllPermission());
         if (needShowGuidePermissionActivity) {
             guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_GUIDE);
             HSAlertMgr.delayRateAlert();

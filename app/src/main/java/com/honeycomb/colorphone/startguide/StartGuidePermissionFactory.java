@@ -23,19 +23,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StartGuidePermissionFactory {
-    public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
-    public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
-    public static final int TYPE_PERMISSION_TYPE_NOTIFICATION = 3;
-    public static final int TYPE_PERMISSION_TYPE_BG_POP = 4;
-    public static final int TYPE_PERMISSION_TYPE_PHONE = 5;
-    public static final int TYPE_PERMISSION_TYPE_WRITE_SETTINGS = 6;
+    public static final int PERMISSION_TYPE_SCREEN_FLASH = 1;
+    public static final int PERMISSION_TYPE_ON_LOCK = 2;
+    public static final int PERMISSION_TYPE_NOTIFICATION = 3;
+    public static final int PERMISSION_TYPE_BG_POP = 4;
+    public static final int PERMISSION_TYPE_PHONE = 5;
+    public static final int PERMISSION_TYPE_WRITE_SETTINGS = 6;
+    public static final int PERMISSION_TYPE_POST_NOTIFICATION = 7;
+    public static final int PERMISSION_TYPE_OVERLAY = 8;
 
-    @IntDef({TYPE_PERMISSION_TYPE_SCREEN_FLASH,
-            TYPE_PERMISSION_TYPE_ON_LOCK,
-            TYPE_PERMISSION_TYPE_NOTIFICATION,
-            TYPE_PERMISSION_TYPE_BG_POP,
-            TYPE_PERMISSION_TYPE_PHONE,
-            TYPE_PERMISSION_TYPE_WRITE_SETTINGS})
+    @IntDef({PERMISSION_TYPE_SCREEN_FLASH,
+            PERMISSION_TYPE_ON_LOCK,
+            PERMISSION_TYPE_NOTIFICATION,
+            PERMISSION_TYPE_BG_POP,
+            PERMISSION_TYPE_PHONE,
+            PERMISSION_TYPE_WRITE_SETTINGS,
+            PERMISSION_TYPE_POST_NOTIFICATION,
+            PERMISSION_TYPE_OVERLAY})
 
     @Retention(RetentionPolicy.SOURCE)
     @interface PERMISSION_TYPES {
@@ -44,23 +48,29 @@ public class StartGuidePermissionFactory {
     @StringRes static int getItemTitle(@PERMISSION_TYPES int type) {
         int id = 0;
         switch (type) {
-            case TYPE_PERMISSION_TYPE_BG_POP:
+            case PERMISSION_TYPE_BG_POP:
                 id = R.string.start_guide_permission_bg_pop;
                 break;
-            case TYPE_PERMISSION_TYPE_NOTIFICATION:
+            case PERMISSION_TYPE_NOTIFICATION:
                 id = R.string.start_guide_permission_call;
                 break;
-            case TYPE_PERMISSION_TYPE_ON_LOCK:
+            case PERMISSION_TYPE_ON_LOCK:
                 id = R.string.start_guide_permission_onlocker;
                 break;
-            case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
+            case PERMISSION_TYPE_SCREEN_FLASH:
                 id = R.string.start_guide_permission_auto_start;
                 break;
-            case TYPE_PERMISSION_TYPE_PHONE:
+            case PERMISSION_TYPE_PHONE:
                 id = R.string.start_guide_permission_phone;
                 break;
-            case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
+            case PERMISSION_TYPE_WRITE_SETTINGS:
                 id = R.string.start_guide_permission_write_settings;
+                break;
+            case PERMISSION_TYPE_POST_NOTIFICATION:
+                id = R.string.start_guide_permission_post_notification;
+                break;
+            case PERMISSION_TYPE_OVERLAY:
+                id = R.string.start_guide_permission_overlay;
                 break;
             default:
                 break;
@@ -71,23 +81,29 @@ public class StartGuidePermissionFactory {
     @DrawableRes static int getItemDrawable(@PERMISSION_TYPES int type) {
         int id = 0;
         switch (type) {
-            case TYPE_PERMISSION_TYPE_BG_POP:
+            case PERMISSION_TYPE_BG_POP:
                 id = R.drawable.start_guide_confirm_image_bg_pop;
                 break;
-            case TYPE_PERMISSION_TYPE_NOTIFICATION:
+            case PERMISSION_TYPE_NOTIFICATION:
                 id = R.drawable.start_guide_confirm_image_notification;
                 break;
-            case TYPE_PERMISSION_TYPE_ON_LOCK:
+            case PERMISSION_TYPE_ON_LOCK:
                 id = R.drawable.start_guide_confirm_image_onlocker;
                 break;
-            case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
+            case PERMISSION_TYPE_SCREEN_FLASH:
                 id = R.drawable.start_guide_confirm_image_screen_flash;
                 break;
-            case TYPE_PERMISSION_TYPE_PHONE:
+            case PERMISSION_TYPE_PHONE:
                 id = R.drawable.start_guide_confirm_image_phone;
                 break;
-            case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
+            case PERMISSION_TYPE_WRITE_SETTINGS:
                 id = R.drawable.start_guide_confirm_image_write_setttings;
+                break;
+            case PERMISSION_TYPE_POST_NOTIFICATION:
+                id = R.drawable.start_guide_confirm_image_post_notification;
+                break;
+            case PERMISSION_TYPE_OVERLAY:
+                id = R.drawable.start_guide_confirm_image_overlay;
                 break;
             default:
                 break;
@@ -98,23 +114,29 @@ public class StartGuidePermissionFactory {
     public static boolean getItemGrant(@PERMISSION_TYPES int type) {
         boolean ret = false;
         switch (type) {
-            case TYPE_PERMISSION_TYPE_BG_POP:
+            case PERMISSION_TYPE_BG_POP:
                 ret = AutoPermissionChecker.hasBgPopupPermission();
                 break;
-            case TYPE_PERMISSION_TYPE_NOTIFICATION:
+            case PERMISSION_TYPE_NOTIFICATION:
                 ret = AutoPermissionChecker.isNotificationListeningGranted();
                 break;
-            case TYPE_PERMISSION_TYPE_ON_LOCK:
+            case PERMISSION_TYPE_ON_LOCK:
                 ret = AutoPermissionChecker.hasShowOnLockScreenPermission();
                 break;
-            case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
+            case PERMISSION_TYPE_SCREEN_FLASH:
                 ret = AutoPermissionChecker.hasAutoStartPermission();
                 break;
-            case TYPE_PERMISSION_TYPE_PHONE:
+            case PERMISSION_TYPE_PHONE:
                 ret = AutoPermissionChecker.isPhonePermissionGranted();
                 break;
-            case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
+            case PERMISSION_TYPE_WRITE_SETTINGS:
                 ret = AutoPermissionChecker.isWriteSettingsPermissionGranted();
+                break;
+            case PERMISSION_TYPE_POST_NOTIFICATION:
+                ret = AutoPermissionChecker.isPostNotificationPermissionGrant();
+                break;
+            case PERMISSION_TYPE_OVERLAY:
+                ret = AutoPermissionChecker.hasFloatWindowPermission();
                 break;
             default:
                 break;
@@ -124,23 +146,23 @@ public class StartGuidePermissionFactory {
 
     public static void fixPermission(@PERMISSION_TYPES int type, Activity activity) {
         switch (type) {
-            case TYPE_PERMISSION_TYPE_BG_POP:
+            case PERMISSION_TYPE_BG_POP:
                 AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
                 AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
                 break;
-            case TYPE_PERMISSION_TYPE_NOTIFICATION:
+            case PERMISSION_TYPE_NOTIFICATION:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS);
                 AutoLogger.logEventWithBrandAndOS("FixALert_NA_Click");
                 break;
-            case TYPE_PERMISSION_TYPE_ON_LOCK:
+            case PERMISSION_TYPE_ON_LOCK:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
                 break;
-            case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
+            case PERMISSION_TYPE_SCREEN_FLASH:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 break;
-            case TYPE_PERMISSION_TYPE_PHONE:
+            case PERMISSION_TYPE_PHONE:
                 AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 if (activity != null) {
                     List<String> permission = new ArrayList<>();
@@ -173,9 +195,18 @@ public class StartGuidePermissionFactory {
                 Analytics.logEvent("FixAlert_Phone_Settings_Request");
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                 break;
-            case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
+            case PERMISSION_TYPE_WRITE_SETTINGS:
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
                 AutoLogger.logEventWithBrandAndOS("FixALert_WriteSettings_Click");
+                break;
+
+            case PERMISSION_TYPE_POST_NOTIFICATION:
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_POST_NOTIFICATION);
+                AutoLogger.logEventWithBrandAndOS("FixAlert_PostNotification_Click");
+                break;
+            case PERMISSION_TYPE_OVERLAY:
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
+                AutoLogger.logEventWithBrandAndOS("FixAlert_Float_Click");
                 break;
             default:
                 break;

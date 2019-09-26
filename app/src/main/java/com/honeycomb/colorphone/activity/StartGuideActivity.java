@@ -85,7 +85,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
-                || RomUtils.checkIsHuaweiRom()) {
+                || RomUtils.checkIsHuaweiRom()
+                || RomUtils.checkIsOppoRom()) {
             Intent starter = new Intent(context, StartGuideActivity.class);
             starter.putExtra(INTENT_KEY_FROM, from);
             return starter;
@@ -323,18 +324,24 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 HSLog.i("Permission", "Permission: " + confirmPermission + "  grant: " + isGrant);
                 if (isGrant) {
                     holder.requestNextPermission();
-                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE) {
+                    if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_PHONE) {
                         if (oneKeyFixPressed) {
                             Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Granted");
                         } else {
                             Analytics.logEvent("FixAlert_Phone_Settings_Granted");
                         }
                     }
-                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
+                    if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_NOTIFICATION) {
                         Analytics.logEvent("FixAlert_NA_Granted");
                     }
+                    if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_POST_NOTIFICATION) {
+                        Analytics.logEvent("FixAlert_PostNotification_Granted");
+                    }
+                    if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_OVERLAY) {
+                        Analytics.logEvent("FixAlert_Float_Granted");
+                    }
                 } else {
-                    if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION
+                    if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_NOTIFICATION
                             && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted")
                             && AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()) {
                         finish();
@@ -447,20 +454,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
         });
 
-//        View cancel = permissionDialog.findViewById(R.id.start_guide_confirm_permission_close);
-//        cancel.setOnClickListener(v -> {
-//            layout.animate().scaleX(0.7f).scaleY(0.7f).alpha(0f).setDuration(300)
-//                    .setListener(new AnimatorListenerAdapter() {
-//                        @Override public void onAnimationEnd(Animator animation) {
-//                            super.onAnimationEnd(animation);
-//                            permissionDialog.setVisibility(View.GONE);
-//                        }
-//                    })
-//                    .start();
-//            directPermission = true;
-//            Analytics.logEvent("StartGuide_PermissionGuide_Cancel_Clicked");
-//        });
-
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
         layout.setAlpha(0.3f);
@@ -477,7 +470,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, com.acb.call.R.style.Theme_AppCompat_Light_Dialog);
         builder.setCancelable(false);
-        if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_SCREEN_FLASH) {
+        if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_SCREEN_FLASH) {
             if (RomUtils.checkIsVivoRom()) {
                 builder.setTitle(com.acb.call.R.string.acb_request_permission_white_title_vivo);
                 builder.setMessage(com.acb.call.R.string.acb_request_permission_white_content_vivo);
@@ -497,7 +490,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("AutoStartAlert_No_Click"));
             Analytics.logEvent("AutoStartAlert_Show");
 
-        } else if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_ON_LOCK) {
+        } else if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_ON_LOCK) {
             builder.setTitle(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_title);
             builder.setMessage(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_content);
             builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
@@ -512,7 +505,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("LockScreenAlert_No_Click"));
             Analytics.logEvent("LockScreenAlert_Show");
 
-        } else if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP) {
+        } else if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_BG_POP) {
             builder.setTitle(R.string.acb_request_permission_bg_pop_title);
             builder.setMessage(R.string.acb_request_permission_bg_pop_content);
             builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
@@ -521,7 +514,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                 Analytics.logEvent("FixALert_BackgroundPopup_Granted");
 
-                holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP);
+                holder.refreshHolder(StartGuidePermissionFactory.PERMISSION_TYPE_BG_POP);
                 onPermissionChanged();
             });
 
@@ -529,11 +522,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("BackgroundPopupAlert_Show");
 
         } else {
-            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION) {
+            if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_NOTIFICATION) {
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     Analytics.logEvent("FixAlert_NA_Granted");
                 }
             }
+
             return false;
         }
 
@@ -689,7 +683,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.CALL_PHONE:
                     case Manifest.permission.READ_PHONE_STATE:
                     case Manifest.permission.ANSWER_PHONE_CALLS:
-                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+                        holder.refreshHolder(StartGuidePermissionFactory.PERMISSION_TYPE_PHONE);
                         if (TextUtils.equals(p, Manifest.permission.READ_PHONE_STATE)) {
                             Analytics.logEvent("FixAlert_ReadPhoneState_Granted");
                         }
@@ -703,7 +697,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                                 && oneKeyFixPressed) {
                                 AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
                             } else {
-                                confirmDialogPermission = StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
+                                confirmDialogPermission = StartGuidePermissionFactory.PERMISSION_TYPE_PHONE;
                                 onPermissionChanged();
                             }
 
@@ -722,7 +716,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.CALL_PHONE:
                     case Manifest.permission.READ_PHONE_STATE:
                     case Manifest.permission.ANSWER_PHONE_CALLS:
-                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+                        holder.refreshHolder(StartGuidePermissionFactory.PERMISSION_TYPE_PHONE);
                         if (TextUtils.equals(p, Manifest.permission.READ_PHONE_STATE)) {
                             Analytics.logEvent("FixAlert_Automatic_ReadPhoneState_Granted");
                         }
@@ -736,7 +730,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                                     && oneKeyFixPressed) {
                                 AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
                             } else {
-                                confirmDialogPermission = StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
+                                confirmDialogPermission = StartGuidePermissionFactory.PERMISSION_TYPE_PHONE;
                                 onPermissionChanged();
                             }
                         }

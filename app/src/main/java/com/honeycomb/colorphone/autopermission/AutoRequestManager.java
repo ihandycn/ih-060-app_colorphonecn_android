@@ -120,7 +120,7 @@ public class AutoRequestManager {
             switch (msg.what) {
                 case CHECK_PHONE_PERMISSION:
                     if (AutoPermissionChecker.isPhonePermissionGranted()) {
-                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_PHONE);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_PHONE_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 500);
@@ -128,7 +128,7 @@ public class AutoRequestManager {
                     break;
                 case CHECK_NOTIFICATION_PERMISSION:
                     if (AutoPermissionChecker.isNotificationListeningGranted()) {
-                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION);
+                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_NOTIFICATION);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_NOTIFICATION_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 500);
@@ -156,7 +156,7 @@ public class AutoRequestManager {
                     break;
                 case CHECK_WRITE_SETTINGS_PERMISSION:
                     if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-                        onGrantPermission(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
+                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_WRITE_SETTINGS);
                     } else {
                         HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
                         sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
@@ -415,6 +415,19 @@ public class AutoRequestManager {
             permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
         }
 
+        if (Compats.IS_OPPO_DEVICE) {
+            if (!AutoPermissionChecker.isPostNotificationPermissionGrant()) {
+                permission.add(HSPermissionRequestMgr.TYPE_POST_NOTIFICATION);
+            }
+
+//            if (!AutoPermissionChecker.isAddShortcutPermissionGrant()) {
+//                permission.add(HSPermissionRequestMgr.TYPE_ADD_SHORTCUT);
+//            }
+
+            List<String> runtimePermissions = getNOTGrantRuntimePermissions(getAllRuntimePermission());
+            permission.addAll(runtimePermissions);
+        }
+
         if (permission.isEmpty()) {
             notifyAutoTaskOver(true);
             return;
@@ -471,6 +484,12 @@ public class AutoRequestManager {
                         break;
                     case TYPE_CUSTOM_BACKGROUND_POPUP:
                         AutoPermissionChecker.onBgPopupChange(isSucceed);
+                        break;
+                    case HSPermissionRequestMgr.TYPE_ADD_SHORTCUT:
+                        AutoPermissionChecker.onAddShortcutPermissionChange(isSucceed);
+                        break;
+                    case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
+                        AutoPermissionChecker.onPostNotificationPermissionChange(isSucceed);
                         break;
                     default:
                         break;

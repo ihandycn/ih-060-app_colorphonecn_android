@@ -21,17 +21,20 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.HSPermissionRequestMgr;
+import com.superapps.util.Compats;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_ON_LOCK;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_SCREEN_FLASH;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_BG_POP;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_NOTIFICATION;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_ON_LOCK;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_OVERLAY;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_PHONE;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_POST_NOTIFICATION;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.PERMISSION_TYPE_SCREEN_FLASH;
 
 public class StartGuideViewListHolder implements INotificationObserver {
     private static final String AUTO_PERMISSION_FAILED = "auto_permission_failed";
@@ -96,11 +99,16 @@ public class StartGuideViewListHolder implements INotificationObserver {
 
         List<Integer> permissions = new ArrayList<>();
 
-        permissions.add(TYPE_PERMISSION_TYPE_SCREEN_FLASH);
-        permissions.add(TYPE_PERMISSION_TYPE_ON_LOCK);
-        permissions.add(TYPE_PERMISSION_TYPE_NOTIFICATION);
-        permissions.add(TYPE_PERMISSION_TYPE_BG_POP);
-        permissions.add(TYPE_PERMISSION_TYPE_PHONE);
+        permissions.add(PERMISSION_TYPE_SCREEN_FLASH);
+        permissions.add(PERMISSION_TYPE_ON_LOCK);
+        permissions.add(PERMISSION_TYPE_NOTIFICATION);
+        permissions.add(PERMISSION_TYPE_BG_POP);
+        permissions.add(PERMISSION_TYPE_PHONE);
+
+        if (isConfirmPage && Compats.IS_OPPO_DEVICE) {
+            permissions.add(0, PERMISSION_TYPE_OVERLAY);
+            permissions.add(4, PERMISSION_TYPE_POST_NOTIFICATION);
+        }
 
         permissionLayout = container.findViewById(R.id.start_guide_permission_list);
 
@@ -222,19 +230,19 @@ public class StartGuideViewListHolder implements INotificationObserver {
 
             switch (pType) {
                 case HSPermissionRequestMgr.TYPE_AUTO_START:
-                    updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
+                    updateProgress(PERMISSION_TYPE_SCREEN_FLASH, status);
                     HSLog.w(TAG, "cast time 11 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
-                    updateProgress(TYPE_PERMISSION_TYPE_ON_LOCK, status);
+                    updateProgress(PERMISSION_TYPE_ON_LOCK, status);
                     HSLog.w(TAG, "cast time 22 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                    updateProgress(TYPE_PERMISSION_TYPE_NOTIFICATION, status);
+                    updateProgress(PERMISSION_TYPE_NOTIFICATION, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP:
-                    updateProgress(TYPE_PERMISSION_TYPE_BG_POP, status);
+                    updateProgress(PERMISSION_TYPE_BG_POP, status);
                     HSLog.w(TAG, "cast time 44 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
 
@@ -255,7 +263,10 @@ public class StartGuideViewListHolder implements INotificationObserver {
         if (size <= 0) {
             size = 1;
         }
-        goalNum += 100 / size;
+        goalNum += (PROGRESS_MAX_VALUE - 1) / size;
+        if (goalNum >= PROGRESS_MAX_VALUE) {
+            goalNum = PROGRESS_MAX_VALUE - 1;
+        }
         progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
         setPermissionStatus(pType, status);
     }
@@ -288,15 +299,15 @@ public class StartGuideViewListHolder implements INotificationObserver {
         startAutoRequestAnimation = System.currentTimeMillis();
 
         handler.sendEmptyMessage(EVENT_UPGRADE);
-//        setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, StartGuideItemHolder.PERMISSION_STATUS_LOADING);
+//        setPermissionStatus(PERMISSION_TYPE_SCREEN_FLASH, StartGuideItemHolder.PERMISSION_STATUS_LOADING);
     }
 
     private long getNextUpgradeDelay() {
         if (goalNum == PROGRESS_MAX_VALUE) {
             progressInterval = UPGRADE_MIN_INTERVAL;
-        } else if (goalNum - progressNum > 15) {
+        } else if (goalNum - progressNum > 30) {
             progressInterval *= 0.8;
-        } else if (progressNum - goalNum > 20) {
+        } else if (progressNum - goalNum > 10) {
             progressInterval *= 1.3;
         }
         return Math.min(Math.max(progressInterval, UPGRADE_MIN_INTERVAL), UPGRADE_MAX_INTERVAL);

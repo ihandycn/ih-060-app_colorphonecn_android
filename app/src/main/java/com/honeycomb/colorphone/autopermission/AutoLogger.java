@@ -45,6 +45,8 @@ public class AutoLogger {
                 return "Float";
             case AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP:
                 return "BgPop";
+            case HSPermissionRequestMgr.TYPE_ADD_SHORTCUT:
+                return "Shortcut";
             default:
                 return type;
         }
@@ -86,7 +88,7 @@ public class AutoLogger {
         }
 
         if (AutoPermissionChecker.hasBgPopupPermission()) {
-            stringBuilder.append(formatPermissionName("TYPE_PERMISSION_TYPE_BG_POP")).append("_");
+            stringBuilder.append(formatPermissionName("PERMISSION_TYPE_BG_POP")).append("_");
         }
 
         if (stringBuilder.length() > 0) {

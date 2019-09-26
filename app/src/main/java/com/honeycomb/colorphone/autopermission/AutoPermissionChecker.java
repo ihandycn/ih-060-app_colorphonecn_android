@@ -21,6 +21,9 @@ import com.superapps.util.rom.RomUtils;
  * @author sundxing
  */
 public class AutoPermissionChecker {
+    private static final String PREFS_POST_NOTIFICATION_PERMISSION = "prefs_post_notification_permission";
+    private static final String PREFS_ADD_SHORTCUT_PERMISSION = "prefs_app_shortcut_permission";
+
     public static boolean skipPhonePermission = false;
 
     public static boolean hasFloatWindowPermission() {
@@ -142,5 +145,20 @@ public class AutoPermissionChecker {
         }
         return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), perm) == RuntimePermissions.PERMISSION_GRANTED;
     }
-    
+
+    public static boolean isPostNotificationPermissionGrant() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_POST_NOTIFICATION_PERMISSION, false);
+    }
+
+    public static void onPostNotificationPermissionChange(boolean hasPermission) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(PREFS_POST_NOTIFICATION_PERMISSION, hasPermission);
+    }
+
+    public static boolean isAddShortcutPermissionGrant() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_ADD_SHORTCUT_PERMISSION, false);
+    }
+
+    public static void onAddShortcutPermissionChange(boolean hasPermission) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(PREFS_ADD_SHORTCUT_PERMISSION, hasPermission);
+    }
 }
