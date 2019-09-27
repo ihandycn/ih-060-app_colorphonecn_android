@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
+import com.acb.colorphone.permissions.AutoStartAboveOOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartOppoGuideActivity;
@@ -32,6 +33,7 @@ import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationManagementOppoGuideActivity;
 import com.acb.colorphone.permissions.OppoPermissionsGuideUtil;
+import com.acb.colorphone.permissions.OverlayOppoGuideActivity;
 import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
 import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.PhoneOppoGuideActivity;
@@ -899,6 +901,13 @@ public class AutoRequestManager {
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     return true;
                 } else {
+                    if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
+                        mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
+                    } else {
+                        mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                    }
+
+                    mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
                     permissionString = HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS;
                 }
                 break;
@@ -980,19 +989,15 @@ public class AutoRequestManager {
                         } else if (RomUtils.checkIsMiuiRom()){
                             guideClass = AutoStartMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()){
-                            guideClass = AutoStartOppoGuideActivity.class;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                guideClass = AutoStartAboveOOppoGuideActivity.class;
+                            } else {
+                                guideClass = AutoStartOppoGuideActivity.class;
+                            }
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                     case TYPE_CUSTOM_NOTIFICATION:
-                        if (TextUtils.equals(type, TYPE_CUSTOM_NOTIFICATION)) {
-                            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION_RP, 2 * DateUtils.SECOND_IN_MILLIS);
-                        } else {
-                            mHandler.sendEmptyMessageDelayed(CHECK_NOTIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
-                        }
-
-                        mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
-
                         if (RomUtils.checkIsMiuiRom()) {
                             guideClass = NotificationMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()) {
@@ -1032,7 +1037,7 @@ public class AutoRequestManager {
                         mHandler.sendEmptyMessageDelayed(CHECK_OVERLAY_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
                         mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
-                        guideClass = AccessibilityMIUIGuideActivity.class;
+                        guideClass = OverlayOppoGuideActivity.class;
                         break;
                     case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
                         mHandler.sendEmptyMessageDelayed(CHECK_POST_NATIFICATION_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
@@ -1048,18 +1053,17 @@ public class AutoRequestManager {
                         mHandler.sendEmptyMessageDelayed(CHECK_RUNTIME_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
                         mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
 
-
-                            if (RomUtils.checkIsMiuiRom()) {
-                                guideClass = ContactMIUIGuideActivity.class;
-                            } else if (RomUtils.checkIsHuaweiRom()) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    guideClass = ContactHuawei9GuideActivity.class;
-                                } else {
-                                    guideClass = ContactHuawei8GuideActivity.class;
-                                }
-                            } else if (RomUtils.checkIsOppoRom()) {
-                                guideClass = DangerousOppoGuideActivity.class;
+                        if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = ContactMIUIGuideActivity.class;
+                        } else if (RomUtils.checkIsHuaweiRom()) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                guideClass = ContactHuawei9GuideActivity.class;
+                            } else {
+                                guideClass = ContactHuawei8GuideActivity.class;
                             }
+                        } else if (RomUtils.checkIsOppoRom()) {
+                            guideClass = DangerousOppoGuideActivity.class;
+                        }
                         break;
                 }
                 if (guideClass != null) {
@@ -1068,7 +1072,7 @@ public class AutoRequestManager {
                         Intent finalGuideIntent1 = guideIntent;
                         Threads.postOnMainThreadDelayed(() -> {
                             Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent1);
-                        }, GUIDE_DELAY);
+                        }, 2500);
 
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
 
@@ -1077,6 +1081,8 @@ public class AutoRequestManager {
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                     }
+                } else {
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
                 }
             }
         });

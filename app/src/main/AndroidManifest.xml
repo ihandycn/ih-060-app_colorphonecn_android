@@ -698,22 +698,6 @@
             android:label="@string/title_locker_activity" />
 
         <activity
-            android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForMIUI"
-            tools:replace="android:theme" />
-        <activity
-            android:name="com.acb.colorphone.permissions.ContactMIUIGuideActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForMIUI"
-            tools:replace="android:theme" />
-        <activity
             android:name=".autopermission.RuntimePermissionActivity"
             android:launchMode="singleTask"
             android:taskAffinity=":main"

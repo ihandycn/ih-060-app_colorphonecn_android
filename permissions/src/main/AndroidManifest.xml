@@ -64,6 +64,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
             />
 
         <activity
@@ -72,6 +73,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
             />
 
         <activity
@@ -80,6 +82,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
             />
 
         <activity
@@ -178,7 +181,8 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:taskAffinity=":guide" />
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
         <activity
             android:name=".PhoneMiuiGuideActivity"
             android:excludeFromRecents="true"
