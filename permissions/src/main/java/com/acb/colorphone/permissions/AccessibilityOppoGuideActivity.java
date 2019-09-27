@@ -12,11 +12,11 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
     }
 
     @Override protected String getImageAssetFolder() {
-        return "lottie/accessibility_images/";
+        return "lottie/acc_images_oppo/";
     }
 
     @Override protected String getAnimationFromJson() {
-        return "lottie/acb_phone_permission_accessibility_huawei.json";
+        return "lottie/acb_acc_permission_guide_oppo.json";
     }
 
     @Override protected void onDestroy() {
