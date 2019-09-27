@@ -1,8 +1,11 @@
 package com.acb.colorphone.permissions;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -21,10 +24,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 
 public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
 
     private boolean playAnimation = true;
+    private HomeKeyWatcher homeKeyWatcher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +42,31 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER_VERTICAL);
         initRes();
+
+        callback();
+
+        homeKeyWatcher = new HomeKeyWatcher(this);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override public void onHomePressed() {
+                finish();
+            }
+
+            @Override public void onRecentsPressed() {
+                finish();
+            }
+        });
+        homeKeyWatcher.startWatch();
+    }
+
+    private void callback() {
+        new Handler().postDelayed(() -> {
+            try {
+                ActivityManager am = ((ActivityManager) LottiePermissionGuideActivity.this.getSystemService(Context.ACTIVITY_SERVICE));
+                am.moveTaskToFront(LottiePermissionGuideActivity.this.getTaskId(), 0);
+            } catch (Exception localException) {
+                localException.printStackTrace();
+            }
+        }, 900L);
     }
 
     @Override
@@ -81,6 +111,7 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
         showExitStableToast();
+        homeKeyWatcher.stopWatch();
     }
 
     protected void showExitStableToast() {

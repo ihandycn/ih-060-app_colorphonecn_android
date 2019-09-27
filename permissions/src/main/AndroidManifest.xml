@@ -1,5 +1,8 @@
 <manifest package="com.acb.colorphone.permissions"
     xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+
     <application>
         <activity
             android:name="com.acb.colorphone.permissions.OverlayGuideActivity"
@@ -71,7 +74,6 @@
             android:name=".OverlayOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/AppTranslucentForToast"
             />
@@ -97,7 +99,6 @@
             android:name=".NAOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog"/>
 

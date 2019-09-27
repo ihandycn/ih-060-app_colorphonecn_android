@@ -1,10 +1,12 @@
 package com.acb.colorphone.permissions;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,10 +22,12 @@ import android.widget.TextView;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 public class OverlayOppoGuideActivity extends AppCompatActivity {
+    private HomeKeyWatcher homeKeyWatcher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +64,31 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
         } else {
             // do nothing
         }
+        callback();
+
+        homeKeyWatcher = new HomeKeyWatcher(this);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override public void onHomePressed() {
+                finish();
+            }
+
+            @Override public void onRecentsPressed() {
+                finish();
+            }
+        });
+        homeKeyWatcher.startWatch();
+    }
+
+    private void callback() {
+        new Handler().postDelayed(() -> {
+            try {
+                ActivityManager am = ((ActivityManager) OverlayOppoGuideActivity.this.getSystemService(Context.ACTIVITY_SERVICE));
+                am.moveTaskToFront(OverlayOppoGuideActivity.this.getTaskId(), 0);
+                return;
+            } catch (Exception localException) {
+                localException.printStackTrace();
+            }
+        }, 900L);
     }
 
     public static CharSequence getReplacedTitle(Context context,int resId) {
@@ -90,5 +119,8 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        homeKeyWatcher.stopWatch();
+    }
 }
