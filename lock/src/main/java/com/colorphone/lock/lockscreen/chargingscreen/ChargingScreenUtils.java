@@ -23,13 +23,14 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+import com.superapps.util.rom.RomUtils;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
 public class ChargingScreenUtils {
 
     private static final long MIN_INTERVAL_VALID_CLICK = 500;
-    private static final boolean MODE_ACTIVITY = true;
+    private static final boolean MODE_ACTIVITY = !RomUtils.checkIsOppoRom();
 
     private static volatile long lastClickTime;
     public static boolean isFromPush;
