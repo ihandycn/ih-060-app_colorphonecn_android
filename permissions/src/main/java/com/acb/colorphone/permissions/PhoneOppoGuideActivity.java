@@ -1,12 +1,10 @@
 package com.acb.colorphone.permissions;
 
-import android.os.Build;
-
 public class PhoneOppoGuideActivity extends LottiePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {
-        return R.string.acb_phone_oppo_notificationmanagement_permission_guide;
+        return R.string.acb_phone_oppo_phone_permission_guide;
     }
 
     @Override protected String getImageAssetFolder() {

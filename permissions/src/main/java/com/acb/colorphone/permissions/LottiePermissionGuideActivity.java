@@ -1,11 +1,16 @@
 package com.acb.colorphone.permissions;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
@@ -87,7 +93,27 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
 
     private void setDescText() {
         String descText = getString(getTitleStringResId());
+        String icon_replace = getString(R.string.acb_app_icon_replace);
         TextView descTv = findViewById(R.id.description);
+
+        if (descText.contains(icon_replace)) {
+            int appIconIndex = descText.indexOf(icon_replace);
+            if (appIconIndex >= 0) {
+                int identifier = HSApplication.getContext().getResources().getIdentifier("ic_launcher", "mipmap", getPackageName());
+                Drawable appIcon = ContextCompat.getDrawable(HSApplication.getContext(), identifier);
+                if (appIcon != null) {
+                    SpannableString highlighted = new SpannableString(descText);
+
+                    int size = Dimensions.pxFromDp(24);
+                    appIcon.setBounds(0, 0, size, size);
+                    ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
+                    highlighted.setSpan(span, appIconIndex, appIconIndex + icon_replace.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    descTv.setText(highlighted);
+                    return;
+                }
+            }
+
+        }
         descTv.setText(descText);
     }
 }
