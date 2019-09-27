@@ -8,22 +8,13 @@ import com.superapps.util.Navigations;
 
 public class OppoPermissionsGuideUtil {
 
-    public static void showOverlayGuide(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            StableToast.showStableToast(R.layout.toast_one_line_text,
-                    R.string.acb_phone_oppo_overlay_permission_guide_above_26, 0, null);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            StableToast.showStableToast(R.layout.toast_one_line_text,
-                    R.string.acb_phone_oppo_overlay_permission_guide_above_24, 0, null);
-        } else {
-            // do nothing
-        }
+    public static void showOverlayGuide() {
+        Navigations.startActivitySafely(HSApplication.getContext(), OverlayOppoGuideActivity.class);
     }
 
     public static void showAutoStartGuide() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            StableToast.showStableToast(R.layout.toast_one_line_text,
-                    R.string.acb_phone_oppo_autostart_permission_guide_above_26, 0, null);
+            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartAboveOOppoGuideActivity.class);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

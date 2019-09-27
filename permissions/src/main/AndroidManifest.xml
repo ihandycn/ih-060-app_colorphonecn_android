@@ -67,6 +67,22 @@
             />
 
         <activity
+            android:name=".OverlayOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            />
+
+        <activity
+            android:name=".AutoStartAboveOOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            />
+
+        <activity
             android:name=".AutoStartOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
