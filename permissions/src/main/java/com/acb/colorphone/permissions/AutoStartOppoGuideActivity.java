@@ -12,7 +12,7 @@ public class AutoStartOppoGuideActivity extends LottiePermissionGuideActivity {
     }
 
     @Override protected String getImageAssetFolder() {
-        return "lottie/auto_start_oppo/";
+        return "lottie/auto_start_images/";
     }
 
     @Override protected String getAnimationFromJson() {
