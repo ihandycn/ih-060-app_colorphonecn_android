@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.honeycomb.colorphone.menu.TabItem;
+import com.ihs.commons.utils.HSLog;
 
 import java.util.List;
 
@@ -51,9 +52,13 @@ public class TabFrameLayout extends FrameLayout {
     }
 
     public void setCurrentItem(int tabPos) {
-        boolean changed = mSelectedFramePos != tabPos;
-        if (changed) {
+        if (tabPos >= getChildCount()) {
+            HSLog.e("Item index out of bound");
+        }
+        tabPos = Math.min(tabPos, mTabItems.size() - 1);
 
+        boolean changed = mSelectedFramePos != tabPos;
+        if (changed && tabPos >= 0) {
             View oldFrame = getFrameItem(mSelectedFramePos);
             if (oldFrame != null) {
                 TabItem tabItem = mTabItems.get(mSelectedFramePos);
