@@ -807,7 +807,7 @@ public class AutoRequestManager {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         Threads.postOnMainThreadDelayed(() -> {
                             if (RomUtils.checkIsOppoRom()) {
-                                OppoPermissionsGuideUtil.showOverlayGuide(HSApplication.getContext());
+                                OppoPermissionsGuideUtil.showOverlayGuide();
                             }
                         }, GUIDE_DELAY);
                     }
