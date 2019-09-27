@@ -62,6 +62,8 @@ public class AutoLogger {
             brand = "Huawei";
         } else if (Compats.IS_XIAOMI_DEVICE) {
             brand = "Xiaomi";
+        } else if (Compats.IS_OPPO_DEVICE) {
+            brand = "Oppo";
         } else {
             // TODO
             brand = "Others";
