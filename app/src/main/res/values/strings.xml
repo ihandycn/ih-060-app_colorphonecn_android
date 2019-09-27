@@ -297,7 +297,7 @@
     <string name="start_guide_congratulation_text">start screen flash</string>
     <string name="guide_first_page_title_new">Please enable the features and permissions, Remind you about missed calls.</string>
     <string name="acc_service_name">⭐【焕彩来电秀】- 推荐开启</string>
-    <string name="start_guide_permission_overlay">显示来电秀</string>
+    <string name="start_guide_permission_overlay">保持来电秀正常显示</string>
     <string name="start_guide_permission_post_notification">显示通知栏消息</string>
 
     <string name="news_network_err">Network not available</string>
