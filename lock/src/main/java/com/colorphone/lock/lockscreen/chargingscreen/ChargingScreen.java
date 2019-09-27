@@ -368,7 +368,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-        onStart();
+
+        // Ad bind after view set up, so we delay start invoke.
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onStart();
+            }
+        }, 500);
 
         mIsSetup = true;
     }
@@ -393,10 +400,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 showExpressAd();
             } else if (expressAdView.getParent() == null) {
                 showExpressAd();
-            } else {
-                if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                    expressAdView.switchAd();
-                }
+            }
+
+            if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                expressAdView.switchAd();
             }
         }
 
