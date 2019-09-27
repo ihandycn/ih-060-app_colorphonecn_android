@@ -1072,7 +1072,7 @@ public class AutoRequestManager {
                         Intent finalGuideIntent1 = guideIntent;
                         Threads.postOnMainThreadDelayed(() -> {
                             Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent1);
-                        }, 2500);
+                        }, GUIDE_DELAY);
 
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
 
@@ -1086,7 +1086,7 @@ public class AutoRequestManager {
                 }
             }
         });
-        return true;
+        return false;
     }
 
     public static List<String> getAllRuntimePermission() {
