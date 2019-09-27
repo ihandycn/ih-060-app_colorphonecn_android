@@ -105,7 +105,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
         permissions.add(PERMISSION_TYPE_BG_POP);
         permissions.add(PERMISSION_TYPE_PHONE);
 
-        if (isConfirmPage && Compats.IS_OPPO_DEVICE) {
+        if (Compats.IS_OPPO_DEVICE) {
             permissions.add(0, PERMISSION_TYPE_OVERLAY);
             permissions.add(4, PERMISSION_TYPE_POST_NOTIFICATION);
         }

@@ -625,18 +625,20 @@ public class AutoRequestManager {
     }
 
     public boolean isGrantAllPermission() {
-        return AutoPermissionChecker.hasAutoStartPermission()
-                && AutoPermissionChecker.hasBgPopupPermission()
-                && AutoPermissionChecker.hasShowOnLockScreenPermission()
-                && AutoPermissionChecker.isNotificationListeningGranted()
-                && AutoPermissionChecker.isPhonePermissionGranted();
+        boolean ret = isGrantAllWithoutNAPermission();
+        return ret && AutoPermissionChecker.isNotificationListeningGranted();
     }
 
     public boolean isGrantAllWithoutNAPermission() {
-        return AutoPermissionChecker.hasAutoStartPermission()
+        boolean ret = AutoPermissionChecker.hasAutoStartPermission()
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isPhonePermissionGranted();
+        if (Compats.IS_OPPO_DEVICE) {
+            ret &= AutoPermissionChecker.hasFloatWindowPermission()
+                    && AutoPermissionChecker.isPostNotificationPermissionGrant();
+        }
+        return ret;
     }
 
     public boolean isGrantAllRuntimePermission() {

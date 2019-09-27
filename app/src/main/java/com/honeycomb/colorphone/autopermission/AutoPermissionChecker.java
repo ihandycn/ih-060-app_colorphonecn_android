@@ -147,7 +147,10 @@ public class AutoPermissionChecker {
     }
 
     public static boolean isPostNotificationPermissionGrant() {
-        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_POST_NOTIFICATION_PERMISSION, false);
+        if (Compats.IS_OPPO_DEVICE) {
+            return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_POST_NOTIFICATION_PERMISSION, false);
+        }
+        return true;
     }
 
     public static void onPostNotificationPermissionChange(boolean hasPermission) {
