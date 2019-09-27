@@ -14,11 +14,7 @@ public class NotificationManagementOppoGuideActivity extends LottiePermissionGui
     }
 
     @Override protected String getAnimationFromJson() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return "lottie/acb_phone_permission_auto_start_huawei.json";
-        } else {
-            return "lottie/acb_phone_permission_auto_start.json";
-        }
+        return "lottie/acb_notification_management_permission_oppo.json";
     }
 
     @Override protected void showExitStableToast() {

@@ -1,6 +1,5 @@
 package com.acb.colorphone.permissions;
 
-import android.content.Context;
 import android.os.Build;
 
 import com.ihs.app.framework.HSApplication;
