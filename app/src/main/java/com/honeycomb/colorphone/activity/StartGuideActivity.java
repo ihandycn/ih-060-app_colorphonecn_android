@@ -102,6 +102,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
     }
 
+    public static void start(Context context, int permissionType) {
+        Intent intent = getIntent(context, FROM_KEY_GUIDE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.putExtra(INTENT_KEY_PERMISSION_TYPE, permissionType);
+        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+    }
+
     public static boolean isStarted() {
         return Preferences.getDefault().contains(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME);
     }

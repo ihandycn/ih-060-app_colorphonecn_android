@@ -221,10 +221,7 @@ public class AutoRequestManager {
         clearMessage();
 
         HSLog.i(TAG, "handleMessage startStartGuideActivity");
-        Intent intent = StartGuideActivity.getIntent(HSApplication.getContext(), StartGuideActivity.FROM_KEY_GUIDE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        intent.putExtra(StartGuideActivity.INTENT_KEY_PERMISSION_TYPE, permissionType);
-        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+        StartGuideActivity.start(HSApplication.getContext(), permissionType);
     }
 
     private void startRuntimePermissionActivity() {
