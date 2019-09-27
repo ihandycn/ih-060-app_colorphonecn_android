@@ -8,7 +8,7 @@ public class AutoStartOppoGuideActivity extends LottiePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {
-        return R.string.acb_phone_oppo_autostart_permission_guide_above_24;
+        return R.string.acb_phone_oppo_phone_permission_guide;
     }
 
     @Override protected String getImageAssetFolder() {
