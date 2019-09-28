@@ -1,6 +1,8 @@
 package com.colorphone.lock.lockscreen;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +30,20 @@ public class DismissActivity extends HSActivity {
             finish();
         }
     };
+
+    public static void startByPendingIntent(Context paramContext) {
+        Intent intent = new Intent(paramContext, DismissActivity.class);
+        intent.addFlags(2097152);
+        intent.addFlags(4194304);
+        intent.addFlags(32768);
+        PendingIntent pendingIntent = PendingIntent.getActivity(paramContext, 0, intent, 0);
+        try {
+            pendingIntent.send();
+        } catch (Exception p) {
+            p.printStackTrace();
+        }
+
+    }
 
     @SuppressLint("InlinedApi")
     @Override
