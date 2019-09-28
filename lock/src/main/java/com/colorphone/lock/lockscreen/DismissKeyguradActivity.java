@@ -1,6 +1,7 @@
 package com.colorphone.lock.lockscreen;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,22 @@ public class DismissKeyguradActivity extends Activity {
             }
         };
         getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(onPreDrawListener);
+
+        callback();
+    }
+
+    private void callback() {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                try {
+                    ActivityManager am = ((ActivityManager) DismissKeyguradActivity.this.getSystemService(Context.ACTIVITY_SERVICE));
+                    am.moveTaskToFront(DismissKeyguradActivity.this.getTaskId(), 0);
+                    return;
+                } catch (Exception localException) {
+                    localException.printStackTrace();
+                }
+            }
+        }, 900L);
     }
 
     @Override
