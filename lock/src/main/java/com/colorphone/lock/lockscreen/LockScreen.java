@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+
 /**
  * Abstraction for "locker screen"s.
  *
@@ -14,7 +16,6 @@ import android.view.ViewGroup;
  * locker" and "charging screen". Use "lock screen" please.
  */
 public abstract class LockScreen {
-
     protected ViewGroup mRootView;
 
     /**
@@ -36,8 +37,7 @@ public abstract class LockScreen {
      * @param dismissKeyguard Whether to remove system keyguard.
      */
     public void dismiss(Context context, boolean dismissKeyguard) {
-        int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
-        FloatWindowController.getInstance().hideLockScreen(hideType);
+        HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
     }
 
     abstract public boolean isActivityHost();

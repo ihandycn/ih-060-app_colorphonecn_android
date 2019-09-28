@@ -45,6 +45,7 @@ import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -1062,8 +1063,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         } else {
             onStop();
             onDestroy();
-            super.dismiss(context, dismissKeyguard);
+            int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
+            FloatWindowController.getInstance().hideLockScreen(hideType);
         }
+        super.dismiss(context, dismissKeyguard);
     }
 
     public void setActivityMode(boolean activityMode) {

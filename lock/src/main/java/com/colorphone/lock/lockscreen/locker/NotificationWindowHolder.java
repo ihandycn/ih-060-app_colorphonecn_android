@@ -18,7 +18,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.AppNotificationInfo;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.app.framework.HSApplication;
@@ -160,10 +159,11 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             LockNotificationManager.getInstance().setClickedNotification(info);
             ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
         } else {
-            FloatWindowController.getInstance().hideLockScreen(FloatWindowController.HIDE_LOCK_WINDOW_DISMISS_ACTIVITY);
-            startNotificationIntent(info);
             removeNotification(info);
+            startNotificationIntent(info);
         }
+
+        mNotificationClickCallback.onNotificationClick();
     }
 
     private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
