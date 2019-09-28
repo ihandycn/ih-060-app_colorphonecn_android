@@ -68,7 +68,7 @@
     <string name="acb_phone_oppo_overlay_permission_guide_above_26">为确保正常显示来电秀 \n请开启【允许显示悬浮窗】</string>
     <string name="acb_phone_oppo_overlay_permission_guide_above_24">为确保正常显示来电秀 \n请找到【1@2$焕彩来电秀】并开启</string>
     <string name="acb_phone_oppo_autostart_permission_guide_above_26">为确保来电秀正常启动 \n请找到【允许自动启动】并开启</string>
-    <string name="acb_phone_oppo_autostart_permission_guide_above_24">为确保来电秀正常启动，请 \n1.点击进入【自启动管理】 \n2.找到【1@2$焕彩来电秀】  并开启</string>
+    <string name="acb_phone_oppo_autostart_permission_guide_above_24">为确保来电秀正常启动，请 \n1.点击进入【自启动管理】 \n2.找到【焕彩来电秀】  并开启</string>
     <string name="acb_phone_oppo_na_permission_guide">为确保成功读取来电时通知，请找到【焕彩来电秀】并点击允许</string>
     <string name="acb_phone_oppo_notificationmanagement_permission_guide">为确保正常显示通知栏消息，请点击进入【通知管理】并允许通知</string>
     <string name="acb_phone_oppo_phone_permission_guide">为确保正常显示和接听来电，请点击进入【应用权限】，并开启【电话】</string>
