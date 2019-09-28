@@ -117,7 +117,7 @@ public class AutoRequestManager {
 
     private static final int CHECK_PHONE_PERMISSION = 0x800;
     private static final int CHECK_NOTIFICATION_PERMISSION = 0x801;
-    private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
+//    private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x802;
     private static final int CHECK_NOTIFICATION_PERMISSION_RP = 0x803;
     private static final int CHECK_RUNTIME_PERMISSION = 0x804;
     private static final int CHECK_OVERLAY_PERMISSION = 0x805;
@@ -173,20 +173,20 @@ public class AutoRequestManager {
                         sendEmptyMessageDelayed(CHECK_OVERLAY_PERMISSION, 500);
                     }
                     break;
-                case CHECK_WRITE_SETTINGS_PERMISSION:
-                    if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_WRITE_SETTINGS);
-                    } else {
-                        HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
-                        sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
-                    }
-                    break;
+//                case CHECK_WRITE_SETTINGS_PERMISSION:
+//                    if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+//                        onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_WRITE_SETTINGS);
+//                    } else {
+//                        HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
+//                        sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+//                    }
+//                    break;
                 case CHECK_POST_NATIFICATION_PERMISSION:
                     if (AutoPermissionChecker.isPostNotificationPermissionGrant()) {
                         onGrantPermission(StartGuidePermissionFactory.PERMISSION_TYPE_POST_NOTIFICATION);
                     } else {
                         HSLog.i(TAG, "handleMessage PERMISSION_TYPE_POST_NOTIFICATION");
-                        sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+                        sendEmptyMessageDelayed(CHECK_POST_NATIFICATION_PERMISSION, 500);
                     }
                     break;
                 case CHECK_PERMISSION_TIMEOUT:
@@ -202,7 +202,7 @@ public class AutoRequestManager {
         mHandler.removeMessages(CHECK_OVERLAY_PERMISSION);
         mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION);
         mHandler.removeMessages(CHECK_NOTIFICATION_PERMISSION_RP);
-        mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
+//        mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
 
         mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
     }
