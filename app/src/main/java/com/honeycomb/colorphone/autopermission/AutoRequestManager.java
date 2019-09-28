@@ -933,7 +933,7 @@ public class AutoRequestManager {
                 }
                 break;
             case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
-                if (AutoPermissionChecker.hasFloatWindowPermission()) {
+                if (AutoPermissionChecker.isPostNotificationPermissionGrant()) {
                     return true;
                 }
                 break;
