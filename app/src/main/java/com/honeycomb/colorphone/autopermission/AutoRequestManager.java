@@ -446,8 +446,8 @@ public class AutoRequestManager {
             }
 
             permission.add(HSPermissionRequestMgr.TYPE_PHONE);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
             permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
             permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 permission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
@@ -1091,10 +1091,10 @@ public class AutoRequestManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             permissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
         }
-        permissions.add(Manifest.permission.READ_CONTACTS);
         permissions.add(Manifest.permission.WRITE_CONTACTS);
-        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.READ_CONTACTS);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
