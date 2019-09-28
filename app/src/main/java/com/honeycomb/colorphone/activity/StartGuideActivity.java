@@ -44,6 +44,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -149,7 +150,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 enableBtn.setOnClickListener(v -> {
                     if (agree.isChecked()) {
                         if (directPermission) {
-                            showPermissionDialog();
+                            if (!showPermissionDialog() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && Compats.IS_OPPO_DEVICE) {
+                                List<String> permissions = AutoRequestManager.getAllRuntimePermission();
+                                RuntimePermissions.requestPermissions(this, permissions.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
+                            }
                         }
 
                         if (!directPermission){
