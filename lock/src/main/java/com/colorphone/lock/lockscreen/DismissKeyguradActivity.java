@@ -1,8 +1,10 @@
 package com.colorphone.lock.lockscreen;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ViewTreeObserver;
@@ -19,6 +21,8 @@ import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
  * FLAG_DISMISS_KEYGUARD.
  */
 public class DismissKeyguradActivity extends Activity {
+
+    public static String DISMISS_KEYGUARD_ANDROID_O = "keyguard_android_o";
 
     private Handler handler= new Handler();
     private Runnable runnable = new Runnable() {
@@ -49,11 +53,35 @@ public class DismissKeyguradActivity extends Activity {
         getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(onPreDrawListener);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            boolean enableDismissKeyguardAndroidO = getIntent().getBooleanExtra(DISMISS_KEYGUARD_ANDROID_O, false);
+            if (enableDismissKeyguardAndroidO) {
+                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+                if (keyguardManager != null) {
+                    keyguardManager.requestDismissKeyguard(this, null);
+                }
+            }
+        }
+    }
+
     public static void startSelfIfKeyguardSecure(Context context) {
         if (Commons.isKeyguardLocked(context, false)) {
             HSLog.i("LockManager", "startSelfIfKeyguardSecure ");
             Intent intent = new Intent(context, DismissKeyguradActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+    }
+
+    public static void startSelfIfKeyguardSecureCompatO(Context context) {
+        if (Commons.isKeyguardLocked(context, false)) {
+            HSLog.i("LockManager", "startSelfIfKeyguardSecureCompatO ");
+            Intent intent = new Intent(context, DismissKeyguradActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(DISMISS_KEYGUARD_ANDROID_O, true);
             context.startActivity(intent);
         }
     }

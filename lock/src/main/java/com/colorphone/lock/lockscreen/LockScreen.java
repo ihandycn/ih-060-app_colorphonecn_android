@@ -16,12 +16,18 @@ import android.view.ViewGroup;
 public abstract class LockScreen {
 
     protected ViewGroup mRootView;
-
+    protected KeyguardHandler mKeyguardHandler;
     /**
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
         mRootView = root;
+        mKeyguardHandler = new KeyguardHandler(getContext());
+        mKeyguardHandler.onInit();
+    }
+
+    public KeyguardHandler getKeyguardHandler() {
+        return mKeyguardHandler;
     }
 
     public ViewGroup getRootView() {
@@ -38,6 +44,10 @@ public abstract class LockScreen {
     public void dismiss(Context context, boolean dismissKeyguard) {
         int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
         FloatWindowController.getInstance().hideLockScreen(hideType);
+    }
+
+    public void onDestroy(){
+        mKeyguardHandler.onViewDestroy();
     }
 
     abstract public boolean isActivityHost();

@@ -254,13 +254,16 @@ public class Locker extends LockScreen implements INotificationObserver {
                 if (getContext() instanceof BaseKeyguardActivity) {
                     final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
                     if (dismissKeyguard) {
-                        activity.tryDismissKeyguard(true);
+                        mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
                     } else {
                         activity.finish();
                         activity.overridePendingTransition(0, 0);
                     }
                 } else {
                     doDismiss();
+                    if (dismissKeyguard) {
+                        mKeyguardHandler.tryDismissKeyguard();
+                    }
                     Locker.super.dismiss(context, dismissKeyguard);
                 }
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
@@ -283,6 +286,10 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public void onDestroy() {
         // ======== onDestroy ========
+        if (mIsDestroyed) {
+            return;
+        }
+        super.onDestroy();
         mHomeKeyWatcher.stopWatch();
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;

@@ -37,8 +37,8 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -284,8 +284,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED, this);
         requestAds();
 
         PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
@@ -513,11 +513,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     }, 300);
                 }
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 mUnlockText.setText(R.string.unlock_tint_no_keyguard);
                 mUnlockText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 mUnlockText.setText(R.string.unlock_tint_keyguard);
                 mUnlockText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
