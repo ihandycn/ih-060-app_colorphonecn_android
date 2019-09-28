@@ -180,6 +180,8 @@ public class FloatWindowControllerImpl {
             doHideLockScreen(false);
         }
 
+        Navigations.startActivity(context, DismissActivity.class);
+
         HSLog.i("LockManager", "showChargingScreen");
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;
@@ -203,6 +205,7 @@ public class FloatWindowControllerImpl {
                 && !Permissions.isFloatWindowAllowed(context)) {
             return;
         }
+        Navigations.startActivity(context, DismissActivity.class);
         HSLog.i("LockManager", "showLockScreen ");
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;

@@ -98,7 +98,7 @@ public class KeyguardHandler {
             }
             if (finishActivityAfterKeyguardDismiss) {
                 // Handle notification intent after keyguard dismissed.
-                keyguardManager.requestDismissKeyguard(activity, getNotificaitonHandleCallback(appNotificationInfo));
+                keyguardManager.requestDismissKeyguard(activity, getNotificationHandleCallback(appNotificationInfo));
             } else {
                 startNotificationIntent(appNotificationInfo);
 
@@ -140,23 +140,19 @@ public class KeyguardHandler {
         boolean hasNotification = appNotificationInfo != null;
         if (keyguardManager != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (hasNotification) {
-                removeNotification(appNotificationInfo);
-            }
-            startNotificationIntent(appNotificationInfo);
             // Call ths for Huawei device to remove notificaiton on keyguard screen.
             if (isKeyguardSecure && Compats.IS_HUAWEI_DEVICE) {
                 DismissKeyguradActivity.startSelfIfKeyguardSecure(mContext);
             } else {
                 DismissKeyguradActivity.startSelfIfKeyguardSecureCompatO(mContext);
             }
-
         } else {
             DismissKeyguradActivity.startSelfIfKeyguardSecure(mContext);
-            if (hasNotification) {
-                removeNotification(appNotificationInfo);
-                startNotificationIntent(appNotificationInfo);
-            }
+        }
+
+        if (hasNotification) {
+            removeNotification(appNotificationInfo);
+            startNotificationIntent(appNotificationInfo);
         }
 
         keyguardCleaned = true;
@@ -188,7 +184,7 @@ public class KeyguardHandler {
     }
 
     @TargetApi(Build.VERSION_CODES.O)
-    private KeyguardManager.KeyguardDismissCallback getNotificaitonHandleCallback(final AppNotificationInfo appNotificationInfo) {
+    private KeyguardManager.KeyguardDismissCallback getNotificationHandleCallback(final AppNotificationInfo appNotificationInfo) {
         if (notificaitoHandleCallback == null) {
             notificaitoHandleCallback = new KeyguardManager.KeyguardDismissCallback() {
                 @Override

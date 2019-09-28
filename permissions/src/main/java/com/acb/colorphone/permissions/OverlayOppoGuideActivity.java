@@ -111,7 +111,7 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
                 Drawable appIcon = ContextCompat.getDrawable(HSApplication.getContext(), identifier);
                 if (appIcon != null) {
 
-                    int size = Dimensions.pxFromDp(24);
+                    int size = Dimensions.pxFromDp(26);
                     appIcon.setBounds(0, 0, size, size);
                     ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
                     highlighted.setSpan(span, appIconIndex, appIconIndex + icon_replace.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
