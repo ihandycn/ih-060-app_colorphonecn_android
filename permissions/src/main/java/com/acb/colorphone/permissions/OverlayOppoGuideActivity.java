@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +34,7 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accessibility_permission_miui);
+        setContentView(R.layout.activity_accessibility_permission_oppo);
         RelativeLayout content = findViewById(R.id.container_view);
         if (content != null) {
             content.setBackgroundDrawable(null);
@@ -91,26 +93,32 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
         }, 900L);
     }
 
-    public static CharSequence getReplacedTitle(Context context,int resId) {
+    public static CharSequence getReplacedTitle(Context context, int resId) {
         String descText = context.getString(resId);
         String icon_replace = context.getString(R.string.acb_app_icon_replace);
+        SpannableString highlighted = new SpannableString(descText);
+        if (descText.contains("【") && descText.contains("】")) {
+            int start = descText.indexOf("【");
+            int end = descText.indexOf("】");
+
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(0xFF00FFFF);
+            highlighted.setSpan(colorSpan, start, end + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
         if (descText.contains(icon_replace)) {
             int appIconIndex = descText.indexOf(icon_replace);
             if (appIconIndex >= 0) {
                 int identifier = HSApplication.getContext().getResources().getIdentifier("ic_launcher", "mipmap", context.getPackageName());
                 Drawable appIcon = ContextCompat.getDrawable(HSApplication.getContext(), identifier);
                 if (appIcon != null) {
-                    SpannableString highlighted = new SpannableString(descText);
 
                     int size = Dimensions.pxFromDp(24);
                     appIcon.setBounds(0, 0, size, size);
                     ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
                     highlighted.setSpan(span, appIconIndex, appIconIndex + icon_replace.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    return highlighted;
                 }
             }
         }
-        return descText;
+        return highlighted;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class AutoStartAboveOOppoGuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accessibility_permission_miui);
+        setContentView(R.layout.activity_accessibility_permission_oppo);
         RelativeLayout content = findViewById(R.id.container_view);
         if (content != null) {
             content.setBackgroundDrawable(null);
@@ -44,9 +44,9 @@ public class AutoStartAboveOOppoGuideActivity extends AppCompatActivity {
         }
 
         content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xE6000000, Dimensions.pxFromDp(6), false));
-
+        CharSequence replacedTitle = OverlayOppoGuideActivity.getReplacedTitle(this, R.string.acb_phone_oppo_autostart_permission_guide_above_26);
         TextView title = findViewById(R.id.title);
-        title.setText(R.string.acb_phone_oppo_autostart_permission_guide_above_26);
+        title.setText(replacedTitle);
     }
 
     @Override
