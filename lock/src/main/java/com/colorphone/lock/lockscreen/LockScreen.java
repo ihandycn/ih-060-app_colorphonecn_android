@@ -1,5 +1,6 @@
 package com.colorphone.lock.lockscreen;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -43,10 +44,27 @@ public abstract class LockScreen {
      * @param dismissKeyguard Whether to remove system keyguard.
      */
     public void dismiss(Context context, boolean dismissKeyguard) {
-        int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
-        FloatWindowController.getInstance().hideLockScreen(hideType);
+        if (context instanceof BaseKeyguardActivity) {
+            if (dismissKeyguard) {
+                mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
+            } else {
+                ((Activity) context).finish();
+                ((Activity) context).overridePendingTransition(0, 0);
+            }
+        } else {
+            onStop();
+            onDestroy();
+            if (dismissKeyguard) {
+                mKeyguardHandler.tryDismissKeyguard();
+            }
+            int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
+            FloatWindowController.getInstance().hideLockScreen(hideType);
+        }
 
         HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+    }
+
+    public void onStop(){
     }
 
     public void onDestroy(){

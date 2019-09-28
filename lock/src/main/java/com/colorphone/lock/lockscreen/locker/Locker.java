@@ -25,7 +25,6 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -251,21 +250,8 @@ public class Locker extends LockScreen implements INotificationObserver {
                 // Life cycle
                 LockScreensLifeCycleRegistry.setLockerActive(false);
 
-                if (getContext() instanceof BaseKeyguardActivity) {
-                    final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
-                    if (dismissKeyguard) {
-                        mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
-                    } else {
-                        activity.finish();
-                        activity.overridePendingTransition(0, 0);
-                    }
-                } else {
-                    doDismiss();
-                    if (dismissKeyguard) {
-                        mKeyguardHandler.tryDismissKeyguard();
-                    }
-                    Locker.super.dismiss(context, dismissKeyguard);
-                }
+                Locker.super.dismiss(context, dismissKeyguard);
+
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
                         "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
@@ -302,6 +288,7 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     }
 
+    @Override
     public void onStop() {
         // ======== onStop ========
         if (mLockerAdapter.lockerMainFrame != null) {
