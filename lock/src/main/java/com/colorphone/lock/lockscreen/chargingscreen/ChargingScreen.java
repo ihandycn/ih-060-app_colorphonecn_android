@@ -351,7 +351,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         updateChargingStateTipIconAnimator();
         processPowerStateChanged(true);
 
-        if (!(context instanceof Activity)) {
+        if (!isActivityHost()) {
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
@@ -384,6 +384,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
 
     public void onStart() {
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+        if (!isScreenOn) {
+            return;
+        }
+
         if (isStart) {
             return;
         }
@@ -391,8 +397,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         isStart = true;
         HSLog.d(TAG, "onStart()");
 
-        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
 //        if (customizeContentContainer != null) {
 //            customizeContentContainer.onVisibilityChange(true);
@@ -422,11 +429,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             isChargingOnInit = false;
             updateChargingStateTipIconAnimator();
         }
-        if (isScreenOn) {
-            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
-                    "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-        }
+
 
         // ======== onResume ========
 
@@ -961,10 +964,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 onStart();
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
-                if (!isActivityHost()) {
-                    onStop();
-                }
+                onStop();
                 break;
+
+
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
@@ -1043,7 +1046,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         mDismissed = true;
         HSLog.i("LockManager", "C dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
 
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_Screen_Close",
                 "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
                 "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 

@@ -55,19 +55,6 @@ public class LockerActivity extends BaseKeyguardActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mLocker.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mLocker.onPause();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         mLocker.onStop();

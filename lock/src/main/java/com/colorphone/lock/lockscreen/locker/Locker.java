@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -112,11 +111,15 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
 
         HSGlobalNotificationCenter.addObserver(EVENT_FINISH_SELF, this);
-
+        if (!isActivityHost()) {
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
+        }
         LockerSettings.increaseLockerShowCount();
 
         // Life cycle
         LockScreensLifeCycleRegistry.setLockerActive(true);
+
 //        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
     }
 
@@ -139,37 +142,12 @@ public class Locker extends LockScreen implements INotificationObserver {
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStart();
         }
-    }
 
-    private Handler mHandler = new Handler();
-
-    private Runnable foregroundEventLogger = new Runnable() {
-        private boolean logOnceFlag = false;
-        @Override
-        public void run() {
-            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-            if (!logOnceFlag) {
-                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
-                        "Brand", Build.BRAND.toLowerCase(),
-                        "DeviceVersion", getDeviceInfo());
-                logOnceFlag = true;
-            }
-            if (ScreenStatusReceiver.isScreenOn()) {
-                LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
-                        "Brand", Build.BRAND.toLowerCase(),
-                        "DeviceVersion", getDeviceInfo());
-            }
-        }
-    };
-
-    public void onResume() {
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
-
-        mHandler.postDelayed(foregroundEventLogger, 1000);
     }
 
     private void initLockerWallpaper() {
@@ -266,7 +244,7 @@ public class Locker extends LockScreen implements INotificationObserver {
                     }
                     Locker.super.dismiss(context, dismissKeyguard);
                 }
-                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_Screen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
                         "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
             }
@@ -293,13 +271,6 @@ public class Locker extends LockScreen implements INotificationObserver {
         mHomeKeyWatcher.stopWatch();
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;
-    }
-
-    public void onPause() {
-        // ======== onPause ========
-        if (mLockerAdapter.lockerMainFrame != null) {
-            mLockerAdapter.lockerMainFrame.onPause();
-        }
     }
 
     public void onStop() {
