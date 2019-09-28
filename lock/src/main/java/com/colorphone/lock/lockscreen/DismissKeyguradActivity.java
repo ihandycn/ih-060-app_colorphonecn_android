@@ -1,7 +1,6 @@
 package com.colorphone.lock.lockscreen;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -52,22 +51,6 @@ public class DismissKeyguradActivity extends Activity {
             }
         };
         getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(onPreDrawListener);
-
-        callback();
-    }
-
-    private void callback() {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                try {
-                    ActivityManager am = ((ActivityManager) DismissKeyguradActivity.this.getSystemService(Context.ACTIVITY_SERVICE));
-                    am.moveTaskToFront(DismissKeyguradActivity.this.getTaskId(), 0);
-                    return;
-                } catch (Exception localException) {
-                    localException.printStackTrace();
-                }
-            }
-        }, 900L);
     }
 
     @Override
@@ -90,6 +73,8 @@ public class DismissKeyguradActivity extends Activity {
             Intent intent = new Intent(context, DismissKeyguradActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+        } else {
+            HSLog.i("LockManager", "startSelfIfKeyguardSecure locked false");
         }
     }
 
@@ -100,6 +85,8 @@ public class DismissKeyguradActivity extends Activity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(DISMISS_KEYGUARD_ANDROID_O, true);
             context.startActivity(intent);
+        } else {
+            HSLog.i("LockManager", "startSelfIfKeyguardSecureCompatO locked false");
         }
     }
 }

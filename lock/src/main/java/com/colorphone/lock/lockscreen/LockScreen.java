@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Threads;
 
 /**
  * Abstraction for "locker screen"s.
@@ -61,7 +62,12 @@ public abstract class LockScreen {
             FloatWindowController.getInstance().hideLockScreen(hideType);
         }
 
-        HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override public void run() {
+                HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+            }
+        }, 1000);
+
     }
 
     public void onStop(){
