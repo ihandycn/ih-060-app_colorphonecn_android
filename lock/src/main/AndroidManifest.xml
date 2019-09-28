@@ -39,6 +39,7 @@
         <activity
             android:name=".lockscreen.DismissKeyguradActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
+            android:launchMode="singleTop"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=".cp_locker"

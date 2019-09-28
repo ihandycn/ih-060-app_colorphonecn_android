@@ -17,12 +17,18 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
  */
 public abstract class LockScreen {
     protected ViewGroup mRootView;
-
+    protected KeyguardHandler mKeyguardHandler;
     /**
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
         mRootView = root;
+        mKeyguardHandler = new KeyguardHandler(getContext());
+        mKeyguardHandler.onInit();
+    }
+
+    public KeyguardHandler getKeyguardHandler() {
+        return mKeyguardHandler;
     }
 
     public ViewGroup getRootView() {
@@ -38,6 +44,10 @@ public abstract class LockScreen {
      */
     public void dismiss(Context context, boolean dismissKeyguard) {
         HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+    }
+
+    public void onDestroy(){
+        mKeyguardHandler.onViewDestroy();
     }
 
     abstract public boolean isActivityHost();

@@ -45,7 +45,7 @@ import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
-import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -356,8 +356,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED,this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED,this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -380,6 +380,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         mIsSetup = true;
     }
+
+
 
     public void onStart() {
         if (isStart) {
@@ -967,11 +969,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 unlockTextView.setText(R.string.unlock_tint_no_keyguard);
                 unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 unlockTextView.setText(R.string.unlock_tint_keyguard);
                 unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
@@ -1011,6 +1013,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     }
 
     public void onDestroy() {
+        super.onDestroy();
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
         if (mHomeKeyWatcher != null) {
@@ -1055,7 +1058,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         if (context instanceof BaseKeyguardActivity) {
             if (dismissKeyguard) {
-                ((BaseKeyguardActivity) context).tryDismissKeyguard(true);
+                mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
             } else {
                 ((Activity) context).finish();
                 ((Activity) context).overridePendingTransition(0, 0);
@@ -1063,10 +1066,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         } else {
             onStop();
             onDestroy();
-            int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
-            FloatWindowController.getInstance().hideLockScreen(hideType);
+            if (dismissKeyguard) {
+                mKeyguardHandler.tryDismissKeyguard();
+            }
+            super.dismiss(context, dismissKeyguard);
         }
-        super.dismiss(context, dismissKeyguard);
     }
 
     public void setActivityMode(boolean activityMode) {

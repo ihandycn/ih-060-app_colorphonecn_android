@@ -26,7 +26,6 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -255,15 +254,17 @@ public class Locker extends LockScreen implements INotificationObserver {
                 if (getContext() instanceof BaseKeyguardActivity) {
                     final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
                     if (dismissKeyguard) {
-                        activity.tryDismissKeyguard(true);
+                        mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
                     } else {
                         activity.finish();
                         activity.overridePendingTransition(0, 0);
                     }
                 } else {
                     doDismiss();
-                    int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
-                    FloatWindowController.getInstance().hideLockScreen(hideType);
+                    if (dismissKeyguard) {
+                        mKeyguardHandler.tryDismissKeyguard();
+                    }
+                    Locker.super.dismiss(context, dismissKeyguard);
                 }
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
@@ -271,7 +272,6 @@ public class Locker extends LockScreen implements INotificationObserver {
             }
         });
         fadeOutAnim.start();
-        Locker.super.dismiss(context, dismissKeyguard);
     }
 
     @Override
@@ -286,6 +286,10 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public void onDestroy() {
         // ======== onDestroy ========
+        if (mIsDestroyed) {
+            return;
+        }
+        super.onDestroy();
         mHomeKeyWatcher.stopWatch();
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;

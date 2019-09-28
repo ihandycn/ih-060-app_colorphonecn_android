@@ -82,13 +82,6 @@ public class LockerActivity extends BaseKeyguardActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_UnlockType",
-                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
-    }
-
-    @Override
     public void onBackPressed() {
         mLocker.onBackPressed();
     }
