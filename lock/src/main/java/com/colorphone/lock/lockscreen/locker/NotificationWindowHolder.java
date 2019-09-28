@@ -1,5 +1,6 @@
 package com.colorphone.lock.lockscreen.locker;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
@@ -20,7 +21,9 @@ import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.BackgroundDrawables;
@@ -145,20 +148,21 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private void onClickForNotification(View v) {
-        if (getInfo(v) == null) {
+        AppNotificationInfo info = getInfo(v);
+        if (info == null) {
             return;
         }
 
         LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
-                getInfo(v).packageName);
-
-        LockNotificationManager.getInstance().setClickedNotification(getInfo(v));
+                info.packageName);
 
         if (getContext() instanceof BaseKeyguardActivity) {
+            LockNotificationManager.getInstance().setClickedNotification(info);
             ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
         } else {
             FloatWindowController.getInstance().hideLockScreen(FloatWindowController.HIDE_LOCK_WINDOW_DISMISS_ACTIVITY);
-            startNotificationIntent(LockNotificationManager.getInstance().getClickedNotification());
+            startNotificationIntent(info);
+            removeNotification(info);
         }
     }
 
@@ -175,6 +179,15 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             }
             LockNotificationManager.getInstance().setClickedNotification(null);
         }
+    }
+
+    protected void removeNotification(AppNotificationInfo appNotificationInfo) {
+        NotificationManager noMan = (NotificationManager)
+                HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        noMan.cancel(appNotificationInfo.tag, appNotificationInfo.notificationId);
+        HSBundle bundle = new HSBundle();
+        bundle.putString(BUNDLE_KEY_PACKAGE_NAME, appNotificationInfo.packageName);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
     }
 
     private AppNotificationInfo getInfo(View v) {
