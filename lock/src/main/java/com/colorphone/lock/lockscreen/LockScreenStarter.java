@@ -103,7 +103,7 @@ public class LockScreenStarter {
     }
 
     private void tryShowChargingScreen() {
-        if (!ChargingScreenActivity.exist
+        if (!isChargingScreenExist()
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
@@ -141,15 +141,23 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if (!ChargingScreenActivity.exist) {
+            if (!isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if (!LockerActivity.exist) {
+            if (!isLockScreenExist()) {
                 ChargingScreenUtils.startLockerActivity(false);
             }
         }
+    }
+
+    private boolean isLockScreenExist() {
+        return LockerActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
+    }
+
+    private boolean isChargingScreenExist() {
+        return ChargingScreenActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
     }
 
     private boolean isCharging() {

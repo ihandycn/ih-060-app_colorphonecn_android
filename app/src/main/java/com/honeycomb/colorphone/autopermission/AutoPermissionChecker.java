@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
@@ -148,7 +149,8 @@ public class AutoPermissionChecker {
 
     public static boolean isPostNotificationPermissionGrant() {
         if (Compats.IS_OPPO_DEVICE) {
-            return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_POST_NOTIFICATION_PERMISSION, false);
+            NotificationManagerCompat manager = NotificationManagerCompat.from(HSApplication.getContext());
+            return manager.areNotificationsEnabled();
         }
         return true;
     }

@@ -14,7 +14,7 @@ public class NAOppoGuideActivity extends LottiePermissionGuideActivity {
     }
 
     @Override protected String getAnimationFromJson() {
-        return "lottie/acb_phone_permission_auto_start.json";
+        return "lottie/acb_na_permission_guide_oppo.json";
     }
 
     @Override protected void showExitStableToast() {

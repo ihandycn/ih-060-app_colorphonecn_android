@@ -18,6 +18,8 @@ public class RomUtils {
             return getRomVersion(KEY_VERSION_MIUI);
         } else if (Compats.IS_HUAWEI_DEVICE) {
             return  getRomVersion(KEY_VERSION_EMUI);
+        } else if (Compats.IS_OPPO_DEVICE) {
+            return  getRomVersion(KEY_VERSION_OPPO);
         }
         return "Unknown";
     }

@@ -1,5 +1,6 @@
 package com.colorphone.lock.lockscreen.locker;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
@@ -155,7 +156,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mNotificationClickCallback != null) {
             mNotificationClickCallback.onNotificationClick();
         }
-
     }
 
     private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
