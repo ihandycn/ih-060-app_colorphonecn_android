@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatButton;
@@ -37,8 +38,8 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -117,6 +118,28 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private LottieAnimationView mGameLottieEntrance;
     private View mGameLottieTitleEntrance;
     private String gameEntranceType;
+
+
+    private Handler mHandler = new Handler();
+    private Runnable foregroundEventLogger = new Runnable() {
+        private boolean logOnceFlag = false;
+        @Override
+        public void run() {
+            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+            if (!logOnceFlag) {
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Locker.getDeviceInfo());
+                logOnceFlag = true;
+            }
+            if (ScreenStatusReceiver.isScreenOn()) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Locker.getDeviceInfo());
+            }
+        }
+    };
+    private boolean isStarted;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -284,13 +307,17 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED, this);
         requestAds();
 
         PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         if (pm.isScreenOn()) {
             mShimmer.start(mUnlockText);
+        }
+
+        if (mLockScreen != null && !mLockScreen.isActivityHost()) {
+            onStart();
         }
     }
 
@@ -398,33 +425,38 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
-
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-            expressAdView.switchAd();
         }
-    }
-
-    public void onStart() {
-        mOnStartTime = System.currentTimeMillis();
-        refreshClock();
-        registerReceiverForClock();
-    }
-
-    public void onResume() {
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.switchAd();
         }
     }
 
-    public void onPause() {
+    public void onStart() {
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+        if (!isScreenOn) {
+            return;
+        }
 
-//        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-//            expressAdView.pauseDiblank_handlesplayNewAd();
-//        }
+        if (isStarted) {
+            return;
+        }
+        isStarted = true;
+
+        mOnStartTime = System.currentTimeMillis();
+        refreshClock();
+        registerReceiverForClock();
+
+        mHandler.postDelayed(foregroundEventLogger, 1000);
+
+        // onResume
+        showExpressAd();
     }
 
     public void onStop() {
+        isStarted = false;
         if (ifRegisterForTime) {
             unregisterReceiverForClock();
         }
@@ -470,7 +502,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 if (mLockScreen != null && !mLockScreen.isActivityHost()) {
-                    onPause();
                     onStop();
                 }
 
@@ -480,13 +511,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 break;
 
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
-                if (expressAdView == null) {
-                    requestAds();
-                    showExpressAd();
-                } else if (expressAdView.getParent() == null) {
-                    showExpressAd();
+
+                if (mLockScreen != null && !mLockScreen.isActivityHost()) {
+                    onStart();
                 } else {
-                    onResume();
+                    showExpressAd();
                 }
 
                 if (!mShimmer.isAnimating()) {
@@ -513,11 +542,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     }, 300);
                 }
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 mUnlockText.setText(R.string.unlock_tint_no_keyguard);
                 mUnlockText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 mUnlockText.setText(R.string.unlock_tint_keyguard);
                 mUnlockText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;

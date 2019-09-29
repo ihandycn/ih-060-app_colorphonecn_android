@@ -1,5 +1,7 @@
 package com.colorphone.lock.lockscreen.locker;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,7 +17,6 @@ import android.widget.TextView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.AppNotificationInfo;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.commons.config.HSConfig;
@@ -152,8 +153,23 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
         LockNotificationManager.getInstance().setClickedNotification(getInfo(v));
 
-        if (getContext() instanceof BaseKeyguardActivity) {
-            ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
+        if (mNotificationClickCallback != null) {
+            mNotificationClickCallback.onNotificationClick();
+        }
+    }
+
+    private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
+        boolean userNotClicked = appNotificationInfo != null;
+        if (userNotClicked) {
+            PendingIntent pendingIntent = appNotificationInfo.notification.contentIntent;
+            if (pendingIntent != null) {
+                try {
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }
+            LockNotificationManager.getInstance().setClickedNotification(null);
         }
     }
 

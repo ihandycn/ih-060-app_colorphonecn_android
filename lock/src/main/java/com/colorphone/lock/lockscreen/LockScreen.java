@@ -1,8 +1,12 @@
 package com.colorphone.lock.lockscreen;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
+
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Threads;
 
 /**
  * Abstraction for "locker screen"s.
@@ -14,14 +18,19 @@ import android.view.ViewGroup;
  * locker" and "charging screen". Use "lock screen" please.
  */
 public abstract class LockScreen {
-
     protected ViewGroup mRootView;
-
+    protected KeyguardHandler mKeyguardHandler;
     /**
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
         mRootView = root;
+        mKeyguardHandler = new KeyguardHandler(getContext());
+        mKeyguardHandler.onInit();
+    }
+
+    public KeyguardHandler getKeyguardHandler() {
+        return mKeyguardHandler;
     }
 
     public ViewGroup getRootView() {
@@ -36,8 +45,36 @@ public abstract class LockScreen {
      * @param dismissKeyguard Whether to remove system keyguard.
      */
     public void dismiss(Context context, boolean dismissKeyguard) {
-        int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
-        FloatWindowController.getInstance().hideLockScreen(hideType);
+        if (context instanceof BaseKeyguardActivity) {
+            if (dismissKeyguard) {
+                mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
+            } else {
+                ((Activity) context).finish();
+                ((Activity) context).overridePendingTransition(0, 0);
+            }
+        } else {
+            onStop();
+            onDestroy();
+            if (dismissKeyguard) {
+                mKeyguardHandler.tryDismissKeyguard();
+            }
+            int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
+            FloatWindowController.getInstance().hideLockScreen(hideType);
+        }
+
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override public void run() {
+                HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+            }
+        }, 1000);
+
+    }
+
+    public void onStop(){
+    }
+
+    public void onDestroy(){
+        mKeyguardHandler.onViewDestroy();
     }
 
     abstract public boolean isActivityHost();

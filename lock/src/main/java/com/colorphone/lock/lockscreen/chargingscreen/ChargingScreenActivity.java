@@ -3,7 +3,6 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.core.NotchProperty;
@@ -87,8 +86,6 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
     @Override
     public void finish() {
         super.finish();
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_ChargingScreen_UnlockType",
-                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
     }
 
     @Override
