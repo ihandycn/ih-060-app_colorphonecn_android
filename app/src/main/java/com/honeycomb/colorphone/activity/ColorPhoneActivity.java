@@ -146,6 +146,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
+                if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
+                    guideLottie = findViewById(R.id.lottie_guide);
+                    guideLottie.setVisibility(View.VISIBLE);
+                    guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
+                    guideLottie.playAnimation();
+                }
+
             }
         }
     };
@@ -203,6 +210,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
+    private LottieAnimationView guideLottie;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
 
@@ -495,6 +503,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 switch (tabItem.getId()) {
                     case TabItem.TAB_MAIN:
+                        if (guideLottie != null) {
+                            guideLottie.setVisibility(View.VISIBLE);
+                            guideLottie.setProgress(1f);
+                        }
+
                         Analytics.logEvent("Tab_Themes_Show");
                         break;
                     case TabItem.TAB_NEWS:
@@ -505,6 +518,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //                        Analytics.logEvent("Tab_News_Show");
                         break;
                     case TabItem.TAB_SETTINGS:
+                        if (guideLottie != null) {
+                            guideLottie.setVisibility(View.GONE);
+                        }
+
                         Analytics.logEvent("Tab_Settings_Show");
                         break;
                     case TabItem.TAB_CASH:
