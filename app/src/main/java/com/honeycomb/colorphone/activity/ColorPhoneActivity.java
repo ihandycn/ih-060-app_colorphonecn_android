@@ -658,10 +658,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
 
-        if (needUpdateNews()) {
-            showNewsHint();
-        }
-
         if (showTabCashCenter
                 && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_GUIDE_SHOW, false)
                 && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
@@ -984,22 +980,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_NEWS);
     }
 
+    @Deprecated
     private boolean needUpdateNews() {
-        return System.currentTimeMillis()
-                - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
-                > 30 * DateUtils.SECOND_IN_MILLIS;
-    }
-
-    private void showNewsHint() {
-        if (mTabLayout.getSelectedTabPosition() != getTabPos(TabItem.TAB_NEWS)) {
-            View view = mTabLayout.getTabAt(getTabPos(TabItem.TAB_NEWS));
-            if (view != null) {
-                TextView tv = view.findViewById(R.id.tab_layout_hint);
-                tv.setVisibility(View.VISIBLE);
-                tv.setText("10+");
-                tv.setTextSize(9);
-            }
-        }
+        return false;
     }
 
     private View createFrameItem(ViewGroup container, int position) {
