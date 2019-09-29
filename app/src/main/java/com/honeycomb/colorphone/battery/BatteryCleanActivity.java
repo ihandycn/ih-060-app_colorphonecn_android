@@ -18,6 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.colorphone.lock.util.ActivityUtils;
 import com.honeycomb.colorphone.Ap;
@@ -90,6 +91,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     private int saveTime;
 
     private boolean stopped;
+    private boolean showToast;
 
     private int cleanedAppCount = 0;
     private long startTimeMills;
@@ -573,6 +575,13 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
 
         if (canBack) {
             super.onBackPressed();
+        } else {
+            if (!showToast) {
+                showToast = true;
+                Toast.makeText(this, R.string.life_assistant_welcome_night, Toast.LENGTH_SHORT).show();
+
+                handler.postDelayed(() -> showToast = false, 2000);
+            }
         }
     }
 
