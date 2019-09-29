@@ -631,7 +631,7 @@ public class ColorPhoneApplicationImpl {
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
             @Override
             public boolean onSetRingtone(Ringtone ringtone) {
-                return false;
+                return true;
             }
 
             @Override

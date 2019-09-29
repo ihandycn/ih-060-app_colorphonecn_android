@@ -146,7 +146,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
-                if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
+                if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")
+                        && mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
                     guideLottie = findViewById(R.id.lottie_guide);
                     guideLottie.setVisibility(View.VISIBLE);
                     guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
