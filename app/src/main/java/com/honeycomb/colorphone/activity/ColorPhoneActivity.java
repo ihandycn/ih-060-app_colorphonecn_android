@@ -1063,15 +1063,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         frame = lotteryWheelLayout;
                     }
 
-                    if (isWindowFocus) {
-                        HSLog.i("CashCenter", "isWindowFocus true");
-                        lotteryWheelLayout.onWindowFocusChanged(true);
-                        if (lotteryWheelLayout.getLotterySpinView() != null) {
-                            lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+                    lotteryWheelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override public void onGlobalLayout() {
+                            lotteryWheelLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                            if (isWindowFocus) {
+                                HSLog.i("CashCenter", "isWindowFocus true");
+                                lotteryWheelLayout.onWindowFocusChanged(true);
+                                if (lotteryWheelLayout.getLotterySpinView() != null) {
+                                    lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+                                }
+                            } else {
+                                HSLog.i("CashCenter", "not isWindowFocus");
+                            }
                         }
-                    } else {
-                        HSLog.i("CashCenter", "not isWindowFocus");
-                    }
+                    });
                 } else {
                     if (!mSettingsPage.isInit()) {
                         frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
