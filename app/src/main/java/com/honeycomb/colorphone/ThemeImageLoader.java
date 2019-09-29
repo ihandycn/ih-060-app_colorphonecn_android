@@ -54,7 +54,7 @@ public class ThemeImageLoader extends ScreenFlashManager.DefaultImageLoader {
 
     @Override
     public void load(Type type, String s) {
-//        Glide.with(HSApplication.getContext()).load(s).preload();
+//        Glide.with(HSApplication.getContext()).load(s).preloadForExitNews();
     }
 
 

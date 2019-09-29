@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Weather background -->
+    <RelativeLayout
+        android:id="@+id/weather_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/weather_sunny_day_bg">
+
+        <colorphone.acb.com.libweather.WeatherAnimView
+            android:id="@+id/weather_anim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <!-- City weather -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/white_toolbar" />
+
+        <com.superapps.view.ViewPagerFixed
+            android:id="@+id/weather_city_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/weather_bottom_layout"
+            android:layout_below="@id/action_bar" />
+
+        <LinearLayout
+            android:id="@+id/weather_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/weather_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/weather_secondary" />
+
+                <!-- Refresh clickable area -->
+                <View
+                    android:id="@+id/weather_refresh_clickable"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_last_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toLeftOf="@+id/weather_refresh_indicator"
+                    android:layout_toStartOf="@+id/weather_refresh_indicator"
+                    android:maxLines="1"
+                    android:textColor="@color/weather_secondary"
+                    android:textSize="11sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="08:23" />
+
+                <colorphone.acb.com.libweather.view.StoppableProgressBar
+                    android:id="@+id/weather_refresh_indicator"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/small_refresh_icon" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</merge>

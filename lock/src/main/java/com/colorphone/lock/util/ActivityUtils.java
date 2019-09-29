@@ -67,10 +67,10 @@ public class ActivityUtils {
             container.setElevation(
                     activity.getResources().getDimensionPixelSize(R.dimen.app_bar_elevation));
         } else {
-            View line = activity.findViewById(R.id.toolbar_separate_line);
-            if (line != null) {
-                line.setVisibility(View.VISIBLE);
-            }
+//            View line = activity.findViewById(R.id.toolbar_separate_line);
+//            if (line != null) {
+//                line.setVisibility(View.VISIBLE);
+//            }
         }
         if (containsBackButton) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

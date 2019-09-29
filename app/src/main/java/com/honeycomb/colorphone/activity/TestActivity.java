@@ -12,6 +12,8 @@ import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.superapps.util.Navigations;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
@@ -63,8 +65,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-//        CleanGuideCondition.getInstance().showCleanGuideIfNeeded();
-        FloatWindowManager.getInstance().showDialog(new HuaweiRateGuideDialog(this));
+        NewsManager.getInstance().preloadForLifeAssistant(this);
+        Navigations.startActivitySafely(this, LifeAssistantActivity.class);
     }
 
     public void openRingtone(View view) {

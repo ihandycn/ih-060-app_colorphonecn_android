@@ -146,6 +146,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
+                if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
+                    guideLottie = findViewById(R.id.lottie_guide);
+                    guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
+
+                    if (mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
+                        guideLottie.setVisibility(View.VISIBLE);
+                        guideLottie.playAnimation();
+                    }
+                }
             }
         }
     };
@@ -203,6 +212,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
+    private LottieAnimationView guideLottie;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
 
@@ -377,11 +387,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
             }
         });
-
-        if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-            mTabLayout.getTabAt(getTabPos(TabItem.TAB_CASH)).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
-        }
-
+        
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
             View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
@@ -499,6 +505,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 switch (tabItem.getId()) {
                     case TabItem.TAB_MAIN:
+                        if (guideLottie != null) {
+                            guideLottie.setVisibility(View.VISIBLE);
+                            guideLottie.setProgress(1f);
+                        }
+
                         Analytics.logEvent("Tab_Themes_Show");
                         break;
                     case TabItem.TAB_NEWS:
@@ -509,6 +520,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //                        Analytics.logEvent("Tab_News_Show");
                         break;
                     case TabItem.TAB_SETTINGS:
+                        if (guideLottie != null) {
+                            guideLottie.setVisibility(View.GONE);
+                        }
+
                         Analytics.logEvent("Tab_Settings_Show");
                         break;
                     case TabItem.TAB_CASH:
@@ -656,10 +671,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
             }
 
-        }
-
-        if (needUpdateNews()) {
-            showNewsHint();
         }
 
         if (showTabCashCenter
@@ -984,22 +995,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_NEWS);
     }
 
+    @Deprecated
     private boolean needUpdateNews() {
-        return System.currentTimeMillis()
-                - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
-                > 30 * DateUtils.SECOND_IN_MILLIS;
-    }
-
-    private void showNewsHint() {
-        if (mTabLayout.getSelectedTabPosition() != getTabPos(TabItem.TAB_NEWS)) {
-            View view = mTabLayout.getTabAt(getTabPos(TabItem.TAB_NEWS));
-            if (view != null) {
-                TextView tv = view.findViewById(R.id.tab_layout_hint);
-                tv.setVisibility(View.VISIBLE);
-                tv.setText("10+");
-                tv.setTextSize(9);
-            }
-        }
+        return false;
     }
 
     private View createFrameItem(ViewGroup container, int position) {

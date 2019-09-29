@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/launcher_settings_light_gray_bg"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/black_toolbar_container" />
+
+    <ScrollView
+        android:id="@+id/weather_settings_scrollable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.CustomOverScroll">
+
+        <LinearLayout
+            android:id="@+id/weather_settings_scrollable_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/air_launcher_settings_single_line_item_row_height"
+                android:background="@android:color/white">
+
+                <include
+                    android:id="@+id/weather_settings_temperature_unit_clickable"
+                    layout="@layout/weather_settings_temperature_unit_item" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/air_launcher_settings_single_line_item_row_height">
+
+                <include
+                    android:id="@+id/weather_settings_distance_unit_clickable"
+                    layout="@layout/weather_settings_distance_unit_item" />
+            </FrameLayout>
+
+            <View style="@style/WideHorizontalDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/air_launcher_settings_group_title_row_height">
+
+                <com.superapps.view.TypefacedTextView
+                    style="@style/SettingsGroupTitle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/weather_settings_cities_title"
+                    app:typeface="@string/custom_font_semibold" />
+            </LinearLayout>
+
+            <colorphone.acb.com.libweather.view.DragLinearLayout
+                android:id="@+id/weather_settings_city_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/weather_settings_add_city"
+                    layout="@layout/weather_settings_add_city_item" />
+            </colorphone.acb.com.libweather.view.DragLinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/weather_settings_bottom_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</LinearLayout>
