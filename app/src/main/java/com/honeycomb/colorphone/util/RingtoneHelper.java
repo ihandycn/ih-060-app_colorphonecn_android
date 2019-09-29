@@ -244,8 +244,7 @@ public class RingtoneHelper {
                 android.provider.Settings.System.putString(r2, r4, r3);
             } catch (Exception e) {
                 HSLog.e("ringtone sim2 set error" + e.getMessage());
-
-                b(context, path, title);
+                b2(context, path, title);
             }
         }
 //
@@ -272,13 +271,13 @@ public class RingtoneHelper {
         }
     }
 
-    private static void b(Context context, String str, String str2) {
+    private static void b2(Context context, String str, String str2) {
         if (context != null && !TextUtils.isEmpty(str)) {
             String ringtone_sim2 = Settings.System.getString(context.getContentResolver(), "ringtone_sim2");
             Uri a2 = Uri.parse(ringtone_sim2);
             if (a2 != null) {
                 ContentResolver contentResolver = context.getContentResolver();
-                a(contentResolver, a2, str);
+                //a(contentResolver, a2, str);
                 ContentValues contentValues = new ContentValues();
                 o.a(contentResolver, a2, contentValues, new o.a() {
                     public boolean a(String str, int i, Object obj, ContentValues contentValues) {
@@ -300,6 +299,7 @@ public class RingtoneHelper {
             }
         }
     }
+
 
     private static void a(ContentResolver contentResolver, Uri uri, String str) {
         if (contentResolver != null && uri != null && !TextUtils.isEmpty(str)) {
