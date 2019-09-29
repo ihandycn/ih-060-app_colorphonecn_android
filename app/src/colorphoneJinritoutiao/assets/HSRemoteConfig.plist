@@ -2594,7 +2594,7 @@
 						<key>Id</key>
 						<integer>210</integer>
 						<key>IdName</key>
-						<string>ManyYearsLater</string>
+						<string>ManyYears</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -2605,22 +2605,22 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYearsLater/ManyYearsLater.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYears/ManyYears.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>ManyYearsLater</string>
+							<string>ManyYears</string>
 							<key>zh-CN</key>
 							<string>许多年以后</string>
 						</dict>
 						<key>Nickname</key>
 						<string>西瓜太郎</string>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYearsLater/ManyYearsLater_preview.jpg</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYears/ManyYears_preview.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYearsLater/ManyYearsLater.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ManyYears/ManyYears.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
