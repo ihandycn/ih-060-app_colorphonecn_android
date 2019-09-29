@@ -578,7 +578,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         } else {
             if (!showToast) {
                 showToast = true;
-                Toast.makeText(this, R.string.life_assistant_welcome_night, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.clean_toast_not_back, Toast.LENGTH_SHORT).show();
 
                 handler.postDelayed(() -> showToast = false, 2000);
             }
