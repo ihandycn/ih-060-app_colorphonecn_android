@@ -112,7 +112,7 @@ public class OverlayOppoGuideActivity extends AppCompatActivity {
                 if (appIcon != null) {
 
                     int size = Dimensions.pxFromDp(26);
-                    appIcon.setBounds(0, 0, size, size);
+                    appIcon.setBounds(0, Dimensions.pxFromDp(2), size + Dimensions.pxFromDp(2), size);
                     ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
                     highlighted.setSpan(span, appIconIndex, appIconIndex + icon_replace.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
