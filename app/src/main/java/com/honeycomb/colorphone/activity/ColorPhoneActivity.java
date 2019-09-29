@@ -150,10 +150,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
                     guideLottie = findViewById(R.id.lottie_guide);
                     guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
+                    guideLottie.playAnimation();
 
                     if (mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
                         guideLottie.setVisibility(View.VISIBLE);
-                        guideLottie.playAnimation();
                     }
                 }
             }
@@ -519,7 +519,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     case TabItem.TAB_MAIN:
                         if (guideLottie != null) {
                             guideLottie.setVisibility(View.VISIBLE);
-                            guideLottie.setProgress(1f);
                         }
 
                         Analytics.logEvent("Tab_Themes_Show");
