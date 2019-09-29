@@ -256,6 +256,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.notifyDataSetChanged();
             }
         }
+
+        if (lotteryWheelLayout != null) {
+            lotteryWheelLayout.onWindowFocusChanged(true);
+            if (lotteryWheelLayout.getLotterySpinView() != null) {
+                lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+            }
+        }
     }
 
     public void showRewardVideoView(String themeName) {
@@ -838,6 +845,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (showTabCashCenter) {
             CashCenterUtil.cleanAds(this);
+            HSCashCenterManager.getInstance().releaseWheelAds();
         }
 
         super.onDestroy();
@@ -1022,11 +1030,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.cashcenter_layout, container, false);
                         lotteryWheelLayout.setBackToCashCenterPage(false);
                         HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + mTabLayout.getHeight());
-                        int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
-                        int phoneH = Dimensions.getPhoneHeight(ColorPhoneActivity.this);
-                        if (phoneH <= 1920) {
-                            lotteryWheelLayout.setMarginTopAndBottomDp(0, navH + 56);
-                        }
+
                         lotteryWheelLayout.setLeftCornerIconResource(R.drawable.cash_center_icon);
                         lotteryWheelLayout.setTvLeftCornerTextRes(R.string.cash_center);
                         lotteryWheelLayout.setIconClickListener(new OnIconClickListener() {

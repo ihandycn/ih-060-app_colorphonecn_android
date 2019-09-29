@@ -23,27 +23,11 @@ class CashCenterUtil {
 
             }
 
-            @Override public void onCashCenterShow() {
+            @Override public void eventCallBack(String s, String s1) {
 
             }
 
             @Override public void onWheelShow() {
-
-            }
-
-            @Override public void onWheelSpinClick() {
-
-            }
-
-            @Override public void onWheelAdShow() {
-
-            }
-
-            @Override public void onWheelAdDismiss() {
-
-            }
-
-            @Override public void onWheelAdChance(boolean b, AdSource adSource) {
 
             }
 
