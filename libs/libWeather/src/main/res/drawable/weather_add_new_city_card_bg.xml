@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:angle="0"
+        android:centerColor="@color/weather_add_new_city_card_bg"
+        android:endColor="@color/weather_add_new_city_card_bg"
+        android:startColor="@color/weather_add_new_city_card_bg"/>
+
+    <corners android:radius="2dp"/>
+</shape>

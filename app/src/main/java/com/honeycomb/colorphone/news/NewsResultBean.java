@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsResultBean {
+    int adSize;
+    int adOffset = 1;
+
     String msg;
     int res;
     UserInfo userinfo;

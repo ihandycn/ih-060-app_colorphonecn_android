@@ -40,7 +40,7 @@ public class PreviewAdManager {
     }
 
     public void preload(Activity activity) {
-        HSLog.d(TAG, "preload");
+        HSLog.d(TAG, "preloadForExitNews");
         if (!mEnable) {
             return;
         }

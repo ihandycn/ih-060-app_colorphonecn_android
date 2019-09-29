@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostConfig;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -25,6 +26,8 @@ import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.messagecenter.customize.MessageCenterSettings;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
@@ -35,6 +38,10 @@ public class SettingsActivity extends HSAppCompatActivity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
 
     private List<ModuleState> mModuleStates = new ArrayList<>();
+
+    private View confirmDialog;
+    private ModuleState lifeAssistant;
+    private boolean confirmClose = true;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
@@ -135,6 +142,26 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        lifeAssistant = new ModuleState(LifeAssistantConfig.isLifeAssistantConfigEnable(),
+                LifeAssistantConfig.isLifeAssistantSettingEnable(),
+                R.id.setting_item_life_assistant_toggle,
+                R.id.setting_item_life_assistant) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                if (!isChecked && confirmClose) {
+                    lifeAssistant.switchCompat.setChecked(true);
+                    showConfirmDialog();
+                } else {
+                    confirmClose = true;
+                    LifeAssistantConfig.setLifeAssistantSettingEnable(isChecked);
+                }
+//                Analytics.logEvent("Settings_Toolbar_Clicked_" +
+//                        (isChecked ? "Enabled" : "Disabled"));
+            }
+        };
+
+        mModuleStates.add(lifeAssistant);
+
         for (final ModuleState moduleState : mModuleStates) {
             View rootView = findViewById(moduleState.itemLayoutId);
             if (!moduleState.enabled) {
@@ -180,6 +207,14 @@ public class SettingsActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override public void onBackPressed() {
+        if (confirmDialog != null && confirmDialog.getVisibility() == View.VISIBLE) {
+            confirmDialog.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     protected void onStop() {
         for (ModuleState moduleState : mModuleStates) {
@@ -193,7 +228,38 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         }
         super.onStop();
+
+        if (confirmDialog != null) {
+            confirmDialog.setVisibility(View.GONE);
+        }
     }
+
+    private void showConfirmDialog() {
+        confirmDialog = findViewById(R.id.close_confirm_dialog);
+
+        View content = confirmDialog.findViewById(R.id.content_layout);
+        content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+
+        View btn = confirmDialog.findViewById(R.id.tv_first);
+        btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
+        btn.setOnClickListener(v -> {
+            confirmDialog.setVisibility(View.GONE);
+        });
+
+        btn = confirmDialog.findViewById(R.id.tv_second);
+        btn.setOnClickListener(v -> {
+            confirmDialog.setVisibility(View.GONE);
+            confirmClose = false;
+            lifeAssistant.switchCompat.setChecked(false);
+
+            Analytics.logEvent("Life_Assistant_Settings_Disable", "Source", "Settings");
+        });
+
+        confirmDialog.setVisibility(View.VISIBLE);
+
+        Analytics.logEvent("Life_Assistant_Settings_PopUp_Show", "Source", "Settings");
+    }
+
 
     private abstract class ModuleState {
         private final SwitchCompat switchCompat;

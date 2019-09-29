@@ -18,12 +18,12 @@
         app:theme="@style/BaseSettings.ActionBarTheme"
         tools:ignore="PrivateResource" />
 
-    <View
-        android:id="@+id/toolbar_separate_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#dedede"
-        android:visibility="gone"/>
+    <!--<View-->
+        <!--android:id="@+id/toolbar_separate_line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#dedede"-->
+        <!--android:visibility="gone"/>-->
 </LinearLayout>
 
 

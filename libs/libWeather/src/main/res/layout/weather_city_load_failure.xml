@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#4c6889">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/weather_detail_refresh_bg" />
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/weather_city_load_failed_message"
+            android:textAlignment="center"
+            android:textColor="@color/weather_secondary"
+            android:textSize="17sp"
+            app:typeface="@string/custom_font_regular" />
+
+        <FrameLayout
+            android:id="@+id/weather_city_refresh_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/weather_detail_refresh_add_button_selector">
+
+            <com.superapps.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:drawableLeft="@drawable/weather_detail_refresh_btn_big"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:textAllCaps="true"
+                android:text="@string/refresh"
+                android:textColor="@color/weather_primary"
+                app:typeface="@string/custom_font_regular" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -44,7 +44,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
 //            if (!determineWhetherToShowNotificationCleaner() || DEBUG_ALL_CARDS) {
 //                if (!determineWhetherToShowAppLock() || DEBUG_ALL_CARDS) {
 //                    if (ad == null) {
-//                        HSLog.d(TAG, "Ads not loaded in time, stop ads preload and show other cards");
+//                        HSLog.d(TAG, "Ads not loaded in time, stop ads preloadForExitNews and show other cards");
 //                        cards = setupCards();
 //                    } else {
 //                        mType = ResultController.Type.AD;

@@ -66,7 +66,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
     public static final int APP_LOCK_LIMIT_COUNT = 1;
 
     /**
-     * Responsible for resolving {@link ResultController.Type} and performing ad preload if needed.
+     * Responsible for resolving {@link ResultController.Type} and performing ad preloadForExitNews if needed.
      */
     private ResultPagePresenter mPresenter;
 

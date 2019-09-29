@@ -71,10 +71,13 @@ import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.WebViewActivity;
 import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
@@ -123,6 +126,7 @@ import com.messagecenter.customize.MessageCenterManager;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.occasion.OccasionManager;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -251,6 +255,10 @@ public class ColorPhoneApplicationImpl {
                 } else {
                     HSLog.i("CCTest", "not time");
                 }
+
+                NewsManager.getInstance().preloadForLifeAssistant(null);
+                LifeAssistantConfig.recordLifeAssistantCheck();
+                OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
             }
         }
     };
@@ -947,6 +955,11 @@ public class ColorPhoneApplicationImpl {
                         HSLog.i("CCTest", "not time");
                     }
 
+                    NewsManager.getInstance().preloadForLifeAssistant(null);
+                    if (!MessageCenterManager.getInstance().getConfig().waitForLocker()) {
+                        LifeAssistantConfig.recordLifeAssistantCheck();
+                        OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
+                    }
                 }
             }
         }, screenFilter);
