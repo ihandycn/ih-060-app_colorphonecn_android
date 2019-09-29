@@ -103,6 +103,10 @@ public class MainTabLayout extends LinearLayout {
     }
 
     private void selectTab(int position, boolean updateIndicator) {
+        if (!isEnabled()) {
+            return;
+        }
+
         int curPos = mSelectedTabPosition;
         if (curPos == position) {
             if (curPos >= 0) {

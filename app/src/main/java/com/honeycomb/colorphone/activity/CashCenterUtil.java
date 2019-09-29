@@ -16,7 +16,7 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import java.util.Map;
 
 class CashCenterUtil {
-    public static void init(Activity activity) {
+    public static void init(ColorPhoneActivity activity) {
         HSCashCenterManager.getInstance().init(HSApplication.getContext(), new CashCenterCallback() {
 
             @Override public void onFeastInitFinish(boolean b, int i, String s) {
@@ -48,10 +48,12 @@ class CashCenterUtil {
             }
 
             @Override public void onSpinClicked() {
+                activity.setTabLayoutClickable(false);
                 Analytics.logEvent("CashCenter_Wheel_Spin_Click");
             }
 
             @Override public void onSpinStop() {
+                activity.setTabLayoutClickable(true);
             }
 
             @Override public void onInterstitialShown(boolean b) {

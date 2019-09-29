@@ -109,6 +109,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
+    private boolean isWindowFocus;
 
     private Handler mHandler = new Handler();
 
@@ -256,12 +257,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.notifyDataSetChanged();
             }
         }
+        isWindowFocus = true;
 
         if (lotteryWheelLayout != null) {
+            HSLog.i("CashCenter", "lotteryWheelLayout != null");
             lotteryWheelLayout.onWindowFocusChanged(true);
             if (lotteryWheelLayout.getLotterySpinView() != null) {
                 lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
             }
+        } else {
+            HSLog.i("CashCenter", "not onWindowFocusChanged");
         }
     }
 
@@ -1057,6 +1062,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     } else {
                         frame = lotteryWheelLayout;
                     }
+
+                    if (isWindowFocus) {
+                        HSLog.i("CashCenter", "isWindowFocus true");
+                        lotteryWheelLayout.onWindowFocusChanged(true);
+                        if (lotteryWheelLayout.getLotterySpinView() != null) {
+                            lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+                        }
+                    } else {
+                        HSLog.i("CashCenter", "not isWindowFocus");
+                    }
                 } else {
                     if (!mSettingsPage.isInit()) {
                         frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
@@ -1102,6 +1117,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 sharedElementCallback.setSharedElementViews(imageView);
             }
         }
+    }
+
+    public void setTabLayoutClickable(boolean enable) {
+        mTabLayout.setEnabled(enable);
     }
 
     private static class TabTransController implements INotificationObserver {
