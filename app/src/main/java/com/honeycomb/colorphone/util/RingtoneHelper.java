@@ -243,8 +243,12 @@ public class RingtoneHelper {
                 java.lang.String r3 = newUri.toString();
                 android.provider.Settings.System.putString(r2, r4, r3);
             } catch (Exception e) {
-                HSLog.e("ringtone sim2 set error" + e.getMessage());
-                b2(context, path, title);
+                HSLog.e("ringtone sim2 set error by system" + e.getMessage());
+                try {
+                    b2(context, path, title);
+                } catch (Exception e1) {
+                    HSLog.e("ringtone sim2 set error by content provider" + e1.getMessage());
+                }
             }
         }
 //
