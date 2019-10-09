@@ -79,7 +79,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
+    // TODO remove
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_LED = 0x2;
+    // TODO remove
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_TECH = 0x3;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_NONE = 0x4;
 
