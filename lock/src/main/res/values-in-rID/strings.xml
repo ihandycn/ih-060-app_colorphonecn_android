@@ -3,14 +3,9 @@
   <string name="charging_screen_charged_left_describe">Daya penuh kurang %1$s</string>
   <string name="charging_screen_charged_full">Berdaya penuh</string>
   <string name="charging_screen_menu_item">MATIKAN</string>
-  <string name="charging_screen_unlock_describe">Usap-buka</string>
-  <string name="charging_screen_charging_tip1">Menghentikan aplikasi latar belakang dapat mempercepat pengisian.</string>
-  <string name="charging_screen_charging_tip2">Mencapai temperatur 40\u2103 dapat membahayakan baterai Anda.</string>
-  <string name="charging_screen_charging_tip3">Pengisian Daya Pintar akan memonitor status pengisian guna memastikan baterai Anda dalam kondisi bagus.</string>
-  <string name="charging_screen_charging_tip4">Mencabut charger dapat membahayakan baterai Anda ketika berada dalam mode pengisian baterai.</string>
-  <string name="charging_screen_charging_tip5">Meskipun ponsel tidak diisi, kondisi\ ini aman untuk mencabut charger ketika berada dalam mode berdaya hampir penuh.</string>
-  <string name="charging_screen_charging_tip6">%1$s akan mengurangi pengisian daya untuk melindungi baterai selama berada dalam mode berdaya penuh.</string>
-  <string name="charging_screen_charging_speed_charging_state_tip_view">Mencabut charger dapat membahayakan baterai Anda</string>
+    <string name="charging_screen_charging_tip2">Mencapai temperatur 40\u2103 dapat membahayakan baterai Anda.</string>
+    <string name="charging_screen_charging_tip5">Meskipun ponsel tidak diisi, kondisi\ ini aman untuk mencabut charger ketika berada dalam mode berdaya hampir penuh.</string>
+    <string name="charging_screen_charging_speed_charging_state_tip_view">Mencabut charger dapat membahayakan baterai Anda</string>
   <string name="charging_screen_charging_continue_charging_state_tip_view">Ponsel tidak diisi, aman\ untuk mencabut charger</string>
   <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher akan mengurangi pengisian daya untuk melindungi baterai</string>
   <string name="charging_screen_close_dialog_title">Matikan Pengisian Daya Pintar?</string>
@@ -18,10 +13,7 @@
   <string name="charging_screen_close_dialog_negative_action">MATIKAN</string>
   <string name="charging_screen_close_dialog_positive_action">TIDAK SEKARANG</string>
   <string name="charging_screen_guide_turn_on">Baterai Anda dalam perlindungan!</string>
-  <string name="charging_screen_settings_title">Perlindungan baterai</string>
-  <string name="charging_screen_settings_subtitle">(Mengandung iklan)</string>
-  <string name="charging_screen_settings_description">Lindungi perangkat dari pengisian daya berlebih</string>
-  <string name="smart_charging_spread_bottom_content_title">Isi Daya Pintar</string>
+    <string name="smart_charging_spread_bottom_content_title">Isi Daya Pintar</string>
   <string name="smart_charging_spread_bottom_content_des1">Menampilkan status isi daya real-time.</string>
   <string name="smart_charging_spread_bottom_content_des2">Mengevaluasi waktu selesai isi daya.</string>
   <string name="smart_charging_spread_bottom_content_des3">Peringatan daya penuh dan kelebihan daya</string>
@@ -32,10 +24,7 @@
   <string name="locker_disable_confirm">Yakin untuk matikan?</string>
   <string name="locker_disable_confirm_detail">Setelah dinonaktifkan, fitur-fitur di pengunci layar akan dinonaktifkan, yakin ingin melanjutkan?</string>
   <string name="locker_diabled_success">Pengunci sudah dimatikan</string>
-  <string name="slide_to_unlock">Geser-buka</string>
-  <string name="locker_slide_wallpaper_title">Pengunci Wallpaper</string>
-  <string name="locker_settings">Pengaturan pengunci</string>
-  <string name="locker_settings_title">Pengunci layar</string>
-  <string name="locker_settings_subtitle">(Mengandung iklan)</string>
-  <string name="wallpaper_network_error">Kesalahan jaringan. Silakan coba lagi.</string>
+    <string name="locker_slide_wallpaper_title">Pengunci Wallpaper</string>
+    <string name="locker_settings_title">Pengunci layar</string>
+    <string name="wallpaper_network_error">Kesalahan jaringan. Silakan coba lagi.</string>
 </resources>

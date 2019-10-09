@@ -86,7 +86,6 @@
         />
 
     <com.acb.call.views.InCallActionView
-        android:id="@+id/card_in_call_action_view1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="bottom"
@@ -138,7 +137,6 @@
         />
 
     <com.acb.call.views.InCallActionView
-        android:id="@+id/card_in_call_action_view2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="bottom"
@@ -189,7 +187,6 @@
         />
 
     <com.acb.call.views.InCallActionView
-        android:id="@+id/card_in_call_action_view3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="bottom"

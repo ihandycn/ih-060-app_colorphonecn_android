@@ -23,7 +23,6 @@
             android:src="@drawable/start_guide_image" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
-            android:id="@+id/start_guide_tv_title"
             app:layout_widthPercent="60%"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -51,7 +50,6 @@
             android:textSize="16sp" />
 
         <RelativeLayout
-            android:id="@+id/layout_launcher_policy_service_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

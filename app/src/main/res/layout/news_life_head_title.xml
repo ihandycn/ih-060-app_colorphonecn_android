@@ -10,7 +10,6 @@
     android:paddingTop="12dp">
 
     <TextView
-        android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/life_assistant_news_title"

@@ -41,7 +41,6 @@
         style="@style/DialpadKeyInternalLayoutStyle">
 
       <ImageView
-          android:id="@+id/dialpad_key_voicemail"
           android:layout_width="wrap_content"
           android:layout_height="@dimen/dialpad_voicemail_icon_size"
           android:scaleType="fitCenter"

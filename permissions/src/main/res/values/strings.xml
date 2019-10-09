@@ -7,18 +7,11 @@
     <string name="draw_overlay_window_hint">Enable Drawing Over Other Apps to Show Screen Flash</string>
     <!--Permission toast TODO i18n from launcher-->
     <string name="permission_request_failed_message">Failed to grant access</string>
-    <string name="normal_permission_guide_dialog_content">Select “Permissions” and activate \n“Call”, “SMS”, “Contacts”</string>
-    <string name="normal_permission_guide_permission">Permissions</string>
-    <string name="permission_request_call">Call</string>
-    <string name="permission_request_sms">SMS</string>
-    <string name="permission_request_contacts">Contacts</string>
-    <string name="got_it" translatable="false">GOT IT</string>
 
     <!--TODO 多语言-->
     <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
 
     <!--UnUsed-->
-    <string name="permission_request_succeed_message">You can enjoy all functions now</string>
 
     <string name="acb_phone_grant_show_onlockscreen_access_title">Enable Notification On Lock Screen to Show Call Flash</string>
 

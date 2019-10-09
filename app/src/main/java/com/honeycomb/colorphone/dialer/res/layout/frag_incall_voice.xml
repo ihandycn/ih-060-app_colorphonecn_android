@@ -22,7 +22,6 @@
     android:layout_height="match_parent">
 
   <RelativeLayout
-      android:id="@+id/incall_ui_container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:clipChildren="false"
@@ -76,7 +75,6 @@
           android:layout_marginEnd="@dimen/incall_window_margin_horizontal"/>
 
       <FrameLayout
-          android:id="@+id/incall_location_holder"
           android:layout_width="match_parent"
           android:layout_height="match_parent"/>
 
@@ -88,7 +86,6 @@
 
     <include
         layout="@layout/incall_button_grid"
-        android:id="@+id/incall_button_grid"
         android:layout_marginStart="@dimen/incall_window_margin_horizontal"
         android:layout_marginEnd="@dimen/incall_window_margin_horizontal"
         android:layout_marginBottom="@dimen/incall_button_vertical_padding"
@@ -128,7 +125,6 @@
   </RelativeLayout>
 
   <FrameLayout
-      android:id="@+id/incall_on_hold_banner"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="top"/>

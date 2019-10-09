@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
-    <string name="app_slogan">Nổi bật với điểm nhấn màu sắc</string>
 
     <string name="settings">Cài đặt</string>
     <string name="feedback">Phản hồi</string>
 
-    <string name="theme_apply">Áp dụng</string>
     <string name="apply_success">Thiết lập Thành công</string>
     <string name="theme_current">Chủ đề Hiện tại</string>
-    <string name="send_email">Gửi Email</string>
-    <string name="loading">Đang tải </string>
 
     <string name="privacy_policy">Chính sách Bảo mật</string>
     <string name="terms_of_service">Điều khoản Dịch vụ</string>
 
     <string name="guide_enable_all_module">Bật Trình Hỗ trợ Điện thoại</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">Thử giao diện cuộc gọi độc đáo để khiến điện thoại của bạn trở nên thời trang hơn. Tính năng có thể chứa quảng cáo.</string>
     <string name="about">Giới thiệu</string>
 
     <string name="guide_apply_theme_hint">Chủ đề Màn hình Người gọi của bạn đã được cài đặt thành công! Chúc vui vẻ!</string>
@@ -31,8 +26,6 @@
     <string name="call_assistant_hint">Trình Hỗ trợ Cuộc gọi sẽ nhắc bạn về những cuộc gọi nhỡ (Có thể chứa quảng cáo)</string>
 
     <string name="theme_set_for_all">THIẾT LẬP CHO TẤT CẢ</string>
-    <string name="theme_set_for_one">Thiết lập cho Một người</string>
-    <string name="contact_select_hint">Áp dụng chủ đề \'%1$s\' cho (những) liên hệ được chọn</string>
     <string name="contact_theme">Chủ đề Liên hệ</string>
 
     <string name="edit">Chỉnh sửa</string>
@@ -40,10 +33,8 @@
     <string name="delete">XÓA</string>
     <string name="select_contacts">Chọn Liên hệ</string>
 
-    <string name="boost_plus_free_up">Đã giải phóng</string>
     <string name="boost_plus_exiting">Đang thoát</string>
 
-    <string name="boost_tip_optimal">Điện thoại của bạn đang ở trạng thái tối ưu!</string>
     <string name="boost_notification_low_ram_btn">TĂNG CƯỜNG</string>
     <string name="boost_title">Tăng cường</string>
 
@@ -51,17 +42,7 @@
     <string name="settings_notification_boost">Thông báo Tăng cường</string>
     <string name="settings_notification_boost_sub">Nhận nhắc nhở khi mức sử dụng bộ nhớ cao</string>
 
-    <string name="may_contain_ads">Có thể chứa quảng cáo.</string>
-
-    <string name="guide_first_page_title">Hãy kích hoạt các tính năng và cấp phép:\ Nhắc nhở bạn về cuộc gọi nhỡ.</string>
-
-    <string name="avatar_content">Tạo hình đại diện của bạn ngay lập tức</string>
-    <string name="action_back">QUAY LẠI</string>
-    <string name="action_install">CÀI ĐẶT</string>
-
     <!--Ringtone-->
-    <string name="ringtone_hint_after_apply">Thiết lập chủ đề và nhạc chuông thành công</string>
-    <string name="ringtone_hint_before_apply">Thiết lập chủ đề để thưởng thức nhạc chuông</string>
 
     <string name="five_star_hint_text">Trải nghiệm của bạn với chúng tôi thế nào?</string>
     <string name="five_star_positive_text">Gửi</string>
@@ -87,7 +68,6 @@
     <string name="unlock_succeed">Đã mở khóa thành công</string>
 
     <string name="gdpr_settings_cell">Phân tích &amp; Quảng cáo</string>
-    <string name="gdpr_share_data">Chia sẻ dữ liệu với các nhà phát triển</string>
     <string name="gdpr_dialog_title">Xác nhận tắt?</string>
     <string name="gdpr_dialog_content">Những dữ liệu này được thu thập và sử dụng để giúp nhà phát triển cải tiến các ứng dụng để nâng cao trải nghiệm sử dụng.</string>
     <string name="gdpr_dialog_turn_off">TẮT</string>
@@ -96,69 +76,22 @@
     <string name="battery_clean_title">Trình tiết kiệm Pin</string>
     <string name="cpu_positive_feedback_title">Đã Hạ Nhiệt</string>
     <string name="result_page_click_guide_tip">Tiếp tục tối ưu hóa</string>
-    <string name="desktop_tips_content_guide_msg">NIỀM VUI HÀNG NGÀY</string>
     <string name="apply_btn">ÁP DỤNG</string>
     <string name="menu_item_settings">Cài đặt</string>
     <string name="battery_title">Pin</string>
-    <string name="battery_bluetooth">Bluetooth</string>
-    <string name="battery_mobile_data">Dữ liệu di động</string>
-    <string name="battery_current">Hiện tại</string>
-    <string name="battery_already_optimal">Pin của bạn đang ở tình trạng tốt!</string>
-    <string name="battery_auto">Tự động</string>
-    <string name="battery_auto_sync">Tự động Đồng bộ hóa</string>
-    <string name="battery_brightness">Độ sáng</string>
-    <string name="battery_careful">Cẩn thận</string>
-    <string name="battery_charging_left">THỜI GIAN SẠC CÒN LẠI</string>
-    <string name="battery_current_content">Cài đặt hiện tại của bạn sẽ được lưu ở đây.</string>
-    <string name="battery_haptic_feedback">Phản hồi Xúc giác</string>
-    <string name="battery_hide_system_apps">Ẩn các ứng dụng hệ thống</string>
-    <string name="battery_low">Pin Yếu</string>
-    <string name="battery_low_content">Tối ưu hóa để kéo dài thời lượng pin của bạn</string>
-    <string name="battery_max_saver">Tiết kiệm Tối đa</string>
-    <string name="battery_max_saver_content">Tắt WiFi, Bluetooth, rung và đặt thời gian màn hình chờ là 15 giây.</string>
-    <string name="battery_mode">Chế độ</string>
-    <string name="battery_off">Tắt</string>
-    <string name="battery_on">Bật</string>
-    <string name="battery_optimize">TỐI ƯU HÓA</string>
-    <string name="battery_optimize_new">TIẾT KIỆM NĂNG LƯỢNG</string>
-    <string name="battery_previous">Trước đây</string>
-    <string name="battery_previous_content">Chuyển về cài đặt gần nhất của bạn</string>
-    <string name="battery_rank">Xếp hạng</string>
-    <string name="battery_reapply">Áp dụng lại</string>
-    <string name="battery_screen_timeout">Thời gian Màn hình chờ</string>
-    <string name="battery_smart_saver">Tiết kiệm Thông minh</string>
-    <string name="battery_smart_saver_content">Tắt Bluetooth, rung và đặt thời gian màn hình chờ là 30 giây.</string>
     <string name="battery_stop">DỪNG</string>
-    <string name="battery_vibrate">Rung</string>
     <string name="battery_view">XEM</string>
-    <string name="battery_wifi">Wifi</string>
-    <string name="battery_low_tip_title">Pin yếu!</string>
-    <string name="battery_low_tip_desc">Dùng thử trình tiết kiệm pin để giảm tối đa mức tiêu thụ năng lượng.</string>
     <string name="battery_low_tip_btn_cancel">ĐỂ SAU</string>
-    <string name="battery_low_tip_btn_ok">DÙNG THỬ NGAY</string>
-    <string name="battery_draining_apps">Các ứng dụng gây ngốn pin!</string>
     <string name="battery_scaning">Đang quét…</string>
-    <string name="battery_healthy">Lành mạnh</string>
-    <string name="battery_time_remainning">THỜI GIAN CÒN LẠI</string>
-    <string name="battery_call_time">Gọi</string>
-    <string name="battery_wifi_time">WiFi</string>
-    <string name="battery_video_time">Video</string>
     <string name="battery_clean_description">Ứng Dụng Ngốn Pin</string>
     <string name="battery_extended">Đã kéo dài</string>
-    <string name="battery_careful_content">Pin của bạn đang sụt nhanh hơn bình thường.</string>
     <string name="boost_plus_optimal">TỐI ƯU</string>
-    <string name="charging_screen_settings_title">Bảo vệ pin</string>
-    <string name="charging_screen_settings_subtitle">(Chứa quảng cáo)</string>
-    <string name="charging_screen_settings_description">Bảo vệ thiết bị không bị sạc quá tải</string>
     <string name="promotion_max_card_title_cpu_cooler">Trình làm mát CPU</string>
-    <string name="cpu_cooler_list_head_title">Những ứng dụng làm nóng CPU</string>
-    <string name="cpu_cooler_button_title">HẠ NHIỆT</string>
     <string name="cpu_cooler_state_hint">CPU chiếm %s</string>
     <string name="cpu_cooler_state_cool">Mát </string>
     <string name="cpu_cooler_state_overheated">Quá nóng</string>
     <string name="cpu_cooler_state_extremely_heated">Nóng</string>
     <string name="cpu_cooler_cleaning_hint">Đang đóng danh sách người dùng CPU…</string>
-    <string name="cool_capital">MÁT MẺ</string>
 
     <string name="settings_activity_notification_reminder">Công Tắc Thanh Công Cụ Thông Báo</string>
 
@@ -168,13 +101,11 @@
     <string name="grant_access_to_optimize_experience">Cấp quyền truy cập để trả lời cuộc gọi</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">Tạo một lối tắt màn hình để kiếm tiền sau?</string>
     <string name="spin">quay</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Theo dõi chúng tôi trên Facebook</string>
     <string name="skip">BỎ QUA</string>
-    <string name="battery_optimized">Tối ưu hóa</string>
 
     <string name="guide_theme_random_hint">Khi áp dụng chủ đề này, bạn có thể trải nghiệm những chủ đề ngẫu nhiên khi có cuộc gọi đến.</string>
 </resources>

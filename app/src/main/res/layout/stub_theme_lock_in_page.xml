@@ -27,7 +27,6 @@
         />
     
     <LinearLayout
-        android:id="@+id/unlock_button_container"
         android:layout_width="208dp"
         android:layout_height="44dp"
         android:layout_gravity="center_horizontal"

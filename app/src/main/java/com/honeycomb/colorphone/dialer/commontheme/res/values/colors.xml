@@ -17,8 +17,6 @@
 
 <resources>
   <!-- 50% black background drawn over the video to make it easier to see text and buttons. -->
-  <color name="videocall_overlay_background_color">#7E000000</color>
 
-  <!-- Background color for spam. This color must match one of background_colors_dark in call UI. -->
-  <color name="incall_call_spam_background_color">#7E000000</color>
+    <!-- Background color for spam. This color must match one of background_colors_dark in call UI. -->
 </resources>

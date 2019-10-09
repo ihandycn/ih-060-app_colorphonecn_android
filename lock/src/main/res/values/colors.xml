@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="charging_screen_high_white">#ffffffff</color>
-    <color name="charging_screen_84_white">#d6ffffff</color>
-    <color name="charging_screen_50_white">#7fffffff</color>
     <color name="ripple_button">#42FFFFFF</color>
     <color name="charging_screen_blue_background">#ff4285f4</color>
     <color name="charging_screen_black_background">#ff000000</color>

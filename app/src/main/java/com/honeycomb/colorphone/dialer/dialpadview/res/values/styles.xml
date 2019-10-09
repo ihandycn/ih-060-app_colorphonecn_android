@@ -82,8 +82,4 @@
     <item name="android:orientation">vertical</item>
   </style>
 
-  <style name="DeviceIdBody">
-    <item name="android:textColor">?android:attr/textColorPrimary</item>
-    <item name="android:textSize">16sp</item>
-  </style>
 </resources>

@@ -14,7 +14,4 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-  <bool name="show_device_id_in_hex_and_decimal">false</bool>
-  <bool name="show_device_id_as_barcode">false</bool>
-</resources>
+<resources></resources>

@@ -39,7 +39,6 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <com.honeycomb.colorphone.view.RoundImageVIew
-        android:id="@+id/news_mark_view"
         android:layout_width="match_parent"
         android:layout_height="182dp"
         android:background="@drawable/news_big_image_mark"

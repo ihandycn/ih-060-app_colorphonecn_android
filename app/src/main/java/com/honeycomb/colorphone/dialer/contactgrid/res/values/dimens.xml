@@ -18,5 +18,4 @@
 <resources>
 
   <!-- Dimensions for connection icons -->
-  <dimen name="contactgrid_connection_icon_margin_end">10dp</dimen>
 </resources>

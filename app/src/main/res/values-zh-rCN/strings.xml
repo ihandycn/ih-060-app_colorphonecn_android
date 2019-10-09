@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
-    <string name="app_slogan">焕彩一触，脱颖而出</string>
 
     <string name="settings">设置</string>
     <string name="feedback">反馈</string>
 
     <string name="acb_phone_caller_default_number">123-4567-8901</string>
 
-    <string name="theme_apply">应用</string>
     <string name="apply_success">应用成功</string>
     <string name="theme_current">当前主题</string>
-    <string name="send_email">发送邮件</string>
-    <string name="loading">加载中 </string>
 
     <string name="privacy_policy">隐私政策</string>
     <string name="terms_of_service">服务条款</string>
@@ -19,7 +15,6 @@
 
     <string name="guide_enable_all_module">开启手机助手</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。</string>
     <string name="about">关于</string>
 
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
@@ -34,19 +29,15 @@
     <string name="call_assistant_hint">来电助手让你不再错过未接来电</string>
 
     <string name="contact_theme">联系人主题</string>
-    <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
     <string name="theme_set_for_all">设定为默认</string>
-    <string name="theme_set_for_one">设定给某人</string>
     <string name="set">设定</string>
     <string name="empty_contact_hint">你还没有为你的联系人\n设置主题。</string>
     <string name="select_contacts">选择联系人</string>
-    <string name="boost_plus_free_up">内存释放</string>
     <string name="boost_plus_exiting">结束中…</string>
 
-    <string name="boost_tip_optimal">你的手机已达最优！</string>
     <string name="boost_notification_low_ram_btn">加速</string>
     <string name="boost_title">加速</string>
 
@@ -54,17 +45,7 @@
     <string name="settings_notification_boost">手机加速提醒</string>
     <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
 
-    <string name="may_contain_ads">可能包含广告</string>
-
-    <string name="guide_first_page_title">请开启焕彩来电秀:\n 享受精美来电主题。</string>
-
-    <string name="avatar_content">立即创建你的头像</string>
-    <string name="action_back">后退</string>
-    <string name="action_install">安装</string>
-
     <!--Ringtone-->
-    <string name="ringtone_hint_after_apply">主题和铃声都已设置成功</string>
-    <string name="ringtone_hint_before_apply">设置主题去享受铃声</string>
 
     <string name="five_star_hint_text">觉得焕彩来电秀如何？</string>
     <string name="five_star_positive_text">提交</string>
@@ -97,78 +78,25 @@
     <string name="unlock_succeed">成功解锁</string>
 
     <!--Notification Reminder-->
-    <string name="notification_reminder">通知提醒</string>
-    <string name="notification_reminder_content">请开启通知权限以便我们能在您收到通知时给您开启闪光灯提醒</string>
-    <string name="notification_reminder_action">授予权限</string>
-    <string name="notification_common">通用程序</string>
-    <string name="notification_other">其他程序</string>
     <string name="battery_clean_title">电池医生</string>
     <string name="cpu_positive_feedback_title">已降温，建议静置60s</string>
     <string name="result_page_click_guide_tip">继续优化</string>
-    <string name="desktop_tips_content_guide_msg">开心一刻</string>
     <string name="apply_btn">应用</string>
     <string name="menu_item_settings">设置</string>
     <string name="battery_title">电池</string>
-    <string name="battery_bluetooth">蓝牙</string>
-    <string name="battery_mobile_data">数据</string>
-    <string name="battery_current">当前</string>
-    <string name="battery_already_optimal">手机状态良好。</string>
-    <string name="battery_auto">自动</string>
-    <string name="battery_auto_sync">自动同步</string>
-    <string name="battery_brightness">亮度</string>
-    <string name="battery_careful">紧急</string>
-    <string name="battery_charging_left">充电剩余时间</string>
-    <string name="battery_current_content">当前设置已被保存。</string>
-    <string name="battery_haptic_feedback">触摸反馈</string>
-    <string name="battery_hide_system_apps">隐藏系统应用</string>
-    <string name="battery_low">低电量</string>
-    <string name="battery_low_content">优化电池寿命</string>
-    <string name="battery_max_saver">强力省电</string>
-    <string name="battery_max_saver_content">关闭Wi-Fi、蓝牙、振动并设置自动灭屏时间为15秒。</string>
-    <string name="battery_mode">模式</string>
-    <string name="battery_off">关闭</string>
-    <string name="battery_on">打开</string>
-    <string name="battery_optimize">优化</string>
-    <string name="battery_optimize_new">节省电量</string>
-    <string name="battery_previous">先前状态</string>
-    <string name="battery_previous_content">回退至上次设置状态。</string>
-    <string name="battery_rank">耗电排行</string>
-    <string name="battery_reapply">再次应用</string>
-    <string name="battery_screen_timeout">屏幕自动休眠</string>
-    <string name="battery_smart_saver">智能省电</string>
-    <string name="battery_smart_saver_content">关闭蓝牙、振动并设置自动灭屏时间为30秒。</string>
     <string name="battery_stop">终止</string>
-    <string name="battery_vibrate">振动</string>
     <string name="battery_view">查看</string>
-    <string name="battery_wifi">Wi-Fi</string>
-    <string name="battery_low_tip_title">电量低！</string>
-    <string name="battery_low_tip_desc">使用电池优化减少后台应用耗电</string>
     <string name="battery_low_tip_btn_cancel">以后再说</string>
-    <string name="battery_low_tip_btn_ok">试试看</string>
-    <string name="battery_draining_apps">耗电应用</string>
     <string name="battery_scaning">扫描中…</string>
-    <string name="battery_healthy">健康</string>
-    <string name="battery_time_remainning">剩余时间</string>
-    <string name="battery_call_time">通话</string>
-    <string name="battery_wifi_time">WiFi</string>
-    <string name="battery_video_time">视频</string>
     <string name="battery_clean_description">正在关闭耗电应用</string>
     <string name="battery_extended">已延长，电量已达最佳状态</string>
-    <string name="battery_careful_content">您的电池比正常状态耗电得更快！</string>
     <string name="boost_plus_optimal">已优化</string>
-    <string name="charging_screen_settings_title">充电保护</string>
-    <string name="charging_screen_settings_subtitle">内含广告</string>
-    <string name="charging_screen_settings_description">保护电池防止过度充电</string>
     <string name="promotion_max_card_title_cpu_cooler">CPU降温大师</string>
-    <string name="cpu_cooler_list_head_title">导致CPU温度过高的应用</string>
-    <string name="cpu_cooler_button_title">一键降温</string>
     <string name="cpu_cooler_state_hint">CPU 处于 %s 状态</string>
     <string name="cpu_cooler_state_cool">温度正常</string>
     <string name="cpu_cooler_state_overheated">温度过高</string>
     <string name="cpu_cooler_state_extremely_heated">温度较热</string>
     <string name="cpu_cooler_cleaning_hint">正在关闭导致 CPU 发热的应用</string>
-    <string name="cool_capital">一键降温</string>
-    <string name="notification_toolbar_clock">时钟</string>
 
     <string name="ok_btn_text">好</string>
     <string name="result_page_boost_plus_optimal">已优化</string>
@@ -177,16 +105,6 @@
     <string name="led_flash_switch_text">LED提醒</string>
     <string name="led_flash_for_calls">LED来电提醒</string>
 
-    <string name="desktop_tips_content_would_you_rather_title">你更愿意</string>
-    <string name="desktop_tips_content_would_you_rather_description">点击来看看有多少人做了和你相同的选择！</string>
-    <string name="desktop_tips_content_would_you_rather_result">d%的人和你做了同样的选择</string>
-    <string name="desktop_tips_content_trivia_quiz_title">脑力达人</string>
-    <string name="desktop_tips_content_trivia_quiz_correct">正确</string>
-    <string name="desktop_tips_content_trivia_quiz_wrong">错误</string>
-    <string name="desktop_tips_content_trivia_quiz_explanation">让思维活跃起来！</string>
-    <string name="desktop_tips_content_trivia_quiz_hint">点击来作出你的选择。</string>
-    <string name="desktop_tips_content_would_you_rather_explanation">来看看有多少人和你一样！</string>
-    <string name="or">或者</string>
 
     <string name="settings_activity_notification_reminder">通知栏开关</string>
 
@@ -199,13 +117,11 @@
     <string name="default_dialer">默认电话</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">想在桌面上创建快捷方式以便下次继续赢钱吗？</string>
     <string name="spin">旋转</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上关注我们</string>
     <string name="skip">跳过</string>
-    <string name="battery_optimized">已优化</string>
 
     <string name="guide_theme_random_hint">应用了当前主题后，每次来电会随机展示不同主题视频</string>
     <string name="start_guide_loading_text">来电秀功能开启中……</string>
@@ -224,9 +140,6 @@
     <string name="start_guide_congratulation_text">欢迎来到焕彩世界~</string>
     <string name="guide_first_page_title_new">请开启焕彩来电秀，享受非凡的来电体验</string>
 
-    <string name="title_cmgame">在线小游戏</string>
-    <string name="title_game_center">游戏中心</string>
-
     <string name="start_guide_skip_dialog_title">来电秀部分功能失效</string>
     <string name="start_guide_skip_dialog_content">权限未全部开启，可能导致无法正常展示来电秀功能</string>
     <string name="start_guide_skip_dialog_ok">立即修复</string>
@@ -237,7 +150,6 @@
     <string name="feedback_email_placeholder">"请输入您的电子邮箱地址"</string>
     <string name="feedback_submit_btn">发送</string>
     <string name="feedback_toast_empty_content">请输入您的反馈建议</string>
-    <string name="feedback_toast_invalid_email">请输入有效邮箱地址</string>
     <string name="feedback_toast_send_success">感谢您的反馈！</string>
 
 

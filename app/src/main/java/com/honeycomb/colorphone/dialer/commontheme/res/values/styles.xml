@@ -39,33 +39,13 @@
     <item name="android:textSize">12sp</item>
   </style>
 
-  <style name="BottomRowIcon">
-    <item name="android:layout_height">24dp</item>
-    <item name="android:layout_width">24dp</item>
-    <item name="android:layout_marginEnd">8dp</item>
-    <item name="android:scaleType">fitCenter</item>
-    <item name="colorControlNormal">?android:attr/textColorSecondary</item>
-  </style>
-
-  <style name="Incall.Button.End" parent="android:Widget.Material.Button">
+    <style name="Incall.Button.End" parent="android:Widget.Material.Button">
     <item name="android:background">@drawable/incall_end_call_background</item>
     <item name="android:elevation">0dp</item>
     <item name="android:layout_height">@dimen/incall_end_call_button_size</item>
     <item name="android:layout_width">@dimen/incall_end_call_button_size</item>
     <item name="android:src">@drawable/ic_hangup_call</item>
     <item name="android:stateListAnimator">@animator/disabled_alpha</item>
-  </style>
-
-  <style name="Answer.Button" parent="android:Widget.Material.Button">
-    <item name="android:stateListAnimator">@animator/button_state</item>
-  </style>
-
-  <style name="Answer.Button.Answer">
-    <item name="android:background">@drawable/answer_answer_background</item>
-  </style>
-
-  <style name="Answer.Button.Decline">
-    <item name="android:background">@drawable/answer_decline_background</item>
   </style>
 
 </resources>

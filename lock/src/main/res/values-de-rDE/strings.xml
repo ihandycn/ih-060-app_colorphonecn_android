@@ -3,14 +3,9 @@
   <string name="charging_screen_charged_left_describe">Volle Ladung verbleibend %1$s</string>
   <string name="charging_screen_charged_full">Voll geladen</string>
   <string name="charging_screen_menu_item">Abschalten</string>
-  <string name="charging_screen_unlock_describe">Wischen zum Entsperren</string>
-  <string name="charging_screen_charging_tip1">Hintergrund-Apps anhalten, um Ladegeschwindigkeit zu steigern.</string>
-  <string name="charging_screen_charging_tip2">Eine Temperatur von 40\u2103 kann Ihrem Akku schaden.</string>
-  <string name="charging_screen_charging_tip3">Intelligentes Laden überwacht Ihren Ladestatus, um sicherzustellen, dass Ihr Akku in gutem Zustand ist.</string>
-  <string name="charging_screen_charging_tip4">Entfernen Ihres Ladegeräts während des Akkulademodus kann Ihren Akku beschädigen.</string>
-  <string name="charging_screen_charging_tip5">Selbst wenn das Telefon nicht aufgeladen ist, ist es sicher, das Ladegerät im Fast-geladen-Modus zu entfernen.</string>
-  <string name="charging_screen_charging_tip6">%1$s reduziert die Ladung, um Ihren Akku im Voll-geladen-Modus zu schützen.</string>
-  <string name="charging_screen_charging_speed_charging_state_tip_view">Das Entfernen des Ladegeräts wäre schädlich für Ihren Akku</string>
+    <string name="charging_screen_charging_tip2">Eine Temperatur von 40\u2103 kann Ihrem Akku schaden.</string>
+    <string name="charging_screen_charging_tip5">Selbst wenn das Telefon nicht aufgeladen ist, ist es sicher, das Ladegerät im Fast-geladen-Modus zu entfernen.</string>
+    <string name="charging_screen_charging_speed_charging_state_tip_view">Das Entfernen des Ladegeräts wäre schädlich für Ihren Akku</string>
   <string name="charging_screen_charging_continue_charging_state_tip_view">Das Telefon ist nicht aufgeladen und es ist sicher, das Ladegerät zu entfernen</string>
   <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher reduziert die Ladung, um Ihren Akku zu schützen</string>
   <string name="charging_screen_close_dialog_title">Intelligentes Laden abschalten?</string>
@@ -18,10 +13,7 @@
   <string name="charging_screen_close_dialog_negative_action">ABSCHALTEN</string>
   <string name="charging_screen_close_dialog_positive_action">JETZT NICHT</string>
   <string name="charging_screen_guide_turn_on">Ihr Akku ist geschützt!</string>
-  <string name="charging_screen_settings_title">Akkuschutz</string>
-  <string name="charging_screen_settings_subtitle">(Enthält Werbung)</string>
-  <string name="charging_screen_settings_description">Gerät vor Überladung schützen</string>
-  <string name="smart_charging_spread_bottom_content_title">Intelligentes Laden</string>
+    <string name="smart_charging_spread_bottom_content_title">Intelligentes Laden</string>
   <string name="smart_charging_spread_bottom_content_des1">Echtzeit-Ladestatus anzeigen.</string>
   <string name="smart_charging_spread_bottom_content_des2">Lade-Endezeit berechnen.</string>
   <string name="smart_charging_spread_bottom_content_des3">Meldung bei voller Ladung und Überladung</string>
@@ -32,10 +24,7 @@
   <string name="locker_disable_confirm">Wirklich abschalten?</string>
   <string name="locker_disable_confirm_detail">Nach Deaktivierung wird die Bildschirmsperre nicht länger angezeigt. Fortfahren?</string>
   <string name="locker_diabled_success">Die Sperre wurde abgeschaltet</string>
-  <string name="slide_to_unlock">Wischen zum Entsperren</string>
-  <string name="locker_slide_wallpaper_title">Sperr-Hintergrund</string>
-  <string name="locker_settings">Sperr-Einstellungen</string>
-  <string name="locker_settings_title">Bildschirmsperre</string>
-  <string name="locker_settings_subtitle">(Enthält Werbung)</string>
-  <string name="wallpaper_network_error">Netzwerkfehler. Bitte erneut versuchen.</string>
+    <string name="locker_slide_wallpaper_title">Sperr-Hintergrund</string>
+    <string name="locker_settings_title">Bildschirmsperre</string>
+    <string name="wallpaper_network_error">Netzwerkfehler. Bitte erneut versuchen.</string>
 </resources>

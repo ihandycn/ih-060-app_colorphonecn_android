@@ -31,20 +31,13 @@
 
   <!-- Title for the activity that dials the phone.  This is the name
        used in the Launcher icon. -->
-  <string name="launcherActivityLabel">Phone</string>
 
-  <!-- Label shown on the 'positive' button for the dialog. Indicates that the call will proceed -->
-  <string name="call">Call</string>
+    <!-- Label shown on the 'positive' button for the dialog. Indicates that the call will proceed -->
 
-  <!-- Displayed when handover from WiFi to Lte occurs during a video call -->
-  <string name="video_call_lte_to_wifi_handover_toast">Continuing call using Wi\u2011Fi\u2026</string>
+    <!-- Displayed when handover from WiFi to Lte occurs during a video call -->
 
-  <!-- Displayed when RTT upgrade request failed -->
-  <string name="rtt_call_not_available_toast">RTT not available for this call</string>
+    <!-- Displayed when RTT upgrade request failed -->
 
-  <!-- String used to build a phone number type and phone number string.
-     Example: Mobile 650-555-1212  -->
-  <string name="call_subject_type_and_number">
-    <xliff:g example="Mobile" id="type">%1$s</xliff:g> <xliff:g example="(650) 555-1212" id="number">%2$s</xliff:g>
-  </string>
+    <!-- String used to build a phone number type and phone number string.
+       Example: Mobile 650-555-1212  -->
 </resources>

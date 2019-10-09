@@ -100,7 +100,6 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/charging_main_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="54dp"
@@ -220,7 +219,6 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/charging_tip_container"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_below="@+id/charge_state_container"

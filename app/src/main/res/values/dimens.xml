@@ -2,17 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_item_inner_spacing">12dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="nav_drawer_margin_offset">-16dp</dimen>
-    <dimen name="nav_drawer_width">276dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="theme_card_margin_vertical">6dp</dimen>
     <dimen name="theme_card_margin_horizontal">3dp</dimen>
     <dimen name="theme_card_radius">8dp</dimen>
-    <dimen name="theme_badge_margin">24dp</dimen>
-    <dimen name="theme_text_margin_top">7dp</dimen>
     <dimen name="theme_text_space">0dp</dimen>
     <dimen name="theme_heart_size">14dp</dimen>
     <dimen name="recycler_section_header_Margin">45dp</dimen>
@@ -23,8 +16,6 @@
     <dimen name="contact_item_footer_offset">72dp</dimen>
     <dimen name="theme_apply_btn_height">56dp</dimen>
     <dimen name="ringtone_apply_layout_height">144dp</dimen>
-    <dimen name="guide_txt_margin_vertical">36dp</dimen>
-    <dimen name="guide_txt_btn_vertical">10dp</dimen>
     <dimen name="settings_row_height">64dp</dimen>
 
     <!-- Dialog -->
@@ -33,43 +24,24 @@
     <dimen name="dialog_button_rounded_corner_radius">3dp</dimen>
     <dimen name="dialog_content_text_margin">16dp</dimen>
     <dimen name="dialog_button_margin">16dp</dimen>
-    <dimen name="dialog_margin">40dp</dimen>
     <dimen name="dialog_content_margin">24dp</dimen>
     <dimen name="dialog_button_padding">16dp</dimen>
 
-    <dimen name="result_empty_view_top_margin">57dp</dimen>
-
     <!-- Result Page -->
     <dimen name="result_page_header_height">90dp</dimen>
-    <dimen name="result_page_card_margin">8dp</dimen>
-    <dimen name="result_page_image_frame_height">146dp</dimen>
-    <dimen name="result_page_image_frame_horizontal_margin">27dp</dimen>
     <dimen name="result_page_header_tag_margin">-14dp</dimen>
     <dimen name="app_bar_elevation">4dp</dimen>
 
     <!-- Battery -->
 
-    <dimen name="promote_screen_icon_half_height">32dp</dimen>
-
-    <dimen name="preview_window_elevation">0dp</dimen>
-
     <dimen name="status_bar_default_height">24dp</dimen>
-    <dimen name="bottom_bar_default_height">56dp</dimen>
 
     <!-- Cpu Cooler -->
     <dimen name="cpu_square_margin">4dp</dimen>
 
     <!-- CpuDetail -->
-    <dimen name="cpu_head_title_text_size">14sp</dimen>
-    <dimen name="cpu_head_title_margin_left">16dp</dimen>
-    <dimen name="cpu_list_item_min_height">72dp</dimen>
-    <dimen name="cpu_app_icon_bound">40dp</dimen>
-    <dimen name="cpu_app_icon_margin_left">16dp</dimen>
-    <dimen name="cpu_app_name_margin_left">16dp</dimen>
     <dimen name="cpu_circle_stroke_width">7dp</dimen>
     <dimen name="cpu_app_icon_margin_side">30dp</dimen>
-    <dimen name="cpu_checkbox_bound">28dp</dimen>
-    <dimen name="cpu_scan_app_name_text_size">16sp</dimen>
 
     <fraction name="cpu_growing_snow_bound">42.32%</fraction>
 
@@ -120,23 +92,10 @@
     <dimen name="settings_item_text_size">16sp</dimen>
 
     <!-- Battery -->
-    <dimen name="battery_optimize_btn_height">48dp</dimen>
-    <dimen name="battery_content_padding_horizontal">10dp</dimen>
-    <dimen name="battery_content_margin_top">5dp</dimen>
-    <dimen name="battery_content_margin_bottom">5dp</dimen>
-    <dimen name="battery_mode_icon">36dp</dimen>
-    <dimen name="battery_mode_item_padding">12dp</dimen>
-    <dimen name="battery_mode_item_center_margin">10dp</dimen>
     <dimen name="battery_app_icon">45dp</dimen>
-    <dimen name="battery_button_margin">26dp</dimen>
 
-    <dimen name="battery_mode_title_size">16sp</dimen>
     <dimen name="battery_rank_content_size">14sp</dimen>
-    <dimen name="battery_mode_content_size">12sp</dimen>
-    <dimen name="battery_alert_padding_vertical">8dp</dimen>
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
-
-    <dimen name="popular_theme_thumbnail_height">134dp</dimen>
 
     <dimen name="web_view_progress_bar_height">2.3dp</dimen>
     <dimen name="tablayout_bottom_height">56dp</dimen>

@@ -57,7 +57,6 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/start_guide_congratulation_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
