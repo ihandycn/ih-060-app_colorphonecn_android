@@ -278,5 +278,11 @@ dependencies {
 
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.code.gson:gson:2.8.5'
+    }
+}
+
 // ADD THIS AT THE BOTTOM
 //apply plugin: 'com.google.gms.google-services'
