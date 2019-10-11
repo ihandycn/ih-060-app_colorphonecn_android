@@ -24,7 +24,7 @@ public final class VideoUtils {
      */
     private static final int TARGET_SIZE_MICRO_THUMBNAIL = 96;
     /**
-     *  Create a thumbnail for a specified video by its <b>first keyframe</b>.
+     *  Create a thumbnail for a specified video by its <b><i>first<i/></b> keyframe.
      *  May return null if the video is corrupt or the format is not supported.
      * @param filePath the path of video file.
      * @param kind could be {@link MediaStore.Video.Thumbnails#MINI_KIND} or {@link MediaStore.Video.Thumbnails#MICRO_KIND}
