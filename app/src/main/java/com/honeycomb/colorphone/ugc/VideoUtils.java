@@ -5,6 +5,9 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
+import java.io.IOException;
+
+@SuppressWarnings("unused")
 public final class VideoUtils {
     /**
      * Constant used to indicate we should recycle the input in
@@ -67,6 +70,21 @@ public final class VideoUtils {
         }
         return bitmap;
     }
+
+    /**
+     * Extract audio from specified video.
+     * @param srcPath the path of video file.
+     * @param dstPath the path of audio file that will be generated when done.
+     * @param startMs the time position the extraction action will start at, if startMs is
+     * negative, time position will be the beginning of the video.
+     * @param endMs the time position the extraction action will end at, if endMs is
+     * negative, time position will be the ending of the video.
+     * @throws IOException if failed caused by IOException
+     */
+    public static void doExtractAudioFromVideo(String srcPath, String dstPath, int startMs, int endMs) throws IOException {
+
+    }
+
     private VideoUtils(){
     }
 }
