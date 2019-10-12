@@ -666,10 +666,17 @@ public class AutoRequestManager {
         } else {
             Intent intent = Utils.getAccessibilitySettingsIntent();
 
+            Analytics.logEvent("Accessbility_Alert_Should_Show",
+                    "Brand", AutoLogger.getBrand(),
+                    "Os", AutoLogger.getOSVersion(),
+                    "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
+                    "SDK", String.valueOf(Build.VERSION.SDK_INT));
+
             Analytics.logEvent("Accessbility_Show",
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
+
             Intent guideIntent = null;
             if (RomUtils.checkIsHuaweiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);

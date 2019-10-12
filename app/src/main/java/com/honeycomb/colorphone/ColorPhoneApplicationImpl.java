@@ -28,6 +28,9 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -158,6 +161,8 @@ import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -789,6 +794,15 @@ public class ColorPhoneApplicationImpl {
                         }
                     }
                 }
+                if (activity instanceof AccessibilityHuaweiGuideActivity
+                        || activity instanceof AccessibilityMIUIGuideActivity
+                        || activity instanceof AccessibilityOppoGuideActivity) {
+                    Analytics.logEvent("Accessbility_Alert_Show",
+                            "Brand", AutoLogger.getBrand(),
+                            "Os", AutoLogger.getOSVersion(),
+                            "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
+                            "SDK", String.valueOf(Build.VERSION.SDK_INT));
+                }
             }
 
             @Override
@@ -812,7 +826,15 @@ public class ColorPhoneApplicationImpl {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
+                if (activity instanceof AccessibilityHuaweiGuideActivity
+                        || activity instanceof AccessibilityMIUIGuideActivity
+                        || activity instanceof AccessibilityOppoGuideActivity) {
+                    Analytics.logEvent("Accessbility_Alert_Closed",
+                            "Brand", AutoLogger.getBrand(),
+                            "Os", AutoLogger.getOSVersion(),
+                            "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
+                            "SDK", String.valueOf(Build.VERSION.SDK_INT));
+                }
             }
         });
 
