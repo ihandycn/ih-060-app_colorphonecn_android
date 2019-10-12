@@ -89,7 +89,7 @@ public final class VideoUtils {
      * @throws IOException if failed caused by IOException
      */
     public static void doExtractAudioFromVideo(String srcPath, String dstPath, int startMs, int endMs) throws IOException {
-        genVideoUsingMuxer(srcPath, dstPath, -1, -1, true, false);
+        genVideoUsingMuxer(srcPath, dstPath, startMs, endMs, true, false);
     }
 
     // https://gist.github.com/ArsalRaza/132a6e99d59aa80b9861ae368bc786d0#file-videoutils-java
