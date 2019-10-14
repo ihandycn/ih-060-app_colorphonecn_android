@@ -408,11 +408,11 @@ public class AutoRequestManager {
                 showCoverWindow();
             }
 
-            executeAutoTask();
+            executeAutoTask(null);
         }, 1000);
     }
 
-    private void executeAutoTask() {
+    private void executeAutoTask(ArrayList<String> noNeeded) {
         ArrayList<String> permission = new ArrayList<>();
 
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
@@ -454,10 +454,15 @@ public class AutoRequestManager {
             }
         }
 
+        if (noNeeded != null && noNeeded.size() > 0) {
+            permission.removeAll(noNeeded);
+        }
+
         if (permission.isEmpty()) {
             notifyAutoTaskOver(true);
             return;
         }
+        final ArrayList<String> alreadyGot = new ArrayList<>();
         startWatchHomeKey();
         HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
             @Override
@@ -475,7 +480,7 @@ public class AutoRequestManager {
                 if (succeedCount < totalCount && mRetryCount < MAX_RETRY_COUNT) {
                     // Try to get
                     mRetryCount++;
-                    executeAutoTask();
+                    executeAutoTask(alreadyGot);
                 } else {
                     boolean allGranted = succeedCount == totalCount;
                     notifyAutoTaskOver(allGranted);
@@ -500,22 +505,38 @@ public class AutoRequestManager {
 
                 switch (type) {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
+                        if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-
+                        if (isSucceed) alreadyGot.add(type);
                         break;
                     case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
+                        if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onShowOnLockScreenChange(isSucceed);
                         break;
                     case TYPE_CUSTOM_BACKGROUND_POPUP:
+                        if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onBgPopupChange(isSucceed);
                         break;
                     case HSPermissionRequestMgr.TYPE_ADD_SHORTCUT:
+                        if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onAddShortcutPermissionChange(isSucceed);
                         break;
                     case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
+                        if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onPostNotificationPermissionChange(isSucceed);
+                        break;
+
+
+                    case HSPermissionRequestMgr.TYPE_IGNORE_BATTERY_OPTIMIZATION:
+                    case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:
+                    case HSPermissionRequestMgr.TYPE_PHONE:
+                    case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
+                    case HSPermissionRequestMgr.TYPE_CONTACT_READ:
+                    case HSPermissionRequestMgr.TYPE_STORAGE:
+                    case HSPermissionRequestMgr.TYPE_CALL_LOG:
+                        if (isSucceed) alreadyGot.add(type);
                         break;
                     default:
                         break;
