@@ -23,6 +23,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Compats;
 import com.superapps.util.Threads;
+import com.umeng.commonsdk.debug.E;
 
 import java.io.File;
 import java.util.HashSet;
@@ -36,17 +37,18 @@ import hugo.weaving.DebugLog;
  */
 
 public class RingtoneHelper {
-    private static String PREFS_KEY_ACTIVE = "ringtone_key_active";
-    private static String PREFS_KEY_ANIM = "ringtone_key_anim";
-    private static String PREFS_KEY_FIRST_RINGTONE = "ringtone_key_ringtone_first";
-    private static String PREFS_KEY_SYSTEM_RINGTONE = "ringtone_key_system_ringtone";
+    private final static String PREFS_KEY_ACTIVE = "ringtone_key_active";
+    private final static String PREFS_KEY_ANIM = "ringtone_key_anim";
+    private final static String PREFS_KEY_FIRST_RINGTONE = "ringtone_key_ringtone_first";
+    private final static String PREFS_KEY_SYSTEM_RINGTONE = "ringtone_key_system_ringtone";
 
-    private static String PREFS_KEY_TOAST_FLAG = "ringtone_key_toast";
+    private final static String PREFS_KEY_TOAST_FLAG = "ringtone_key_toast";
 
-    private static String SPLIT = ",";
+    private final static String SPLIT = ",";
+    private final static ConcurrentHashMap<String, String> mPathUriMaps = new ConcurrentHashMap<String, String>();
+
     private static Set<Integer> mAnimThemes;
     private static Set<Integer> mActiveThemes;
-    private static ConcurrentHashMap<String, String> mPathUriMaps = new ConcurrentHashMap<String, String>();
 
 
     public static boolean isAnimationFinish(int themeId) {
@@ -93,9 +95,13 @@ public class RingtoneHelper {
 
     private static void ensureActiveThemeList() {
         synchronized (PREFS_KEY_ACTIVE) {
-            if (mActiveThemes == null) {
-                mActiveThemes = new HashSet<>();
-                readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+            try {
+                if (mActiveThemes == null) {
+                    mActiveThemes = new HashSet<>();
+                    readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+                }
+            } catch (Exception e) {
+                //
             }
         }
     }
