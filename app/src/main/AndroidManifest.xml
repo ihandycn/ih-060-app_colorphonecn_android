@@ -119,10 +119,6 @@
         tools:ignore="GoogleAppIndexingWarning">
         <!-- required by libAppFramework & libNativeAds -->
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3" />
-
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="CHANNEL" android:value="ColorPhone_K" />
         <activity

@@ -28,10 +28,6 @@ public class ColorPhoneApplication extends HSApplication {
         return ColorPhoneApplicationImpl.getConfigLog();
     }
 
-    public static boolean isFabricInited() {
-        return ColorPhoneApplicationImpl.isFabricInited();
-    }
-
     ColorPhoneApplicationImpl mColorPhoneApplicationProxy;
 
     @DebugLog
@@ -109,9 +105,5 @@ public class ColorPhoneApplication extends HSApplication {
         } else {
             return "config-r.ya";
         }
-    }
-
-    public void onGdprGranted() {
-        mColorPhoneApplicationProxy.initFabric();
     }
 }

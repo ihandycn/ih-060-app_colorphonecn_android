@@ -523,7 +523,7 @@ public class LifeAssistantNewsPage extends NewsPage {
 
         protected void logNewsLoad(boolean isRefresh, boolean success) {
             if (!isRefresh) {
-                Analytics.logEvent("Life_Assistant_News_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+                Analytics.logEvent("Life_Assistant_News_LoadMore", Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
             }
         }
 

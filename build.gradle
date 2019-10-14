@@ -11,7 +11,6 @@ buildscript {
         maven {
             url uri('proguard-ihandy')
         }
-        maven { url 'https://maven.fabric.io/public' }
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
@@ -23,7 +22,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
         classpath 'com.ihandy.proguard:gradle-plugin:1.1'
@@ -39,7 +37,6 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        maven { url 'https://maven.fabric.io/public' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://s3.amazonaws.com/avocarrot-android-builds/dist" }
         maven { url 'https://dl.bintray.com/wemobiledev/maven'}

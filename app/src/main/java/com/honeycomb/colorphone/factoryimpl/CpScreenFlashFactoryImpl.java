@@ -31,7 +31,6 @@ import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -475,12 +474,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             Analytics.logEvent(eventID, onlyFabric, vars);
         }
 
-        if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {
-            logExceptionAcceptFailTurn();
-        } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
-            logExceptionAcceptFailTimeout();
-        }
-
         if ("Acb_Screenflash_Shouldshow".equalsIgnoreCase(eventID)) {
             isScreenFlashShow = false;
         } else if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
@@ -494,13 +487,5 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         boolean ret = !isScreenFlashShow;
         isScreenFlashShow = true;
         return ret;
-    }
-
-    private void logExceptionAcceptFailTimeout() {
-        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_TimeOut"));
-    }
-
-    private void logExceptionAcceptFailTurn() {
-        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
     }
 }

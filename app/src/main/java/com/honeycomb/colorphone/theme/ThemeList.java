@@ -15,7 +15,6 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -74,7 +73,6 @@ public class ThemeList {
             themes.clear();
             ArrayList<Type> types = Type.values();
             if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
-                ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
                 return;
             }
             for (Type type : types) {

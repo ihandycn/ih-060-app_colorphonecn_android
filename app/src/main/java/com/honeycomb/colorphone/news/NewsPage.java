@@ -635,9 +635,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         protected void logNewsLoad(boolean isRefresh, boolean success) {
             if (isRefresh) {
-                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+                Analytics.logEvent("News_List_Refresh", Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
             } else {
-                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+                Analytics.logEvent("News_List_LoadMore", Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
             }
         }
 
@@ -654,7 +654,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 Analytics.logEvent("News_Details_Show",
                         "NewsType", (isVideo ? "Video" : "News") );
             } else {
-                Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+                Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_UMENG);
             }
         }
 

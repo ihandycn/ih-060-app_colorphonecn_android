@@ -49,8 +49,6 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -162,7 +160,6 @@ import java.util.Map;
 import java.util.Stack;
 
 import hugo.weaving.DebugLog;
-import io.fabric.sdk.android.Fabric;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
 import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
@@ -302,7 +299,6 @@ public class ColorPhoneApplicationImpl {
 
     private boolean isCallAssistantActivated;
 
-    private static boolean isFabricInitted;
     public static long launchTime;
 
     public static boolean isAppForeground() {
@@ -340,13 +336,7 @@ public class ColorPhoneApplicationImpl {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
-    public static boolean isFabricInited() {
-        return isFabricInitted;
-    }
-
     private void onAllProcessCreated() {
-        initFabric();
-
         CrashReport.initCrashReport(mBaseApplication.getApplicationContext(), mBaseApplication.getString(R.string.bugly_app_id), BuildConfig.DEBUG);
 
         String channel = ChannelInfoUtil.getChannelInfo(mBaseApplication);
@@ -1089,15 +1079,6 @@ public class ColorPhoneApplicationImpl {
                 alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
             } catch (NullPointerException ingore) {
             }
-        }
-    }
-
-
-    protected void initFabric() {
-        // Set up Crashlytics, disabled for debug builds
-        if (!isFabricInitted) {
-            Fabric.with(mBaseApplication, new Crashlytics(), new Answers());
-            isFabricInitted = true;
         }
     }
 
