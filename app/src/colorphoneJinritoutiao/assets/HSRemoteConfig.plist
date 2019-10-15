@@ -14020,6 +14020,11 @@
 						<string>Landscape</string>
 					</dict>
 				</array>
+				<key>NewWallpaper</key>
+				<dict>
+					<key>BaseUrl</key>
+					<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/Wallpaper_New/</string>
+				</dict>
 			</dict>
 		</dict>
 		<key>libCommons</key>
