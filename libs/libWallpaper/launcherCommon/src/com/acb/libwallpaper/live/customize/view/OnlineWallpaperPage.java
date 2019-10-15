@@ -149,7 +149,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 resetCategoryGrids();
                 ((CategoryItem) mGridView.getAdapter().getItem(positionAbsolute)).setSelected(true);
                 ((CategoryViewAdapter) mGridView.getAdapter()).notifyDataSetChanged();
-                ((CustomizeActivity) getContext()).getLayoutWrapper().show();
                 mScrollEventLogger.tryLogScrollLeftEvent();
                 mScrollEventLogger.tryLogScrollRightEvent();
 

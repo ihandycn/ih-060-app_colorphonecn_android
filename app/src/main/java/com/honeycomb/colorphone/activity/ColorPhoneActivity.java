@@ -30,6 +30,8 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.acb.libwallpaper.live.customize.adapter.AbstractOnlineWallpaperAdapter;
+import com.acb.libwallpaper.live.customize.view.CustomizeContentView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -195,6 +197,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
     private RingtonePageView mRingtoneFrame;
+    private View mWallpaper;
     private LotteryWheelLayout lotteryWheelLayout;
 
 //    private static final int TAB_SIZE = 4;
@@ -362,6 +365,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
             mTabItems.add(new TabItem(TabItem.TAB_RINGTONE,
                     R.drawable.seletor_tab_ringtone, "铃声", false));
+        }
+
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
+            mTabItems.add(new TabItem(TabItem.TAB_WALLPAPER,
+                    R.drawable.seletor_tab_ringtone, "壁纸", false));
         }
 
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
@@ -829,6 +837,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case WELCOME_REQUEST_CODE:
                 break;
         }
+
+        HSBundle hsBundle = new HSBundle();
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_REQUESTCODE, requestCode);
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_RESULTCODE, resultCode);
+        hsBundle.putObject(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_DATA, data);
+        HSGlobalNotificationCenter.sendNotification(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT, hsBundle);
     }
 
     private void saveThemeLikes() {
@@ -1046,6 +1060,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mRingtoneFrame = new RingtonePageView(this);
                 }
                 frame = mRingtoneFrame;
+                break;
+            case TabItem.TAB_WALLPAPER:
+                if (mWallpaper == null) {
+                    mWallpaper = getLayoutInflater().inflate(R.layout.activity_customize, null, false);
+                    CustomizeContentView customizeContentView = mWallpaper.findViewById(R.id.customize_content);
+                    customizeContentView.setChildSelected(0);
+                }
+                frame = mWallpaper;
                 break;
             case TabItem.TAB_CASH:
                 if (showTabCashCenter) {

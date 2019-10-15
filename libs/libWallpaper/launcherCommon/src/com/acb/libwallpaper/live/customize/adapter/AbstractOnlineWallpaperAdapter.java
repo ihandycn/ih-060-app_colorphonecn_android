@@ -48,7 +48,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener, CustomizeActivity.ActivityResultHandler {
+        implements View.OnClickListener, INotificationObserver{
+    public static final String KEY_ACTIVITY_RESULT = "wallpaper_on_activity_result";
+    public static final String KEY_ACTIVITY_RESULT_REQUESTCODE = "requestCode";
+    public static final String KEY_ACTIVITY_RESULT_RESULTCODE = "resultCode";
+    public static final String KEY_ACTIVITY_RESULT_DATA = "data";
+
     @Thunk
     Context mContext;
     protected WallpaperMgr.Scenario mScenario;
@@ -157,11 +162,10 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
         }
     }
 
-    @Override
-    public void handleActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public void handleActivityResult( int requestCode, int resultCode, Intent data) {
         if (requestCode == CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER) {
             Preferences prefs = Preferences.getDefault();
-            if (CustomizeUtils.isApplySuccessful(activity, resultCode)) {
+            if (CustomizeUtils.isApplySuccessful(mContext, resultCode)) {
                 if (sApplyingWallpaper == null) {
                     int type = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getInt(WallpaperPicCacheUtils.KEY_READY_TO_SET_WALLPAPER_TYPE, -1);
                     String name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString(WallpaperPicCacheUtils.KEY_READY_TO_SET_WALLPAPER_NAME, "");
@@ -332,5 +336,14 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                     break;
             }
         }
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        int requestCode = hsBundle.getInt(KEY_ACTIVITY_RESULT_REQUESTCODE);
+        int resultCode = hsBundle.getInt(KEY_ACTIVITY_RESULT_RESULTCODE);
+        Intent data = (Intent) hsBundle.getObject(KEY_ACTIVITY_RESULT_DATA);
+
+        handleActivityResult(requestCode, resultCode, data);
     }
 }

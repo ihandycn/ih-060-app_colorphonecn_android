@@ -29,6 +29,7 @@ import com.acb.libwallpaper.live.util.Thunk;
 import com.acb.libwallpaper.live.util.ViewUtils;
 import com.acb.libwallpaper.live.view.TextureVideoView;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Networks;
 
@@ -80,8 +81,6 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         mContext = context;
         mScreenWidth = Dimensions.getPhoneWidth(context);
 
-        ((CustomizeActivity) mContext).addActivityResultHandler(this);
-
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -110,6 +109,8 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
             mWallpaperCountBetweenAds = 2 * CustomizeConfig.getInteger(3, "customizeNativeAds", "Wallpaper", "AdStep");
             mStartIndex = 2 * CustomizeConfig.getInteger(2, "customizeNativeAds", "Wallpaper", "StartIndex");
         }
+
+        HSGlobalNotificationCenter.addObserver(KEY_ACTIVITY_RESULT, this);
     }
 
     public void setScenario(WallpaperMgr.Scenario scenario) {

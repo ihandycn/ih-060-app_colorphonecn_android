@@ -21,6 +21,9 @@ import com.acb.libwallpaper.live.customize.WallpaperMgr;
 import com.acb.libwallpaper.live.customize.activity.CustomizeActivity;
 import com.acb.libwallpaper.live.customize.view.ImagePressedTouchListener;
 import com.acb.libwallpaper.live.view.TextureVideoView;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Dimensions;
 
 import java.util.List;
@@ -64,10 +67,10 @@ public class HotOnlineWallpaperGalleryAdapter4 extends AbstractOnlineWallpaperAd
         mSmallItemHeight = (mBigItemHeight - Dimensions.pxFromDp(1f)) / 2;
         mNormalMargin = Dimensions.pxFromDp(1f);
 
-        ((CustomizeActivity) mContext).addActivityResultHandler(this);
-
         mLinearLayoutManager = new LinearLayoutManager(context);
         mInflater = LayoutInflater.from(mContext);
+
+        HSGlobalNotificationCenter.addObserver(KEY_ACTIVITY_RESULT, this);
     }
 
     @Override

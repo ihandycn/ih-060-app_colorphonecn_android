@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.acb.libwallpaper.R;
-import com.acb.libwallpaper.live.customize.activity.CustomizeActivity;
 
 public class CustomizeContentView extends FrameLayout {
 
@@ -37,8 +36,7 @@ public class CustomizeContentView extends FrameLayout {
         private View mCurrentView;
 
         private int[] CONTENT_VIEW_IDS = new int[]{
-                R.layout.online_wallpaper_page,
-                R.layout.me_customize_page,
+                R.layout.online_wallpaper_page
         };
 
         CustomizeContentAdapter(CustomizeContentView view) {
@@ -70,14 +68,13 @@ public class CustomizeContentView extends FrameLayout {
 
         private void setupWithInitialTabIndex(@LayoutRes int layoutId, View child) {
             if (layoutId == R.layout.online_wallpaper_page) {
-                CustomizeActivity activity = (CustomizeActivity) mContext;
-                int index = activity.mWallpaperTabIndex;
+                int index = 0;
                 if (index >= 0) {
                     OnlineWallpaperPage page = (OnlineWallpaperPage) child;
                     page.setup(index);
-                    if (!TextUtils.isEmpty(activity.mWallpaperTabItemName)) {
-                        page.loadWallpaper(index, activity.mWallpaperTabItemName);
-                        activity.mWallpaperTabItemName = "";
+                    String mWallpaperTabItemName = null;
+                    if (!TextUtils.isEmpty(mWallpaperTabItemName)) {
+                        page.loadWallpaper(index, mWallpaperTabItemName);
                     }
                 }
             }
