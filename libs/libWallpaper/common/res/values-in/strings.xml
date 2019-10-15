@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="cancel">Batal</string>
+    <string name="ok">OK</string>
+
+    <string name="download_launcher_hint">Tema ini harus digunakan dengan [launcher-name]</string>
+    <string name="upgrade_launcher_hint">Versi [launcher-name] Anda terlalu lambat, silakan perbarui.</string>
+    <string name="upgrade_btn">Perbarui [launcher-name]</string>
+    <string name="current_theme_btn">Tema Sekarang</string>
+    <string name="install_theme_list_btn">Pasang sekarang</string>
+    <string name="theme_toast_set_success">Tema diterapkan</string>
+    <string name="theme_toast_set_deferred_action">Menerapkan tema…</string>
+    <string name="progress_bar_toast_action_continuing">Menerapkan…</string>
+    <string name="theme_toast_already_set">Sudah menjadi tema Anda sekarang</string>
+    <string name="theme_setting_progress_dialog_text">Menerapkan tema…</string>
+
+
+
+    <string name="download_launcher_guide_btn">Pasang sekarang</string>
+    <string name="install_theme_activity_btn">UNDUH SECARA GRATIS</string>
+    <string name="guide_download_launcher_text">[launcher-name] menghias ponsel Anda dengan wallpaper HD &amp; berbagai tema lainnya.</string>
+    <string name="discover_btn">JELAJAHI</string>
+    <string name="open_theme_btn">BUKA</string>
+    <string name="discover_theme_text">Bukan gaya Anda? Lihat tema populer lainnya!</string>
+    <string name="download_btn">DAPATKAN DARI GOOGLE PLAY</string>
+
+<string name="wallpaper_hint_3d_title">Miringkan ponsel Anda untuk melihat wallpaper 3D</string>
+  <string name="wallpaper_hint_live_title">1. Geser di layar untuk melihat wallpaper live</string>
+  <string name="wallpaper_hint_action">Klik "Atur wallpaper"</string>
+  <string name="theme_live_apply_toast">Atur wallpaper live untuk tema ini</string>
+
+</resources>

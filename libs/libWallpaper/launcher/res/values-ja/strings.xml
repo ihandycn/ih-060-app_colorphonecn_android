@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="refresh">更新</string>
+    <string name="setting_device_not_support_message">お使いの機器はこれをサポートしていません。</string>
+    <string name="customize_wallpapers_title">壁紙</string>
+    <string name="customize_local_title">自分</string>
+    <string name="customize_wallpapers_title_local">私の壁紙</string>
+    <string name="add_wallpaper">壁紙を追加</string>
+    <string name="online_wallpaper_apply_btn">壁紙としてセットする</string>
+    <string name="wallpaper_edit_fixed">固定</string>
+    <string name="wallpaper_edit_scrollable">スクロール可能</string>
+    <string name="online_wallpaper_edit_reset_btn">リセット</string>
+    <string name="online_wallpaper_cancel_edit_dialog_content">終了する前に変更を破棄しますか？</string>
+    <string name="customize_my_wallpapers_remove_btn">削除</string>
+    <string name="wallpaper_setting_progress_dialog_text">壁紙を設定中…</string>
+    <string name="wallpaper_toast_set_failed">壁紙としてこれを設定する際に問題が発生しました。もう一度お試しください。</string>
+    <string name="local_wallpaper_pick_error">選択した画像を壁紙に設定することはできません。</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">壁紙としてGIF画像を設定することはできません</string>
+    <string name="upload_wallpaper">壁紙をアップロードする</string>
+    <string name="upload_wallpaper_button_text">アップロード</string>
+    <string name="upload_wallpaper_tip">ヒント：\n1.イメージは自動的に最適なサイズに調整されます。\n2画像は\"自分\"に表示されます。\n3高品質の画像はME Launcherで収集することが可能です。\n4画像はレビューされた後にフィードに表示されます</string>
+    <string name="upload_wallpaper_declaration">アップロードすると、あなたは利用規約に同意を示したことになります。</string>
+    <string name="upload_wallpaper_success">アップロードに成功</string>
+
+    <string name="notification_toolbar_wifi">Wi-Fi</string>
+    <string name="notification_toolbar_data">データ</string>
+    <string name="apply_btn">適用</string>
+
+    <string name="battery_off">オフ</string>
+
+    <string name="news_detail_error_reload">再度読み込み</string>
+    <string name="news_load_more_re_try">クリックして再試行</string>
+    <string name="got_it">了解</string>
+    <string name="wallpaper_network_error">ネットワークエラー。 もう一度お試しください。</string>
+
+    <string name="theme_category_foot_text">- 私たちはもっと美しいテーマを作り続けています。 -</string>
+
+
+    <string name="online_wallpaper_loading">HDの壁紙を読み込み中、お待ちください。</string>
+
+    <string name="app_lock_submit">提出</string>
+    <string name="online_wallpaper_tab_title_categories">カテゴリ</string>
+    <string name="notification_toolbar_all_apps">すべてのアプリ</string>
+
+    <string name="online_wallpaper_tab_title_hot">人気</string>
+
+    <string name="wallpaper_network_error_reload">再度読み込み</string>
+    <string name="promotion_enable_btn">有効</string>
+    <string name="boost_title">ブースト</string>
+
+    <string name="notification_toolbar_flash_light">懐中電灯</string>
+    <string name="notification_toolbar_search">検索</string>
+    <string name="terms_of_service">利用規約</string>
+    <string name="load_more">読み込み中…</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">- 常により美しい3Dの壁紙を作り続けています。-</string>
+
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">上記のスイッチをオンにして、OKをタップします。\n\n有効：\n1）ブースト電話80\%%\n2）迷惑メールを消去する\n3）バッテリーを消耗するアプリを削除する\n\n Boost+チームは携帯電話のスピードアップに専念し、個人情報を収集することはありません。</string>
+
+    <string name="launcher_settings_latest_version_detail">最新バージョン: v%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">現在のバージョン：v%1$s</string>
+
+
+</resources>

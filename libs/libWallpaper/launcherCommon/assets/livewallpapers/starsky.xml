@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="starsky/background_1.png" />
+        <image path="starsky/background_2.png" />
+    </shader>
+
+    <particles>
+        <background
+            alpha="0.6"
+            alphaDeviation="0.4"
+            blendMode="770"
+            emissionRate="7"
+            sourceFromX="0.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="0.0"
+            velocityX="40.0"
+            velocityDeviationX="150"
+            velocityY="110"
+            velocityDeviationY="110"
+            targetVelocityX="40.0"
+            targetVelocityY="120.0"
+            initialScale="0.75"
+            initialScaleDeviation="0.4">
+
+            <image path="starsky/sakura_1.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            emissionRate="35"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="starsky/gesture_1.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

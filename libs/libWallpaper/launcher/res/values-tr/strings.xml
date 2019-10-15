@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <skip/>
+    <skip/>
+    <skip/>
+    <string name="setting_device_not_support_message">Cihazınız bunu desteklemiyor.</string>
+    <string name="customize_wallpapers_title">Duvar Kağıtları</string>
+    <string name="wallpaper_toast_set_failed">Bu duvar kağıdı ile ilgili bir sorun oluştu, lütfen tekrar deneyin</string>
+    <string name="customize_local_title">Benimki</string>
+    <string name="wallpaper_setting_progress_dialog_text">Duvar kağıdı ayarlanıyor…</string>
+
+    <string name="terms_of_service">Hizmet Şartları</string>
+
+    <string name="news_detail_error_reload">Yeniden yükle</string>
+    <!-- %1$s is the version number which should be kept, for example “v1.0.0"" -->
+
+    <!-- The following is an alert dialog which includes title, description and actions. Air is the name of the APP that needn’t to be translated.  -->
+
+
+    <!-- It’s the slogan of the app which can make your phone fast & stylish. &amp; stands for & in program. -->
+
+    <!-- It’s an action button, so it’s better to be short -->
+
+    <!-- It’s a prompt message that our app is preparing the desktop of the phone. -->
+
+
+    <string name="online_wallpaper_tab_title_categories">Kategoriler</string>
+
+
+    <!-- Hide apps means apps invisible on desktop -->
+
+    <!-- Unlock pattern is a kind of password, which has 9 dots on the screen organized in a 3×3 matrix. To unlock the phone the pattern has to be drawn on the screen, connecting certain points in a certain order. -->
+
+    <string name="customize_wallpapers_title_local">Duvar Kağıtlarım</string>
+    <string name="load_more">Yükleniyor…</string>
+
+
+    <!-- Please translate and replace the words in red color -->
+
+
+    <!--It guides users to enter password -->
+
+
+    <!-- Notification toolbar is a bar with icons of Wi-Fi, Mobile Data, Flashlight and so on, which you can set your phone quickly by switching them On/Off. -->
+
+
+    <!-- It’s a switch to turn On/Off Mobile Data, better be short in one word or two -->
+    <string name="notification_toolbar_data">Veri</string>
+
+
+    <!-- A collection of all apps in your phone -->
+    <string name="notification_toolbar_all_apps">Tüm Uygulamalar</string>
+    
+
+
+    <!-- It shows how much battery has been left. It will be used like “20% Battery Left” -->
+
+
+    <!-- It’s a button for saving battery, better be short in one word or two -->
+
+    <!-- It shows how much battery has been save. It will be used like “Battery Life Extended 20 minutes” -->
+
+
+    <!-- It’s a button for detail content, better be short in one word or two -->
+
+
+    <!-- It show how much memory has been used. It will be used like “200MB Memory Used” -->
+
+    <!-- It shows how much memory has been released. It will be used like “Memory Released 200MB” -->
+
+
+    <!-- The temperature of phone is too hot, better be short -->
+
+
+    <!-- It’s a button for cooling down temperature of phone, better be short in one word or two -->
+
+
+    <!-- It shows how much temperature has been cooled down. It will be used like “Cool Down 10 ℉／℃” -->
+
+
+    <!-- A new themes for phone including wallpapers and app icons. -->
+
+    <string name="boost_title">Yükselt</string>
+    <string name="notification_toolbar_wifi">Wi-Fi</string>
+    <string name="notification_toolbar_flash_light"> El feneri </string>
+
+    <!-- Please translate and replace the words in red color -->
+
+    <!-- Accessibility Service is a settings option in phone! -->
+    <!-- It will be used like “Freed up 200MB” , which means memory released in phone-->
+
+    <!-- An operation to make a app visible on the screen, better be short in one word or two -->
+
+    <!-- “Magic Locker” is an app name, don’t need to translate. Themes include images and app icons, which can make phone screen stylish. -->
+    <!-- An operation to install an app, better be short in one word or two -->
+    
+
+    <!-- Icon pack is a collection of designed app icons that can replace the default ones of your phone. -->
+    <!-- Memory has been released of the phone, which boosts your phone and makes it run faster. Better be short in one word or two.-->
+    <!-- Type the English name of the city and select the city from the search result. Only support English -->
+    <!-- ME Launcher is the name of App, which don’t need to translate. Themes can make your phone beautiful including wallpapers and app icons. The sentence below will be used in Applying theme like “ iOS 10 theme for ME Launcher has been installed. Apply it now?”-->
+    <string name="apply_btn">Uygula</string>
+
+    <!-- A container with groups of apps, to keep and organize apps in phone. -->
+
+
+    <!-- The following words are operations in Screen manager. -->
+    <!-- Screen Manager is a feature that you can manage your phone’s screens by ranking screens, increasing a new screen or deleting a screen . -->
+    <!-- You can drag one screen and move its position to rank screens. -->
+    <!-- Shake the phone to remove blanks between icons and make icons orderliness. -->
+
+
+    <!-- The following words are operations in editing pictures. -->
+    <!-- Crop, zoom in or zoom out a picture to suit your want.-->
+    <!-- You can move the picture to choose the most beautiful part and scale to make the picture big or small. -->
+    <!--Edit the picture over again without storing the changes you have edited. -->
+    <string name="online_wallpaper_edit_reset_btn">Sıfırla</string>
+    <!-- Exit the picture editing without storing the changes you have edited. -->
+    <string name="online_wallpaper_cancel_edit_dialog_content">Çıkmadan önce değişiklikler iptal edilsin mi?</string>
+
+    <string name="customize_my_wallpapers_remove_btn">Kaldır</string>
+
+    <string name="online_wallpaper_apply_btn">Duvar kağıdı olarak ayarla</string>
+
+    <string name="local_wallpaper_pick_error">Duvar kâğıdını seçerken bir hata oluştu.</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">GIF görseli desteklenmiyor</string>
+
+    <string name="wallpaper_network_error_reload">Yeniden yükle</string>
+    <string name="battery_off">Kapalı</string>
+    <string name="notification_toolbar_search">Ara</string>
+    <string name="refresh">Yenile</string>
+    <string name="wallpaper_edit_fixed">Sabit</string>
+    <string name="wallpaper_edit_scrollable">Kaydırılabilir</string>
+
+
+    <string name="news_load_more_re_try">Tekrar denemek için tıkla</string>
+    <string name="got_it">TAMAM</string>
+
+    <string name="upload_wallpaper_tip">İpuçları：\n1. Görsel otomatik olarak en uygun boyuta ölçeklendirilecektir\n2. Görseliniz \“Ben\” bölümünde gösterilecektir\n3.  Yüksek kaliteli görsellerin ME Launcher tarafından toplanması daha olasıdır\n4. Görseliniz incelendikten sonra akışta görünecektir.</string>
+    <string name="upload_wallpaper_declaration">Yükleyerek, ME Launcher\’ın kabul etmektesiniz</string>
+    <string name="upload_wallpaper_success">Başarıyla yüklendi</string>
+    <string name="wallpaper_network_error">Ağ hatası. Lütfen tekrar deneyin.</string>
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">Yukarıdaki kilidi açın, sonra TAMAM tuşuna dokunun.\n\nŞunun için etkinleştirin:\n1) Telefonu \%%80 hızlandırma\n2) Çöp dosyaları temizleme\n3) Pili tüketen uygulamaları kapatma\n\nYükselt+ ekibi telefonunuzu hızlandırmayı amaçlar ve asla hiç bir kişisel veriyi toplamaz.</string>
+
+    <string name="promotion_enable_btn">ETKİNLEŞTİR</string>
+
+
+    <string name="online_wallpaper_tab_title_hot">Sıcak</string>
+
+
+    <string name="upload_wallpaper">Karşıya Duvar Kağıdı yükle</string>
+    <string name="upload_wallpaper_button_text">Karşıya yükle</string>
+    <string name="add_wallpaper">Duvar Kağıdı ekle</string>
+    <string name="theme_category_foot_text">-  Sürekli olarak daha fazla güzel temalar oluşturuyoruz.  -</string>
+
+
+    <!--app lock related-->
+
+
+    <string name="app_lock_submit">Gönder</string>
+
+    <string name="online_wallpaper_loading">HD Duvar Kağıdı yükleniyor, lütfen bekleyin.</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">- Sürekli daha güzel 3B duvar kağıtları yapıyoruz. -</string>
+
+    <string name="launcher_settings_latest_version_detail">En son sürüm: v%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">Geçerli sürüm: v%1$s</string>
+
+
+</resources>

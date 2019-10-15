@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">ACEPTAR</string>
+
+    <string name="download_launcher_hint">Este tema debe utilizarse con [launcher-name].</string>
+    <string name="upgrade_launcher_hint">Tu vesión de [launcher-name] es demaasiado lenta. Actualízala.</string>
+    <string name="upgrade_btn">Actualizar [launcher-name]</string>
+    <string name="current_theme_btn">Tema actual</string>
+    <string name="install_theme_list_btn">Instalar ahora</string>
+    <string name="theme_toast_set_success">Tema aplicado</string>
+    <string name="theme_toast_set_deferred_action">Aplicando tema…</string>
+    <string name="progress_bar_toast_action_continuing">Aplicando…</string>
+    <string name="theme_toast_already_set">Este ya es tu tema actual</string>
+    <string name="theme_setting_progress_dialog_text">Aplicando tema…</string>
+
+
+
+    <string name="download_launcher_guide_btn">Instalar ahora</string>
+    <string name="install_theme_activity_btn">DESCARGAR GRATIS</string>
+
+    <string name="guide_download_launcher_text">[launcher-name] decora tu teléfono con fondos HD y más temas.</string>
+    <string name="discover_btn">EXAMINAR</string>
+    <string name="open_theme_btn">ABRIR</string>
+    <string name="discover_theme_text">¿No es estilo? ¡Echa un vistazo a otros temas populares!</string>
+    <string name="download_btn">OBTENER EN GOOGLE PLAY</string>
+<string name="wallpaper_hint_3d_title">Inclina el teléfono para previsualizar el fondo de pantalla en 3D.</string>
+  <string name="wallpaper_hint_live_title">1. Desliza sobre la pantalla para previsualizar el fondo de pantalla en vivo.</string>
+  <string name="wallpaper_hint_action">Haz clic en "Establecer fondo de pantalla".</string>
+  <string name="theme_live_apply_toast">Establecer fondo de pantalla en vivo para este tema</string>
+
+</resources>

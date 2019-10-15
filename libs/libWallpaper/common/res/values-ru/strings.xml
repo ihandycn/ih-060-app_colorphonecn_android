@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="cancel">Отмена</string>
+    <string name="ok">ОК</string>
+
+    <string name="download_launcher_hint">Эта тема должна использоваться с [launcher-name].</string>
+    <string name="upgrade_launcher_hint">Ваша версия [launcher-name] слишком давняя, пожалуйста, обновите ее.</string>
+    <string name="upgrade_btn">Обновить [launcher-name]</string>
+    <string name="current_theme_btn">Текущая тема</string>
+    <string name="install_theme_list_btn">Установить сейчас</string>
+    <string name="theme_toast_set_success">Тема применена</string>
+    <string name="theme_toast_set_deferred_action">Применение темы…</string>
+    <string name="progress_bar_toast_action_continuing">Применение…</string>
+    <string name="theme_toast_already_set">Это уже ваша текущая тема</string>
+
+
+    <string name="theme_setting_progress_dialog_text">Применение темы…</string>
+
+    <string name="download_launcher_guide_btn">Установить сейчас</string>
+    <string name="install_theme_activity_btn">СКАЧАТЬ БЕСПЛАТНО</string>
+
+    <string name="guide_download_launcher_text">Лаунчер [launcher-name] сделает ваш телефон стильным с помощью HD-обоев и множества тем.</string>
+    <string name="discover_btn">СМОТРЕТЬ</string>
+    <string name="open_theme_btn">ОТКРЫТЬ</string>
+    <string name="discover_theme_text">Не ваш стиль? Посмотрите другие популярные темы!</string>
+    <string name="download_btn">ЗАГРУЗИТЬ С GOOGLE PLAY</string>
+<string name="wallpaper_hint_3d_title">Наклоните телефон, чтобы посмотреть, как будут выглядеть 3D-обои</string>
+  <string name="wallpaper_hint_live_title">1. Проведите по экрану, чтобы посмотреть, как будут выглядеть динамические обои</string>
+  <string name="wallpaper_hint_action">Нажмите «Установить обои»</string>
+  <string name="theme_live_apply_toast">Установить живые обои для этой темы</string>
+
+</resources>

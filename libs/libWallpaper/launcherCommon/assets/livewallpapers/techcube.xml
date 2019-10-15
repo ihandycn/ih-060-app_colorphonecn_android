@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_3.glsl">
+        <image path="techcube/1.jpg" />
+        <image path="techcube/2.png" />
+        <image path="techcube/3.png" />
+    </shader>
+</live-wallpaper>

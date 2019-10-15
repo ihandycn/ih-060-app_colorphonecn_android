@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="network_error">網絡錯誤</string>
+
+    <string name="congratulations">恭喜你！</string>
+    <string name="won_live_wallpaper">你獲得一張免費的動態壁紙！</string>
+    <string name="won_three_d_wallpaper">你獲得一張免費的3D壁紙！</string>
+    <string name="more">查看更多</string>
+    <string name="preview">立即預覽</string>
+    <string name="live_wallpaper_loading_text">下載中…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">連接中…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">未讀消息</string>
+
+    <string name="wallpaper_share_msg">我發現一張精美的壁紙：</string>
+    <string name="wallpaper_share_live_image_msg">我發現一張精美的動態壁紙：</string>
+    <string name="wallpaper_share_3d_image_msg">我發現一張精美的3D壁紙：</string>
+
+    <string name="shared_by">分享給</string>
+
+
+    <string name="next">下一條</string>
+
+
+    <string name="permission_request_failed_message">權限開啟失敗</string>
+    <string name="permission_request_succeed_message">%1$s功能開啟</string>
+    <string name="floating_window_permission_guide_dialog_content">以此在使用其他應用時第一時間顯示來電</string>
+    <string name="permission_request_call">電話</string>
+    <string name="permission_request_contacts">通訊錄</string>
+
+    <string name="normal_permission_guide_permission">權限</string>
+
+
+    <string name="normal_permission_guide_dialog_content">選擇“權限”，然後開啟“電話”、“聯繫人”權限</string>
+    <string name="launcher_settings_update">更新</string>
+
+    <string name="privacy_policy_settings_title">隱私協議</string>
+
+    <string name="terms_of_service_settings_title">服務條款</string>
+
+    <string name="update_toast_no_network">請檢查網絡連接</string>
+
+    <string name="update_toast_already_latest">您正在使用最新版本</string>
+
+    <string name="update_dialog_title">下載最新版本</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">取消</string>
+
+    <string name="download_capital">下載</string>
+
+
+</resources>

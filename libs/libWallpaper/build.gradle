@@ -1,0 +1,138 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.hugo'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 17
+        renderscriptSupportModeEnabled false
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+    buildTypes {
+        debug {
+            buildConfigField 'String', 'CUSTOMIZE_CONFIG_COMMON',
+                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-customize-common-1.0.0-1.lw"'
+            buildConfigField 'String', 'CUSTOMIZE_CONFIG_VARIANT',
+                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-huandong-customize-1.0.0-1.lw"'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField 'String', 'CUSTOMIZE_CONFIG_COMMON',
+                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-customize-common-1.0.0-1.lw"'
+            buildConfigField 'String', 'CUSTOMIZE_CONFIG_VARIANT',
+                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-huandong-customize-1.0.0-1.lw"'
+        }
+    }
+
+    sourceSets {
+        main {
+            // Code and resources shared across Air Launcher and its themes
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['common/res','launcherCommon/res', 'launcher/res']
+            assets.srcDirs = ['common/assets','launcherCommon/assets', 'launcher/assets']
+            java.srcDirs = ['common/src/main','launcherCommon/src', 'launcher/src']
+            renderscript.srcDirs = ['common/rs']
+        }
+    }
+
+    repositories {
+
+        maven {
+            url "http://maven.ihandysoft.com:8081/repository/ihandygroup/"
+        }
+
+        mavenCentral()
+
+        maven {
+            url "https://maven.google.com"
+        }
+        maven {
+            url "http://dl.bintray.com/waynejo/maven"
+        }
+
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+
+        configurations.all {
+            resolutionStrategy {
+                cacheDynamicVersionsFor 0, 'seconds'
+                // 确保gradle sync的时候总是会去拉取最新的积木版本。默认情况下gradle 每24小时才回去更新缓存
+            }
+        }
+        configurations {
+            all*.exclude group: 'net.appcloudbox.common', module: 'libAcbCommonUtils.gm'
+        }
+    }
+
+    dependencies {
+        // Versions to use for dependencies
+        final SUPPORT_LIBRARY_VERSION = '26.1.0'
+
+        final COMMON_DEPENDENCIES = [
+
+                "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:design:$SUPPORT_LIBRARY_VERSION".toString(),
+
+                'com.annimon:stream:1.1.7',
+                'com.airbnb.android:lottie:2.5.5',
+
+                'com.android.support.constraint:constraint-layout:1.0.2',
+                'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta07'
+        ]
+
+        final WALLPAPER_DEPENDENCIES = [
+                // Android support libraries
+                "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:gridlayout-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:support-vector-drawable:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+                "com.android.support:support-compat:$SUPPORT_LIBRARY_VERSION".toString(),
+
+                "com.android.support:percent:25.3.1",
+
+                // Third party
+                'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
+        ]
+
+        for (dependency in COMMON_DEPENDENCIES) implementation dependency
+
+        for (dependency in WALLPAPER_DEPENDENCIES) {
+            implementation dependency
+        }
+
+        implementation 'com.github.bumptech.glide:glide:4.0.0'
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+
+        implementation 'com.android.volley:volley:1.1.1'
+
+        implementation project(':libSuperApps')
+    }
+    configurations.all {
+        resolutionStrategy {
+            force 'com.google.code.gson:gson:2.8.5'
+        }
+    }
+
+}
+

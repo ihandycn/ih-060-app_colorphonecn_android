@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="network_error">网络错误</string>
+
+    <string name="congratulations">恭喜你！</string>
+    <string name="won_live_wallpaper">你获得一张免费的动态壁纸！</string>
+    <string name="won_three_d_wallpaper">你获得一张免费的3D壁纸！</string>
+    <string name="more">查看更多</string>
+    <string name="preview">立即预览</string>
+    <string name="live_wallpaper_loading_text">下载中…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">连接中…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">未读消息</string>
+
+    <string name="wallpaper_share_msg">我发现一张精美的壁纸：</string>
+    <string name="wallpaper_share_live_image_msg">我发现一张精美的动态壁纸：</string>
+    <string name="wallpaper_share_3d_image_msg">我发现一张精美的3D壁纸：</string>
+
+    <string name="shared_by">分享给</string>
+
+
+    <string name="next">下一条</string>
+
+
+    <string name="permission_request_failed_message">权限开启失败</string>
+    <string name="permission_request_succeed_message">%1$s功能开启</string>
+    <string name="floating_window_permission_guide_dialog_content">以此在使用其他应用时第一时间显示来电</string>
+    <string name="permission_request_call">电话</string>
+    <string name="permission_request_contacts">通讯录</string>
+
+    <string name="normal_permission_guide_permission">权限</string>
+
+    <string name="normal_permission_guide_dialog_content">选择“权限”，然后开启“电话”、“联系人“权限</string>
+    <string name="launcher_settings_update">更新</string>
+
+    <string name="privacy_policy_settings_title">隐私协议</string>
+
+    <string name="terms_of_service_settings_title">服务条款</string>
+
+    <string name="update_toast_no_network">请检查网络连接</string>
+
+    <string name="update_toast_already_latest">您正在使用最新版本</string>
+
+    <string name="update_dialog_title">下载最新版本</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">取消</string>
+
+    <string name="download_capital">下载</string>
+
+
+    <string name="report" >举报</string>
+    <string name="cc0_protocol_agree_it" >我同意</string>
+    <string name="cc0_protocol_title" >上传图片许可协议</string>
+    <string name="cc0_protocol_content" >1) 您可以上传图片或者壁纸到库中, 然后 %1$s 将审核并筛选这些内容，以查看是否适合分享给其他用户使用。 %2$s 不接受任何面向成人的内容. \n2) 上传图片或者视频到库中后，您的作品将在 Creative Commons CC0 下发布，几乎可用于任何商业和非商业目的。 \n3) 您对上传的内容负全部责任。您保证拥有与内容相关的所有专有权，并且您有义务获得非独占的、永久的、不可撤销的、全球的和免税的模型或财产的发布，或有关使用的任何其他必要许可这项工作是出于任何目的，无条件，除非法律要求这些条件。 \n4) 此外，您向 %3$s 确认不上传任何侵犯版权，财产权，商标或任何其他适用权利的图像或视频。 \n5) 您需要理解并接受，即使我们尽最大努力防止事故发生， %4$s 依然无法对滥用或者滥用任何内容负责. \n6) 如果我们认为条款有缺陷、质量差、违反条款，我们随时有权力删除任何内容。</string>
+    <string name="customize_report_reason_infringement" >这个壁纸包含有害内容</string>
+    <string name="customize_report_reason_porn" >这个壁纸涉及色情内容</string>
+    <string name="customize_report_reason_gambling" >这个壁纸涉嫌读博内容</string>
+    <string name="customize_report_reason_political" >这个壁纸包含政治谣言等内容</string>
+    <string name="customize_report_reason_violence" >这个壁纸包含血腥暴力内容</string>
+    <string name="customize_report_page_title" >请选择您要举报的原因</string>
+    <string name="customize_input_email_hint" >邮件</string>
+    <string name="customize_input_email_title" >为了将来与您联系，请提供您的电子邮件地址。</string>
+    <string name="customize_input_incorrect_email" >请填写正确的邮箱地址</string>
+    <string name="customize_report_succeed" >我们已收到您的报告，我们会仔细、严肃处理。</string>
+    
+</resources>

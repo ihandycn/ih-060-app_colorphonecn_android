@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="cancel">İptal</string>
+    <string name="ok">Tamam</string>
+
+    <string name="download_launcher_hint">Bu tema [launcher-name] ile kullanılmalı.</string>
+    <string name="upgrade_launcher_hint">[launcher-name]\'ınızın sürümü çok eski, lütfen güncelleyin.</string>
+    <string name="upgrade_btn">[launcher-name]\'ı Güncelle</string>
+    <string name="current_theme_btn">Geçerli Tema</string>
+    <string name="install_theme_list_btn">Şimdi Yükle</string>
+    <string name="theme_toast_set_success">Tema uygulandı</string>
+    <string name="theme_toast_set_deferred_action">Tema uygulanıyor…</string>
+    <string name="progress_bar_toast_action_continuing">Uygulanıyor…</string>
+    <string name="theme_toast_already_set">Bu zaten geçerli temanız</string>
+    <string name="theme_setting_progress_dialog_text">Tema uygulanıyor…</string>
+
+
+
+    <string name="download_launcher_guide_btn">Şimdi Yükle</string>
+    <string name="install_theme_activity_btn">ÜCRETSİZ İNDİR</string>
+    <string name="guide_download_launcher_text">[launcher-name], HD duvar kağıtları ve birçok tema ile telefonuna tarz katar.</string>
+    <string name="discover_btn">TARA</string>
+    <string name="open_theme_btn">AÇ</string>
+    <string name="discover_theme_text">Senin tarzın değil mi? Diğer gözde temalara bak!</string>
+    <string name="download_btn">GOOGLE PLAY\'DEN AL</string>
+<string name="wallpaper_hint_3d_title">3B duvar kağıdını önizlemek için telefonunu eğ</string>
+  <string name="wallpaper_hint_live_title">1.Hareketli duvar kağıdını önizlemek için ekranı kaydır</string>
+  <string name="wallpaper_hint_action">"Duvar Kağıdını Ayarla"ya tıkla</string>
+  <string name="theme_live_apply_toast">Bu tema için hareketli duvar kağıdı ayarla</string>
+
+</resources>

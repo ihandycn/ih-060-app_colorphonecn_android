@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Data</key>
+	<dict>
+		<key>Application</key>
+		<dict>
+			<key>AppIndexUrl</key>
+			<string>http://www.airlauncher.me</string>
+			<key>ExpireEnable</key>
+			<true/>
+			<key>FeedbackEmailAddress</key>
+			<string>wallpaper_feedback@126.com</string>
+			<key>PrivacyPolicyURL</key>
+			<string>http://cdn.ihandysoft.cn/light2019/apps/apkcake/privacy.html</string>
+			<key>SellingPointFeature</key>
+			<string>theme</string>
+			<key>TermsOfServiceURL</key>
+			<string>http://cdn.ihandysoft.cn/light2019/apps/apkcake/terms-of-use.html</string>
+			<key>Update</key>
+			<dict>
+				<key>AutoDownloadDialogShow</key>
+				<false/>
+				<key>AutoDownloadEnabled</key>
+				<false/>
+				<key>Description</key>
+				<array>
+					<dict>
+						<key>Default</key>
+						<string>1.Brand new experience with Huandong Wallpaper.</string>
+						<key>es</key>
+						<string>1. Una nueva experiencia con Huandong Wallpaper.</string>
+						<key>in</key>
+						<string>1.Pengalaman yang benar-benar baru dengan Huandong Wallpaper.</string>
+						<key>pt</key>
+						<string>1.Experiência renovada do Huandong Wallpaper.</string>
+						<key>ru</key>
+						<string>1. Абсолютно новый вид Huandong Wallpaper.</string>
+						<key>th</key>
+						<string>1.ออกแบบ UI ใหม่ ประสบการณ์ใหม่เอี่ยมกับ Huandong Wallpaper</string>
+						<key>tr</key>
+						<string>1.Yeni UI tasarımı Huandong Wallpaper ile yepyeni bir deneyim.</string>
+						<key>zh-rCN</key>
+						<string>1. 体验全新的焕动壁纸。</string>
+					</dict>
+					<dict>
+						<key>Default</key>
+						<string>2.Faster and more reliable.</string>
+						<key>ar</key>
+						<string>2.أسرع وأكثر استقراراً.</string>
+						<key>es</key>
+						<string>2.Más rápido y más fiable.</string>
+						<key>hi</key>
+						<string>2. तेज और अधिक विश्वसनीय</string>
+						<key>in</key>
+						<string>2.Lebih cepat dan andal.</string>
+						<key>pt</key>
+						<string>2.Mais rápido e fiável.</string>
+						<key>ru</key>
+						<string>2.Увеличены скорость и стабильность.</string>
+						<key>th</key>
+						<string>2.เร็วขึ้นและไว้วางใจได้มากขึ้น</string>
+						<key>tr</key>
+						<string>2.Daha hızlı ve daha güvenilir.</string>
+						<key>zh-rCN</key>
+						<string>2.更快，更可靠。</string>
+					</dict>
+				</array>
+				<key>DownloadUrl</key>
+				<string>https://superapps-dev.s3.amazonaws.com/airlauncher/apk/app_crystallauncher_android-launcherSP-dev-39.apk?AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&amp;Expires=1482387796&amp;Signature=9LtB4%2FPNqkU19kKPQXBUlM5AiXc%3D</string>
+				<key>LatestVersionCode</key>
+				<integer>2</integer>
+				<key>LatestVersionName</key>
+				<string>1.0.1</string>
+			</dict>
+			<key>VariantSpecific</key>
+			<dict>
+				<key>DefaultTransitionEffect</key>
+				<string>Shrink</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

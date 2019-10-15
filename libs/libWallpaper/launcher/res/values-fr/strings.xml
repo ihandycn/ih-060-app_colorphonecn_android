@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="refresh">Rafraîchir</string>
+    <string name="setting_device_not_support_message">Votre appareil ne prend pas en charge ceci.</string>
+    <string name="customize_wallpapers_title">Fonds d\'écran</string>
+    <string name="customize_local_title">Moi</string>
+    <string name="customize_wallpapers_title_local">Mes fonds d\'écran</string>
+    <string name="add_wallpaper">Ajouter un fond d\'écran</string>
+    <string name="online_wallpaper_apply_btn">DÉFINIR COMME FOND D\'ÉCRAN</string>
+    <string name="wallpaper_edit_fixed">Fixe</string>
+    <string name="wallpaper_edit_scrollable">Scrollable</string>
+    <string name="online_wallpaper_edit_reset_btn">RÉINITIALISER</string>
+    <string name="online_wallpaper_cancel_edit_dialog_content">Annuler les modifications et quitter ?</string>
+    <string name="customize_my_wallpapers_remove_btn">RETIRER</string>
+    <string name="wallpaper_setting_progress_dialog_text">Définition du fond d\'écran…</string>
+    <string name="wallpaper_toast_set_failed">Problème rencontré lors de la définition du fond d\'écran. Veuillez réessayer.</string>
+    <string name="local_wallpaper_pick_error">L\'image sélectionnée ne peut pas être utilisée comme fond d\'écran.</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">Les GIF ne peuvent pas être utilisés comme fond d\'écran.</string>
+    <string name="upload_wallpaper">Ajouter un fond d\'écran</string>
+    <string name="upload_wallpaper_button_text">Ajouter</string>
+    <string name="upload_wallpaper_tip">Astuces :\n1. L\'image sera automatiquement mise dans une taille optimale\n2. Votre image apparaîtra dans « Moi »\n3. Les images de haute qualité sont les plus susceptibles de convenir à ME Launcher\n4. Votre image apparaîtra dans le flux après vérification</string>
+    <string name="upload_wallpaper_declaration">En mettant en ligne, vous acceptez les</string>
+    <string name="upload_wallpaper_success">Ajout réussi</string>
+
+    <string name="notification_toolbar_wifi">Wi-Fi</string>
+    <string name="notification_toolbar_data">Données</string>
+    <string name="apply_btn">APPLIQUER</string>
+
+
+    <string name="battery_off">Désactivé</string>
+
+
+    <string name="news_detail_error_reload">Recharger</string>
+    <string name="news_load_more_re_try">Cliquer pour réessayer</string>
+    <string name="got_it">D\'accord</string>
+    <string name="wallpaper_network_error">Erreur réseau. Veuillez réessayer.</string>
+
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">Activez le curseur ci-dessus, puis touchez OK.\n\nActivez pour :\n1) Booster le téléphone de 80 \%%\n2) Nettoyer les fichiers indésirables\n3) Fermer les applications qui vident la batterie\n\nL\'équipe de Boost+ s\'engage à accélérer votre téléphone et ne collecte jamais de données personnelles.</string>
+
+
+    <string name="theme_category_foot_text">- Nous créons constamment de nouveaux thèmes -</string>
+
+
+    <string name="online_wallpaper_loading">Chargement de l\'arrière-plan HD, veuillez patienter.</string>
+
+    <string name="app_lock_submit">Soumettre</string>
+    <string name="online_wallpaper_tab_title_categories">Catégories</string>
+    <string name="notification_toolbar_all_apps">Toutes les applications</string>
+
+    <string name="online_wallpaper_tab_title_hot">Chaud</string>
+
+    <string name="wallpaper_network_error_reload">Recharger</string>
+    <string name="promotion_enable_btn">ACTIVER</string>
+    <string name="boost_title">Boost</string>
+
+    <string name="notification_toolbar_flash_light">Lampe torche</string>
+    <string name="notification_toolbar_search">Recherche</string>
+    <string name="terms_of_service">Conditions de service</string>
+    <string name="load_more">Chargement…</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">- Nous continuons de créer plus de fonds d\'écran magnifiques en 3D. -</string>
+
+    <string name="launcher_settings_latest_version_detail">Dernière version : v%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">Version actuelle : v%1$s</string>
+
+
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_normal_bg"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/dialog_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="-2dp">
+
+        <com.superapps.view.RoundImageView
+            android:id="@+id/horizontal_top_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            launcher:radius_leftTop="2dp"
+            launcher:radius_rightTop="2dp" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dialog_content_margin_top"
+        android:layout_marginRight="@dimen/dialog_content_margin_top"
+        android:layout_marginTop="@dimen/dialog_content_margin_top"
+        android:clipChildren="false"
+        tools:ignore="RelativeOverlap" />
+
+    <!-- Buttons layout_marginBottom has no effect when api < 19. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_content_margin_top"
+        android:baselineAligned="false"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dialog_btn_margin"
+        android:paddingLeft="@dimen/dialog_btn_margin"
+        android:paddingRight="@dimen/dialog_btn_margin">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            style="@style/DialogButton"
+            android:background="@drawable/material_compat_button_bg"
+            android:text="@android:string/cancel"
+            android:textColor="@color/dialog_button_blue" />
+
+        <Space
+            android:layout_width="@dimen/dialog_btn_padding"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/ok_btn"
+            style="@style/DialogButton"
+            android:background="@drawable/material_compat_button_bg"
+            android:text="@android:string/ok"
+            android:textColor="@color/material_text_black_secondary" />
+    </LinearLayout>
+</LinearLayout>

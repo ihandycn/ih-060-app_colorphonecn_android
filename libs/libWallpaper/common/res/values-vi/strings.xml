@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="cancel">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="download_launcher_hint">Chủ đề này chỉ có thể truy cập được qua [launcher-name].</string>
+    <string name="download_btn">Tải từ Google Play</string>
+    <string name="upgrade_launcher_hint">Bạn không có phiên bản mới nhất của [launcher-name]. Vui lòng cập nhật.</string>
+    <string name="upgrade_btn">Cập nhật [launcher-name]</string>
+    <string name="current_theme_btn">Chủ đề Hiện tại</string>
+    <string name="theme_toast_set_deferred_action">Đang áp dụng chủ đề…</string>
+    <string name="progress_bar_toast_action_continuing">Đang áp dụng…</string>
+    <string name="theme_toast_set_success">Chủ đề đã được áp dụng</string>
+    <string name="open_theme_btn">Mở</string>
+    <string name="theme_toast_already_set">Đó đã là chủ đề hiện tại của bạn</string>
+    <string name="theme_setting_progress_dialog_text">Đang áp dụng chủ đề…</string>
+    <string name="discover_theme_text">Không phải phong cách của bạn? Hãy xem những chủ đề phổ biến khác!</string>
+    <string name="discover_btn">Duyệt</string>
+    <string name="guide_download_launcher_text">[launcher-name] giúp nâng tầm phong cách cho điện thoại của bạn với những hình nền HD &amp; chủ đề khác.</string>
+    <string name="download_launcher_guide_btn">CÀI ĐẶT</string>
+    <string name="install_theme_activity_btn">TẢI VỀ MIỄN PHÍ</string>
+
+
+    <string name="install_theme_list_btn">CÀI ĐẶT</string>
+<string name="wallpaper_hint_3d_title">Nghiêng điện thoại của bạn để xem trước hình nền 3D</string>
+  <string name="wallpaper_hint_live_title">1. Trượt trên màn hình để xem trước hình nền động</string>
+  <string name="wallpaper_hint_action">Bấm "Đặt làm hình nền"</string>
+  <string name="theme_live_apply_toast">Đặt hình nền động cho chủ đề này</string>
+
+</resources>

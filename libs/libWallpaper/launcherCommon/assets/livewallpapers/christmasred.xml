@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_static.glsl">
+        <image path="christmasred/background_1.jpg" />
+    </shader>
+
+    <particles>
+        <background
+            initNum="2"
+            emissionRate="1"
+            sourceFromX="0.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="0.0"
+            velocityX="50.0"
+            velocityDeviationX="70"
+            velocityY="150"
+            velocityDeviationY="130"
+            targetVelocityX="50.0"
+            targetVelocityY="150.0"
+            initialScale="1.7"
+            initialScaleDeviation="0.7">
+
+            <image path="christmasred/sakura_1.png" ratio="1"/>
+            <image path="christmasred/sakura_2.png" ratio="1"/>
+            <image path="christmasred/sakura_3.png" ratio="1"/>
+            <image path="christmasred/sakura_4.png" ratio="1"/>
+            <image path="christmasred/sakura_5.png" ratio="0.5"/>
+        </background>
+
+        <touch
+            emissionRate="36"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="christmasred/gesture_1.png" ratio="1.0"/>
+            <image path="christmasred/gesture_2.png" ratio="1.0"/>
+
+        </touch>
+    </particles>
+</live-wallpaper>

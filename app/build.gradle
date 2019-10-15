@@ -253,6 +253,7 @@ dependencies {
     compile project(':libPermissionacquire')
     compile project(':libWeather')
     compile project(':libRingtones')
+    compile project(':libWallpaper')
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.09.02.001'

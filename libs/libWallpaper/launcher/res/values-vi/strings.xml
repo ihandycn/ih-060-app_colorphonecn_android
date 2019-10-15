@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="refresh">Làm mới</string>
+    <string name="setting_device_not_support_message">Thiết bị của bạn không hỗ trợ tính năng này.</string>
+    <string name="customize_wallpapers_title">Hình nền</string>
+    <string name="customize_local_title">Tôi</string>
+    <string name="customize_wallpapers_title_local">Hình nền của tôi</string>
+    <string name="add_wallpaper">Thêm hình nền</string>
+    <string name="online_wallpaper_apply_btn">ĐẶT LÀM HÌNH NỀN</string>
+    <string name="wallpaper_edit_fixed">Cố định</string>
+    <string name="wallpaper_edit_scrollable">Có thể cuộn</string>
+    <string name="online_wallpaper_edit_reset_btn">ĐẶT LẠI</string>
+    <string name="online_wallpaper_cancel_edit_dialog_content">Hủy các thay đổi để thoát?</string>
+    <string name="customize_my_wallpapers_remove_btn">XÓA</string>
+    <string name="wallpaper_setting_progress_dialog_text">Đang đặt hình nền…</string>
+    <string name="wallpaper_toast_set_failed">Có lỗi xảy ra khi đặt ảnh này làm hình nền của bạn, xin vui lòng thử lại</string>
+    <string name="local_wallpaper_pick_error">Không thể đặt ảnh đã chọn làm hình nền.</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">Không thể đặt các ảnh GIF làm hình nền</string>
+    <string name="upload_wallpaper">Tải lên Hình nền</string>
+    <string name="upload_wallpaper_button_text">Tải lên</string>
+    <string name="upload_wallpaper_tip">Mẹo：\n1. Hình ảnh sẽ được tự động thu phóng đến kích thước tối ưu \n2. Hình ảnh của bạn sẽ được hiển thị trong \"Tôi\"\n3. Các hình ảnh chất lượng cao có nhiều khả năng được thu thập bởi ME Launcher hơn\n4. Hình ảnh của bạn sẽ xuất hiện trong bảng tin sau khi nó được\'s đánh giá</string>
+    <string name="upload_wallpaper_declaration">Bằng việc tải lên, bạn đồng ý với quy định của ME Launcher về</string>
+    <string name="upload_wallpaper_success">Tải lên thành công</string>
+
+    <string name="notification_toolbar_wifi">Wifi</string>
+    <string name="notification_toolbar_data">Dữ liệu</string>
+    <string name="apply_btn">ÁP DỤNG</string>
+
+
+    <string name="battery_off">Tắt</string>
+
+    <string name="news_detail_error_reload">Tải lại</string>
+    <string name="news_load_more_re_try">Bấm để Thử lại</string>
+    <string name="got_it">ĐÃ HIỂU</string>
+    <string name="wallpaper_network_error">Có lỗi mạng, xin vui lòng thử lại.</string>
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">Bật chế độ chuyển đổi sau đó bấm OK.\n\nKích hoạt để:\n1) Tăng tốc điện thoại thêm 80\%%\n2) Làm sạch tập tin rác\n3) Dừng các ứng dụng gây ngốn pin \n\nnhóm Boost+ đang quyết tâm hẹn ăn trưa với bạn và không bao giờ thu thập bất kỳ thông tin nào</string>
+
+    <string name="theme_category_foot_text">- Chúng tôi đang thường xuyên tạo thêm những chủ đề đẹp. -</string>
+
+
+    <string name="online_wallpaper_loading">Đang tải hình nền HD, vui lòng chờ.</string>
+
+
+    <string name="app_lock_submit">Gửi</string>
+    <string name="online_wallpaper_tab_title_categories">Thể loại</string>
+    <string name="notification_toolbar_all_apps">Tất cả Ứng dụng</string>
+
+    <string name="online_wallpaper_tab_title_hot">Nóng</string>
+
+    <string name="wallpaper_network_error_reload">Tải lại</string>
+    <string name="promotion_enable_btn">BẬT</string>
+    <string name="boost_title">Tăng cường</string>
+
+    <string name="notification_toolbar_flash_light">Đèn flash</string>
+    <string name="notification_toolbar_search">Tìm kiếm</string>
+    <string name="terms_of_service">Điều khoản Dịch vụ</string>
+    <string name="load_more">Đang tải…</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">- Chúng tôi không ngừng tạo thêm nhiều hình nền 3D đẹp mắt. -</string>
+
+    <string name="launcher_settings_latest_version_detail">Phiên bản mới nhất: v%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">Phiên bản hiện tại: v%1$s</string>
+
+
+</resources>

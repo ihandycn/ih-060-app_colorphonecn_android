@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_single.glsl">
+        <image path="horoscopeleo/background_1.jpg" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="7"
+            alphaInterpolator="CubicEaseIn"
+            sourceFromX="0.5"
+            sourceFromY="0.5"
+            sourceToX="0.5"
+            sourceToY="0.5"
+            delay="-200"
+            delayDeviation="200"
+            minVelocity="125"
+            maxSelectIterations="8"
+            velocityDeviationX="250.0"
+            velocityDeviationY="250.0"
+            initialScale="0.1"
+            initialScaleDeviation="0.1"
+            scaleVelocity="0.3">
+
+            <image path="horoscopeleo/sakura_1.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            alphaInterpolator="InThenOut"
+            emissionRate="35"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="horoscopeleo/gesture.png" ratio="1.0"/>
+
+        </touch>
+    </particles>
+</live-wallpaper>

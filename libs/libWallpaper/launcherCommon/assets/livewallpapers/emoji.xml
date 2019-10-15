@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="emoji/background_1.png" />
+        <image path="emoji/background_2.png" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="2"
+            sourceFromX="0.0"
+            sourceFromY="1.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityX="-250"
+            velocityY="-250"
+            velocityDeviationX="100"
+            velocityDeviationY="100"
+            initialScale="0.7"
+            initialScaleDeviation="0.3"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.01">
+
+            <image path="emoji/emoji_1.png" ratio="1.0"/>
+            <image path="emoji/emoji_2.png" ratio="1.0"/>
+            <image path="emoji/emoji_3.png" ratio="1.0"/>
+            <image path="emoji/emoji_4.png" ratio="1.0"/>
+            <image path="emoji/emoji_5.png" ratio="1.0"/>
+            <image path="emoji/emoji_6.png" ratio="1.0"/>
+            <image path="emoji/emoji_7.png" ratio="1.0"/>
+            <image path="emoji/emoji_8.png" ratio="1.0"/>
+        </background>
+
+        <background
+            emissionRate="3"
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            sourceFromX="1.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityX="-250"
+            velocityY="-250"
+            velocityDeviationX="100"
+            velocityDeviationY="100"
+            initialScale="0.5"
+            initialScaleDeviation="0.1"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01">
+
+            <image path="emoji/emoji_1.png" ratio="1.0"/>
+            <image path="emoji/emoji_2.png" ratio="1.0"/>
+            <image path="emoji/emoji_3.png" ratio="1.0"/>
+            <image path="emoji/emoji_4.png" ratio="1.0"/>
+            <image path="emoji/emoji_5.png" ratio="1.0"/>
+            <image path="emoji/emoji_6.png" ratio="1.0"/>
+            <image path="emoji/emoji_7.png" ratio="1.0"/>
+            <image path="emoji/emoji_8.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            emissionRate="12"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialScale="0.63"
+            initialScaleDeviation="0.3">
+
+            <image path="emoji/gesture_1.png" ratio="1.0"/>
+            <image path="emoji/gesture_2.png" ratio="1.0"/>
+            <image path="emoji/gesture_3.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

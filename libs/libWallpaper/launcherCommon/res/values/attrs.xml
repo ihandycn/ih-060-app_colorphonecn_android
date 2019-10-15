@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+/* Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+
+<resources>
+
+    <!-- Device profile -->
+    <declare-styleable name="DynamicGrid">
+        <attr name="name" format="string" />
+        <attr name="minWidthDps" format="float" />
+        <attr name="minHeightDps" format="float" />
+
+        <attr name="numRows" format="integer" />
+        <attr name="numColumns" format="integer" />
+        <attr name="numFolderRows" format="integer" />
+        <attr name="numFolderColumns" format="integer" />
+        <attr name="defaultLayoutId" format="reference" />
+        <attr name="numRowsReference" format="integer" />
+        <attr name="numColumnsReference" format="integer" />
+
+        <!-- minAllAppsPredictionColumns defaults to numColumns, if not specified -->
+        <attr name="minAllAppsPredictionColumns" format="integer" />
+
+        <!-- numHotseatIcons defaults to numColumns, if not specified -->
+        <attr name="numHotseatIcons" format="integer" />
+
+        <attr name="iconSize" format="float" />
+        <attr name="iconTextSize" format="float" />
+
+        <!-- hotseatIconSize defaults to iconSize, if not specified -->
+        <attr name="hotseatIconSize" format="float" />
+    </declare-styleable>
+
+    <!-- BubbleTextView specific attributes. -->
+    <declare-styleable name="BubbleTextView">
+        <attr name="layoutHorizontal" format="boolean" />
+        <attr name="iconSizeOverride" format="dimension" />
+        <attr name="iconTextSizeOverride" format="dimension" />
+        <attr name="iconDisplay" format="enum">
+            <enum name="workspace" value="0" />
+            <enum name="hotseat" value="1" />
+            <enum name="all_apps_vertical" value="2" />
+            <enum name="all_apps_horizontal" value="3" />
+            <enum name="folder" value="4" />
+            <enum name="folder_add_content" value="5" />
+            <enum name="folder_title" value="6" />
+            <enum name="widget_section" value="7" />
+            <enum name="hide" value="8" />
+            <enum name="hide_add_content" value="9" />
+            <enum name="menu" value="10" />
+            <enum name="menu_panel" value="11" />
+            <enum name="folder_promoted" value="12" />
+            <enum name="search_promoted" value="13" />
+            <enum name="avatar_widgets_recent_apps" value="14" />
+        </attr>
+        <attr name="deferShadowGeneration" format="boolean" />
+        <attr name="customShadows" format="boolean" />
+    </declare-styleable>
+
+    <!-- Workspace specific attributes. These attributes are used to customize
+         the workspace in XML files. -->
+    <declare-styleable name="Workspace">
+        <!-- The first screen the workspace should display. -->
+        <attr name="defaultScreen" format="integer" />
+        <!-- The number of horizontal cells in the CellLayout -->
+        <attr name="cellCountX" format="integer" />
+        <!-- The number of vertical cells in the CellLayout -->
+        <attr name="cellCountY" format="integer" />
+    </declare-styleable>
+
+    <!-- Hotseat specific attributes. These attributes are used to customize
+         the hotseat in XML files. -->
+    <declare-styleable name="Hotseat">
+        <!-- The number of horizontal cells in the CellLayout -->
+        <attr name="cellCountX" />
+        <!-- The number of vertical cells in the CellLayout -->
+        <attr name="cellCountY" />
+    </declare-styleable>
+
+    <!-- CellLayout specific attributes. These attributes are used to customize
+         a CellLayout view in XML files. -->
+    <declare-styleable name="CellLayout">
+        <!-- Please notice that both of the width and height attributes must be set if you wish to set the dimensions
+             manually. Setting only one of them will not work. -->
+        <!-- The width of a single cell -->
+        <attr name="cellWidth" format="dimension" />
+        <!-- The height of a single cell -->
+        <attr name="cellHeight" format="dimension" />
+        <!-- An override for the width and height gap to allow users to specify
+             a specific size for the page using spacing instead of resolving the
+             spacing from the width of the page -->
+        <attr name="widthGap" format="dimension" />
+        <attr name="heightGap" format="dimension" />
+        <!-- The max gap size for each dimension -->
+        <attr name="maxGap" format="dimension" />
+    </declare-styleable>
+
+    <!-- PagedView specific attributes. These attributes are used to customize
+         a PagedView view in XML files. -->
+    <declare-styleable name="PagedView">
+        <!-- A spacing override for the icons within a page -->
+        <attr name="pageLayoutWidthGap" format="dimension" />
+        <attr name="pageLayoutHeightGap" format="dimension" />
+
+        <!-- The page indicator for this workspace -->
+        <attr name="pageIndicator" format="reference" />
+
+        <!-- Whether a dimension where width > height is allowed for this layout -->
+        <attr name="allowsLandscapeDimension" format="boolean" />
+    </declare-styleable>
+
+    <!-- LauncherProgressBar specific attributes. These attributes are used to customize
+         a LauncherProgressBar view in XML files. -->
+    <declare-styleable name="LauncherProgressBar">
+        <!-- Colors of vertices, in counter-clockwise order from the top vertex -->
+        <attr name="colorArray" format="reference" />
+
+        <!-- Distance between center of two adjacent points -->
+        <attr name="pointDistance" format="dimension" />
+    </declare-styleable>
+
+    <!-- GroupTabLayout specific attributes. These attributes are used to customize
+         a GroupTabLayout view in XML files. -->
+    <declare-styleable name="GroupTabLayout">
+        <!-- Height -->
+        <attr name="tabHeight" format="dimension" />
+
+        <!-- Height of tab indicator -->
+        <attr name="tabStripHeight" format="dimension" />
+
+        <!-- Height of track for tab indicator -->
+        <attr name="tabStripTrackHeight" format="dimension" />
+
+        <!-- Color of track for tab indicator -->
+        <attr name="tabStripTrackColor" format="color" />
+
+        <!-- Page indicator paired with this tab layout. This indicator can be used to show "sub"-pages inside a group. -->
+        <attr name="tabPageIndicator" format="reference" />
+    </declare-styleable>
+
+    <!-- XML attributes used by default_workspace.xml -->
+    <declare-styleable name="Favorite">
+        <attr name="className" format="string" />
+        <attr name="packageName" format="string" />
+        <attr name="container" format="string" />
+        <attr name="screen" format="string" />
+        <attr name="x" format="string" />
+        <attr name="y" format="string" />
+        <attr name="spanX" format="string" />
+        <attr name="spanY" format="string" />
+        <attr name="favoriteIcon" format="reference" />
+        <attr name="favoriteTitle" format="reference" />
+        <attr name="uri" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="Extra">
+        <attr name="key" format="string" />
+        <attr name="value" format="string" />
+    </declare-styleable>
+    <declare-styleable name="Include">
+        <attr name="workspace" format="reference" />
+        <attr name="folderItems" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="PreloadIconDrawable">
+        <attr name="iconBackground" format="reference" />
+        <attr name="ringOutset" format="dimension" />
+        <attr name="indicatorSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="WaterWave">
+        <attr name="above_wave_color" format="color" />
+        <attr name="blow_wave_color" format="color" />
+        <attr name="progress" format="integer" />
+        <attr name="wave_length" format="enum">
+            <enum name="large" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="little" value="3" />
+        </attr>
+        <attr name="wave_height" format="enum">
+            <enum name="large" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="little" value="3" />
+        </attr>
+        <attr name="wave_hz" format="enum">
+            <enum name="fast" value="1" />
+            <enum name="normal" value="2" />
+            <enum name="slow" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="WaterWaveOverlay">
+        <attr name="circle_color" format="color" />
+        <attr name="hole_radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundProgressBar">
+        <attr name="roundColor" format="color" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="roundWidth" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="max" format="integer" />
+        <attr name="textIsDisplayable" format="boolean" />
+        <attr name="style">
+            <enum name="STROKE" value="0" />
+            <enum name="FILL" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <attr name="aspectRatio" format="float" />
+    <declare-styleable name="FixedRatioLayout">
+        <attr name="aspectRatio" />
+    </declare-styleable>
+
+    <declare-styleable name="LoadingProgressBar">
+        <attr name="prepareCircleRadius" format="dimension" />
+        <attr name="loadingCircleRadius" format="dimension" />
+        <attr name="prepareCircleDistance" format="dimension" />
+        <attr name="loadingCircleDistance" format="dimension" />
+        <attr name="loadingCircleVibrateRange" format="dimension" />
+        <attr name="shouldPrepare" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="LevelSeekBar">
+        <attr name="thumb" format="reference" />
+        <attr name="levelCount" format="integer" />
+        <attr name="level" format="integer" />
+        <attr name="trackHeight" format="dimension" />
+        <attr name="trackBackgroundHeight" format="dimension" />
+        <attr name="trackColor" format="color" />
+        <attr name="trackBackgroundColor" format="color" />
+        <attr name="scaleMark">
+            <enum name="normal" value="0" />
+            <enum name="round" value="1" />
+        </attr>
+        <attr name="scaleMarkColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PercentageProgressBar">
+        <attr name="barTrackHeight" format="dimension" />
+        <attr name="thumbHeight" format="dimension" />
+        <attr name="thumbCenterHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="PercentageProgressView">
+        <attr name="textDistance" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UnlockPatternView">
+        <attr name="nodeDrawable" format="color|reference" />
+        <attr name="nodeHighlightDrawable" format="color|reference" />
+        <attr name="nodeErrorDrawable" format="color|reference" />
+        <attr name="normalLineColor" format="color" />
+        <attr name="errorLineColor" format="color" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="patternPadding" format="dimension" />
+        <attr name="patternSpacing" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="AsyncImageView">
+        <attr name="asyncSrc" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressWheel">
+        <attr name="progressIndeterminate" format="boolean" />
+        <attr name="barColor" format="color" />
+        <attr name="rimColor" format="color" />
+        <attr name="rimWidth" format="dimension" />
+        <attr name="spinSpeed" format="float" />
+        <attr name="barSpinCycleTime" format="integer" />
+        <attr name="fillRadius" format="boolean" />
+        <attr name="circleRadiu" format="dimension" />
+        <attr name="barWidth" format="dimension" />
+        <attr name="linearProgress" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SeekCircleProgressBar">
+        <attr name="seekBarMaxProgress" format="integer" />
+        <attr name="seekBarLineWidth" format="dimension" />
+        <attr name="seekBarLineHeight" format="dimension" />
+        <attr name="seekBarBackColor" format="color" />
+        <attr name="seekBarForeColor" format="color" />
+        <attr name="seekBarTriangleEnable" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SimpleTextView">
+        <attr name="simpleTextSize" format="dimension" />
+        <attr name="simpleTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="SlidingDrawer">
+        <!-- Identifier for the child that represents the drawer's handle. -->
+        <attr name="handle" format="reference" />
+        <!-- Identifier for the child that represents the drawer's content. -->
+        <attr name="content" format="reference" />
+        <!-- Orientation of the SlidingDrawer. -->
+        <attr name="sdorientation" format="enum">
+            <enum name="topDown" value="1" />
+            <enum name="bottomUp" value="2" />
+            <enum name="leftToRight" value="4" />
+            <enum name="rightToLeft" value="8" />
+        </attr>
+        <!--
+             Indicates whether the drawer can be opened/closed by a single tap
+             on the handle.  (If false, the user must drag or fling, or click
+             using the trackball, to open/close the drawer.)  Default is true.
+        -->
+        <attr name="allowSingleTap" format="boolean" />
+        <!--
+             Indicates whether the drawer should be opened/closed with an animation
+             when the user clicks the handle. Default is true.
+        -->
+        <attr name="animateOnClick" format="boolean" />
+        <attr name="tensionTween" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerView">
+        <attr name="reflectionColor" format="color" />
+    </declare-styleable>
+
+    <!--All apps interstitial ad view.-->
+    <declare-styleable name="AllAppsScaleLinearLayout">
+        <attr name="lengthWidthRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="flash">
+        <attr name="src" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="PercentLayout_Layout">
+        <attr name="layout_widthPercent" format="fraction" />
+        <attr name="layout_heightPercent" format="fraction" />
+        <attr name="layout_marginPercent" format="fraction" />
+        <attr name="layout_marginLeftPercent" format="fraction" />
+        <attr name="layout_marginTopPercent" format="fraction" />
+        <attr name="layout_marginRightPercent" format="fraction" />
+        <attr name="layout_marginBottomPercent" format="fraction" />
+        <attr name="layout_marginStartPercent" format="fraction" />
+        <attr name="layout_marginEndPercent" format="fraction" />
+        <attr name="layout_aspectRatio" format="fraction" />
+    </declare-styleable>
+
+    <declare-styleable name="WheelView">
+        <attr name="gravity">
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
+        </attr>
+        <attr name="wheelViewTextSize" format="dimension" />
+        <attr name="textColorOut" format="color" />
+        <attr name="textColorCenter" format="color" />
+        <attr name="dividerColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowLayout">
+        <attr name="sl_cornerRadius" format="dimension" />
+        <attr name="sl_shadowRadius" format="dimension" />
+        <attr name="sl_shadowColor" format="color" />
+        <attr name="sl_dx" format="dimension" />
+        <attr name="sl_dy" format="dimension" />
+    </declare-styleable>
+
+    <attr name="videoScaleType" format="enum">
+        <enum name="none" value="0" />
+        <enum name="fit_xy" value="1" />
+        <enum name="fit_start" value="2" />
+        <enum name="fit_center" value="3" />
+        <enum name="fit_end" value="4" />
+        <enum name="left_top" value="5" />
+        <enum name="left_center" value="6" />
+        <enum name="left_bottom" value="7" />
+        <enum name="center_top" value="8" />
+        <enum name="center" value="9" />
+        <enum name="center_bottom" value="10" />
+        <enum name="right_top" value="11" />
+        <enum name="right_center" value="12" />
+        <enum name="right_bottom" value="13" />
+        <enum name="left_top_crop" value="14" />
+        <enum name="left_center_crop" value="15" />
+        <enum name="left_bottom_crop" value="16" />
+        <enum name="center_top_crop" value="17" />
+        <enum name="center_crop" value="18" />
+        <enum name="center_bottom_crop" value="19" />
+        <enum name="right_top_crop" value="20" />
+        <enum name="right_center_crop" value="21" />
+        <enum name="right_bottom_crop" value="22" />
+        <enum name="start_inside" value="23" />
+        <enum name="center_inside" value="24" />
+        <enum name="end_inside" value="25" />
+    </attr>
+
+    <declare-styleable name="TextureVideoView">
+        <attr name="videoScaleType" />
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerFrameLayout">
+        <attr name="auto_start" format="boolean" />
+        <attr name="base_alpha" format="float" />
+        <attr name="duration" format="integer" />
+        <attr name="repeat_count" format="integer" />
+        <attr name="repeat_delay" format="integer" />
+        <attr name="repeat_mode" format="enum">
+            <enum name="restart" value="1" />
+            <enum name="reverse" value="2" />
+        </attr>
+        <attr name="angle" format="enum">
+            <enum name="cw_0" value="0" />
+            <enum name="cw_90" value="90" />
+            <enum name="cw_180" value="180" />
+            <enum name="cw_270" value="270" />
+        </attr>
+        <attr name="dropoff" format="float" />
+        <attr name="fixed_width" format="dimension" />
+        <attr name="fixed_height" format="dimension" />
+        <attr name="intensity" format="float" />
+        <attr name="relative_width" format="float" />
+        <attr name="relative_height" format="float" />
+        <attr name="shimmer_shape" format="enum">
+            <enum name="linear" value="0" />
+            <enum name="radial" value="1" />
+        </attr>
+        <attr name="tilt" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="StrokeTextView">
+        <attr name="stroke_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="TimerCountDownRelativeLayout">
+        <attr name="bottom_color" format="color" />
+        <attr name="top_color" format="color" />
+        <attr name="stroke_width" format="dimension" />
+        <attr name="draw_top" format="boolean" />
+    </declare-styleable>
+
+    <!--fall master view-->
+    <declare-styleable name="FallScene">
+        <attr name="backgroundColor" format="color" />
+        <attr name="isPeopleLeft" format="boolean" />
+    </declare-styleable>
+
+    <!--scratch view-->
+    <declare-styleable name="ScratchView">
+        <attr name="maskColor" format="color|reference" />
+        <attr name="watermark" format="reference" />
+        <attr name="eraseSize" format="float" />
+        <attr name="maxPercent" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="AutoResizeNoPaddingTextView">
+        <attr name="isBottom" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="NoPaddingTextView">
+        <attr name="isPaddingTop" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="PredictedBubbleTextView">
+        <attr name="isInVerticalAllApps" format="boolean" />
+    </declare-styleable>
+
+</resources>

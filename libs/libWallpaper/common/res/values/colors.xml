@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Common -->
+    <color name="blue_action_bar_bg">#448aff</color>
+    <color name="quantum_panel_bg_color">#FFF5F5F5</color>
+    <color name="button_pressed_bg">#0d000000</color>
+
+    <!-- Material Design -->
+    <color name="material_text_black_primary">#de000000</color>
+    <!-- TODO de000000 87% alpha-->
+    <color name="material_ripple">#33000000</color>
+    <color name="material_ripple_white">#33FFFFFF</color>
+    <color name="material_ripple_button_white">#e0e1e2</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- Dialog -->
+
+    <!-- Theme -->
+    <color name="theme_bottom_btn_bg_normal">#448AFF</color>
+    <color name="blue_btn_bg_pressed">#366ECC</color>
+    <color name="theme_bottom_btn_bg_disabled">#ADADAD</color>
+    <color name="transparent_progress_dialog">#83000000</color>
+
+    <!-- **************** 2017\11\7 new color rules ******************* -->
+    <color name="main" tools:ignore="all">#3480FF</color>
+    <color name="main_pressed" tools:ignore="all">#2E70E0</color>
+    <color name="sub_color_01" tools:ignore="all">#FF225E</color>
+    <color name="sub_color_02" tools:ignore="all">#FFD600</color>
+    <color name="warn" tools:ignore="all">#FF3101</color>
+    <color name="clean" tools:ignore="all">#09C659</color>
+    <color name="special" tools:ignore="all">#6C40DB</color>
+    <color name="title" tools:ignore="all">#333333</color>
+    <color name="text" tools:ignore="all">#666666</color>
+    <color name="hint" tools:ignore="all">#999999</color>
+    <color name="line" tools:ignore="all">#F4F4F4</color>
+    <color name="load" tools:ignore="all">#F8F8F8</color>
+    <color name="grey" tools:ignore="all">#C6C6C6</color>
+    <color name="white" tools:ignore="all">#ffffff</color>
+    <color name="black" tools:ignore="all">#000000</color>
+    <color name="black_alpha_15" tools:ignore="all">#d8000000</color>
+    <color name="black_alpha_25" tools:ignore="all">#bf000000</color>
+    <color name="black_alpha_30" tools:ignore="all">#b2000000</color>
+    <color name="black_alpha_40" tools:ignore="all">#99000000</color>
+    <color name="black_alpha_65" tools:ignore="all">#59000000</color>
+    <color name="black_alpha_70" tools:ignore="all">#4c000000</color>
+    <color name="black_alpha_80" tools:ignore="all">#33000000</color>
+    <color name="black_alpha_85" tools:ignore="all">#26000000</color>
+    <color name="black_alpha_88" tools:ignore="all">#1f000000</color>
+    <color name="white_alpha_70" tools:ignore="all">#4cffffff</color>
+    <color name="white_alpha_10" tools:ignore="all">#e5ffffff</color>
+    <color name="white_alpha_88" tools:ignore="all">#1fffffff</color>
+    <color name="white_alpha_80" tools:ignore="all">#33ffffff</color>
+    <color name="white_alpha_50" tools:ignore="all">#7fffffff</color>
+    <color name="white_alpha_90" tools:ignore="all">#19ffffff</color>
+
+    <color name="white_alpha_40" tools:ignore="all">#99ffffff</color>
+    <color name="status_bar" tools:ignore="all">#d9d9d9</color>
+    <color name="pressed_2" tools:ignore="all">#d6d6d6</color>
+    <color name="ad_card" tools:ignore="all">#eaeaea</color>
+
+</resources>
