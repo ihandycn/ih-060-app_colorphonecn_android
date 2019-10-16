@@ -144,7 +144,6 @@ public abstract class WallpaperBaseActivity extends BaseAppCompatActivity {
     }
 
     private void applyWallPaperFinish(boolean isScroll) {
-        CommonUtils.startLauncherAndSelectWallpaper(WallpaperBaseActivity.this, isScroll);
         finish();
     }
 

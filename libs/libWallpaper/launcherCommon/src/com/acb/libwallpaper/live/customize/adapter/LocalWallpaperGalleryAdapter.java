@@ -323,7 +323,6 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
                     ContentResolver contentResolver = HSApplication.getContext().getContentResolver();
                     contentResolver.call(WallpaperProvider.CONTENT_URI, WallpaperProvider.METHOD_APPLY_WALLPAPER, "", bundle);
 
-                    CommonUtils.startLauncher(mContext);
                 }
             }
             prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, false);

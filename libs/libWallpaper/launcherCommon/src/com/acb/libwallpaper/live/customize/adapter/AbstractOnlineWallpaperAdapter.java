@@ -198,7 +198,6 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                     ContentResolver contentResolver = HSApplication.getContext().getContentResolver();
                     contentResolver.call(WallpaperProvider.CONTENT_URI, WallpaperProvider.METHOD_APPLY_WALLPAPER, "", bundle);
 
-                    CommonUtils.startLauncher(mContext);
                     Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode",
                             wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D ? "3D" : "Live");
                     Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", "Hot");
