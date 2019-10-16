@@ -278,6 +278,15 @@
             android:theme="@style/ContactTheme" />
 
         <activity
+            android:name="com.acb.libwallpaper.live.customize.activity.MyWallpaperActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme">
+        </activity>
+
+        <activity
             android:name=".activity.ContactsRingtoneSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"

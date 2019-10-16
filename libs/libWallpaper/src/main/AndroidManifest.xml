@@ -67,11 +67,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".live.customize.activity.MyWallpaperActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ThemeAppBarLightStatusBarActivity">
-        </activity>
-        <activity
             android:name=".live.customize.activity.WallpaperPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

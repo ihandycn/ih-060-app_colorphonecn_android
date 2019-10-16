@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/local_customize_page"
+    android:background="@android:color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:elevation="@dimen/customize_toolbar_elevation"
         android:orientation="horizontal"
         tools:ignore="UnusedAttribute">
@@ -33,9 +33,9 @@
             app:tabMode="scrollable"
             app:tabPaddingEnd="@dimen/tab_padding_start"
             app:tabPaddingStart="@dimen/tab_padding_start"
-            app:tabSelectedTextColor="#333333"
+            app:tabSelectedTextColor="#ffffff"
             app:tabTextAppearance="@style/TabLayoutTextAppearance.Customize"
-            app:tabTextColor="#999999"
+            app:tabTextColor="#ffffff"
             tools:ignore="PrivateResource,UnusedAttribute"/>
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.acb.libwallpaper.live.customize.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,7 +14,9 @@ import com.acb.libwallpaper.R;
 import com.acb.libwallpaper.live.customize.OverlayInstaller;
 import com.acb.libwallpaper.live.customize.WallpaperMgr;
 import com.acb.libwallpaper.live.customize.view.LocalCustomizePage;
+import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.acb.libwallpaper.live.util.ViewUtils;
+import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -27,7 +30,7 @@ import static com.acb.libwallpaper.live.customize.activity.CustomizeActivity.NOT
 import static com.acb.libwallpaper.live.customize.activity.CustomizeActivity.NOTIFICATION_CUSTOMIZE_ACTIVITY_ONRESUME;
 
 
-public class MyWallpaperActivity extends BaseCustomizeActivity
+public class MyWallpaperActivity extends HSAppCompatActivity
         implements INotificationObserver, OverlayInstaller {
 
     private List<ActivityResultHandler> mActivityResultHandlers = new ArrayList<>(1);
@@ -53,6 +56,7 @@ public class MyWallpaperActivity extends BaseCustomizeActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityUtils.setStatusBarColor(this, Color.BLACK);
         setContentView(R.layout.local_customize_page);
         mLocalCustomizePage = findViewById(R.id.local_customize_page);
         HSGlobalNotificationCenter.addObserver(WallpaperMgr.NOTIFICATION_WALLPAPER_GALLERY_SAVED, this);
