@@ -68,11 +68,11 @@ public class CategoryViewAdapter extends BaseAdapter {
         CategoryItem item = mData.get(position);
         holder.titleView.setText(item.getItemName());
         if (item.isSelected()) {
-            holder.titleView.setTextColor(Color.WHITE);
+            holder.titleView.setTextColor(Color.BLACK);
             convertView.setBackgroundResource(R.drawable.online_wallpaper_category_btn_hl);
             holder.titleView.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
         } else {
-            holder.titleView.setTextColor(0xff333333);
+            holder.titleView.setTextColor(Color.WHITE);
             holder.titleView.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_REGULAR));
             convertView.setBackgroundResource(R.drawable.online_wallpaper_category_btn_bg);
         }

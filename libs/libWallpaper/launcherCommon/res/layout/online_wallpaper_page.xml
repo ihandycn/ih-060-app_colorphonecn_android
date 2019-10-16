@@ -51,7 +51,7 @@
         android:id="@+id/tab_layout_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/customize_toolbar_height"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -78,9 +78,9 @@
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="@dimen/tab_padding_start"
                 app:tabPaddingStart="@dimen/tab_padding_start"
-                app:tabSelectedTextColor="#333333"
+                app:tabSelectedTextColor="#ffffff"
                 app:tabTextAppearance="@style/TabLayoutTextAppearance.Customize"
-                app:tabTextColor="#999999"
+                app:tabTextColor="#b2ffffff"
                 tools:ignore="PrivateResource,UnusedAttribute"/>
 
             <com.superapps.view.TypefacedTextView
@@ -91,7 +91,7 @@
                 android:layout_marginLeft="@dimen/overview_panel_wallpaper_theme_horizontal_padding"
                 android:layout_marginStart="@dimen/overview_panel_wallpaper_theme_horizontal_padding"
                 android:text="@string/online_wallpaper_tab_title_categories"
-                android:textColor="#333333"
+                android:textColor="#ffffff"
                 android:textSize="14sp"
                 android:translationY="@dimen/online_category_title_view_translationY"
                 android:visibility="gone"
