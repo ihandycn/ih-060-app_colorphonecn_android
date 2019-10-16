@@ -369,7 +369,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
             mTabItems.add(new TabItem(TabItem.TAB_WALLPAPER,
-                    R.drawable.seletor_tab_ringtone, "壁纸", false));
+                    R.drawable.seletor_tab_wallpaper, "壁纸", false));
         }
 
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
