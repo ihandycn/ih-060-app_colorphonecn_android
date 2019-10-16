@@ -43,7 +43,7 @@
     </style>
 
     <style name="TabLayoutTextAppearance.Customize" parent="TabLayoutTextAppearance">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ThemeAppBarActivity" parent="Theme.AppCompat.NoActionBar">

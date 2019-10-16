@@ -3,11 +3,15 @@ package com.acb.libwallpaper.live.customize.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.acb.libwallpaper.live.LauncherApplication;
 import com.acb.libwallpaper.R;
@@ -58,6 +62,14 @@ public class MyWallpaperActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
         ActivityUtils.setStatusBarColor(this, Color.BLACK);
         setContentView(R.layout.local_customize_page);
+        ImageView navBack = findViewById(R.id.nav_back);
+        navBack.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mLocalCustomizePage = findViewById(R.id.local_customize_page);
         HSGlobalNotificationCenter.addObserver(WallpaperMgr.NOTIFICATION_WALLPAPER_GALLERY_SAVED, this);
         HSGlobalNotificationCenter.addObserver(WallpaperMgr.NOTIFICATION_REFRESH_LOCAL_WALLPAPER, this);
