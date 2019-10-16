@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
+import com.acb.libwallpaper.live.Manager;
 import com.acb.libwallpaper.live.WallpaperAnalytics;
 import com.acb.libwallpaper.live.livewallpaper.BaseWallpaperService;
 import com.acb.libwallpaper.live.livewallpaper.LiveWallpaperConsts;
@@ -198,9 +199,9 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                     contentResolver.call(WallpaperProvider.CONTENT_URI, WallpaperProvider.METHOD_APPLY_WALLPAPER, "", bundle);
 
                     CommonUtils.startLauncher(mContext);
-                    WallpaperAnalytics.logEvent("Wallpaper_Set_Success", "SettingMode",
+                    Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode",
                             wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D ? "3D" : "Live");
-                    WallpaperAnalytics.logEvent("Wallpaper_Set_Success", "ClassName", "Hot");
+                    Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", "Hot");
                 }
             }
             prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, false);

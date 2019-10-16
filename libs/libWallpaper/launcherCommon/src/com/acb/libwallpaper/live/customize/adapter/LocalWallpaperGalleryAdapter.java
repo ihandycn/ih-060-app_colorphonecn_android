@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.acb.libwallpaper.live.Manager;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.customize.activity.CustomizeActivity;
@@ -275,6 +276,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
             Intent chooserIntent = Intent.createChooser(pickIntent, "Select Image");
             Navigations.startActivityForResultSafely(mContext, chooserIntent, CustomizeActivity.REQUEST_CODE_PICK_WALLPAPER);
             LauncherAnalytics.logEvent("Wallpaper_Mine_MyWallpaper_Add_Btn_Clicked");
+            Manager.getInstance().getDelegate().logEvent("Settings_MyWallpaper_AddWallpaper_Clicked");
         } else {
             WallpaperInfo wallpaper = mWallpapers.get(wallpaperIndex);
             if (wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D) {

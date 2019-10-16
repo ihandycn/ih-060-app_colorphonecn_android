@@ -29,6 +29,8 @@ import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.libwallpaper.live.EventsDelegate;
+import com.acb.libwallpaper.live.Manager;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -330,6 +332,17 @@ public class ColorPhoneApplicationImpl {
         launchTime = System.currentTimeMillis();
 
         HSFeast.getInstance().init(mBaseApplication, null);
+        Manager.getInstance().setDelegate(new EventsDelegate() {
+            @Override
+            public void logEvent(String eventID) {
+                Analytics.logEvent(eventID);
+            }
+
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
+            }
+        });
     }
 
     private void onWorkProcessCreate() {

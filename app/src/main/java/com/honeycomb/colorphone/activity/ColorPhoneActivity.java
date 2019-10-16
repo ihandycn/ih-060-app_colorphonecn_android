@@ -538,6 +538,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         // TODO
 //                        Analytics.logEvent("Tab_News_Show");
                         break;
+                    case TabItem.TAB_WALLPAPER:
+                        Analytics.logEvent("Tab_Wallpaper_Show");
+                        break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
                             guideLottie.setVisibility(View.GONE);

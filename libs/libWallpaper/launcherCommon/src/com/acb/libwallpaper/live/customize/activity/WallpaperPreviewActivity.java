@@ -36,6 +36,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.libwallpaper.live.Manager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -427,6 +428,8 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                 mWallpapers.clear();
                 mWallpapers.addAll(wallpapers);
                 mIsOnLineWallpaper = true;
+                String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", "Food");
+                Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", current_category_name);
                 break;
             case LOCAL:
                 if (mPaperIndex < 0) {
@@ -807,8 +810,8 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
             applyWallpaper(mCurrentWallpaper.getType() != WallpaperInfo.WALLPAPER_TYPE_GALLERY, false);
             Preferences preferences = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS);
             String string = preferences.getString("current_category_name", "Food");
-            WallpaperAnalytics.logEvent("Wallpaper_Set_Success", "ClassName", string);
-            WallpaperAnalytics.logEvent("Wallpaper_Set_Success", "SettingMode", "Rolling");
+            Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", string);
+            Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode", "Rolling");
         }
     }
 

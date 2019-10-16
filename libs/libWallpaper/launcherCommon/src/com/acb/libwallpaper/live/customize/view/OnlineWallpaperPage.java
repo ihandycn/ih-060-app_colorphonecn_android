@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
+import com.acb.libwallpaper.live.Manager;
 import com.acb.libwallpaper.live.WallpaperAnalytics;
 import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.acb.libwallpaper.live.util.LauncherConfig;
@@ -155,6 +156,9 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 Preferences preferences = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS);
                 preferences.putString("current_category_name", mAdapter.getDefaultCategoryName(positionAbsolute));
                 WallpaperAnalytics.logEvent("Wallpaper_Class_Show", "ClassName", mAdapter.getDefaultCategoryName(positionAbsolute));
+
+                Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", mAdapter.getDefaultCategoryName(positionAbsolute),
+                        "From", mIsTabNoClickSelected ? "Slide" : "TabClick");
             }
 
             @Override

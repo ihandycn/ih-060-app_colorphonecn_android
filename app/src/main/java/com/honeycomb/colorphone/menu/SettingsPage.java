@@ -172,6 +172,7 @@ public class SettingsPage implements View.OnClickListener {
                 break;
             case R.id.settings_mywallpapers:
                 Navigations.startActivity(rootView.getContext(), MyWallpaperActivity.class);
+                Analytics.logEvent("Settings_MyWallpaper_Clicked");
                 break;
             default:
                 break;

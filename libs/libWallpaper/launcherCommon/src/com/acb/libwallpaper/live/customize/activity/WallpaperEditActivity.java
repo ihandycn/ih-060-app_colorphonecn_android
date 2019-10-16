@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.libwallpaper.live.Manager;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.acb.libwallpaper.live.LauncherAnalytics;
@@ -509,7 +510,7 @@ public class WallpaperEditActivity extends WallpaperBaseActivity implements View
         mCurrentWallpaper.setApplied(true);
         applyWallpaper(mIsScrollable);
 
-        WallpaperAnalytics.logEvent("Wallpaper_Set_Success", "SettingMode", mIsScrollable ? "Rolling" : "Fixed");
+        Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode", mIsScrollable ? "Rolling" : "Fixed");
 
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_WALLPAPER_APPLIED_FROM_EDIT);
     }
