@@ -226,7 +226,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
         boolean isLive = (wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_LIVE);
         boolean isDisabled = (isEditing && (isBuiltIn));
 
-        holder.thumbnail.setTag(wallpaperIndex);
+        holder.thumbnail.setTag(R.id.wallpaper_position, wallpaperIndex);
         holder.thumbnail.setOnClickListener(isDisabled ? null : this);
         holder.thumbnail.setOnLongClickListener(isEditing ? null : this);
         holder.thumbnail.setOnTouchListener(isDisabled ? null : new ImagePressedTouchListener(holder.thumbnail));
@@ -247,7 +247,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
     }
 
     private void refreshAddButton(AddButtonViewHolder holder, boolean isEditing) {
-        holder.button.setTag(TAG_ADD_BUTTON);
+        holder.button.setTag(R.id.wallpaper_position, TAG_ADD_BUTTON);
         holder.button.setOnClickListener(isEditing ? null : this);
         holder.button.setOnLongClickListener(isEditing ? null : this);
         holder.button.setOnTouchListener(isEditing ? null :
@@ -257,7 +257,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
 
     @Override
     public void onClick(View v) {
-        Object tag = v.getTag();
+        Object tag = v.getTag(R.id.wallpaper_position);
         if (tag != null) {
             int index = (int) tag;
             if (mPage.isEditing()) {
