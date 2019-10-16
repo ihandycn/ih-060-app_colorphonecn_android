@@ -401,7 +401,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
-        tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_five);
+        } else {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
+
+        }
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
