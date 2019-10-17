@@ -369,7 +369,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     R.drawable.seletor_tab_ringtone, "铃声", false));
         }
 
-        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
             mTabItems.add(new TabItem(TabItem.TAB_WALLPAPER,
                     R.drawable.seletor_tab_wallpaper, "壁纸", false));
         }
@@ -403,7 +403,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
-        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
             tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_five);
         } else {
             tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);

@@ -98,7 +98,7 @@ public class SettingsPage implements View.OnClickListener {
                 }
             }
         });
-        if (!HSConfig.optBoolean(true, "Application", "Wallpapers", "Enable")) {
+        if (!HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
             rootView.findViewById(R.id.settings_mywallpapers).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.settings_mywallpapers).setOnClickListener(this);
