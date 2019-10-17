@@ -402,16 +402,17 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         @Override
         public int getCount() {
-            return mCategoryConfigs.size() + mTabsConfig.extraTabsCount;
+            return mCategoryConfigs.size() + (CustomizeConfig.getBoolean(true, "IsHotEnabled") ? 0 : mTabsConfig.extraTabsCount);
         }
 
         @Override
         public CharSequence getPageTitle(int positionAbsolute) {
             int position = Utils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
-            if (position == mTabsConfig.tabIndexHot) {
+            if (CustomizeConfig.getBoolean(true, "IsHotEnabled") && position == mTabsConfig.tabIndexHot) {
                 return mContext.getString(R.string.online_wallpaper_tab_title_hot);
             }
-            int categoryIndex = position - mTabsConfig.extraTabsCount;
+            int categoryIndex = position - (CustomizeConfig.getBoolean(true, "IsHotEnabled") ?
+                    0 : mTabsConfig.extraTabsCount);
             return LauncherConfig.getMultilingualString(mCategoryConfigs.get(categoryIndex), "CategoryName");
         }
 
@@ -420,7 +421,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
             int position = Utils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
             View initView;
 
-            if (position == mTabsConfig.tabIndexHot) {
+            if (CustomizeConfig.getBoolean(true, "IsHotEnabled") && position == mTabsConfig.tabIndexHot) {
                 OnlineWallpaperListView mHotTabContent = (OnlineWallpaperListView) LayoutInflater.from(
                         getContext()).inflate(R.layout.wallpaper_list_page, OnlineWallpaperPage.this, false);
                 mHotTabContent.setScenario(WallpaperMgr.Scenario.ONLINE_HOT);
@@ -429,7 +430,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 initView = mHotTabContent;
 
             } else {
-                int categoryIndex = position - mTabsConfig.extraTabsCount;
+                int categoryIndex = position - (CustomizeConfig.getBoolean(true, "IsHotEnabled") ?
+                        0 : mTabsConfig.extraTabsCount);
                 OnlineWallpaperListView list = createSingleCategoryTabContent(categoryIndex);
                 list.setupAdapter();
                 list.startLoading();
@@ -446,7 +448,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
                     .inflate(R.layout.wallpaper_list_page, OnlineWallpaperPage.this, false);
 
             String categoryName = "";
-            int position = categoryIndex + mTabsConfig.extraTabsCount;
+            int position = categoryIndex + (CustomizeConfig.getBoolean(true, "IsHotEnabled") ?
+                    0 : mTabsConfig.extraTabsCount);
             int positionAbsolute = Utils.mirrorIndexIfRtl(mIsRtl, getCount(), position);
             CharSequence categoryNameCs = getPageTitle(positionAbsolute);
             if (null != categoryNameCs) {
@@ -470,10 +473,11 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         public String getDefaultCategoryName(int positionAbsolute) {
             int position = Utils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
-            if (position == mTabsConfig.tabIndexHot) {
+            if (CustomizeConfig.getBoolean(true, "IsHotEnabled") && position == mTabsConfig.tabIndexHot) {
                 return mContext.getString(R.string.online_wallpaper_tab_title_hot);
             }
-            int categoryIndex = position - mTabsConfig.extraTabsCount;
+            int categoryIndex = position - (CustomizeConfig.getBoolean(true, "IsHotEnabled") ?
+                    0 : mTabsConfig.extraTabsCount);
             return LauncherConfig.getDefaultString(mCategoryConfigs.get(categoryIndex), "CategoryName");
         }
     }
@@ -517,7 +521,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         public final int tabIndexHot;
 
         public TabsConfiguration() {
-            extraTabsCount = 1;
+            extraTabsCount = CustomizeConfig.getBoolean(true, "IsHotEnabled") ? 1 : 0;
             tabIndexHot = 0;
         }
     }
