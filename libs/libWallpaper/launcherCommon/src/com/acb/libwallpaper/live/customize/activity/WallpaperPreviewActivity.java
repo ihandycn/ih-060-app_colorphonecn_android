@@ -338,6 +338,9 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
 
     @Override
     public void onPageSelected(int position) {
+        String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", "Food");
+        Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", current_category_name,
+                "Form", "Slide");
         int index = position;
         if (mWallpaperPackageInfo != null) {
             if (position == 0) {
@@ -429,7 +432,8 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                 mWallpapers.addAll(wallpapers);
                 mIsOnLineWallpaper = true;
                 String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", "Food");
-                Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", current_category_name);
+                Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", current_category_name,
+                        "Form", "Click");
                 break;
             case LOCAL:
                 if (mPaperIndex < 0) {
