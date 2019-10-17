@@ -199,8 +199,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                     contentResolver.call(WallpaperProvider.CONTENT_URI, WallpaperProvider.METHOD_APPLY_WALLPAPER, "", bundle);
 
                     Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode",
-                            wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D ? "3D" : "Live");
-                    Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", "Hot");
+                            wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D ? "3D" : "Live","ClassName", "Hot");
                 }
             }
             prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, false);

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.Manager;
+import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.acb.libwallpaper.live.LauncherAnalytics;
@@ -37,6 +38,7 @@ import com.acb.libwallpaper.live.dialog.CustomAlertActivity;
 import com.acb.libwallpaper.live.util.Utils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 
@@ -510,7 +512,10 @@ public class WallpaperEditActivity extends WallpaperBaseActivity implements View
         mCurrentWallpaper.setApplied(true);
         applyWallpaper(mIsScrollable);
 
-        Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode", mIsScrollable ? "Rolling" : "Fixed");
+        Preferences preferences = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS);
+        String string = preferences.getString("current_category_name", "Food");
+        Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode", mIsScrollable ? "Rolling" : "Fixed",
+                "ClassName", string);
 
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_WALLPAPER_APPLIED_FROM_EDIT);
     }

@@ -810,8 +810,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
             applyWallpaper(mCurrentWallpaper.getType() != WallpaperInfo.WALLPAPER_TYPE_GALLERY, false);
             Preferences preferences = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS);
             String string = preferences.getString("current_category_name", "Food");
-            Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", string);
-            Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode", "Rolling");
+            Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "ClassName", string, "SettingMode", "Rolling");
         }
     }
 
