@@ -146,7 +146,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
                     LauncherAnalytics.logEvent("Wallpaper_TopTab_Tab_Selected", "type", String.valueOf(mAdapter.getPageTitle(positionAbsolute)));
                 }
 
-                mIsTabNoClickSelected = false;
                 resetCategoryGrids();
                 ((CategoryItem) mGridView.getAdapter().getItem(positionAbsolute)).setSelected(true);
                 ((CategoryViewAdapter) mGridView.getAdapter()).notifyDataSetChanged();
@@ -159,6 +158,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
                 Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", mAdapter.getDefaultCategoryName(positionAbsolute),
                         "From", mIsTabNoClickSelected ? "Slide" : "TabClick");
+
+                mIsTabNoClickSelected = false;
             }
 
             @Override
