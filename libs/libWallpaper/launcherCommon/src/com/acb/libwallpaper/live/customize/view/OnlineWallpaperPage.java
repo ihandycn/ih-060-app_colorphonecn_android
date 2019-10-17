@@ -128,6 +128,15 @@ public class OnlineWallpaperPage extends RelativeLayout {
 
         int indexAbsolute = Utils.mirrorIndexIfRtl(mIsRtl, mAdapter.getCount(), initialTabIndex);
 
+        boolean has_record_wallpaper_class_show_firstly = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getBoolean("has_record_Wallpaper_Class_Show_firstly", true);
+        if (!has_record_wallpaper_class_show_firstly) {
+            Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", mAdapter.getDefaultCategoryName(indexAbsolute),
+                    "From", "TabClick");
+        }
+
+        Preferences preferences = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS);
+        preferences.putString("current_category_name", mAdapter.getDefaultCategoryName(indexAbsolute));
+
         mViewPage.setCurrentItem(indexAbsolute, false);
         mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

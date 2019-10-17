@@ -30,8 +30,10 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.acb.libwallpaper.live.Manager;
 import com.acb.libwallpaper.live.customize.adapter.AbstractOnlineWallpaperAdapter;
 import com.acb.libwallpaper.live.customize.view.CustomizeContentView;
+import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -545,6 +547,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_WALLPAPER:
                         Analytics.logEvent("Tab_Wallpaper_Show");
+                        String defaultValue = "Null_Category";
+                        String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", defaultValue);
+                        if (!defaultValue.equals(current_category_name)) {
+                            Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", current_category_name,
+                                    "From", "TabClick");
+
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", true);
+                        } else {
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", false);
+                        }
                         break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
@@ -892,6 +904,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             CashCenterUtil.cleanAds(this);
             HSCashCenterManager.getInstance().releaseWheelAds();
         }
+
+        Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).remove("current_category_name");
 
         super.onDestroy();
     }
