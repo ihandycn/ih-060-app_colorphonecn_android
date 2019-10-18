@@ -324,6 +324,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
                     contentResolver.call(WallpaperProvider.CONTENT_URI, WallpaperProvider.METHOD_APPLY_WALLPAPER, "", bundle);
 
                 }
+                Toasts.showToast("设置成功");
             }
             prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, false);
 

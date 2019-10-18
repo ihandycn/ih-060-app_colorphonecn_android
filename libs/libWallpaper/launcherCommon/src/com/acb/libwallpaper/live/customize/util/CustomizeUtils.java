@@ -32,6 +32,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.KeyEvent;
 
+import com.acb.libwallpaper.live.Manager;
 import com.annimon.stream.Stream;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.LauncherConstants;
@@ -291,6 +292,8 @@ public final class CustomizeUtils {
         if (sLoadingWallpaper || ActivityUtils.isDestroyed(activity)) {
             return null;
         }
+        Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", "Hot",
+                "Form", "Click");
         sLoadingWallpaper = true;
         LiveWallpaperLoader wallpaperLoader = new LiveWallpaperLoader();
         String wallpaperName = info.getSource();
