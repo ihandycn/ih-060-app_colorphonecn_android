@@ -70,6 +70,7 @@
             android:name=".live.customize.activity.WallpaperPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".live.customize.activity.Cc0ProtocolActivity"
