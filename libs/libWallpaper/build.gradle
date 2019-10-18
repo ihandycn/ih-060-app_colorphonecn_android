@@ -28,19 +28,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField 'String', 'CUSTOMIZE_CONFIG_COMMON',
-                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-customize-common-1.0.0-1.lw"'
-            buildConfigField 'String', 'CUSTOMIZE_CONFIG_VARIANT',
-                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-huandong-customize-1.0.0-1.lw"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            buildConfigField 'String', 'CUSTOMIZE_CONFIG_COMMON',
-                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-customize-common-1.0.0-1.lw"'
-            buildConfigField 'String', 'CUSTOMIZE_CONFIG_VARIANT',
-                    '"http://cdn.ihandysoft.cn/light2019/apps/apkcake/configs/config-huandong-customize-1.0.0-1.lw"'
         }
     }
 

@@ -219,6 +219,8 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
+    compile project(':libWallpaper')
+
     // Tinker
     //tinker's main Android lib
     compile('com.tencent.tinker:tinker-android-lib:1.9.9')
@@ -248,7 +250,6 @@ dependencies {
     compile project(':libPermissionacquire')
     compile project(':libWeather')
     compile project(':libRingtones')
-    compile project(':libWallpaper')
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.09.02.001'
