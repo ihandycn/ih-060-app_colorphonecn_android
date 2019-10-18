@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -405,9 +406,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
             tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_five);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tabCashCenterGuide.getLayoutParams();
+
+            int phoneWidth = Dimensions.getPhoneWidth(this);
+            float horizontalBias = (phoneWidth * 0.7f - layoutParams.width / 2f) / (phoneWidth - layoutParams.width);
+            layoutParams.horizontalBias = horizontalBias;
+            tabCashCenterGuide.requestLayout();
         } else {
             tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
-
         }
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
