@@ -12803,7 +12803,7 @@
 			<key>Wallpapers</key>
 			<dict>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>IsHotEnabled</key>
 				<true/>
 				<key>3DWallpapers</key>
