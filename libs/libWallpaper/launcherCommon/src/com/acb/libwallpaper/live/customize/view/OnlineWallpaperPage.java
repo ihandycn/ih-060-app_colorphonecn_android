@@ -223,7 +223,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 }
 
                 LauncherAnalytics.logEvent("Wallpaper_TabList_Tab_Selected", "type", ((CategoryItem) parent.getAdapter().getItem(position)).getItemName());
-                mIsTabNoClickSelected = true;
+                mIsTabNoClickSelected = false;
 
                 ((CategoryViewAdapter) parent.getAdapter()).setTextAnimationEnabled(false);
                 ((CategoryItem) parent.getAdapter().getItem(mTabs.getSelectedTabPosition())).setSelected(false);
