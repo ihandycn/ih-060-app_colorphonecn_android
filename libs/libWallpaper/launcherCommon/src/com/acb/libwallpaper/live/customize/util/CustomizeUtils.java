@@ -292,8 +292,6 @@ public final class CustomizeUtils {
         if (sLoadingWallpaper || ActivityUtils.isDestroyed(activity)) {
             return null;
         }
-        Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", "Hot",
-                "Form", "Click");
         sLoadingWallpaper = true;
         LiveWallpaperLoader wallpaperLoader = new LiveWallpaperLoader();
         String wallpaperName = info.getSource();
@@ -359,6 +357,9 @@ public final class CustomizeUtils {
                             new ComponentName(activity, getWallpaperService(prefs)));
                     Navigations.startActivityForResultSafely(activity, intent, CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER);
                     WallpaperPreloadService.prepareLiveWallpaper(activity);
+                    
+                    Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", "Hot",
+                            "Form", "Click");
 
                     if (Compats.IS_OPPO_DEVICE) {
                         Threads.postOnMainThreadDelayed(new Runnable() {
