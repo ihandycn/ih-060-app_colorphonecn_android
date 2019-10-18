@@ -277,6 +277,13 @@ dependencies {
 
     implementation 'com.appsflyer:af-android-sdk:4.9.0'
 
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    //------
+
 }
 
 configurations.all {

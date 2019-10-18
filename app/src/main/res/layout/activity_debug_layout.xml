@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登陆"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/edit_user_info_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="编辑用户信息"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/get_user_info_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取用户信息"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/get_show_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取来电秀列表"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/upload_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上传来电秀视频"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/cancel_upload_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消上传"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/get_upload_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取已上传的视频"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/get_publish_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取已发布的视频"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="删除用户已上传的视频"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</ScrollView>

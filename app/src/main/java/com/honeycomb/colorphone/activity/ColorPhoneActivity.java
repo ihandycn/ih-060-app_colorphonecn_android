@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -47,6 +48,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
@@ -93,6 +95,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.debug.DebugConfig;
 import hugo.weaving.DebugLog;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -272,6 +275,44 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_HOME:
+                    return true;
+                case KeyEvent.KEYCODE_VOLUME_DOWN:
+                    if (DebugConfig.OVERRIDE_VOLUME_KEYS) {
+                        onDebugAction(true);
+                        return true;
+                    }
+                    break;
+                case KeyEvent.KEYCODE_VOLUME_UP:
+                    if (DebugConfig.OVERRIDE_VOLUME_KEYS) {
+                        onDebugAction(false);
+                        return true;
+                    }
+                    break;
+            }
+        } else if (event.getAction() == KeyEvent.ACTION_UP) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_HOME:
+                    return true;
+            }
+        }
+
+        return super.dispatchKeyEvent(event);
+    }
+
+    public void onDebugAction(boolean volumeDown) {
+        // Notice: DO NOT modify this method. Modify inside DebugActions#onDebugAction().
+        if (volumeDown) {
+            DebugActions.onVolumeDown(this);
+        } else {
+            DebugActions.onVolumeUp(this);
         }
     }
 

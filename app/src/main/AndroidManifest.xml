@@ -737,6 +737,7 @@
             android:icon="@drawable/life_assistant_icon"
             android:screenOrientation="portrait"
             android:theme="@style/LightThemeLifeAssistant"/>
+        <activity android:name=".debug.DebugActivity" />
 
         <!--Override  - Tag : process-->
 
