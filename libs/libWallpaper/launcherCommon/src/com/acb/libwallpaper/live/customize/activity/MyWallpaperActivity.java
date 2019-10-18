@@ -49,6 +49,7 @@ public class MyWallpaperActivity extends HSAppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        mLocalCustomizePage.reloadLocalWallpaper();
     }
 
     @Override
