@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,6 +63,7 @@ import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.ClassicHeader;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -75,6 +77,10 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -103,6 +109,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
+    private SmartRefreshLayout mSmartRefreshLayout;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -272,7 +279,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         int tabPos = -1;
 
@@ -373,7 +381,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabLayout.setTabBackgroundResId(R.drawable.tab_background);
         tabTransController = new TabTransController(mTabLayout);
         for (int i = 0; i < mTabItems.size(); i++) {
-            TabItem tabItem =  mTabItems.get(i);
+            TabItem tabItem = mTabItems.get(i);
             View view = getLayoutInflater().inflate(R.layout.tab_item_layout, mTabLayout, false);
             TextView textView = view.findViewById(R.id.tab_layout_title);
             textView.setText(tabItem.getTabName());
@@ -383,11 +391,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
             }
         });
-        
+
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
             View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
@@ -421,6 +430,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
             TabItem lastItem = null;
+
             @Override
             public void onTabSelected(int pos) {
                 final TabItem tabItem = mTabItems.get(pos);
@@ -885,6 +895,42 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ThemeList.getInstance().fillData(mRecyclerViewData);
     }
 
+    private void initRefreshView(SmartRefreshLayout smartRefreshLayout) {
+        mSmartRefreshLayout = smartRefreshLayout;
+        mSmartRefreshLayout.setEnableAutoLoadMore(true);
+        mSmartRefreshLayout.setRefreshHeader(new ClassicHeader(this));
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                //todo refresh
+                refreshLayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefresh();
+                        refreshLayout.resetNoMoreData();//setNoMoreData(false);
+                    }
+                }, 2000);
+            }
+        });
+        mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                //todo load more
+                refreshLayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Toast.makeText(getApplication(), "数据全部加载完毕", Toast.LENGTH_SHORT).show();
+                        //refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+                        refreshLayout.finishLoadMore();
+                    }
+                }, 2000);
+            }
+        });
+
+        //触发自动刷新
+        mSmartRefreshLayout.autoRefresh();
+    }
+
     private void initRecyclerView(RecyclerView frame) {
         mRecyclerView = frame;
         mRecyclerView.setItemAnimator(null);
@@ -1005,11 +1051,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         final TabItem tabItem = mTabItems.get(position);
         switch (tabItem.getId()) {
             case TabItem.TAB_MAIN:
-                if (mRecyclerView == null) {
+                if (mSmartRefreshLayout == null) {
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
-                    initRecyclerView((RecyclerView) frame);
+                    initRefreshView((SmartRefreshLayout) frame);
+                    initRecyclerView(frame.findViewById(R.id.recycler_view));
                 } else {
-                    frame = mRecyclerView;
+                    frame = mSmartRefreshLayout;
                 }
                 break;
 
@@ -1128,8 +1175,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         TabTransController(View tabView) {
             mTab = tabView;
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED, this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP, this);
         }
 
         public void setInterceptView(View view) {
