@@ -18,6 +18,8 @@ import com.acb.libwallpaper.live.customize.adapter.AbstractOnlineWallpaperAdapte
 import com.acb.libwallpaper.live.customize.adapter.HotOnlineWallpaperGalleryAdapterFactory;
 import com.acb.libwallpaper.live.customize.adapter.OnlineWallpaperGalleryAdapter;
 import com.acb.libwallpaper.live.model.LauncherFiles;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Arithmetics;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
@@ -156,6 +158,28 @@ public class OnlineWallpaperListView extends FrameLayout {
 
         mAdapter = new OnlineWallpaperGalleryAdapter(getContext());
         CustomizeActivity.bindScrollListener(getContext(), mRecyclerView, false);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            public static final String NOTIFY_KEY_LIST_SCROLLED = "content_list_scrolled";
+            public static final String NOTIFY_KEY_LIST_SCROLLED_TOP = "content_list_scrolled_TOP";
+            private HSBundle scrollData = new HSBundle();
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                scrollData.putInt("state", newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                scrollData.putInt("dx", dx);
+                scrollData.putInt("dy", dy);
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_LIST_SCROLLED, scrollData);
+                if (!recyclerView.canScrollVertically(-1)) {
+                    HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_LIST_SCROLLED_TOP);
+                }
+            }
+        });
     }
 
     public void setupAdapter() {
