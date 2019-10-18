@@ -288,6 +288,15 @@
 -keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
     <init>();
 }
+-keepnames class com.honeycomb.launcher.livewallpaper.GLWallpaperService
+-keepnames class com.honeycomb.launcher.livewallpaper.GLWallpaperService2
+-keepnames class com.honeycomb.launcher.livewallpaper.GLWallpaperService3
+-keepnames class com.honeycomb.launcher.livewallpaper.GLWallpaperService4
+-keepnames class com.themelab.launcher.ThemeWallpaperService
+
+-keep class com.honeycomb.launcher.customize.WallpaperProvider {
+    public static <fields>;
+}
 
 #your dex.loader patterns here
 -keep class tinker.sample.android.app.SampleApplication {
