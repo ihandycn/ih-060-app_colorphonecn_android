@@ -431,9 +431,6 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
                 mWallpapers.clear();
                 mWallpapers.addAll(wallpapers);
                 mIsOnLineWallpaper = true;
-                String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", "Food");
-                Manager.getInstance().getDelegate().logEvent("Wallpaper_PreviewPage_Show", "ClassName", current_category_name,
-                        "Form", "Click");
                 break;
             case LOCAL:
                 if (mPaperIndex < 0) {
