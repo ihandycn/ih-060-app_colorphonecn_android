@@ -43,6 +43,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
+import com.superapps.util.Toasts;
 
 
 import java.util.ArrayList;
@@ -201,6 +202,8 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                     Manager.getInstance().getDelegate().logEvent("Wallpaper_Set_Success", "SettingMode",
                             wallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_3D ? "3D" : "Live","ClassName", "Hot");
                 }
+
+                Toasts.showToast("设置成功");
             }
             prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, false);
 
