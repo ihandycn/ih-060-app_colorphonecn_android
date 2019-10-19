@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.superapps.util.Toasts;
 

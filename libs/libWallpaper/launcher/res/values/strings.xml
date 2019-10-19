@@ -19,10 +19,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- For libDevice:permanent -->
-    <string name="sync_account_type" translatable="false">com.huandong.wallpaper.live.sync_account</string>
 
     <!-- Application name -->
-    <string name="app_name" translatable="false">焕动壁纸</string>
     <!-- Welcome -->
 
     <!-- For Glide -->
@@ -145,7 +143,6 @@
     <!-- Launcher Settings -->
 
     <!-- Legal -->
-    <string name="terms_of_service">Terms of Service</string>
 
     <!-- Auto category tip -->
 
@@ -158,7 +155,6 @@
     <!-- Share to friends -->
 
     <!-- News -->
-    <string name="news_detail_error_reload">Reload</string>
     <string name="news_load_more_re_try">Click To Retry</string>
 
     <!-- Pull to refresh RecyclerView -->
@@ -189,17 +185,11 @@
     <!-- Device admin -->
 
     <!-- Suffix added to a number to signify size in bytes. -->
-    <string name="byte_abbr" translatable="false">B</string>
     <!-- Suffix added to a number to signify size in kilobytes. -->
-    <string name="kilobyte_abbr" translatable="false">KB</string>
     <!-- Suffix added to a number to signify size in megabytes. -->
-    <string name="megabyte_abbr" translatable="false">MB</string>
     <!-- Suffix added to a number to signify size in gigabytes. -->
-    <string name="gigabyte_abbr" translatable="false">GB</string>
     <!-- Suffix added to a number to signify size in terabytes. -->
-    <string name="terabyte_abbr" translatable="false">TB</string>
     <!-- Suffix added to a number to signify size in petabytes. -->
-    <string name="petabyte_abbr" translatable="false">PB</string>
 
     <!-- Apply theme dialog -->
 
@@ -231,7 +221,6 @@
     <!-- Result page -->
 
     <!-- Junk Clean -->
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Turn on the switch above, then tap OK.\n\nEnable to:\n1) Boost phone 80\%%\n2) Clean junk files\n3) Kill battery draining apps\n\nBoost+ team is devoted to speed up your phone and never collects any personal data.</string>
 
     <!-- App promotions -->
 

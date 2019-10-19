@@ -13,6 +13,8 @@ android {
         targetSdkVersion 22
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 17
+        renderscriptSupportModeEnabled false
     }
 
     compileOptions {
@@ -190,6 +192,7 @@ dependencies {
             "com.android.support:multidex:1.0.1",
 
             "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
+            'com.annimon:stream:1.1.7'
 
     ]
 

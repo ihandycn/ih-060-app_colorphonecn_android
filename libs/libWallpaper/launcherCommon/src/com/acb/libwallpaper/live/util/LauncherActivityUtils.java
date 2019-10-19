@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class LauncherActivityUtils {
 

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">キャンセル</string>
     <string name="ok">OK</string>
     <string name="download_launcher_hint">このテーマは[launcher-name]を通してのみアクセスできます。</string>
     <string name="download_btn"> Google Playから手に入れる</string>

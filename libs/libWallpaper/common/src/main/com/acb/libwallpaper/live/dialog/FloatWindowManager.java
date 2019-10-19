@@ -5,7 +5,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.HashMap;

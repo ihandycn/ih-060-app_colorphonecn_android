@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.desktop.PagedView;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;

@@ -36,7 +36,7 @@ import com.acb.libwallpaper.live.Manager;
 import com.annimon.stream.Stream;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.LauncherConstants;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.WallpaperAnalytics;
 import com.acb.libwallpaper.live.customize.CustomizeConfig;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;

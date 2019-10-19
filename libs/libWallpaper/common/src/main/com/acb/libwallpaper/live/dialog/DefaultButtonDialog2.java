@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.LauncherConstants;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.acb.libwallpaper.live.util.CommonUtils;
 import com.acb.libwallpaper.live.util.ViewUtils;

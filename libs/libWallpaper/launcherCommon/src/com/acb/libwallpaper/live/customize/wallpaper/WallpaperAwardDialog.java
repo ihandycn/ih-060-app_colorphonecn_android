@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.base.BaseDialogFragment;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;
 import com.acb.libwallpaper.live.customize.WallpaperPicCacheUtils;

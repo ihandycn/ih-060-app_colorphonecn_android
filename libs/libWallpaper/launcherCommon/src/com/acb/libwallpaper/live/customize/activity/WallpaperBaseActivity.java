@@ -17,7 +17,7 @@ import com.acb.libwallpaper.live.base.BaseAppCompatActivity;
 import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.acb.libwallpaper.live.util.CommonUtils;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.CustomizeService;
 import com.acb.libwallpaper.live.customize.DrawView;
 import com.acb.libwallpaper.live.customize.EditWallpaperHintDrawer;

@@ -10,7 +10,7 @@ import com.annimon.stream.Stream;
 import com.acb.libwallpaper.live.livewallpaper.confetti.render.ConfettiRenderer;
 import com.acb.libwallpaper.live.livewallpaper.confetti.render.RenderThread;
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.customize.CustomizeConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;

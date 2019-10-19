@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.animation.LauncherAnimUtils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;

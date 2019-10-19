@@ -22,7 +22,7 @@ import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 
 /**
  * All the possible options that can be set to customize crop image.<br>

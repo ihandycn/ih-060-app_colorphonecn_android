@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Fonts;
 

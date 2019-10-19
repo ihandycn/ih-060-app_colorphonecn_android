@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.theme.data.ShareDataProvider;
 import com.acb.libwallpaper.live.util.Utils;
 import com.ihs.app.framework.HSApplication;

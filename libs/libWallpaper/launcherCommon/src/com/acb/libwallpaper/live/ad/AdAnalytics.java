@@ -1,7 +1,7 @@
 package com.acb.libwallpaper.live.ad;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 
 import java.util.HashMap;
 

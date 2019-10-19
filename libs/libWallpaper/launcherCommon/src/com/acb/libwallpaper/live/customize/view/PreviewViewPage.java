@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class PreviewViewPage extends FrameLayout {
 

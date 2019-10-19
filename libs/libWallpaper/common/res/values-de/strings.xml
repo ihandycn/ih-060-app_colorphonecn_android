@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
     <string name="download_launcher_hint">Dieses Design ist nur durch [launcher-name] zugänglich.</string>
     <string name="download_btn">Von Google Play abrufen</string>

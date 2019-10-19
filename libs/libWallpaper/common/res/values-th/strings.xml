@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">ยกเลิก</string>
     <string name="ok">ตกลง</string>
 
     <string name="download_launcher_hint">ธีมนี้ควรใช้งานกับ [launcher-name]</string>

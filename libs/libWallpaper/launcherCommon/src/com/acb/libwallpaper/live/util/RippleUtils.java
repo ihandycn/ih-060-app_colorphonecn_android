@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Dimensions;
 import com.superapps.view.SelectorDrawable;

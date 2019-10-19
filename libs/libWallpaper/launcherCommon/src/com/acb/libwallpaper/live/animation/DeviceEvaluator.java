@@ -10,7 +10,7 @@ import android.util.Printer;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.debug.DebugConfig;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.acb.libwallpaper.live.util.EventUtils;
 import com.ihs.commons.utils.HSLog;

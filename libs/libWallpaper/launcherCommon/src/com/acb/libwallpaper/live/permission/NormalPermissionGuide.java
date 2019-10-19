@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.base.BaseActivity;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;

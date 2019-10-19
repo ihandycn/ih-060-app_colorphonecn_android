@@ -1,6 +1,6 @@
 package com.acb.libwallpaper.live;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.Map;

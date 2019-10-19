@@ -29,7 +29,7 @@ import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.acb.libwallpaper.live.util.LauncherConfig;
 import com.acb.libwallpaper.live.util.Thunk;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.animation.LauncherAnimUtils;
 import com.acb.libwallpaper.live.customize.CategoryItem;
 import com.acb.libwallpaper.live.customize.CustomizeConfig;

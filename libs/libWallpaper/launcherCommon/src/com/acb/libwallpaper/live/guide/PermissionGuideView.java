@@ -25,7 +25,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.util.StringUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Dimensions;

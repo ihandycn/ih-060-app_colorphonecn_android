@@ -9,7 +9,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

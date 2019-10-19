@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.Dimensions;
 import com.superapps.view.TypefacedTextView;
 

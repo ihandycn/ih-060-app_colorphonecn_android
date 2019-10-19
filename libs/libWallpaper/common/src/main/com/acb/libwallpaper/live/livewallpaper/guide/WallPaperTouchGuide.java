@@ -10,12 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.acb.libwallpaper.R;
 import com.acb.libwallpaper.live.animation.AnimatorListenerAdapter;
 import com.acb.libwallpaper.live.dialog.FloatWindowManager;
 import com.acb.libwallpaper.live.dialog.FullScreenDialog;
 import com.acb.libwallpaper.live.dialog.SafeWindowManager;
 import com.acb.libwallpaper.live.livewallpaper.LiveWallpaperConsts;
+import com.honeycomb.colorphone.R;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;

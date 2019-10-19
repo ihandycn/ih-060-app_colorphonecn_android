@@ -1,6 +1,6 @@
 package com.acb.libwallpaper.live.debug;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 
 /**
  * Notice: DO NOT push any changes of this file to remote.

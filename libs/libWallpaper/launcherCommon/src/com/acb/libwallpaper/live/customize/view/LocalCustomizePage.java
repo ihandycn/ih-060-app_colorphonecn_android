@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.acb.libwallpaper.live.animation.AnimatorListenerAdapter;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.animation.LauncherAnimUtils;
 import com.acb.libwallpaper.live.customize.OverlayInstaller;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;

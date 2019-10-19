@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">Hủy</string>
     <string name="ok">OK</string>
     <string name="download_launcher_hint">Chủ đề này chỉ có thể truy cập được qua [launcher-name].</string>
     <string name="download_btn">Tải từ Google Play</string>

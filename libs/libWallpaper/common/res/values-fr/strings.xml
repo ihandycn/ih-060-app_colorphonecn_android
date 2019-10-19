@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">Annuler</string>
     <string name="ok">OK</string>
     <string name="download_launcher_hint">Ce thème n\'est accessible qu\'avec [launcher-name].</string>
     <string name="download_btn">Obtenir sur Google Play</string>

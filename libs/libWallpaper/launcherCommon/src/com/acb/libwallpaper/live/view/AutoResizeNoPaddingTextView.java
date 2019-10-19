@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.Fonts;
 import com.superapps.view.TypefacedTextView;
 

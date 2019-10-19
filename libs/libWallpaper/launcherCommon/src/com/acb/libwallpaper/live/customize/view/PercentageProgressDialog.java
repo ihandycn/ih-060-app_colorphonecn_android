@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.util.ActivityUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class PercentageProgressDialog extends Dialog {
 

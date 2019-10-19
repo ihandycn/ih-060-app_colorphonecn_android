@@ -21,7 +21,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.Bitmaps;
 import com.superapps.util.Dimensions;
 

@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.permission.NormalPermissionGuide;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;

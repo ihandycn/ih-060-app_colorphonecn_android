@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class ProgressFrameLayout extends FrameLayout {
     private SuccessTickView mSuccessTickView;

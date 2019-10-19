@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.activity.Cc0ProtocolActivity;
 import com.acb.libwallpaper.live.customize.activity.MyWallpaperActivity;
 import com.acb.libwallpaper.live.customize.activity.UploadWallpaperActivity;

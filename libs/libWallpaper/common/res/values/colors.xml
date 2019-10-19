@@ -4,16 +4,12 @@
     <!-- Common -->
     <color name="blue_action_bar_bg">#448aff</color>
     <color name="quantum_panel_bg_color">#FFF5F5F5</color>
-    <color name="button_pressed_bg">#0d000000</color>
 
     <!-- Material Design -->
     <color name="material_text_black_primary">#de000000</color>
     <!-- TODO de000000 87% alpha-->
-    <color name="material_ripple">#33000000</color>
-    <color name="material_ripple_white">#33FFFFFF</color>
     <color name="material_ripple_button_white">#e0e1e2</color>
 
-    <color name="transparent">#00000000</color>
 
     <!-- Dialog -->
 
@@ -28,16 +24,13 @@
     <color name="main_pressed" tools:ignore="all">#2E70E0</color>
     <color name="sub_color_01" tools:ignore="all">#FF225E</color>
     <color name="sub_color_02" tools:ignore="all">#FFD600</color>
-    <color name="warn" tools:ignore="all">#FF3101</color>
     <color name="clean" tools:ignore="all">#09C659</color>
     <color name="special" tools:ignore="all">#6C40DB</color>
     <color name="title" tools:ignore="all">#333333</color>
-    <color name="text" tools:ignore="all">#666666</color>
     <color name="hint" tools:ignore="all">#999999</color>
     <color name="line" tools:ignore="all">#F4F4F4</color>
     <color name="load" tools:ignore="all">#F8F8F8</color>
     <color name="grey" tools:ignore="all">#C6C6C6</color>
-    <color name="white" tools:ignore="all">#ffffff</color>
     <color name="black" tools:ignore="all">#000000</color>
     <color name="black_alpha_15" tools:ignore="all">#d8000000</color>
     <color name="black_alpha_25" tools:ignore="all">#bf000000</color>

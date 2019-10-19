@@ -10,7 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.utils.HSMarketUtils;

@@ -18,7 +18,6 @@
 
     <dimen name="bottom_bar_default_height">56dp</dimen>
 
-    <dimen name="web_view_progress_bar_height">2.3dp</dimen>
 
     <dimen name="card_round_corner_radius">2dp</dimen>
 
@@ -90,7 +89,6 @@
     <!-- Workspace page bottom is this distance closer to its page indicator than normal -->
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
 
     <dimen name="online_category_title_view_translationY">-20dp</dimen>
 
@@ -192,15 +190,9 @@
     <dimen name="customize_report_radio_group_margin">21dp</dimen>
 
     <dimen name="mine_page_item_height">72dp</dimen>
-    <dimen name="settings_item_text_size">16sp</dimen>
-    <dimen name="settings_item_content_text_size">16sp</dimen>
     <dimen name="settings_item_detail_text_size">14sp</dimen>
     <dimen name="dialog_content_margin_top">24dp</dimen>
     <dimen name="dialog_btn_margin">16dp</dimen>
     <dimen name="dialog_btn_padding">16dp</dimen>
-    <dimen name="dialog_rounded_corner_radius">6dp</dimen>
-    <dimen name="dialog_elevation">24dp</dimen>
-    <dimen name="dialog_content_text_margin">16dp</dimen>
-    <dimen name="dialog_button_rounded_corner_radius">3dp</dimen>
 
 </resources>

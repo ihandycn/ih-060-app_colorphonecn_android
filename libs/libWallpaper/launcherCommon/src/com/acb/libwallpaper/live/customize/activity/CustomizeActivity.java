@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.WallpaperAnalytics;
 import com.acb.libwallpaper.live.customize.CustomizeConfig;

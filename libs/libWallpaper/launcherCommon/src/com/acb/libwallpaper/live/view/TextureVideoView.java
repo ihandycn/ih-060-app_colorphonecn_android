@@ -19,7 +19,7 @@ import android.view.ViewDebug;
 import android.view.ViewGroup;
 
 import com.acb.libwallpaper.live.LauncherApplication;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;

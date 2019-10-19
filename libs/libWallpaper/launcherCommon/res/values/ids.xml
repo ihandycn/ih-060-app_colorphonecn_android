@@ -6,38 +6,24 @@
     <item name="launcher_widget_item_tag_key_feature_type" type="id" />
 
     <!-- Pin all notification bar related IDs -->
-    <item name="notification_toolbar" type="id" />
 
     <!-- View IDs -->
-    <item name="boost_layout" type="id" />
-    <item name="iv_boost" type="id" />
     <item name="data_layout" type="id" />
     <item name="iv_data" type="id" />
     <item name="wifi_layout" type="id" />
     <item name="iv_wifi" type="id" />
     <item name="tv_wifi" type="id" />
-    <item name="flashlight_layout" type="id" />
-    <item name="iv_flash_light" type="id" />
     <item name="search_layout" type="id" />
     <item name="iv_search" type="id" />
     <item name="all_apps_layout" type="id" />
     <item name="iv_all_apps" type="id" />
     <item name="toolbar_settings_layout" type="id" />
     <item name="iv_settings" type="id" />
-    <item name="cpu_cooler_layout" type="id" />
-    <item name="iv_cpu_cooler" type="id" />
     <item name="tv_cpu_temperature" type="id" />
-    <item name="battery_layout" type="id" />
-    <item name="iv_battery" type="id" />
-    <item name="tv_battery_level" type="id" />
     <item name="horizontal_all_apps_bottom_ad" type="id" />
 
     <!-- Drawables -->
-    <item name="ic_launcher" type="id" />
-    <item name="boost_icon" type="id" />
     <item name="ic_wallpaper" type="id" />
-    <item name="material_compat_toolbar_bg" type="id" />
-    <item name="notification_clear" type="id" />
     <item name="notification_toolbar_wifi_on_svg" type="id" />
     <item name="notification_toolbar_wifi_off_svg" type="id" />
     <item name="notification_toolbar_wifi_enabling_svg" type="id" />
@@ -46,33 +32,17 @@
     <item name="notification_toolbar_data_off_svg" type="id" />
     <item name="notification_toolbar_flashlight_on_svg" type="id" />
     <item name="notification_toolbar_flashlight_off_svg" type="id" />
-    <item name="notification_toolbar_small_icon" type="id" />
-    <item name="cpu_cooler_notification_red_svg" type="id" />
-    <item name="cpu_cooler_notification_yellow_svg" type="id" />
     <item name="cpu_cooler_notification_blue_svg" type="id" />
-    <item name="battery_toolbar_first" type="id" />
-    <item name="battery_toolbar_first_optimized" type="id" />
-    <item name="battery_toolbar_second" type="id" />
-    <item name="battery_toolbar_second_optimized" type="id" />
-    <item name="battery_toolbar_third" type="id" />
-    <item name="battery_toolbar_forth" type="id" />
-    <item name="empty" type="id" />
 
     <!-- Colors -->
-    <item name="cpu_cooler_notification_red" type="id" />
-    <item name="cpu_cooler_notification_yellow" type="id" />
-    <item name="cpu_cooler_notification_blue" type="id" />
 
     <!-- Strings -->
-    <item name="boost_title" type="id" />
     <item name="notification_toolbar_data" type="id" />
     <item name="notification_toolbar_wifi" type="id" />
-    <item name="notification_toolbar_flash_light" type="id" />
     <item name="notification_toolbar_search" type="id" />
     <item name="notification_toolbar_all_apps" type="id" />
 
     <!-- Style -->
-    <item name="NotificationToolbarIconText" type="id" />
 
 
     <item name="wallpaper_position" type="id" />

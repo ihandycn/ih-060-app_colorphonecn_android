@@ -17,7 +17,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
 
 /**
@@ -234,7 +234,7 @@ public class ProgressWheel extends View {
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, circleRadius, metrics);
 
         circleRadius =
-                (int) a.getDimension(R.styleable.ProgressWheel_circleRadiu, circleRadius);
+                (int) a.getDimension(R.styleable.ProgressWheel_cirRadius, circleRadius);
 
         fillRadius = a.getBoolean(R.styleable.ProgressWheel_fillRadius, false);
 

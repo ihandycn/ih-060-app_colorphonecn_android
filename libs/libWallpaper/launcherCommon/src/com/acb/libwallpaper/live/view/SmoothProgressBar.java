@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class SmoothProgressBar extends View {
 

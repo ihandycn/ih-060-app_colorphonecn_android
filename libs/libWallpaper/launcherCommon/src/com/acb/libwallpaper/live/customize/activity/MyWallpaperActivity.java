@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.acb.libwallpaper.live.LauncherApplication;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.OverlayInstaller;
 import com.acb.libwallpaper.live.customize.WallpaperMgr;
 import com.acb.libwallpaper.live.customize.view.LocalCustomizePage;

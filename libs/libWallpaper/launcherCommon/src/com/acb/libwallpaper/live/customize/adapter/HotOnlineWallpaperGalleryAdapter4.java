@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.WallpaperDownloadEngine;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;
 import com.acb.libwallpaper.live.customize.WallpaperMgr;

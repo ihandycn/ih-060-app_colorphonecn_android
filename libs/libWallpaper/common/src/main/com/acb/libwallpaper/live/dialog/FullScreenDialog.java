@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.superapps.util.Dimensions;
 
 public abstract class FullScreenDialog extends FloatWindowDialog {

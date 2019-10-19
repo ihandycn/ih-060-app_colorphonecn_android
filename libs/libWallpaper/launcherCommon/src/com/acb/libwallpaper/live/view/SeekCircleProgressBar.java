@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.Dimensions;
 
 public class SeekCircleProgressBar extends View {

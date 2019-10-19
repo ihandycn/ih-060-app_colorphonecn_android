@@ -13,8 +13,8 @@ import android.view.View;
 
 import com.acb.libwallpaper.live.view.IndicatorMark.Marker;
 import com.acb.libwallpaper.live.view.IndicatorMark.MarkerType;
-import com.acb.libwallpaper.BuildConfig;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.BuildConfig;
+ import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 
@@ -141,7 +141,7 @@ public class AdvancedPageIndicator extends View {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AdvancedPageIndicator);
         mSpacing = a.getDimension(R.styleable.AdvancedPageIndicator_circleSpacing, Dimensions.pxFromDp(5));
         mRadiusMin = a.getDimension(R.styleable.AdvancedPageIndicator_minRadius, Dimensions.pxFromDp(0.01f));
-        mCircleRadius = a.getDimension(R.styleable.AdvancedPageIndicator_circleRadius, Dimensions.pxFromDp(2.33f));
+        mCircleRadius = Dimensions.pxFromDp(2.33f);
         mIndicatorRadius = a.getDimension(R.styleable.AdvancedPageIndicator_indicatorRadius, mCircleRadius);
         mCircleVerticalPadding = a.getDimension(R.styleable.AdvancedPageIndicator_circleVerticalPadding, Dimensions.pxFromDp(1f));
         mCircleHorizontalPadding = a.getDimension(R.styleable.AdvancedPageIndicator_circleHorizontalPadding, Dimensions.pxFromDp(1f));

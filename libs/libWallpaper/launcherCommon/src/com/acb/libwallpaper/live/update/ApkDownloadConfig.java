@@ -1,7 +1,7 @@
 package com.acb.libwallpaper.live.update;
 
-import com.acb.libwallpaper.BuildConfig;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.BuildConfig;
+ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 

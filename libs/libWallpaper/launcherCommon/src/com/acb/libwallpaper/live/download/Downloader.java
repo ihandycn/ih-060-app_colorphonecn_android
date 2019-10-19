@@ -9,7 +9,7 @@ import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.util.DiskLruCacheWrapperFixed;
 import com.acb.libwallpaper.live.util.Utils;
 import com.ihs.commons.connection.HSHttpConnection;

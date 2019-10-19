@@ -36,7 +36,7 @@ import com.acb.libwallpaper.live.base.BaseAppCompatActivity;
 import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.acb.libwallpaper.live.util.Thunk;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.util.LauncherActivityUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;

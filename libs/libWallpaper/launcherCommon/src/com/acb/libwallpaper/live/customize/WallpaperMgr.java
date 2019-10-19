@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.RemoteException;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.activity.CustomizeActivity;
 import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.ihs.app.framework.HSApplication;

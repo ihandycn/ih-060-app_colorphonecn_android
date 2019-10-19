@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;

@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.acb.libwallpaper.live.base.BaseAppCompatActivity;
 import com.acb.libwallpaper.live.util.ActivityUtils;
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 
 public abstract class BaseCustomizeActivity extends BaseAppCompatActivity {

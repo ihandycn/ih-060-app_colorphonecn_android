@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.GLParams;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.animation.AnimatorListenerAdapter;
 import com.acb.libwallpaper.live.dialog.FloatWindowDialog;
 import com.acb.libwallpaper.live.dialog.FloatWindowManager;

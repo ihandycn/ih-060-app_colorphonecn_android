@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.acb.libwallpaper.live.util.CommonUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.ReportManager;
 import com.acb.libwallpaper.live.customize.activity.BaseCustomizeActivity;
 import com.superapps.util.Toasts;

@@ -1,6 +1,6 @@
 package com.acb.libwallpaper.live.customize.wallpaper;
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 
 @SuppressWarnings("ALL")
 class DebugMode {

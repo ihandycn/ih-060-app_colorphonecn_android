@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">İptal</string>
     <string name="ok">Tamam</string>
 
     <string name="download_launcher_hint">Bu tema [launcher-name] ile kullanılmalı.</string>

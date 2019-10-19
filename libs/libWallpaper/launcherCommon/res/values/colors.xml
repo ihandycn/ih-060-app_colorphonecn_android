@@ -23,11 +23,8 @@
     <color name="paged_pad_view_icon_text_color">#585858</color>
 
     <!-- General purpose -->
-    <color name="dark_translucent_bg">#66000000</color> <!-- 40% opaque -->
     <color name="darker_translucent_bg">#b3000000</color> <!-- 70% opaque -->
     <!-- 80% opaque -->
-    <color name="app_bar_activities_content_bg">#eaeaea</color>
-    <color name="blue">#448aff</color>
 
     <!-- Special Scene Dialog -->
 
@@ -86,7 +83,6 @@
 
 
     <!-- Boost plus -->
-    <color name="boost_plus_red">#ff4f3d</color>
 
     <!-- Moment -->
     <color name="know_wallpaper_more_ripple">#66ffffff</color>
@@ -99,14 +95,10 @@
     <color name="divider_gray">#D8D8D8</color>
 
     <color name="black_gray">#59000000</color>    <!-- 35% -->
-    <color name="clean_primary_blue">#00ADFF</color>
 
     <!-- Cpu Cooler -->
     <!-- 38% -->
     <!-- 70% -->
-    <color name="cpu_cooler_notification_red">#fb203f</color>
-    <color name="cpu_cooler_notification_yellow">#fff10b</color>
-    <color name="cpu_cooler_notification_blue">#00ff47</color>
 
 
     <color name="app_lock_ripple_color_alpha">#42FFFFFF</color>
@@ -126,12 +118,9 @@
 
     <!--safebox-->
 
-    <color name="black_10_transparent">#1A000000</color>
 
     <color name="desktop_content_game_choice_wrong_middle_color">#CA4F4F</color>
     <color name="desktop_content_game_choice_wrong_edge_color">#EA6363</color>
 
-    <color name="dialog_button_blue">#448aff</color>
-    <color name="material_text_black_secondary">#8a000000</color>
 
 </resources>

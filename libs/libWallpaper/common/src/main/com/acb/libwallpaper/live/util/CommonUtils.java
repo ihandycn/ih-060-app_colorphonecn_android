@@ -22,7 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.annimon.stream.Stream;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.LauncherConstants;
 import com.acb.libwallpaper.live.theme.ThemeConstants;
 import com.ihs.app.framework.HSApplication;

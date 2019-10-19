@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.dialog.FloatWindowManager;
 import com.acb.libwallpaper.live.dialog.FullScreenDialog;
 import com.acb.libwallpaper.live.dialog.SafeWindowManager;

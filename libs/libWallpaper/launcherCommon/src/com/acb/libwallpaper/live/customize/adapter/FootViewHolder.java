@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class FootViewHolder extends RecyclerView.ViewHolder {
 

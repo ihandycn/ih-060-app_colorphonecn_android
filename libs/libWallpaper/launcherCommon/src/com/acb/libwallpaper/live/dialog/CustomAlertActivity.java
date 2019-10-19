@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.acb.libwallpaper.live.LauncherAnalytics;
 import com.acb.libwallpaper.live.base.BaseActivity;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.superapps.util.BackgroundDrawables;
 
 import hugo.weaving.DebugLog;

@@ -12,7 +12,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class ShadowLayout extends FrameLayout {
 

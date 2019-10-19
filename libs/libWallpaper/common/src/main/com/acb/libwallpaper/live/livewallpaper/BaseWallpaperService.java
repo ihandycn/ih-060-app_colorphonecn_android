@@ -13,7 +13,6 @@ import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import com.acb.libwallpaper.BuildConfig;
 import com.acb.libwallpaper.live.livewallpaper.guide.FakeGravity;
 import com.acb.libwallpaper.live.livewallpaper.guide.GuideHelper;
 import com.acb.libwallpaper.live.livewallpaper.guide.RotationMaker;
@@ -22,6 +21,7 @@ import com.acb.libwallpaper.live.livewallpaper.guide.WallPaperTouchGuide;
 import com.acb.libwallpaper.live.livewallpaper.guide.WallpaperSetGuide;
 import com.acb.libwallpaper.live.livewallpaper.guide.WallpaperTestWindow;
 import com.acb.libwallpaper.live.livewallpaper.particleflow.ParticlesSurfaceView;
+import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;

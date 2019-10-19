@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
 import com.acb.libwallpaper.live.LauncherApplication;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
 
 public class AdMarkedBitmap {

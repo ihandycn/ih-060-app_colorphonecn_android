@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="InsetAttr">
-        <attr name="layout_insetWay" format="enum">
-            <enum name="none" value="0" />
-            <enum name="padding" value="1" />
-            <enum name="margin" value="2" />
-        </attr>
-    </declare-styleable>
-
-    <declare-styleable name="TypefacedTextView">
-        <attr name="typeface" format="reference" />
-        <attr name="font_style" format="enum">
-            <enum name="normal" value="0" />
-            <enum name="bold" value="1" />
-            <enum name="italic" value="2" />
-            <enum name="bold_italic" value="3" />
-        </attr>
-
-        <attr name="drawable_width" format="dimension" />
-        <attr name="drawable_height" format="dimension" />
-    </declare-styleable>
-
     <!-- Page Indicator specific attributes. -->
     <declare-styleable name="PageIndicator">
         <attr name="windowSize" format="integer" />
@@ -29,7 +8,6 @@
 
     <declare-styleable name="AdvancedPageIndicator">
         <attr name="minRadius" format="dimension" />
-        <attr name="circleRadius" format="dimension" />
         <attr name="indicatorRadius" format="dimension" />
         <attr name="circleColor" format="color" />
         <attr name="indicatorColor" format="color" />
@@ -48,11 +26,5 @@
 
     <declare-styleable name="AnimAttar">
         <attr name="autoPlay" format="boolean"></attr>
-    </declare-styleable>
-
-    <declare-styleable name="RevealFlashButton">
-        <attr name="flashLightAlpha" format="float" />
-        <attr name="bladeFlash" format="integer" />
-        <attr name="buttonTransparent" format="boolean" />
     </declare-styleable>
 </resources>

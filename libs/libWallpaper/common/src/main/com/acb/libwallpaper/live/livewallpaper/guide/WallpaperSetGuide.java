@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.acb.libwallpaper.BuildConfig;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.BuildConfig;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.animation.AnimatorListenerAdapter;
 import com.acb.libwallpaper.live.dialog.FloatWindowDialog;
 import com.acb.libwallpaper.live.dialog.FloatWindowManager;

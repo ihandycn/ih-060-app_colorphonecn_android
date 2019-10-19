@@ -55,7 +55,7 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.acb.libwallpaper.live.util.ReflectionHelper;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.commons.utils.HSLog;
 
 import java.lang.reflect.Method;

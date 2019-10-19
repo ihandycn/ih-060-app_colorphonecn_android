@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.base.BaseActivity;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import com.acb.libwallpaper.live.base.BaseActivity;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.acb.libwallpaper.live.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;

@@ -70,7 +70,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.acb.libwallpaper.live.LauncherConstants;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.util.CustomizeUtils;
 import com.acb.libwallpaper.live.customize.wallpaper.WallpaperUtils;
 import com.ihs.app.framework.HSApplication;

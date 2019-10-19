@@ -139,6 +139,7 @@
     <string name="online_wallpaper_edit_cancel_btn">CANCEL</string>
 
     <string name="download_capital">DOWNLOAD</string>
+    <string name="online_wallpaper_apply_btn">设置为壁纸</string>
 
 
 </resources>

@@ -6,7 +6,7 @@ import android.util.AndroidRuntimeException;
 import android.view.Choreographer;
 
 import com.acb.libwallpaper.live.util.Thunk;
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.commons.utils.HSLog;
 
 /**

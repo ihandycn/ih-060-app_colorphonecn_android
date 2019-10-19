@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.acb.libwallpaper.live.animation.AnimatorListenerAdapter;
 import com.acb.libwallpaper.live.util.ActivityUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 
 public class ProgressDialog extends Dialog {
 

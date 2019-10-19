@@ -3,7 +3,7 @@ package com.acb.libwallpaper.live.util;
 
 import android.text.TextUtils;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 
 import java.util.Locale;

@@ -2,7 +2,6 @@
 <resources>
 
     <!-- Material design: refers to https://www.google.com/design/spec/what-is-material/elevation-shadows.html -->
-    <dimen name="app_bar_elevation">4dp</dimen>
 
     <dimen name="tab_padding_start">12dp</dimen>
 

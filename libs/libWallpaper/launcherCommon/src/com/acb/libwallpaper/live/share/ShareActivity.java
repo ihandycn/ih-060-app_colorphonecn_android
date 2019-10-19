@@ -12,7 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.model.LauncherFiles;
 import com.ihs.app.analytics.HSAnalytics;
 import com.superapps.util.Preferences;
@@ -37,7 +37,7 @@ public class ShareActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share);
+        setContentView(R.layout.wallpaper_share);
 
         layout = (FrameLayout) findViewById(android.R.id.content);
         mask = findViewById(R.id.share_background);

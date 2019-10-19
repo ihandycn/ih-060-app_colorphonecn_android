@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.CustomizeConfig;
 import com.acb.libwallpaper.live.customize.WallpaperDownloadEngine;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;

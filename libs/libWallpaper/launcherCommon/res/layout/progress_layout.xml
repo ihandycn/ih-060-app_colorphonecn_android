@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         wheel:barColor="#ffffff"
-        wheel:circleRadiu="32dp"
+        wheel:circleRadius="32dp"
         wheel:rimColor="#99ffffff"/>
 
     <com.acb.libwallpaper.live.customize.view.SuccessTickView

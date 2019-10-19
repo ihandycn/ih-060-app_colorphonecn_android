@@ -1,7 +1,7 @@
 package com.acb.libwallpaper.live.livewallpaper;
 
 
-import com.acb.libwallpaper.BuildConfig;
+ import com.honeycomb.colorphone.BuildConfig;
 
 import java.io.File;
 

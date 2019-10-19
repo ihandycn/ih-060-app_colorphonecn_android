@@ -23,7 +23,7 @@ import com.acb.libwallpaper.live.livewallpaper.WallpaperLoader;
 import com.acb.libwallpaper.live.util.CommonUtils;
 import com.acb.libwallpaper.live.util.Thunk;
 import com.acb.libwallpaper.live.util.ViewUtils;
-import com.acb.libwallpaper.R;
+ import com.honeycomb.colorphone.R;
 import com.acb.libwallpaper.live.customize.WallpaperDownloadEngine;
 import com.acb.libwallpaper.live.customize.WallpaperInfo;
 import com.acb.libwallpaper.live.customize.WallpaperMgr;
