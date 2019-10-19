@@ -9,8 +9,6 @@
     <string name="customize_local_title">Meu</string>
     <string name="wallpaper_setting_progress_dialog_text">Definindo papel de parede…</string>
 
-    <string name="terms_of_service">Termos de serviço</string>
-
     <string name="news_detail_error_reload">Recarregar</string>
 
     <!-- %1$s is the version number which should be kept, for example “v1.0.0"" -->
@@ -81,9 +79,8 @@
     <!-- A new themes for phone including wallpapers and app icons. -->
 
 
-    <string name="boost_title">Impulsionar</string>
     <string name="notification_toolbar_wifi">Wi-fi</string>
-    <string name="notification_toolbar_flash_light">Lanterna</string>
+
 
 
     <!-- Please translate and replace the words in red color -->
@@ -122,7 +119,7 @@
 
     <string name="customize_my_wallpapers_remove_btn">Remover</string>
 
-    <string name="online_wallpaper_apply_btn">Definir como Papel de Parede</string>
+
 
     <string name="local_wallpaper_pick_error">Aconteceu algo de errado ao escolher o papel de parede</string>
     <string name="local_wallpaper_pick_error_gif_not_supported">Imagem GIF não é suportada</string>

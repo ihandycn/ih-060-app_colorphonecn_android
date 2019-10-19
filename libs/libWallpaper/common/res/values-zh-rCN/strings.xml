@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-    <string name="cancel">取消</string>
     <string name="ok">确定</string>
     <string name="download_launcher_hint">这个主题只能通过ME Launcher进行访问。</string>
     <string name="download_btn">从Google Play获取</string>

@@ -6,7 +6,7 @@
     <string name="customize_local_title">自分</string>
     <string name="customize_wallpapers_title_local">私の壁紙</string>
     <string name="add_wallpaper">壁紙を追加</string>
-    <string name="online_wallpaper_apply_btn">壁紙としてセットする</string>
+
     <string name="wallpaper_edit_fixed">固定</string>
     <string name="wallpaper_edit_scrollable">スクロール可能</string>
     <string name="online_wallpaper_edit_reset_btn">リセット</string>
@@ -46,11 +46,9 @@
 
     <string name="wallpaper_network_error_reload">再度読み込み</string>
     <string name="promotion_enable_btn">有効</string>
-    <string name="boost_title">ブースト</string>
 
-    <string name="notification_toolbar_flash_light">懐中電灯</string>
+
     <string name="notification_toolbar_search">検索</string>
-    <string name="terms_of_service">利用規約</string>
     <string name="load_more">読み込み中…</string>
 
 

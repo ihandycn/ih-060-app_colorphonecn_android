@@ -6,7 +6,7 @@
     <string name="customize_local_title">Ich</string>
     <string name="customize_wallpapers_title_local">Meine Hintergründe</string>
     <string name="add_wallpaper">Hintergrund hinzufügen</string>
-    <string name="online_wallpaper_apply_btn">ALS HINTERGRUND</string>
+
     <string name="wallpaper_edit_fixed">Fest</string>
     <string name="wallpaper_edit_scrollable">Verschiebbar</string>
     <string name="online_wallpaper_edit_reset_btn">ZURÜCKSETZEN</string>
@@ -50,12 +50,9 @@
 
     <string name="wallpaper_network_error_reload">Erneut laden</string>
     <string name="promotion_enable_btn">AKTIVIEREN</string>
-    <string name="boost_title">Beschleunigen</string>
 
-    <string name="notification_toolbar_flash_light">Taschenlampe</string>
+
     <string name="notification_toolbar_search">Suche</string>
-    <string name="terms_of_service">Nutzungsbedingungen</string>
-    <string name="load_more">Wird geladen …</string>
 
 
     <string name="online_3d_wallpaper_foot_text">- Wir kreieren ständig neue wunderschöne 3D-Hintergründe. -</string>

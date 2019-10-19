@@ -6,7 +6,7 @@
     <string name="customize_local_title">나</string>
     <string name="customize_wallpapers_title_local">내 바탕화면</string>
     <string name="add_wallpaper">배경 화면 추가</string>
-    <string name="online_wallpaper_apply_btn">바탕화면으로 설정</string>
+
     <string name="wallpaper_edit_fixed">결정된</string>
     <string name="wallpaper_edit_scrollable">스크롤 가능</string>
     <string name="online_wallpaper_edit_reset_btn">리셋</string>
@@ -51,11 +51,9 @@
 
     <string name="wallpaper_network_error_reload">다시 불러오기</string>
     <string name="promotion_enable_btn">사용</string>
-    <string name="boost_title">부스트</string>
 
-    <string name="notification_toolbar_flash_light">손전등</string>
+
     <string name="notification_toolbar_search">검색</string>
-    <string name="terms_of_service">서비스 약관</string>
     <string name="load_more">불러오는 중…</string>
 
 

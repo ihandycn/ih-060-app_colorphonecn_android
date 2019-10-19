@@ -6,7 +6,7 @@
     <string name="customize_local_title">Moi</string>
     <string name="customize_wallpapers_title_local">Mes fonds d\'écran</string>
     <string name="add_wallpaper">Ajouter un fond d\'écran</string>
-    <string name="online_wallpaper_apply_btn">DÉFINIR COMME FOND D\'ÉCRAN</string>
+
     <string name="wallpaper_edit_fixed">Fixe</string>
     <string name="wallpaper_edit_scrollable">Scrollable</string>
     <string name="online_wallpaper_edit_reset_btn">RÉINITIALISER</string>
@@ -51,11 +51,9 @@
 
     <string name="wallpaper_network_error_reload">Recharger</string>
     <string name="promotion_enable_btn">ACTIVER</string>
-    <string name="boost_title">Boost</string>
 
-    <string name="notification_toolbar_flash_light">Lampe torche</string>
+
     <string name="notification_toolbar_search">Recherche</string>
-    <string name="terms_of_service">Conditions de service</string>
     <string name="load_more">Chargement…</string>
 
 

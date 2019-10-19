@@ -87,9 +87,12 @@ android {
 
         colorphoneJinritoutiao {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
-            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets']
-            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res',
+                           '../libs/libWallpaper/common/res','../libs/libWallpaper/launcherCommon/res', '../libs/libWallpaper/launcher/res']
+            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
+                              '../libs/libWallpaper/common/assets','../libs/libWallpaper/launcherCommon/assets', '../libs/libWallpaper/launcher/assets']
+            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java','../libs/libWallpaper/common/src/main','../libs/libWallpaper/launcherCommon/src', '../libs/libWallpaper/launcher/src']
+            renderscript.srcDirs = ['../libs/libWallpaper/common/rs']
         }
     }
 
@@ -218,8 +221,6 @@ dependencies {
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-
-    compile project(':libWallpaper')
 
     // Tinker
     //tinker's main Android lib

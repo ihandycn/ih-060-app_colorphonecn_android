@@ -9,8 +9,6 @@
     <string name="customize_local_title">Mis cosas</string>
     <string name="wallpaper_setting_progress_dialog_text">Estableciendo fondo de pantalla…</string>
 
-    <string name="terms_of_service">Términos de servicio</string>
-
     <string name="news_detail_error_reload">Recargar</string>
 
     <!-- %1$s is the version number which should be kept, for example “v1.0.0"" -->
@@ -80,9 +78,8 @@
 
     <!-- A new themes for phone including wallpapers and app icons. -->
 
-    <string name="boost_title">Acelerar</string>
     <string name="notification_toolbar_wifi">Wi-Fi</string>
-    <string name="notification_toolbar_flash_light">Linterna</string>
+
 
     <!-- Please translate and replace the words in red color -->
 
@@ -117,7 +114,7 @@
 
     <string name="customize_my_wallpapers_remove_btn">Eliminar</string>
 
-    <string name="online_wallpaper_apply_btn">Establecer como fondo de pantalla</string>
+
 
     <string name="local_wallpaper_pick_error"> Algo ha ido mal al seleccionar el fondo de pantalla</string>
     <string name="local_wallpaper_pick_error_gif_not_supported"> Imagen GIF no compatible</string>

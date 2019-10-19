@@ -9,8 +9,6 @@
     <string name="customize_local_title">ของฉัน</string>
     <string name="wallpaper_setting_progress_dialog_text">กำลังตั้งค่าวอลเปเปอร์…</string>
 
-    <string name="terms_of_service">เงื่อนไขการให้บริการ</string>
-
     <string name="news_detail_error_reload">รีโหลด</string>
 
     <!-- %1$s is the version number which should be kept, for example “v1.0.0"" -->
@@ -80,9 +78,8 @@
     <!-- A new themes for phone including wallpapers and app icons. -->
 
 
-    <string name="boost_title">เร่งเครื่อง</string>
     <string name="notification_toolbar_wifi">Wi-Fi</string>
-    <string name="notification_toolbar_flash_light">ไฟฉาย</string>
+
 
     <!-- Please translate and replace the words in red color -->
 
@@ -120,7 +117,7 @@
 
     <string name="customize_my_wallpapers_remove_btn">ลบ</string>
 
-    <string name="online_wallpaper_apply_btn">ตั้งเป็นวอลเปเปอร์</string>
+
 
     <string name="local_wallpaper_pick_error">มีบางสิ่งผิดพลาดในการเลือกภาพพื้นหลัง</string>
     <string name="local_wallpaper_pick_error_gif_not_supported"> ไม่รองรับภาพ GIF</string>
