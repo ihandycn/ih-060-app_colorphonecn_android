@@ -96,7 +96,7 @@
     <!-- Memory has been released of the phone, which boosts your phone and makes it run faster. Better be short in one word or two.-->
     <!-- Type the English name of the city and select the city from the search result. Only support English -->
     <!-- ME Launcher is the name of App, which don’t need to translate. Themes can make your phone beautiful including wallpapers and app icons. The sentence below will be used in Applying theme like “ iOS 10 theme for ME Launcher has been installed. Apply it now?”-->
-    <string name="apply_btn">ใช้</string>
+
 
     <!-- A container with groups of apps, to keep and organize apps in phone. -->
 

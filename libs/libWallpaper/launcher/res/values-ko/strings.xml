@@ -24,7 +24,7 @@
 
     <string name="notification_toolbar_wifi">Wifi</string>
     <string name="notification_toolbar_data">데이터</string>
-    <string name="apply_btn">적용</string>
+
 
 
     <string name="battery_off">끄기</string>
