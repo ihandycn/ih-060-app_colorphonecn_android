@@ -31,7 +31,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
-import com.honeycomb.colorphone.Manager;
+import com.honeycomb.colorphone.wallpaper.Manager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
