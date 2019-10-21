@@ -94,7 +94,7 @@ android {
             assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
                               '../libs/libWallpaper/common/assets','../libs/libWallpaper/launcherCommon/assets', '../libs/libWallpaper/launcher/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
-            renderscript.srcDirs = ['../libs/libWallpaper/common/rs']
+            renderscript.srcDirs = ['src/main/rs']
         }
     }
 
