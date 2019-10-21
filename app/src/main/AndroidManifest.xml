@@ -274,7 +274,7 @@
             android:theme="@style/ContactTheme" />
 
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.MyWallpaperActivity"
+            android:name="com.honeycomb.colorphone.wallpaper.customize.activity.MyWallpaperActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -763,7 +763,7 @@
 
 
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.CustomizeActivity"
+            android:name=".wallpaper.customize.activity.CustomizeActivity"
             android:alwaysRetainTaskState="true"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -774,51 +774,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.WallpaperPreviewActivity"
+            android:name=".wallpaper.customize.activity.WallpaperPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.Cc0ProtocolActivity"
+            android:name=".wallpaper.customize.activity.Cc0ProtocolActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.report.SelectReportReasonActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".customize.report"
-            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
-        <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.report.InputEmailActivity"
+            android:name=".wallpaper.customize.activity.report.SelectReportReasonActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=".customize.report"
             android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.UploadWallpaperActivity"
+            android:name=".wallpaper.customize.activity.report.InputEmailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize.report"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
+        <activity
+            android:name=".wallpaper.customize.activity.UploadWallpaperActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
         <activity
-            android:name="com.acb.libwallpaper.live.customize.activity.WallpaperEditActivity"
+            android:name=".wallpaper.customize.activity.WallpaperEditActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.acb.libwallpaper.live.share.ShareActivity"
+            android:name=".wallpaper.share.ShareActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TransparentWithNoTitle" />
         <activity
-            android:name="com.acb.libwallpaper.live.dialog.CustomAlertActivity"
+            android:name=".wallpaper.dialog.CustomAlertActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TransparentWithNoTitle" />
 
 
         <receiver
-            android:name="com.acb.libwallpaper.live.receiver.OurAppInstalledReceiver"
+            android:name="com.honeycomb.colorphone.receiver.OurAppInstalledReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -826,18 +826,14 @@
         </receiver>
 
         <activity
-            android:name="com.acb.libwallpaper.live.view.WebViewActivity"
+            android:name=".wallpaper.view.WebViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <!-- Debugging -->
-        <activity
-            android:name="com.acb.libwallpaper.live.debug.DebugActivity"
-            android:exported="true" />
 
         <service
-            android:name="com.acb.libwallpaper.live.livewallpaper.WallpaperPreloadService"
+            android:name=".wallpaper.livewallpaper.WallpaperPreloadService"
             android:enabled="true"
             android:exported="false"
             android:process=":livewallpaper" />
@@ -856,7 +852,7 @@
                 android:resource="@xml/wallpaper" />
         </service>
         <service
-            android:name="com.acb.libwallpaper.live.livewallpaper.GLWallpaperService"
+            android:name=".wallpaper.livewallpaper.GLWallpaperService"
             android:enabled="true"
             android:icon="@drawable/live_wallpaper_thumbnail"
             android:label="@string/app_name"
@@ -871,7 +867,7 @@
                 android:resource="@xml/wallpaper" />
         </service>
         <service
-            android:name="com.acb.libwallpaper.live.livewallpaper.GLWallpaperService2"
+            android:name=".wallpaper.livewallpaper.GLWallpaperService2"
             android:enabled="true"
             android:icon="@drawable/live_wallpaper_thumbnail"
             android:label="@string/app_name"
@@ -886,7 +882,7 @@
                 android:resource="@xml/wallpaper" />
         </service>
         <service
-            android:name="com.acb.libwallpaper.live.livewallpaper.GLWallpaperService3"
+            android:name=".wallpaper.livewallpaper.GLWallpaperService3"
             android:enabled="true"
             android:icon="@drawable/live_wallpaper_thumbnail"
             android:label="@string/app_name"
@@ -901,7 +897,7 @@
                 android:resource="@xml/wallpaper" />
         </service>
         <service
-            android:name="com.acb.libwallpaper.live.livewallpaper.GLWallpaperService4"
+            android:name=".wallpaper.livewallpaper.GLWallpaperService4"
             android:enabled="true"
             android:icon="@drawable/live_wallpaper_thumbnail"
             android:label="@string/app_name"
@@ -917,7 +913,7 @@
         </service>
 
         <provider
-            android:name="com.acb.libwallpaper.live.customize.WallpaperProvider"
+            android:name=".wallpaper.customize.WallpaperProvider"
             android:authorities="${applicationId}.wallpaper"
             android:exported="false" />
 
@@ -926,11 +922,11 @@
             android:value="true" />
 
         <activity
-            android:name="com.acb.libwallpaper.live.permission.NormalPermissionGuide"
+            android:name=".wallpaper.permission.NormalPermissionGuide"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TransparentWithNoTitle" />
         <activity
-            android:name="com.acb.libwallpaper.live.permission.FloatWindowPermissionGuide"
+            android:name=".wallpaper.permission.FloatWindowPermissionGuide"
             android:allowTaskReparenting="false"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.acb.libwallpaper.live.customize.view.PreviewViewPage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.honeycomb.colorphone.wallpaper.customize.view.PreviewViewPage xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -80,4 +80,4 @@
             app:typeface="@string/custom_font_semibold"
             tools:ignore="HardcodedText"/>
     </LinearLayout>
-</com.acb.libwallpaper.live.customize.view.PreviewViewPage>
+</com.honeycomb.colorphone.wallpaper.customize.view.PreviewViewPage>

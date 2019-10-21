@@ -4,7 +4,7 @@
     android:layout_height="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.acb.libwallpaper.live.guide.RippleView
+    <com.honeycomb.colorphone.guide.RippleView
         android:id="@+id/ripple_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,9 +50,9 @@
                 android:textColor="#a1a1a1"
                 android:textSize="14sp" />
         </LinearLayout>
-    </com.acb.libwallpaper.live.guide.RippleView>
+    </com.honeycomb.colorphone.guide.RippleView>
 
-    <com.acb.libwallpaper.live.guide.ToggleView
+    <com.honeycomb.colorphone.guide.ToggleView
         android:id="@+id/permission_guide_toggle_view"
         android:layout_width="28dp"
         android:layout_height="14dp"

@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashSettings;
-import com.acb.libwallpaper.live.customize.activity.MyWallpaperActivity;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
@@ -24,6 +23,7 @@ import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.wallpaper.customize.activity.MyWallpaperActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;

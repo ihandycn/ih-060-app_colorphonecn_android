@@ -22,7 +22,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
-        <com.acb.libwallpaper.live.guide.ToggleView
+        <com.honeycomb.colorphone.guide.ToggleView
             android:id="@+id/last_view_toggle_view"
             android:layout_width="28dp"
             android:layout_height="14dp"

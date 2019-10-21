@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.acb.libwallpaper.live.customize.view.PercentageProgressView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.honeycomb.colorphone.wallpaper.customize.view.PercentageProgressView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/progress_dialog_container"
@@ -35,7 +35,7 @@
         android:src="@drawable/live_wallpaper_dialog_cancel"
         tools:ignore="ContentDescription" />
 
-    <com.acb.libwallpaper.live.customize.view.PercentageProgressBar
+    <com.honeycomb.colorphone.wallpaper.customize.view.PercentageProgressBar
         android:id="@+id/progress_dialog_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,4 +59,4 @@
         android:textSize="14sp"
         app:typeface="@string/custom_font_regular"
         tools:text="@string/live_wallpaper_loading_text" />
-</com.acb.libwallpaper.live.customize.view.PercentageProgressView>
+</com.honeycomb.colorphone.wallpaper.customize.view.PercentageProgressView>

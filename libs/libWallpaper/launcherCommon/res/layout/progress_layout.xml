@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.acb.libwallpaper.live.customize.view.ProgressFrameLayout
+<com.honeycomb.colorphone.wallpaper.customize.view.ProgressFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,7 @@
     android:paddingStart="21.3dp"
     >
 
-    <com.acb.libwallpaper.live.customize.view.ProgressWheel
+    <com.honeycomb.colorphone.wallpaper.customize.view.ProgressWheel
         android:id="@+id/progressWheel"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -26,7 +26,7 @@
         wheel:circleRadius="32dp"
         wheel:rimColor="#99ffffff"/>
 
-    <com.acb.libwallpaper.live.customize.view.SuccessTickView
+    <com.honeycomb.colorphone.wallpaper.customize.view.SuccessTickView
         android:id="@+id/tickview"
         android:layout_width="42dp"
         android:layout_height="42dp"
@@ -52,5 +52,5 @@
         android:textColor="#d6ffffff"
         android:textSize="16sp"
         tools:text="@string/wallpaper_setting_progress_dialog_text"/>
-</com.acb.libwallpaper.live.customize.view.ProgressFrameLayout>
+</com.honeycomb.colorphone.wallpaper.customize.view.ProgressFrameLayout>
 

@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true" />
 
-    <com.acb.libwallpaper.live.view.AdvancedPageIndicator
+    <com.honeycomb.colorphone.wallpaper.view.AdvancedPageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

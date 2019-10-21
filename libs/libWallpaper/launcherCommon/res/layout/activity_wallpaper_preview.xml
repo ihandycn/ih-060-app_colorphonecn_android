@@ -76,7 +76,7 @@
         app:srcCompat="@drawable/ic_battery_menu" />
 
 
-    <com.acb.libwallpaper.live.customize.DrawView
+    <com.honeycomb.colorphone.wallpaper.customize.DrawView
         android:id="@+id/preview_guide_draw_view"
         android:layout_width="300dp"
         android:layout_height="200dp"

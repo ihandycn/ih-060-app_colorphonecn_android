@@ -84,88 +84,88 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 
--keepnames class com.acb.libwallpaper.live.model.DefaultAppFilter
+-keepnames class com.honeycomb.colorphone.model.DefaultAppFilter
 
--keepnames class com.acb.libwallpaper.live.dialog.LauncherFloatWindowManager
+-keepnames class com.honeycomb.colorphone.dialog.LauncherFloatWindowManager
 
 -keepnames class com.themelab.launcher.dialog.ThemeFloatWindowManager
 
--keepnames public class * extends com.acb.libwallpaper.live.schedule.SimpleBroadcastJob
+-keepnames public class * extends com.honeycomb.colorphone.schedule.SimpleBroadcastJob
 
--keepnames class com.acb.libwallpaper.live.livewallpaper.GLWallpaperService
--keepnames class com.acb.libwallpaper.live.livewallpaper.GLWallpaperService2
--keepnames class com.acb.libwallpaper.live.livewallpaper.GLWallpaperService3
--keepnames class com.acb.libwallpaper.live.livewallpaper.GLWallpaperService4
+-keepnames class com.honeycomb.colorphone.livewallpaper.GLWallpaperService
+-keepnames class com.honeycomb.colorphone.livewallpaper.GLWallpaperService2
+-keepnames class com.honeycomb.colorphone.livewallpaper.GLWallpaperService3
+-keepnames class com.honeycomb.colorphone.livewallpaper.GLWallpaperService4
 -keepnames class com.themelab.launcher.ThemeWallpaperService
 
--keep class com.acb.libwallpaper.live.badge.NotificationServiceV18 { <init>(...); }
+-keep class com.honeycomb.colorphone.badge.NotificationServiceV18 { <init>(...); }
 
--keep class com.acb.libwallpaper.live.desktop.allapps.AllAppsContainerView {
+-keep class com.honeycomb.colorphone.desktop.allapps.AllAppsContainerView {
   public void setBackgroundAlpha(float);
 }
 
--keep class com.acb.libwallpaper.live.customize.view.SuccessTickView{
+-keep class com.honeycomb.colorphone.customize.view.SuccessTickView{
   private void setTickPosition(float);
 }
 
--keep class com.acb.libwallpaper.live.desktop.folder.SharedFolder {
+-keep class com.honeycomb.colorphone.desktop.folder.SharedFolder {
   public void setBackgroundAlpha(float);
 }
 
--keepnames class com.acb.libwallpaper.live.weather.widget.WeatherClockWidget
+-keepnames class com.honeycomb.colorphone.weather.widget.WeatherClockWidget
 
--keep class com.acb.libwallpaper.live.weather.HourlyForecastCurve {
+-keep class com.honeycomb.colorphone.weather.HourlyForecastCurve {
   public void setProgress(float);
 }
 
 # Lucky
 
--keep class com.acb.libwallpaper.live.lucky.view.ChancesAnimationAdapter {
+-keep class com.honeycomb.colorphone.lucky.view.ChancesAnimationAdapter {
   public void set*(***);
 }
 
--keep class com.acb.libwallpaper.live.lucky.MusicPlayer {
+-keep class com.honeycomb.colorphone.lucky.MusicPlayer {
   public void setVolume(float);
 }
 
--keep class com.acb.libwallpaper.live.lucky.view.FlyAwardBaseView {
+-keep class com.honeycomb.colorphone.lucky.view.FlyAwardBaseView {
   protected void setTranslationYProgress(float);
   protected void setFlipTranslationYProgress(float);
   protected void setFlipTranslationXProgress(float);
 }
 
--keep class com.acb.libwallpaper.live.Icons { *; }
+-keep class com.honeycomb.colorphone.Icons { *; }
 
 
 # ==== From AOSP Launcher 3 ====
 
--keep class com.acb.libwallpaper.live.desktop.DefaultFastScroller {
+-keep class com.honeycomb.colorphone.desktop.DefaultFastScroller {
   public void setThumbWidth(int);
   public int getThumbWidth();
   public void setTrackWidth(int);
   public int getTrackWidth();
 }
 
--keep class com.acb.libwallpaper.live.desktop.DefaultFastScrollerPopup {
+-keep class com.honeycomb.colorphone.desktop.DefaultFastScrollerPopup {
   public void setAlpha(float);
   public float getAlpha();
 }
 
--keep class com.acb.libwallpaper.live.desktop.BubbleTextView {
+-keep class com.honeycomb.colorphone.desktop.BubbleTextView {
   public void setFastScrollFocus(float);
   public float getFastScrollFocus();
 }
 
--keep class com.acb.libwallpaper.live.desktop.dragdrop.ButtonDropTarget {
+-keep class com.honeycomb.colorphone.desktop.dragdrop.ButtonDropTarget {
   public int getTextColor();
 }
 
--keep class com.acb.libwallpaper.live.desktop.CellLayout {
+-keep class com.honeycomb.colorphone.desktop.CellLayout {
   public float getBackgroundAlpha();
   public void setBackgroundAlpha(float);
 }
 
--keep class com.acb.libwallpaper.live.desktop.CellLayout$LayoutParams {
+-keep class com.honeycomb.colorphone.desktop.CellLayout$LayoutParams {
   public void setWidth(int);
   public int getWidth();
   public void setHeight(int);
@@ -176,7 +176,7 @@
   public int getY();
 }
 
--keep class com.acb.libwallpaper.live.desktop.DragLayer$LayoutParams {
+-keep class com.honeycomb.colorphone.desktop.DragLayer$LayoutParams {
   public void setWidth(int);
   public int getWidth();
   public void setHeight(int);
@@ -187,26 +187,26 @@
   public int getY();
 }
 
--keep class com.acb.libwallpaper.live.desktop.FastBitmapDrawable {
+-keep class com.honeycomb.colorphone.desktop.FastBitmapDrawable {
   public int getBrightness();
   public void setBrightness(int);
 }
 
--keep class com.acb.libwallpaper.live.debug.MemoryDumpActivity {
+-keep class com.honeycomb.colorphone.debug.MemoryDumpActivity {
   *;
 }
 
--keep class com.acb.libwallpaper.live.desktop.PreloadIconDrawable {
+-keep class com.honeycomb.colorphone.desktop.PreloadIconDrawable {
   public float getAnimationProgress();
   public void setAnimationProgress(float);
 }
 
--keep class com.acb.libwallpaper.live.desktop.Workspace {
+-keep class com.honeycomb.colorphone.desktop.Workspace {
   public float getBackgroundAlpha();
   public void setBackgroundAlpha(float);
 }
 
--keep class * extends com.acb.libwallpaper.live.welcome.WelcomeScreens
+-keep class * extends com.honeycomb.colorphone.welcome.WelcomeScreens
 
 # Customize
 -keepclassmembers class android.support.design.internal.BottomNavigationMenuView {
@@ -228,7 +228,7 @@
 -dontwarn com.smartadserver.android.**
 
 # Local file log utils
--assumenosideeffects class com.acb.libwallpaper.live.util.LogUtils {
+-assumenosideeffects class com.honeycomb.colorphone.util.LogUtils {
     public static void v(...);
     public static void i(...);
     public static void w(...);

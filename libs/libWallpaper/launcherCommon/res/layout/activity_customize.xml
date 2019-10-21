@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true">
 
-    <com.acb.libwallpaper.live.customize.view.CustomizeContentView
+    <com.honeycomb.colorphone.wallpaper.customize.view.CustomizeContentView
         android:id="@+id/customize_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.acb.libwallpaper.live.customize.view.FixedRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.honeycomb.colorphone.wallpaper.customize.view.FixedRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
     app:aspectRatio="1.125"
     tools:ignore="ContentDescription">
 
-    <com.acb.libwallpaper.live.view.TextureVideoView
+    <com.honeycomb.colorphone.wallpaper.view.TextureVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,4 +69,4 @@
         android:paddingRight="8dp"
         android:textColor="@color/white"
         android:visibility="gone" />
-</com.acb.libwallpaper.live.customize.view.FixedRatioLayout>
+</com.honeycomb.colorphone.wallpaper.customize.view.FixedRatioLayout>

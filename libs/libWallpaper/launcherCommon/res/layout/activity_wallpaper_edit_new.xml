@@ -70,7 +70,7 @@
             android:scaleType="matrix"
             tools:src="@drawable/ic_wallpaper"/>
 
-        <com.acb.libwallpaper.live.customize.crop.CropOverlayView
+        <com.honeycomb.colorphone.wallpaper.customize.crop.CropOverlayView
             android:id="@+id/wallpaper_overlay_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

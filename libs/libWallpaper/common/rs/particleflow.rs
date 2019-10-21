@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.acb.libwallpaper.livewallpaper.particleflow)
+#pragma rs java_package_name(com.honeycomb.colorphonewallpaper.particleflow)
 
 // Colors of slow and fast particles. Particles colors are interpolated based on these two colors
 // and hueDirection.

@@ -93,7 +93,7 @@ android {
                            '../libs/libWallpaper/common/res','../libs/libWallpaper/launcherCommon/res', '../libs/libWallpaper/launcher/res']
             assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
                               '../libs/libWallpaper/common/assets','../libs/libWallpaper/launcherCommon/assets', '../libs/libWallpaper/launcher/assets']
-            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java','../libs/libWallpaper/common/src/main','../libs/libWallpaper/launcherCommon/src', '../libs/libWallpaper/launcher/src']
+            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java','../libs/libWallpaper/launcherCommon/src']
             renderscript.srcDirs = ['../libs/libWallpaper/common/rs']
         }
     }

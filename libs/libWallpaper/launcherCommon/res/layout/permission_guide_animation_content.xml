@@ -71,7 +71,7 @@
             </LinearLayout>
         </ScrollView>
 
-        <com.acb.libwallpaper.live.guide.PermissionGuideLastView
+        <com.honeycomb.colorphone.guide.PermissionGuideLastView
             android:id="@+id/permission_guide_last_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

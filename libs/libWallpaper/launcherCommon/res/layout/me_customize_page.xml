@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.acb.libwallpaper.live.customize.view.MineCustomizePage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.honeycomb.colorphone.wallpaper.customize.view.MineCustomizePage xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mine_my_wallpaper"/>
 
-                <com.acb.libwallpaper.live.view.MarqueeTextView
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
                     style="@style/SettingsItem.SingleLine"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
@@ -88,7 +88,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mine_upload"/>
 
-                <com.acb.libwallpaper.live.view.MarqueeTextView
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
                     style="@style/SettingsItem.SingleLine"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
@@ -120,7 +120,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mine_privacy_policy"/>
 
-                <com.acb.libwallpaper.live.view.MarqueeTextView
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
                     style="@style/SettingsItem.SingleLine"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
@@ -147,7 +147,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mine_terms_of_service"/>
 
-                <com.acb.libwallpaper.live.view.MarqueeTextView
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
                     style="@style/SettingsItem.SingleLine"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
@@ -188,7 +188,7 @@
                     android:gravity="left|start"
                     android:orientation="horizontal">
 
-                    <com.acb.libwallpaper.live.view.MarqueeTextView
+                    <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
                         style="@style/SettingsItem.MultiLineTitle"
                         android:layout_marginLeft="72dp"
                         android:layout_marginStart="72dp"
@@ -216,4 +216,4 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-</com.acb.libwallpaper.live.customize.view.MineCustomizePage>
+</com.honeycomb.colorphone.wallpaper.customize.view.MineCustomizePage>
