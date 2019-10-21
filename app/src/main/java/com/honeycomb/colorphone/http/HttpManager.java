@@ -93,14 +93,14 @@ public final class HttpManager {
                 .build();
 
         DEFAULT.create(IHttpRequest.class)
-                .editUserInfo(getSelfUserId(), body)
+                .editUserInfo(getUserToken(), getSelfUserId(), body)
                 .enqueue(callback);
     }
 
     public void getSelfUserInfo(Callback<UserInfoBean> callBack) {
 
         DEFAULT.create(IHttpRequest.class)
-                .getUserInfo(getSelfUserId())
+                .getUserInfo(getUserToken(), getSelfUserId())
                 .enqueue(callBack);
     }
 
@@ -122,7 +122,7 @@ public final class HttpManager {
         map.put(FilesRequestBodyConverter.KEY_UPLOAD_FILE_CALLBACK, callback);
         map.put("file_name", name);
         Callable<ResponseBody> call = DEFAULT.create(IHttpRequest.class)
-                .uploadVideos(getSelfUserId(), map);
+                .uploadVideos(getUserToken(), getSelfUserId(), map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onFailure(String errorMsg) {
@@ -151,13 +151,13 @@ public final class HttpManager {
 
     public void getUserUploadedVideos(int pageIndex, Callback<AllUserThemeBean> callback) {
         DEFAULT.create(IHttpRequest.class)
-                .getUserUploadedVideos(getSelfUserId(), IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
+                .getUserUploadedVideos(getUserToken(), getSelfUserId(), IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
                 .enqueue(callback);
     }
 
     public void getUserPublishedVideos(int pageIndex, Callback<AllUserThemeBean> callback) {
         DEFAULT.create(IHttpRequest.class)
-                .getUserPublishedVideos(getSelfUserId(), IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
+                .getUserPublishedVideos(getUserToken(), getSelfUserId(), IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
                 .enqueue(callback);
     }
 
@@ -176,7 +176,7 @@ public final class HttpManager {
 
         RequestBody body = HttpUtils.getRequestBodyFromJson(params.toString());
         DEFAULT.create(IHttpRequest.class)
-                .deleteUserVideos(getSelfUserId(), body)
+                .deleteUserVideos(getUserToken(), getSelfUserId(), body)
                 .enqueue(callback);
     }
 

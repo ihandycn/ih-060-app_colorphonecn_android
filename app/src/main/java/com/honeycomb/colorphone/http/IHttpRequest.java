@@ -14,6 +14,7 @@ import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -34,26 +35,26 @@ public interface IHttpRequest {
     Callable<LoginInfoBean> login(@Body RequestBody body);
 
     @PUT("user/{uid}/profile")
-    Callable<ResponseBody> editUserInfo(@Path("uid") String uid, @Body RequestBody body);
+    Callable<ResponseBody> editUserInfo(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body RequestBody body);
 
     @GET("user/{uid}/profile")
-    Callable<UserInfoBean> getUserInfo(@Path("uid") String uid);
+    Callable<UserInfoBean> getUserInfo(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid);
 
     @GET("shows")
     Callable<AllThemeBean> getAllThemes(@Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @UploadMoreFiles
     @POST("user/{uid}/uploaded_shows")
-    Callable<ResponseBody> uploadVideos(@Path("uid") String uid, @Body HashMap<String, Object> params);
+    Callable<ResponseBody> uploadVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body HashMap<String, Object> params);
 
     @GET("user/{uid}/uploaded_shows")
-    Callable<AllUserThemeBean> getUserUploadedVideos(@Path("uid") String uid, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
+    Callable<AllUserThemeBean> getUserUploadedVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @GET("user/{uid}/reviewed_shows")
-    Callable<AllUserThemeBean> getUserPublishedVideos(@Path("uid") String uid, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
+    Callable<AllUserThemeBean> getUserPublishedVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @DELETE("user/{uid}/uploaded_shows")
-    Callable<ResponseBody> deleteUserVideos(@Path("uid") String uid, @Body RequestBody body);
+    Callable<ResponseBody> deleteUserVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body RequestBody body);
 }
 

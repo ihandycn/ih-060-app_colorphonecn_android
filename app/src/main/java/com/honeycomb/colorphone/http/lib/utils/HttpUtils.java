@@ -14,4 +14,9 @@ public class HttpUtils {
     public static RequestBody getRequestBodyFromJson(String jsonStr) {
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
     }
+
+    public static String getSignature(String data){
+
+        return data;
+    }
 }
