@@ -117,10 +117,15 @@
     </style>
 
     <style name="CustomizeEmailField">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
     <style name="WideHorizontalDivider">
         <item name="android:background">#f4f4f4</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">6dp</item>
     </style>
 
     <style name="SettingsItem">
