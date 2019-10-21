@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_3_large_zoom_range.glsl">
+        <image path="stars/background_1.png" />
+        <image path="stars/background_2.png" />
+        <image path="stars/background_4.png" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="7"
+            alphaInterpolator="CubicEaseIn"
+            sourceFromX="0.5"
+            sourceFromY="0.5"
+            sourceToX="0.5"
+            sourceToY="0.5"
+            delay="-200"
+            delayDeviation="200"
+            minVelocity="125"
+            maxSelectIterations="8"
+            velocityDeviationX="250.0"
+            velocityDeviationY="250.0"
+            initialScale="0.18"
+            initialScaleDeviation="0.1"
+            scaleVelocity="0.5">
+
+            <image path="stars/starlight.png" ratio="1.0"/>
+        </background>
+    </particles>
+</live-wallpaper>

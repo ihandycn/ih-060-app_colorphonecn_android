@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="refresh">更新</string>
+    <string name="setting_device_not_support_message">你的设备不支持该功能。</string>
+    <string name="customize_wallpapers_title">壁纸</string>
+    <string name="customize_local_title">我的</string>
+    <string name="customize_wallpapers_title_local">我的壁纸</string>
+    <string name="add_wallpaper">添加壁纸</string>
+
+    <string name="wallpaper_edit_fixed">固定</string>
+    <string name="wallpaper_edit_scrollable">滚动</string>
+    <string name="online_wallpaper_edit_reset_btn">重置</string>
+    <string name="online_wallpaper_cancel_edit_dialog_content">取消修改并退出？</string>
+    <string name="customize_my_wallpapers_remove_btn">移除</string>
+    <string name="wallpaper_setting_progress_dialog_text">正在设置壁纸……</string>
+    <string name="wallpaper_toast_set_failed">设置壁纸时出错，请重试</string>
+    <string name="local_wallpaper_pick_error">本张图片无法被设置为壁纸。</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">动态图片不能被设置为壁纸</string>
+    <string name="upload_wallpaper">上传壁纸</string>
+    <string name="upload_wallpaper_button_text">上传</string>
+    <string name="upload_wallpaper_tip">温馨提示：\n1.图片将被自动放缩到最佳尺寸\n2.您的图片将显示在“我的”分类中\n3.高质量的图片能够被焕动壁纸更好的使用\n4.通过审查后，您的图片将会显示在列表中</string>
+    <string name="upload_wallpaper_declaration">一旦上传，代表您同意焕动壁纸的</string>
+    <string name="upload_wallpaper_success">上传成功</string>
+
+    <string name="notification_toolbar_wifi">Wi-Fi</string>
+    <string name="notification_toolbar_data">数据</string>
+
+
+
+    <string name="battery_off">关闭</string>
+
+
+    <string name="news_detail_error_reload">重新加载</string>
+    <string name="news_load_more_re_try">点击重试</string>
+    <string name="got_it">去开启</string>
+    <string name="wallpaper_network_error">无可用连接，请重试</string>
+
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">打开开关，并点击确认\n\n它能：\n1) 加快手机 80\%%\n2) 清理垃圾文件\n3) 清除耗电应用\n\n我们只是为了加速你的手机，不会收集任何个人数据。</string>
+
+
+    <string name="theme_category_foot_text">我们将持续提供更多精美的主题</string>
+
+
+    <string name="app_lock_submit">提交</string>
+    <string name="online_wallpaper_tab_title_categories">类别</string>
+    <string name="notification_toolbar_all_apps">全部应用</string>
+
+    <string name="online_wallpaper_tab_title_hot">热门</string>
+
+    <string name="wallpaper_network_error_reload">重新加载</string>
+    <string name="promotion_enable_btn">授权</string>
+
+
+    <string name="notification_toolbar_search">搜索</string>
+    <string name="load_more">加载中……</string>
+
+
+    <string name="online_wallpaper_loading">加载高清壁纸，请稍候。</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">— 我们将持续提供更多精美的3D壁纸 —</string>
+
+    <string name="launcher_settings_latest_version_detail">最新版本：V%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">当前版本：v%1$s</string>
+
+
+</resources>

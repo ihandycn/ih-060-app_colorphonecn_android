@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="network_error">เครือข่ายขัดข้อง</string>
+
+    tringsO
+
+    <string name="congratulations">ยินดีด้วย!</string>
+    <string name="won_live_wallpaper">คุณได้รางวัลวอลเปเปอร์เคลื่อนไหว!</string>
+    <string name="won_three_d_wallpaper">คุณได้รางวัลวอลเปเปอร์ 3 มิติ!</string>
+    <string name="more">เพิ่มเติม</string>
+    <string name="preview">ตัวอย่าง</string>
+    <string name="live_wallpaper_loading_text">กำลังดาวน์โหลด…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">กำลังเชื่อมต่อ…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">ข้อความที่ยังไม่ได้อ่าน</string>
+
+
+    <string name="wallpaper_share_msg">ฉันเจอภาพพื้นหลังที่สวยมากที่นี่:</string>
+    <string name="wallpaper_share_live_image_msg">ฉันเจอภาพพื้นหลังเคลื่อนไหวที่สวยมากที่นี่:</string>
+    <string name="wallpaper_share_3d_image_msg">ฉันเจอภาพพื้นหลัง 3 มิติที่สวยมากที่นี่:</string>
+
+    <string name="shared_by">แชร์ด้วย</string>
+
+
+    <string name="next">ถัดไป</string>
+
+
+    <string name="permission_request_failed_message">อนุญาตการเข้าถึงไม่สำเร็จ</string>
+    <string name="permission_request_succeed_message">%1$s เปิดใช้งาน</string>
+    <string name="floating_window_permission_guide_dialog_content">อนุญาตการเข้าถึงเพื่อแสดงสายเรียกเข้าเหนือแอปอื่น</string>
+    <string name="permission_request_call">โทรศัพท์</string>
+    <string name="permission_request_contacts">รายชื่อติดต่อ</string>
+
+    <string name="normal_permission_guide_permission">การอนุญาต</string>
+
+
+    <string name="normal_permission_guide_dialog_content">เลือก "Permissions" และเปิดใช้งาน "โทรศัพท์", "รายชื่อติดต่อ"</string>
+    <string name="launcher_settings_update">อัปเดต</string>
+
+    <string name="privacy_policy_settings_title">นโยบายความเป็นส่วนตัว</string>
+
+    <string name="terms_of_service_settings_title">เงื่อนไขการให้บริการ</string>
+
+    <string name="update_toast_no_network">กรุณาตรวจสอบการเชื่อมต่อ</string>
+
+    <string name="update_toast_already_latest">คุณกำลังใช้เวอร์ชันล่าสุด</string>
+
+    <string name="update_dialog_title">ดาวน์โหลดเวอร์ชันล่าสุด</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">ยกเลิก</string>
+
+    <string name="download_capital">ดาวน์โหลด</string>
+
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_3.glsl">
+        <image path="duck/1.jpg" />
+        <image path="duck/2.png" />
+        <image path="duck/3.png" />
+    </shader>
+</live-wallpaper>

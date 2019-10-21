@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="ok">ठीक</string>
+
+    <string name="download_launcher_hint">इस विषयवस्तु को Air लॉन्चर के साथ उपयोग किया जाना चाहिए।</string>
+    <string name="upgrade_launcher_hint">आपके Air लॉन्चर का संस्करण बहुत निम्न है, कृपया अद्यतन करें।</string>
+    <string name="upgrade_btn">Air लॉन्चर का अद्यतन करें</string>
+    <string name="current_theme_btn">वर्तमान विषयवस्तु</string>
+    <string name="install_theme_list_btn">अभी स्थापित करें</string>
+    <string name="theme_toast_set_success">विषयवस्तु लागू की गई</string>
+    <string name="theme_toast_set_deferred_action">विषयवस्तु लागू की जा रही है…</string>
+    <string name="progress_bar_toast_action_continuing">लागू किया जा रहा है…</string>
+    <string name="theme_toast_already_set">यह पहले से आपकी वर्तमान विषयवस्तु है</string>
+    <string name="theme_setting_progress_dialog_text">विषयवस्तु लागू की जा रही है…</string>
+
+
+    <string name="download_launcher_guide_btn">अभी स्थापित करें</string>
+    <string name="install_theme_activity_btn">निःशुल्क डाउनलोड करें</string>
+
+    <string name="guide_download_launcher_text">एयर लांचर आपके फोन को एचडी वॉलपेपर एवं ज्यादा थीम से सजाता है।</string>
+    <string name="discover_btn">ब्राउज करें</string>
+    <string name="open_theme_btn">खोलें</string>
+    <string name="discover_theme_text">आपका स्टाइल नहीं? अन्य लोकप्रिय थीम की जांच करें!</string>
+    <string name="download_btn">गूगल प्ले से प्राप्त  करें</string>
+<string name="wallpaper_hint_3d_title">3डी वालपेपर पूर्वावलोकन के लिए अपने फोन को टिल्‍ट करें</string>
+  <string name="wallpaper_hint_live_title">1. लाइव वालपेपर के पूर्वावलोकन के लिए स्‍क्रीन पर स्‍लाइड करें</string>
+  <string name="wallpaper_hint_action">“सेट वालपेपर” क्लिक करें</string>
+  <string name="theme_live_apply_toast">इस थीम के लिए लाइव वॉलपेपर सेट करें</string>
+
+</resources>

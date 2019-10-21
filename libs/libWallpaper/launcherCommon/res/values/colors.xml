@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+/* //device/apps/common/assets/res/any/colors.xml
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
+<resources>
+    <!-- The color tints to apply to the text and drag view when hovering
+         over the delete target or the info target -->
+
+    <color name="paged_pad_view_icon_text_color">#585858</color>
+
+    <!-- General purpose -->
+    <color name="darker_translucent_bg">#b3000000</color> <!-- 70% opaque -->
+    <!-- 80% opaque -->
+
+    <!-- Special Scene Dialog -->
+
+    <!-- Material Design -->
+    <color name="material_text_black_hint">#61000000</color>
+    <color name="material_color_accent">#448aff</color>
+    <color name="material_color_switch_thumb">#ffffff</color>
+    <color name="material_color_foreground">#cccccc</color>
+
+
+    <!-- Wallpaper -->
+    <color name="wallpaper_activities_control_highlight">#dadada</color>
+    <color name="wallpaper_progressbar_bg">#bdbdbd</color>
+    <color name="wallpaper_progressbar_progress">#bdbdbd</color>
+    <color name="wallpaper_category_text_normal_bg">#ebebeb</color>
+    <color name="wallpaper_local_bg">#ffffff</color>
+    <color name="wallpaper_local_add_btn_text">#666666</color>
+    <color name="wallpaper_preview_background">#F2000000</color>
+    <color name="customize_tab_highlight">#fff9224f</color>
+    <color name="customize_tab_normal">#ff333333</color>
+    <color name="upload_wallpaper_container_normal">#ffeeeeee</color>
+    <color name="upload_wallpaper_container_pressed">#ffdedede</color>
+
+    <!-- Launcher settings -->
+    <!-- Quantum panel: the white round cornered pad -->
+    <color name="quantum_panel_divider">#E5E5E5</color>
+
+    <!--Settings Icon Pack-->
+
+    <!-- Settings Auth Hint -->
+
+    <!-- Feedback -->
+
+    <!-- Weather -->
+
+    <!-- News -->
+
+    <!-- Lucky -->
+
+    <!-- Icon settings -->
+
+    <!-- Welcome view and opening animation -->
+
+    <!-- Air Launcher logo -->
+    <color name="logo_vertex_1">#25df2a</color>
+    <color name="logo_vertex_3">#4570fc</color>
+
+    <color name="logo_stroke_1">#ffd931</color>
+
+    <!-- Launcher style progress bar -->
+    <integer-array name="progress_bar_points_default">
+        <item>@color/logo_vertex_3</item>
+        <item>@color/logo_vertex_1</item>
+        <item>@color/logo_stroke_1</item>
+    </integer-array>
+
+
+    <!-- Boost plus -->
+
+    <!-- Moment -->
+    <color name="know_wallpaper_more_ripple">#66ffffff</color>
+    <color name="moment_header_greetings_txt_color">#99ffffff</color>
+
+    <!-- Notification -->
+
+    <!-- Permission Guide -->
+    <color name="permission_guide_phone_frame">#373a3b</color>
+    <color name="divider_gray">#D8D8D8</color>
+
+    <color name="black_gray">#59000000</color>    <!-- 35% -->
+
+    <!-- Cpu Cooler -->
+    <!-- 38% -->
+    <!-- 70% -->
+
+
+    <color name="app_lock_ripple_color_alpha">#42FFFFFF</color>
+    <color name="app_lock_intruder_rate_button_background">#4285F4</color>
+    <color name="app_lock_blue_button_pressed">#3871D0</color>
+    <color name="app_lock_primary_blue">#FF4285F4</color>
+    <!-- 38% -->
+
+    <color name="app_lock_black_75_transparent">#C0000000</color>
+
+    <color name="white20_transparent">#34ffffff</color>
+
+    <!-- clean center -->
+
+    <color name="live_wallpaper_loading_progress_bar_left">#47fdea</color>
+    <color name="live_wallpaper_loading_progress_bar_right">#39aefb</color>
+
+    <!--safebox-->
+
+
+    <color name="desktop_content_game_choice_wrong_middle_color">#CA4F4F</color>
+    <color name="desktop_content_game_choice_wrong_edge_color">#EA6363</color>
+
+
+</resources>

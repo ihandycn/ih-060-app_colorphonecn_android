@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="rosedog/background_1.png" />
+        <image path="rosedog/background_2.png" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="2"
+            sourceFromX="0.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="0.0"
+            velocityX="50.0"
+            velocityDeviationX="70"
+            velocityY="150"
+            velocityDeviationY="130"
+            targetVelocityX="50.0"
+            targetVelocityY="150.0"
+            initialRotationDeviation="180"
+            rotationalVelocityDeviation="30"
+            initialScale="0.7"
+            initialScaleDeviation="0.3">
+
+            <image path="rosedog/petal_1.png" ratio="1.0"/>
+            <image path="rosedog/petal_2.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            emissionRate="35"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="rosedog/gesture_1.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

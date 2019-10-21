@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_football.glsl">
+        <image path="ios/1.jpg" />
+        <image path="ios/2.png" />
+        <image path="ios/3.png" />
+    </shader>
+</live-wallpaper>

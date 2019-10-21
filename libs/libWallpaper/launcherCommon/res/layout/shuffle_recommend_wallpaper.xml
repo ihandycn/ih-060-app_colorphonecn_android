@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_lock_black_75_transparent"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:id="@+id/close_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/material_round_close_btn_bg">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:src="@drawable/lucky_award_close" />
+    </FrameLayout>
+
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/congratulations"
+        android:textColor="#ffd800"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/wallpaper_img_view"
+        android:layout_width="150dp"
+        android:layout_height="133dp"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:src="@drawable/wallpaper_loading" />
+
+    <ImageView
+        android:layout_width="177dp"
+        android:layout_height="147dp"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/lucky_award_wallpaper_frame" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/msg_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/shuffle_wallpaper_red_bg"
+        android:gravity="center"
+        android:paddingLeft="55dp"
+        android:paddingRight="55dp"
+        android:text="@string/won_live_wallpaper"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:typeface="@string/roboto_medium" />
+
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/preview_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/msg_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shuffle_preview_btn"
+        android:gravity="center"
+        android:text="@string/preview"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        app:typeface="@string/roboto_medium" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/more_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/preview_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shuffle_more_btn"
+        android:gravity="center"
+        android:text="@string/more"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        app:typeface="@string/roboto_medium" />
+
+</RelativeLayout>

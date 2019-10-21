@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_football.glsl">
+        <image path="iphonex/1.jpg" />
+        <image path="iphonex/2.png" />
+        <image path="iphonex/3.png" />
+    </shader>
+</live-wallpaper>
