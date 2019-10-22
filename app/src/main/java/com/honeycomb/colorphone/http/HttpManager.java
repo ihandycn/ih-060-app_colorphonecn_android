@@ -85,6 +85,7 @@ public final class HttpManager {
 
         RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
                 .addFormDataPart("name", userInfo.getName())
                 .addFormDataPart("gender", userInfo.getGender())
                 .addFormDataPart("birthday", userInfo.getBirthday())
@@ -187,11 +188,11 @@ public final class HttpManager {
         editor.apply();
     }
 
-    public String getUserToken() {
+    private String getUserToken() {
         return preferences.getString(PREF_USER_TOKEN, "null");
     }
 
-    public String getSelfUserId() {
+    private String getSelfUserId() {
         return preferences.getString(PREF_USER_ID, "abcdefg");
     }
 

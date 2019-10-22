@@ -188,7 +188,8 @@ public class DebugActivity extends Activity {
 
             @Override
             public void onUpload(long length, long current, boolean isDone) {
-                HSLog.e(TAG, "oUpload: length = " + ", current = " + current + ", isDone = " + isDone);
+                String progress = (int) (current / (float) length * 100) + "%";
+                HSLog.e(TAG, "oUpload: length = " + length + ", current = " + current + ", progress = " + progress + ", isDone = " + isDone);
             }
 
             @Override

@@ -2,27 +2,35 @@ package com.honeycomb.colorphone.http.lib.upload;
 
 import com.honeycomb.colorphone.http.lib.utils.HttpUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Converter;
 
 public class FilesRequestBodyConverter implements Converter<HashMap<String, Object>, RequestBody> {
 
-    private final static float DEFAULT_INCREASE = 0.01f;
     public static final String KEY_FILE_PATH_MAP = "key_file_path_map";
     public static final String KEY_UPLOAD_FILE_CALLBACK = "key_upload_file_callback";
 
-    private UploadFileCallback uploadFileCallback;
-
     @Override
-    public RequestBody convert(HashMap<String, Object> value) throws IOException {
+    public RequestBody convert(@NotNull HashMap<String, Object> value) throws IOException {
+        if (value.isEmpty() || !value.containsKey(KEY_FILE_PATH_MAP) || !value.containsKey(KEY_UPLOAD_FILE_CALLBACK)) {
+            return null;
+        } else {
+            return getMultipartBody(value);
+        }
+    }
 
-        uploadFileCallback = (UploadFileCallback) value.get(KEY_UPLOAD_FILE_CALLBACK);
+    private synchronized MultipartBody getMultipartBody(HashMap<String, Object> value) {
+
+        UploadFileCallback uploadFileCallback = (UploadFileCallback) value.get(KEY_UPLOAD_FILE_CALLBACK);
 
         @SuppressWarnings("unchecked")
         HashMap<String, String> filePathMap = (HashMap<String, String>) value.get(KEY_FILE_PATH_MAP);
@@ -45,19 +53,16 @@ public class FilesRequestBodyConverter implements Converter<HashMap<String, Obje
             fileMap.put(key, file);
         }
 
+        UploadObserver observer = new UploadObserver(uploadFileCallback, totalLength);
 
         for (HashMap.Entry<String, File> entry : fileMap.entrySet()) {
             String key = entry.getKey();
             File file = entry.getValue();
-            ProgressRequestBody body = new ProgressRequestBody(totalLength, RequestBody.create(MultipartBody.FORM, file)) {
-                private long last = 0;
+            ProgressRequestBody body = new ProgressRequestBody(RequestBody.create(MediaType.parse("multipart/form-data"), file)) {
 
                 @Override
-                public void onUpload(long length, long current, boolean isDone) {
-                    if (current - last >= DEFAULT_INCREASE * length || isDone) {
-                        last = current;
-                        uploadFileCallback.onUpload(length, current, isDone);
-                    }
+                public void onUpload(long byteCount) {
+                    observer.onUpload(byteCount);
                 }
             };
             builder.addFormDataPart(key, file.getName(), body);

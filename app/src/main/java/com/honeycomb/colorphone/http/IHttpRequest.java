@@ -44,6 +44,7 @@ public interface IHttpRequest {
     Callable<AllThemeBean> getAllThemes(@Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @UploadMoreFiles
+    @Headers("LogLevel:BASIC")
     @POST("user/{uid}/uploaded_shows")
     Callable<ResponseBody> uploadVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body HashMap<String, Object> params);
 
