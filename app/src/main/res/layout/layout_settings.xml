@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.honeycomb.colorphone.view.InnerScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_gravity="start|left">
+        android:layout_gravity="start|left"
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,39 +19,63 @@
             android:orientation="vertical">
 
             <!--<com.honeycomb.colorphone.view.RoundImageVIew-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--android:src="@drawable/drawer_icon"-->
-                <!--app:radius="16dp" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:src="@drawable/drawer_icon"-->
+            <!--app:radius="16dp" />-->
 
             <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--android:text="@string/app_name"-->
-                <!--android:textColor="@color/drawerText"-->
-                <!--android:textSize="24sp"-->
-                <!--android:textStyle="bold"-->
-                <!--app:typeface="@string/proxima_nova_semibold" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:text="@string/app_name"-->
+            <!--android:textColor="@color/drawerText"-->
+            <!--android:textSize="24sp"-->
+            <!--android:textStyle="bold"-->
+            <!--app:typeface="@string/proxima_nova_semibold" />-->
 
             <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="4dp"-->
-                <!--android:text="@string/app_slogan"-->
-                <!--android:textColor="@color/drawerSubText"-->
-                <!--app:typeface="@string/proxima_nova_regular" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:text="@string/app_slogan"-->
+            <!--android:textColor="@color/drawerSubText"-->
+            <!--app:typeface="@string/proxima_nova_regular" />-->
+
+            <RelativeLayout
+                android:id="@+id/settings_account"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="39dp"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/settings_avatar_icon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/settings_icon_avatar" />
+
+                <com.superapps.view.TypefacedTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="18dp"
+                    android:layout_toEndOf="@id/settings_avatar_icon"
+                    android:text="@string/settings_login"
+                    android:textColor="#ffffff"
+                    android:textSize="16.7sp"
+                    app:typeface="@string/custom_font_regular" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/settings_main_switch"
-                style="@style/LayoutSettings"
-             >
+                style="@style/LayoutSettings">
 
                 <ImageView
                     android:id="@+id/settings_main_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/settings_icon_switch" />
 
@@ -59,8 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_toEndOf="@id/settings_main_switch_icon"
                     android:layout_toRightOf="@id/settings_main_switch_icon"
                     android:text="@string/color_phone_disable" />
@@ -80,8 +106,8 @@
 
                 <ImageView
                     android:id="@+id/settings_default_dialer_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:layout_centerVertical="true"
                     app:srcCompat="@drawable/settings_icon_dialer" />
 
@@ -90,8 +116,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_toEndOf="@id/settings_default_dialer_switch_icon"
                     android:layout_toRightOf="@id/settings_default_dialer_switch_icon"
                     android:text="@string/default_dialer" />
@@ -111,8 +137,8 @@
 
                 <ImageView
                     android:id="@+id/led_flash_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/settings_led_flash_switch" />
 
@@ -121,11 +147,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_toEndOf="@id/led_flash_switch_icon"
                     android:layout_toRightOf="@id/led_flash_switch_icon"
                     android:text="@string/led_flash_switch_text" />
+
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/led_flash_call_switch"
                     android:layout_width="wrap_content"
@@ -142,17 +169,37 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_contacts" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/contact_theme" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settings_upload"
+                style="@style/LayoutSettings"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:src="@drawable/settings_icon_upload" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.Drawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:text="@string/settings_upload" />
             </LinearLayout>
 
             <LinearLayout
@@ -162,16 +209,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_feedback" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/feedback" />
             </LinearLayout>
 
@@ -182,16 +229,16 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_boost" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/boost_title" />
             </LinearLayout>
 
@@ -202,16 +249,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_setting" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/settings" />
             </LinearLayout>
 
@@ -222,16 +269,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_about" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/about" />
             </LinearLayout>
 
@@ -243,16 +290,16 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
                     android:src="@drawable/settings_icon_facebook" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/follow_facebook" />
             </LinearLayout>
 

@@ -61,7 +61,7 @@ public class SettingsPage implements View.OnClickListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (isChecked) {
-                        DefaultPhoneUtils.checkDefaultWithoutEvent((Activity)rootView.getContext());
+                        DefaultPhoneUtils.checkDefaultWithoutEvent((Activity) rootView.getContext());
                     } else {
                         DefaultPhoneUtils.resetDefaultPhone();
                     }
@@ -106,6 +106,7 @@ public class SettingsPage implements View.OnClickListener {
         rootView.findViewById(R.id.settings_contacts).setOnClickListener(this);
         rootView.findViewById(R.id.settings_about).setOnClickListener(this);
         rootView.findViewById(R.id.settings_facebook).setOnClickListener(this);
+        rootView.findViewById(R.id.settings_upload).setOnClickListener(this);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -161,6 +162,9 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+            case R.id.settings_upload:
+                //todo upload page
                 break;
             default:
                 break;

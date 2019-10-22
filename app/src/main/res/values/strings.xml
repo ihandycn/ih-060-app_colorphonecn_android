@@ -314,4 +314,7 @@
 
     <string name="clean_toast_not_back">操作正在进行中，请勿退出</string>
 
+    <string name="settings_login">点击登陆</string>
+    <string name="settings_upload">我的上传</string>
+
 </resources>

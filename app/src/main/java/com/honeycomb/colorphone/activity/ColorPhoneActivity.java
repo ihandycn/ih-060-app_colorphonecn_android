@@ -402,7 +402,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
-                R.drawable.seletor_tab_settings, "设置", true));
+                R.drawable.seletor_tab_settings, "我的", true));
 
         mTabFrameLayout = findViewById(R.id.tab_frame_container);
         mTabFrameLayout.setTabItems(mTabItems);
