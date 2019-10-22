@@ -195,6 +195,22 @@ public final class VideoUtils {
         muxer.release();
     }
 
+    /**
+     *  Get duration of the specified video.
+     * @param path the path of the specified video.
+     * @return duration.
+     */
+    public static long getVideoDuration(String path) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        //use one of overloaded setDataSource() functions to set your data source
+        retriever.setDataSource(path);
+        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);   // 毫秒
+        long timeInMillisec = Long.parseLong(time);
+
+        retriever.release();
+        return timeInMillisec;
+    }
+
 
     @SuppressLint("InlinedApi")
     private static final String[] sLocalVideoColumns = {
