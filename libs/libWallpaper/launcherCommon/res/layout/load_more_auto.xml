@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.honeycomb.colorphone.desktop.news.NewsLoadFootView
+<com.honeycomb.colorphone.wallpaper.desktop.news.NewsLoadFootView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.honeycomb.colorphone.desktop.news.LoadingProgressBar
+    <com.honeycomb.colorphone.wallpaper.desktop.news.LoadingProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,4 +36,4 @@
         android:visibility="gone"
         app:typeface="@string/custom_font_regular" />
 
-</com.honeycomb.colorphone.desktop.news.NewsLoadFootView>
+</com.honeycomb.colorphone.wallpaper.desktop.news.NewsLoadFootView>
