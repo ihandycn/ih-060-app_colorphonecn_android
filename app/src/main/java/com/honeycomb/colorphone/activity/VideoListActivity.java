@@ -2,33 +2,34 @@ package com.honeycomb.colorphone.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Outline;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.call.assistant.customize.CallAssistantSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.BoostConfig;
-import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
-import com.honeycomb.colorphone.toolbar.NotificationManager;
-import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.UserSettings;
+import com.honeycomb.colorphone.ugc.VideoUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +38,11 @@ public class VideoListActivity extends HSAppCompatActivity {
 
     private static final String TAG = VideoListActivity.class.getSimpleName();
 
-    private List<ModuleState> mModuleStates = new ArrayList<>();
-
     private View confirmDialog;
-    private ModuleState lifeAssistant;
     private boolean confirmClose = true;
+
+    private RecyclerView mVideoList;
+    private VideoPreviewAdapter mAdapter;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, VideoListActivity.class);
@@ -53,153 +54,31 @@ public class VideoListActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activitiy_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.settings);
-        if (BuildConfig.DEBUG) {
-            View testView = findViewById(R.id.test_entrance);
-            testView.setVisibility(View.VISIBLE);
-            testView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(VideoListActivity.this, TestActivity.class));
-                }
-            });
-        }
-
+        setContentView(R.layout.activitiy_video_list);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.upload_video);
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT), CallAssistantSettings.isCallAssistantModuleEnabled(),
-                R.id.setting_item_call_assistant_toggle,
-                R.id.setting_item_call_assistant) {
+        mVideoList = findViewById(R.id.video_list);
+        GridLayoutManager manager = new GridLayoutManager(this, 3);
+        mVideoList.setLayoutManager(manager);
+        mVideoList.addItemDecoration(new CustomItemDecoration());
+
+        new Thread() {
             @Override
-            public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("Settings_CallAssistant_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-                CallAssistantSettings.setCallAssistantModuleEnabled(isChecked);
+            public void run() {
+                final List<VideoUtils.VideoInfo> videoList = VideoUtils.getVideoList(getApplicationContext());
+                runOnUiThread(() -> {
+                    mAdapter = new VideoPreviewAdapter(videoList);
+                    mVideoList.setAdapter(mAdapter);
+                });
             }
-        });
-
-        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT),
-                MessageCenterSettings.isSMSAssistantModuleEnabled(),
-                R.id.setting_item_sms_assistant_toggle,
-                R.id.setting_item_sms_assistant) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("Settings_SMSAssistant_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-                MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
-                if (!isChecked) {
-                    Analytics.logEvent("MessageAssistant_Disable", "From", "Settings");
-                }
-            }
-        });
-
-
-        boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
-        if (chargingImproverOpen) {
-            TextView tv = findViewById(R.id.setting_item_charging_title);
-            tv.setText(R.string.charging_improver_title);
-        }
-
-        View itemCharging = findViewById(R.id.setting_item_charging);
-        if (chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled()) {
-            itemCharging.setVisibility(View.VISIBLE);
-            itemCharging.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChargingSettingsActivity.start(VideoListActivity.this);
-                }
-            });
-        } else {
-            itemCharging.setVisibility(View.GONE);
-        }
-
-        View itemLocker = findViewById(R.id.setting_item_lockScreen);
-        if (LockerSettings.isLockerConfigEnabled()) {
-            itemLocker.setVisibility(View.VISIBLE);
-            itemLocker.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LockerSettingsActivity.start(VideoListActivity.this);
-                }
-            });
-        } else {
-            itemLocker.setVisibility(View.GONE);
-        }
-
-        mModuleStates.add(new ModuleState(ModuleUtils.isNotificationToolBarEnabled(),
-                UserSettings.isNotificationToolbarEnabled(),
-                R.id.notification_toolbar_switch,
-                R.id.settings_notification_toolbar) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("Settings_Toolbar_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-                UserSettings.setNotificationToolbarEnabled(isChecked);
-                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-            }
-        });
-
-        lifeAssistant = new ModuleState(LifeAssistantConfig.isLifeAssistantConfigEnable(),
-                LifeAssistantConfig.isLifeAssistantSettingEnable(),
-                R.id.setting_item_life_assistant_toggle,
-                R.id.setting_item_life_assistant) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                if (!isChecked && confirmClose) {
-                    lifeAssistant.switchCompat.setChecked(true);
-                    showConfirmDialog();
-                } else {
-                    confirmClose = true;
-                    LifeAssistantConfig.setLifeAssistantSettingEnable(isChecked);
-                }
-//                Analytics.logEvent("Settings_Toolbar_Clicked_" +
-//                        (isChecked ? "Enabled" : "Disabled"));
-            }
-        };
-
-        mModuleStates.add(lifeAssistant);
-
-        for (final ModuleState moduleState : mModuleStates) {
-            View rootView = findViewById(moduleState.itemLayoutId);
-            if (!moduleState.enabled) {
-                rootView.setVisibility(View.GONE);
-                continue;
-            }
-            moduleState.switchCompat.setChecked(moduleState.initState);
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    moduleState.switchCompat.toggle();
-                }
-            });
-
-            moduleState.switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    moduleState.onCheckChanged(isChecked);
-                }
-            });
-
-        }
-
-        if (BoostConfig.isBoostPushEnable()) {
-            findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    Intent intent = new Intent(VideoListActivity.this, NotificationSettingsActivity.class);
-                    Navigations.startActivitySafely(VideoListActivity.this, intent);
-                }
-            });
-        } else {
-            findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
-        }
-
+        }.start();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -207,7 +86,8 @@ public class VideoListActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         if (confirmDialog != null && confirmDialog.getVisibility() == View.VISIBLE) {
             confirmDialog.setVisibility(View.GONE);
         } else {
@@ -217,23 +97,10 @@ public class VideoListActivity extends HSAppCompatActivity {
 
     @Override
     protected void onStop() {
-        for (ModuleState moduleState : mModuleStates) {
-            boolean nowEnable = moduleState.switchCompat.isChecked();
-
-            if (nowEnable != moduleState.initState) {
-                if (moduleState.itemLayoutId == R.id.setting_item_call_assistant) {
-                    ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(nowEnable);
-                }
-                moduleState.initState = nowEnable;
-            }
-        }
         super.onStop();
-
-        if (confirmDialog != null) {
-            confirmDialog.setVisibility(View.GONE);
-        }
     }
 
+    @SuppressWarnings("unused")
     private void showConfirmDialog() {
         confirmDialog = findViewById(R.id.close_confirm_dialog);
 
@@ -242,40 +109,128 @@ public class VideoListActivity extends HSAppCompatActivity {
 
         View btn = confirmDialog.findViewById(R.id.tv_first);
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
-        btn.setOnClickListener(v -> {
-            confirmDialog.setVisibility(View.GONE);
-        });
+        btn.setOnClickListener(v -> confirmDialog.setVisibility(View.GONE));
 
         btn = confirmDialog.findViewById(R.id.tv_second);
         btn.setOnClickListener(v -> {
             confirmDialog.setVisibility(View.GONE);
             confirmClose = false;
-            lifeAssistant.switchCompat.setChecked(false);
-
-            Analytics.logEvent("Life_Assistant_Settings_Disable", "Source", "Settings");
         });
 
         confirmDialog.setVisibility(View.VISIBLE);
 
-        Analytics.logEvent("Life_Assistant_Settings_PopUp_Show", "Source", "Settings");
     }
 
+    private class VideoPreviewAdapter extends RecyclerView.Adapter<VideoPreviewHolder> implements View.OnClickListener {
 
-    private abstract class ModuleState {
-        private final SwitchCompat switchCompat;
-        boolean enabled;
-        boolean initState;
-        int toggleId;
-        int itemLayoutId;
+        private final ArrayList<VideoUtils.VideoInfo> mVideoInfos = new ArrayList<>();
+        private ViewOutlineProvider mOutlineProvider;
 
-        public ModuleState(boolean enabled, boolean initState, int toggleId, int itemLayoutId) {
-            this.enabled = enabled;
-            this.initState = initState;
-            this.toggleId = toggleId;
-            this.itemLayoutId = itemLayoutId;
-            switchCompat = ((SwitchCompat) findViewById(toggleId));
+        private VideoPreviewAdapter(List<VideoUtils.VideoInfo> infos) {
+            mVideoInfos.addAll(infos);
         }
 
-        public abstract void onCheckChanged(boolean isChecked);
+        @NonNull
+        @Override
+        public VideoPreviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View item = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.video_list_item, parent, false);
+            return new VideoPreviewHolder(item);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull VideoPreviewHolder holder, int position) {
+            VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
+            holder.bindData(videoInfo);
+            holder.itemView.setClipToOutline(true);
+            if (mOutlineProvider == null) {
+                mOutlineProvider = new ViewOutlineProvider() {
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), Dimensions.pxFromDp(6));
+                    }
+                };
+            }
+            holder.itemView.setOutlineProvider(mOutlineProvider);
+
+            holder.itemView.setTag(position);
+            holder.itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mVideoInfos.size();
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag();
+            VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
+        }
+    }
+
+    private static class VideoPreviewHolder extends RecyclerView.ViewHolder {
+        private ImageView mPreview;
+        private TextView mDuration;
+
+        private VideoPreviewHolder(View itemView) {
+            super(itemView);
+            mPreview = itemView.findViewById(R.id.video_preview);
+            mDuration = itemView.findViewById(R.id.video_duration);
+        }
+
+        private void bindData(VideoUtils.VideoInfo info) {
+            new Thread(){
+                @Override
+                public void run() {
+                    final Bitmap thumbnail = VideoUtils.createVideoThumbnail(info.data, MediaStore.Video.Thumbnails.MINI_KIND);
+                    Threads.postOnMainThread(() -> mPreview.setImageBitmap(thumbnail));
+                }
+            }.start();
+            mDuration.setText(getTimeString(info.duration));
+
+        }
+
+        private String getTimeString(long ms) {
+            long s = ms / 1000;
+            long h = (s / (60 * 60));
+            long m = s % (60 * 60) / 60;
+            long ss = s % 60;
+            return getHMSDescription(true, false, h) + getHMSDescription(false, false, m) + getHMSDescription(false, true, ss);
+        }
+
+        private String getHMSDescription(boolean isH, boolean isS, long v) {
+            if (v == 0) {
+                return isH ? "" : (isS ? "00" : "00:");
+            }
+
+            if (v > 10) {
+                return v + (isS ? "" : ":");
+            } else {
+                return "0" + v + (isS ? "" : ":");
+            }
+        }
+    }
+
+    private static class CustomItemDecoration extends RecyclerView.ItemDecoration {
+        CustomItemDecoration() {
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int itemPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewAdapterPosition();
+
+            if (itemPosition % 3 == 0) {
+                outRect.left = Dimensions.pxFromDp(16);
+            } else if (itemPosition % 3 == 2) {
+                outRect.right = Dimensions.pxFromDp(16);
+
+            } else {
+                outRect.left = Dimensions.pxFromDp(9);
+                outRect.right = Dimensions.pxFromDp(9);
+            }
+
+            outRect.top =  Dimensions.pxFromDp(8.7f);
+        }
     }
 }

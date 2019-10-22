@@ -15,6 +15,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -348,30 +349,31 @@ public final class VideoUtils {
         return mVideoInfos;
     }
 
-    private static final class VideoInfo {
-        private int id;
-        private String data;
-        private long size;
-        private String displayName;
-        private String title;
-        private long dateAdded;
-        private long dateModified;
-        private String mimeType;
-        private long duration;
-        private String artist;
-        private String album;
-        private String resolution;
-        private String description;
-        private int isPrivate;
-        private String tags;
-        private String category;
-        private double latitude;
-        private double longitude;
-        private int dateTaken;
-        private int miniThumbMagic;
-        private String bucketId;
-        private String bucketDisplayName;
-        private int bookmark;
+    @SuppressWarnings("WeakerAccess")
+    public static final class VideoInfo implements Serializable {
+        public int id;
+        public String data;
+        public long size;
+        public String displayName;
+        public String title;
+        public long dateAdded;
+        public long dateModified;
+        public String mimeType;
+        public long duration;
+        public String artist;
+        public String album;
+        public String resolution;
+        public String description;
+        public int isPrivate;
+        public String tags;
+        public String category;
+        public double latitude;
+        public double longitude;
+        public int dateTaken;
+        public int miniThumbMagic;
+        public String bucketId;
+        public String bucketDisplayName;
+        public int bookmark;
 
         private String thumbnailData;
         private int kind;

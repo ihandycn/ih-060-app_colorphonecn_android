@@ -317,4 +317,7 @@
     <string name="settings_login">点击登陆</string>
     <string name="settings_upload">我的上传</string>
 
+
+    <string name="upload_video">上传视频</string>
+
 </resources>
