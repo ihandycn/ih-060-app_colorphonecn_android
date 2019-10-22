@@ -355,7 +355,7 @@ public class LocalWallpaperGalleryAdapter extends RecyclerView.Adapter<LocalWall
 
     @Override
     public boolean onLongClick(View v) {
-        Object tag = v.getTag();
+        Object tag = v.getTag(R.id.wallpaper_position);
         if (tag != null) {
             int index = (int) tag;
             if (index == TAG_ADD_BUTTON) {
