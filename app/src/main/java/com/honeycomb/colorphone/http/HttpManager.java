@@ -6,7 +6,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginInfoBean;
-import com.honeycomb.colorphone.http.bean.UserInfoBean;
+import com.honeycomb.colorphone.http.bean.UserBean;
 import com.honeycomb.colorphone.http.bean.WeixinUserInfoBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
@@ -77,7 +77,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void editUserInfo(UserInfoBean userInfo, String headImgFilePath, Callback<ResponseBody> callback) {
+    public void editUserInfo(UserBean.UserInfoBean userInfo, String headImgFilePath, Callback<ResponseBody> callback) {
         File file = new File(headImgFilePath);
         if (!HttpUtils.isFileValid(file)) {
             return;
@@ -85,11 +85,11 @@ public final class HttpManager {
 
         RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         RequestBody body = new MultipartBody.Builder()
-                .addFormDataPart("name", userInfo.name)
-                .addFormDataPart("gender", userInfo.gender)
-                .addFormDataPart("birthday", userInfo.brithday)
-                .addFormDataPart("signature", userInfo.signature)
-                .addFormDataPart("file", file.getName(), fileBody)
+                .addFormDataPart("name", userInfo.getName())
+                .addFormDataPart("gender", userInfo.getGender())
+                .addFormDataPart("birthday", userInfo.getBirthday())
+                .addFormDataPart("signature", userInfo.getSignature())
+                .addFormDataPart("head_image", file.getName(), fileBody)
                 .build();
 
         DEFAULT.create(IHttpRequest.class)
@@ -97,7 +97,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void getSelfUserInfo(Callback<UserInfoBean> callBack) {
+    public void getSelfUserInfo(Callback<UserBean> callBack) {
 
         DEFAULT.create(IHttpRequest.class)
                 .getUserInfo(getUserToken(), getSelfUserId())
@@ -188,11 +188,11 @@ public final class HttpManager {
     }
 
     public String getUserToken() {
-        return preferences.getString(PREF_USER_TOKEN, "");
+        return preferences.getString(PREF_USER_TOKEN, "null");
     }
 
     public String getSelfUserId() {
-        return preferences.getString(PREF_USER_ID, "");
+        return preferences.getString(PREF_USER_ID, "abcdefg");
     }
 
 

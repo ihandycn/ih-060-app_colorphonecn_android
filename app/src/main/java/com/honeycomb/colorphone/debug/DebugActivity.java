@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.debug;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
@@ -12,7 +13,7 @@ import com.honeycomb.colorphone.http.IHttpRequest;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginInfoBean;
-import com.honeycomb.colorphone.http.bean.UserInfoBean;
+import com.honeycomb.colorphone.http.bean.UserBean;
 import com.honeycomb.colorphone.http.bean.WeixinUserInfoBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
@@ -113,7 +114,7 @@ public class DebugActivity extends Activity {
             public void onSuccess(LoginInfoBean loginInfoBean) {
                 // Must to save token and uid
                 if (loginInfoBean != null && loginInfoBean.user_info != null) {
-                    HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.token, loginInfoBean.user_info.uid);
+                    HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.token, loginInfoBean.user_info.getUser_info().getUser_id());
                 }
                 success();
 
@@ -123,13 +124,13 @@ public class DebugActivity extends Activity {
 
     private void editUserInfo() {
 
-        UserInfoBean userInfoBean = new UserInfoBean();
-        userInfoBean.name = "hhhhh";
-        userInfoBean.brithday = "1993-09-23";
-        userInfoBean.gender = IHttpRequest.GENDER_MAN;
-        userInfoBean.signature = "fadj fslkdfsaf fasdfa";
+        UserBean.UserInfoBean userInfoBean = new UserBean.UserInfoBean();
+        userInfoBean.setName("hhhhh");
+        userInfoBean.setBirthday("1993-10-20");
+        userInfoBean.setGender(IHttpRequest.GENDER_MAN);
+        userInfoBean.setSignature("fadj fslkdfsaf fasdfa");
 
-        String headImgFilePath = "";
+        String headImgFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ugc/wallpaper.jpg";
 
         HttpManager.getInstance().editUserInfo(userInfoBean, headImgFilePath, new Callback<ResponseBody>() {
             @Override
@@ -145,14 +146,14 @@ public class DebugActivity extends Activity {
     }
 
     private void getUserInfo() {
-        HttpManager.getInstance().getSelfUserInfo(new Callback<UserInfoBean>() {
+        HttpManager.getInstance().getSelfUserInfo(new Callback<UserBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 failure(errorMsg);
             }
 
             @Override
-            public void onSuccess(UserInfoBean bean) {
+            public void onSuccess(UserBean bean) {
                 success();
             }
         });
@@ -174,10 +175,10 @@ public class DebugActivity extends Activity {
 
     private void upload() {
 
-        String videoFilePath = "";
-        String audioFilePath = "";
-        String imageFilePath = "";
-        String name = "";
+        String videoFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ugc/dog.mp4";
+        String audioFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ugc/fall_master_death.mp3";
+        String imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ugc/wallpaper.jpg";
+        String name = "FirstVideo";
 
         uploadCall = HttpManager.getInstance().uploadVideos(videoFilePath, audioFilePath, imageFilePath, name, new UploadFileCallback() {
             @Override
@@ -234,6 +235,8 @@ public class DebugActivity extends Activity {
     private void delete() {
         List<Long> themeIdList = new ArrayList<>();
         themeIdList.add(10003L);
+        themeIdList.add(10005L);
+        themeIdList.add(10007L);
         HttpManager.getInstance().deleteUserVideos(themeIdList, new Callback<ResponseBody>() {
             @Override
             public void onFailure(String errorMsg) {
