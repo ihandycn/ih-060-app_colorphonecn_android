@@ -223,6 +223,14 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
+            android:name=".uploadview.UploadAndPublishActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.LockerSettingsActivity"
             android:label="@string/app_name"

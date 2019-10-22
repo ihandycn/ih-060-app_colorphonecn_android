@@ -314,6 +314,8 @@
     <string name="life_assistant_confirm_content">生活小助手为您提供每日问候、天气信息、热门资讯等贴心提示，确认关闭此功能么？</string>
 
     <string name="clean_toast_not_back">操作正在进行中，请勿退出</string>
+    <string name="already_upload">已上传</string>
+    <string name="already_publish">已发布</string>
 
     <string name="login_title">登陆</string>
     <string name="weixin_login_button_text">微信一键登陆</string>

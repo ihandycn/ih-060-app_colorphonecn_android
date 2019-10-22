@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.uploadview.UploadVideoView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/upload_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/upload_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/upload_view_delete_button_bg"
+        android:paddingLeft="88dp"
+        android:paddingTop="14dp"
+        android:paddingRight="88dp"
+        android:paddingBottom="14dp"
+        android:text="@string/delete"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+</com.honeycomb.colorphone.uploadview.UploadVideoView>
