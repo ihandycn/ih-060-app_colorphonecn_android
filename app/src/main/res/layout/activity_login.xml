@@ -10,31 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"/>
+        android:layout_weight="5" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="43dp"
         android:orientation="horizontal">
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"/>
-        <com.honeycomb.colorphone.view.RatioCornerImageView
+            android:layout_weight="5" />
+
+        <LinearLayout
             android:id="@+id/weixin_login_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="13"
-            android:background="@drawable/weixin_login_icon"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="13">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/settings_name_edit"
+                android:layout_marginEnd="6dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="0dp"
+                android:text="@string/weixin_login_button_text"
+                android:textColor="#ffffff"
+                android:textSize="15.3sp" />
+
+        </LinearLayout>
+
+
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"/>
+            android:layout_weight="5" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"/>
+        android:layout_weight="7" />
 </LinearLayout>

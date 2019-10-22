@@ -7,10 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 
 public class LoginActivity extends HSAppCompatActivity implements View.OnClickListener {
 
@@ -31,8 +34,9 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
         toolbar.setTitle(R.string.login_title);
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        findViewById(R.id.weixin_login_button).setOnClickListener(this);
-
+        LinearLayout weixinLoginButton = findViewById(R.id.weixin_login_button);
+        weixinLoginButton.setOnClickListener(this);
+        weixinLoginButton.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff19ad3c, Dimensions.pxFromDp(21),true));
     }
 
     @Override
