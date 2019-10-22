@@ -128,7 +128,7 @@ public class LifeAssistantConfig {
     }
 
     public static boolean isLifeAssistantAdEnable() {
-        return HSConfig.optBoolean(true, "Application", "LifeAssistant", "NewsAdEnable");
+        return isLifeAssistantConfigEnable() && HSConfig.optBoolean(false, "Application", "LifeAssistant", "NewsAdEnable");
     }
 
     public static int getActiveAfterInstall() {

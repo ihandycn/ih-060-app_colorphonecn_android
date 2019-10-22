@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.ad.AdLogUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NewsManager {
+
     public static final String NOTIFY_KEY_NEWS_LOADED = "NOTIFY_KEY_NEWS_LOADED";
 
     private static class NewsManagerHolder {
@@ -61,8 +63,14 @@ public class NewsManager {
 
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean, int size);
-        default boolean isLoadNewsAd() { return true; }
-        default int getNewsAdOffset() { return 1; }
+
+        default boolean isLoadNewsAd() {
+            return true;
+        }
+
+        default int getNewsAdOffset() {
+            return 1;
+        }
     }
 
     private NewsResultBean lifeAssistantBean;
@@ -72,13 +80,15 @@ public class NewsManager {
     public NewsResultBean getLifeAssistantBean() {
         return lifeAssistantBean;
     }
+
     public NewsResultBean getExitNewsBean() {
         return exitNewsBean;
     }
 
     void fetchNews(NewsLoadListener loadListener, boolean isVideo) {
-        showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
+        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
         if (showNativeAD) {
+            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
             AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
 
@@ -198,15 +208,17 @@ public class NewsManager {
             resultBean.adSize += ads.size();
         }
 
-        showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
+        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
         if (showNativeAD) {
+            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
             AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
     }
 
     void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
-        showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
+        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
         if (showNativeAD) {
+            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
             AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
 
