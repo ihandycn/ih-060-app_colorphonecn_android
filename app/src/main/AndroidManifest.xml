@@ -201,6 +201,14 @@
             android:theme="@style/AppTheme.DarkFullScreen" />
 
         <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"

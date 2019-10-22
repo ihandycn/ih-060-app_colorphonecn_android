@@ -45,8 +45,9 @@
 
             <RelativeLayout
                 android:id="@+id/settings_account"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="56dp"
+                android:layout_gravity="start"
                 android:layout_marginBottom="39dp"
                 android:paddingStart="16dp">
 
@@ -56,16 +57,37 @@
                     android:layout_height="56dp"
                     android:background="@drawable/settings_icon_avatar" />
 
-                <com.superapps.view.TypefacedTextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="18dp"
                     android:layout_toEndOf="@id/settings_avatar_icon"
-                    android:text="@string/settings_login"
-                    android:textColor="#ffffff"
-                    android:textSize="16.7sp"
-                    app:typeface="@string/custom_font_regular" />
+                    android:orientation="vertical">
+
+                    <com.superapps.view.TypefacedTextView
+                        android:id="@+id/setting_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/settings_login"
+                        android:textColor="#ffffff"
+                        android:textSize="16.7sp"
+                        android:drawablePadding="7dp"
+                        android:drawableEnd="@drawable/settings_name_edit"
+                        app:typeface="@string/custom_font_regular"
+                        android:layout_marginBottom="5dp"/>
+
+                    <com.superapps.view.TypefacedTextView
+                        android:id="@+id/setting_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/settings_sign"
+                        android:textColor="#8380a2"
+                        android:textSize="12sp"
+                        app:typeface="@string/custom_font_regular" />
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout

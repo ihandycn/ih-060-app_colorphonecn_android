@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
+import com.honeycomb.colorphone.activity.LoginActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
@@ -96,6 +97,7 @@ public class SettingsPage implements View.OnClickListener {
             }
         });
 
+        rootView.findViewById(R.id.settings_account).setOnClickListener(this);
         rootView.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         rootView.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
         rootView.findViewById(R.id.settings_led_flash).setOnClickListener(this);
@@ -130,6 +132,9 @@ public class SettingsPage implements View.OnClickListener {
     public void onClick(View v) {
         Context context = v.getContext();
         switch (v.getId()) {
+            case R.id.settings_account:
+                LoginActivity.start(context);
+                break;
             case R.id.settings_main_switch:
                 mainSwitch.toggle();
                 break;

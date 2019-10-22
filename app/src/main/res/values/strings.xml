@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
 
     <!--No Translate-->
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
@@ -211,7 +212,7 @@
     <string name="menu_item_news">News</string>
     <string name="news_detail_error_reload">Reload</string>
 
-    <string name="news_no_news_update"  translatable="false">No New Update</string>
+    <string name="news_no_news_update" translatable="false">No New Update</string>
     <string name="news_network_failed_toast">网络不稳定，请稍后重试！</string>
     <string name="news_news_update">成功为您推荐%1$s条最新资讯</string>
 
@@ -314,7 +315,9 @@
 
     <string name="clean_toast_not_back">操作正在进行中，请勿退出</string>
 
+    <string name="login_title">登陆</string>
     <string name="settings_login">点击登陆</string>
+    <string name="settings_sign">你还没有个性签名</string>
     <string name="settings_upload">我的上传</string>
 
 
