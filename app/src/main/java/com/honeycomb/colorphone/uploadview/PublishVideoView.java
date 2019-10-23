@@ -55,6 +55,20 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         presenter.requestPublishVideoData();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        HSGlobalNotificationCenter.addObserver("publish_edit", this);
+        HSGlobalNotificationCenter.addObserver("publish_cancel", this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        HSGlobalNotificationCenter.removeObserver(this);
+    }
+
     /**
      * 进入编辑模式
      */
@@ -83,6 +97,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.not_network_text));
+        HSGlobalNotificationCenter.sendNotification("no_data");
     }
 
     @Override
@@ -90,6 +105,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.publish_page_empty_text));
+        HSGlobalNotificationCenter.sendNotification("no_data");
     }
 
     @Override

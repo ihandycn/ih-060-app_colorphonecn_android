@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 
@@ -53,6 +54,20 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         presenter.requestUploadVideoData();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        HSGlobalNotificationCenter.addObserver("upload_edit", this);
+        HSGlobalNotificationCenter.addObserver("upload_cancel", this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        HSGlobalNotificationCenter.removeObserver(this);
+    }
+
     /**
      * 进入编辑模式
      */
@@ -81,6 +96,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.not_network_text));
+        HSGlobalNotificationCenter.sendNotification("no_data");
     }
 
     @Override
@@ -88,6 +104,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.upload_page_empty_text));
+        HSGlobalNotificationCenter.sendNotification("no_data");
     }
 
     @Override
@@ -101,7 +118,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.publish_delete_button) {
+        if (view.getId() == R.id.upload_delete_button) {
             if (adapter.mDeleteDataList != null && adapter.mDeleteDataList.size() > 0) {
                 List<Long> deleteId = new ArrayList<>();
                 for (Theme item : adapter.mDeleteDataList) {

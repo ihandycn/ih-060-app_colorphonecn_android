@@ -269,8 +269,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
-
-        requestThemeData();
     }
 
     @Override

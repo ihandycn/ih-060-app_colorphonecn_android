@@ -16,7 +16,11 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp"
+            android:padding="7dp"
+            android:background="@drawable/selector_upload_page_back_bg"
+            android:scaleType="centerCrop"
+            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,7 +37,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/already_upload"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/already_publish"
@@ -43,8 +47,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/already_publish"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textColor="#615d8e"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView
@@ -58,7 +62,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/edit"
-            android:textSize="18sp" />
+            android:textColor="#7a75aa"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <com.superapps.view.ViewPagerFixed

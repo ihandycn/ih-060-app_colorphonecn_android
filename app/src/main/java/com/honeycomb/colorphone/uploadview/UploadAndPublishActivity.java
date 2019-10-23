@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.uploadview;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -11,13 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
+import com.superapps.view.ViewPagerFixed;
 
 import hugo.weaving.DebugLog;
 
-public class UploadAndPublishActivity extends HSAppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class UploadAndPublishActivity extends HSAppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, INotificationObserver {
 
     private LayoutInflater mLayoutInflater;
     private ViewPagerFixed mViewPager;
@@ -27,6 +31,11 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     private TextView mVideoEditButton;
 
     public boolean isEditState = false;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, UploadAndPublishActivity.class);
+        context.startActivity(starter);
+    }
 
     @DebugLog
     @Override
@@ -45,6 +54,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         mAlreadyPublishButton.setOnClickListener(this);
         mVideoEditButton.setOnClickListener(this);
 
+        mVideoEditButton.setVisibility(View.GONE);
+
         mLayoutInflater = LayoutInflater.from(this);
 
         mViewPager.setAdapter(new PagerAdapter() {
@@ -61,11 +72,14 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             @NonNull
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
+                View view;
                 if (position == 0) {
-                    return mLayoutInflater.inflate(R.layout.upload_video_layout, container, false);
+                    view = mLayoutInflater.inflate(R.layout.upload_video_layout, container, false);
                 } else {
-                    return mLayoutInflater.inflate(R.layout.publish_video_layout, container, false);
+                    view = mLayoutInflater.inflate(R.layout.publish_video_layout, container, false);
                 }
+                container.addView(view);
+                return view;
             }
 
             @Override
@@ -73,6 +87,14 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
 
             }
         });
+        mViewPager.addOnPageChangeListener(this);
+        HSGlobalNotificationCenter.addObserver("no_data", this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HSGlobalNotificationCenter.removeObserver(this);
     }
 
     @Override
@@ -118,8 +140,12 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         isEditState = false;
         mVideoEditButton.setText(getBaseContext().getResources().getString(R.string.edit));
         if (position == 0) {
+            mAlreadyUploadButton.setTextColor(0xffffffff);
+            mAlreadyPublishButton.setTextColor(0xff615d8e);
             HSGlobalNotificationCenter.sendNotification("publish_cancel");
         } else if (position == 1) {
+            mAlreadyUploadButton.setTextColor(0xff615d8e);
+            mAlreadyPublishButton.setTextColor(0xffffffff);
             HSGlobalNotificationCenter.sendNotification("upload_cancel");
         }
     }
@@ -127,5 +153,12 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        if ("no_data".equals(s)) {
+            mVideoEditButton.setVisibility(View.GONE);
+        }
     }
 }

@@ -23,7 +23,8 @@
         android:paddingBottom="14dp"
         android:text="@string/delete"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/empty_layout"
