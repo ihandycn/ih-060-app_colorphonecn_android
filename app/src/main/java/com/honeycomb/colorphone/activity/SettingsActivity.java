@@ -96,6 +96,13 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        View itemUpload = findViewById(R.id.setting_item_upload);
+        itemUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo upload color phone
+            }
+        });
 
         boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
         if (chargingImproverOpen) {

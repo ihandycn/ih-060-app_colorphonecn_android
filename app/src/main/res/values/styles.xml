@@ -78,11 +78,11 @@
 
     <style name="NormalText.Settings">
         <item name="android:textColor">@color/primaryText</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">14.7sp</item>
     </style>
     <style name="NormalText.SettingsHint">
         <item name="android:textColor">@color/primarySubText</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="LayoutSettings">

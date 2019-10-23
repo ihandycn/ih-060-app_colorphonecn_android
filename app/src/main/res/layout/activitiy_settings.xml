@@ -9,13 +9,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        />
+        android:gravity="center_vertical" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar" >
+        android:layout_below="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,16 +22,80 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/setting_item_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true"
+                android:minHeight="54dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/reminder_display_settings_icon"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:scaleType="center"-->
+                <!--/>-->
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/setting_item_upload_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+
+                    android:layout_toStartOf="@+id/setting_item_upload_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_upload_toggle"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        android:id="@+id/setting_item_upload_title"
+                        style="@style/NormalText.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/upload_color_phone" />
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.SettingsHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/smart_charging_hint"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/setting_item_charging"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:minHeight="54dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:clickable="true"
+                android:minHeight="54dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <!--<ImageView-->
                 <!--android:id="@+id/reminder_display_settings_icon"-->
@@ -48,23 +111,23 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/setting_item_charging_toggle"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:clickable="true" />
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
 
-                    android:layout_toLeftOf="@+id/setting_item_charging_toggle"
                     android:layout_toStartOf="@+id/setting_item_charging_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_charging_toggle"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -73,31 +136,30 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/smart_charging"
-                        />
+                        android:text="@string/smart_charging" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_marginTop="2dp"
                         android:text="@string/smart_charging_hint"
                         android:textSize="12sp"
-                        />
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/setting_item_lockScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:minHeight="54dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:clickable="true"
+                android:minHeight="54dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <!--<ImageView-->
                 <!--android:id="@+id/reminder_display_settings_icon"-->
@@ -113,23 +175,23 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/setting_item_lockScreen_toggle"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:clickable="true" />
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
 
-                    android:layout_toLeftOf="@+id/setting_item_lockScreen_toggle"
                     android:layout_toStartOf="@+id/setting_item_lockScreen_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_lockScreen_toggle"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -137,18 +199,16 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/color_lockscreen"
-                        />
+                        android:text="@string/color_lockscreen" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_marginTop="2dp"
                         android:text="@string/color_lockscreen_hint"
                         android:textSize="12sp"
-                        />
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -156,20 +216,20 @@
                 android:id="@+id/settings_notification_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:minHeight="54dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true" >
+                android:clickable="true"
+                android:minHeight="54dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/notification_toolbar_switch_icon"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@drawable/settings_led_flash_switch" />-->
+                <!--android:id="@+id/notification_toolbar_switch_icon"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@drawable/settings_led_flash_switch" />-->
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/notification_toolbar_switch"
@@ -184,8 +244,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/notification_toolbar_switch"
                     android:layout_toStartOf="@id/notification_toolbar_switch"
+                    android:layout_toLeftOf="@id/notification_toolbar_switch"
                     android:text="@string/settings_activity_notification_reminder" />
 
             </RelativeLayout>
@@ -194,12 +254,12 @@
                 android:id="@+id/setting_item_call_assistant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:clickable="true"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <!--<ImageView-->
                 <!--android:id="@+id/reminder_display_settings_icon"-->
@@ -220,8 +280,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true" />
 
                 <LinearLayout
@@ -229,8 +289,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
 
-                    android:layout_toLeftOf="@+id/setting_item_call_assistant_toggle"
                     android:layout_toStartOf="@+id/setting_item_call_assistant_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_call_assistant_toggle"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -238,29 +298,28 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/acb_theme_call_assistant"
-                        />
+                        android:text="@string/acb_theme_call_assistant" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:text="@string/call_assistant_hint"
-                        android:textSize="12sp"
-                        />
+                        android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/setting_item_sms_assistant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:clickable="true"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/setting_item_sms_assistant_toggle"
@@ -269,8 +328,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true" />
 
                 <LinearLayout
@@ -278,8 +337,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
 
-                    android:layout_toLeftOf="@+id/setting_item_sms_assistant_toggle"
                     android:layout_toStartOf="@+id/setting_item_sms_assistant_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_sms_assistant_toggle"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -287,31 +346,29 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sms_assistant"
-                        />
+                        android:text="@string/sms_assistant" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:text="@string/sms_assistant_hint"
-                        android:textSize="12sp"
-                        />
+                        android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
-           
+
             <RelativeLayout
                 android:id="@+id/setting_item_notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true"
                 android:minHeight="60dp"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -324,17 +381,15 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_notification_settings"
-                        />
+                        android:text="@string/settings_notification_settings" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:textSize="12sp"
-                        android:visibility="gone"
-                        />
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -342,12 +397,12 @@
                 android:id="@+id/setting_item_life_assistant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:background="@drawable/material_compat_bg"
-                android:clickable="true">
+                android:clickable="true"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/setting_item_life_assistant_toggle"
@@ -356,8 +411,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:clickable="true" />
 
                 <LinearLayout
@@ -365,8 +420,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
 
-                    android:layout_toLeftOf="@+id/setting_item_life_assistant_toggle"
                     android:layout_toStartOf="@+id/setting_item_life_assistant_toggle"
+                    android:layout_toLeftOf="@+id/setting_item_life_assistant_toggle"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -374,17 +429,15 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/life_assistant_title"
-                        />
+                        android:text="@string/life_assistant_title" />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:text="@string/life_assistant_subtitle"
-                        android:textSize="12sp"
-                        />
+                        android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -392,12 +445,12 @@
                 android:id="@+id/test_entrance"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:gravity="center"
                 android:background="@color/colorAccentDark"
+                android:gravity="center"
                 android:text="测试"
                 android:visibility="gone"
-                tools:visibility="visible"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                tools:visibility="visible" />
         </LinearLayout>
 
     </ScrollView>
@@ -405,6 +458,6 @@
     <include
         android:id="@+id/close_confirm_dialog"
         layout="@layout/layout_life_assistant_close_confirm_dialog"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -60,6 +60,12 @@ public class AboutActivity extends HSAppCompatActivity {
             dataUsageCell.setVisibility(View.GONE);
         }
 
+        findViewById(R.id.declare_rights).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo declare rights page
+             }
+        });
     }
 
     @Override
