@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/settings_name_edit"
+                android:background="@drawable/weixin_login_icon"
                 android:layout_marginEnd="6dp"/>
             <TextView
                 android:layout_width="wrap_content"

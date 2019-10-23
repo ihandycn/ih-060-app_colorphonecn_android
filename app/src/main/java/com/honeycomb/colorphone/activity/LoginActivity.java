@@ -14,11 +14,15 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class LoginActivity extends HSAppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-
+    public static final String APP_ID = "wx5b4bb859043c5e3d";
+    private IWXAPI api;
     public static void start(Context context) {
         Intent starter = new Intent(context, LoginActivity.class);
         context.startActivity(starter);
@@ -37,6 +41,9 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
         LinearLayout weixinLoginButton = findViewById(R.id.weixin_login_button);
         weixinLoginButton.setOnClickListener(this);
         weixinLoginButton.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff19ad3c, Dimensions.pxFromDp(21),true));
+
+        api = WXAPIFactory.createWXAPI(this,APP_ID,true);
+        api.registerApp(APP_ID);
     }
 
     @Override
@@ -53,6 +60,10 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
         switch(view.getId()){
             case R.id.weixin_login_button:
 
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = System.currentTimeMillis()+"";
+                api.sendReq(req);
                 break;
             default:
                 break;
