@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -28,6 +29,7 @@ import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.ugc.VideoUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.UploadProcessView;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
@@ -55,7 +57,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private VideoUtils.VideoInfo mVideoInfo;
 
     private View mPause;
-    private TextView mUpload;
+    private UploadProcessView mUpload;
 
     private EditText mName;
     private View mOk;
@@ -104,6 +106,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mSetNameDialog = findViewById(R.id.set_name);
         mUpload = findViewById(R.id.upload_button);
         mUpload.setOnClickListener(view -> showSetNameDialog());
+        mUpload.getChildAt(0).setOnClickListener(view -> showSetNameDialog());
     }
 
     @Override
@@ -235,6 +238,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                             public void onUpload(long length, long current, boolean isDone) {
                                 String progress = (int) (current / (float) length * 100) + "%";
                                 mUpload.setText(getString(R.string.upload_ing, progress));
+                                mUpload.setProcess(current * 1.0f / length);
                                 HSLog.e("upload", "oUpload: length = " + length + ", current = " + current + ", progress = " + progress + ", isDone = " + isDone);
                             }
 
