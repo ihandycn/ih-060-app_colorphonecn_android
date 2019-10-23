@@ -24,6 +24,7 @@ import retrofit2.http.Query;
 public interface IHttpRequest {
 
     String BASE_URL = "http://3.225.45.136/";
+    String DEBUG_BASE_URR = "http://dev-colorphone-service.appcloudbox.net/";
 
     String GENDER_MAN = "man";
     String GENDER_WOMAN = "woman";
