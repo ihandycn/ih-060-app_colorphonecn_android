@@ -26,6 +26,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -37,14 +38,12 @@ import java.util.List;
 public class VideoListActivity extends HSAppCompatActivity {
 
     private View mRuleDialog;
-    private boolean mRuleDialogShowing = false;
 
     private RecyclerView mVideoList;
     private VideoPreviewAdapter mAdapter;
 
     public static void start(Context context) {
-        Intent starter = new Intent(context, VideoListActivity.class);
-        context.startActivity(starter);
+        Navigations.startActivity(context, VideoListActivity.class);
     }
 
     @Override
@@ -118,11 +117,10 @@ public class VideoListActivity extends HSAppCompatActivity {
         iKnow.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
 
         iKnow.setOnClickListener(view -> {
-
+            mRuleDialog.setVisibility(View.GONE);
         });
 
         mRuleDialog.setVisibility(View.VISIBLE);
-        mRuleDialogShowing = true;
 
     }
 
@@ -169,11 +167,9 @@ public class VideoListActivity extends HSAppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            if (mRuleDialogShowing) {
-                return;
-            }
             int position = (int) view.getTag();
             VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
+            VideoUploadActivity.start(VideoListActivity.this, videoInfo);
         }
     }
 

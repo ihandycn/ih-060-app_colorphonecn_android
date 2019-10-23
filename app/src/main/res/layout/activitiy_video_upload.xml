@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        />
+
+    <ImageView
+        android:id="@+id/pause_button"
+        android:layout_width="58.7dp"
+        android:layout_height="58.7dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:src="@drawable/icon_uploadpage_pause"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:layout_width="204.7dp"
+        android:layout_height="42.7dp"
+        android:background="@drawable/upload_text_bg_ripple"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="48dp"
+        android:textSize="15.3sp"
+        android:textColor="#ffffff"
+        android:clickable="true"
+        app:typeface="@string/custom_font_medium"
+        android:text="@string/upload"
+        />
+
+</RelativeLayout>
