@@ -53,7 +53,6 @@ public class ThemeList {
                 iter.next();
                 iter.remove();
                 HSLog.d("THEME", "Test size --, current size = " + themes.size());
-                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 mTestHandler.postDelayed(this, 4000);
             }
 
@@ -91,12 +90,6 @@ public class ThemeList {
                 }
                 themes.add((Theme) type);
             }
-        }
-
-        boolean isThemeChanged = isThemeChanged(themes, oldThemes);
-        if (isThemeChanged) {
-            HSLog.d("Theme list changed");
-            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
         }
 
         if (DEBUG_THEME_CHANGE) {
@@ -138,14 +131,14 @@ public class ThemeList {
     }
 
     /**
-     *  Base type of theme info has changed.
+     * Base type of theme info has changed.
      * (Language change,or Remote config that define themes has changed)
-     *
+     * <p>
      * Reload theme info from config file.
      */
     public void updateThemesTotally() {
         synchronized (themes) {
-            Type.updateTypes();
+            //Type.updateTypes();
 
             themes.clear();
             loadRawThemesSync();
@@ -252,7 +245,7 @@ public class ThemeList {
 
     @DebugLog
     private void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
-        Theme needPreloadTheme  = null;
+        Theme needPreloadTheme = null;
         // Task update (if new theme added here, we update download task)
         for (Theme theme : bgThemes) {
             if (applyDefaultTheme && theme.getId() == idDefault) {

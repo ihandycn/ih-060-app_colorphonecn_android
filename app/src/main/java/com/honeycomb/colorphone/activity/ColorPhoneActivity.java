@@ -51,6 +51,9 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AllThemeBean;
+import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.news.NewsFrame;
@@ -87,6 +90,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Toasts;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -115,7 +119,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private SmartRefreshLayout mSmartRefreshLayout;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
-    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
 //    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
@@ -126,6 +130,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
+
+    private int mCurrentRequestPageIndex = 1;
+    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
+    private int mLastCurrentPage = 1;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -261,6 +269,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+
+        requestThemeData();
     }
 
     @Override
@@ -361,8 +371,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         initTab();
-
-        initData();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, this);
@@ -667,13 +675,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onStart() {
         super.onStart();
         tabTransController.upScrolled = false;
-        int maxId = -1;
-        for (Type type : Type.values()) {
-            if (maxId < type.getId()) {
-                maxId = type.getId();
-            }
-        }
-        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
 
         // log event
         long sessionPast = System.currentTimeMillis() - SessionMgr.getInstance().getCurrentSessionStartTime();
@@ -755,7 +756,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             mRecyclerView.getRecycledViewPool().clear();
         }
-
     }
 
     @Override
@@ -767,6 +767,84 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         saveThemeLikes();
         // TODO: has better solution for OOM?
         Glide.get(this).clearMemory();
+    }
+
+    private void requestThemeData() {
+        HttpManager.getInstance().getAllThemes(mCurrentRequestPageIndex, new Callback<AllThemeBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                Toasts.showToast("网络连接异常");
+                mSmartRefreshLayout.finishRefresh();
+                mCurrentRequestPageIndex = mLastCurrentPage;
+            }
+
+            @Override
+            public void onSuccess(AllThemeBean allThemeBean) {
+                if (allThemeBean != null && allThemeBean.getShow_list() != null) {
+
+                    mSmartRefreshLayout.finishRefresh();
+
+                    if (mCurrentRequestPageIndex == 1) {
+                        Type.clearTypes();
+                        Type.addTypes(transformData(allThemeBean));
+                        setData();
+                        mSmartRefreshLayout.resetNoMoreData();
+                    } else {
+                        Type.addTypes(transformData(allThemeBean));
+                        setData();
+                    }
+                    mAdapter.notifyDataSetChanged();
+
+                    int maxId = -1;
+                    for (Type type : Type.values()) {
+                        if (maxId < type.getId()) {
+                            maxId = type.getId();
+                        }
+                    }
+                    HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+                    mSmartRefreshLayout.finishLoadMore(true);
+
+                } else {
+                    mCurrentRequestPageIndex = mLastCurrentPage;
+                    mSmartRefreshLayout.finishLoadMore(true);
+                    mSmartRefreshLayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+        });
+    }
+
+    private ArrayList<Type> transformData(AllThemeBean data) {
+        ArrayList<Type> dataList = new ArrayList<>();
+        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
+            Theme theme = new Theme();
+            theme.setIndex(mRecyclerViewData.size() + dataList.size());
+            theme.setId(bean.getShow_id());
+            theme.setIdName(bean.getId_name());
+            theme.setResType(bean.getRes_type());
+            theme.setItemIcon(bean.getIcon());
+            theme.setName(bean.getName());
+            theme.setAcceptIcon(bean.getIcon_accept());
+            theme.setRejectIcon(bean.getIcon_reject());
+            theme.setPreviewImage(bean.getPreview_image());
+            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
+            theme.setMp4Url(bean.getMp4());
+            theme.setGifUrl(bean.getGif());
+            theme.setHot(bean.isHot());
+            theme.setSuggestMediaType(Type.MEDIA_MP4);
+            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
+            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
+            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
+            theme.setDownload(bean.getDownload_num());
+            theme.setRingtoneUrl(bean.getRingtone());
+            theme.setUploaderName(bean.getUser_name());
+            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
+            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
+            theme.setSpecialTopic(false);
+
+            dataList.add(theme);
+        }
+
+        return dataList;
     }
 
     private void dispatchPermissionRequest() {
@@ -932,7 +1010,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    private void initData() {
+    private void setData() {
+        ThemeList.getInstance().updateThemesTotally();
         ThemeList.getInstance().fillData(mRecyclerViewData);
     }
 
@@ -943,28 +1022,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                //todo refresh
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.finishRefresh();
-                        refreshLayout.resetNoMoreData();//setNoMoreData(false);
-                    }
-                }, 2000);
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex = 1;
+                requestThemeData();
             }
         });
         mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                //todo load more
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Toast.makeText(getApplication(), "数据全部加载完毕", Toast.LENGTH_SHORT).show();
-                        //refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                        refreshLayout.finishLoadMore();
-                    }
-                }, 2000);
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex++;
+                requestThemeData();
             }
         });
 
@@ -1046,12 +1114,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
-        } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
-            HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
-            initData();
-            if (mAdapter != null) {
-                mAdapter.notifyDataSetChanged();
-            }
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());

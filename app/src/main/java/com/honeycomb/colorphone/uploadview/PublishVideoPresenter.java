@@ -63,6 +63,7 @@ public class PublishVideoPresenter implements PublishVideoContract.Presenter {
         if (bean.getShow_list() != null && bean.getShow_list().size() > 0) {
             for (AllUserThemeBean.ShowListBean item : bean.getShow_list()) {
                 Theme theme = new Theme();
+                theme.setIndex(dataList.size());
                 theme.setId(item.getCustomize_show_id());
                 theme.setIdName(item.getFile_name());
                 theme.setResType("url");
