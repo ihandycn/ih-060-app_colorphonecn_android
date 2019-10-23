@@ -11,13 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +26,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,8 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoListActivity extends HSAppCompatActivity {
-
-    private static final String TAG = VideoListActivity.class.getSimpleName();
 
     private View mRuleDialog;
     private boolean mRuleDialogShowing = false;
@@ -86,6 +83,7 @@ public class VideoListActivity extends HSAppCompatActivity {
         layoutParams.topMargin = (int) (top - layoutParams.height / 553f * 198);
         upload_rule_image_popup.requestLayout();
 
+        Preferences.getDefault().doOnce(() -> Threads.postOnMainThread(VideoListActivity.this::showConfirmDialog),"VideoListActivity showConfirmDialog");
     }
 
     @Override
@@ -119,11 +117,8 @@ public class VideoListActivity extends HSAppCompatActivity {
         View iKnow = mRuleDialog.findViewById(R.id.i_know);
         iKnow.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
 
-        iKnow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        iKnow.setOnClickListener(view -> {
 
-            }
         });
 
         mRuleDialog.setVisibility(View.VISIBLE);
@@ -174,7 +169,6 @@ public class VideoListActivity extends HSAppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            showConfirmDialog();
             if (mRuleDialogShowing) {
                 return;
             }
@@ -238,7 +232,6 @@ public class VideoListActivity extends HSAppCompatActivity {
                 outRect.left = Dimensions.pxFromDp(16);
             } else if (itemPosition % 3 == 2) {
                 outRect.right = Dimensions.pxFromDp(16);
-
             } else {
                 outRect.left = Dimensions.pxFromDp(9);
                 outRect.right = Dimensions.pxFromDp(9);
