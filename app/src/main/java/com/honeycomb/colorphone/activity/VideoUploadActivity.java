@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callable;
@@ -64,6 +65,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private View mOk;
     private View mClose;
     private View mCancel;
+
+    private View mSuccessContainer;
+    private View mBackToMain;
+    private View mViewDetail;
 
     private Callable<ResponseBody> mUploadCall = null;
 
@@ -112,6 +117,28 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.getChildAt(0).setOnClickListener(view -> showSetNameDialog());
         mCancel.setOnClickListener(view -> cancel());
         mCancel.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff5a587a, Dimensions.pxFromDp(100f), true));
+
+        mSuccessContainer = findViewById(R.id.success_container);
+        mBackToMain = findViewById(R.id.back_to_main);
+        mViewDetail = findViewById(R.id.view_detail);
+        mBackToMain.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff14131f, 0xFFCCCCCC,
+                Dimensions.pxFromDp(1), 0x98ffffff, Dimensions.pxFromDp(21.3f), false, true));
+
+        mBackToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(VideoUploadActivity.this, ColorPhoneActivity.class);
+                mainIntent.putExtra(Constants.INTENT_KEY_TAB_POSITION, 0);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
+        mViewDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -286,6 +313,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.setEnabled(true);
         mCancel.setVisibility(View.GONE);
         mUpload.setVisibility(View.GONE);
+        mSuccessContainer.setVisibility(View.VISIBLE);
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
     }

@@ -47,13 +47,37 @@
 
     <LinearLayout
         android:id="@+id/success_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="42.7dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="48dp"
-        android:layout_width="204.7dp"
-        android:layout_height="42.7dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/back_to_main"
+            android:layout_width="134.7dp"
+            android:layout_height="42.7dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="回到主页"
+            android:textColor="#ffffff"
+            android:textSize="15.3sp"
+            app:typeface="@string/custom_font_medium" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/view_detail"
+            android:layout_width="134.7dp"
+            android:layout_height="42.7dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="查看详情"
+            android:textColor="#ffffff"
+            android:textSize="15.3sp"
+            android:background="@drawable/upload_text_bg_ripple"
+            app:typeface="@string/custom_font_medium" />
 
     </LinearLayout>
 
