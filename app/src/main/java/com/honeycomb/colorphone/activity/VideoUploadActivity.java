@@ -35,6 +35,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 
 import org.jetbrains.annotations.NotNull;
@@ -62,6 +63,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private EditText mName;
     private View mOk;
     private View mClose;
+    private View mCancel;
 
     private Callable<ResponseBody> mUploadCall = null;
 
@@ -102,11 +104,14 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mVideoView.setOnClickListener(this);
         mVideoView.setOnCompletionListener(this);
 
+        mCancel = findViewById(R.id.cancel);
         mPause = findViewById(R.id.pause_button);
         mSetNameDialog = findViewById(R.id.set_name);
         mUpload = findViewById(R.id.upload_button);
         mUpload.setOnClickListener(view -> showSetNameDialog());
         mUpload.getChildAt(0).setOnClickListener(view -> showSetNameDialog());
+        mCancel.setOnClickListener(view -> cancel());
+        mCancel.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff5a587a, Dimensions.pxFromDp(100f), true));
     }
 
     @Override
@@ -224,6 +229,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                     mUpload.setEnabled(false);
                     end.await();
 
+                    Threads.postOnMainThread(() -> mCancel.setVisibility(View.VISIBLE));
+
                     if (!mConvertFailed) {
                         String videoFilePath = mVideoInfo.data;
                         mUploadCall = HttpManager.getInstance().uploadVideos(videoFilePath, mp3, jpegName, name, new UploadFileCallback() {
@@ -267,11 +274,26 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         }
     }
 
+    private void cancel() {
+        if (mUploadCall != null) {
+            mUploadCall.cancel();
+        }
+
+        failure("");
+    }
+
     private void success() {
+        mUpload.setText(getString(R.string.upload_ing, "100%"));
+        mUpload.setProcess(1);
         mUpload.setEnabled(true);
+        mCancel.setVisibility(View.GONE);
+        mUpload.setVisibility(View.GONE);
     }
 
     private void failure(String errorMsg) {
+        mUpload.setText(getString(R.string.upload));
+        mUpload.setProcess(1);
+        mCancel.setVisibility(View.GONE);
         mUpload.setEnabled(true);
     }
 

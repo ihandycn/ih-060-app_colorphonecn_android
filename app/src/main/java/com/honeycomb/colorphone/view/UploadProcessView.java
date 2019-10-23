@@ -31,14 +31,12 @@ public class UploadProcessView extends FrameLayout {
 
     private float mProcess = 1.0f;
 
-    private Paint mPaint;
     private Canvas mCanvas;
     private Rect mRect;
 
 
     public UploadProcessView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mPaint = new Paint();
         mCanvas = new Canvas();
         mRect = new Rect();
     }
@@ -69,6 +67,7 @@ public class UploadProcessView extends FrameLayout {
         drawable.draw(canvas);
 
         @SuppressLint("DrawAllocation") Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        mCanvas.setBitmap(bitmap);
         drawable.draw(mCanvas);
         mCanvas.drawColor(0xff5a587a, PorterDuff.Mode.SRC_IN);
 

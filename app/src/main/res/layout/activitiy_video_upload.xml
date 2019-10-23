@@ -31,8 +31,8 @@
         android:layout_height="42.7dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#00000001"
-        android:layout_marginBottom="48dp">
+        android:layout_marginBottom="48dp"
+        android:background="#00000001">
 
         <com.superapps.view.TypefacedTextView
             android:layout_width="204.7dp"
@@ -44,6 +44,18 @@
             app:typeface="@string/custom_font_medium" />
 
     </com.honeycomb.colorphone.view.UploadProcessView>
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="42.7dp"
+        android:layout_height="42.7dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="48dp"
+        android:layout_toEndOf="@+id/upload_button"
+        android:padding="9dp"
+        android:src="@drawable/icon_uploadpage_uploading_close"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/set_name"
