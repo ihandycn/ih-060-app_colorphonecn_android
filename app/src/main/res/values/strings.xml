@@ -325,5 +325,8 @@
 
 
     <string name="upload_video">上传视频</string>
+    <string name="upload_rule">上传规则</string>
+    <string name="i_know">我知道了</string>
+    <string name="rule_description">上传视频经过审核通过后将会发布</string>
 
 </resources>

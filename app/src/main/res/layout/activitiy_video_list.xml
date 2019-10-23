@@ -19,8 +19,8 @@
         android:layout_below="@id/toolbar" />
 
     <include
-        android:id="@+id/close_confirm_dialog"
-        layout="@layout/layout_life_assistant_close_confirm_dialog"
+        android:id="@+id/upload_rule_dialog"
+        layout="@layout/video_upload_rule_dialog"
         android:visibility="gone"/>
 
 </RelativeLayout>

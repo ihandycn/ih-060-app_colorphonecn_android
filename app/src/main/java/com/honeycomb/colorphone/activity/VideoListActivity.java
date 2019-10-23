@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,8 +39,8 @@ public class VideoListActivity extends HSAppCompatActivity {
 
     private static final String TAG = VideoListActivity.class.getSimpleName();
 
-    private View confirmDialog;
-    private boolean confirmClose = true;
+    private View mRuleDialog;
+    private boolean mRuleDialogShowing = false;
 
     private RecyclerView mVideoList;
     private VideoPreviewAdapter mAdapter;
@@ -75,6 +76,16 @@ public class VideoListActivity extends HSAppCompatActivity {
                 });
             }
         }.start();
+
+        mRuleDialog = findViewById(R.id.upload_rule_dialog);
+        int phoneHeight = Dimensions.getPhoneHeight(this);
+        int statusBarHeight = Dimensions.getStatusBarHeight(this);
+        int top = (phoneHeight - statusBarHeight - Dimensions.pxFromDp(271f)) / 2;
+        View upload_rule_image_popup = mRuleDialog.findViewById(R.id.upload_rule_image_popup);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) upload_rule_image_popup.getLayoutParams();
+        layoutParams.topMargin = (int) (top - layoutParams.height / 553f * 198);
+        upload_rule_image_popup.requestLayout();
+
     }
 
     @Override
@@ -88,8 +99,8 @@ public class VideoListActivity extends HSAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (confirmDialog != null && confirmDialog.getVisibility() == View.VISIBLE) {
-            confirmDialog.setVisibility(View.GONE);
+        if (mRuleDialog != null && mRuleDialog.getVisibility() == View.VISIBLE) {
+            mRuleDialog.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
@@ -102,22 +113,21 @@ public class VideoListActivity extends HSAppCompatActivity {
 
     @SuppressWarnings("unused")
     private void showConfirmDialog() {
-        confirmDialog = findViewById(R.id.close_confirm_dialog);
 
-        View content = confirmDialog.findViewById(R.id.content_layout);
+        View content = mRuleDialog.findViewById(R.id.bg);
         content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+        View iKnow = mRuleDialog.findViewById(R.id.i_know);
+        iKnow.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
 
-        View btn = confirmDialog.findViewById(R.id.tv_first);
-        btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
-        btn.setOnClickListener(v -> confirmDialog.setVisibility(View.GONE));
+        iKnow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        btn = confirmDialog.findViewById(R.id.tv_second);
-        btn.setOnClickListener(v -> {
-            confirmDialog.setVisibility(View.GONE);
-            confirmClose = false;
+            }
         });
 
-        confirmDialog.setVisibility(View.VISIBLE);
+        mRuleDialog.setVisibility(View.VISIBLE);
+        mRuleDialogShowing = true;
 
     }
 
@@ -164,6 +174,10 @@ public class VideoListActivity extends HSAppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            showConfirmDialog();
+            if (mRuleDialogShowing) {
+                return;
+            }
             int position = (int) view.getTag();
             VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
         }
