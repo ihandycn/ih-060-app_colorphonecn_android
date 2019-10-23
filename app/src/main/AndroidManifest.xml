@@ -777,9 +777,9 @@
         <activity android:name=".debug.DebugActivity" />
         <activity
             android:name="com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:exported="true"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <!--Override  - Tag : process-->
 
@@ -789,6 +789,12 @@
         <receiver
             android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
             tools:node="remove" />
+        <receiver
+            android:name="com.colorphone.smooth.dialer.cn.wxapi.WXRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
