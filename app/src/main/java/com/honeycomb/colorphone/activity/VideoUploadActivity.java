@@ -172,12 +172,14 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     }
 
     private boolean mConvertFailed;
+    private String jpegName;
+    private String mp3;
 
     private void upload(String name) {
         mConvertFailed = false;
 
-        final String jpegName = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpeg";
-        final String mp3 = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".mp3";
+        jpegName = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpeg";
+        mp3 = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".mp3";
         final CountDownLatch begin = new CountDownLatch(1);
         final CountDownLatch end = new CountDownLatch(2);
         new Thread() {
@@ -237,8 +239,6 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                             @Override
                             public void onSuccess() {
                                 success();
-                                deleteTempFile(mp3);
-                                deleteTempFile(jpegName);
                             }
 
                             @Override
@@ -252,12 +252,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                             @Override
                             public void onFailure(String errorMsg) {
                                 failure(errorMsg);
-                                deleteTempFile(mp3);
-                                deleteTempFile(jpegName);
                             }
                         });
                     } else {
-                        // todo:
+                        failure("convert failed");
                     }
 
                 } catch (InterruptedException e) {
@@ -288,6 +286,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.setEnabled(true);
         mCancel.setVisibility(View.GONE);
         mUpload.setVisibility(View.GONE);
+        deleteTempFile(mp3);
+        deleteTempFile(jpegName);
     }
 
     private void failure(String errorMsg) {
@@ -295,6 +295,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.setProcess(1);
         mCancel.setVisibility(View.GONE);
         mUpload.setEnabled(true);
+        deleteTempFile(mp3);
+        deleteTempFile(jpegName);
     }
 
     @Override

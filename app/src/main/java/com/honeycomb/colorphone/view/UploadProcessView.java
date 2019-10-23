@@ -1,30 +1,17 @@
 package com.honeycomb.colorphone.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.superapps.util.BackgroundDrawables;
-import com.superapps.util.Dimensions;
 
 public class UploadProcessView extends FrameLayout {
     private TextView mTv;
@@ -33,6 +20,7 @@ public class UploadProcessView extends FrameLayout {
 
     private Canvas mCanvas;
     private Rect mRect;
+    private Bitmap mBitmap;
 
 
     public UploadProcessView(Context context, AttributeSet attrs) {
@@ -66,13 +54,16 @@ public class UploadProcessView extends FrameLayout {
         drawable.setBounds(0, 0, getWidth(), getHeight());
         drawable.draw(canvas);
 
-        @SuppressLint("DrawAllocation") Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        mCanvas.setBitmap(bitmap);
-        drawable.draw(mCanvas);
-        mCanvas.drawColor(0xff5a587a, PorterDuff.Mode.SRC_IN);
+        if (mBitmap == null && getWidth() > 0 && getHeight() > 0) {
+            mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            mCanvas.setBitmap(mBitmap);
+            drawable.draw(mCanvas);
+            mCanvas.drawColor(0xff5a587a, PorterDuff.Mode.SRC_IN);
+        }
+
 
         mRect.set((int) (getWidth() * mProcess), 0, getWidth(), getHeight());
-        canvas.drawBitmap(bitmap, mRect, mRect, null);
+        canvas.drawBitmap(mBitmap, mRect, mRect, null);
 
 
         super.onDraw(canvas);

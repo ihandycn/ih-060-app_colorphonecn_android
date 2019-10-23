@@ -45,7 +45,19 @@
 
     </com.honeycomb.colorphone.view.UploadProcessView>
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/success_container"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:layout_width="204.7dp"
+        android:layout_height="42.7dp"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <ImageButton
         android:id="@+id/cancel"
         android:layout_width="42.7dp"
         android:layout_height="42.7dp"
