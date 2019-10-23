@@ -188,7 +188,7 @@ public final class HttpManager {
         editor.apply();
     }
 
-    private String getUserToken() {
+    public String getUserToken() {
         return preferences.getString(PREF_USER_TOKEN, "null");
     }
 

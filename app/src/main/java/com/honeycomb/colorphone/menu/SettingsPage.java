@@ -22,11 +22,13 @@ import com.honeycomb.colorphone.activity.SettingsActivity;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
+import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+import com.superapps.util.Toasts;
 
 public class SettingsPage implements View.OnClickListener {
     private SwitchCompat mainSwitch;
@@ -170,7 +172,12 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
                 break;
             case R.id.settings_upload:
-                UploadAndPublishActivity.start(context);
+                if (!"null".equals(HttpManager.getInstance().getUserToken())) {
+                    UploadAndPublishActivity.start(context);
+                } else {
+                    Toasts.showToast(context.getResources().getString(R.string.not_login));
+                }
+
                 break;
             default:
                 break;
