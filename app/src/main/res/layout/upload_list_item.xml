@@ -51,10 +51,11 @@
             android:layout_marginTop="11dp"
             android:layout_marginEnd="11dp"
             android:layout_marginRight="11dp"
-            android:src="@drawable/ic_ringtone_badge"
-            android:visibility="visible"
+            android:src="@drawable/icon_uploadpage_unselected"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 </com.honeycomb.colorphone.view.FixRatioPreviewWindow>

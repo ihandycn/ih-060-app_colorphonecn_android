@@ -19,8 +19,9 @@ import java.util.List;
 public class PublishVideoView extends RelativeLayout implements PublishVideoContract.View, INotificationObserver, View.OnClickListener {
 
     private RecyclerView recyclerView;
+    private RelativeLayout emptyLayout;
+    private TextView emptyText;
     private TextView deleteButton;
-    private ArrayList<Theme> data = null;
     private PublishVideoContract.Presenter presenter;
 
     private UploadViewAdapter adapter;
@@ -46,10 +47,12 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     private void init() {
         recyclerView = findViewById(R.id.publish_recycle);
         deleteButton = findViewById(R.id.publish_delete_button);
+        emptyLayout = findViewById(R.id.empty_layout);
+        emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
 
         presenter = new PublishVideoPresenter(getContext(), new PublishVideoModel(), this);
-        presenter.requestPublishVideoData("user id");
+        presenter.requestPublishVideoData();
     }
 
     /**
@@ -77,17 +80,22 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
     @Override
     public void showNoNetView() {
-
+        recyclerView.setVisibility(GONE);
+        emptyLayout.setVisibility(VISIBLE);
+        emptyText.setText(getResources().getString(R.string.not_network_text));
     }
 
     @Override
     public void showNoContentView() {
-
+        recyclerView.setVisibility(GONE);
+        emptyLayout.setVisibility(VISIBLE);
+        emptyText.setText(getResources().getString(R.string.publish_page_empty_text));
     }
 
     @Override
     public void showContentView(ArrayList<Theme> data) {
-        this.data = data;
+        recyclerView.setVisibility(VISIBLE);
+        emptyLayout.setVisibility(GONE);
         adapter = new UploadViewAdapter(getContext(), data);
         recyclerView.setLayoutManager(adapter.getLayoutManager());
         recyclerView.setAdapter(adapter);
@@ -97,12 +105,15 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     public void onClick(View view) {
         if (view.getId() == R.id.publish_delete_button) {
             if (adapter.mDeleteDataList != null && adapter.mDeleteDataList.size() > 0) {
+                List<Long> deleteId = new ArrayList<>();
                 for (Theme item : adapter.mDeleteDataList) {
                     adapter.data.remove(item);
-                    presenter.requestDeletePublishData(String.valueOf(item.getId()));
+                    deleteId.add((long) item.getId());
                 }
+                presenter.requestDeletePublishData(deleteId);
             }
             quitEditMode();
+            adapter.notifyDataSetChanged();
         }
     }
 }

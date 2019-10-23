@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.uploadview;
 import com.honeycomb.colorphone.Theme;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UploadVideoContract {
     interface View {
@@ -26,11 +27,11 @@ public class UploadVideoContract {
         /**
          * 请求接口获取上传数据
          */
-        void requestUploadVideoData(String userId);
+        void requestUploadVideoData();
 
         /**
          * 请求接口删除上传数据
          */
-        void requestDeleteUploadData(String videoId);
+        void requestDeleteUploadData(List<Long> themeIdList);
     }
 }

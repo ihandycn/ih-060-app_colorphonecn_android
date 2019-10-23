@@ -27,11 +27,11 @@ public class PublishVideoContract {
         /**
          * 请求接口获取发布数据
          */
-        void requestPublishVideoData(String userId);
+        void requestPublishVideoData();
 
         /**
          * 请求接口删除发布数据
          */
-        void requestDeletePublishData(String videoId);
+        void requestDeletePublishData(List<Long> themeIdList);
     }
 }

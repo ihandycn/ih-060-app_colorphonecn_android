@@ -228,9 +228,9 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     })
                     .into(mPreviewImage);
             if (mIsSelect) {
-                mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.face_1));
+                mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_selected));
             } else {
-                mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.face_2));
+                mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_unselected));
             }
             HSLog.d(TAG, "load image size : " + sThumbnailSize[0] + ", " + sThumbnailSize[1]);
         }

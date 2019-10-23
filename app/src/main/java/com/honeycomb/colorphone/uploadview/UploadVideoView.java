@@ -13,14 +13,16 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UploadVideoView extends RelativeLayout implements UploadVideoContract.View, INotificationObserver,View.OnClickListener {
+public class UploadVideoView extends RelativeLayout implements UploadVideoContract.View, INotificationObserver, View.OnClickListener {
 
     private UploadVideoContract.Presenter presenter;
     private RecyclerView recyclerView;
+    private RelativeLayout emptyLayout;
+    private TextView emptyText;
     private TextView deleteButton;
     private UploadViewAdapter adapter;
-    private ArrayList<Theme> data = null;
 
     public UploadVideoView(Context context) {
         super(context);
@@ -43,24 +45,26 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     private void init() {
         recyclerView = findViewById(R.id.upload_recycle);
         deleteButton = findViewById(R.id.upload_delete_button);
+        emptyLayout = findViewById(R.id.empty_layout);
+        emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
 
         presenter = new UploadVideoPresenter(getContext(), new UploadVideoModel(), this);
-        presenter.requestUploadVideoData("user id");
+        presenter.requestUploadVideoData();
     }
 
     /**
      * 进入编辑模式
      */
     private void setEditMode() {
-
+        deleteButton.setVisibility(VISIBLE);
     }
 
     /**
      * 退出编辑模式
      */
     private void quitEditMode() {
-
+        deleteButton.setVisibility(GONE);
     }
 
     @Override
@@ -74,17 +78,22 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     @Override
     public void showNoNetView() {
-
+        recyclerView.setVisibility(GONE);
+        emptyLayout.setVisibility(VISIBLE);
+        emptyText.setText(getResources().getString(R.string.not_network_text));
     }
 
     @Override
     public void showNoContentView() {
-
+        recyclerView.setVisibility(GONE);
+        emptyLayout.setVisibility(VISIBLE);
+        emptyText.setText(getResources().getString(R.string.upload_page_empty_text));
     }
 
     @Override
     public void showContentView(ArrayList<Theme> data) {
-        this.data = data;
+        recyclerView.setVisibility(VISIBLE);
+        emptyLayout.setVisibility(GONE);
         adapter = new UploadViewAdapter(getContext(), data);
         recyclerView.setLayoutManager(adapter.getLayoutManager());
         recyclerView.setAdapter(adapter);
@@ -94,11 +103,14 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     public void onClick(View view) {
         if (view.getId() == R.id.publish_delete_button) {
             if (adapter.mDeleteDataList != null && adapter.mDeleteDataList.size() > 0) {
+                List<Long> deleteId = new ArrayList<>();
                 for (Theme item : adapter.mDeleteDataList) {
                     adapter.data.remove(item);
-                    presenter.requestDeleteUploadData(String.valueOf(item.getId()));
+                    deleteId.add((long) item.getId());
                 }
+                presenter.requestDeleteUploadData(deleteId);
                 quitEditMode();
+                adapter.notifyDataSetChanged();
             }
         }
     }

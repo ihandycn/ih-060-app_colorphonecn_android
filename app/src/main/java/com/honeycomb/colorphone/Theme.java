@@ -10,9 +10,11 @@ import android.text.TextUtils;
 import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Preferences;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Color phone theme.
