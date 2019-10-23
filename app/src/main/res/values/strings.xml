@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"  tools:ignore="MissingTranslation">
 
     <!--No Translate-->
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
@@ -334,5 +334,10 @@
     <string name="i_know">我知道了</string>
     <string name="rule_description">上传视频经过审核通过后将会发布</string>
     <string name="upload">上传</string>
+    <string name="color_phone_name">来电秀名称</string>
+    <string name="please_input_name">请输入来电秀名称</string>
+    <string name="ok">确定</string>
+    <string name="convert_ing">转换中…</string>
+    <string name="upload_ing">上传中…%1$s</string>
 
 </resources>

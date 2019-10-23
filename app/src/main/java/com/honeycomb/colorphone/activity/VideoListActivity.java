@@ -29,6 +29,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -169,6 +170,10 @@ public class VideoListActivity extends HSAppCompatActivity {
         public void onClick(View view) {
             int position = (int) view.getTag();
             VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
+            if (videoInfo.size > 1024 * 1024 * 30) { // 30M
+                Toasts.showToast("视频文件过大，请重新选择");
+                return;
+            }
             VideoUploadActivity.start(VideoListActivity.this, videoInfo);
         }
     }

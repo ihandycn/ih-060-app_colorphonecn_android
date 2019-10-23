@@ -27,6 +27,7 @@
         android:src="@drawable/icon_uploadpage_pause"/>
 
     <com.superapps.view.TypefacedTextView
+        android:id="@+id/upload_button"
         android:layout_width="204.7dp"
         android:layout_height="42.7dp"
         android:background="@drawable/upload_text_bg_ripple"
@@ -40,5 +41,10 @@
         app:typeface="@string/custom_font_medium"
         android:text="@string/upload"
         />
+
+    <include
+        android:id="@+id/set_name"
+        layout="@layout/upload_set_name_dialog"
+        android:visibility="gone"/>
 
 </RelativeLayout>
