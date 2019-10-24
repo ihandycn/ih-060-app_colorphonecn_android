@@ -28,6 +28,7 @@ public class SignatureInterceptor implements Interceptor {
         RequestBody requestBody = request.body();
 
         String requestContent = "";
+        byte[] bytes = null;
         if (requestBody == null) {
             HSLog.e(TAG, "no request body!!!");
         } else if (bodyHasUnknownEncoding(request.headers())) {
@@ -46,7 +47,7 @@ public class SignatureInterceptor implements Interceptor {
                 charset = UTF_8;
             }
             if (isPlaintext(buffer)) {
-                requestContent = buffer.readString(charset);
+                bytes = buffer.readByteArray();
                 HSLog.e(TAG, requestContent);
                 HSLog.e(TAG, "--> END " + request.method()
                         + " (" + requestBody.contentLength() + "-byte body)");
@@ -57,7 +58,7 @@ public class SignatureInterceptor implements Interceptor {
         }
         try {
             Request.Builder builder = request.newBuilder()
-                    .addHeader("X-ColorPhone-Signature", SignatureUtils.generateSignature(String.valueOf(System.currentTimeMillis()), requestContent));
+                    .addHeader("X-ColorPhone-Signature", SignatureUtils.generateSignature(String.valueOf(System.currentTimeMillis()), bytes));
             request = builder.build();
             return chain.proceed(request);
         } catch (Exception e) {

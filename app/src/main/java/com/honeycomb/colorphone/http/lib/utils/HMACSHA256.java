@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.http.lib.utils;
 
+import android.support.annotation.NonNull;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -16,13 +18,13 @@ public class HMACSHA256 {
      * @param message 消息
      * @return 加密后字符串
      */
-    public static String sha256_HMAC(String message) {
+    public static String sha256_HMAC(@NonNull byte[] message) {
         String hash = "";
         try {
             Mac sha256_HMAC = Mac.getInstance(HMAC_SHA_256);
             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(UTF8), HMAC_SHA_256);
             sha256_HMAC.init(secret_key);
-            byte[] bytes = sha256_HMAC.doFinal(message.getBytes(UTF8));
+            byte[] bytes = sha256_HMAC.doFinal(message);
 
             hash = byteArrayToHexString(bytes);
         } catch (Exception e) {

@@ -2,8 +2,8 @@ package com.honeycomb.colorphone.http.lib.utils;
 
 public class SignatureUtils {
 
-    public static String generateSignature(String timeStamp, String requestContent) {
-        String digest = generateDigest(timeStamp, requestContent);
+    public static String generateSignature(String timeStamp, byte[] bytes) {
+        String digest = generateDigest(timeStamp, bytes);
         return join(timeStamp, digest);
     }
 
@@ -13,8 +13,21 @@ public class SignatureUtils {
                 digest;
     }
 
-    private static String generateDigest(String timeStamp, String requestContent) {
-        String message = timeStamp + requestContent;
-        return HMACSHA256.sha256_HMAC(message);
+    private static String generateDigest(String timeStamp, byte[] bytes) {
+        byte[] timeBytes = timeStamp.getBytes();
+        int length = bytes == null ? 0 : bytes.length;
+        byte[] byteArray = new byte[timeBytes.length + length];
+
+        int index = 0;
+        for (int i = 0; i < timeBytes.length; i++) {
+            index = i;
+            byteArray[index] = timeBytes[i];
+        }
+
+        for (int i = 0; i < length; i++) {
+            index++;
+            byteArray[index] = bytes[i];
+        }
+        return HMACSHA256.sha256_HMAC(byteArray);
     }
 }
