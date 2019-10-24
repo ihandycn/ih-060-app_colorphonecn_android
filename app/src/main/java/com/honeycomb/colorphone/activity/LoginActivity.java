@@ -10,17 +10,18 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class LoginActivity extends HSAppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
     public static final String APP_ID = "wx5b4bb859043c5e3d";
     private IWXAPI api;
     public static void start(Context context) {
@@ -64,6 +65,7 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
                 req.scope = "snsapi_userinfo";
                 req.state = System.currentTimeMillis()+"";
                 api.sendReq(req);
+                Threads.postOnMainThreadDelayed(this::finish,500);
                 break;
             default:
                 break;

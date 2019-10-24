@@ -212,6 +212,13 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme" />
+        <activity
+            android:name=".activity.UserInfoEditorActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
 
         <activity
             android:name=".activity.SettingsActivity"
@@ -789,8 +796,7 @@
         <receiver
             android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
             tools:node="remove" />
-        <receiver
-            android:name="com.colorphone.smooth.dialer.cn.wxapi.WXRegister">
+        <receiver android:name="com.colorphone.smooth.dialer.cn.wxapi.WXRegister">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>

@@ -51,10 +51,14 @@
                 android:layout_marginBottom="39dp"
                 android:paddingStart="16dp">
 
-                <ImageView
+                <com.honeycomb.colorphone.view.RoundCornerImageView
                     android:id="@+id/settings_avatar_icon"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    app:round_right_top_corner_radius="28dp"
+                    app:round_right_bottom_corner_radius="28dp"
+                    app:round_left_top_corner_radius="28dp"
+                    app:round_left_bottom_corner_radius="28dp"
                     android:background="@drawable/settings_icon_avatar" />
 
                 <LinearLayout

@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.http;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
@@ -13,6 +14,7 @@ import com.honeycomb.colorphone.http.lib.upload.FilesRequestBodyConverter;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.http.lib.utils.HttpUtils;
 import com.honeycomb.colorphone.http.lib.utils.RetrofitFactory;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Preferences;
 
 import org.json.JSONArray;
@@ -71,20 +73,25 @@ public final class HttpManager {
     }
 
     public void editUserInfo(LoginUserBean.UserInfoBean userInfo, String headImgFilePath, Callback<ResponseBody> callback) {
-        File file = new File(headImgFilePath);
-        if (!HttpUtils.isFileValid(file)) {
-            return;
-        }
 
-        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        RequestBody body = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM)
                 .addFormDataPart("name", userInfo.getName())
                 .addFormDataPart("gender", userInfo.getGender())
-                .addFormDataPart("birthday", userInfo.getBirthday())
-                .addFormDataPart("signature", userInfo.getSignature())
-                .addFormDataPart("head_image", file.getName(), fileBody)
-                .build();
+                .addFormDataPart("signature", userInfo.getSignature());
+
+        if (!TextUtils.isEmpty(userInfo.getBirthday())){
+            builder.addFormDataPart("birthday", userInfo.getBirthday());
+        }
+
+        if (!TextUtils.isEmpty(headImgFilePath)){
+            File file = new File(headImgFilePath);
+            if (HttpUtils.isFileValid(file)) {
+                RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                builder.addFormDataPart("head_image", file.getName(), fileBody);
+            }
+        }
+        RequestBody body = builder.build();
 
         DEFAULT.create(IHttpRequest.class)
                 .editUserInfo(getUserToken(), getSelfUserId(), body)
@@ -191,6 +198,11 @@ public final class HttpManager {
 
     public boolean isLogin() {
         return !TextUtils.isEmpty(getUserToken());
+    }
+
+    public void logout(){
+        saveUserTokenAndUid("","");
+        HSGlobalNotificationCenter.sendNotification(WXEntryActivity.NOTIFY_REFRESH_USER_INFO);
     }
 
 }

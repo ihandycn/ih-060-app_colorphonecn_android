@@ -39,6 +39,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.ringtones.view.RingtonePageView;
+import com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -378,6 +379,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
+        HSGlobalNotificationCenter.addObserver(WXEntryActivity.NOTIFY_REFRESH_USER_INFO, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         ConfigChangeManager.getInstance().registerCallbacks(
@@ -1143,6 +1145,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d("preview pos = " + pos);
                 mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
             }
+        } else if (WXEntryActivity.NOTIFY_REFRESH_USER_INFO.equals(s)) {
+            mSettingsPage.refreshUserInfo();
         }
     }
 
@@ -1173,7 +1177,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case TabItem.TAB_SETTINGS:
                 if (!mSettingsPage.isInit()) {
                     frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
-                    mSettingsPage.initPage(frame);
+                    mSettingsPage.initPage(frame, this);
                 } else {
                     frame = mSettingsPage.getRootView();
                 }
@@ -1231,7 +1235,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else {
                     if (!mSettingsPage.isInit()) {
                         frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
-                        mSettingsPage.initPage(frame);
+                        mSettingsPage.initPage(frame, this);
                     } else {
                         frame = mSettingsPage.getRootView();
                     }
