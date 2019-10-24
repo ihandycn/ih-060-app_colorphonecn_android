@@ -320,6 +320,7 @@
     <string name="publish_page_empty_text">暂无发布视频</string>
     <string name="not_network_text">网络连接失败</string>
     <string name="not_login">登陆后才能查看作品</string>
+    <string name="theme_toast_tip_text">看起来网络出了点问题…</string>
 
     <string name="login_title">登陆</string>
     <string name="weixin_login_button_text">微信一键登陆</string>

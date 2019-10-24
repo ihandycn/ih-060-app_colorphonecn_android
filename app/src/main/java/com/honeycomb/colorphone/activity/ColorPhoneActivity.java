@@ -18,12 +18,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acb.call.VideoManager;
 import com.acb.call.customize.ScreenFlashManager;
@@ -771,14 +774,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HttpManager.getInstance().getAllThemes(mCurrentRequestPageIndex, new Callback<AllThemeBean>() {
             @Override
             public void onFailure(String errorMsg) {
-                Toasts.showToast("网络连接异常");
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
+                Toast toast = new Toast(getBaseContext());
+                toast.setGravity(Gravity.CENTER | Gravity.TOP, 0, Dimensions.pxFromDp(80));
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
                 mSmartRefreshLayout.finishRefresh();
                 mCurrentRequestPageIndex = mLastCurrentPage;
             }
 
             @Override
             public void onSuccess(AllThemeBean allThemeBean) {
-                if (allThemeBean != null && allThemeBean.getShow_list() != null) {
+                if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
 
                     mSmartRefreshLayout.finishRefresh();
 

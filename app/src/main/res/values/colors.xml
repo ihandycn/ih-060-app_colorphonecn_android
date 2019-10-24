@@ -89,5 +89,5 @@
     <color name="feedback_input_text">#626262</color>
 
     <!-- refresh view -->
-    <color name="refresh_text_view">#999999</color>
+    <color name="refresh_text_view">#8481a9</color>
 </resources>

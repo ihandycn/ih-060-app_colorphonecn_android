@@ -1,9 +1,11 @@
 package com.honeycomb.colorphone.view;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,9 +22,11 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 public class ClassicHeader extends FrameLayout implements RefreshHeader {
 
     private TextView refreshTextView;
+    private ImageView refreshIcon;
     private String successText;
     private String failedText;
     private String refreshingText;
+    final CircularProgressDrawable drawable = new CircularProgressDrawable(getContext());
 
     public ClassicHeader(Context context) {
         super(context);
@@ -96,11 +100,18 @@ public class ClassicHeader extends FrameLayout implements RefreshHeader {
     private void init() {
         View.inflate(getContext(), R.layout.refresh_classic_header, this);
         refreshTextView = findViewById(R.id.tv_text);
-        successText = "刷新成功";
-        failedText = "刷新失败，请检查网络";
-        refreshingText = "刷新";
-
+        refreshIcon = findViewById(R.id.iv_icon);
         refreshTextView.setTextColor(getContext().getResources().getColor(R.color.refresh_text_view));
+
+        drawable.setStartEndTrim(0, 0.75f);
+        drawable.setStrokeWidth(10f);
+        drawable.setStrokeCap(Paint.Cap.ROUND);
+        drawable.setCenterRadius(50f);
+        drawable.setStyle(CircularProgressDrawable.DEFAULT);
+        drawable.setColorSchemeColors(0x8481a9, 0x8481a9);
+
+        refreshIcon.setImageDrawable(drawable);
+        drawable.start();
     }
 
     @NonNull
@@ -142,11 +153,6 @@ public class ClassicHeader extends FrameLayout implements RefreshHeader {
 
     @Override
     public int onFinish(@NonNull RefreshLayout refreshLayout, boolean success) {
-        if (success) {
-            refreshTextView.setText(successText);
-        } else {
-            refreshTextView.setText(failedText);
-        }
         return 500;
     }
 
@@ -168,7 +174,7 @@ public class ClassicHeader extends FrameLayout implements RefreshHeader {
                 refreshTextView.setText("下拉刷新");
                 break;
             case Refreshing:
-                refreshTextView.setText(refreshingText);
+                refreshTextView.setText("刷新中");
                 break;
             case ReleaseToRefresh:
                 refreshTextView.setText("松开刷新");
