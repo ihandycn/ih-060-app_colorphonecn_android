@@ -172,7 +172,7 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
                 break;
             case R.id.settings_upload:
-                if (!"null".equals(HttpManager.getInstance().getUserToken())) {
+                if (HttpManager.getInstance().isLogin()) {
                     UploadAndPublishActivity.start(context);
                 } else {
                     Toasts.showToast(context.getResources().getString(R.string.not_login));

@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.http;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
@@ -188,13 +189,16 @@ public final class HttpManager {
         editor.apply();
     }
 
-    public String getUserToken() {
-        return preferences.getString(PREF_USER_TOKEN, "null");
+    private String getUserToken() {
+        return preferences.getString(PREF_USER_TOKEN, "");
     }
 
     private String getSelfUserId() {
-        return preferences.getString(PREF_USER_ID, "abcdefg");
+        return preferences.getString(PREF_USER_ID, "");
     }
 
+    public boolean isLogin() {
+        return !TextUtils.isEmpty(getUserToken());
+    }
 
 }
