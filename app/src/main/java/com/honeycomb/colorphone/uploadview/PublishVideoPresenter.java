@@ -27,7 +27,7 @@ public class PublishVideoPresenter implements PublishVideoContract.Presenter {
         model.requestPublishVideoData(new PublishVideoModel.LoadDataCallBack<AllUserThemeBean>() {
             @Override
             public void loadData(AllUserThemeBean bean) {
-                if (bean != null) {
+                if (bean != null && bean.getShow_list() != null && bean.getShow_list().size() > 0) {
                     view.showContentView(transformData(bean));
                 } else {
                     view.showNoContentView();

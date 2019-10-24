@@ -25,9 +25,9 @@ public class UploadVideoPresenter implements UploadVideoContract.Presenter {
     public void requestUploadVideoData() {
         model.requestUploadVideoData(new UploadVideoModel.LoadDataCallBack<AllUserThemeBean>() {
             @Override
-            public void loadData(AllUserThemeBean data) {
-                if (data != null) {
-                    view.showContentView(transformData(data));
+            public void loadData(AllUserThemeBean bean) {
+                if (bean != null && bean.getShow_list() != null && bean.getShow_list().size() > 0) {
+                    view.showContentView(transformData(bean));
                 } else {
                     view.showNoContentView();
                 }
