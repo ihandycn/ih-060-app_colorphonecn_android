@@ -6,9 +6,7 @@ import android.text.TextUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
-import com.honeycomb.colorphone.http.bean.LoginInfoBean;
-import com.honeycomb.colorphone.http.bean.UserBean;
-import com.honeycomb.colorphone.http.bean.WeixinUserInfoBean;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.http.lib.upload.FilesRequestBodyConverter;
@@ -52,21 +50,15 @@ public final class HttpManager {
         return ClassHolder.INSTANCE;
     }
 
-    public void login(WeixinUserInfoBean userInfoBean, Callback<LoginInfoBean> callback) {
+    public void login(String code, Callback<LoginUserBean> callback) {
 
         JSONObject params = new JSONObject();
         try {
             params.put("login_type", 1);
 
-            JSONObject user = new JSONObject();
-            user.put("name", userInfoBean.name);
-            user.put("gender", userInfoBean.gender);
-            user.put("province", userInfoBean.province);
-            user.put("city", userInfoBean.city);
-            user.put("country", userInfoBean.country);
-            user.put("head_image_url", userInfoBean.head_image_url);
-            user.put("unionid", userInfoBean.unionid);
-            params.put("login_info", user);
+            JSONObject codeJson = new JSONObject();
+            codeJson.put("wechat_code", code);
+            params.put("login_info", codeJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -78,7 +70,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void editUserInfo(UserBean.UserInfoBean userInfo, String headImgFilePath, Callback<ResponseBody> callback) {
+    public void editUserInfo(LoginUserBean.UserInfoBean userInfo, String headImgFilePath, Callback<ResponseBody> callback) {
         File file = new File(headImgFilePath);
         if (!HttpUtils.isFileValid(file)) {
             return;
@@ -99,7 +91,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void getSelfUserInfo(Callback<UserBean> callBack) {
+    public void getSelfUserInfo(Callback<LoginUserBean> callBack) {
 
         DEFAULT.create(IHttpRequest.class)
                 .getUserInfo(getUserToken(), getSelfUserId())

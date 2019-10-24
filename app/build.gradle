@@ -34,6 +34,15 @@ android {
             v1SigningEnabled true
             v2SigningEnabled false
         }
+
+        debug {
+            keyAlias 'light2019'
+            keyPassword 'zdhszyzs'
+            storeFile file('keystore/light2019.jks')
+            storePassword 'zdhszyzs'
+            v1SigningEnabled true
+            v2SigningEnabled false
+        }
     }
 
     flavorDimensions("mode", "channel")
@@ -82,14 +91,14 @@ android {
         colorphoneYingyongbao {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
-            assets.srcDirs = ['src/colorphoneYingyongbao/assets','src/colorphoneCommon/assets', 'src/main/assets']
+            assets.srcDirs = ['src/colorphoneYingyongbao/assets', 'src/colorphoneCommon/assets', 'src/main/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
         }
 
         colorphoneJinritoutiao {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
-            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets']
+            assets.srcDirs = ['src/colorphoneJinritoutiao/assets', 'src/colorphoneCommon/assets', 'src/main/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
         }
     }

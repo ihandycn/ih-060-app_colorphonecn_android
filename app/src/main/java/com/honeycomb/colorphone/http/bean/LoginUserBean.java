@@ -1,10 +1,10 @@
 package com.honeycomb.colorphone.http.bean;
 
-public class UserBean {
+public class LoginUserBean {
 
     /**
-     * user_info : {"created":1571645177000,"gender":"man","signature":"hahaha","name":"test_user","user_id":"abcdefg","updated":1571645177000,"head_image_url":"https://dev-fastgear.s3.amazonaws.com/storage/7CHcZNdbV7ZcVNbd.test.png","session_token":null,"birthday":"2019-08-02"}
-     * token : null
+     * user_info : {"gender":"Man","signature":"","user_id":"UUAIMAVYVJJDC","head_image_url":"http://thirdwx.qlogo.cn/mmopen/vi_32/9aLK9Cx6dzfnIPAyyHjVfnAMpwopfJPuRL9AK7xQ0NJ69ib7kHbbbIWUyZHLEGB719WIpHH8c5SVYAIeAU6nEZA/132","name":"ç\u0099½é\u0099¢ä¼\u009f","birthday":""}
+     * token : STAIMDYNNGTYA
      */
 
     private UserInfoBean user_info;
@@ -28,34 +28,20 @@ public class UserBean {
 
     public static class UserInfoBean {
         /**
-         * created : 1571645177000
-         * gender : man
-         * signature : hahaha
-         * name : test_user
-         * user_id : abcdefg
-         * updated : 1571645177000
-         * head_image_url : https://dev-fastgear.s3.amazonaws.com/storage/7CHcZNdbV7ZcVNbd.test.png
-         * session_token : null
-         * birthday : 2019-08-02
+         * gender : Man
+         * signature :
+         * user_id : UUAIMAVYVJJDC
+         * head_image_url : http://thirdwx.qlogo.cn/mmopen/vi_32/9aLK9Cx6dzfnIPAyyHjVfnAMpwopfJPuRL9AK7xQ0NJ69ib7kHbbbIWUyZHLEGB719WIpHH8c5SVYAIeAU6nEZA/132
+         * name : ç½é¢ä¼
+         * birthday :
          */
 
-        private long created;
         private String gender;
         private String signature;
-        private String name;
         private String user_id;
-        private long updated;
         private String head_image_url;
-        private Object session_token;
+        private String name;
         private String birthday;
-
-        public long getCreated() {
-            return created;
-        }
-
-        public void setCreated(long created) {
-            this.created = created;
-        }
 
         public String getGender() {
             return gender;
@@ -73,28 +59,12 @@ public class UserBean {
             this.signature = signature;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public String getUser_id() {
             return user_id;
         }
 
         public void setUser_id(String user_id) {
             this.user_id = user_id;
-        }
-
-        public long getUpdated() {
-            return updated;
-        }
-
-        public void setUpdated(long updated) {
-            this.updated = updated;
         }
 
         public String getHead_image_url() {
@@ -105,12 +75,12 @@ public class UserBean {
             this.head_image_url = head_image_url;
         }
 
-        public Object getSession_token() {
-            return session_token;
+        public String getName() {
+            return name;
         }
 
-        public void setSession_token(Object session_token) {
-            this.session_token = session_token;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getBirthday() {

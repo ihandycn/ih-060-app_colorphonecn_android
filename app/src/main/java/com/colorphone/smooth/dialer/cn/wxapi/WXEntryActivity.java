@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.honeycomb.colorphone.activity.LoginActivity;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
+import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -21,9 +25,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api = WXAPIFactory.createWXAPI(this, LoginActivity.APP_ID,true);
-        api.handleIntent(getIntent(),this);
+        api = WXAPIFactory.createWXAPI(this, LoginActivity.APP_ID, true);
+        api.handleIntent(getIntent(), this);
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -31,6 +36,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         setIntent(intent);
         api.handleIntent(intent, this);
     }
+
     @Override
     public void onReq(BaseReq baseReq) {
     }
@@ -40,7 +46,30 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
             SendAuth.Resp authResp = (SendAuth.Resp) resp;
             final String code = authResp.code;
+            HttpManager.getInstance().login(code, new Callback<LoginUserBean>() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    failure(errorMsg);
+                }
+
+                @Override
+                public void onSuccess(LoginUserBean loginInfoBean) {
+                    if (loginInfoBean != null && loginInfoBean.getUser_info() != null) {
+                        HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.getToken(), loginInfoBean.getUser_info().getUser_id());
+                    }
+                    success();
+
+                }
+            });
             finish();
         }
+    }
+
+    private void success() {
+        Toast.makeText(this, "Successfully!!!", Toast.LENGTH_LONG).show();
+    }
+
+    private void failure(String msg) {
+        Toast.makeText(this, "Failure!!!, msg = " + msg, Toast.LENGTH_LONG).show();
     }
 }

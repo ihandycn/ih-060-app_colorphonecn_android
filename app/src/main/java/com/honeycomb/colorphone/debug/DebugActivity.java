@@ -12,9 +12,7 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.IHttpRequest;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
-import com.honeycomb.colorphone.http.bean.LoginInfoBean;
-import com.honeycomb.colorphone.http.bean.UserBean;
-import com.honeycomb.colorphone.http.bean.WeixinUserInfoBean;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
@@ -95,36 +93,36 @@ public class DebugActivity extends Activity {
 
     private void login() {
 
-        WeixinUserInfoBean bean = new WeixinUserInfoBean();
-        bean.name = "ihandy";
-        bean.city = "hhhh";
-        bean.country = "ddd";
-        bean.province = "dddd";
-        bean.gender = IHttpRequest.GENDER_MAN;
-        bean.head_image_url = "https://img-my.csdn.net/uploads/201407/26/1406383166_3407.jpg";
-        bean.unionid = "o6_bmasdasdsad6_2sgVt7hMZOPfL";
-
-        HttpManager.getInstance().login(bean, new Callback<LoginInfoBean>() {
-            @Override
-            public void onFailure(String errorMsg) {
-                failure(errorMsg);
-            }
-
-            @Override
-            public void onSuccess(LoginInfoBean loginInfoBean) {
-                // Must to save token and uid
-                if (loginInfoBean != null && loginInfoBean.user_info != null) {
-                    HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.token, loginInfoBean.user_info.getUser_info().getUser_id());
-                }
-                success();
-
-            }
-        });
+//        WeixinUserInfoBean bean = new WeixinUserInfoBean();
+//        bean.name = "ihandy";
+//        bean.city = "hhhh";
+//        bean.country = "ddd";
+//        bean.province = "dddd";
+//        bean.gender = IHttpRequest.GENDER_MAN;
+//        bean.head_image_url = "https://img-my.csdn.net/uploads/201407/26/1406383166_3407.jpg";
+//        bean.unionid = "o6_bmasdasdsad6_2sgVt7hMZOPfL";
+//
+//        HttpManager.getInstance().login("dd", new Callback<LoginInfoBean>() {
+//            @Override
+//            public void onFailure(String errorMsg) {
+//                failure(errorMsg);
+//            }
+//
+//            @Override
+//            public void onSuccess(LoginInfoBean loginInfoBean) {
+//                // Must to save token and uid
+//                if (loginInfoBean != null && loginInfoBean.user_info != null) {
+//                    HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.token, loginInfoBean.user_info.getUser_info().getUser_id());
+//                }
+//                success();
+//
+//            }
+//        });
     }
 
     private void editUserInfo() {
 
-        UserBean.UserInfoBean userInfoBean = new UserBean.UserInfoBean();
+        LoginUserBean.UserInfoBean userInfoBean = new LoginUserBean.UserInfoBean();
         userInfoBean.setName("hhhhh");
         userInfoBean.setBirthday("1993-10-20");
         userInfoBean.setGender(IHttpRequest.GENDER_MAN);
@@ -146,14 +144,14 @@ public class DebugActivity extends Activity {
     }
 
     private void getUserInfo() {
-        HttpManager.getInstance().getSelfUserInfo(new Callback<UserBean>() {
+        HttpManager.getInstance().getSelfUserInfo(new Callback<LoginUserBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 failure(errorMsg);
             }
 
             @Override
-            public void onSuccess(UserBean bean) {
+            public void onSuccess(LoginUserBean bean) {
                 success();
             }
         });

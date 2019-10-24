@@ -2,8 +2,7 @@ package com.honeycomb.colorphone.http;
 
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
-import com.honeycomb.colorphone.http.bean.LoginInfoBean;
-import com.honeycomb.colorphone.http.bean.UserBean;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadMoreFiles;
 
@@ -32,14 +31,14 @@ public interface IHttpRequest {
     int DEFAULT_PRE_PAGE = 20;
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("user/login")
-    Callable<LoginInfoBean> login(@Body RequestBody body);
+    @HTTP(method = "POST", path = "user/login", hasBody = true)
+    Callable<LoginUserBean> login(@Body RequestBody body);
 
     @PUT("user/{uid}/profile")
     Callable<ResponseBody> editUserInfo(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body RequestBody body);
 
     @GET("user/{uid}/profile")
-    Callable<UserBean> getUserInfo(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid);
+    Callable<LoginUserBean> getUserInfo(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid);
 
     @GET("shows")
     Callable<AllThemeBean> getAllThemes(@Query("per_page") int perPage, @Query("page_index") int pageIndex);
