@@ -27,8 +27,11 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Calendars;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
+import com.superapps.util.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,9 +100,13 @@ public class SettingsActivity extends HSAppCompatActivity {
         });
 
         View itemUpload = findViewById(R.id.setting_item_upload);
-        itemUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        itemUpload.setOnClickListener(view -> {
+            Preferences preferences = Preferences.getDefault();
+            int count = preferences.getInt(VideoUploadActivity.KEY_UPLOAD_COUNT, 0);
+            long aLong = preferences.getLong(VideoUploadActivity.KEY_UPLOAD_TIME, 0);
+            if (count >= 5 && Calendars.isSameDay(aLong, System.currentTimeMillis())) {
+                Toasts.showToast("今日上传个数已达上限，请明天再试");
+            } else {
                 VideoListActivity.start(SettingsActivity.this);
             }
         });

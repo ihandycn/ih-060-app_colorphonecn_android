@@ -36,8 +36,10 @@ import com.honeycomb.colorphone.view.UploadProcessView;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Calendars;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 
@@ -52,6 +54,9 @@ import java.util.concurrent.CountDownLatch;
 import okhttp3.ResponseBody;
 
 public class VideoUploadActivity extends HSAppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
+
+    public static final String KEY_UPLOAD_COUNT = "key_upload_count_VideoUploadActivity";
+    public static final String KEY_UPLOAD_TIME = "key_upload_time_VideoUploadActivity";
 
     public static final String KEY_VIDEO_INFORMATION = "key_for_video_information";
 
@@ -325,6 +330,17 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mSuccessContainer.setVisibility(View.VISIBLE);
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
+
+        Preferences preferences = Preferences.getDefault();
+        long aLong = preferences.getLong(KEY_UPLOAD_TIME, 0);
+        long currentTimeMillis = System.currentTimeMillis();
+        boolean sameDay = Calendars.isSameDay(aLong, currentTimeMillis);
+        if (sameDay) {
+            preferences.incrementAndGetInt(KEY_UPLOAD_COUNT);
+        } else {
+            preferences.putInt(KEY_UPLOAD_COUNT, 0);
+            preferences.putLong(KEY_UPLOAD_TIME, currentTimeMillis);
+        }
     }
 
     private void failure(String errorMsg) {
