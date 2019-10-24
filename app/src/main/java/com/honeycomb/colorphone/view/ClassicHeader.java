@@ -153,7 +153,8 @@ public class ClassicHeader extends FrameLayout implements RefreshHeader {
 
     @Override
     public int onFinish(@NonNull RefreshLayout refreshLayout, boolean success) {
-        return 500;
+        drawable.stop();
+        return 0;
     }
 
     @Override
@@ -171,6 +172,7 @@ public class ClassicHeader extends FrameLayout implements RefreshHeader {
         switch (newState) {
             case None:
             case PullDownToRefresh:
+                drawable.start();
                 refreshTextView.setText("下拉刷新");
                 break;
             case Refreshing:
