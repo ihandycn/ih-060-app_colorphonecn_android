@@ -18,8 +18,10 @@ import okio.Buffer;
 
 public class SignatureInterceptor implements Interceptor {
 
-    private static final String TAG = "BodyInterceptor";
+    private static final String TAG = "SignatureInterceptor";
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
+    @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
@@ -34,15 +36,18 @@ public class SignatureInterceptor implements Interceptor {
             Buffer buffer = new Buffer();
             requestBody.writeTo(buffer);
 
-            Charset charset = HttpUtils.UTF8;
+            Charset charset = null;
             MediaType contentType = requestBody.contentType();
             if (contentType != null) {
-                charset = contentType.charset(HttpUtils.UTF8);
+                charset = contentType.charset(UTF_8);
             }
 
+            if (charset == null) {
+                charset = UTF_8;
+            }
             if (isPlaintext(buffer)) {
                 requestContent = buffer.readString(charset);
-                HSLog.e(TAG, buffer.readString(charset));
+                HSLog.e(TAG, requestContent);
                 HSLog.e(TAG, "--> END " + request.method()
                         + " (" + requestBody.contentLength() + "-byte body)");
             } else {

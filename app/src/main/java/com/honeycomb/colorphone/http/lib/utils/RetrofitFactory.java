@@ -36,6 +36,7 @@ public final class RetrofitFactory {
         FullLoggingInterceptor loggingInterceptor = new FullLoggingInterceptor(Logger::d);
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new SignatureInterceptor())
                 .addNetworkInterceptor(loggingInterceptor)
                 .build();
 
