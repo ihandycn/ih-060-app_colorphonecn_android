@@ -34,7 +34,9 @@ import com.superapps.util.Toasts;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VideoListActivity extends HSAppCompatActivity {
 
@@ -80,7 +82,7 @@ public class VideoListActivity extends HSAppCompatActivity {
         int top = (phoneHeight - statusBarHeight - Dimensions.pxFromDp(271f)) / 2;
         View upload_rule_image_popup = mRuleDialog.findViewById(R.id.upload_rule_image_popup);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) upload_rule_image_popup.getLayoutParams();
-        layoutParams.topMargin = (int) (top - layoutParams.height / 553f * 198);
+        layoutParams.topMargin = (int) (top - layoutParams.height / 553f * 240);
         upload_rule_image_popup.requestLayout();
 
         Preferences.getDefault().doOnce(() -> Threads.postOnMainThread(VideoListActivity.this::showConfirmDialog),"VideoListActivity showConfirmDialog");
@@ -128,6 +130,7 @@ public class VideoListActivity extends HSAppCompatActivity {
     private class VideoPreviewAdapter extends RecyclerView.Adapter<VideoPreviewHolder> implements View.OnClickListener {
 
         private final ArrayList<VideoUtils.VideoInfo> mVideoInfos = new ArrayList<>();
+        private final Map<VideoUtils.VideoInfo, Bitmap> mCache = new HashMap<>();
         private ViewOutlineProvider mOutlineProvider;
 
         private VideoPreviewAdapter(List<VideoUtils.VideoInfo> infos) {
@@ -145,7 +148,28 @@ public class VideoListActivity extends HSAppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull VideoPreviewHolder holder, int position) {
             VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
-            holder.bindData(videoInfo);
+
+            Bitmap bitmap = mCache.get(videoInfo);
+            if (bitmap != null) {
+                holder.mPreview.setImageBitmap(bitmap);
+            } else {
+                Threads.postOnThreadPoolExecutor(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Bitmap thumbnail = VideoUtils.createVideoThumbnail(videoInfo.data, MediaStore.Video.Thumbnails.MINI_KIND);
+                        mCache.put(videoInfo, thumbnail);
+                        Threads.postOnMainThread(() -> {
+                            int itemPosition = ((RecyclerView.LayoutParams) holder.itemView.getLayoutParams()).getViewAdapterPosition();
+                            if (itemPosition == position) {
+                                holder.mPreview.setImageBitmap(thumbnail);
+                                mCache.put(videoInfo, thumbnail);
+                            }
+                        });
+                    }
+                });
+            }
+
+            holder.mDuration.setText(getTimeString(videoInfo.duration));
             holder.itemView.setClipToOutline(true);
             if (mOutlineProvider == null) {
                 mOutlineProvider = new ViewOutlineProvider() {
@@ -176,29 +200,6 @@ public class VideoListActivity extends HSAppCompatActivity {
             }
             VideoUploadActivity.start(VideoListActivity.this, videoInfo);
         }
-    }
-
-    private static class VideoPreviewHolder extends RecyclerView.ViewHolder {
-        private ImageView mPreview;
-        private TextView mDuration;
-
-        private VideoPreviewHolder(View itemView) {
-            super(itemView);
-            mPreview = itemView.findViewById(R.id.video_preview);
-            mDuration = itemView.findViewById(R.id.video_duration);
-        }
-
-        private void bindData(VideoUtils.VideoInfo info) {
-            new Thread(){
-                @Override
-                public void run() {
-                    final Bitmap thumbnail = VideoUtils.createVideoThumbnail(info.data, MediaStore.Video.Thumbnails.MINI_KIND);
-                    Threads.postOnMainThread(() -> mPreview.setImageBitmap(thumbnail));
-                }
-            }.start();
-            mDuration.setText(getTimeString(info.duration));
-
-        }
 
         private String getTimeString(long ms) {
             long s = ms / 1000;
@@ -213,11 +214,22 @@ public class VideoListActivity extends HSAppCompatActivity {
                 return isH ? "" : (isS ? "00" : "00:");
             }
 
-            if (v > 10) {
+            if (v >= 10) {
                 return v + (isS ? "" : ":");
             } else {
                 return "0" + v + (isS ? "" : ":");
             }
+        }
+    }
+
+    private static class VideoPreviewHolder extends RecyclerView.ViewHolder {
+        private ImageView mPreview;
+        private TextView mDuration;
+
+        private VideoPreviewHolder(View itemView) {
+            super(itemView);
+            mPreview = itemView.findViewById(R.id.video_preview);
+            mDuration = itemView.findViewById(R.id.video_duration);
         }
     }
 

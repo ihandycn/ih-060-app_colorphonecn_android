@@ -258,7 +258,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                     mUpload.setEnabled(false);
                     end.await();
 
-                    Threads.postOnMainThread(() -> mCancel.setVisibility(View.VISIBLE));
+                    Threads.postOnMainThread(() -> {
+                        mCancel.setVisibility(View.VISIBLE);
+                        mUpload.setText(getString(R.string.upload_ing, "0%"));
+                    });
 
                     if (!mConvertFailed) {
                         String videoFilePath = mVideoInfo.data;
@@ -282,7 +285,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                             }
                         });
                     } else {
-                        failure("convert failed");
+                        Threads.postOnMainThread(() -> failure("convert failed"));
                     }
 
                 } catch (InterruptedException e) {

@@ -100,7 +100,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         itemUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo upload color phone
+                VideoListActivity.start(SettingsActivity.this);
             }
         });
 
