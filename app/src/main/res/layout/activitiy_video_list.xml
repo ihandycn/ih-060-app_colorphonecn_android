@@ -21,6 +21,6 @@
     <include
         android:id="@+id/upload_rule_dialog"
         layout="@layout/video_upload_rule_dialog"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
 </RelativeLayout>

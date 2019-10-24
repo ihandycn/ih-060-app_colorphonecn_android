@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,13 +79,6 @@ public class VideoListActivity extends HSAppCompatActivity {
         }.start();
 
         mRuleDialog = findViewById(R.id.upload_rule_dialog);
-        int phoneHeight = Dimensions.getPhoneHeight(this);
-        int statusBarHeight = Dimensions.getStatusBarHeight(this);
-        int top = (phoneHeight - statusBarHeight - Dimensions.pxFromDp(271f)) / 2;
-        View upload_rule_image_popup = mRuleDialog.findViewById(R.id.upload_rule_image_popup);
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) upload_rule_image_popup.getLayoutParams();
-        layoutParams.topMargin = (int) (top - layoutParams.height / 553f * 240);
-        upload_rule_image_popup.requestLayout();
 
         Preferences.getDefault().doOnce(() -> Threads.postOnMainThread(VideoListActivity.this::showConfirmDialog),"VideoListActivity showConfirmDialog");
 
@@ -126,8 +120,28 @@ public class VideoListActivity extends HSAppCompatActivity {
             mRuleDialog.setVisibility(View.GONE);
         });
 
-        mRuleDialog.setVisibility(View.VISIBLE);
+        content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (content.getTop() > 0) {
+                    content.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
+                    View upload_rule_image_popup = mRuleDialog.findViewById(R.id.upload_rule_image_popup);
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) upload_rule_image_popup.getLayoutParams();
+                    layoutParams.topMargin = (int) (content.getTop() - layoutParams.height / 553f * 198);
+                    upload_rule_image_popup.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            if (upload_rule_image_popup.getTop() > 100) {
+                                upload_rule_image_popup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                mRuleDialog.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    upload_rule_image_popup.requestLayout();
+                }
+            }
+        });
     }
 
     private class VideoPreviewAdapter extends RecyclerView.Adapter<VideoPreviewHolder> implements View.OnClickListener {
