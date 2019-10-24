@@ -323,12 +323,14 @@
     <string name="not_login">登录后才能查看作品</string>
 
     <string name="login_title">登录</string>
+    <string name="logout_title">退出登录</string>
     <string name="weixin_login_button_text">微信一键登录</string>
     <string name="settings_login">点击登录</string>
     <string name="settings_sign">你还没有个性签名~</string>
     <string name="settings_upload">我的上传</string>
     <string name="declare_rights">权利声明和投诉指引</string>
     <string name="upload_color_phone">上传来电秀</string>
+    <string name="edit_user_info">编辑资料</string>
 
 
     <string name="upload_video">上传视频</string>

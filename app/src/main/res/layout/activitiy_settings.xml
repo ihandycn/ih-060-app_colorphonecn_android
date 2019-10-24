@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -440,6 +441,18 @@
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
+            
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/settings_logout_button"
+                android:layout_width="177dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="140dp"
+                android:gravity="center"
+                android:textSize="15.3sp"
+                android:textColor="#ffffff"
+                app:typeface="@string/custom_font_regular"
+                android:text="@string/logout_title"/>
 
             <TextView
                 android:id="@+id/test_entrance"
