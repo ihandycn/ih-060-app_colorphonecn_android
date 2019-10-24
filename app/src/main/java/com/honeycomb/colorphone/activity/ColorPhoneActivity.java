@@ -74,6 +74,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.uploadview.ClassicHeader;
+import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -1035,7 +1036,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout = smartRefreshLayout;
         mSmartRefreshLayout.setEnableAutoLoadMore(true);
         mSmartRefreshLayout.setRefreshHeader(new ClassicHeader(this));
-        mSmartRefreshLayout.setRefreshFooter(new ClassicFooter(this));
+        mSmartRefreshLayout.setRefreshFooter(new HomePageRefreshFooter(this));
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {

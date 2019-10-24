@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.uploadview;
+package com.honeycomb.colorphone.view;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 
-public class ClassicFooter extends FrameLayout implements RefreshFooter {
+public class HomePageRefreshFooter extends FrameLayout implements RefreshFooter {
 
     private TextView refreshTextView;
     private ImageView refreshIcon;
@@ -29,17 +29,17 @@ public class ClassicFooter extends FrameLayout implements RefreshFooter {
     private String refreshingText;
     final CircularProgressDrawable drawable = new CircularProgressDrawable(getContext());
 
-    public ClassicFooter(Context context) {
+    public HomePageRefreshFooter(Context context) {
         super(context);
         init();
     }
 
-    public ClassicFooter(Context context, AttributeSet attrs) {
+    public HomePageRefreshFooter(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ClassicFooter(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HomePageRefreshFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -50,7 +50,7 @@ public class ClassicFooter extends FrameLayout implements RefreshFooter {
      * @param successText 文字
      * @return
      */
-    public ClassicFooter setSuccessText(String successText) {
+    public HomePageRefreshFooter setSuccessText(String successText) {
         this.successText = successText;
         return this;
     }
@@ -61,7 +61,7 @@ public class ClassicFooter extends FrameLayout implements RefreshFooter {
      * @param failedText
      * @return
      */
-    public ClassicFooter setFailedText(String failedText) {
+    public HomePageRefreshFooter setFailedText(String failedText) {
         this.failedText = failedText;
         return this;
     }
@@ -72,34 +72,34 @@ public class ClassicFooter extends FrameLayout implements RefreshFooter {
      * @param refreshingText
      * @return
      */
-    public ClassicFooter setRefreshingText(String refreshingText) {
+    public HomePageRefreshFooter setRefreshingText(String refreshingText) {
         this.refreshingText = refreshingText;
         return this;
     }
 
-    public ClassicFooter setSuccessText(@StringRes int successTextId) {
+    public HomePageRefreshFooter setSuccessText(@StringRes int successTextId) {
         return setSuccessText(getContext().getString(successTextId));
     }
 
-    public ClassicFooter setFailedText(@StringRes int failedTextId) {
+    public HomePageRefreshFooter setFailedText(@StringRes int failedTextId) {
         return setFailedText(getContext().getString(failedTextId));
     }
 
-    public ClassicFooter setRefreshingText(@StringRes int refreshingTextId) {
+    public HomePageRefreshFooter setRefreshingText(@StringRes int refreshingTextId) {
         return setRefreshingText(getContext().getString(refreshingTextId));
     }
 
     /**
      * 设置文字颜色
      */
-    public ClassicFooter setRefreshTextColor(@ColorRes int color) {
+    public HomePageRefreshFooter setRefreshTextColor(@ColorRes int color) {
 
         refreshTextView.setTextColor(getContext().getResources().getColor(color));
         return this;
     }
 
     private void init() {
-        View.inflate(getContext(), R.layout.refresh_classic_footer, this);
+        View.inflate(getContext(), R.layout.refresh_main_page_footer, this);
         refreshTextView = findViewById(R.id.tv_text);
         refreshIcon = findViewById(R.id.iv_icon);
         refreshTextView.setTextColor(getContext().getResources().getColor(R.color.refresh_text_view));
