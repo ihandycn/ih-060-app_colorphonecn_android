@@ -202,9 +202,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
 
     }
 
-    private boolean mConvertFailed;
-    private String jpegName;
-    private String mp3;
+    private volatile boolean mConvertFailed;
+    private volatile String jpegName;
+    private volatile String mp3;
 
     private void upload(String name) {
         mConvertFailed = false;
