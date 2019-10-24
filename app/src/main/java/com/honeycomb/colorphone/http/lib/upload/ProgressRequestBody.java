@@ -33,11 +33,16 @@ public abstract class ProgressRequestBody extends RequestBody {
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
 
+        boolean isPercent = sink instanceof Buffer;
+
         Sink forwardingSink = new ForwardingSink(sink) {
             @Override
             public void write(Buffer source, long byteCount) throws IOException {
                 super.write(source, byteCount);
-                onUpload(byteCount);
+
+                if (!isPercent) {
+                    onUpload(byteCount);
+                }
             }
         };
 
