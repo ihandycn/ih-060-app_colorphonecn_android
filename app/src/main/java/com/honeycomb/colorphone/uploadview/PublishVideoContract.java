@@ -37,7 +37,7 @@ public class PublishVideoContract {
         /**
          * 请求接口获取发布数据
          */
-        void requestPublishVideoData();
+        void requestPublishVideoData(int index);
 
         /**
          * 请求接口删除发布数据

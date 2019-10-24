@@ -37,7 +37,7 @@ public class UploadVideoContract {
         /**
          * 请求接口获取上传数据
          */
-        void requestUploadVideoData();
+        void requestUploadVideoData(int index);
 
         /**
          * 请求接口删除上传数据

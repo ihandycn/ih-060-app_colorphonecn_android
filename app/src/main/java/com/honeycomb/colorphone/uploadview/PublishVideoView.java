@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.uploadview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -13,6 +14,10 @@ import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +25,16 @@ import java.util.List;
 public class PublishVideoView extends RelativeLayout implements PublishVideoContract.View, INotificationObserver, View.OnClickListener {
 
     private RecyclerView recyclerView;
+    private SmartRefreshLayout publishRefreshLayout;
     private RelativeLayout emptyLayout;
     private TextView emptyText;
     private TextView deleteButton;
     private PublishVideoContract.Presenter presenter;
-
     private UploadViewAdapter adapter;
+
+    private int mCurrentRequestPageIndex = 1;
+    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
+    private int mLastCurrentPage = 1;
 
     public PublishVideoView(Context context) {
         super(context);
@@ -47,13 +56,40 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
     private void init() {
         recyclerView = findViewById(R.id.publish_recycle);
+        publishRefreshLayout = findViewById(R.id.publish_refresh_layout);
         deleteButton = findViewById(R.id.publish_delete_button);
         emptyLayout = findViewById(R.id.empty_layout);
         emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
 
         presenter = new PublishVideoPresenter(getContext(), new PublishVideoModel(), this);
-        presenter.requestPublishVideoData();
+        adapter = new UploadViewAdapter(getContext(), "publish");
+        recyclerView.setLayoutManager(adapter.getLayoutManager());
+        recyclerView.setAdapter(adapter);
+
+        publishRefreshLayout.setEnableAutoLoadMore(true);
+        publishRefreshLayout.setRefreshHeader(new ClassicHeader(getContext()));
+        publishRefreshLayout.setRefreshFooter(new ClassicFooter(getContext()));
+        publishRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex = 1;
+                publishRefreshLayout.resetNoMoreData();
+                presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+            }
+        });
+        publishRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex++;
+                presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+            }
+        });
+
+        //触发自动刷新
+        publishRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -104,6 +140,13 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
     @Override
     public void showNoNetView() {
+        if (mCurrentRequestPageIndex == 1) {
+            publishRefreshLayout.finishRefresh();
+        } else {
+            publishRefreshLayout.finishLoadMore(true);
+        }
+        mCurrentRequestPageIndex = mLastCurrentPage;
+
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.not_network_text));
@@ -112,20 +155,33 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
     @Override
     public void showNoContentView() {
-        recyclerView.setVisibility(GONE);
-        emptyLayout.setVisibility(VISIBLE);
-        emptyText.setText(getResources().getString(R.string.publish_page_empty_text));
-        HSGlobalNotificationCenter.sendNotification("no_publish_data");
+        if (mCurrentRequestPageIndex == 1) {
+            publishRefreshLayout.finishRefresh();
+            recyclerView.setVisibility(GONE);
+            emptyLayout.setVisibility(VISIBLE);
+            emptyText.setText(getResources().getString(R.string.publish_page_empty_text));
+            HSGlobalNotificationCenter.sendNotification("no_publish_data");
+        } else {
+            publishRefreshLayout.finishLoadMore(true);
+            publishRefreshLayout.finishLoadMoreWithNoMoreData();
+        }
     }
 
     @Override
     public void showContentView(ArrayList<Theme> data) {
-        recyclerView.setVisibility(VISIBLE);
-        emptyLayout.setVisibility(GONE);
-        adapter = new UploadViewAdapter(getContext(), "publish", data);
-        ThemeList.setPublishTheme(data);
-        recyclerView.setLayoutManager(adapter.getLayoutManager());
-        recyclerView.setAdapter(adapter);
+        if (mCurrentRequestPageIndex == 1) {
+            publishRefreshLayout.finishRefresh();
+            recyclerView.setVisibility(VISIBLE);
+            emptyLayout.setVisibility(GONE);
+            adapter.data.clear();
+            adapter.setData(data);
+        } else {
+            publishRefreshLayout.finishLoadMore(true);
+            adapter.data.addAll(data);
+        }
+        ThemeList.clearUploadTheme();
+        ThemeList.setUploadTheme(adapter.data);
+        adapter.notifyDataSetChanged();
         HSGlobalNotificationCenter.sendNotification("have_publish_data");
     }
 
@@ -135,6 +191,10 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         ThemeList.getPublishTheme().removeAll(adapter.mDeleteDataList);
         adapter.mDeleteDataList.clear();
         quitEditMode();
+        if (adapter.data.size() == 0) {
+            mCurrentRequestPageIndex = 1;
+            presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+        }
     }
 
     @Override

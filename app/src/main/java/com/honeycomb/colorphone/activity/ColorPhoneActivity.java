@@ -68,11 +68,12 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.uploadview.ClassicFooter;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.view.ClassicHeader;
+import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -95,7 +96,6 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
-import com.superapps.util.Toasts;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -1035,6 +1035,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout = smartRefreshLayout;
         mSmartRefreshLayout.setEnableAutoLoadMore(true);
         mSmartRefreshLayout.setRefreshHeader(new ClassicHeader(this));
+        mSmartRefreshLayout.setRefreshFooter(new ClassicFooter(this));
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {

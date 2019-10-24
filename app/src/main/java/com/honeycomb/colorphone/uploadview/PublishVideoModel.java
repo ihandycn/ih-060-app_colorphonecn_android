@@ -25,8 +25,8 @@ public class PublishVideoModel {
     }
 
 
-    void requestPublishVideoData(final LoadDataCallBack listener) {
-        HttpManager.getInstance().getUserPublishedVideos(1, new Callback<AllUserThemeBean>() {
+    void requestPublishVideoData(int index, final LoadDataCallBack listener) {
+        HttpManager.getInstance().getUserPublishedVideos(index, new Callback<AllUserThemeBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 listener.showFail();

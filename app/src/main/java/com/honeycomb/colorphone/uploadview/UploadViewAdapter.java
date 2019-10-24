@@ -49,7 +49,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context context;
     private String from = "";
-    public ArrayList<Theme> data;
+    public ArrayList<Theme> data = new ArrayList<>();
     private GridLayoutManager layoutManager;
     public List<Theme> mDeleteDataList = new ArrayList<>();
     private boolean mIsEdit = false;
@@ -58,11 +58,14 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mIsEdit = isEdit;
     }
 
-    UploadViewAdapter(Context context, String from, final ArrayList<Theme> data) {
+    UploadViewAdapter(Context context, String from) {
         this.context = context;
-        this.data = data;
         this.from = from;
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
+    }
+
+    public void setData(ArrayList<Theme> data) {
+        this.data = data;
     }
 
     public GridLayoutManager getLayoutManager() {

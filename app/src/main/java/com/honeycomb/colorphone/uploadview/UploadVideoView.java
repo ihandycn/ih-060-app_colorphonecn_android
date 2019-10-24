@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.uploadview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -13,6 +14,10 @@ import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +26,15 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     private UploadVideoContract.Presenter presenter;
     private RecyclerView recyclerView;
+    private SmartRefreshLayout uploadRefreshLayout;
     private RelativeLayout emptyLayout;
     private TextView emptyText;
     private TextView deleteButton;
     private UploadViewAdapter adapter;
+
+    private int mCurrentRequestPageIndex = 1;
+    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
+    private int mLastCurrentPage = 1;
 
     public UploadVideoView(Context context) {
         super(context);
@@ -46,13 +56,41 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     private void init() {
         recyclerView = findViewById(R.id.upload_recycle);
+        uploadRefreshLayout = findViewById(R.id.upload_refresh_layout);
         deleteButton = findViewById(R.id.upload_delete_button);
         emptyLayout = findViewById(R.id.empty_layout);
         emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
+        adapter = new UploadViewAdapter(getContext(), "upload");
+        recyclerView.setLayoutManager(adapter.getLayoutManager());
+        recyclerView.setAdapter(adapter);
 
         presenter = new UploadVideoPresenter(getContext(), new UploadVideoModel(), this);
-        presenter.requestUploadVideoData();
+
+        uploadRefreshLayout.setEnableAutoLoadMore(true);
+        uploadRefreshLayout.setRefreshHeader(new ClassicHeader(getContext()));
+        uploadRefreshLayout.setRefreshFooter(new ClassicFooter(getContext()));
+        uploadRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex = 1;
+                uploadRefreshLayout.resetNoMoreData();
+                presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+            }
+        });
+        uploadRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                mLastCurrentPage = mCurrentRequestPageIndex;
+                mCurrentRequestPageIndex++;
+                presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+            }
+        });
+
+        //触发自动刷新
+        uploadRefreshLayout.autoRefresh();
+
     }
 
     @Override
@@ -103,6 +141,13 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     @Override
     public void showNoNetView() {
+        if (mCurrentRequestPageIndex == 1) {
+            uploadRefreshLayout.finishRefresh();
+        } else {
+            uploadRefreshLayout.finishLoadMore(true);
+        }
+        mCurrentRequestPageIndex = mLastCurrentPage;
+
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.not_network_text));
@@ -111,20 +156,33 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     @Override
     public void showNoContentView() {
-        recyclerView.setVisibility(GONE);
-        emptyLayout.setVisibility(VISIBLE);
-        emptyText.setText(getResources().getString(R.string.upload_page_empty_text));
-        HSGlobalNotificationCenter.sendNotification("no_upload_data");
+        if (mCurrentRequestPageIndex == 1) {
+            uploadRefreshLayout.finishRefresh();
+            recyclerView.setVisibility(GONE);
+            emptyLayout.setVisibility(VISIBLE);
+            emptyText.setText(getResources().getString(R.string.upload_page_empty_text));
+            HSGlobalNotificationCenter.sendNotification("no_upload_data");
+        } else {
+            uploadRefreshLayout.finishLoadMore(true);
+            uploadRefreshLayout.finishLoadMoreWithNoMoreData();
+        }
     }
 
     @Override
     public void showContentView(ArrayList<Theme> data) {
-        recyclerView.setVisibility(VISIBLE);
-        emptyLayout.setVisibility(GONE);
-        adapter = new UploadViewAdapter(getContext(), "upload", data);
-        ThemeList.setUploadTheme(data);
-        recyclerView.setLayoutManager(adapter.getLayoutManager());
-        recyclerView.setAdapter(adapter);
+        if (mCurrentRequestPageIndex == 1) {
+            uploadRefreshLayout.finishRefresh();
+            recyclerView.setVisibility(VISIBLE);
+            emptyLayout.setVisibility(GONE);
+            adapter.data.clear();
+            adapter.setData(data);
+        } else {
+            uploadRefreshLayout.finishLoadMore(true);
+            adapter.data.addAll(data);
+        }
+        ThemeList.clearUploadTheme();
+        ThemeList.setUploadTheme(adapter.data);
+        adapter.notifyDataSetChanged();
         HSGlobalNotificationCenter.sendNotification("have_upload_data");
     }
 
@@ -134,6 +192,10 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         ThemeList.getUploadTheme().removeAll(adapter.mDeleteDataList);
         adapter.mDeleteDataList.clear();
         quitEditMode();
+        if (adapter.data.size() == 0) {
+            mCurrentRequestPageIndex = 1;
+            presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+        }
     }
 
     @Override

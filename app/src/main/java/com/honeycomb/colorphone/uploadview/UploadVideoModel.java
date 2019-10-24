@@ -12,8 +12,8 @@ import okhttp3.ResponseBody;
 
 public class UploadVideoModel {
 
-    void requestUploadVideoData(final LoadDataCallBack listener) {
-        HttpManager.getInstance().getUserUploadedVideos(1, new Callback<AllUserThemeBean>() {
+    void requestUploadVideoData(int index, final LoadDataCallBack listener) {
+        HttpManager.getInstance().getUserUploadedVideos(index, new Callback<AllUserThemeBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 listener.showFail();

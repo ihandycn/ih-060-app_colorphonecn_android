@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.view;
+package com.honeycomb.colorphone.uploadview;
 
 import android.content.Context;
 import android.graphics.Paint;
