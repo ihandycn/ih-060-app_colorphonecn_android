@@ -29,6 +29,7 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.ugc.VideoUtils;
+import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.UploadProcessView;
@@ -140,12 +141,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                 finish();
             }
         });
-        mViewDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        mViewDetail.setOnClickListener(view -> UploadAndPublishActivity.start(VideoUploadActivity.this));
     }
 
     @Override
