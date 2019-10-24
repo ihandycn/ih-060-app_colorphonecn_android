@@ -97,6 +97,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.tencent.bugly.beta.download.DownloadTask;
 
 import java.util.ArrayList;
 
@@ -370,18 +371,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(ThemePreviewActivity activity, Theme theme, int position) {
+    public void init(ThemePreviewActivity activity, String from, Theme theme, int position) {
         mActivity = activity;
         mTheme = theme;
         mPosition = position;
-        ArrayList<Type> types = Type.values();
-        for (Type t : types) {
-            if (t.getValue() == mTheme.getId()) {
-                mThemeType = t;
-                break;
+        if ("upload".equals(from) || "publish".equals(from)) {
+            mThemeType = mTheme;
+        } else {
+            ArrayList<Type> types = Type.values();
+            for (Type t : types) {
+                if (t.getValue() == mTheme.getId()) {
+                    mThemeType = t;
+                    break;
+                }
             }
         }
-
         activity.getLayoutInflater().inflate(R.layout.page_theme_preview, this, true);
 
         onCreate();
@@ -478,8 +482,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         mThemeLikeCount = findViewById(R.id.card_like_count_txt);
-        mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
+        if (mTheme.getDownload() > 0) {
+            mThemeLikeCount.setVisibility(VISIBLE);
+            mThemeLikeAnim.setVisibility(VISIBLE);
+        } else {
+            mThemeLikeCount.setVisibility(GONE);
+            mThemeLikeAnim.setVisibility(GONE);
+        }
+        mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         if (mTheme.isLike()) {
             mThemeLikeAnim.setProgress(1f);
         } else {
@@ -731,7 +742,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
         GuideSetDefaultActivity.start(mActivity, false);
-        
+
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
         if (ConfigSettings.showAdOnApplyTheme()) {
@@ -969,6 +980,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     /**
      * Navation back view & rigtone view
+     *
      * @param anim
      */
     private void fadeInActionView(boolean anim) {
@@ -978,6 +990,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     /**
      * Navation back view & rigtone view
+     *
      * @param anim
      */
     private void fadeOutActionView(boolean anim) {
@@ -1535,7 +1548,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         /**
-         *  Hide
+         * Hide
+         *
          * @param clean release resource if need
          */
         public void hide(boolean clean) {
@@ -1896,6 +1910,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setVisibility(VISIBLE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
         }
+
         private void unFoldView() {
 
             int startCoordinateDefault = Dimensions.pxFromDp(110);

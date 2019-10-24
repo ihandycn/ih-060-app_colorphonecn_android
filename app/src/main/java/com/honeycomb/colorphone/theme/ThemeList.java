@@ -44,6 +44,8 @@ public class ThemeList {
 
     private Theme mThemeNone;
     private final ArrayList<Theme> themes = new ArrayList<>(30);
+    private static ArrayList<Theme> uploadThemes = new ArrayList<>(30);
+    private static ArrayList<Theme> publishThemes = new ArrayList<>(30);
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
         @Override
@@ -128,6 +130,30 @@ public class ThemeList {
 
     public static ArrayList<Theme> themes() {
         return getInstance().getThemesInner();
+    }
+
+    public static ArrayList<Theme> getUploadTheme() {
+        return uploadThemes;
+    }
+
+    public static void setUploadTheme(ArrayList<Theme> theme) {
+        uploadThemes.addAll(theme);
+    }
+
+    public static void clearUploadTheme() {
+        uploadThemes.clear();
+    }
+
+    public static ArrayList<Theme> getPublishTheme() {
+        return publishThemes;
+    }
+
+    public static void setPublishTheme(ArrayList<Theme> theme) {
+        publishThemes.addAll(theme);
+    }
+
+    public static void clearPublishTheme() {
+        publishThemes.clear();
     }
 
     /**

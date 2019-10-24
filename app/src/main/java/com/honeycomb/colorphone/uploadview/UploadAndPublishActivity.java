@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -31,6 +32,9 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     private TextView mVideoEditButton;
 
     public boolean isEditState = false;
+
+    private boolean isShowEditButtonOnUploadPage = false;
+    private boolean isShowEditButtonOnPublishPage = false;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, UploadAndPublishActivity.class);
@@ -53,8 +57,6 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         mAlreadyUploadButton.setOnClickListener(this);
         mAlreadyPublishButton.setOnClickListener(this);
         mVideoEditButton.setOnClickListener(this);
-
-        mVideoEditButton.setVisibility(View.GONE);
 
         mLayoutInflater = LayoutInflater.from(this);
 
@@ -88,13 +90,19 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             }
         });
         mViewPager.addOnPageChangeListener(this);
-        HSGlobalNotificationCenter.addObserver("no_data", this);
+        HSGlobalNotificationCenter.addObserver("no_upload_data", this);
+        HSGlobalNotificationCenter.addObserver("no_publish_data", this);
+        HSGlobalNotificationCenter.addObserver("have_upload_data", this);
+        HSGlobalNotificationCenter.addObserver("have_publish_data", this);
+        HSGlobalNotificationCenter.addObserver("quit_edit_mode", this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
+        ThemeList.clearPublishTheme();
+        ThemeList.clearUploadTheme();
     }
 
     @Override
@@ -140,10 +148,20 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         isEditState = false;
         mVideoEditButton.setText(getBaseContext().getResources().getString(R.string.edit));
         if (position == 0) {
+            if (isShowEditButtonOnUploadPage) {
+                mVideoEditButton.setVisibility(View.VISIBLE);
+            } else {
+                mVideoEditButton.setVisibility(View.GONE);
+            }
             mAlreadyUploadButton.setTextColor(0xffffffff);
             mAlreadyPublishButton.setTextColor(0xff615d8e);
             HSGlobalNotificationCenter.sendNotification("publish_cancel");
         } else if (position == 1) {
+            if (isShowEditButtonOnPublishPage) {
+                mVideoEditButton.setVisibility(View.VISIBLE);
+            } else {
+                mVideoEditButton.setVisibility(View.GONE);
+            }
             mAlreadyUploadButton.setTextColor(0xff615d8e);
             mAlreadyPublishButton.setTextColor(0xffffffff);
             HSGlobalNotificationCenter.sendNotification("upload_cancel");
@@ -157,8 +175,17 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
-        if ("no_data".equals(s)) {
-            mVideoEditButton.setVisibility(View.GONE);
+        if ("no_upload_data".equals(s)) {
+            isShowEditButtonOnUploadPage = false;
+        } else if ("no_publish_data".equals(s)) {
+            isShowEditButtonOnPublishPage = false;
+        } else if ("have_upload_data".equals(s)) {
+            isShowEditButtonOnUploadPage = true;
+        } else if ("have_publish_data".equals(s)) {
+            isShowEditButtonOnPublishPage = true;
+        } else if ("quit_edit_mode".equals(s)) {
+            isEditState = false;
+            mVideoEditButton.setText(getBaseContext().getResources().getString(R.string.edit));
         }
     }
 }

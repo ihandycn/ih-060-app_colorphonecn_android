@@ -2,9 +2,12 @@ package com.honeycomb.colorphone.uploadview;
 
 import android.content.Context;
 
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +49,12 @@ public class UploadVideoPresenter implements UploadVideoContract.Presenter {
         model.requestDeleteUploadData(themeIdList, new UploadVideoModel.DeleteDataCallBack() {
             @Override
             public void success() {
-                //todo update view after delete item
-
+                view.updateEditStatusAfterDelete();
             }
 
             @Override
             public void fail() {
-
+                view.deleteFail();
             }
         });
     }
@@ -85,6 +87,8 @@ public class UploadVideoPresenter implements UploadVideoContract.Presenter {
                 theme.setLocked(false);
                 theme.setCanDownload(true);
                 theme.setSpecialTopic(false);
+                theme.setAvatar(R.drawable.theme_preview_avatar_default);
+                theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
                 dataList.add(theme);
             }

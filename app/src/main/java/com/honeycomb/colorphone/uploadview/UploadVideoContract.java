@@ -21,6 +21,16 @@ public class UploadVideoContract {
          * 展示正常内容
          */
         void showContentView(ArrayList<Theme> data);
+
+        /**
+         * 删除item后进行ui更新
+         */
+        void updateEditStatusAfterDelete();
+
+        /**
+         * 删除item后进行ui更新
+         */
+        void deleteFail();
     }
 
     interface Presenter {

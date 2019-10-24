@@ -76,6 +76,7 @@ import com.honeycomb.colorphone.view.ClassicHeader;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -783,7 +784,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
-                mSmartRefreshLayout.finishRefresh();
+                if (mCurrentRequestPageIndex == 1) {
+                    mSmartRefreshLayout.finishRefresh();
+                } else {
+                    mSmartRefreshLayout.finishLoadMore(true);
+                }
                 mCurrentRequestPageIndex = mLastCurrentPage;
             }
 
@@ -849,6 +854,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
             theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
             theme.setSpecialTopic(false);
+            theme.setAvatar(R.drawable.theme_preview_avatar_default);
+            theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
             dataList.add(theme);
         }

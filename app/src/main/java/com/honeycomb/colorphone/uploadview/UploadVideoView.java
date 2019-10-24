@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -73,6 +74,10 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
      */
     private void setEditMode() {
         deleteButton.setVisibility(VISIBLE);
+        if (adapter != null) {
+            adapter.setIsEdit(true);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -80,6 +85,11 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
      */
     private void quitEditMode() {
         deleteButton.setVisibility(GONE);
+        if (adapter != null) {
+            adapter.setIsEdit(false);
+            adapter.notifyDataSetChanged();
+        }
+        HSGlobalNotificationCenter.sendNotification("quit_edit_mode");
     }
 
     @Override
@@ -96,7 +106,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.not_network_text));
-        HSGlobalNotificationCenter.sendNotification("no_data");
+        HSGlobalNotificationCenter.sendNotification("no_upload_data");
     }
 
     @Override
@@ -104,16 +114,32 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
         emptyText.setText(getResources().getString(R.string.upload_page_empty_text));
-        HSGlobalNotificationCenter.sendNotification("no_data");
+        HSGlobalNotificationCenter.sendNotification("no_upload_data");
     }
 
     @Override
     public void showContentView(ArrayList<Theme> data) {
         recyclerView.setVisibility(VISIBLE);
         emptyLayout.setVisibility(GONE);
-        adapter = new UploadViewAdapter(getContext(), data);
+        adapter = new UploadViewAdapter(getContext(), "upload", data);
+        ThemeList.setUploadTheme(data);
         recyclerView.setLayoutManager(adapter.getLayoutManager());
         recyclerView.setAdapter(adapter);
+        HSGlobalNotificationCenter.sendNotification("have_upload_data");
+    }
+
+    @Override
+    public void updateEditStatusAfterDelete() {
+        adapter.data.removeAll(adapter.mDeleteDataList);
+        ThemeList.getUploadTheme().removeAll(adapter.mDeleteDataList);
+        adapter.mDeleteDataList.clear();
+        quitEditMode();
+    }
+
+    @Override
+    public void deleteFail() {
+        adapter.mDeleteDataList.clear();
+        quitEditMode();
     }
 
     @Override
@@ -122,12 +148,9 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
             if (adapter.mDeleteDataList != null && adapter.mDeleteDataList.size() > 0) {
                 List<Long> deleteId = new ArrayList<>();
                 for (Theme item : adapter.mDeleteDataList) {
-                    adapter.data.remove(item);
                     deleteId.add((long) item.getId());
                 }
                 presenter.requestDeleteUploadData(deleteId);
-                quitEditMode();
-                adapter.notifyDataSetChanged();
             }
         }
     }

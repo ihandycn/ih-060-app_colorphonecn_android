@@ -48,13 +48,20 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
 
     private Context context;
+    private String from = "";
     public ArrayList<Theme> data;
     private GridLayoutManager layoutManager;
     public List<Theme> mDeleteDataList = new ArrayList<>();
+    private boolean mIsEdit = false;
 
-    UploadViewAdapter(Context context, final ArrayList<Theme> data) {
+    public void setIsEdit(boolean isEdit) {
+        mIsEdit = isEdit;
+    }
+
+    UploadViewAdapter(Context context, String from, final ArrayList<Theme> data) {
         this.context = context;
         this.data = data;
+        this.from = from;
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
     }
 
@@ -82,17 +89,6 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         View cardViewContent = LayoutInflater.from(context).inflate(R.layout.upload_list_item, parent, false);
         final ItemCardViewHolder holder = new ItemCardViewHolder(cardViewContent);
 
-        HSGlobalNotificationCenter.addObserver("", new INotificationObserver() {
-            @Override
-            public void onReceive(String s, HSBundle hsBundle) {
-                if ("upload_edit".equals(s) || "publish_edit".equals(s)) {
-                    holder.mSelectStatus.setVisibility(View.VISIBLE);
-                } else if ("upload_cancel".equals(s) || "publish_cancel".equals(s)) {
-                    holder.mSelectStatus.setVisibility(View.GONE);
-                }
-            }
-        });
-
         View cardView = cardViewContent.findViewById(R.id.item_layout);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,14 +102,17 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void onCardClick(ItemCardViewHolder holder) {
-        final int pos = holder.getPositionTag();
-        Theme theme = data.get(pos);
+        if (mIsEdit) {
+            holder.mSelectStatus.performClick();
+        } else {
+            final int pos = holder.getPositionTag();
+            Theme theme = data.get(pos);
 
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
-                makeSceneTransitionAnimation((Activity) context,
-                        Pair.create(holder.mPreviewImage, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
-                );
-        ThemePreviewActivity.start(context, pos, activityOptionsCompat.toBundle());
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,
+                    Pair.create(holder.mPreviewImage, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
+            );
+            ThemePreviewActivity.start(context, pos, from, activityOptionsCompat.toBundle());
+        }
     }
 
     @DebugLog
@@ -141,6 +140,13 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 curTheme.setPendingSelected(false);
             }
 
+            if (mIsEdit) {
+                ((ItemCardViewHolder) holder).mSelectStatus.setVisibility(View.VISIBLE);
+            } else {
+                ((ItemCardViewHolder) holder).mSelectStatus.setVisibility(View.GONE);
+                ((ItemCardViewHolder) holder).setSelectStatus(false);
+            }
+
             cardViewHolder.updateTheme(curTheme);
 
             ((ItemCardViewHolder) holder).mSelectStatus.setOnClickListener(new View.OnClickListener() {
@@ -149,9 +155,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (((ItemCardViewHolder) holder).getSelectStatus()) {
                         mDeleteDataList.remove(data.get(position));
                         ((ItemCardViewHolder) holder).setSelectStatus(false);
+                        ((ItemCardViewHolder) holder).mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_unselected));
                     } else {
                         mDeleteDataList.add(data.get(position));
                         ((ItemCardViewHolder) holder).setSelectStatus(true);
+                        ((ItemCardViewHolder) holder).mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_selected));
+
                     }
                 }
             });
@@ -178,6 +187,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private ImageView mSelectStatus;
 
         private int mPositionTag;
+
         private boolean mIsSelect = false;
 
         void setPositionTag(int position) {
@@ -227,6 +237,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         }
                     })
                     .into(mPreviewImage);
+
             if (mIsSelect) {
                 mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_selected));
             } else {

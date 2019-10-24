@@ -60,6 +60,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
 
     private Theme mTheme;
+    private String from;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
     private ThemePagerAdapter mAdapter;
@@ -79,12 +80,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         start(context, position, from, null);
     }
 
-    private static void start(Context context, int position, String from, Bundle options) {
+    public static void start(Context context, int position, String from, Bundle options) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
         starter.putExtra("from", from);
         if (context instanceof Activity) {
-            ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+            ((Activity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
 
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -105,10 +106,16 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemes.addAll(getThemes());
-        mSavedState = savedInstanceState;
         int pos = getIntent().getIntExtra("position", 0);
-        String from = getIntent().getStringExtra("from");
+        from = getIntent().getStringExtra("from");
+        if ("upload".equals(from)) {
+            mThemes.addAll(getUploadTheme());
+        } else if ("publish".equals(from)) {
+            mThemes.addAll(getPublishTheme());
+        } else {
+            mThemes.addAll(getThemes());
+        }
+        mSavedState = savedInstanceState;
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
@@ -183,6 +190,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
 
             List<Integer> shouldShowAdIndex = new ArrayList<>();
+
             @Override
             public void onPageSelected(int position) {
                 if (lastPos != -1 && isShowThemeFullAd(position + position - lastPos) && mAdapter != null) {
@@ -253,7 +261,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
-                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
+                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(), false);
             }
         });
 
@@ -263,6 +271,14 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     protected List<Theme> getThemes() {
         return ThemeList.themes();
+    }
+
+    protected List<Theme> getUploadTheme() {
+        return ThemeList.getUploadTheme();
+    }
+
+    protected List<Theme> getPublishTheme() {
+        return ThemeList.getPublishTheme();
     }
 
     @Override
@@ -327,7 +343,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 previewView.dismissRingtoneSettingPage();
                 intercept = true;
             }
-            if (previewView.isThemeSettingShow()){
+            if (previewView.isThemeSettingShow()) {
                 previewView.returnThemeSettingPage();
                 intercept = true;
             }
@@ -387,6 +403,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private class ThemePagerAdapter extends PagerAdapter {
         private int adCount = 0;
+
         public void addAdView() {
             adCount++;
         }
@@ -415,7 +432,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
                 ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-                controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position);
+                controller.init(ThemePreviewActivity.this, from, mThemes.get(themeIndex), position);
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
                     if (mSavedState != null) {
