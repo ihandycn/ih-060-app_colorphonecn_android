@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.ugc.VideoUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
@@ -86,6 +87,8 @@ public class VideoListActivity extends HSAppCompatActivity {
         upload_rule_image_popup.requestLayout();
 
         Preferences.getDefault().doOnce(() -> Threads.postOnMainThread(VideoListActivity.this::showConfirmDialog),"VideoListActivity showConfirmDialog");
+
+        Analytics.logEvent("Upload_VideoList_Show");
     }
 
     @Override
@@ -198,6 +201,7 @@ public class VideoListActivity extends HSAppCompatActivity {
                 Toasts.showToast("视频文件过大，请重新选择");
                 return;
             }
+            Analytics.logEvent("Upload_VideoList_Click");
             VideoUploadActivity.start(VideoListActivity.this, videoInfo);
         }
 

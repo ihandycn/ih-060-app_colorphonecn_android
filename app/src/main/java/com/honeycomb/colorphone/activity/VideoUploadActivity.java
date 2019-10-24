@@ -29,6 +29,7 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.ugc.VideoUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.UploadProcessView;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -113,9 +114,15 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mPause = findViewById(R.id.pause_button);
         mSetNameDialog = findViewById(R.id.set_name);
         mUpload = findViewById(R.id.upload_button);
-        mUpload.setOnClickListener(view -> showSetNameDialog());
+        mUpload.setOnClickListener(view -> {
+            Analytics.logEvent("Upload_VideoPreview_BtnClick");
+            showSetNameDialog();
+        });
         mUpload.getChildAt(0).setOnClickListener(view -> showSetNameDialog());
-        mCancel.setOnClickListener(view -> cancel());
+        mCancel.setOnClickListener(view -> {
+            Analytics.logEvent("Upload_Upload_Cancel");
+            cancel();
+        });
         mCancel.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff5a587a, Dimensions.pxFromDp(100f), true));
 
         mSuccessContainer = findViewById(R.id.success_container);
@@ -175,6 +182,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                 Toasts.showToast(R.string.please_input_name);
                 return;
             }
+            Analytics.logEvent("Upload_RenameAlert_Click");
             mSetNameDialog.setVisibility(View.GONE);
             String name = text.toString();
             upload(name);
@@ -205,6 +213,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private void upload(String name) {
         mConvertFailed = false;
 
+        Analytics.logEvent("Upload_Upload_Start");
         jpegName = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpeg";
         mp3 = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".mp3";
         final CountDownLatch begin = new CountDownLatch(1);
@@ -268,6 +277,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                         mUploadCall = HttpManager.getInstance().uploadVideos(videoFilePath, mp3, jpegName, name, new UploadFileCallback() {
                             @Override
                             public void onSuccess() {
+                                Analytics.logEvent("Upload_Upload_Success");
                                 success();
                             }
 
@@ -281,11 +291,11 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
 
                             @Override
                             public void onFailure(String errorMsg) {
-                                failure(errorMsg);
+                                failure("upload");
                             }
                         });
                     } else {
-                        Threads.postOnMainThread(() -> failure("convert failed"));
+                        Threads.postOnMainThread(() -> failure("convert"));
                     }
 
                 } catch (InterruptedException e) {
@@ -307,7 +317,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             mUploadCall.cancel();
         }
 
-        failure("");
+        failure("cancel");
     }
 
     private void success() {
@@ -328,6 +338,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.setEnabled(true);
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
+        Analytics.logEvent("Upload_Upload_Fail", "type", errorMsg);
     }
 
     @Override
