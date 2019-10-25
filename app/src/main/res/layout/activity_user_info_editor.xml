@@ -1,10 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingRight="16dp"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical" />
+
+    <com.honeycomb.colorphone.view.RoundCornerImageView
+        android:id="@+id/user_info_editor_avatar"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/settings_icon_avatar"
+        app:round_left_bottom_corner_radius="41dp"
+        app:round_left_top_corner_radius="41dp"
+        app:round_right_bottom_corner_radius="41dp"
+        app:round_right_top_corner_radius="41dp" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/user_info_editor_avatar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="点击修改头像"
+        android:textColor="#8380a2"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="昵称"
+            android:textColor="#8380a2"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/nick_name_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:background="@null"
+            android:ellipsize="end"
+            tools:text="隔壁的小娜"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="性别"
+            android:textColor="#8380a2"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/male_ticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:drawableRight="@drawable/icon_information_selected"
+            android:drawablePadding="9dp"
+            android:text="男"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp" />
+
+        <TextView
+            android:id="@+id/female_ticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:drawableRight="@drawable/icon_information_unselected"
+            android:drawablePadding="9dp"
+            android:text="女"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="生日"
+            android:textColor="#8380a2"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/birthday_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:text="请选择你的生日"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="签名"
+            android:textColor="#8380a2"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/sign_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="点击设置签名"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/save_button"
+        android:layout_width="204dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:text="保存"
+        android:textSize="15.3sp" />
+
 </LinearLayout>

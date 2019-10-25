@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.http.bean;
 
+import java.io.Serializable;
+
 public class LoginUserBean {
 
     /**
@@ -26,7 +28,7 @@ public class LoginUserBean {
         this.token = token;
     }
 
-    public static class UserInfoBean {
+    public static class UserInfoBean implements Serializable {
         /**
          * gender : Man
          * signature :

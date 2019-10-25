@@ -202,6 +202,10 @@ public final class HttpManager {
 
     public void logout(){
         saveUserTokenAndUid("","");
+        refreshUserInfo();
+    }
+
+    public void refreshUserInfo(){
         HSGlobalNotificationCenter.sendNotification(WXEntryActivity.NOTIFY_REFRESH_USER_INFO);
     }
 

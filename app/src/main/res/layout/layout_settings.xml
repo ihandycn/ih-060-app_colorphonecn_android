@@ -55,11 +55,11 @@
                     android:id="@+id/settings_avatar_icon"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    app:round_right_top_corner_radius="28dp"
-                    app:round_right_bottom_corner_radius="28dp"
-                    app:round_left_top_corner_radius="28dp"
+                    android:src="@drawable/settings_icon_avatar"
                     app:round_left_bottom_corner_radius="28dp"
-                    android:background="@drawable/settings_icon_avatar" />
+                    app:round_left_top_corner_radius="28dp"
+                    app:round_right_bottom_corner_radius="28dp"
+                    app:round_right_top_corner_radius="28dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -74,13 +74,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
+                        android:layout_marginBottom="5dp"
+                        android:drawableEnd="@drawable/settings_name_edit"
+                        android:drawablePadding="7dp"
                         android:text="@string/settings_login"
                         android:textColor="#ffffff"
                         android:textSize="16.7sp"
-                        android:drawablePadding="7dp"
-                        android:drawableEnd="@drawable/settings_name_edit"
-                        app:typeface="@string/custom_font_regular"
-                        android:layout_marginBottom="5dp"/>
+                        app:typeface="@string/custom_font_regular" />
 
                     <com.superapps.view.TypefacedTextView
                         android:id="@+id/setting_sign"

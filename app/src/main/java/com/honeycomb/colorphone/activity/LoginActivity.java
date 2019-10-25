@@ -20,6 +20,8 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LoginActivity extends HSAppCompatActivity implements View.OnClickListener {
 
     public static final String APP_ID = "wx5b4bb859043c5e3d";
@@ -48,7 +50,7 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;

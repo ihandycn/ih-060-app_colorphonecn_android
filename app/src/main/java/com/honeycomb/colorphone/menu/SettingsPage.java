@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.call.customize.ScreenFlashSettings;
-import com.bumptech.glide.Glide;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
@@ -52,6 +51,7 @@ public class SettingsPage implements View.OnClickListener {
 
     private boolean init = false;
     private View rootView;
+    private LoginUserBean.UserInfoBean userInfo;
 
     public boolean isInit() {
         return init;
@@ -201,8 +201,8 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     private void onClickAccountView(Context context) {
-        if (HttpManager.getInstance().isLogin()) {
-            UserInfoEditorActivity.start(context);
+        if (userInfo !=null) {
+            UserInfoEditorActivity.start(context, userInfo);
         } else {
             LoginActivity.start(context);
         }
@@ -245,19 +245,19 @@ public class SettingsPage implements View.OnClickListener {
 
                 @Override
                 public void onSuccess(LoginUserBean loginUserBean) {
-                    LoginUserBean.UserInfoBean user_info = loginUserBean.getUser_info();
+                    userInfo = loginUserBean.getUser_info();
                     GlideApp.with(context)
                             .asBitmap()
-                            .load(user_info.getHead_image_url())
+                            .load(userInfo.getHead_image_url())
                             .placeholder(R.drawable.settings_icon_avatar)
                             .into(avatarView);
-                    String name = user_info.getName();
+                    String name = userInfo.getName();
                     if (TextUtils.isEmpty(name)){
                         nameView.setText("匿名");
                     } else {
                         nameView.setText(name);
                     }
-                    String sign = user_info.getSignature();
+                    String sign = userInfo.getSignature();
                     if (TextUtils.isEmpty(sign)){
                         signView.setText(R.string.settings_sign);
                     } else {
@@ -269,6 +269,7 @@ public class SettingsPage implements View.OnClickListener {
             });
 
         }else {
+            userInfo = null;
             avatarView.setImageResource(R.drawable.settings_icon_avatar);
             nameView.setText(R.string.settings_login);
             nameView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
