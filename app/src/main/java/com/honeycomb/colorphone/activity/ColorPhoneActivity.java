@@ -284,7 +284,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         int tabPos = -1;
 
@@ -385,7 +386,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabLayout.setTabBackgroundResId(R.drawable.tab_background);
         tabTransController = new TabTransController(mTabLayout);
         for (int i = 0; i < mTabItems.size(); i++) {
-            TabItem tabItem =  mTabItems.get(i);
+            TabItem tabItem = mTabItems.get(i);
             View view = getLayoutInflater().inflate(R.layout.tab_item_layout, mTabLayout, false);
             TextView textView = view.findViewById(R.id.tab_layout_title);
             textView.setText(tabItem.getTabName());
@@ -395,11 +396,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
             }
         });
-        
+
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
             View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
@@ -433,6 +435,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
             TabItem lastItem = null;
+
             @Override
             public void onTabSelected(int pos) {
                 final TabItem tabItem = mTabItems.get(pos);
@@ -539,6 +542,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_CASH:
                         Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
+                        if (lotteryWheelLayout != null) {
+                            lotteryWheelLayout.refreshData();
+                        }
                         break;
                     default:
                         break;
@@ -1082,7 +1088,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
 
                     lotteryWheelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override public void onGlobalLayout() {
+                        @Override
+                        public void onGlobalLayout() {
                             lotteryWheelLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                             if (isWindowFocus) {
@@ -1157,8 +1164,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         TabTransController(View tabView) {
             mTab = tabView;
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED, this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP, this);
         }
 
         public void setInterceptView(View view) {

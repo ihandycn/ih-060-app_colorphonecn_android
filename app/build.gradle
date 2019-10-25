@@ -234,7 +234,7 @@ dependencies {
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
     compile(name: 'libCashCenter/alipaySdk', ext: 'aar')
-    compile(name: 'libCashCenter/cashcenter-release-2019090501-special', ext: 'aar')
+    compile(name: 'libCashCenter/cashcenter-release-2019102501', ext: 'aar')
     compile(name: 'libCashCenter/withdraw-release-2019070401', ext: 'aar')
 
     compile project(':libChargingCommon')
