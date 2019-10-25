@@ -53,7 +53,7 @@ import java.util.concurrent.CountDownLatch;
 
 import okhttp3.ResponseBody;
 
-public class VideoUploadActivity extends HSAppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
+public class VideoUploadActivity extends HSAppCompatActivity implements View.OnClickListener {
 
     public static final String KEY_UPLOAD_COUNT = "key_upload_count_VideoUploadActivity";
     public static final String KEY_UPLOAD_TIME = "key_upload_time_VideoUploadActivity";
@@ -114,7 +114,14 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mVideoView = findViewById(R.id.video_view);
         mVideoView.setVideoPath(mVideoInfo.data);
         mVideoView.setOnClickListener(this);
-        mVideoView.setOnCompletionListener(this);
+        findViewById(R.id.pause).setOnClickListener(this);
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+                mediaPlayer.setLooping(true);
+            }
+        });
 
         mCancel = findViewById(R.id.cancel);
         mPause = findViewById(R.id.pause_button);
@@ -146,7 +153,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                 finish();
             }
         });
-        mViewDetail.setOnClickListener(view -> UploadAndPublishActivity.start(VideoUploadActivity.this));
+        mViewDetail.setOnClickListener(view -> {
+            UploadAndPublishActivity.start(VideoUploadActivity.this);
+            finish();
+        });
     }
 
     @Override
@@ -382,10 +392,5 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             mVideoView.start();
             mPause.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mediaPlayer) {
-        mPause.setVisibility(View.VISIBLE);
     }
 }
