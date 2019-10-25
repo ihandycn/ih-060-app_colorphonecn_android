@@ -12,7 +12,8 @@
         android:id="@+id/bg"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerHorizontal="true"
+        >
 
 
         <com.superapps.view.TypefacedTextView

@@ -182,6 +182,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private void showSetNameDialog() {
         View content = mSetNameDialog.findViewById(R.id.bg);
         content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
+        layoutParams.topMargin = Dimensions.getPhoneHeight(this) / 5;
         mOk = mSetNameDialog.findViewById(R.id.ok_btn);
         mOk.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
 
