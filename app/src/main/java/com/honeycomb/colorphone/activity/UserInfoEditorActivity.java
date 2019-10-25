@@ -100,6 +100,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
         if (!TextUtils.isEmpty(userInfo.getSignature())) {
             signEditor.setText(userInfo.getSignature());
         }
+        nickName.setSelection(nickName.getText().toString().length());
     }
 
     private void initListener() {

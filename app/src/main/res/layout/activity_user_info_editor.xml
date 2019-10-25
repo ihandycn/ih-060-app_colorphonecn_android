@@ -90,10 +90,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:drawableRight="@drawable/icon_information_selected"
             android:drawablePadding="9dp"
             android:text="男"
+            android:padding="10dp"
             android:textColor="#ffffff"
             android:textSize="14.7sp" />
 
@@ -102,9 +103,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="0dp"
             android:drawableRight="@drawable/icon_information_unselected"
             android:drawablePadding="9dp"
+            android:padding="10dp"
             android:text="女"
             android:textColor="#ffffff"
             android:textSize="14.7sp" />
