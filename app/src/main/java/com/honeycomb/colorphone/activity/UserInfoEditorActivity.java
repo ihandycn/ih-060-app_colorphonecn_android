@@ -101,8 +101,10 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             @Override
             public void afterTextChanged(Editable editable) {
                 userInfoEdited.setName(editable.toString());
+                if (editable.toString().length()==15){
+                    Toast.makeText(UserInfoEditorActivity.this,"昵称不超过15个字...",Toast.LENGTH_SHORT).show();
+                }
                 refreshButton();
-
             }
         });
         signEditor.addTextChangedListener(new TextWatcher() {
@@ -119,6 +121,9 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             @Override
             public void afterTextChanged(Editable editable) {
                 userInfoEdited.setSignature(editable.toString());
+                if (editable.toString().length()==20){
+                    Toast.makeText(UserInfoEditorActivity.this,"签名不超过20个字...",Toast.LENGTH_SHORT).show();
+                }
                 refreshButton();
             }
         });

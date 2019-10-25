@@ -61,6 +61,7 @@
             android:maxLines="1"
             android:textColor="#ffffff"
             android:textSize="14.7sp"
+            android:maxLength="15"
             tools:text="隔壁的小娜" />
     </LinearLayout>
 
@@ -171,6 +172,7 @@
             android:hint="点击设置签名"
             android:inputType="text"
             android:maxLines="1"
+            android:maxLength="20"
             android:textColor="#ffffff"
             android:textSize="14.7sp" />
     </LinearLayout>
