@@ -2,9 +2,14 @@ package com.honeycomb.colorphone.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import okhttp3.ResponseBody;
 
 public class UserInfoEditorActivity extends HSAppCompatActivity implements View.OnClickListener {
+    private static final int REQUEST_SELECT_IMAGE = 100;
     private LoginUserBean.UserInfoBean userInfo;
     private LoginUserBean.UserInfoBean userInfoEdited;
     private ImageView avatarView;
@@ -42,6 +48,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     private TextView birthdayEditor;
     private TextView signEditor;
     private TextView saveButton;
+    private String headImagePath;
 
     public static void start(Context context, LoginUserBean.UserInfoBean userInfoBean) {
         Intent starter = new Intent(context, UserInfoEditorActivity.class);
@@ -84,6 +91,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     }
 
     private void initListener() {
+        avatarView.setOnClickListener(this);
+        avatarText.setOnClickListener(this);
         saveButton.setOnClickListener(this);
         maleTicker.setOnClickListener(this);
         femaleTicker.setOnClickListener(this);
@@ -101,8 +110,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             @Override
             public void afterTextChanged(Editable editable) {
                 userInfoEdited.setName(editable.toString());
-                if (editable.toString().length()==15){
-                    Toast.makeText(UserInfoEditorActivity.this,"昵称不超过15个字...",Toast.LENGTH_SHORT).show();
+                if (editable.toString().length() == 15) {
+                    Toast.makeText(UserInfoEditorActivity.this, "昵称不超过15个字...", Toast.LENGTH_SHORT).show();
                 }
                 refreshButton();
             }
@@ -121,8 +130,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             @Override
             public void afterTextChanged(Editable editable) {
                 userInfoEdited.setSignature(editable.toString());
-                if (editable.toString().length()==20){
-                    Toast.makeText(UserInfoEditorActivity.this,"签名不超过20个字...",Toast.LENGTH_SHORT).show();
+                if (editable.toString().length() == 20) {
+                    Toast.makeText(UserInfoEditorActivity.this, "签名不超过20个字...", Toast.LENGTH_SHORT).show();
                 }
                 refreshButton();
             }
@@ -131,7 +140,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
 
     private void refreshButton() {
         saveButton.setEnabled(isInfoChanged());
-        saveButton.setTextColor(isInfoChanged()? Color.parseColor("#181818"):Color.parseColor("#73718f"));
+        saveButton.setTextColor(isInfoChanged() ? Color.parseColor("#181818") : Color.parseColor("#73718f"));
     }
 
     @Override
@@ -146,6 +155,10 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.user_info_editor_avatar:
+            case R.id.user_info_editor_avatar_text:
+                selectFromAlbumSingle();
+                break;
             case R.id.save_button:
                 editUserInfo();
                 finish();
@@ -156,10 +169,37 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             case R.id.female_ticker:
                 setGender(false);
                 break;
-            case R.id.user_info_editor_avatar:
-            case R.id.user_info_editor_avatar_text:
-                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SELECT_IMAGE) {
+            if (data != null && data.getData() != null) {
+                Uri uri = data.getData();
+                String filePath = uri.toString();
+                if (filePath.contains("content://")) {
+                    filePath = getRealPathFromURI(uri);
+                }
+                avatarView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+                headImagePath = filePath;
+
+            }
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentUri) { //传入图片uri地址
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void selectFromAlbumSingle() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_SELECT_IMAGE);
     }
 
     private void editUserInfo() {
@@ -192,7 +232,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
         return !(userInfo.getName().equals(userInfoEdited.getName()) &&
                 userInfo.getGender().equalsIgnoreCase(userInfoEdited.getGender()) &&
                 userInfo.getBirthday().equals(userInfoEdited.getBirthday()) &&
-                userInfo.getSignature().equals(userInfoEdited.getSignature()));
+                userInfo.getSignature().equals(userInfoEdited.getSignature()) &&
+                headImagePath == null);
     }
 
     private void setGender(boolean isMan) {
