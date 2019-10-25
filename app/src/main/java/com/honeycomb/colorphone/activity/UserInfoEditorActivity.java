@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,12 +13,14 @@ import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +36,8 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 
@@ -87,7 +92,14 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
                 .into(avatarView);
         nickName.setText(userInfo.getName());
         setGender(!userInfo.getGender().equalsIgnoreCase(IHttpRequest.GENDER_WOMAN));
-
+        if (TextUtils.isEmpty(userInfo.getBirthday())) {
+            birthdayEditor.setText("请选择你的生日");
+        } else {
+            birthdayEditor.setText(userInfo.getBirthday());
+        }
+        if (!TextUtils.isEmpty(userInfo.getSignature())) {
+            signEditor.setText(userInfo.getSignature());
+        }
     }
 
     private void initListener() {
@@ -96,6 +108,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
         saveButton.setOnClickListener(this);
         maleTicker.setOnClickListener(this);
         femaleTicker.setOnClickListener(this);
+        birthdayEditor.setOnClickListener(this);
         nickName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -169,6 +182,9 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             case R.id.female_ticker:
                 setGender(false);
                 break;
+            case R.id.birthday_editor:
+                selectDate();
+                break;
         }
     }
 
@@ -183,7 +199,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
                 }
                 avatarView.setImageBitmap(BitmapFactory.decodeFile(filePath));
                 headImagePath = filePath;
-
+                refreshButton();
             }
         }
     }
@@ -203,7 +219,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     }
 
     private void editUserInfo() {
-        HttpManager.getInstance().editUserInfo(userInfoEdited, null, new Callback<ResponseBody>() {
+        HttpManager.getInstance().editUserInfo(userInfoEdited, headImagePath, new Callback<ResponseBody>() {
             @Override
             public void onFailure(String errorMsg) {
                 Toast.makeText(UserInfoEditorActivity.this, "设置失败，请检查网络设置", Toast.LENGTH_SHORT).show();
@@ -216,6 +232,30 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
                 Toast.makeText(UserInfoEditorActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void selectDate() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                String dateString = "" + year + "-";
+                if (month < 9) {
+                    dateString += "0" + (month + 1);
+                } else {
+                    dateString += (month + 1);
+                }
+                if (dayOfMonth < 10) {
+                    dateString += "-0" + dayOfMonth;
+                } else {
+                    dateString += "-" + dayOfMonth;
+                }
+                userInfoEdited.setBirthday(dateString);
+                birthdayEditor.setText(dateString);
+                refreshButton();
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
     }
 
     private LoginUserBean.UserInfoBean cloneUserInfoBean(LoginUserBean.UserInfoBean userInfoBean) {

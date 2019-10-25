@@ -61,7 +61,7 @@ public class SettingsPage implements View.OnClickListener {
         return rootView;
     }
 
-    public void initPage(View rootView,Context context) {
+    public void initPage(View rootView, Context context) {
         init = true;
         this.context = context;
         this.rootView = rootView;
@@ -201,7 +201,7 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     private void onClickAccountView(Context context) {
-        if (userInfo !=null) {
+        if (userInfo != null) {
             UserInfoEditorActivity.start(context, userInfo);
         } else {
             LoginActivity.start(context);
@@ -229,18 +229,18 @@ public class SettingsPage implements View.OnClickListener {
         }
     }
 
-    public void refreshUserInfo(){
+    public void refreshUserInfo() {
         Resources resources = context.getResources();
-        if (HttpManager.getInstance().isLogin()){
+        if (HttpManager.getInstance().isLogin()) {
             HttpManager.getInstance().getSelfUserInfo(new Callback<LoginUserBean>() {
                 @Override
                 public void onFailure(String errorMsg) {
                     avatarView.setImageResource(R.drawable.settings_icon_avatar);
                     nameView.setText("点击编辑用户信息");
-                    nameView.setCompoundDrawablesWithIntrinsicBounds(null,null,resources.getDrawable(R.drawable.settings_name_edit),null);
+                    nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, resources.getDrawable(R.drawable.settings_name_edit), null);
                     signView.setText(R.string.settings_sign);
                     signView.setVisibility(View.VISIBLE);
-                    Toast.makeText(getRootView().getContext(),"获取用户信息失败！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getRootView().getContext(), "获取用户信息失败！", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -252,27 +252,27 @@ public class SettingsPage implements View.OnClickListener {
                             .placeholder(R.drawable.settings_icon_avatar)
                             .into(avatarView);
                     String name = userInfo.getName();
-                    if (TextUtils.isEmpty(name)){
+                    if (TextUtils.isEmpty(name)) {
                         nameView.setText("匿名");
                     } else {
                         nameView.setText(name);
                     }
                     String sign = userInfo.getSignature();
-                    if (TextUtils.isEmpty(sign)){
+                    if (TextUtils.isEmpty(sign)) {
                         signView.setText(R.string.settings_sign);
                     } else {
                         signView.setText(sign);
                     }
-                    nameView.setCompoundDrawablesWithIntrinsicBounds(null,null,resources.getDrawable(R.drawable.settings_name_edit),null);
+                    nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, resources.getDrawable(R.drawable.settings_name_edit), null);
                     signView.setVisibility(View.VISIBLE);
                 }
             });
 
-        }else {
+        } else {
             userInfo = null;
             avatarView.setImageResource(R.drawable.settings_icon_avatar);
             nameView.setText(R.string.settings_login);
-            nameView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+            nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             signView.setVisibility(View.GONE);
         }
     }

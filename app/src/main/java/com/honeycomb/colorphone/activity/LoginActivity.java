@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
