@@ -60,7 +60,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="7.7dp"
             android:padding="9dp"
-            android:background="@drawable/bg_round_material_compat"
+            android:background="@drawable/bg_round_material_compat_black"
             android:src="@drawable/icon_rename_close"/>
 
 
