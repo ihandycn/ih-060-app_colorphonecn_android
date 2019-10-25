@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.http.lib.upload;
 
+import com.superapps.util.Threads;
+
 import java.util.concurrent.atomic.AtomicLong;
 
 class UploadObserver {
@@ -25,7 +27,9 @@ class UploadObserver {
         boolean isDone = current.get() == length;
         if (current.get() - last >= DEFAULT_INCREASE * length || isDone) {
             last = current.get();
-            callback.onUpload(length, current.get(), isDone);
+            final long currentProgress = current.get();
+            final boolean done = isDone;
+            Threads.postOnMainThread(() -> callback.onUpload(length, currentProgress, done));
         }
     }
 
