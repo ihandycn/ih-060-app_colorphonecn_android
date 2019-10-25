@@ -131,7 +131,6 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             Analytics.logEvent("Upload_VideoPreview_BtnClick");
             showSetNameDialog();
         });
-        mUpload.getChildAt(0).setOnClickListener(view -> showSetNameDialog());
         mCancel.setOnClickListener(view -> {
             Analytics.logEvent("Upload_Upload_Cancel");
             cancel();
@@ -334,6 +333,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     }
 
     private void success() {
+        Toasts.showToast("可在我的上传中应用该来电秀");
         mUpload.setText(getString(R.string.upload_ing, "100%"));
         mUpload.setProcess(1);
         mUpload.setEnabled(true);
