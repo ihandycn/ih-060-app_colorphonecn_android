@@ -125,6 +125,9 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         deleteButton.setVisibility(GONE);
         if (adapter != null) {
             adapter.setIsEdit(false);
+            for (Theme item : adapter.data) {
+                item.setDeleteSelected(false);
+            }
             adapter.notifyDataSetChanged();
         }
         HSGlobalNotificationCenter.sendNotification("quit_edit_mode");

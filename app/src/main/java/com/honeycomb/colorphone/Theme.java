@@ -41,6 +41,8 @@ public class Theme extends Type {
     // (e.g Theme file is downloading or download fail)
     private boolean pendingSelected;
 
+    private boolean isDeleteSelect = false;
+
     private String ringtoneUrl;
     private String ringtonePath;
 
@@ -59,6 +61,14 @@ public class Theme extends Type {
 
     public void setDownload(long download) {
         this.download = download;
+    }
+
+    public boolean isDeleteSelected() {
+        return isDeleteSelect;
+    }
+
+    public void setDeleteSelected(boolean selected) {
+        isDeleteSelect = selected;
     }
 
     public boolean isSelected() {

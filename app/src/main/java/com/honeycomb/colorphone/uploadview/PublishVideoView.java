@@ -124,6 +124,9 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         deleteButton.setVisibility(GONE);
         if (adapter != null) {
             adapter.setIsEdit(false);
+            for (Theme item : adapter.data) {
+                item.setDeleteSelected(false);
+            }
             adapter.notifyDataSetChanged();
         }
         HSGlobalNotificationCenter.sendNotification("quit_edit_mode");

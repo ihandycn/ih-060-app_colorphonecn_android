@@ -147,7 +147,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ((ItemCardViewHolder) holder).mSelectStatus.setVisibility(View.VISIBLE);
             } else {
                 ((ItemCardViewHolder) holder).mSelectStatus.setVisibility(View.GONE);
-                ((ItemCardViewHolder) holder).setSelectStatus(false);
+                curTheme.setDeleteSelected(false);
             }
 
             cardViewHolder.updateTheme(curTheme);
@@ -155,13 +155,13 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemCardViewHolder) holder).mSelectStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (((ItemCardViewHolder) holder).getSelectStatus()) {
+                    if (curTheme.isDeleteSelected()) {
                         mDeleteDataList.remove(data.get(position));
-                        ((ItemCardViewHolder) holder).setSelectStatus(false);
+                        curTheme.setDeleteSelected(false);
                         ((ItemCardViewHolder) holder).mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_unselected));
                     } else {
                         mDeleteDataList.add(data.get(position));
-                        ((ItemCardViewHolder) holder).setSelectStatus(true);
+                        curTheme.setDeleteSelected(true);
                         ((ItemCardViewHolder) holder).mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_selected));
 
                     }
@@ -191,22 +191,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private int mPositionTag;
 
-        private boolean mIsSelect = false;
-
         void setPositionTag(int position) {
             mPositionTag = position;
         }
 
         int getPositionTag() {
             return mPositionTag;
-        }
-
-        void setSelectStatus(boolean isSelect) {
-            mIsSelect = isSelect;
-        }
-
-        boolean getSelectStatus() {
-            return mIsSelect;
         }
 
         ItemCardViewHolder(View itemView) {
@@ -241,7 +231,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     })
                     .into(mPreviewImage);
 
-            if (mIsSelect) {
+            if (theme.isDeleteSelected()) {
                 mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_selected));
             } else {
                 mSelectStatus.setImageDrawable(HSApplication.getContext().getResources().getDrawable(R.drawable.icon_uploadpage_unselected));
