@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -61,6 +62,7 @@ public class DailyLogger {
 
         if (!TextUtils.isEmpty(eventID)) {
             Analytics.logEvent(eventID,
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));

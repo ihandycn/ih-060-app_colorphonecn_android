@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -688,6 +689,7 @@ public class AutoRequestManager {
             Intent intent = Utils.getAccessibilitySettingsIntent();
 
             Analytics.logEvent("Accessbility_Alert_Should_Show",
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),

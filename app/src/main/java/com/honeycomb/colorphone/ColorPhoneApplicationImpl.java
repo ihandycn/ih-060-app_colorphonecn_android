@@ -798,6 +798,7 @@ public class ColorPhoneApplicationImpl {
                         || activity instanceof AccessibilityMIUIGuideActivity
                         || activity instanceof AccessibilityOppoGuideActivity) {
                     Analytics.logEvent("Accessbility_Alert_Show",
+                            "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(mBaseApplication.getContentResolver(), "bluetooth_name"),
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
                             "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
