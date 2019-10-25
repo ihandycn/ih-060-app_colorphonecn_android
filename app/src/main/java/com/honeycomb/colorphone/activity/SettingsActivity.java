@@ -126,13 +126,17 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         View itemUpload = findViewById(R.id.setting_item_upload);
         itemUpload.setOnClickListener(view -> {
-            Preferences preferences = Preferences.getDefault();
-            int count = preferences.getInt(VideoUploadActivity.KEY_UPLOAD_COUNT, 0);
-            long aLong = preferences.getLong(VideoUploadActivity.KEY_UPLOAD_TIME, 0);
-            if (count >= 5 && Calendars.isSameDay(aLong, System.currentTimeMillis())) {
-                Toasts.showToast("今日上传个数已达上限，请明天再试");
+            if (HttpManager.getInstance().isLogin()) {
+                Preferences preferences = Preferences.getDefault();
+                int count = preferences.getInt(VideoUploadActivity.KEY_UPLOAD_COUNT, 0);
+                long aLong = preferences.getLong(VideoUploadActivity.KEY_UPLOAD_TIME, 0);
+                if (count >= 5 && Calendars.isSameDay(aLong, System.currentTimeMillis())) {
+                    Toasts.showToast("今日上传个数已达上限，请明天再试");
+                } else {
+                    VideoListActivity.start(SettingsActivity.this);
+                }
             } else {
-                VideoListActivity.start(SettingsActivity.this);
+                LoginActivity.start(this);
             }
         });
 
