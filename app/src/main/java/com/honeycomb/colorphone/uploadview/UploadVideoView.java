@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -272,6 +273,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
                     deleteId.add((long) item.getId());
                 }
                 presenter.requestDeleteUploadData(deleteId);
+                Analytics.logEvent("MyUploads_CallFlash_Delete");
             }
         }
     }

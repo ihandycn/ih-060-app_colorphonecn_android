@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.WatchedUploadScrollListener;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ScaleUpTouchListener;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -221,6 +222,9 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void onCardClick(ItemCardViewHolder holder) {
         if (mIsEdit) {
             holder.mSelectStatus.performClick();
+            if ("upload".equals(from)) {
+                Analytics.logEvent("MyUploads_CallFlash_Click");
+            }
         } else {
             final int pos = holder.getPositionTag();
             Theme theme = data.get(pos);

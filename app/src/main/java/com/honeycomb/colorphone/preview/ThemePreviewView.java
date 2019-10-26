@@ -1770,6 +1770,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                     break;
                 case R.id.ringtone_apply_change:
+                    if ("upload".equals(mFrom)) {
+                        Analytics.logEvent("MyUploads_CallFlash_Set");
+                    }
                     Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (!Settings.System.canWrite(getContext())) {
@@ -1802,6 +1805,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     break;
                 case R.id.ringtone_apply_keep:
+                    if ("upload".equals(mFrom)) {
+                        Analytics.logEvent("MyUploads_CallFlash_Set");
+                    }
                     Analytics.logEvent("Ringtone_Default_Set_Success", "ThemeName", mTheme.getName());
 
                     hideRingtoneSettings();

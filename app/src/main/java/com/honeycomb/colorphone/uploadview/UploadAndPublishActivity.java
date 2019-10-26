@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.acb.call.VideoManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -208,6 +209,7 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             mAlreadyUploadButton.setTextColor(0xffffffff);
             mAlreadyPublishButton.setTextColor(0xff615d8e);
             HSGlobalNotificationCenter.sendNotification("publish_cancel");
+            Analytics.logEvent("MyUploads_Page_Show");
         } else if (position == 1) {
             if (isShowEditButtonOnPublishPage) {
                 mVideoEditButton.setVisibility(View.VISIBLE);
