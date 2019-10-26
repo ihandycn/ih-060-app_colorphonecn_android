@@ -72,6 +72,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
                     selectTheme(pos);
+                    notifyDataSetChanged();
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "upload".equals(from)) {
                 if (hsBundle != null) {
@@ -81,6 +82,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
                     selectTheme(pos);
+                    notifyDataSetChanged();
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
@@ -246,18 +248,6 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 curTheme.setSelected(true);
             }
 
-            // CardView
-            if (curTheme.isSelected()) {
-                HSLog.d(TAG, "selected theme start downloading : " + curTheme.getIdName());
-                curTheme.setSelected(false);
-                curTheme.setPendingSelected(true);
-            }
-
-            if (curTheme.isPendingSelected()) {
-                curTheme.setSelected(true);
-                curTheme.setPendingSelected(false);
-            }
-
             if (mIsEdit) {
                 ((ItemCardViewHolder) holder).mSelectStatus.setVisibility(View.VISIBLE);
             } else {
@@ -403,7 +393,6 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mThemeStatusView.setSelected(theme);
 
             if (theme.isSelected()) {
-
                 HSLog.d(TAG, "selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);

@@ -1,10 +1,14 @@
 package com.honeycomb.colorphone.uploadview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,6 +16,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -32,6 +37,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     private TextView deleteButton;
     private PublishVideoContract.Presenter presenter;
     private UploadViewAdapter adapter;
+    private MediaSharedElementCallback sharedElementCallback;
 
     public PublishVideoView(Context context) {
         super(context);
@@ -83,6 +89,11 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
         //触发自动刷新
         publishRefreshLayout.autoRefresh();
+
+        // Transition
+        sharedElementCallback = new MediaSharedElementCallback();
+        sharedElementCallback.setClearAfterConsume(true);
+        ActivityCompat.setExitSharedElementCallback((Activity) getContext(), sharedElementCallback);
     }
 
     public void onResume() {
@@ -99,6 +110,31 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
             if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
                 ((UploadViewAdapter.ItemCardViewHolder) holder).stopAnimation();
+            }
+        }
+    }
+
+    public void onActivityReenter(int exitPos) {
+        if (recyclerView != null) {
+            ActivityCompat.postponeEnterTransition((Activity) getContext());
+            recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    overrideSharedElement(exitPos);
+                    ActivityCompat.startPostponedEnterTransition((Activity) getContext());
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void overrideSharedElement(int exitPos) {
+        if (recyclerView != null) {
+            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(exitPos);
+            if (viewHolder != null && viewHolder.itemView != null) {
+                ImageView imageView = viewHolder.itemView.findViewById(R.id.card_preview_img);
+                sharedElementCallback.setSharedElementViews(imageView);
             }
         }
     }

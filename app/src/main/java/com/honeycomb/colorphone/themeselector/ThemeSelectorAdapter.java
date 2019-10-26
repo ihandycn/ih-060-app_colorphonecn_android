@@ -395,7 +395,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private boolean selectTheme(final int pos) {
-        int prePos = 0;
+        int prePos = -1;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
             Theme t = data.get(i);

@@ -4,17 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -123,6 +127,18 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
 
         if (mPublishView != null && mViewPager.getCurrentItem() == 1) {
             mPublishView.onPause();
+        }
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            final int exitPos = data.getIntExtra("index", -1);
+            if (mUploadView != null && mViewPager.getCurrentItem() == 0) {
+                mUploadView.onActivityReenter(exitPos);
+            } else if (mPublishView != null && mViewPager.getCurrentItem() == 1) {
+                mPublishView.onActivityReenter(exitPos);
+            }
         }
     }
 
