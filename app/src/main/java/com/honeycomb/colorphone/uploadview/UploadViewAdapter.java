@@ -110,7 +110,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     };
 
     private void selectTheme(final int pos) {
-        int prePos = 0;
+        int prePos = -1;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
             Theme t = data.get(i);
