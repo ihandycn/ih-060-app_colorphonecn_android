@@ -8,13 +8,13 @@ import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Preferences;
 
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Color phone theme.
@@ -26,7 +26,7 @@ public class Theme extends Type {
     public static final String CONFIG_UPLOADER = "Nickname";
 
     private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
-    private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
+    private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX = "prefs_theme_lock_id_prefix";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
 
@@ -223,7 +223,7 @@ public class Theme extends Type {
         boolean userUnLock = file.getBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), false);
         if (userUnLock) {
             isLocked = false;
-        } else if (!locked){
+        } else if (!locked) {
             isLocked = false;
             file.putBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), true);
         } else {
@@ -255,6 +255,42 @@ public class Theme extends Type {
 
     public boolean isPendingSelected() {
         return pendingSelected;
+    }
+
+    public static ArrayList<Type> transformData(int beforeDataSize, AllThemeBean data) {
+        ArrayList<Type> dataList = new ArrayList<>();
+        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
+            Theme theme = new Theme();
+            theme.setIndex(beforeDataSize + dataList.size());
+            theme.setId(bean.getShow_id());
+            theme.setIdName(bean.getId_name());
+            theme.setResType(bean.getRes_type());
+            theme.setItemIcon(bean.getIcon());
+            theme.setName(bean.getName());
+            theme.setAcceptIcon(bean.getIcon_accept());
+            theme.setRejectIcon(bean.getIcon_reject());
+            theme.setPreviewImage(bean.getPreview_image());
+            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
+            theme.setMp4Url(bean.getMp4());
+            theme.setGifUrl(bean.getGif());
+            theme.setHot(bean.isHot());
+            theme.setSuggestMediaType(Type.MEDIA_MP4);
+            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
+            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
+            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
+            theme.setDownload(bean.getDownload_num());
+            theme.setRingtoneUrl(bean.getRingtone());
+            theme.setUploaderName(bean.getUser_name());
+            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
+            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
+            theme.setSpecialTopic(false);
+            theme.setAvatar(R.drawable.theme_preview_avatar_default);
+            theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
+
+            dataList.add(theme);
+        }
+
+        return dataList;
     }
 
     @Override

@@ -55,9 +55,6 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.http.HttpManager;
-import com.honeycomb.colorphone.http.bean.AllThemeBean;
-import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.news.NewsFrame;
@@ -67,18 +64,17 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.uploadview.ClassicFooter;
+import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -136,10 +132,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
-
-    private int mCurrentRequestPageIndex = 1;
-    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
-    private int mLastCurrentPage = 1;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -384,6 +376,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(WXEntryActivity.NOTIFY_REFRESH_USER_INFO, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME, this);
+
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         ConfigChangeManager.getInstance().registerCallbacks(
@@ -776,8 +770,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Glide.get(this).clearMemory();
     }
 
-    private void requestThemeData() {
-        HttpManager.getInstance().getAllThemes(mCurrentRequestPageIndex, new Callback<AllThemeBean>() {
+    private void requestThemeData(boolean isRefresh) {
+
+        ThemeList.getInstance().requestThemeForMainFrame(isRefresh, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
                 LayoutInflater inflater = getLayoutInflater();
@@ -787,84 +782,46 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
-                if (mCurrentRequestPageIndex == 1) {
+                if (isRefresh) {
                     mSmartRefreshLayout.finishRefresh();
                 } else {
                     mSmartRefreshLayout.finishLoadMore(true);
                 }
-                mCurrentRequestPageIndex = mLastCurrentPage;
             }
 
             @Override
-            public void onSuccess(AllThemeBean allThemeBean) {
-                if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
+            public void onSuccess(boolean isHasData) {
 
+                if (isRefresh) {
                     mSmartRefreshLayout.finishRefresh();
-
-                    if (mCurrentRequestPageIndex == 1) {
-                        Type.clearTypes();
-                        Type.addTypes(transformData(allThemeBean));
-                        setData();
-                        mSmartRefreshLayout.resetNoMoreData();
-                    } else {
-                        Type.addTypes(transformData(allThemeBean));
-                        setData();
-                    }
-                    mAdapter.notifyDataSetChanged();
-
-                    int maxId = -1;
-                    for (Type type : Type.values()) {
-                        if (maxId < type.getId()) {
-                            maxId = type.getId();
-                        }
-                    }
-                    HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
-                    mSmartRefreshLayout.finishLoadMore(true);
-
+                    mSmartRefreshLayout.resetNoMoreData();
                 } else {
-                    mCurrentRequestPageIndex = mLastCurrentPage;
                     mSmartRefreshLayout.finishLoadMore(true);
-                    mSmartRefreshLayout.finishLoadMoreWithNoMoreData();
+                }
+                if (isHasData) {
+                    refreshData();
+                } else {
+                    if (!isRefresh) {
+                        mSmartRefreshLayout.finishLoadMoreWithNoMoreData();
+                    }
                 }
             }
         });
     }
 
-    private ArrayList<Type> transformData(AllThemeBean data) {
-        ArrayList<Type> dataList = new ArrayList<>();
-        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
-            Theme theme = new Theme();
-            theme.setIndex(mRecyclerViewData.size() + dataList.size());
-            theme.setId(bean.getShow_id());
-            theme.setIdName(bean.getId_name());
-            theme.setResType(bean.getRes_type());
-            theme.setItemIcon(bean.getIcon());
-            theme.setName(bean.getName());
-            theme.setAcceptIcon(bean.getIcon_accept());
-            theme.setRejectIcon(bean.getIcon_reject());
-            theme.setPreviewImage(bean.getPreview_image());
-            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
-            theme.setMp4Url(bean.getMp4());
-            theme.setGifUrl(bean.getGif());
-            theme.setHot(bean.isHot());
-            theme.setSuggestMediaType(Type.MEDIA_MP4);
-            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
-            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
-            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
-            theme.setDownload(bean.getDownload_num());
-            theme.setRingtoneUrl(bean.getRingtone());
-            theme.setUploaderName(bean.getUser_name());
-            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
-            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
-            theme.setSpecialTopic(false);
-            theme.setAvatar(R.drawable.theme_preview_avatar_default);
-            theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
+    private void refreshData() {
+        setData();
+        mAdapter.notifyDataSetChanged();
 
-            dataList.add(theme);
+        int maxId = -1;
+        for (Type type : Type.values()) {
+            if (maxId < type.getId()) {
+                maxId = type.getId();
+            }
         }
-
-        return dataList;
+        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
     }
+
 
     private void dispatchPermissionRequest() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
@@ -1042,17 +999,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex = 1;
-                requestThemeData();
+                requestThemeData(true);
             }
         });
         mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex++;
-                requestThemeData();
+                requestThemeData(false);
             }
         });
 
@@ -1159,6 +1112,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         } else if (WXEntryActivity.NOTIFY_REFRESH_USER_INFO.equals(s)) {
             mSettingsPage.refreshUserInfo();
+        } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME.equals(s)) {
+            //update data
+            refreshData();
         }
     }
 

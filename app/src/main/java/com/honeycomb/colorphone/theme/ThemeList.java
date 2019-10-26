@@ -13,12 +13,13 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AllThemeBean;
+import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
@@ -46,6 +47,9 @@ public class ThemeList {
     private final ArrayList<Theme> themes = new ArrayList<>(30);
     private static ArrayList<Theme> uploadThemes = new ArrayList<>(30);
     private static ArrayList<Theme> publishThemes = new ArrayList<>(30);
+
+    private ThemeData mainFrameThemeData;
+
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
         @Override
@@ -67,6 +71,48 @@ public class ThemeList {
 
     public static ThemeList getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * @param isRefresh refresh or loadMore
+     */
+    public void requestThemeForMainFrame(boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (mainFrameThemeData == null) {
+                mainFrameThemeData = new ThemeData();
+            } else {
+                mainFrameThemeData.clear();
+            }
+            pageIndex = mainFrameThemeData.getPageIndex();
+        } else {
+            pageIndex = mainFrameThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getAllThemes(pageIndex, new Callback<AllThemeBean>() {
+
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllThemeBean allThemeBean) {
+                if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
+
+                    mainFrameThemeData.setPageIndex(allThemeBean.getPage_index());
+                    if (isRefresh) {
+                        mainFrameThemeData.setThemeList(Theme.transformData(0, allThemeBean));
+                    } else {
+                        mainFrameThemeData.appendTheme(Theme.transformData(mainFrameThemeData.getThemeSize(), allThemeBean));
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
     }
 
     private void loadRawThemesSync() {

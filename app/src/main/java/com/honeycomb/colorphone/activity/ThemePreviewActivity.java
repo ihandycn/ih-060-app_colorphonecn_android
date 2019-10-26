@@ -28,11 +28,13 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.preview.ThemeAdView;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
@@ -41,6 +43,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
@@ -117,7 +120,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         } else if ("publish".equals(from)) {
             mThemes.addAll(getPublishTheme());
         } else {
-            mThemes.addAll(getThemes());
+            ThemeList.getInstance().fillData(mThemes);
         }
         mSavedState = savedInstanceState;
         mTheme = mThemes.get(pos);
@@ -226,6 +229,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     Analytics.logAdViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
                     shouldShowAdIndex.remove(Integer.valueOf(position));
                 }
+                updateData(position);
             }
 
             @Override
@@ -271,6 +275,41 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
+    }
+
+    boolean isUpdate = false;
+
+    private void updateData(int position) {
+        if (position > mAdapter.getCount() - 4) {
+            if (isUpdate) {
+                return;
+            }
+            isUpdate = true;
+            if ("upload".equals(from)) {
+
+            } else if ("publish".equals(from)) {
+
+            } else {
+                ThemeList.getInstance().requestThemeForMainFrame(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
+
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData) {
+                            ThemeList.getInstance().updateThemesTotally();
+                            ThemeList.getInstance().fillData(mThemes);
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME);
+                        }
+                    }
+                });
+            }
+        }
+
     }
 
     protected List<Theme> getThemes() {
