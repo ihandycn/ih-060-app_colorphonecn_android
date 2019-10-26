@@ -95,7 +95,6 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
                 if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
                     ((UploadViewAdapter.ItemCardViewHolder) holder).startAnimation();
                 }
-                adapter.notifyDataSetChanged();
             }
         } else {
             if (adapter != null) {

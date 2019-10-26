@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.VideoManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -95,6 +96,12 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         HSGlobalNotificationCenter.addObserver("have_upload_data", this);
         HSGlobalNotificationCenter.addObserver("have_publish_data", this);
         HSGlobalNotificationCenter.addObserver("quit_edit_mode", this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VideoManager.get().mute(true);
     }
 
     @Override

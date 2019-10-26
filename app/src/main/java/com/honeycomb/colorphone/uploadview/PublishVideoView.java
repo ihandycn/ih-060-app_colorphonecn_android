@@ -101,7 +101,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
                 if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
                     ((UploadViewAdapter.ItemCardViewHolder) holder).startAnimation();
                 }
-                adapter.notifyDataSetChanged();
             }
         } else {
             if (adapter != null) {

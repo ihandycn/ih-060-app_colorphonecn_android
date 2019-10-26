@@ -25,8 +25,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.WatchedUploadScrollListener;
@@ -46,7 +44,6 @@ import java.util.List;
 import hugo.weaving.DebugLog;
 
 import static android.view.View.VISIBLE;
-import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_CONTEXT_KEY;
 
 public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -71,12 +68,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) && "upload".equals(from)) {
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
-
-                    if (selectTheme(pos)) {
-                        if (!context.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
-                            notifyDataSetChanged();
-                        }
-                    }
+                    selectTheme(pos);
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "upload".equals(from)) {
                 if (hsBundle != null) {
@@ -85,12 +77,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else if (ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
-
-                    if (selectTheme(pos)) {
-                        if (!context.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
-                            notifyDataSetChanged();
-                        }
-                    }
+                    selectTheme(pos);
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
@@ -117,7 +104,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     };
 
-    private boolean selectTheme(final int pos) {
+    private void selectTheme(final int pos) {
         int prePos = 0;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
@@ -129,7 +116,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         if (prePos == pos) {
-            return true;
+            return;
         } else {
             Theme t = data.get(prePos);
             t.setSelected(false);
@@ -139,7 +126,6 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Theme selectedTheme = data.get(pos);
         selectedTheme.setSelected(true);
         notifyItemSelected(pos, selectedTheme);
-        return false;
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
