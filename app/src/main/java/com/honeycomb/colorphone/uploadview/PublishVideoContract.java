@@ -1,8 +1,5 @@
 package com.honeycomb.colorphone.uploadview;
 
-import com.honeycomb.colorphone.Theme;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class PublishVideoContract {
@@ -10,17 +7,17 @@ public class PublishVideoContract {
         /**
          * 展示无网的样式
          */
-        void showNoNetView();
+        void showNoNetView(boolean isRefresh);
 
         /**
          * 展示无内容的样式
          */
-        void showNoContentView();
+        void showNoContentView(boolean isRefresh);
 
         /**
          * 展示正常内容
          */
-        void showContentView(ArrayList<Theme> data);
+        void showContentView(boolean isRefresh);
 
         /**
          * 删除item后进行ui更新
@@ -37,7 +34,7 @@ public class PublishVideoContract {
         /**
          * 请求接口获取发布数据
          */
-        void requestPublishVideoData(int index);
+        void requestPublishVideoData(boolean isRefresh);
 
         /**
          * 请求接口删除发布数据

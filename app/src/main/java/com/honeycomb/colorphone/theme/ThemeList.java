@@ -51,6 +51,7 @@ public class ThemeList {
 
     private ThemeData mainFrameThemeData;
     private ThemeDataForUser uploadThemeData;
+    private ThemeDataForUser publishThemeData;
 
 
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
@@ -155,6 +156,52 @@ public class ThemeList {
                 }
             }
         });
+    }
+
+    public void requestThemeForUserPublish(boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (publishThemeData == null) {
+                publishThemeData = new ThemeDataForUser();
+            } else {
+                publishThemeData.clear();
+            }
+
+            pageIndex = publishThemeData.getPageIndex();
+        } else {
+            pageIndex = publishThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getUserPublishedVideos(pageIndex, new Callback<AllUserThemeBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
+                if (allUserThemeBean != null && allUserThemeBean.getShow_list() != null && !allUserThemeBean.getShow_list().isEmpty()) {
+                    publishThemeData.setPageIndex(allUserThemeBean.getPage_index());
+                    ArrayList<Theme> dataList = Theme.transformData(allUserThemeBean);
+                    if (isRefresh) {
+                        publishThemeData.updateData(dataList);
+                    } else {
+                        publishThemeData.appendData(dataList);
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    public ArrayList<Theme> getUserPublishTheme() {
+        if (publishThemeData == null) {
+            return new ArrayList<>();
+        }
+        return publishThemeData.getDataList();
     }
 
     public ArrayList<Theme> getUserUploadTheme() {

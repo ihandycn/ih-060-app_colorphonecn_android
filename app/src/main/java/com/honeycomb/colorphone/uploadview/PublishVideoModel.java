@@ -1,8 +1,9 @@
 package com.honeycomb.colorphone.uploadview;
 
 import com.honeycomb.colorphone.http.HttpManager;
-import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 
 import java.util.List;
 
@@ -25,18 +26,8 @@ public class PublishVideoModel {
     }
 
 
-    void requestPublishVideoData(int index, final LoadDataCallBack listener) {
-        HttpManager.getInstance().getUserPublishedVideos(index, new Callback<AllUserThemeBean>() {
-            @Override
-            public void onFailure(String errorMsg) {
-                listener.showFail();
-            }
-
-            @Override
-            public void onSuccess(AllUserThemeBean allUserThemeBean) {
-                listener.loadData(allUserThemeBean);
-            }
-        });
+    void requestPublishVideoData(boolean isRefresh, ThemeUpdateListener listener) {
+        ThemeList.getInstance().requestThemeForUserPublish(isRefresh, listener);
     }
 
 

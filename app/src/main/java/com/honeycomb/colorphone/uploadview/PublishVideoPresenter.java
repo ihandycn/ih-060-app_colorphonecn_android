@@ -6,6 +6,7 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;
@@ -25,23 +26,22 @@ public class PublishVideoPresenter implements PublishVideoContract.Presenter {
     }
 
     @Override
-    public void requestPublishVideoData(int index) {
-        model.requestPublishVideoData(index, new PublishVideoModel.LoadDataCallBack<AllUserThemeBean>() {
+    public void requestPublishVideoData(boolean isRefresh) {
+        model.requestPublishVideoData(isRefresh, new ThemeUpdateListener() {
             @Override
-            public void loadData(AllUserThemeBean bean) {
-                if (bean != null && bean.getShow_list() != null && bean.getShow_list().size() > 0) {
-                    view.showContentView(transformData(bean));
+            public void onFailure(String errorMsg) {
+                view.showNoNetView(isRefresh);
+            }
+
+            @Override
+            public void onSuccess(boolean isHasData) {
+                if (isHasData) {
+                    view.showContentView(isRefresh);
                 } else {
-                    view.showNoContentView();
+                    view.showNoContentView(isRefresh);
                 }
             }
-
-            @Override
-            public void showFail() {
-                view.showNoNetView();
-            }
         });
-
     }
 
     @Override

@@ -10,6 +10,7 @@ public class NotificationConstants {
     public static final String NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME = "update_theme_in_main_frame";
 
     public static final String NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD = "update_theme_in_user_upload";
+    public static final String NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH = "update_theme_in_user_publish";
 
     public static final String PREFS_NOTIFICATION_OLD_MAX_ID = "PREFS_NOTIFICATION_OLD_MAX_ID";
     public static final String PREFS_NOTIFICATION_THEMES_SENT = "PREFS_NOTIFICATION_THEME_SENT";

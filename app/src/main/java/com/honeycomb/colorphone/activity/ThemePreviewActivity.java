@@ -119,7 +119,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             mThemes.clear();
             mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
         } else if ("publish".equals(from)) {
-            mThemes.addAll(getPublishTheme());
+            mThemes.clear();
+            mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
         } else {
             ThemeList.getInstance().fillData(mThemes);
         }
@@ -186,6 +187,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
         //mViewPager.setCanScroll(false);
+
+        mViewPager.postDelayed(() -> updateData(pos), 500);
 
         // Window transition
         mediaSharedElementCallback = new MediaSharedElementCallback();
@@ -296,7 +299,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     @Override
                     public void onSuccess(boolean isHasData) {
                         isUpdate = false;
-                        if (isHasData){
+                        if (isHasData) {
                             mThemes.clear();
                             mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
                             mAdapter.notifyDataSetChanged();
@@ -305,7 +308,23 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     }
                 });
             } else if ("publish".equals(from)) {
+                ThemeList.getInstance().requestThemeForUserPublish(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
 
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData) {
+                            mThemes.clear();
+                            mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH);
+                        }
+                    }
+                });
             } else {
                 ThemeList.getInstance().requestThemeForMainFrame(false, new ThemeUpdateListener() {
                     @Override

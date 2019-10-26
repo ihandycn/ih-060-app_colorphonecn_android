@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -76,7 +77,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
                 mLastCurrentPage = mCurrentRequestPageIndex;
                 mCurrentRequestPageIndex = 1;
                 publishRefreshLayout.resetNoMoreData();
-                presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+                presenter.requestPublishVideoData(true);
             }
         });
         publishRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -84,7 +85,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 mLastCurrentPage = mCurrentRequestPageIndex;
                 mCurrentRequestPageIndex++;
-                presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+                presenter.requestPublishVideoData(false);
             }
         });
 
@@ -118,6 +119,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
         HSGlobalNotificationCenter.addObserver("publish_edit", this);
         HSGlobalNotificationCenter.addObserver("publish_cancel", this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH, this);
     }
 
     @Override
@@ -158,12 +160,14 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             setEditMode();
         } else if ("publish_cancel".equals(s)) {
             quitEditMode();
+        } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH.equals(s)) {
+            refreshData();
         }
     }
 
     @Override
-    public void showNoNetView() {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showNoNetView(boolean isRefresh) {
+        if (isRefresh) {
             publishRefreshLayout.finishRefresh();
         } else {
             publishRefreshLayout.finishLoadMore(true);
@@ -177,8 +181,8 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     }
 
     @Override
-    public void showNoContentView() {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showNoContentView(boolean isRefresh) {
+        if (isRefresh) {
             publishRefreshLayout.finishRefresh();
             recyclerView.setVisibility(GONE);
             emptyLayout.setVisibility(VISIBLE);
@@ -191,21 +195,23 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     }
 
     @Override
-    public void showContentView(ArrayList<Theme> data) {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showContentView(boolean isRefresh) {
+        if (isRefresh) {
             publishRefreshLayout.finishRefresh();
             recyclerView.setVisibility(VISIBLE);
             emptyLayout.setVisibility(GONE);
-            adapter.data.clear();
-            adapter.updateData(data);
         } else {
             publishRefreshLayout.finishLoadMore(true);
-            adapter.data.addAll(data);
         }
         ThemeList.clearPublishTheme();
         ThemeList.setPublishTheme(adapter.data);
-        adapter.notifyDataSetChanged();
+        refreshData();
         HSGlobalNotificationCenter.sendNotification("have_publish_data");
+    }
+
+    private void refreshData() {
+        adapter.updateData(ThemeList.getInstance().getUserPublishTheme());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -216,7 +222,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         quitEditMode();
         if (adapter.data.size() == 0) {
             mCurrentRequestPageIndex = 1;
-            presenter.requestPublishVideoData(mCurrentRequestPageIndex);
+            presenter.requestPublishVideoData(true);
         }
     }
 
