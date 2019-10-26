@@ -116,7 +116,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         int pos = getIntent().getIntExtra("position", 0);
         from = getIntent().getStringExtra("from");
         if ("upload".equals(from)) {
-            mThemes.addAll(getUploadTheme());
+            mThemes.clear();
+            mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
         } else if ("publish".equals(from)) {
             mThemes.addAll(getPublishTheme());
         } else {
@@ -286,7 +287,23 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
             isUpdate = true;
             if ("upload".equals(from)) {
+                ThemeList.getInstance().requestThemeForUserUpload(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
 
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData){
+                            mThemes.clear();
+                            mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD);
+                        }
+                    }
+                });
             } else if ("publish".equals(from)) {
 
             } else {
@@ -314,10 +331,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     protected List<Theme> getThemes() {
         return ThemeList.themes();
-    }
-
-    protected List<Theme> getUploadTheme() {
-        return ThemeList.getUploadTheme();
     }
 
     protected List<Theme> getPublishTheme() {

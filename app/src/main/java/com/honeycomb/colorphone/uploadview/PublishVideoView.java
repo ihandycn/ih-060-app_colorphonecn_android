@@ -198,7 +198,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             recyclerView.setVisibility(VISIBLE);
             emptyLayout.setVisibility(GONE);
             adapter.data.clear();
-            adapter.setData(data);
+            adapter.updateData(data);
         } else {
             publishRefreshLayout.finishLoadMore(true);
             adapter.data.addAll(data);

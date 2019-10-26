@@ -1113,7 +1113,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else if (WXEntryActivity.NOTIFY_REFRESH_USER_INFO.equals(s)) {
             mSettingsPage.refreshUserInfo();
         } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME.equals(s)) {
-            //update data
             refreshData();
         }
     }

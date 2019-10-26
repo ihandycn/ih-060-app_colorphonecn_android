@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
+import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -49,6 +50,8 @@ public class ThemeList {
     private static ArrayList<Theme> publishThemes = new ArrayList<>(30);
 
     private ThemeData mainFrameThemeData;
+    private ThemeDataForUser uploadThemeData;
+
 
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
@@ -113,6 +116,52 @@ public class ThemeList {
                 }
             }
         });
+    }
+
+    public void requestThemeForUserUpload(boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (uploadThemeData == null) {
+                uploadThemeData = new ThemeDataForUser();
+            } else {
+                uploadThemeData.clear();
+            }
+            pageIndex = uploadThemeData.getPageIndex();
+        } else {
+            pageIndex = uploadThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getUserUploadedVideos(pageIndex, new Callback<AllUserThemeBean>() {
+
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
+                if (allUserThemeBean != null && allUserThemeBean.getShow_list() != null && !allUserThemeBean.getShow_list().isEmpty()) {
+                    uploadThemeData.setPageIndex(allUserThemeBean.getPage_index());
+                    ArrayList<Theme> dataList = Theme.transformData(allUserThemeBean);
+                    if (isRefresh) {
+                        uploadThemeData.updateData(dataList);
+                    } else {
+                        uploadThemeData.appendData(dataList);
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    public ArrayList<Theme> getUserUploadTheme() {
+        if (uploadThemeData == null) {
+            return new ArrayList<>();
+        }
+        return uploadThemeData.getDataList();
     }
 
     private void loadRawThemesSync() {

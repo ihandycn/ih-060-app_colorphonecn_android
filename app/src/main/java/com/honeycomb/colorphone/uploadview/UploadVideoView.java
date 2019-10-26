@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -31,10 +32,6 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     private TextView emptyText;
     private TextView deleteButton;
     private UploadViewAdapter adapter;
-
-    private int mCurrentRequestPageIndex = 1;
-    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
-    private int mLastCurrentPage = 1;
 
     public UploadVideoView(Context context) {
         super(context);
@@ -73,18 +70,14 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         uploadRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex = 1;
                 uploadRefreshLayout.resetNoMoreData();
-                presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+                presenter.requestUploadVideoData(true);
             }
         });
         uploadRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex++;
-                presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+                presenter.requestUploadVideoData(false);
             }
         });
 
@@ -120,6 +113,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
         HSGlobalNotificationCenter.addObserver("upload_edit", this);
         HSGlobalNotificationCenter.addObserver("upload_cancel", this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD, this);
     }
 
     @Override
@@ -160,17 +154,18 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
             setEditMode();
         } else if ("upload_cancel".equals(s)) {
             quitEditMode();
+        } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD.equals(s)) {
+            refreshData();
         }
     }
 
     @Override
-    public void showNoNetView() {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showNoNetView(boolean isRefresh) {
+        if (isRefresh) {
             uploadRefreshLayout.finishRefresh();
         } else {
             uploadRefreshLayout.finishLoadMore(true);
         }
-        mCurrentRequestPageIndex = mLastCurrentPage;
 
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
@@ -179,8 +174,8 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     }
 
     @Override
-    public void showNoContentView() {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showNoContentView(boolean isRefresh) {
+        if (isRefresh) {
             uploadRefreshLayout.finishRefresh();
             recyclerView.setVisibility(GONE);
             emptyLayout.setVisibility(VISIBLE);
@@ -193,21 +188,24 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     }
 
     @Override
-    public void showContentView(ArrayList<Theme> data) {
-        if (mCurrentRequestPageIndex == 1) {
+    public void showContentView(boolean isRefresh) {
+        if (isRefresh) {
             uploadRefreshLayout.finishRefresh();
             recyclerView.setVisibility(VISIBLE);
             emptyLayout.setVisibility(GONE);
-            adapter.data.clear();
-            adapter.setData(data);
+
         } else {
             uploadRefreshLayout.finishLoadMore(true);
-            adapter.data.addAll(data);
         }
         ThemeList.clearUploadTheme();
         ThemeList.setUploadTheme(adapter.data);
-        adapter.notifyDataSetChanged();
+        refreshData();
         HSGlobalNotificationCenter.sendNotification("have_upload_data");
+    }
+
+    private void refreshData() {
+        adapter.updateData(ThemeList.getInstance().getUserUploadTheme());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -217,8 +215,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         adapter.mDeleteDataList.clear();
         quitEditMode();
         if (adapter.data.size() == 0) {
-            mCurrentRequestPageIndex = 1;
-            presenter.requestUploadVideoData(mCurrentRequestPageIndex);
+            presenter.requestUploadVideoData(true);
         }
     }
 
