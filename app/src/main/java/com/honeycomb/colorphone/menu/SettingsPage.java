@@ -245,26 +245,7 @@ public class SettingsPage implements View.OnClickListener {
 
                 @Override
                 public void onSuccess(LoginUserBean loginUserBean) {
-                    userInfo = loginUserBean.getUser_info();
-                    GlideApp.with(context)
-                            .asBitmap()
-                            .load(userInfo.getHead_image_url())
-                            .placeholder(R.drawable.settings_icon_avatar)
-                            .into(avatarView);
-                    String name = userInfo.getName();
-                    if (TextUtils.isEmpty(name)) {
-                        nameView.setText("匿名");
-                    } else {
-                        nameView.setText(name);
-                    }
-                    String sign = userInfo.getSignature();
-                    if (TextUtils.isEmpty(sign)) {
-                        signView.setText(R.string.settings_sign);
-                    } else {
-                        signView.setText(sign);
-                    }
-                    nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, resources.getDrawable(R.drawable.settings_name_edit), null);
-                    signView.setVisibility(View.VISIBLE);
+                    showUserInfo(loginUserBean.getUser_info());
                 }
             });
 
@@ -275,5 +256,28 @@ public class SettingsPage implements View.OnClickListener {
             nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             signView.setVisibility(View.GONE);
         }
+    }
+
+    public void showUserInfo(LoginUserBean.UserInfoBean userInfo) {
+        this.userInfo = userInfo;
+        GlideApp.with(context)
+                .asBitmap()
+                .load(userInfo.getHead_image_url())
+                .placeholder(R.drawable.settings_icon_avatar)
+                .into(avatarView);
+        String name = userInfo.getName();
+        if (TextUtils.isEmpty(name)) {
+            nameView.setText("匿名");
+        } else {
+            nameView.setText(name);
+        }
+        String sign = userInfo.getSignature();
+        if (TextUtils.isEmpty(sign)) {
+            signView.setText(R.string.settings_sign);
+        } else {
+            signView.setText(sign);
+        }
+        nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.settings_name_edit), null);
+        signView.setVisibility(View.VISIBLE);
     }
 }

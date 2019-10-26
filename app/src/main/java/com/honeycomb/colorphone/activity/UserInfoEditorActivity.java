@@ -175,7 +175,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
                 break;
             case R.id.save_button:
                 editUserInfo();
-                finish();
+                saveButton.setEnabled(false);
                 break;
             case R.id.male_ticker:
                 setGender(true);
@@ -223,6 +223,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
         HttpManager.getInstance().editUserInfo(userInfoEdited, headImagePath, new Callback<ResponseBody>() {
             @Override
             public void onFailure(String errorMsg) {
+                saveButton.setEnabled(true);
                 Toast.makeText(UserInfoEditorActivity.this, "设置失败，请检查网络设置", Toast.LENGTH_SHORT).show();
             }
 

@@ -55,6 +55,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.news.NewsFrame;
@@ -1111,7 +1112,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
             }
         } else if (WXEntryActivity.NOTIFY_REFRESH_USER_INFO.equals(s)) {
-            mSettingsPage.refreshUserInfo();
+            if (hsBundle != null && hsBundle.getObject(WXEntryActivity.KEY_USER_INFO) instanceof LoginUserBean.UserInfoBean) {
+                mSettingsPage.showUserInfo((LoginUserBean.UserInfoBean) hsBundle.getObject(WXEntryActivity.KEY_USER_INFO));
+            } else {
+                mSettingsPage.refreshUserInfo();
+            }
         } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME.equals(s)) {
             refreshData();
         }
