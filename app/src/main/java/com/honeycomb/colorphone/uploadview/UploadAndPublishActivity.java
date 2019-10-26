@@ -31,6 +31,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     private TextView mAlreadyUploadButton;
     private TextView mAlreadyPublishButton;
     private TextView mVideoEditButton;
+    private UploadVideoView mUploadView;
+    private PublishVideoView mPublishView;
 
     public boolean isEditState = false;
 
@@ -75,14 +77,15 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             @NonNull
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                View view;
                 if (position == 0) {
-                    view = mLayoutInflater.inflate(R.layout.upload_video_layout, container, false);
+                    mUploadView = (UploadVideoView) mLayoutInflater.inflate(R.layout.upload_video_layout, container, false);
+                    container.addView(mUploadView);
+                    return mUploadView;
                 } else {
-                    view = mLayoutInflater.inflate(R.layout.publish_video_layout, container, false);
+                    mPublishView = (PublishVideoView) mLayoutInflater.inflate(R.layout.publish_video_layout, container, false);
+                    container.addView(mPublishView);
+                    return mPublishView;
                 }
-                container.addView(view);
-                return view;
             }
 
             @Override
@@ -102,6 +105,25 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     protected void onResume() {
         super.onResume();
         VideoManager.get().mute(true);
+        if (mUploadView != null && mViewPager.getCurrentItem() == 0) {
+            mUploadView.onResume();
+        }
+
+        if (mPublishView != null && mViewPager.getCurrentItem() == 1) {
+            mPublishView.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mUploadView != null && mViewPager.getCurrentItem() == 0) {
+            mUploadView.onPause();
+        }
+
+        if (mPublishView != null && mViewPager.getCurrentItem() == 1) {
+            mPublishView.onPause();
+        }
     }
 
     @Override

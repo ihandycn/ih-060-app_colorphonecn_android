@@ -86,22 +86,20 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
 
     }
 
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        super.onWindowVisibilityChanged(visibility);
-        if (visibility == VISIBLE) {
-            if (adapter != null) {
-                RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
-                if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
-                    ((UploadViewAdapter.ItemCardViewHolder) holder).startAnimation();
-                }
+    public void onResume() {
+        if (adapter != null) {
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
+            if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
+                ((UploadViewAdapter.ItemCardViewHolder) holder).startAnimation();
             }
-        } else {
-            if (adapter != null) {
-                RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
-                if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
-                    ((UploadViewAdapter.ItemCardViewHolder) holder).stopAnimation();
-                }
+        }
+    }
+
+    public void onPause() {
+        if (adapter != null) {
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
+            if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
+                ((UploadViewAdapter.ItemCardViewHolder) holder).stopAnimation();
             }
         }
     }
