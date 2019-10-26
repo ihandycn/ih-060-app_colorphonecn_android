@@ -10,13 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -43,6 +41,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     private boolean isShowEditButtonOnUploadPage = false;
     private boolean isShowEditButtonOnPublishPage = false;
 
+    private MediaSharedElementCallback sharedElementCallback;
+
     public static void start(Context context) {
         Intent starter = new Intent(context, UploadAndPublishActivity.class);
         context.startActivity(starter);
@@ -67,6 +67,11 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
 
         mLayoutInflater = LayoutInflater.from(this);
 
+        // Transition
+        sharedElementCallback = new MediaSharedElementCallback();
+        sharedElementCallback.setClearAfterConsume(true);
+        ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+
         mViewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
@@ -83,10 +88,12 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
                 if (position == 0) {
                     mUploadView = (UploadVideoView) mLayoutInflater.inflate(R.layout.upload_video_layout, container, false);
+                    mUploadView.setSharedElementCallback(sharedElementCallback);
                     container.addView(mUploadView);
                     return mUploadView;
                 } else {
                     mPublishView = (PublishVideoView) mLayoutInflater.inflate(R.layout.publish_video_layout, container, false);
+                    mPublishView.setSharedElementCallback(sharedElementCallback);
                     container.addView(mPublishView);
                     return mPublishView;
                 }

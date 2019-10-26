@@ -408,9 +408,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (prePos == pos) {
             return false;
         } else {
-            Theme t = data.get(prePos);
-            t.setSelected(false);
-            notifyItemSelected(prePos, t);
+            if (prePos != -1) {
+                Theme t = data.get(prePos);
+                t.setSelected(false);
+                notifyItemSelected(prePos, t);
+            }
         }
         // Reset current.
         Theme selectedTheme = data.get(pos);

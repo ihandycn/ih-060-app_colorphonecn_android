@@ -7,6 +7,8 @@ package com.honeycomb.colorphone.notification;
 public class NotificationConstants {
     public static final String NOTIFICATION_REFRESH_MAIN_FRAME = "NOTIFICATION_REFRESH_MAIN_FRAME";
     public static final String NOTIFICATION_PREVIEW_POSITION = "notify_prev_p_change";
+    public static final String NOTIFICATION_PREVIEW_UPLOAD_POSITION = "notify_prev_upload_change";
+    public static final String NOTIFICATION_PREVIEW_PUBLISH_POSITION = "notify_prev_publish_change";
     public static final String NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME = "update_theme_in_main_frame";
 
     public static final String NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD = "update_theme_in_user_upload";

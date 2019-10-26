@@ -123,9 +123,11 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (prePos == pos) {
             return;
         } else {
-            Theme t = data.get(prePos);
-            t.setSelected(false);
-            notifyItemSelected(prePos, t);
+            if (prePos != -1) {
+                Theme t = data.get(prePos);
+                t.setSelected(false);
+                notifyItemSelected(prePos, t);
+            }
         }
         // Reset current.
         Theme selectedTheme = data.get(pos);

@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -37,6 +38,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     private TextView deleteButton;
     private PublishVideoContract.Presenter presenter;
     private UploadViewAdapter adapter;
+
     private MediaSharedElementCallback sharedElementCallback;
 
     public PublishVideoView(Context context) {
@@ -89,11 +91,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
 
         //触发自动刷新
         publishRefreshLayout.autoRefresh();
-
-        // Transition
-        sharedElementCallback = new MediaSharedElementCallback();
-        sharedElementCallback.setClearAfterConsume(true);
-        ActivityCompat.setExitSharedElementCallback((Activity) getContext(), sharedElementCallback);
     }
 
     public void onResume() {
@@ -133,10 +130,14 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         if (recyclerView != null) {
             RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(exitPos);
             if (viewHolder != null && viewHolder.itemView != null) {
-                ImageView imageView = viewHolder.itemView.findViewById(R.id.card_preview_img);
+                ImageView imageView = viewHolder.itemView.findViewById(R.id.item_preview_img);
                 sharedElementCallback.setSharedElementViews(imageView);
             }
         }
+    }
+
+    public void setSharedElementCallback(MediaSharedElementCallback sharedElementCallback){
+        this.sharedElementCallback = sharedElementCallback;
     }
 
     @Override
@@ -146,6 +147,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         HSGlobalNotificationCenter.addObserver("publish_edit", this);
         HSGlobalNotificationCenter.addObserver("publish_cancel", this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION, this);
     }
 
     @Override
@@ -188,6 +190,12 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             quitEditMode();
         } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH.equals(s)) {
             refreshData();
+        }else if (NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION.equals(s)) {
+            if (adapter != null) {
+                int pos = hsBundle.getInt("position");
+                HSLog.d("preview pos = " + pos);
+                recyclerView.scrollToPosition(pos);
+            }
         }
     }
 

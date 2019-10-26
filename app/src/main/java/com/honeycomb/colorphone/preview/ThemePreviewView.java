@@ -1376,7 +1376,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // Notify others
             HSBundle bundle = new HSBundle();
             bundle.putInt("position", position);
-            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
+            if ("upload".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_UPLOAD_POSITION, bundle);
+            } else if ("publish".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION, bundle);
+            } else {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
+            }
         }
         triggerPageChangeWhenIdle = true;
     }
