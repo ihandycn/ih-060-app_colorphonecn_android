@@ -53,7 +53,11 @@ import java.util.List;
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
+    public static final String NOTIFY_THEME_UPLOAD_SELECT = "notify_theme_upload_select";
+    public static final String NOTIFY_THEME_PUBLISH_SELECT = "notify_theme_publish_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
+    public static final String NOTIFY_THEME_UPLOAD_DOWNLOAD = "notify_theme_upload_download";
+    public static final String NOTIFY_THEME_PUBLISH_DOWNLOAD = "notify_theme_publish_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
     public static final String FROM_MAIN = "notify_theme_context_key";

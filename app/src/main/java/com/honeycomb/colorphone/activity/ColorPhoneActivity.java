@@ -376,6 +376,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         initTab();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, this);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
@@ -1130,7 +1132,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
-        if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+        if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) ||
+                ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());

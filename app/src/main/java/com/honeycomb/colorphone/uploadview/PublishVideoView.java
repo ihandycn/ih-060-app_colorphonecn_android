@@ -93,6 +93,27 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     }
 
     @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == VISIBLE) {
+            if (adapter != null) {
+                RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
+                if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
+                    ((UploadViewAdapter.ItemCardViewHolder) holder).startAnimation();
+                }
+                adapter.notifyDataSetChanged();
+            }
+        } else {
+            if (adapter != null) {
+                RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapter.getLastSelectedLayoutPos());
+                if (holder instanceof UploadViewAdapter.ItemCardViewHolder) {
+                    ((UploadViewAdapter.ItemCardViewHolder) holder).stopAnimation();
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
@@ -182,8 +203,8 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             publishRefreshLayout.finishLoadMore(true);
             adapter.data.addAll(data);
         }
-        ThemeList.clearUploadTheme();
-        ThemeList.setUploadTheme(adapter.data);
+        ThemeList.clearPublishTheme();
+        ThemeList.setPublishTheme(adapter.data);
         adapter.notifyDataSetChanged();
         HSGlobalNotificationCenter.sendNotification("have_publish_data");
     }

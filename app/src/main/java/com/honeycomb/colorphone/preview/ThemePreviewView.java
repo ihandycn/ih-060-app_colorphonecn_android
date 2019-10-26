@@ -105,7 +105,11 @@ import hugo.weaving.DebugLog;
 
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_PUBLISH_DOWNLOAD;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.DOWNLOADING_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.INVALID_MODE;
@@ -171,6 +175,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private Theme mTheme;
     private Type mThemeType;
     private View dimCover;
+    private String mFrom;
 
     private ThemeStateManager themeStateManager;
 
@@ -375,6 +380,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mActivity = activity;
         mTheme = theme;
         mPosition = position;
+        mFrom = from;
         if ("upload".equals(from) || "publish".equals(from)) {
             mThemeType = mTheme;
         } else {
@@ -725,7 +731,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+        if ("upload".equals(mFrom)) {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_UPLOAD_SELECT, bundle);
+        } else if ("publish".equals(mFrom)) {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_PUBLISH_SELECT, bundle);
+        } else {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+        }
 
         Analytics.logEvent("ColorPhone_Set_Successed",
                 "SetType", "SetForAll",
@@ -1242,9 +1254,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (!mTheme.isLocked()) {
             HSBundle bundle = new HSBundle();
             bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+            if ("upload".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_UPLOAD_DOWNLOAD, bundle);
+            } else if ("publish".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_PUBLISH_DOWNLOAD, bundle);
+            } else {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+            }
         }
-
 
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
     }

@@ -17,6 +17,8 @@ public class Constants {
 
     public static final String NOTIFY_KEY_LIST_SCROLLED = "content_list_scrolled";
     public static final String NOTIFY_KEY_LIST_SCROLLED_TOP = "content_list_scrolled_TOP";
+    public static final String NOTIFY_KEY_LIST_UPLOAD_SCROLLED = "content_list_upload_scrolled";
+    public static final String NOTIFY_KEY_LIST_UPLOAD_SCROLLED_TOP = "content_list_upload_scrolled_TOP";
     public static final String NOTIFY_KEY_APP_FULLY_DISPLAY = "key_app_fully_display";
 
     public static String getFeedBackAddress() {
