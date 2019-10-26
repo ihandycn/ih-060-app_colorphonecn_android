@@ -33,10 +33,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     private PublishVideoContract.Presenter presenter;
     private UploadViewAdapter adapter;
 
-    private int mCurrentRequestPageIndex = 1;
-    //保存刷新之前的mCurrentRequestPageIndex，onRefresh会将mCurrentRequestPageIndex 置为1，request失败时，需要将mCurrentRequestPageIndex替换成lastCurrentPage
-    private int mLastCurrentPage = 1;
-
     public PublishVideoView(Context context) {
         super(context);
     }
@@ -74,8 +70,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         publishRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex = 1;
                 publishRefreshLayout.resetNoMoreData();
                 presenter.requestPublishVideoData(true);
             }
@@ -83,8 +77,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         publishRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                mLastCurrentPage = mCurrentRequestPageIndex;
-                mCurrentRequestPageIndex++;
                 presenter.requestPublishVideoData(false);
             }
         });
@@ -172,7 +164,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         } else {
             publishRefreshLayout.finishLoadMore(true);
         }
-        mCurrentRequestPageIndex = mLastCurrentPage;
 
         recyclerView.setVisibility(GONE);
         emptyLayout.setVisibility(VISIBLE);
@@ -203,8 +194,6 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         } else {
             publishRefreshLayout.finishLoadMore(true);
         }
-        ThemeList.clearPublishTheme();
-        ThemeList.setPublishTheme(adapter.data);
         refreshData();
         HSGlobalNotificationCenter.sendNotification("have_publish_data");
     }
@@ -217,11 +206,10 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     @Override
     public void updateEditStatusAfterDelete() {
         adapter.data.removeAll(adapter.mDeleteDataList);
-        ThemeList.getPublishTheme().removeAll(adapter.mDeleteDataList);
+        ThemeList.getInstance().getUserPublishTheme().removeAll(adapter.mDeleteDataList);
         adapter.mDeleteDataList.clear();
         quitEditMode();
         if (adapter.data.size() == 0) {
-            mCurrentRequestPageIndex = 1;
             presenter.requestPublishVideoData(true);
         }
     }

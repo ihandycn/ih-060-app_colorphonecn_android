@@ -352,10 +352,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return ThemeList.themes();
     }
 
-    protected List<Theme> getPublishTheme() {
-        return ThemeList.getPublishTheme();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();

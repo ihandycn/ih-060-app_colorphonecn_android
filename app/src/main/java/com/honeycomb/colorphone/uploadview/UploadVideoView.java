@@ -196,8 +196,6 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         } else {
             uploadRefreshLayout.finishLoadMore(true);
         }
-        ThemeList.clearUploadTheme();
-        ThemeList.setUploadTheme(adapter.data);
         refreshData();
         HSGlobalNotificationCenter.sendNotification("have_upload_data");
     }
@@ -210,7 +208,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     @Override
     public void updateEditStatusAfterDelete() {
         adapter.data.removeAll(adapter.mDeleteDataList);
-        ThemeList.getUploadTheme().removeAll(adapter.mDeleteDataList);
+        ThemeList.getInstance().getUserUploadTheme().removeAll(adapter.mDeleteDataList);
         adapter.mDeleteDataList.clear();
         quitEditMode();
         if (adapter.data.size() == 0) {

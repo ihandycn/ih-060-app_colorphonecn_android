@@ -108,8 +108,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     protected void onDestroy() {
         super.onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
-        ThemeList.clearPublishTheme();
-        ThemeList.clearUploadTheme();
+        ThemeList.getInstance().clearPublishData();
+        ThemeList.getInstance().clearUploadData();
     }
 
     @Override
