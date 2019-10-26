@@ -127,7 +127,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int adapterPos = themePositionToAdapterPosition(pos);
                     RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
 
-                    if (holder instanceof  ThemeCardViewHolder) {
+                    if (holder instanceof ThemeCardViewHolder) {
                         ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
                         cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
                         if (theme.isLike()) {
@@ -374,7 +374,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(activity,
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
-                            );
+                    );
 
             ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
         }
@@ -472,7 +472,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 curTheme.setPendingSelected(true);
             }
 
-            if ( curTheme.isPendingSelected()) {
+            if (curTheme.isPendingSelected()) {
                 curTheme.setSelected(true);
                 curTheme.setPendingSelected(false);
             }
@@ -630,7 +630,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             public void switchToReadyState(boolean ready, boolean isSelected) {
 
-                boolean showSelected = ready && isSelected ;
+                boolean showSelected = ready && isSelected;
                 if (showSelected) {
                     mThemeSelected.setVisibility(VISIBLE);
                 }

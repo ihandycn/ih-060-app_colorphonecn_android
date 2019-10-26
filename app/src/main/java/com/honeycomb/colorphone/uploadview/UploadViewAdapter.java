@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.ThemePreviewWindow;
 import com.bumptech.glide.load.DataSource;
@@ -72,17 +74,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) && "upload".equals(from)) {
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
-                    Theme selectedTheme = data.get(pos);
 
                     if (selectTheme(pos)) {
                         if (!context.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
                             notifyDataSetChanged();
                         }
                     }
-
-                    ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                            selectedTheme.getIdName().toLowerCase(),
-                            ConfigLog.FROM_DETAIL);
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "upload".equals(from)) {
                 if (hsBundle != null) {
@@ -91,17 +88,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else if (ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
-                    Theme selectedTheme = data.get(pos);
 
                     if (selectTheme(pos)) {
                         if (!context.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
                             notifyDataSetChanged();
                         }
                     }
-
-                    ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                            selectedTheme.getIdName().toLowerCase(),
-                            ConfigLog.FROM_DETAIL);
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
@@ -258,7 +250,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ItemCardViewHolder cardViewHolder = (ItemCardViewHolder) holder;
             cardViewHolder.setPositionTag(position);
 
+            int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
             final Theme curTheme = data.get(position);
+
+            if (selectedThemeId == curTheme.getId()) {
+                curTheme.setSelected(true);
+            }
 
             // CardView
             if (curTheme.isSelected()) {
