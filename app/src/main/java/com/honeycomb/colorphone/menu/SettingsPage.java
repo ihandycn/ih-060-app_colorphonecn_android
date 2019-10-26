@@ -3,6 +3,8 @@ package com.honeycomb.colorphone.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -33,12 +35,14 @@ import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 
 public class SettingsPage implements View.OnClickListener {
+    public static boolean avatarCropFinishied;
     private Context context;
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
@@ -134,6 +138,7 @@ public class SettingsPage implements View.OnClickListener {
                 return true;
             }
         });
+        avatarCropFinishied = false;
         refreshUserInfo();
     }
 
@@ -265,6 +270,10 @@ public class SettingsPage implements View.OnClickListener {
                 .load(userInfo.getHead_image_url())
                 .placeholder(R.drawable.settings_icon_avatar)
                 .into(avatarView);
+        if (avatarCropFinishied) {
+            avatarCropFinishied = false;
+            avatarView.setImageBitmap(BitmapFactory.decodeFile(UserInfoEditorActivity.getTempImagePath()));
+        }
         String name = userInfo.getName();
         if (TextUtils.isEmpty(name)) {
             nameView.setText("匿名");

@@ -39,7 +39,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.ringtones.view.RingtonePageView;
-import com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -55,6 +54,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
@@ -376,7 +376,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
-        HSGlobalNotificationCenter.addObserver(WXEntryActivity.NOTIFY_REFRESH_USER_INFO, this);
+        HSGlobalNotificationCenter.addObserver(HttpManager.NOTIFY_REFRESH_USER_INFO, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME, this);
 
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
@@ -1111,9 +1111,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d("preview pos = " + pos);
                 mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
             }
-        } else if (WXEntryActivity.NOTIFY_REFRESH_USER_INFO.equals(s)) {
-            if (hsBundle != null && hsBundle.getObject(WXEntryActivity.KEY_USER_INFO) instanceof LoginUserBean.UserInfoBean) {
-                mSettingsPage.showUserInfo((LoginUserBean.UserInfoBean) hsBundle.getObject(WXEntryActivity.KEY_USER_INFO));
+        } else if (HttpManager.NOTIFY_REFRESH_USER_INFO.equals(s)) {
+            if (hsBundle != null && hsBundle.getObject(HttpManager.KEY_USER_INFO) instanceof LoginUserBean.UserInfoBean) {
+                mSettingsPage.showUserInfo((LoginUserBean.UserInfoBean) hsBundle.getObject(HttpManager.KEY_USER_INFO));
             } else {
                 mSettingsPage.refreshUserInfo();
             }

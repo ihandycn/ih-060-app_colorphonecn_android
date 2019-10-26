@@ -9,14 +9,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,18 +30,21 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.IHttpRequest;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 
 public class UserInfoEditorActivity extends HSAppCompatActivity implements View.OnClickListener {
-    private static final int REQUEST_SELECT_IMAGE = 100;
+    private static final int RESULT_SELECT_IMAGE = 100;
+    private static final int RESULT_CROP_IMAGE = 200;
     private LoginUserBean.UserInfoBean userInfo;
     private LoginUserBean.UserInfoBean userInfoEdited;
     private ImageView avatarView;
@@ -54,6 +56,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     private TextView signEditor;
     private TextView saveButton;
     private String headImagePath;
+    private File tempImageFile;
+    private boolean imageCroped;
 
     public static void start(Context context, LoginUserBean.UserInfoBean userInfoBean) {
         Intent starter = new Intent(context, UserInfoEditorActivity.class);
@@ -70,10 +74,25 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
         toolbar.setTitle(R.string.edit_user_info);
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
         userInfo = (LoginUserBean.UserInfoBean) getIntent().getSerializableExtra("user_info");
-        userInfoEdited = cloneUserInfoBean(userInfo);
-
+        if (userInfo != null) {
+            userInfoEdited = cloneUserInfoBean(userInfo);
+        } else {
+            finish();
+        }
         initView();
         initListener();
+
+        imageCroped = false;
+        tempImageFile = new File(getTempImagePath());
+    }
+
+    public static String getTempImagePath() {
+        String tempImagePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        if (!tempImagePath.endsWith(File.separator)) {
+            tempImagePath += File.separator;
+        }
+        tempImagePath += "temp_avatar_image.jpg";
+        return tempImagePath;
     }
 
     private void initView() {
@@ -176,6 +195,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             case R.id.save_button:
                 editUserInfo();
                 saveButton.setEnabled(false);
+                Toast.makeText(this, "正在上传", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.male_ticker:
                 setGender(true);
@@ -191,18 +211,36 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SELECT_IMAGE) {
+        if (requestCode == RESULT_SELECT_IMAGE) {
             if (data != null && data.getData() != null) {
                 Uri uri = data.getData();
-                String filePath = uri.toString();
-                if (filePath.contains("content://")) {
-                    filePath = getRealPathFromURI(uri);
-                }
-                avatarView.setImageBitmap(BitmapFactory.decodeFile(filePath));
-                headImagePath = filePath;
-                refreshButton();
+                cropPhoto(uri);
             }
+        } else if (requestCode == RESULT_CROP_IMAGE) {
+            GlideApp.with(this)
+                    .clear(avatarView);
+            String tempImagePath = tempImageFile.getAbsolutePath();
+            avatarView.setImageBitmap(BitmapFactory.decodeFile(tempImagePath));
+            headImagePath = tempImagePath;
+            imageCroped = true;
+            refreshButton();
         }
+    }
+
+    private void cropPhoto(Uri inputUri) {
+        // 调用系统裁剪图片的 Action
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 900);
+        intent.putExtra("outputY", 900);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.setDataAndType(inputUri, "image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempImageFile));
+        startActivityForResult(intent, RESULT_CROP_IMAGE);
     }
 
     private String getRealPathFromURI(Uri contentUri) { //传入图片uri地址
@@ -216,7 +254,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
 
     private void selectFromAlbumSingle() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+        startActivityForResult(intent, RESULT_SELECT_IMAGE);
     }
 
     private void editUserInfo() {
@@ -230,7 +268,11 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             @Override
             public void onSuccess(ResponseBody responseBody) {
                 finish();
-                HttpManager.getInstance().refreshUserInfo();
+                if (imageCroped && tempImageFile.exists()) {
+                    imageCroped = false;
+                    SettingsPage.avatarCropFinishied = true;
+                }
+                HttpManager.getInstance().refreshUserInfo(null);
                 Toast.makeText(UserInfoEditorActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
             }
         });

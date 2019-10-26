@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.http;
 
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity;
@@ -15,6 +16,7 @@ import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.http.lib.utils.HttpUtils;
 import com.honeycomb.colorphone.http.lib.utils.RetrofitFactory;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Preferences;
 
 import org.json.JSONArray;
@@ -32,7 +34,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 
 public final class HttpManager {
-
+    public static final String NOTIFY_REFRESH_USER_INFO = "notify_refresh_user_info";
+    public static final String KEY_USER_INFO = "key_user_info";
     private static final String PREF_USER_TOKEN = "pref_user_token";
     private static final String PREF_USER_ID = "pref_user_id";
 
@@ -202,11 +205,13 @@ public final class HttpManager {
 
     public void logout(){
         saveUserTokenAndUid("","");
-        refreshUserInfo();
+        refreshUserInfo(null);
     }
 
-    public void refreshUserInfo(){
-        HSGlobalNotificationCenter.sendNotification(WXEntryActivity.NOTIFY_REFRESH_USER_INFO);
+    public void refreshUserInfo(@Nullable LoginUserBean.UserInfoBean userInfoBean){
+        HSBundle bundle = new HSBundle();
+        bundle.putObject(KEY_USER_INFO,userInfoBean);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO,bundle);
     }
 
 }

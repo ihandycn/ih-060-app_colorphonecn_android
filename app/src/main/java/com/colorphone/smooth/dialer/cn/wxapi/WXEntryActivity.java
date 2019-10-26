@@ -10,8 +10,6 @@ import com.honeycomb.colorphone.activity.LoginActivity;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
-import com.ihs.commons.utils.HSBundle;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -21,8 +19,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-    public static final String NOTIFY_REFRESH_USER_INFO = "notify_refresh_user_info";
-    public static final String KEY_USER_INFO = "key_user_info";
     private IWXAPI api;
 
     @Override
@@ -61,13 +57,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         HttpManager.getInstance().saveUserTokenAndUid(loginInfoBean.getToken(), loginInfoBean.getUser_info().getUser_id());
                     }
                     success();
-                    HSBundle bundle = new HSBundle();
-                    LoginUserBean.UserInfoBean userInfo=null;
-                    if (loginInfoBean!=null){
-                        userInfo = loginInfoBean.getUser_info();
+                    if (loginInfoBean != null) {
+                        HttpManager.getInstance().refreshUserInfo(loginInfoBean.getUser_info());
                     }
-                    bundle.putObject(KEY_USER_INFO,userInfo);
-                    HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO,bundle);
+                    HttpManager.getInstance().refreshUserInfo(null);
+
                 }
             });
             Toast.makeText(this, "正在登录", Toast.LENGTH_SHORT).show();
