@@ -55,6 +55,7 @@ import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -85,7 +86,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private int confirmDialogPermission = 0;
     private boolean isAgreePrivacy;
 
-    public static @Nullable Intent getIntent(Context context, String from) {
+    public static @Nullable
+    Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
                 || RomUtils.checkIsHuaweiRom()
                 || RomUtils.checkIsOppoRom()) {
@@ -157,7 +159,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                             }
                         }
 
-                        if (!directPermission){
+                        if (!directPermission) {
                             ModuleUtils.setAllModuleUserEnable();
                             showAccessibilityPermissionPage();
                         }
@@ -177,7 +179,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     boolean isOnNewIntent = false;
-    @Override protected void onNewIntent(Intent intent) {
+
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         HSLog.i(TAG, "onNewIntent");
         isOnNewIntent = true;
@@ -196,7 +200,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (!TextUtils.isEmpty(termServiceStr)) {
             TextView termsOfService = findViewById(R.id.start_guide_service);
             if (termsOfService != null) {
-                termsOfService.setOnClickListener(v ->  Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
+                termsOfService.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
             }
         }
     }
@@ -213,9 +217,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private boolean canShowSkip() {
         return (permissionShowCount >= HSConfig.optInteger(3, "Application", TAG, "SkipShowCount")
-                    && !AutoRequestManager.getInstance().isGrantAllPermission())
+                && !AutoRequestManager.getInstance().isGrantAllPermission())
                 || (AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()
-                    && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted"));
+                && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted"));
     }
 
     private void showAccessibilityPermissionPage() {
@@ -450,7 +454,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         View permissionDialog = findViewById(R.id.start_guide_confirm_permission);
         permissionDialog.setVisibility(View.VISIBLE);
         permissionDialog.setOnTouchListener(new View.OnTouchListener() {
-            @Override public boolean onTouch(View v, MotionEvent event) {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
@@ -556,7 +561,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         //Ignore back press.
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
@@ -570,11 +576,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, s)) {
             HSLog.i(TAG, "onPermissionChanged onReceive");
             onPermissionChanged();
@@ -607,7 +615,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         });
 
         handler.postDelayed(() -> {
-            title.setText(R.string.start_guide_request_accessibility_title);
+            if (shouldShowNewOppoTittleText()) {
+                title.setText(R.string.start_guide_request_accessibility_title_for_oppo_above_API24_Color32);
+            } else {
+                title.setText(R.string.start_guide_request_accessibility_title);
+            }
             title.animate().alpha(0.8f).setDuration(750).start();
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
@@ -617,7 +629,53 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 "Permission", AutoLogger.getGrantRuntimePermissions());
     }
 
+    private boolean shouldShowNewOppoTittleText() {
+        if (!Compats.IS_OPPO_DEVICE) {
+            return false;
+        }
+        if (!RomUtils.checkIsOppoRom()) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT < 24) {
+            return false;
+        }
+        String romVersion = com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion();
+        if (romVersion == null || romVersion.length() == 0) {
+            return false;
+        }
+        for (int i = 0; i < romVersion.length(); i++) {
+            if (Character.isDigit(romVersion.charAt(0))) {
+                break;
+            } else {
+                if (romVersion.length() <= 1) {
+                    return false;
+                }
+                romVersion = romVersion.substring(1);
+            }
+        }
+        String[] romNumbers = romVersion.split("\\.");
+        if (romNumbers.length<2){
+            return false;
+        }
+        if (!(isNumeric(romNumbers[0]) && isNumeric(romNumbers[1]))){
+            return false;
+        }
+        if (Integer.parseInt(romNumbers[0])<3){
+            return false;
+        }
+        return Integer.parseInt(romNumbers[0]) != 3 || Integer.parseInt(romNumbers[1]) >= 2;
+    }
+
+    public static boolean isNumeric(String str){
+
+        Pattern pattern = Pattern.compile("[0-9]*");
+
+        return pattern.matcher(str).matches();
+
+    }
+
     private Toast toast;
+
     public void showToast() {
         if (toast != null) {
             toast.cancel();
@@ -630,7 +688,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
         TextView textView = contentView.findViewById(R.id.start_guide_check);
         textView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent), Dimensions.pxFromDp(8), false));
-        toast.setGravity(Gravity.CENTER, 0 , 0);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(contentView);
         toast.show();
 
@@ -708,7 +766,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                         if (AutoPermissionChecker.isPhonePermissionGranted()) {
                             if (!AutoRequestManager.getInstance().isGrantAllPermission()
-                                && oneKeyFixPressed) {
+                                    && oneKeyFixPressed) {
                                 AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
                             } else {
                                 confirmDialogPermission = StartGuidePermissionFactory.PERMISSION_TYPE_PHONE;
