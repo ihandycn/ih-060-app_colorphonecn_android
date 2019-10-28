@@ -323,9 +323,11 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     }
 
     private void deleteTempFile(String path) {
-        File file = new File(path);
-        if (file.exists()) {
-            file.delete();
+        if (path != null) {
+            File file = new File(path);
+            if (file.exists()) {
+                file.delete();
+            }
         }
     }
 
