@@ -61,6 +61,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         mAlreadyPublishButton = findViewById(R.id.already_publish);
         mVideoEditButton = findViewById(R.id.video_edit);
 
+        mVideoEditButton.setVisibility(View.GONE);
+
         mBackIconButton.setOnClickListener(this);
         mAlreadyUploadButton.setOnClickListener(this);
         mAlreadyPublishButton.setOnClickListener(this);
@@ -231,12 +233,24 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
     public void onReceive(String s, HSBundle hsBundle) {
         if ("no_upload_data".equals(s)) {
             isShowEditButtonOnUploadPage = false;
+            if (mViewPager.getCurrentItem() == 0 && mVideoEditButton != null) {
+                mVideoEditButton.setVisibility(View.GONE);
+            }
         } else if ("no_publish_data".equals(s)) {
             isShowEditButtonOnPublishPage = false;
+            if (mViewPager.getCurrentItem() == 1 && mVideoEditButton != null) {
+                mVideoEditButton.setVisibility(View.GONE);
+            }
         } else if ("have_upload_data".equals(s)) {
             isShowEditButtonOnUploadPage = true;
+            if (mViewPager.getCurrentItem() == 0 && mVideoEditButton != null) {
+                mVideoEditButton.setVisibility(View.VISIBLE);
+            }
         } else if ("have_publish_data".equals(s)) {
             isShowEditButtonOnPublishPage = true;
+            if (mViewPager.getCurrentItem() == 1 && mVideoEditButton != null) {
+                mVideoEditButton.setVisibility(View.VISIBLE);
+            }
         } else if ("quit_edit_mode".equals(s)) {
             isEditState = false;
             mVideoEditButton.setText(getBaseContext().getResources().getString(R.string.edit));

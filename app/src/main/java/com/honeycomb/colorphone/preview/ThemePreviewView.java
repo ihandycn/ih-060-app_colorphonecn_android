@@ -493,8 +493,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mThemeLikeCount.setVisibility(VISIBLE);
             mThemeLikeAnim.setVisibility(VISIBLE);
         } else {
-            mThemeLikeCount.setVisibility(GONE);
-            mThemeLikeAnim.setVisibility(GONE);
+            mThemeLikeCount.setVisibility(INVISIBLE);
+            mThemeLikeAnim.setVisibility(INVISIBLE);
         }
         mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         if (mTheme.isLike()) {
