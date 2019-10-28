@@ -365,6 +365,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
         Analytics.logEvent("Upload_Upload_Fail", "type", errorMsg);
+        if (errorMsg != null && errorMsg.contains("Unable to resolve host")) {
+            Toasts.showToast("网络异常，请稍候再试");
+        }
     }
 
     @Override
