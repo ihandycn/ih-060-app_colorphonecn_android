@@ -22,7 +22,6 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <com.honeycomb.colorphone.view.RoundImageVIew
-        android:id="@+id/news_mark_view"
         android:layout_width="match_parent"
         android:layout_height="182dp"
         android:background="@drawable/news_big_image_mark"
@@ -110,7 +109,6 @@
         />
 
     <com.honeycomb.colorphone.view.RoundImageVIew
-        android:id="@+id/news_play_view"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/news_video_play"

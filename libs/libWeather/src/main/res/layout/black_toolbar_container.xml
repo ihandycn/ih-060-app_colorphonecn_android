@@ -19,7 +19,6 @@
         tools:ignore="PrivateResource" />
 
     <View
-        android:id="@+id/tab_separate_line_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#dedede"

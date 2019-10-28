@@ -7,14 +7,9 @@
   <string name="charging_screen_charged_left_describe">Full charge left %1$s</string>
   <string name="charging_screen_charged_full">Fully charged</string>
   <string name="charging_screen_menu_item">Turn off</string>
-  <string name="charging_screen_unlock_describe">Swipe to unlock</string>
-  <string name="charging_screen_charging_tip1">Stop background apps to accelerate charge speed.</string>
-  <string name="charging_screen_charging_tip2">Reaching a temperature of 40\u2103 can be harmful for your battery.</string>
-  <string name="charging_screen_charging_tip3">Smart Charging monitors your charge status to ensure your battery is in a good state.</string>
-  <string name="charging_screen_charging_tip4">Removing your charger could harm your battery while in the charging battery mode.</string>
-  <string name="charging_screen_charging_tip5">Even though the phone is not charged, it\’s safe to remove charger while in the almost charged mode.</string>
-  <string name="charging_screen_charging_tip6">%1$s will reduce the charge to protect your battery during the fully charged mode.</string>
-  <string name="charging_screen_charging_speed_charging_state_tip_view">Removing charger would be harmful to your battery</string>
+    <string name="charging_screen_charging_tip2">Reaching a temperature of 40\u2103 can be harmful for your battery.</string>
+    <string name="charging_screen_charging_tip5">Even though the phone is not charged, it\’s safe to remove charger while in the almost charged mode.</string>
+    <string name="charging_screen_charging_speed_charging_state_tip_view">Removing charger would be harmful to your battery</string>
   <string name="charging_screen_charging_continue_charging_state_tip_view">Phone is not charged, and it\’s safe to remove charger</string>
   <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher is reducing the charge to protect your battery</string>
   <string name="charging_screen_close_dialog_title">Turn Off Smart Charging?</string>
@@ -22,11 +17,8 @@
   <string name="charging_screen_close_dialog_negative_action">TURN OFF</string>
   <string name="charging_screen_close_dialog_positive_action">NOT NOW</string>
   <string name="charging_screen_guide_turn_on">Your battery is under protection!</string>
-  <string name="charging_screen_settings_title">Battery protection</string>
-  <string name="charging_screen_settings_subtitle">(May contain ads)</string>
-  <string name="charging_screen_settings_description">Protect device from overcharging</string>
 
-  <string name="smart_charging_spread_bottom_content_title">Smart Charging</string>
+    <string name="smart_charging_spread_bottom_content_title">Smart Charging</string>
   <string name="smart_charging_spread_bottom_content_des1">Display real-time charging status.</string>
   <string name="smart_charging_spread_bottom_content_des2">Evaluate charging finish time.</string>
   <string name="smart_charging_spread_bottom_content_des3">Full charge and overcharge alerts</string>
@@ -41,12 +33,9 @@
   <string name="locker_disable_confirm">Sure to turn off?</string>
   <string name="locker_disable_confirm_detail">Once disabled, you will not be able to see the screensaver. Proceed?</string>
   <string name="locker_diabled_success">The screensaver has been turned off</string>
-  <string name="slide_to_unlock">Slide to unlock</string>
-  <string name="locker_slide_wallpaper_title">Screensaver Wallpaper</string>
-  <string name="locker_settings">Screensaver settings</string>
-  <string name="locker_settings_title">Screensaver</string>
-  <string name="locker_settings_subtitle">(May contain ads)</string>
-  <string name="wallpaper_network_error">Network errors. Please try again.</string>
+    <string name="locker_slide_wallpaper_title">Screensaver Wallpaper</string>
+    <string name="locker_settings_title">Screensaver</string>
+    <string name="wallpaper_network_error">Network errors. Please try again.</string>
   <string name="game_locker_hint">点击开玩</string>
   <string name="unlock_tint_keyguard">上滑解锁</string>
   <string name="unlock_tint_no_keyguard">已解锁 上滑进入</string>

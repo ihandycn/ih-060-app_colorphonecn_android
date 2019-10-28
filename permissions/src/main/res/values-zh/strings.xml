@@ -3,11 +3,6 @@
 <string name="acb_phone_grant_notification_access_title">為了輕鬆接聽來電請開啟通知訪問權限</string>
   <string name="draw_overlay_window_hint">启用"显示在其他应用的上层"以显示来电闪屏</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
-<string name="normal_permission_guide_dialog_content">選擇“權限”，然後開啟“電話”、“短信”、“通訊錄”權限</string>
-  <string name="normal_permission_guide_permission">權限</string>
-  <string name="permission_request_call">電話</string>
-  <string name="permission_request_sms">短信</string>
-  <string name="permission_request_contacts">通訊錄</string>
-<string name="phone_contact_permission_settings_guide_title">選擇"權限"，然後開啟"電話"、"通訊錄"權限</string>
+    <string name="phone_contact_permission_settings_guide_title">選擇"權限"，然後開啟"電話"、"通訊錄"權限</string>
   <string name="acb_phone_grant_autostart_access_title">啟用自啟動權限以顯示來電閃屏</string>
 </resources>

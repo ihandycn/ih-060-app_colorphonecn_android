@@ -1,9 +1,13 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.os.Build;
+import android.provider.Settings;
+
 import android.Manifest;
 
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.Compats;
 
@@ -30,7 +34,7 @@ public class AutoLogger {
 
     public static void logEventWithBrandAndOS(String EventID) {
         Analytics.logEvent(EventID,
-                "Brand", getBrand(), "Os", getOSVersion());
+                "Brand", getBrand(), "Os", getOSVersion(),"Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"));
     }
 
     public static String formatPermissionName(String type) {

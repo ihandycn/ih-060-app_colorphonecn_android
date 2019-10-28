@@ -130,7 +130,6 @@
             app:typeface="@string/custom_font_light" />
 
         <LinearLayout
-            android:id="@+id/weather_days_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_weather_icon"

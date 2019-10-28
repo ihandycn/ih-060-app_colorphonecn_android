@@ -3,14 +3,9 @@
   <string name="charging_screen_charged_left_describe">Batterie pleine pour %1$s</string>
   <string name="charging_screen_charged_full">Batterie pleine</string>
   <string name="charging_screen_menu_item">Désactiver</string>
-  <string name="charging_screen_unlock_describe">Balayez pour déverrouiller</string>
-  <string name="charging_screen_charging_tip1">Arrêtez les applications en arrière-plan pour accélérer la vitesse de chargement.</string>
-  <string name="charging_screen_charging_tip2">La batterie peut être endommagée si elle atteint une température de 40\u2103.</string>
-  <string name="charging_screen_charging_tip3">Le chargement intelligent surveille l\'état de charge de la batterie.</string>
-  <string name="charging_screen_charging_tip4">Retirer le chargeur pendant que la batterie se charge peut endommager celle-ci.</string>
-  <string name="charging_screen_charging_tip5">Même si le téléphone n\'est pas chargé, vous pouvez retirer le chargeur quand le téléphone est presque chargé.</string>
-  <string name="charging_screen_charging_tip6">%1$s réduit la charge pour protéger votre batterie quand le téléphone est entièrement chargé.</string>
-  <string name="charging_screen_charging_speed_charging_state_tip_view">Retirer le chargeur peut endommager la batterie.</string>
+    <string name="charging_screen_charging_tip2">La batterie peut être endommagée si elle atteint une température de 40\u2103.</string>
+    <string name="charging_screen_charging_tip5">Même si le téléphone n\'est pas chargé, vous pouvez retirer le chargeur quand le téléphone est presque chargé.</string>
+    <string name="charging_screen_charging_speed_charging_state_tip_view">Retirer le chargeur peut endommager la batterie.</string>
   <string name="charging_screen_charging_continue_charging_state_tip_view">Le téléphone n\'est pas chargé. Vous pouvez retirer le chargeur.</string>
   <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher réduit la charge pour protéger votre batterie</string>
   <string name="charging_screen_close_dialog_title">Désactiver le chargement intelligent ?</string>
@@ -18,10 +13,7 @@
   <string name="charging_screen_close_dialog_negative_action">DÉSACTIVER</string>
   <string name="charging_screen_close_dialog_positive_action">PAS MAINTENANT</string>
   <string name="charging_screen_guide_turn_on">Votre batterie est protégée !</string>
-  <string name="charging_screen_settings_title">Protection de la batterie</string>
-  <string name="charging_screen_settings_subtitle">(Contient des publicités)</string>
-  <string name="charging_screen_settings_description">Protéger l\'appareil contre la surcharge</string>
-  <string name="smart_charging_spread_bottom_content_title">Chargement intelligent</string>
+    <string name="smart_charging_spread_bottom_content_title">Chargement intelligent</string>
   <string name="smart_charging_spread_bottom_content_des1">Affiche en temps réel l\'état de chargement</string>
   <string name="smart_charging_spread_bottom_content_des2">Évalue l\'heure de fin de chargement</string>
   <string name="smart_charging_spread_bottom_content_des3">Alertes de chargement terminé et de surcharge</string>
@@ -32,10 +24,7 @@
   <string name="locker_disable_confirm">Vraiment désactiver ?</string>
   <string name="locker_disable_confirm_detail">Une fois désactivé, vous ne verrez plus le verrouilleur d\'écran. Continuer ?</string>
   <string name="locker_diabled_success">Le verrouilleur a été désactivé</string>
-  <string name="slide_to_unlock">Faites glisser pour déverrouiller</string>
-  <string name="locker_slide_wallpaper_title">Fond d\'écran du verrouilleur</string>
-  <string name="locker_settings">Paramètres du verrouilleur</string>
-  <string name="locker_settings_title">Verrouilleur d\'écran</string>
-  <string name="locker_settings_subtitle">(Contient des publicités)</string>
-  <string name="wallpaper_network_error">Erreur réseau. Veuillez réessayer.</string>
+    <string name="locker_slide_wallpaper_title">Fond d\'écran du verrouilleur</string>
+    <string name="locker_settings_title">Verrouilleur d\'écran</string>
+    <string name="wallpaper_network_error">Erreur réseau. Veuillez réessayer.</string>
 </resources>

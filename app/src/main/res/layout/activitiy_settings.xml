@@ -180,7 +180,6 @@
                     android:layout_centerVertical="true" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    android:id="@+id/notification_toolbar_switch_txt"
                     style="@style/NormalText.Settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

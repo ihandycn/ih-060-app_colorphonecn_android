@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.factoryimpl;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +33,6 @@ import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -48,8 +46,6 @@ import com.ihs.flashlight.FlashlightManager;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
-import com.superapps.util.Threads;
 
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
 import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME;
@@ -124,20 +120,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new CallIdleAlert.FlurryEvent() {
 
             private long mTimeReadyToShow;
-            final Runnable mDisplayTimeoutRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("TimeOutNotShowCallAssistant"));
-                }
-            };
 
-            final Runnable mDisplayTimeoutRunnable2 = new Runnable() {
-                @Override
-                public void run() {
-                    ColorPhoneCrashlytics.getInstance().logException(new IllegalStateException("TimeOutNotShowCallAssistantTarget, contact : " +
-                            RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_CONTACTS)));
-                }
-            };
+
 
             @Override
             public void onShouldShow(int callType, boolean isLocked) {
@@ -149,11 +133,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 "Lock", String.valueOf(isLocked));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND.toUpperCase() + getDeviceInfo());
-                    Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
-                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
-                } else {
-                    Threads.removeOnMainThread(mDisplayTimeoutRunnable);
-                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable, 8000);
                 }
 
             }
@@ -178,8 +157,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShow(int callType, boolean isLocked) {
-                Threads.removeOnMainThread(mDisplayTimeoutRunnable);
-                Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 Analytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
                         "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow),
                         "Brand", Build.BRAND.toLowerCase());

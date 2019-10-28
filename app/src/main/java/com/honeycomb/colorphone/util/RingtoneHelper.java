@@ -215,9 +215,6 @@ public class RingtoneHelper {
                 // System ringtone uri may not contain media id.
                 lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
             } catch (Exception ignore) {
-                ColorPhoneCrashlytics.getInstance().logException(
-                        new IllegalStateException("Ringtone uri is not contain id segment : " + oldRingtoneUri)
-                );
             }
         }
 

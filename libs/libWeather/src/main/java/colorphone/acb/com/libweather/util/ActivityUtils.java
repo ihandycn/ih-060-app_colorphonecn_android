@@ -104,30 +104,7 @@ public class ActivityUtils {
             setNavigationBarColor(activity, DEFAULT_NAVIGATION_BAR_COLOR);
         }
     }
-
-
-    public static void setStatusBarColorNative(Activity activity, int color) {
-        View statusBarView = ViewUtils.findViewById(activity, R.id.status_bar_bg_v);
-        if (null != statusBarView) {
-            if (color == Color.TRANSPARENT) {
-                statusBarView.setVisibility(View.GONE);
-            } else {
-                int statusBarHeight = Dimensions.getStatusBarHeight(activity);
-                if (statusBarHeight == 0) {
-                    statusBarView.setVisibility(View.GONE);
-                } else {
-                    InsettableFrameLayout.LayoutParams layoutParams = new InsettableFrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.mInsetWay = InsettableFrameLayout.LayoutParams.InsetWay.NONE;
-                    layoutParams.height = statusBarHeight;
-                    statusBarView.setLayoutParams(layoutParams);
-                    layoutParams.gravity = Gravity.TOP;
-                    statusBarView.setBackgroundColor(color);
-                    statusBarView.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    }
+    
 
     public static void setNavigationBarColorNative(Activity activity, int color) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

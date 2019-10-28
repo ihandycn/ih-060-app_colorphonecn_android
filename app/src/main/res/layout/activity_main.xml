@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/main_root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,7 +37,27 @@
                 app:lottie_fileName="lottie/ringtone_guide.json"/>
         </FrameLayout>
 
-    </android.support.v7.widget.Toolbar>
+        <FrameLayout
+            android:layout_width="55dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_height="40dp" >
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_guide"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:visibility="gone"
+            app:lottie_loop="false"
+            app:lottie_imageAssetsFolder="lottie/ringtone_guide_images"
+            app:lottie_fileName="lottie/ringtone_guide.json"/>
+    </FrameLayout>
+
+
+</android.support.v7.widget.Toolbar>
 
     <com.honeycomb.colorphone.view.TabFrameLayout
         android:id="@+id/tab_frame_container"

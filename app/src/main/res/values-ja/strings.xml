@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
-    <string name="app_slogan">カラフルなタッチで目立とう</string>
 
     <string name="settings">設定</string>
     <string name="feedback">フィードバック</string>
 
-    <string name="theme_apply">適用</string>
     <string name="apply_success">設定に成功</string>
     <string name="theme_current">現在のテーマ</string>
-    <string name="send_email">Eメールを送信</string>
-    <string name="loading">読み込み中 </string>
 
     <string name="privacy_policy">プライバシー規約</string>
     <string name="terms_of_service">利用規約</string>
 
     <string name="guide_enable_all_module">電話アシスタント有効にする</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
     <string name="about">アバウト</string>
 
     <string name="guide_apply_theme_hint">通話画面のテーマの設定に成功しました！お楽しみください！</string>
@@ -33,8 +28,6 @@
     <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
 
     <string name="theme_set_for_all">すべてを設定</string>
-    <string name="theme_set_for_one">特定の人に設定</string>
-    <string name="contact_select_hint">選択した連絡先に「%1$s」テーマを適用する</string>
     <string name="contact_theme">連絡のテーマ</string>
 
     <string name="edit">編集</string>
@@ -42,10 +35,8 @@
     <string name="delete">削除</string>
     <string name="select_contacts">連絡先を選択</string>
 
-    <string name="boost_plus_free_up">空きスペース</string>
     <string name="boost_plus_exiting">終了中</string>
 
-    <string name="boost_tip_optimal">お使いの電話は最適です！</string>
     <string name="boost_notification_low_ram_btn">ブースト</string>
     <string name="boost_title">ブースト</string>
 
@@ -53,17 +44,7 @@
     <string name="settings_notification_boost">ブースト通知</string>
     <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
 
-    <string name="may_contain_ads">広告を含む場合があります。</string>
-
-    <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする。</string>
-
-    <string name="avatar_content">自分のアバターをすぐに作ってください</string>
-    <string name="action_back">戻る</string>
-    <string name="action_install">インストール</string>
-
     <!--Ringtone-->
-    <string name="ringtone_hint_after_apply">テーマと着信音の設定に成功</string>
-    <string name="ringtone_hint_before_apply">テーマを設定して着信音を楽しむ</string>
 
     <string name="five_star_hint_text">感想をお聞かせください。</string>
     <string name="five_star_positive_text">提出</string>
@@ -90,7 +71,6 @@
 
 
     <string name="gdpr_settings_cell">アナリティクス＆広告</string>
-    <string name="gdpr_share_data">開発者とデータを共有する</string>
     <string name="gdpr_dialog_title">オフにしてよろしいですか？</string>
     <string name="gdpr_dialog_content">これらの収集されたデータは、開発者がアプリをより使いやすくするために役立ちます。</string>
     <string name="gdpr_dialog_turn_off">オフにする</string>
@@ -99,69 +79,22 @@
     <string name="battery_clean_title"> バッテリーセーバー</string>
     <string name="cpu_positive_feedback_title">クールダウンされました</string>
     <string name="result_page_click_guide_tip">最適化するために続ける</string>
-    <string name="desktop_tips_content_guide_msg">今日の豆知識</string>
     <string name="apply_btn">適用</string>
     <string name="menu_item_settings">設定</string>
     <string name="battery_title">バッテリー</string>
-    <string name="battery_bluetooth">ブルートゥース</string>
-    <string name="battery_mobile_data">モバイルデータ</string>
-    <string name="battery_current">現在</string>
-    <string name="battery_already_optimal">あなたのバッテリーは良好です！</string>
-    <string name="battery_auto">自動</string>
-    <string name="battery_auto_sync">自動同期</string>
-    <string name="battery_brightness">明るさ</string>
-    <string name="battery_careful">注意して</string>
-    <string name="battery_charging_left">残りの充電</string>
-    <string name="battery_current_content">現在の設定がこちらに保存されます。</string>
-    <string name="battery_haptic_feedback">触覚フィードバック</string>
-    <string name="battery_hide_system_apps">システムアプリを非表示</string>
-    <string name="battery_low">低バッテリ</string>
-    <string name="battery_low_content">バッテリーの寿命を長くするために最適化する</string>
-    <string name="battery_max_saver">マックスセーバー</string>
-    <string name="battery_max_saver_content">Wi-Fi、Bluetoothをオフにし、画面のタイムアウトを15秒に設定します。</string>
-    <string name="battery_mode">モード</string>
-    <string name="battery_off">オフ</string>
-    <string name="battery_on">オン</string>
-    <string name="battery_optimize">最適化</string>
-    <string name="battery_optimize_new">パワーを節約</string>
-    <string name="battery_previous">以前</string>
-    <string name="battery_previous_content">以前の設定に戻ります。</string>
-    <string name="battery_rank">ランク</string>
-    <string name="battery_reapply">再適用</string>
-    <string name="battery_screen_timeout">スクリーン・タイムアウト</string>
-    <string name="battery_smart_saver">スマートセーバー</string>
-    <string name="battery_smart_saver_content">Bluetoothをオフにして、画面のタイムアウトを30秒に設定します。</string>
     <string name="battery_stop">ストップ</string>
-    <string name="battery_vibrate">振動</string>
     <string name="battery_view">見る</string>
-    <string name="battery_wifi">Wi-Fi</string>
-    <string name="battery_low_tip_title">低バッテリー！</string>
-    <string name="battery_low_tip_desc">消費電力を抑えるため、バッテリーサーバーをご使用ください。</string>
     <string name="battery_low_tip_btn_cancel">後で</string>
-    <string name="battery_low_tip_btn_ok">今すぐ試す</string>
-    <string name="battery_draining_apps">バッテリー消耗アプリ！</string>
     <string name="battery_scaning">スキャン中…</string>
-    <string name="battery_healthy">健康状態</string>
-    <string name="battery_time_remainning">残りの時間</string>
-    <string name="battery_call_time">通話</string>
-    <string name="battery_wifi_time">WiFi</string>
-    <string name="battery_video_time">ビデオ</string>
     <string name="battery_clean_description">電力を消耗するアプリ</string>
     <string name="battery_extended">延長されました</string>
-    <string name="battery_careful_content">バッテリーが通常よりも早く消耗しています。</string>
     <string name="boost_plus_optimal">最適</string>
-    <string name="charging_screen_settings_title"> バッテリー保護</string>
-    <string name="charging_screen_settings_subtitle">（広告が含まれています）</string>
-    <string name="charging_screen_settings_description">過充電からデバイスを保護する</string>
     <string name="promotion_max_card_title_cpu_cooler">CPUクーラー</string>
-    <string name="cpu_cooler_list_head_title"> CPU加熱アプリ</string>
-    <string name="cpu_cooler_button_title">クールダウン</string>
     <string name="cpu_cooler_state_hint">CPUは%s</string>
     <string name="cpu_cooler_state_cool">クール</string>
     <string name="cpu_cooler_state_overheated">オーバーヒート</string>
     <string name="cpu_cooler_state_extremely_heated">加熱</string>
     <string name="cpu_cooler_cleaning_hint">CPUを消費しているものを閉じています…</string>
-    <string name="cool_capital">クール</string>
 
     <string name="settings_activity_notification_reminder">通知ツールバー切り替え</string>
 
@@ -171,13 +104,11 @@
   <string name="grant_access_to_optimize_experience">アクセスを有効にして通話に応答する</string>
 
   <!--Cash-Center-->
-  <string name="crash_guide_content">後でまた現金を稼ぐためのデスクトップショートカットを作成しますか？</string>
-  <string name="spin">スピン</string>
+    <string name="spin">スピン</string>
 
   <!--Facebook fan page-->
   <string name="follow_facebook">Facebookでフォローしてください</string>
   <string name="skip">スキップ</string>
-    <string name="battery_optimized">最適化</string>
 
-  <string name="guide_theme_random_hint">このテーマを適用すると、着信の際にランダムなテーマをお楽しみいただけます。</string>
+    <string name="guide_theme_random_hint">このテーマを適用すると、着信の際にランダムなテーマをお楽しみいただけます。</string>
 </resources>

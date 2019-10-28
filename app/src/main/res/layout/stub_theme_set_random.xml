@@ -38,7 +38,6 @@
         android:text="@string/guide_theme_random_hint" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/guide_random_ok"
         android:layout_width="152dp"
         android:layout_height="48dp"
         android:gravity="center"

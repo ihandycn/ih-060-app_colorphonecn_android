@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
@@ -35,6 +36,9 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     private int resultPageType = ResultConstants.RESULT_TYPE_BOOST_PLUS;
     private boolean isResumed;
     private Runnable mResumePendingRunnable;
+
+    private boolean showToast;
+    private Handler handler = new Handler();
 
     public static void start(Context context, int from) {
         Intent intent = new Intent(context, BoostActivity.class);
@@ -134,6 +138,13 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
         if (HSConfig.optBoolean(true, "Application", "CleanGuide", "ForbiddenBackWhenCleaning")) {
             finishWithoutAnimation();
             super.onBackPressed();
+        } else {
+            if (!showToast) {
+                showToast = true;
+                Toast.makeText(this, R.string.clean_toast_not_back, Toast.LENGTH_SHORT).show();
+
+                handler.postDelayed(() -> showToast = false, 2000);
+            }
         }
     }
 

@@ -7,14 +7,9 @@
     <!-- Settings -->
     <dimen name="air_launcher_settings_single_line_item_row_height">72dp</dimen>
     <dimen name="air_launcher_settings_group_title_row_height">48dp</dimen>
-    <dimen name="settings_single_line_item_row_height">56dp</dimen>
     <dimen name="settings_group_text_size">14sp</dimen>
     <dimen name="settings_item_text_size">16sp</dimen>
-    <dimen name="settings_item_detail_text_size">14sp</dimen>
     <dimen name="settings_item_content_text_size">16sp</dimen>
-    <dimen name="settings_item_content_hint_text_size">12sp</dimen>
-    <dimen name="settings_item_detail_content_text_margin_bottom">9.3dp</dimen>
-    <dimen name="settings_feature_rounded_corner_radius">5dp</dimen>
 
     <!-- Material design: refers to https://www.google.com/design/spec/what-is-material/elevation-shadows.html -->
     <dimen name="app_bar_elevation">4dp</dimen>

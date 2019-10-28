@@ -109,6 +109,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
+    private boolean isWindowFocus;
 
     private Handler mHandler = new Handler();
 
@@ -151,6 +152,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     guideLottie.setVisibility(View.VISIBLE);
                     guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
                     guideLottie.playAnimation();
+
+                    if (mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
+                        guideLottie.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }
@@ -261,13 +266,25 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.notifyDataSetChanged();
             }
         }
+        isWindowFocus = true;
+
+        if (lotteryWheelLayout != null) {
+            HSLog.i("CashCenter", "lotteryWheelLayout != null");
+            lotteryWheelLayout.onWindowFocusChanged(true);
+            if (lotteryWheelLayout.getLotterySpinView() != null) {
+                lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+            }
+        } else {
+            HSLog.i("CashCenter", "not onWindowFocusChanged");
+        }
     }
 
     public void showRewardVideoView(String themeName) {
 
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         int tabPos = -1;
 
@@ -368,7 +385,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabLayout.setTabBackgroundResId(R.drawable.tab_background);
         tabTransController = new TabTransController(mTabLayout);
         for (int i = 0; i < mTabItems.size(); i++) {
-            TabItem tabItem =  mTabItems.get(i);
+            TabItem tabItem = mTabItems.get(i);
             View view = getLayoutInflater().inflate(R.layout.tab_item_layout, mTabLayout, false);
             TextView textView = view.findViewById(R.id.tab_layout_title);
             textView.setText(tabItem.getTabName());
@@ -378,11 +395,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
             }
         });
-        
+
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
             View ringtoneTab = mTabLayout.getTabAt(getTabPos(TabItem.TAB_RINGTONE));
@@ -416,6 +434,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
             TabItem lastItem = null;
+
             @Override
             public void onTabSelected(int pos) {
                 final TabItem tabItem = mTabItems.get(pos);
@@ -523,6 +542,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_CASH:
                         Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
+                        if (lotteryWheelLayout != null) {
+                            lotteryWheelLayout.refreshData();
+                        }
                         break;
                     default:
                         break;
@@ -664,10 +686,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
             }
 
-        }
-
-        if (needUpdateNews()) {
-            showNewsHint();
         }
 
         if (showTabCashCenter
@@ -822,6 +840,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (showTabCashCenter) {
             CashCenterUtil.cleanAds(this);
+            HSCashCenterManager.getInstance().releaseWheelAds();
         }
 
         super.onDestroy();
@@ -960,22 +979,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_NEWS);
     }
 
+    @Deprecated
     private boolean needUpdateNews() {
-        return System.currentTimeMillis()
-                - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
-                > 30 * DateUtils.SECOND_IN_MILLIS;
-    }
-
-    private void showNewsHint() {
-        if (mTabLayout.getSelectedTabPosition() != getTabPos(TabItem.TAB_NEWS)) {
-            View view = mTabLayout.getTabAt(getTabPos(TabItem.TAB_NEWS));
-            if (view != null) {
-                TextView tv = view.findViewById(R.id.tab_layout_hint);
-                tv.setVisibility(View.VISIBLE);
-                tv.setText("10+");
-                tv.setTextSize(9);
-            }
-        }
+        return false;
     }
 
     private View createFrameItem(ViewGroup container, int position) {
@@ -1019,11 +1025,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.cashcenter_layout, container, false);
                         lotteryWheelLayout.setBackToCashCenterPage(false);
                         HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + mTabLayout.getHeight());
-                        int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
-                        int phoneH = Dimensions.getPhoneHeight(ColorPhoneActivity.this);
-                        if (phoneH <= 1920) {
-                            lotteryWheelLayout.setMarginTopAndBottomDp(0, navH + 56);
-                        }
+
                         lotteryWheelLayout.setLeftCornerIconResource(R.drawable.cash_center_icon);
                         lotteryWheelLayout.setTvLeftCornerTextRes(R.string.cash_center);
                         lotteryWheelLayout.setIconClickListener(new OnIconClickListener() {
@@ -1050,6 +1052,23 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     } else {
                         frame = lotteryWheelLayout;
                     }
+
+                    lotteryWheelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            lotteryWheelLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                            if (isWindowFocus) {
+                                HSLog.i("CashCenter", "isWindowFocus true");
+                                lotteryWheelLayout.onWindowFocusChanged(true);
+                                if (lotteryWheelLayout.getLotterySpinView() != null) {
+                                    lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
+                                }
+                            } else {
+                                HSLog.i("CashCenter", "not isWindowFocus");
+                            }
+                        }
+                    });
                 } else {
                     if (!mSettingsPage.isInit()) {
                         frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
@@ -1097,6 +1116,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    public void setTabLayoutClickable(boolean enable) {
+        mTabLayout.setEnabled(enable);
+    }
+
     private static class TabTransController implements INotificationObserver {
         private static final int TRANS_TRIGGER_Y = Dimensions.pxFromDp(24);
         private View mTab;
@@ -1107,8 +1130,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         TabTransController(View tabView) {
             mTab = tabView;
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
-            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED, this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP, this);
         }
 
         public void setInterceptView(View view) {

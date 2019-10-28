@@ -189,7 +189,6 @@ abstract class ResultController implements View.OnClickListener {
 //            mImageFrameShadow2 = ViewUtils.findViewById(resultView, R.id.result_image_iv_shadow_2);
             mAdImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_ad);
             mChargingScreenImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_charging_screen);
-            mImageIv = ViewUtils.findViewById(resultView, R.id.result_image_iv);
             mAdChoice = ViewUtils.findViewById(resultView, R.id.result_ad_choice);
             mAdIconView = ViewUtils.findViewById(resultView, R.id.result_ad_icon);
             mTitleTv = ViewUtils.findViewById(resultView, R.id.description_title_tv);

@@ -34,7 +34,6 @@
       android:visibility="gone">
 
     <LinearLayout
-        android:id="@+id/ild_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ild_margin_height"
@@ -66,7 +65,6 @@
   <!-- Text field and possibly soft menu button above the keypad where
    the digits are displayed. -->
   <LinearLayout
-      android:id="@+id/digits_container"
       android:layout_width="match_parent"
       android:layout_height="?attr/dialpad_digits_adjustable_height"
       android:orientation="horizontal">

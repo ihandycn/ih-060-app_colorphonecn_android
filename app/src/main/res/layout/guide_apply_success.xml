@@ -28,7 +28,6 @@
             android:src="@drawable/acb_phone_alert_call_close" />
 
         <ImageView
-            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -113,7 +112,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/welcome_guide_bottom_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"

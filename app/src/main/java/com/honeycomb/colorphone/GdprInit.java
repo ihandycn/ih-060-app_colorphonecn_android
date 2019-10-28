@@ -14,9 +14,6 @@ public class GdprInit extends AppMainInit {
         HSGdprConsent.addListener(new HSGdprConsent.GDPRConsentListener() {
             @Override
             public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
-                if (GdprUtils.isNeedToAccessDataUsage()) {
-                    ((ColorPhoneApplication)application).onGdprGranted();
-                }
                 if (!HSApplication.isMainProcess()) {
                     if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
                         System.exit(0);

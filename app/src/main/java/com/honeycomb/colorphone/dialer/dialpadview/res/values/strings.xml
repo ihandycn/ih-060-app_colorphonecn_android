@@ -41,67 +41,49 @@
 
          Used by AccessibilityService to announce the purpose of the button.
     -->
-  <string name="description_dial_button">dial</string>
 
-  <!-- Dialog message which is shown when the user tries to check voicemail
-         while the system is in airplane mode. The user cannot access to
-         voicemail service in Airplane mode. [CHAR LIMI=NONE] -->
-  <string name="dialog_voicemail_airplane_mode_message">To call voicemail, first turn off Airplane mode.</string>
+    <!-- Dialog message which is shown when the user tries to check voicemail
+           while the system is in airplane mode. The user cannot access to
+           voicemail service in Airplane mode. [CHAR LIMI=NONE] -->
 
-  <!-- Dialog message which is shown when the user tries to check voicemail
-         while the system isn't ready for the access. [CHAR LIMIT=NONE] -->
-  <string name="dialog_voicemail_not_ready_message">To set up voicemail, go to Menu &gt; Settings.</string>
+    <!-- Dialog message which is shown when the user tries to check voicemail
+           while the system isn't ready for the access. [CHAR LIMIT=NONE] -->
 
-  <!-- Menu items for dialpad options as part of Pause and Wait ftr [CHAR LIMIT=30] -->
-  <string name="add_2sec_pause">Add 2-sec pause</string>
-  <string name="add_wait">Add wait</string>
+    <!-- Menu items for dialpad options as part of Pause and Wait ftr [CHAR LIMIT=30] -->
 
-  <!-- Item label: jump to the in-call DTMF dialpad.
+    <!-- Item label: jump to the in-call DTMF dialpad.
+           (Part of a list of options shown in the dialer when another call
+           is already in progress.) -->
+
+    <!-- Item label: jump to the in-call UI.
          (Part of a list of options shown in the dialer when another call
          is already in progress.) -->
-  <string name="dialer_useDtmfDialpad">Use touch-tone keypad</string>
 
-  <!-- Item label: jump to the in-call UI.
-       (Part of a list of options shown in the dialer when another call
-       is already in progress.) -->
-  <string name="dialer_returnToInCallScreen">Return to call in progress</string>
+    <!-- Item label: use the Dialer's keypad to add another call.
+         (Part of a list of options shown in the dialer when another call
+         is already in progress.) -->
 
-  <!-- Item label: use the Dialer's keypad to add another call.
-       (Part of a list of options shown in the dialer when another call
-       is already in progress.) -->
-  <string name="dialer_addAnotherCall">Add call</string>
+    <!-- The title of a dialog that displays the IMEI of the phone -->
 
-  <!-- The title of a dialog that displays the IMEI of the phone -->
-  <string name="imei">IMEI</string>
+    <!-- The title of a dialog that displays the MEID of the CDMA phone -->
 
-  <!-- The title of a dialog that displays the MEID of the CDMA phone -->
-  <string name="meid">MEID</string>
+    <!-- The label for the hex encoding of the device ID -->
 
-  <!-- The label for the hex encoding of the device ID -->
-  <string name="hex" translatable="false">HEX:</string>
+    <!-- The label for the decimal encoding of the device ID -->
 
-  <!-- The label for the decimal encoding of the device ID -->
-  <string name="dec" translatable="false">DEC:</string>
+    <!-- Dialog text displayed when loading a phone number from the SIM card for speed dial -->
 
-  <!-- Dialog text displayed when loading a phone number from the SIM card for speed dial -->
-  <string name="simContacts_emptyLoading">Loading from SIM card\u2026</string>
+    <!-- Dialog title displayed when loading a phone number from the SIM card for speed dial -->
 
-  <!-- Dialog title displayed when loading a phone number from the SIM card for speed dial -->
-  <string name="simContacts_title">SIM card contacts</string>
-
-  <!-- Menu item used to call a contact, containing the number of the contact to call -->
-  <string name="menu_callNumber">Call <xliff:g id="number">%s</xliff:g></string>
+    <!-- Menu item used to call a contact, containing the number of the contact to call -->
 
 
-  <!-- Regular expression for prohibiting certain phone numbers in dialpad.
-       Ignored if empty. -->
-  <string name="config_prohibited_phone_number_regexp" translatable="false"></string>
+    <!-- Regular expression for prohibiting certain phone numbers in dialpad.
+         Ignored if empty. -->
 
-  <!-- Warning hint shown in the dialpad input field when emergency call (911, etc.) cannot be made over wifi.
-       [CHAR_LIMIT=60] -->
-  <string name="dialpad_hint_emergency_calling_not_available">Can\'t make emergency calls over WiFi</string>
+    <!-- Warning hint shown in the dialpad input field when emergency call (911, etc.) cannot be made over wifi.
+         [CHAR_LIMIT=60] -->
 
-  <!-- Dialog message which is shown when the user tries to make a phone call
-       to prohibited phone numbers [CHAR LIMIT=NONE] -->
-  <string name="dialog_phone_call_prohibited_message" msgid="4313552620858880999">Can\'t call this number</string>
+    <!-- Dialog message which is shown when the user tries to make a phone call
+         to prohibited phone numbers [CHAR LIMIT=NONE] -->
 </resources>

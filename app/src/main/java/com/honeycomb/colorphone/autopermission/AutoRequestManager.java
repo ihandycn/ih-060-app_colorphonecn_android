@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -250,6 +252,7 @@ public class AutoRequestManager {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Analytics.logEvent("Accessbility_Granted",
+                            "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                             "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
@@ -616,6 +619,7 @@ public class AutoRequestManager {
             }
 
             Analytics.logEvent("All_Granted_From_Automatic",
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));

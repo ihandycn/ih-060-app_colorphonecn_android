@@ -43,25 +43,18 @@
     <color name="launcher_settings_light_gray_bg">#F6F6F6</color>
 
     <!-- Material Design -->
-    <color name="material_text_white_primary">#deffffff</color>
-    <color name="material_text_white_secondary">#8affffff</color>
     <color name="material_text_black_secondary">#8a000000</color>
     <color name="material_text_black_primary">#de000000</color>
-    <color name="material_text_button_positive">#ff000000</color> <!-- TODO de000000 87% alpha-->
-    <color name="material_ripple_dark">#66000000</color>
+    <!-- TODO de000000 87% alpha-->
     <color name="material_ripple">#33000000</color>
     <color name="material_ripple_white">#33FFFFFF</color>
-    <color name="material_ripple_button_white">#e0e1e2</color>
 
     <color name="button_pressed_bg">#0d000000</color>
-
-    <color name="button_disable">#FFE7E9EC</color>
 
     <color name="list_item_divider">#c7c7c7</color>
 
     <!-- Material Design -->
     <color name="material_text_black_hint">#61000000</color>
-    <color name="material_text_black_p70">#b2000000</color>
     <color name="material_color_accent">#448aff</color>
     <color name="material_color_switch_thumb">#ffffff</color>
     <color name="material_color_foreground">#cccccc</color>

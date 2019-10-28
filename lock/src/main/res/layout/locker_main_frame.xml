@@ -2,7 +2,6 @@
 <com.colorphone.lock.lockscreen.locker.LockerMainFrame xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:drawer="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lock_main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
@@ -171,7 +170,6 @@
                 />
 
             <ImageView
-                android:id="@+id/handle_action_up"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:rotation="180"

@@ -34,7 +34,6 @@ import android.webkit.WebViewClient;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ActivityUtils;
-import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Thunk;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -382,9 +381,6 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
 //                Analytics.logEvent("news_detail_page_back_click");
                 NewsManager.logNewsListShow("Back");
                 finish();
-                return true;
-            case R.id.action_bar_refresh:
-//                onClickRefresh(toolbar.findViewById(R.id.action_bar_refresh));
                 return true;
         }
         return super.onOptionsItemSelected(item);

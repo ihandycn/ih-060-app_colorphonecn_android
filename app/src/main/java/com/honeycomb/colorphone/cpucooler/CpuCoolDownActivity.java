@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseCenterActivity;
@@ -94,6 +95,8 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
     private List<String> mAppFallPackageNameList;
     private HSAppMemoryManager.MemoryTaskListener mScanListener;
     private BoostAnimationManager mBoostAnimationManager;
+    private boolean showToast;
+    private Handler handler = new Handler();
 
     @Override
     public boolean isEnableNotificationActivityFinish() {
@@ -274,7 +277,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
 
                         mCircleView.startAnimation(DURATION_CIRCLE_ROTATE, new Runnable() {
                             @Override public void run() {
-                                new Handler().postDelayed(new Runnable() {
+                                handler.postDelayed(new Runnable() {
                                     @Override public void run() {
                                         Runnable next = new Runnable() {
                                             @Override public void run() {
@@ -283,7 +286,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
                                                 }
                                                 mCircleView.startFadeOutAnimation(DURATION_ELEMENTS_FADE_OUT, null);
                                                 startElementsFadeOutAnimation();
-                                                new Handler().postDelayed(new Runnable() {
+                                                handler.postDelayed(new Runnable() {
                                                     @Override public void run() {
                                                         startResultActivity();
                                                     }
@@ -390,7 +393,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
                 AppInfo info = SystemAppsManager.getInstance().getAppInfoByPkgName(mAppFallPackageNameList.get(i));
                 mAppIconImgs[i].setImageDrawable(info != null ? info.getIcon() : null);
                 final int finalI = i;
-                new Handler().postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override public void run() {
                         CpuCoolDownActivity.this.startSingleIconFallAnimation(finalI);
                     }
@@ -471,6 +474,13 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
     @Override public void onBackPressed() {
         if (HSConfig.optBoolean(true, "Application", "CleanGuide", "ForbiddenBackWhenCleaning")) {
             super.onBackPressed();
+        } else {
+            if (!showToast) {
+                showToast = true;
+                Toast.makeText(this, R.string.clean_toast_not_back, Toast.LENGTH_SHORT).show();
+
+                handler.postDelayed(() -> showToast = false, 2000);
+            }
         }
     }
 }

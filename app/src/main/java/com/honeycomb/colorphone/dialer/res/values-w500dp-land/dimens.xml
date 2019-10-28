@@ -18,6 +18,5 @@
 <resources>
 
   <!-- Whether or not the landscape mode layout is currently being used -->
-  <bool name="is_layout_landscape">true</bool>
 
 </resources>

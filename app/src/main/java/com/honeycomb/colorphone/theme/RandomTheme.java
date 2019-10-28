@@ -17,7 +17,6 @@ import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -120,7 +119,7 @@ public class RandomTheme {
                 try {
                     startDownloadJob();
                 } catch (Exception e) {
-                    ColorPhoneCrashlytics.getInstance().logException(e);
+                    e.printStackTrace();
                 }
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
                 downloadMediaTheme(pendingThemeIndex, model, null);

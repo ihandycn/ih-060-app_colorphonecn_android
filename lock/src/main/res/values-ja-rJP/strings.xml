@@ -3,14 +3,9 @@
   <string name="charging_screen_charged_left_describe">フル充電まで残り%1$s</string>
   <string name="charging_screen_charged_full">充電完了</string>
   <string name="charging_screen_menu_item">終了</string>
-  <string name="charging_screen_unlock_describe">スワイプしてロック解除</string>
-  <string name="charging_screen_charging_tip1">バックグラウンドアプリを停止して充電速度を加速する。</string>
-  <string name="charging_screen_charging_tip2">40\u2103の温度に達すると、バッテリーに支障をきたす可能性があります。</string>
-  <string name="charging_screen_charging_tip3">スマート充電は充電状況を監視して、バッテリーが良好な状態になっていることを確認します。</string>
-  <string name="charging_screen_charging_tip4">充電モード中に充電器を取り外すと、バッテリが損傷する可能性があります。</string>
-  <string name="charging_screen_charging_tip5">電話が完全に充電されていなくても、ほぼ完了した充電モードで充電器を取り外すことは安全です。</string>
-  <string name="charging_screen_charging_tip6">完全充電モードでは、%1$sは充電量を減らしてバッテリを保護します。</string>
-  <string name="charging_screen_charging_speed_charging_state_tip_view">充電器を取り外すとバッテリーに支障をきたします</string>
+    <string name="charging_screen_charging_tip2">40\u2103の温度に達すると、バッテリーに支障をきたす可能性があります。</string>
+    <string name="charging_screen_charging_tip5">電話が完全に充電されていなくても、ほぼ完了した充電モードで充電器を取り外すことは安全です。</string>
+    <string name="charging_screen_charging_speed_charging_state_tip_view">充電器を取り外すとバッテリーに支障をきたします</string>
   <string name="charging_screen_charging_continue_charging_state_tip_view">電話は充電されていないので、充電器を取り外しても安全です</string>
   <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcherはバッテリーを保護するために充電量を減らしています</string>
   <string name="charging_screen_close_dialog_title">スマート充電をオフにしますか？</string>
@@ -18,10 +13,7 @@
   <string name="charging_screen_close_dialog_negative_action">オフにする</string>
   <string name="charging_screen_close_dialog_positive_action">今はしない</string>
   <string name="charging_screen_guide_turn_on">お使いのバッテリーは保護されています！</string>
-  <string name="charging_screen_settings_title"> バッテリー保護</string>
-  <string name="charging_screen_settings_subtitle">（広告が含まれています）</string>
-  <string name="charging_screen_settings_description">過充電からデバイスを保護する</string>
-  <string name="smart_charging_spread_bottom_content_title">スマート充電</string>
+    <string name="smart_charging_spread_bottom_content_title">スマート充電</string>
   <string name="smart_charging_spread_bottom_content_des1">リアルタイムの充電状況を表示。</string>
   <string name="smart_charging_spread_bottom_content_des2">充電の完了時間を評価。</string>
   <string name="smart_charging_spread_bottom_content_des3">フルチャージと過充電の警告</string>
@@ -32,10 +24,7 @@
   <string name="locker_disable_confirm">オフにしてもよろしいですか？</string>
   <string name="locker_disable_confirm_detail">無効にすると、スクリーンロッカーを見ることができなくなります。 続行しますか？</string>
   <string name="locker_diabled_success">ロッカーがオフになっています</string>
-  <string name="slide_to_unlock">スライドしてロック解除する</string>
-  <string name="locker_slide_wallpaper_title">ロッカー壁紙</string>
-  <string name="locker_settings">ロッカー設定</string>
-  <string name="locker_settings_title">スクリーンロッカー</string>
-  <string name="locker_settings_subtitle">（広告が含まれています）</string>
-  <string name="wallpaper_network_error">ネットワークエラー。 もう一度お試しください。</string>
+    <string name="locker_slide_wallpaper_title">ロッカー壁紙</string>
+    <string name="locker_settings_title">スクリーンロッカー</string>
+    <string name="wallpaper_network_error">ネットワークエラー。 もう一度お試しください。</string>
 </resources>

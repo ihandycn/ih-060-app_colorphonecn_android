@@ -71,9 +71,9 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
     }
 
     protected class ExitNewsAdapter extends NewsAdapter {
-        static final int NEWS_TYPE_HEAD_AD      = 1000;
-        static final int NEWS_TYPE_HEAD_TITLE   = 1001;
-        static final int NEWS_TYPE_HEAD_NO_NEWS   = 1002;
+        static final int NEWS_TYPE_HEAD_AD = 1000;
+        static final int NEWS_TYPE_HEAD_TITLE = 1001;
+        static final int NEWS_TYPE_HEAD_NO_NEWS = 1002;
 
         boolean isNoNews = false;
 
@@ -224,7 +224,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             if (acbNativeAd == null || acbNativeAd.isAdReleased() || acbNativeAd.isExpired()) {
                 return;
             }
-            
+
             try {
                 adContainer.fillNativeAd(acbNativeAd, "");
                 acbNativeAd.setNativeClickListener(acbAd -> {
@@ -280,7 +280,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
                                 mDescriptionTv.getPaddingBottom() + heightSize / 6);
                     }
                 });
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         private int getHeadViewHeight() {
@@ -298,7 +299,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
 
         protected void logNewsLoad(boolean isRefresh, boolean success) {
             if (!isRefresh) {
-                Analytics.logEvent("Message_News_LoadMore", Analytics.FLAG_LOG_FABRIC|Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
+                Analytics.logEvent("Message_News_LoadMore", Analytics.FLAG_LOG_UMENG, "Result", (success ? "Success" : "Fail"));
             }
         }
 
@@ -312,7 +313,7 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
             if (hasNetwork) {
                 Analytics.logEvent("Message_News_Details_Show",
-                        "NewsType", (isVideo ? "Video" : "News") );
+                        "NewsType", (isVideo ? "Video" : "News"));
             }
         }
     }

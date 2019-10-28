@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -166,7 +167,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 });
-                Analytics.logEvent("ColorPhone_StartGuide_Show");
+                Analytics.logEvent("ColorPhone_StartGuide_Show",
+                        "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
@@ -600,7 +602,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("Accessbility_Guide_Btn_Click",
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
-                    "Time", String.valueOf(permissionShowCount));
+                    "Time", String.valueOf(permissionShowCount),
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
         });
 
         handler.postDelayed(() -> {

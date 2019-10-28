@@ -5,7 +5,6 @@
     <string name="weather_title">Weather</string>
     <string name="weather_wind_speed">Wind Speed:</string>
     <string name="weather_wind_direction">Wind Direction:</string>
-    <string name="weather_visibility">Visibility:</string>
     <string name="weather_humidity">Humidity:</string>
     <string name="weather_sunrise">Sunrise:</string>
     <string name="weather_sunset">Sunset:</string>
@@ -40,7 +39,6 @@
     <string name="weather_city_search_error_prompt">Network error.</string>
     <string name="weather_city_loading_message">Loading…</string>
     <string name="weather_city_load_failed_message">Oops, couldn\'t load the weather.</string>
-    <string name="weather_clock_widget_name">Time &amp; Weather </string>
     <string name="weather_clock_unknown_weather_message">Unknown</string>
     <string name="sunny">晴</string>
     <string name="overcast">阴天</string>
@@ -70,29 +68,10 @@
     <string name="weather_search_hint">" Enter city name in English"</string>
 
     <!-- Weather clock widget -->
-    <dimen name="clock_time_hour_size">64dp</dimen>
-    <string name="weather_clock_widget_time_typeface">Custom-Thin</string>
-    <string name="weather_clock_widget_time_typeface_file_name">AllerDisplay-Regular.ttf</string>
-    <string name="weather_clock_widget_weather_typeface_file_name">AllerDisplay-Regular.ttf</string>
 
     <string name="permission_request_allow">Allow</string>
 
 
-    <string name="permission_rationale_app_lock_intruder_selfie">Allow Camera Permission to enable %1$s</string>
     <string name="permission_rationale_weather_location">Allow Location access to get accurate weather information.</string>
-    <string name="permission_request_call">Call</string>
-    <string name="permission_request_sms">SMS</string>
-    <string name="permission_request_contacts">Contacts</string>
-    <string name="request_sms_permission_guide_title">SMS &amp; Phone</string>
-    <string name="permission_request_contacts_description">Show contacts for calls</string>
-    <string name="request_na_permission_guide_title">Notification Access</string>
-    <string name="request_nc_permission_guide_text">To show unread messages from social apps</string>
-    <string name="normal_permission_guide_permission">Permissions</string>
-    <string name="weather_push_disable_title">Disable Weather Forecast？</string>
-    <string name="weather_push_disable_content">You won\'t receive weather forecast once you disable it. Are you sure to disable it?</string>
-    <string name="not_now">NOT NOW</string>
-    <string name="disable">DISABLE</string>
-    <string name="weather_forecast">Weather Forecast</string>
-    <string name="weather_push_content">Pick up to get weather information</string>
 
 </resources>
