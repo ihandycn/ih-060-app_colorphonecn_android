@@ -253,7 +253,8 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
     }
 
     private void selectFromAlbumSingle() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
         startActivityForResult(intent, RESULT_SELECT_IMAGE);
     }
 
