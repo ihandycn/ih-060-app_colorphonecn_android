@@ -34,6 +34,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.UploadProcessView;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Calendars;
@@ -353,6 +354,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             preferences.putInt(KEY_UPLOAD_COUNT, 1);
             preferences.putLong(KEY_UPLOAD_TIME, currentTimeMillis);
         }
+        HSGlobalNotificationCenter.sendNotification(VideoListActivity.KEY_FINISH_VIDEO_LIST);
     }
 
     private void failure(String errorMsg) {

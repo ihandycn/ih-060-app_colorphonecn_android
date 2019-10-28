@@ -26,6 +26,10 @@ import com.honeycomb.colorphone.ugc.VideoUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.HSNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Calendars;
 import com.superapps.util.Dimensions;
@@ -41,7 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VideoListActivity extends HSAppCompatActivity {
+public class VideoListActivity extends HSAppCompatActivity implements INotificationObserver {
+    public static final String KEY_FINISH_VIDEO_LIST = "finish_video_list_activity";
 
     private View mRuleDialog;
 
@@ -84,6 +89,13 @@ public class VideoListActivity extends HSAppCompatActivity {
         Preferences.getDefault().doOnce(() -> Threads.postOnMainThread(VideoListActivity.this::showConfirmDialog),"VideoListActivity showConfirmDialog");
 
         Analytics.logEvent("Upload_VideoList_Show");
+        HSGlobalNotificationCenter.addObserver(KEY_FINISH_VIDEO_LIST, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HSGlobalNotificationCenter.removeObserver(this);
     }
 
     @Override
@@ -143,6 +155,11 @@ public class VideoListActivity extends HSAppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        finish();
     }
 
     private class VideoPreviewAdapter extends RecyclerView.Adapter<VideoPreviewHolder> implements View.OnClickListener {
