@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -304,6 +305,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
 
                             @Override
                             public void onFailure(String errorMsg) {
+                                if (errorMsg != null && errorMsg.contains("Unable to resolve host")) {
+                                    Toasts.showToast("网络异常，请稍候再试");
+                                }
                                 failure("upload");
                             }
                         });
@@ -365,9 +369,6 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
         Analytics.logEvent("Upload_Upload_Fail", "type", errorMsg);
-        if (errorMsg != null && errorMsg.contains("Unable to resolve host")) {
-            Toasts.showToast("网络异常，请稍候再试");
-        }
     }
 
     @Override
