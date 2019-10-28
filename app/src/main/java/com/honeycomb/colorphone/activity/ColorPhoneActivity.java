@@ -133,6 +133,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
+    private boolean isFirstRequestData = true;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -776,6 +777,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ThemeList.getInstance().requestThemeForMainFrame(isRefresh, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
+                    isFirstRequestData = false;
+                }
+                Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
+
                 LayoutInflater inflater = getLayoutInflater();
                 View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
                 Toast toast = new Toast(getBaseContext());
@@ -792,6 +799,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onSuccess(boolean isHasData) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First_Success");
+                    isFirstRequestData = false;
+                }
+                Analytics.logEvent("CallFlash_Request_Success");
 
                 if (isRefresh) {
                     mSmartRefreshLayout.finishRefresh();
@@ -1000,12 +1012,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First");
+                }
+                Analytics.logEvent("CallFlash_Request");
                 requestThemeData(true);
             }
         });
         mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                Analytics.logEvent("CallFlash_Request");
                 requestThemeData(false);
             }
         });
