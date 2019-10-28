@@ -385,6 +385,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     protected void onDestroy() {
         super.onDestroy();
         mVideoView.stopPlayback();
+        cancel();
     }
 
     @Override
