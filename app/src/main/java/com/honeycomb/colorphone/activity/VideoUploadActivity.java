@@ -350,7 +350,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         if (sameDay) {
             preferences.incrementAndGetInt(KEY_UPLOAD_COUNT);
         } else {
-            preferences.putInt(KEY_UPLOAD_COUNT, 0);
+            preferences.putInt(KEY_UPLOAD_COUNT, 1);
             preferences.putLong(KEY_UPLOAD_TIME, currentTimeMillis);
         }
     }

@@ -27,6 +27,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Calendars;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -209,6 +210,13 @@ public class VideoListActivity extends HSAppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            Preferences preferences = Preferences.getDefault();
+            int count = preferences.getInt(VideoUploadActivity.KEY_UPLOAD_COUNT, 0);
+            long aLong = preferences.getLong(VideoUploadActivity.KEY_UPLOAD_TIME, 0);
+            if (count >= 5 && Calendars.isSameDay(aLong, System.currentTimeMillis())) {
+                Toasts.showToast("今日上传个数已达上限，请明天再试");
+                return;
+            }
             int position = (int) view.getTag();
             VideoUtils.VideoInfo videoInfo = mVideoInfos.get(position);
             if (videoInfo.size > 1024 * 1024 * 30) { // 30M
