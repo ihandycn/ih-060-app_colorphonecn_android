@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.call.VideoManager;
+import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -53,7 +54,10 @@ import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
+import com.honeycomb.colorphone.download.DownloadStateListener;
+import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.menu.SettingsPage;
@@ -71,6 +75,7 @@ import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
@@ -134,6 +139,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
     private boolean isFirstRequestData = true;
+    private boolean isSetDefaultTheme = true;
+
+    private TasksManagerModel model;
+    private TasksManagerModel ringtoneModel;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -818,9 +827,68 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         mSmartRefreshLayout.finishLoadMoreWithNoMoreData();
                     }
                 }
+
+                //download first theme
+                if (isSetDefaultTheme && Theme.getFirstTheme() != null) {
+                    model = TasksManager.getImpl().requestMediaTask(Theme.getFirstTheme());
+                    ringtoneModel = TasksManager.getImpl().requestRingtoneTask(Theme.getFirstTheme());
+
+                    if (model != null) {
+                        TasksManager.doDownload(model, null);
+                        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
+                    }
+
+                    if (ringtoneModel != null) {
+                        TasksManager.doDownload(ringtoneModel, null);
+                        FileDownloadMultiListener.getDefault().addStateListener(ringtoneModel.getId(), mRingtoneDownloadStateListener);
+                    }
+                    isSetDefaultTheme = false;
+                }
             }
         });
     }
+
+    DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
+        @Override
+        public void updateDownloaded(boolean progressFlag) {
+            if (Theme.getFirstTheme() != null) {
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.getFirstTheme().getId());
+                if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
+                    mRecyclerViewData.get(0).setSelected(true);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+            FileDownloadMultiListener.getDefault().removeStateListener(model.getId());
+        }
+
+        @Override
+        public void updateNotDownloaded(int status, long sofar, long total) {
+
+        }
+
+        @Override
+        public void updateDownloading(int status, long sofar, long total) {
+
+        }
+    };
+
+    DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
+        @Override
+        public void updateDownloaded(boolean progressFlag) {
+            if (Theme.getFirstTheme() != null) {
+                RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
+            }
+            FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
+        }
+
+        @Override
+        public void updateNotDownloaded(int status, long sofar, long total) {
+        }
+
+        @Override
+        public void updateDownloading(int status, long sofar, long total) {
+        }
+    };
 
     private void refreshData() {
         setData();

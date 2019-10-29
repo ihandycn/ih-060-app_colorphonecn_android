@@ -57,7 +57,13 @@ public class Theme extends Type {
 
     private String uploaderName;
 
+    private static Theme sFirstTheme;
+
     public static int RANDOM_THEME = 10000;
+
+    public static Theme getFirstTheme() {
+        return sFirstTheme;
+    }
 
     public long getDownload() {
         return download;
@@ -291,9 +297,9 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (isSetDefaultTheme) {
+            if (isSetDefaultTheme && dataList.size() == 1) {
                 isSetDefaultTheme = false;
-                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+                sFirstTheme = theme;
             }
 
             dataList.add(theme);
