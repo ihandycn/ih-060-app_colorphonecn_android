@@ -113,6 +113,8 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
         HSGlobalNotificationCenter.addObserver("have_upload_data", this);
         HSGlobalNotificationCenter.addObserver("have_publish_data", this);
         HSGlobalNotificationCenter.addObserver("quit_edit_mode", this);
+
+        Analytics.logEvent("MyUploads_Page_Show");
     }
 
     @Override
@@ -211,7 +213,6 @@ public class UploadAndPublishActivity extends HSAppCompatActivity implements Vie
             mAlreadyUploadButton.setTextColor(0xffffffff);
             mAlreadyPublishButton.setTextColor(0xff615d8e);
             HSGlobalNotificationCenter.sendNotification("publish_cancel");
-            Analytics.logEvent("MyUploads_Page_Show");
         } else if (position == 1) {
             if (isShowEditButtonOnPublishPage) {
                 mVideoEditButton.setVisibility(View.VISIBLE);

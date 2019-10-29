@@ -222,9 +222,6 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void onCardClick(ItemCardViewHolder holder) {
         if (mIsEdit) {
             holder.mSelectStatus.performClick();
-            if ("upload".equals(from)) {
-                Analytics.logEvent("MyUploads_CallFlash_Click");
-            }
         } else {
             final int pos = holder.getPositionTag();
             Theme theme = data.get(pos);
@@ -233,6 +230,9 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     Pair.create(holder.mPreviewImage, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
             );
             ThemePreviewActivity.start(context, pos, from, activityOptionsCompat.toBundle());
+            if ("upload".equals(from)) {
+                Analytics.logEvent("MyUploads_CallFlash_Click");
+            }
         }
     }
 

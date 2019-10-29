@@ -25,6 +25,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
@@ -67,6 +68,8 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         emptyLayout = findViewById(R.id.empty_layout);
         emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
+
+        deleteButton.setBackground(BackgroundDrawables.createBackgroundDrawable(0xfff64e4e, Dimensions.pxFromDp(21), true));
 
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) emptyLayout.getLayoutParams();
         lp.topMargin = (int) ((Dimensions.getPhoneHeight(getContext()) - Dimensions.getStatusBarHeight(getContext())

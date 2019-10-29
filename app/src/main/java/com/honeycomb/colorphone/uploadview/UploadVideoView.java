@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         adapter = new UploadViewAdapter(getContext(), "upload");
         recyclerView.setLayoutManager(adapter.getLayoutManager());
         recyclerView.setAdapter(adapter);
+
+        deleteButton.setBackground(BackgroundDrawables.createBackgroundDrawable(0xfff64e4e, Dimensions.pxFromDp(21), true));
 
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) emptyLayout.getLayoutParams();
         lp.topMargin = (int) ((Dimensions.getPhoneHeight(getContext()) - Dimensions.getStatusBarHeight(getContext())
