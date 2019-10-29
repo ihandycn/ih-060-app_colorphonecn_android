@@ -70,7 +70,7 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
             if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) && "upload".equals(from)) {
-                if (hsBundle != null) {
+                if (hsBundle != null && data != null) {
                     int pos = getDataPos(hsBundle);
                     selectTheme(pos);
                     notifyDataSetChanged();
@@ -80,12 +80,12 @@ public class UploadViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     notifyItemChanged(getAdapterPos(hsBundle));
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s) && "publish".equals(from)) {
-                if (hsBundle != null) {
+                if (hsBundle != null && data != null) {
                     int pos = getDataPos(hsBundle);
                     selectTheme(pos);
                     notifyDataSetChanged();
                 }
-            } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD.equals(s) && "publish".equals(from)) {
+            } else if (ThemePreviewActivity.NOTIFY_THEME_PUBLISH_DOWNLOAD.equals(s) && "publish".equals(from)) {
                 if (hsBundle != null) {
                     notifyItemChanged(getAdapterPos(hsBundle));
                 }
