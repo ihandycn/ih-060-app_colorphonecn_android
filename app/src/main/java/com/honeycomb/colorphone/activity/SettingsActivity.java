@@ -113,9 +113,9 @@ public class SettingsActivity extends HSAppCompatActivity {
             logoutButton.setLayoutParams(params);
             logoutButton.setWidth((int) (177.0 / 360.0 * Dimensions.getPhoneWidth(this)));
             logoutButton.setBackground(BackgroundDrawables.createBackgroundDrawable(
-                    HSApplication.getContext().getResources().getColor(R.color.colorPrimaryTemp),
-                    HSApplication.getContext().getResources().getColor(com.superapps.R.color.ripples_ripple_color),
-                    Dimensions.pxFromDp(1), 0xffffffff, Dimensions.pxFromDp(21), false, true));
+                    HSApplication.getContext().getResources().getColor(R.color.colorPrimary),
+                    0x19ffffff,
+                    Dimensions.pxFromDp(1), 0x4Dffffff, Dimensions.pxFromDp(21), false, true));
             logoutButton.setOnClickListener(view -> {
                 HttpManager.getInstance().logout();
                 finish();
