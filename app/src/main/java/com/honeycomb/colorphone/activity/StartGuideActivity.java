@@ -256,6 +256,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
 
                 Analytics.logEvent("Congratulation_Page_Shown",
+                        "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
                         "Permission", AutoLogger.getGrantRuntimePermissions());
@@ -624,6 +625,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
         Analytics.logEvent("Accessbility_Guide_Show",
+                "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                 "Brand", AutoLogger.getBrand(),
                 "Os", AutoLogger.getOSVersion(),
                 "Permission", AutoLogger.getGrantRuntimePermissions());
