@@ -328,4 +328,5 @@
 
     <string name="clean_toast_not_back">操作正在进行中，请勿退出</string>
 
+    <string name="start_guide_request_accessibility_title_for_oppo_above_API24_Color32"_>来电秀开启遇到一些问题\n请开启无障碍服务以完成修复</string>
 </resources>
