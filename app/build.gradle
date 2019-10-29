@@ -292,7 +292,7 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
     //------
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.6'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.6'
 }
 
 configurations.all {
