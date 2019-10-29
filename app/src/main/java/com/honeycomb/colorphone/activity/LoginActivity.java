@@ -89,7 +89,6 @@ public class LoginActivity extends HSAppCompatActivity implements View.OnClickLi
      * @return true安装, false未安装
      */
     public boolean isWeChatAppInstalled(Context context) {
-        api = WXAPIFactory.createWXAPI(context, "Your WeChat AppId");
         if (api.isWXAppInstalled()) {
             return true;
         } else {
