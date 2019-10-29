@@ -43,6 +43,7 @@ import com.acb.call.VideoManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.ThemeApplyUtils;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
@@ -97,7 +98,6 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
-import com.tencent.bugly.beta.download.DownloadTask;
 
 import java.util.ArrayList;
 
@@ -728,6 +728,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
+        ThemeApplyUtils.addAppliedTheme(mTheme.toPrefString());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
