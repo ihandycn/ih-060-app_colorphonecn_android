@@ -3,25 +3,21 @@ package com.honeycomb.colorphone.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.honeycomb.colorphone.Constants;
@@ -82,6 +78,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
 
     private Callable<ResponseBody> mUploadCall = null;
 
+    private boolean mUploading;
+
 
     public static void start(Context context, VideoUtils.VideoInfo info) {
         Intent intent = new Intent(context, VideoUploadActivity.class);
@@ -136,7 +134,6 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             showSetNameDialog();
         });
         mCancel.setOnClickListener(view -> {
-            Analytics.logEvent("Upload_Upload_Cancel");
             cancel();
         });
         mCancel.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff5a587a, Dimensions.pxFromDp(100f), true));
@@ -229,8 +226,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private void upload(String name) {
         mConvertFailed = false;
 
-        File file = new File(mVideoInfo.data);
-        Log.e("mVideoInfo.data",file.length() + "");
+        mUploading = true;
 
         Analytics.logEvent("Upload_Upload_Start");
         jpegName = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpeg";
@@ -301,6 +297,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                             @Override
                             public void onSuccess() {
                                 Analytics.logEvent("Upload_Upload_Success");
+                                mUploading = false;
                                 success();
                             }
 
@@ -317,10 +314,12 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                                 if (errorMsg != null && errorMsg.contains("Unable to resolve host")) {
                                     Toasts.showToast("网络异常，请稍候再试");
                                 }
+                                mUploading = false;
                                 failure("upload");
                             }
                         });
                     } else {
+                        mUploading = false;
                         Threads.postOnMainThread(() -> failure("convert"));
                     }
 
@@ -345,7 +344,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             mUploadCall.cancel();
         }
 
-        failure("cancel");
+        if (mUploading) {
+            Analytics.logEvent("Upload_Upload_Cancel");
+            failure("cancel");
+        }
     }
 
     private void success() {
