@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,11 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
         adapter = new UploadViewAdapter(getContext(), "upload");
         recyclerView.setLayoutManager(adapter.getLayoutManager());
         recyclerView.setAdapter(adapter);
+
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) emptyLayout.getLayoutParams();
+        lp.topMargin = (int) ((Dimensions.getPhoneHeight(getContext()) - Dimensions.getStatusBarHeight(getContext())
+                - Dimensions.getNavigationBarHeight(getContext())) * 0.23);
+        emptyLayout.setLayoutParams(lp);
 
         presenter = new UploadVideoPresenter(getContext(), new UploadVideoModel(), this);
 

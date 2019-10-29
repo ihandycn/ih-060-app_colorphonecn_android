@@ -25,6 +25,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,11 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         emptyLayout = findViewById(R.id.empty_layout);
         emptyText = findViewById(R.id.empty_text);
         deleteButton.setOnClickListener(this);
+
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) emptyLayout.getLayoutParams();
+        lp.topMargin = (int) ((Dimensions.getPhoneHeight(getContext()) - Dimensions.getStatusBarHeight(getContext())
+                - Dimensions.getNavigationBarHeight(getContext())) * 0.23);
+        emptyLayout.setLayoutParams(lp);
 
         presenter = new PublishVideoPresenter(getContext(), new PublishVideoModel(), this);
         adapter = new UploadViewAdapter(getContext(), "publish");
@@ -136,7 +142,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
         }
     }
 
-    public void setSharedElementCallback(MediaSharedElementCallback sharedElementCallback){
+    public void setSharedElementCallback(MediaSharedElementCallback sharedElementCallback) {
         this.sharedElementCallback = sharedElementCallback;
     }
 
@@ -190,7 +196,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
             quitEditMode();
         } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH.equals(s)) {
             refreshData();
-        }else if (NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION.equals(s)) {
+        } else if (NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION.equals(s)) {
             if (adapter != null) {
                 int pos = hsBundle.getInt("position");
                 HSLog.d("preview pos = " + pos);
