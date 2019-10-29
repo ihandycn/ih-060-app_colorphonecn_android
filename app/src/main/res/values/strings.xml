@@ -99,7 +99,7 @@
 
     <!--Smart Assistant (Recent apps)-->
 
-    <string name="accessibility_service_description">修复受限功能，请打开右上角开关↗ ↗ ↗\n修复完成后，可以正常使用焕彩来电秀等功能。\n\n提示：打开开关后，将收到系统例行风险提醒，点击“确认”即可。\n请放心使用，焕彩来电秀将不会收集任何隐私数据。</string>
+    <string name="accessibility_service_description">修复受限功能，请打开右上角开关↗ ↗ ↗\n\n提示：\n⭐修复完成后，才可以使用焕彩来电秀。\n\n⭐打开开关后，将收到系统例行风险提醒，点击“开启”即可。\n\n⭐焕彩来电秀将不会收集任何隐私数据，请放心使用。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。</string>
     <string name="accessibility_service_description_xiaomi">@string/accessibility_service_description</string>
     <string name="led_flash_switch_text">Led Flash</string>
 
@@ -206,7 +206,7 @@
     <string name="start_guide_congratulation_title">Congratulation</string>
     <string name="start_guide_congratulation_text">start screen flash</string>
     <string name="guide_first_page_title_new">Please enable the features and permissions, Remind you about missed calls.</string>
-    <string name="acc_service_name">&#160;⭐【焕彩来电秀】</string>
+    <string name="acc_service_name">&#160;0o⭐【焕彩来电秀】⭐o0</string>
     <string name="start_guide_permission_overlay">保持来电秀正常显示</string>
     <string name="start_guide_permission_post_notification">显示通知栏消息</string>
 
