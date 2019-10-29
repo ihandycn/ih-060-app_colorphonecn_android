@@ -69,6 +69,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
 
     private View mPause;
     private UploadProcessView mUpload;
+    private View mUpload2;
 
     private EditText mName;
     private View mOk;
@@ -129,7 +130,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mPause = findViewById(R.id.pause_button);
         mSetNameDialog = findViewById(R.id.set_name);
         mUpload = findViewById(R.id.upload_button);
-        mUpload.setOnClickListener(view -> {
+        mUpload2 = findViewById(R.id.upload_button_2);
+        mUpload2.setOnClickListener(view -> {
             Analytics.logEvent("Upload_VideoPreview_BtnClick");
             showSetNameDialog();
         });
@@ -227,6 +229,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
     private void upload(String name) {
         mConvertFailed = false;
 
+        File file = new File(mVideoInfo.data);
+        Log.e("mVideoInfo.data",file.length() + "");
+
         Analytics.logEvent("Upload_Upload_Start");
         jpegName = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpeg";
         mp3 = getCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".mp3";
@@ -277,8 +282,12 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
             public void run() {
                 try {
                     begin.countDown();
-                    mUpload.setText(R.string.convert_ing);
-                    mUpload.setEnabled(false);
+                    Threads.postOnMainThread(() -> {
+                        mUpload.setText(R.string.convert_ing);
+                        mUpload.setVisibility(View.VISIBLE);
+                        mUpload2.setVisibility(View.GONE);
+                    });
+
                     end.await();
 
                     Threads.postOnMainThread(() -> {
@@ -343,7 +352,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         Toasts.showToast("可在我的上传中应用该来电秀");
         mUpload.setText(getString(R.string.upload_ing, "100%"));
         mUpload.setProcess(1);
-        mUpload.setEnabled(true);
+        mUpload.setVisibility(View.GONE);
+        mUpload2.setVisibility(View.GONE);
         mCancel.setVisibility(View.GONE);
         mUpload.setVisibility(View.GONE);
         mSuccessContainer.setVisibility(View.VISIBLE);
@@ -367,7 +377,8 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         mUpload.setText(getString(R.string.upload));
         mUpload.setProcess(1);
         mCancel.setVisibility(View.GONE);
-        mUpload.setEnabled(true);
+        mUpload.setVisibility(View.GONE);
+        mUpload2.setVisibility(View.VISIBLE);
         deleteTempFile(mp3);
         deleteTempFile(jpegName);
         Analytics.logEvent("Upload_Upload_Fail", "type", errorMsg);
