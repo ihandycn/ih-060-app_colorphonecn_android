@@ -163,6 +163,7 @@ public class UploadVideoView extends RelativeLayout implements UploadVideoContra
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        recyclerView.setAdapter(null);
         HSGlobalNotificationCenter.removeObserver(this);
     }
 

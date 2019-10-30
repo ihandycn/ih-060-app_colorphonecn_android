@@ -162,6 +162,7 @@ public class PublishVideoView extends RelativeLayout implements PublishVideoCont
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        recyclerView.setAdapter(null);
         HSGlobalNotificationCenter.removeObserver(this);
     }
 
