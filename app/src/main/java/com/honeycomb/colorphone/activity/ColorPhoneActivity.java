@@ -69,6 +69,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
@@ -871,7 +872,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void updateDownloaded(boolean progressFlag) {
             if (Theme.getFirstTheme() != null) {
-                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.getFirstTheme().getId());
+                Theme theme = Theme.getFirstTheme();
+                ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
                 }
@@ -896,17 +899,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         public void updateDownloaded(boolean progressFlag) {
             if (Theme.getFirstTheme() != null) {
                 FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (!Settings.System.canWrite(getBaseContext())) {
-                        // Check permission
-                        Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
-//                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
-//                                Uri.parse("package:" + getBaseContext().getPackageName()));
-//                        Navigations.startActivitySafely(getBaseContext(), intent);
-                        return;
-                    }
+                if (!Settings.System.canWrite(getBaseContext())) {
+                    Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                    return;
                 }
-
                 RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
             }
         }
