@@ -138,6 +138,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
 
                 }
+            } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
+                //user selected theme on the upload page, so delete current theme tip of home page
+                if (data != null && data.size() > 0) {
+                    int prePos = -1;
+                    for (int i = 0; i < data.size(); i++) {
+                        Theme t = data.get(i);
+                        if (t.isSelected()) {
+                            prePos = i;
+                            break;
+                        }
+                    }
+                    if (prePos != -1) {
+                        Theme t = data.get(prePos);
+                        t.setSelected(false);
+                        notifyItemSelected(prePos, t);
+                    }
+                }
             }
         }
 
@@ -224,6 +241,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.addOnScrollListener(new WatchedScrollListener());
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, observer);
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
