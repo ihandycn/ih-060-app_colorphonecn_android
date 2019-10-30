@@ -315,7 +315,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                                     Toasts.showToast("网络异常，请稍候再试");
                                 }
                                 mUploading = false;
-                                failure("upload");
+                                if (!"Canceled".equalsIgnoreCase(errorMsg)) {
+                                    failure("upload");
+                                }
                             }
                         });
                     } else {
