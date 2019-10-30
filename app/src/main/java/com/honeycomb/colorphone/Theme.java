@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
-import com.acb.call.constant.ScreenFlashConst;
-import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
@@ -345,7 +343,8 @@ public class Theme extends Type {
         return dataList;
     }
 
-    private static final String SEPARATOR = "`";
+    public static final String SEPARATOR = "`";
+    public static final int DEFAULT_LENGTH = 25;
 
     public String toPrefString() {
         return getIndex() + SEPARATOR +
@@ -380,7 +379,7 @@ public class Theme extends Type {
             return null;
         }
         String[] array = prefString.split(SEPARATOR);
-        if (array.length != 25) {
+        if (array.length != DEFAULT_LENGTH) {
             return null;
         }
         try {

@@ -30,7 +30,14 @@ public class ThemeApplyManager {
 
         Theme theme = null;
         for (String themeStr : appliedThemeList) {
-            if (!TextUtils.isEmpty(themeStr) && themeStr.contains(String.valueOf(themeId))) {
+            if (TextUtils.isEmpty(themeStr)) {
+                continue;
+            }
+            String[] array = themeStr.split(Theme.SEPARATOR);
+            if (array.length != Theme.DEFAULT_LENGTH) {
+                continue;
+            }
+            if (array[1].equals(String.valueOf(themeId))) {
                 theme = Theme.valueOfPrefString(themeStr);
                 break;
             }
