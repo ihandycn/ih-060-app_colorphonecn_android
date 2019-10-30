@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -879,9 +880,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void updateDownloaded(boolean progressFlag) {
             if (Theme.getFirstTheme() != null) {
+                FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.System.canWrite(getBaseContext())) {
+                        // Check permission
+                        Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+//                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+//                                Uri.parse("package:" + getBaseContext().getPackageName()));
+//                        Navigations.startActivitySafely(getBaseContext(), intent);
+                        return;
+                    }
+                }
+
                 RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
             }
-            FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
         }
 
         @Override
