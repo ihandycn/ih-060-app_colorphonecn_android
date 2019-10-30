@@ -345,6 +345,77 @@ public class Theme extends Type {
         return dataList;
     }
 
+    private static final String SEPARATOR = "`";
+
+    public String toPrefString() {
+        return getIndex() + SEPARATOR +
+                getId() + SEPARATOR +
+                getIdName() + SEPARATOR +
+                getResType() + SEPARATOR +
+                getItemIcon() + SEPARATOR +
+                getName() + SEPARATOR +
+                getAcceptIcon() + SEPARATOR +
+                getRejectIcon() + SEPARATOR +
+                getPreviewImage() + SEPARATOR +
+                getThemeGuideImage() + SEPARATOR +
+                getMp4Url() + SEPARATOR +
+                getGifUrl() + SEPARATOR +
+                (isHot() ? "true" : "false") + SEPARATOR +
+                getSuggestMediaType() + SEPARATOR +
+                getNotificationBigPictureUrl() + SEPARATOR +
+                getNotificationLargeIconUrl() + SEPARATOR +
+                (isNotificationEnabled() ? "true" : "false") + SEPARATOR +
+                getDownload() + SEPARATOR +
+                getRingtoneUrl() + SEPARATOR +
+                getUploaderName() + SEPARATOR +
+                (isLocked() ? "true" : "false") + SEPARATOR +
+                (canBeDownloaded() ? "true" : "false") + SEPARATOR +
+                (isSpecialTopic() ? "true" : "false") + SEPARATOR +
+                getAvatar() + SEPARATOR +
+                getAvatarName();
+    }
+
+    public static Theme valueOfPrefString(String prefString) {
+        if (TextUtils.isEmpty(prefString)) {
+            return null;
+        }
+        String[] array = prefString.split(SEPARATOR);
+        if (array.length != 25) {
+            return null;
+        }
+        try {
+            Theme theme = new Theme();
+            theme.setIndex(Integer.valueOf(array[0]));
+            theme.setId(Integer.valueOf(array[1]));
+            theme.setIdName(array[2]);
+            theme.setResType(array[3]);
+            theme.setItemIcon(array[4]);
+            theme.setName(array[5]);
+            theme.setAcceptIcon(array[6]);
+            theme.setRejectIcon(array[7]);
+            theme.setPreviewImage(array[8]);
+            theme.setThemeGuideImage(array[9]);
+            theme.setMp4Url(array[10]);
+            theme.setGifUrl(array[11]);
+            theme.setHot(array[12].equals("true"));
+            theme.setSuggestMediaType(Integer.valueOf(array[13]));
+            theme.setNotificationBigPictureUrl(array[14]);
+            theme.setNotificationLargeIconUrl(array[15]);
+            theme.setNotificationEnabled(array[16].equals("true"));
+            theme.setDownload(Integer.valueOf(array[17]));
+            theme.setRingtoneUrl(array[18]);
+            theme.setUploaderName(array[19]);
+            theme.setLocked(array[20].equals("true"));
+            theme.setCanDownload(array[21].equals("true"));
+            theme.setSpecialTopic(array[22].equals("true"));
+            theme.setAvatar(Integer.valueOf(array[23]));
+            theme.setAvatarName(array[24]);
+            return theme;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return getId() + "-" + getName();

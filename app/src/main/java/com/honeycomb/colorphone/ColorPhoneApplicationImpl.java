@@ -402,8 +402,8 @@ public class ColorPhoneApplicationImpl {
         FileDownloader.setupOnApplicationOnCreate(mBaseApplication)
                 .connectionCreator(new FileDownloadUrlConnection.Creator(
                         new FileDownloadUrlConnection.Configuration()
-                .connectTimeout(8000)
-                .readTimeout(4000)))
+                                .connectTimeout(8000)
+                                .readTimeout(4000)))
                 .commit();
 
         Threads.postOnSingleThreadExecutor(new Runnable() {

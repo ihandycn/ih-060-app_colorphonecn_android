@@ -43,7 +43,6 @@ import com.acb.call.VideoManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
-import com.acb.call.utils.ThemeApplyUtils;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
@@ -80,6 +79,7 @@ import com.honeycomb.colorphone.preview.transition.TransitionActionLayout;
 import com.honeycomb.colorphone.preview.transition.TransitionFadeView;
 import com.honeycomb.colorphone.preview.transition.TransitionNavView;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
@@ -728,7 +728,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
-        ThemeApplyUtils.addAppliedTheme(mTheme.toPrefString());
+        ThemeApplyManager.getInstance().addAppliedTheme(mTheme.toPrefString());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
@@ -1793,9 +1793,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                         onThemeApply();
                     } else {
-                        setAsRingtone(true, false);
-
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        setAsRingtone(true, false);
                         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
 
                     }

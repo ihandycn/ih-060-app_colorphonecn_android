@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -502,5 +503,10 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     private void logExceptionAcceptFailTurn() {
         ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
+    }
+
+    @Override
+    public Type getType(int themeId) {
+        return ThemeApplyManager.getInstance().getAppliedThemeByThemeId(themeId);
     }
 }
