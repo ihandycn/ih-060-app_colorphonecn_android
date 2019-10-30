@@ -23,6 +23,11 @@ public class ThemeApplyManager {
     }
 
     public Theme getAppliedThemeByThemeId(int themeId) {
+        String themeIdStr = String.valueOf(themeId);
+        if (TextUtils.isEmpty(themeIdStr)) {
+            return null;
+        }
+
         List<String> appliedThemeList = getAppliedTheme();
         if (appliedThemeList == null || appliedThemeList.isEmpty()) {
             return null;
@@ -30,14 +35,7 @@ public class ThemeApplyManager {
 
         Theme theme = null;
         for (String themeStr : appliedThemeList) {
-            if (TextUtils.isEmpty(themeStr)) {
-                continue;
-            }
-            String[] array = themeStr.split(Theme.SEPARATOR);
-            if (array.length != Theme.DEFAULT_LENGTH) {
-                continue;
-            }
-            if (array[1].equals(String.valueOf(themeId))) {
+            if (themeIdStr.equals(getThemeId(themeStr))) {
                 theme = Theme.valueOfPrefString(themeStr);
                 break;
             }
@@ -46,7 +44,32 @@ public class ThemeApplyManager {
     }
 
     public void addAppliedTheme(String themeStr) {
-        Preferences.getDefault().addStringToList(PREFS_SCREEN_FLASH_APPLiED_THEME_STRING, themeStr);
+
+        String currentThemeId = getThemeId(themeStr);
+        if (TextUtils.isEmpty(currentThemeId)) {
+            return;
+        }
+
+        List<String> themeList = getAppliedTheme();
+        for (String theme : themeList) {
+            if (currentThemeId.equals(getThemeId(theme))) {
+                themeList.remove(theme);
+                break;
+            }
+        }
+        themeList.add(themeStr);
+        Preferences.getDefault().putStringList(PREFS_SCREEN_FLASH_APPLiED_THEME_STRING, themeList);
+    }
+
+    private String getThemeId(String themeStr) {
+        if (TextUtils.isEmpty(themeStr)) {
+            return "";
+        }
+        String[] array = themeStr.split(Theme.SEPARATOR);
+        if (array.length != Theme.DEFAULT_LENGTH) {
+            return "";
+        }
+        return array[1];
     }
 
     private List<String> getAppliedTheme() {
