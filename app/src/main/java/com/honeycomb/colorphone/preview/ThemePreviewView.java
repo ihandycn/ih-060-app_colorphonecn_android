@@ -173,7 +173,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ImageView previewImage;
     private Theme mTheme;
-    private Type mThemeType;
     private View dimCover;
     private String mFrom;
 
@@ -381,17 +380,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mTheme = theme;
         mPosition = position;
         mFrom = from;
-        if ("upload".equals(from) || "publish".equals(from)) {
-            mThemeType = mTheme;
-        } else {
-            ArrayList<Type> types = Type.values();
-            for (Type t : types) {
-                if (t.getValue() == mTheme.getId()) {
-                    mThemeType = t;
-                    break;
-                }
-            }
-        }
         activity.getLayoutInflater().inflate(R.layout.page_theme_preview, this, true);
 
         onCreate();
@@ -451,10 +439,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewWindow.setAnimationVisible(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
         mCallButtonView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
-        mCallButtonView.setTheme(mThemeType);
+        mCallButtonView.setTheme(mTheme);
         mCallButtonView.setAutoRun(false);
         mTransitionCallView.addTranstionView(new TransitionFadeView(mCallButtonView, CHANGE_MODE_DURATION));
-        updateThemePreviewLayout(mThemeType);
+        updateThemePreviewLayout(mTheme);
 
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
 
@@ -1074,7 +1062,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (!mThemeType.isMedia()) {
+            if (!mTheme.isMedia()) {
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
@@ -1163,7 +1151,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeReady) {
             previewWindow.setAnimationVisible(VISIBLE);
-            previewWindow.playAnimation(mThemeType);
+            previewWindow.playAnimation(mTheme);
             mCallButtonView.doAnimation();
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.refreshMuteStatus();
