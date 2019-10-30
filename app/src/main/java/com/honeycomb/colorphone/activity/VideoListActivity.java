@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.ugc.VideoUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -131,6 +132,12 @@ public class VideoListActivity extends HSAppCompatActivity implements INotificat
 
         iKnow.setOnClickListener(view -> {
             mRuleDialog.setVisibility(View.GONE);
+        });
+        mRuleDialog.findViewById(R.id.upload_rule).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigations.startActivitySafely(VideoListActivity.this, AboutActivity.getPrivacyViewIntent(Constants.getUrlUploadRule()));
+            }
         });
 
         content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

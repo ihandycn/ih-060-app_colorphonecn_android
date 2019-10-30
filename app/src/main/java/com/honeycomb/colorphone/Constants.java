@@ -33,4 +33,12 @@ public class Constants {
         return HSConfig.optString("", "Application", "TermsOfServiceURL");
     }
 
+    public static String getUrlDeclareRights() {
+        return HSConfig.optString("", "Application", "RightsComplaintsURL");
+    }
+
+    public static String getUrlUploadRule() {
+        return HSConfig.optString("", "Application", "UpdateRulesURL");
+    }
+
 }

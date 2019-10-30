@@ -63,7 +63,7 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.declare_rights).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo declare rights page
+                Navigations.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlDeclareRights()));
              }
         });
     }
