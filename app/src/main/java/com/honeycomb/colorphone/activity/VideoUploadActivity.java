@@ -267,6 +267,9 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                 } catch (IOException e) {
                     e.printStackTrace();
                     mConvertFailed = true;
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                    mConvertFailed = true;
                 } finally {
                     end.countDown();
                 }
@@ -323,6 +326,7 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
                     } else {
                         mUploading = false;
                         Threads.postOnMainThread(() -> failure("convert"));
+                        Toasts.showToast("视频格式有问题，请重新选择");
                     }
 
                 } catch (InterruptedException e) {
