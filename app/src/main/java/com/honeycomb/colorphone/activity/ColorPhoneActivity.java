@@ -120,6 +120,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_SHOW = "prefs_cash_center_show";
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
+    private static final String PREFS_SET_DEFAULT_THEME = "prefs_set_default_theme";
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
@@ -139,7 +140,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
     private boolean isFirstRequestData = true;
-    private boolean isSetDefaultTheme = true;
 
     private TasksManagerModel model;
     private TasksManagerModel ringtoneModel;
@@ -829,7 +829,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 //download first theme
-                if (isSetDefaultTheme && Theme.getFirstTheme() != null) {
+                if (Preferences.getDefault().getBoolean(PREFS_SET_DEFAULT_THEME, true) && Theme.getFirstTheme() != null) {
                     model = TasksManager.getImpl().requestMediaTask(Theme.getFirstTheme());
                     ringtoneModel = TasksManager.getImpl().requestRingtoneTask(Theme.getFirstTheme());
 
@@ -842,7 +842,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         TasksManager.doDownload(ringtoneModel, null);
                         FileDownloadMultiListener.getDefault().addStateListener(ringtoneModel.getId(), mRingtoneDownloadStateListener);
                     }
-                    isSetDefaultTheme = false;
+                    Preferences.getDefault().putBoolean(PREFS_SET_DEFAULT_THEME, false);
                 }
             }
         });
