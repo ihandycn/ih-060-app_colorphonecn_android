@@ -47,7 +47,6 @@ public class CashCenterActivity extends HSAppCompatActivity {
                 if (TextUtils.equals(s, CashCenterLayout.TASK_BIG_WHEEL)) {
                     HSCashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Click");
                     HSCashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Show", "CashCenterWheel", true);
-                    Navigations.startActivity(CashCenterActivity.this, ColorPhoneActivity.class);
                     finish();
                 }
             }

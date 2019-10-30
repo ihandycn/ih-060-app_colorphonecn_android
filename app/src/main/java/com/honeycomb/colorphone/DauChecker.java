@@ -84,7 +84,7 @@ public class DauChecker {
                 .getLong(KEY_TIME_LIVE, 0);
         if (liveDuration != 0) {
             Analytics.logEvent("DAU_Application_Live",
-                    Analytics.FLAG_LOG_FABRIC, "Time", formatHourTime(liveDuration / DateUtils.MINUTE_IN_MILLIS));
+                    Analytics.FLAG_LOG_UMENG, "Time", formatHourTime(liveDuration / DateUtils.MINUTE_IN_MILLIS));
 
             Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(KEY_TIME_LIVE, 0);
         }

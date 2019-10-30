@@ -83,7 +83,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(s, LOAD_NEWS_FAILED)) {
             Toasts.showToast(R.string.news_network_failed_toast);
-            Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
+            Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_UMENG);
         } else if (TextUtils.equals(s, LOAD_NEWS_SUCCESS)) {
             newsPager.setVisibility(VISIBLE);
             loading.setVisibility(GONE);

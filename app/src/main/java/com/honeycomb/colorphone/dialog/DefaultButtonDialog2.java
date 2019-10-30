@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
@@ -305,7 +304,6 @@ public abstract class DefaultButtonDialog2 {
         try {
             mAlertDialog.show();
         } catch (Exception e) {
-            ColorPhoneCrashlytics.getInstance().logException(e);
             return false;
         }
         sDialogList.add(mAlertDialog);

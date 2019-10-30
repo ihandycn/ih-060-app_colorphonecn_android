@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -52,11 +53,13 @@ public class DailyLogger {
     private void logDailyStatus(int daysSinceInstall) {
         if (Compats.IS_XIAOMI_DEVICE) {
             Analytics.logEvent("Rom_Active_Xiaomi",
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));
         } else if (Compats.IS_HUAWEI_DEVICE) {
             Analytics.logEvent("Rom_Active_Huawei",
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));

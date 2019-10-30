@@ -18,7 +18,6 @@ import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -227,7 +226,6 @@ public class ThemeList {
             themes.clear();
             ArrayList<Type> types = Type.values();
             if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
-                ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
                 return;
             }
             for (Type type : types) {

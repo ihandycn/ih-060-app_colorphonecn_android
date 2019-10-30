@@ -290,9 +290,9 @@
 			<key>GameCenter</key>
 			<dict>
 				<key>LockScreenEnable</key>
-				<true/>
+				<false/>
 				<key>MainViewEnable</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>GrantAccess</key>
 			<dict>
@@ -1038,7 +1038,7 @@
 					<key>TextureWireIntervalMinute</key>
 					<integer>0</integer>
 					<key>TextureWireEnable</key>
-					<false/>
+					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 					<key>Enable</key>

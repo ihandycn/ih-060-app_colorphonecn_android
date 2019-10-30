@@ -12,7 +12,6 @@ import android.util.Log;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -316,10 +315,6 @@ public class ContactManager {
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 throw e;
-            } else {
-                try {
-                    ColorPhoneCrashlytics.getInstance().logException(e);
-                } catch (Exception ignore) {}
             }
         }
     }

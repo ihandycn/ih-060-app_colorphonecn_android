@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.view.WindowManager;
@@ -103,6 +105,7 @@ public class AutoRequestManager {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Analytics.logEvent("Accessbility_Granted",
+                            "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                             "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
@@ -384,6 +387,7 @@ public class AutoRequestManager {
             }
 
             Analytics.logEvent("All_Granted_From_Automatic",
+                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
