@@ -461,7 +461,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     }
 
     @Override
-    public void logEvent(boolean onlyFabric, String eventID, String... vars) {
+    public void logEvent(boolean onlyUMENG, String eventID, String... vars) {
         // Umeng-event format.
         eventID = eventID.replace("Acb_ScreenFlash_AcceptFail_TimeOut_2s", "SF_AcceptFail_TimeOut_2s");
         eventID = eventID.replace("Acb_ScreenFlash_RejectCallTimeout_2s", "SF_RejectCallTimeout_2s");
@@ -470,9 +470,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             System.arraycopy(vars, 0, expandVars, 0, vars.length);
             expandVars[vars.length] = "NaService";
             expandVars[vars.length + 1] = NotificationServiceV18.inServiceRunning + "";
-            Analytics.logEvent(eventID, onlyFabric, expandVars);
+            Analytics.logEvent(eventID, onlyUMENG, expandVars);
         } else {
-            Analytics.logEvent(eventID, onlyFabric, vars);
+            Analytics.logEvent(eventID, onlyUMENG, vars);
         }
 
         if ("Acb_Screenflash_Shouldshow".equalsIgnoreCase(eventID)) {
