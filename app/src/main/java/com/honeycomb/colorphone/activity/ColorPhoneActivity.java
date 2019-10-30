@@ -808,10 +808,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onSuccess(boolean isHasData) {
-                if (isFirstRequestData) {
+                if (isFirstRequestData && isHasData) {
                     Analytics.logEvent("CallFlash_Request_First_Success");
                     isFirstRequestData = false;
+                } else {
+                    Analytics.logEvent("CallFlash_Request_First_Failed", "type", "none data");
                 }
+
                 Analytics.logEvent("CallFlash_Request_Success");
 
                 if (isRefresh) {
