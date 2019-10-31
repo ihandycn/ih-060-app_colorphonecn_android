@@ -50,9 +50,9 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
     private ValueAnimator dialpadSlideOutAnimation;
     private Dialog errorDialog;
     private GradientDrawable backgroundDrawable;
-//    private InCallOrientationEventListener inCallOrientationEventListener;
+    //    private InCallOrientationEventListener inCallOrientationEventListener;
     private View pseudoBlackScreenOverlay;
-//    private SelectPhoneAccountDialogFragment selectPhoneAccountDialogFragment;
+    //    private SelectPhoneAccountDialogFragment selectPhoneAccountDialogFragment;
     private String dtmfTextToPrepopulate;
     private boolean allowOrientationChange;
     private boolean animateDialpadOnShow;
@@ -84,12 +84,15 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
             DIALPAD_REQUEST_SHOW,
             DIALPAD_REQUEST_HIDE,
     })
-    @interface DialpadRequestType {}
+    @interface DialpadRequestType {
+    }
+
     private static final int DIALPAD_REQUEST_NONE = 1;
     private static final int DIALPAD_REQUEST_SHOW = 2;
     private static final int DIALPAD_REQUEST_HIDE = 3;
 
-    @DialpadRequestType private int showDialpadRequest = DIALPAD_REQUEST_NONE;
+    @DialpadRequestType
+    private int showDialpadRequest = DIALPAD_REQUEST_NONE;
 
     private InCallOrientationEventListener inCallOrientationEventListener;
 
@@ -119,7 +122,9 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
         static final String DID_SHOW_SPEAK_EASY_SCREEN = "did_show_speak_easy_screen";
     }
 
-    /** Request codes for pending intents. */
+    /**
+     * Request codes for pending intents.
+     */
     public static final class PendingIntentRequestCodes {
         static final int NON_FULL_SCREEN = 0;
         static final int FULL_SCREEN = 1;
@@ -173,7 +178,7 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
         inCallOrientationEventListener = new InCallOrientationEventListener(this);
 
         mIncomingCallUI = getIntent().getBooleanExtra(IntentExtraNames.INCOMING_CALL, false)
-        || InCallPresenter.getInstance().getInCallState().isIncoming();
+                || InCallPresenter.getInstance().getInCallState().isIncoming();
 
         if (!mIncomingCallUI) {
             ConfigEvent.dialerShow();
@@ -243,6 +248,7 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
 
 //        sendBroadcast(CallPendingActivity.getFinishBroadcast());
     }
+
     @Override
     protected void onSaveInstanceState(Bundle out) {
         LogUtil.enterBlock("InCallActivity.onSaveInstanceState");
@@ -293,8 +299,9 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
                 // Exit fullscreen so that the user has access to the dialpad hide/show button.
                 // This is important when showing the dialpad from within dialer.
                 InCallPresenter.getInstance().setFullScreen(false /* isFullScreen */, true /* force */);
-
-                showDialpadFragment(true /* show */, animateDialpadOnShow /* animate */);
+                if (getDialpadFragment() != null) {
+                    showDialpadFragment(true /* show */, animateDialpadOnShow /* animate */);
+                }
                 animateDialpadOnShow = false;
 
                 DialpadFragment dialpadFragment = getDialpadFragment();
@@ -508,7 +515,7 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
      * be shown on launch.
      *
      * @param showDialpad {@code true} to indicate the dialpad should be shown on launch, and {@code
-     *     false} to indicate no change should be made to the dialpad visibility.
+     *                    false} to indicate no change should be made to the dialpad visibility.
      */
     private void relaunchedFromDialer(boolean showDialpad) {
         showDialpadRequest = showDialpad ? DIALPAD_REQUEST_SHOW : DIALPAD_REQUEST_NONE;
@@ -692,7 +699,6 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
     }
 
 
-
     private void enableInCallOrientationEventListener(boolean enable) {
         if (enable) {
             inCallOrientationEventListener.enable(true /* notifyDeviceOrientationChange */);
@@ -755,7 +761,9 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
                 && dialpadFragment.isVisible();
     }
 
-    /** Returns the {@link DialpadFragment} that's shown by this activity, or {@code null} */
+    /**
+     * Returns the {@link DialpadFragment} that's shown by this activity, or {@code null}
+     */
     @Nullable
     private DialpadFragment getDialpadFragment() {
         return mDialpadFragment;
