@@ -78,13 +78,14 @@ public class ThemeList {
      * @param isRefresh refresh or loadMore
      */
     public void requestThemeForMainFrame(boolean isRefresh, ThemeUpdateListener listener) {
+
+        if (mainFrameThemeData == null) {
+            mainFrameThemeData = new ThemeData();
+        }
+
         int pageIndex;
         if (isRefresh) {
-            if (mainFrameThemeData == null) {
-                mainFrameThemeData = new ThemeData();
-            } else {
-                mainFrameThemeData.clear();
-            }
+            mainFrameThemeData.clear();
             pageIndex = mainFrameThemeData.getPageIndex();
         } else {
             pageIndex = mainFrameThemeData.getPageIndex() + 1;
@@ -100,14 +101,14 @@ public class ThemeList {
             @Override
             public void onSuccess(AllThemeBean allThemeBean) {
                 if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
-
-                    mainFrameThemeData.setPageIndex(allThemeBean.getPage_index());
-                    if (isRefresh) {
-                        mainFrameThemeData.setThemeList(Theme.transformData(0, allThemeBean));
-                    } else {
-                        mainFrameThemeData.appendTheme(Theme.transformData(mainFrameThemeData.getThemeSize(), allThemeBean));
+                    if (mainFrameThemeData != null) {
+                        mainFrameThemeData.setPageIndex(allThemeBean.getPage_index());
+                        if (isRefresh) {
+                            mainFrameThemeData.setThemeList(Theme.transformData(0, allThemeBean));
+                        } else {
+                            mainFrameThemeData.appendTheme(Theme.transformData(mainFrameThemeData.getThemeSize(), allThemeBean));
+                        }
                     }
-
                     listener.onSuccess(true);
                 } else {
                     listener.onSuccess(false);
