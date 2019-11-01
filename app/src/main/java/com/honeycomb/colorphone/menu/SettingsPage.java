@@ -265,7 +265,7 @@ public class SettingsPage implements View.OnClickListener {
 
     public void showUserInfo(LoginUserBean.UserInfoBean userInfo) {
 
-        if (context == null) {
+        if (((Activity) context).isDestroyed()) {
             return;
         }
 
