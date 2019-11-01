@@ -125,6 +125,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             ThemeList.getInstance().fillData(mThemes);
         }
         mSavedState = savedInstanceState;
+
+        if (mThemes.size() <= pos) {
+            finish();
+        }
+
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
