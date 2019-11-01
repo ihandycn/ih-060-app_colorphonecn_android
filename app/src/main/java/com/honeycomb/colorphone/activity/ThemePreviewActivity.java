@@ -128,6 +128,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         if (mThemes.size() <= pos) {
             finish();
+            return;
         }
 
         mTheme = mThemes.get(pos);
