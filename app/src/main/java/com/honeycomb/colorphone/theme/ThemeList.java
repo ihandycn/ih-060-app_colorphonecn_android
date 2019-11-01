@@ -17,13 +17,9 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
-import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.util.Utils;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
-import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -331,30 +327,6 @@ public class ThemeList {
     public List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
-        boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
-        boolean ddd = (selectedThemeId == -1) && (isSpacialUser ? defaultTheme : selectedThemeId == -1);
-//        boolean applyDefaultTheme = (selectedThemeId == -1);
-
-        boolean applyDefaultTheme;
-        if (selectedThemeId == -1) {
-            if (isSpacialUser) {
-                applyDefaultTheme = defaultTheme;
-            } else {
-                applyDefaultTheme = true;
-            }
-        } else {
-            applyDefaultTheme = false;
-        }
-
-        boolean autopilotRandomEnable = Ap.RandomTheme.enable();
-        if (applyDefaultTheme) {
-            selectedThemeId = autopilotRandomEnable ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
-            HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
-            ThemePreviewView.saveThemeApplys(selectedThemeId);
-            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
-        }
-
         final List<Theme> bgThemes = new ArrayList<>(themes());
 
         String[] likeThemes = getThemeLikes();
@@ -381,42 +353,22 @@ public class ThemeList {
             }
         });
 
-        final int idDefault = selectedThemeId;
         if (onApplicationInit) {
             Threads.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
-                    updateThemeTasks(bgThemes, applyDefaultTheme, idDefault);
+                    updateThemeTasks();
                     HSLog.d(TAG, "[Application init] Prepare theme list");
                 }
             });
         } else {
-            updateThemeTasks(bgThemes, applyDefaultTheme, idDefault);
+            updateThemeTasks();
         }
         return bgThemes;
     }
 
     @DebugLog
-    private void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
-        Theme needPreloadTheme = null;
-        // Task update (if new theme added here, we update download task)
-        for (Theme theme : bgThemes) {
-            if (applyDefaultTheme && theme.getId() == idDefault) {
-                needPreloadTheme = theme;
-            }
-        }
-
-        // Prepare default theme
-        if (needPreloadTheme != null
-                && idDefault != Utils.localThemeId) {
-            final Theme targetTheme = needPreloadTheme;
-            Threads.postOnMainThread(new Runnable() {
-                @Override
-                public void run() {
-                    prepareThemeMediaFile(targetTheme);
-                }
-            });
-        }
+    private void updateThemeTasks() {
 
         // Prepare next random theme
         Threads.postOnMainThread(new Runnable() {

@@ -75,11 +75,9 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
-import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -970,13 +968,7 @@ public final class Utils {
     }
 
     public static int getDefaultThemeId() {
-        String defaultThemeId = HSConfig.optString("DeepLove", "Application", "Theme", "DefaultThemeID");
-        for (Theme theme : ThemeList.themes()) {
-            if (TextUtils.equals(theme.getIdName(), defaultThemeId)) {
-                return theme.getId();
-            }
-        }
-        return Theme.NEON;
+        return -1;
     }
 
     public static String[] getTestDeviceInfo(Context context){

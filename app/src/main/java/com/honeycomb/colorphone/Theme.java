@@ -343,8 +343,7 @@ public class Theme extends Type {
         return dataList;
     }
 
-    public static final String SEPARATOR = "`";
-    public static final int DEFAULT_LENGTH = 25;
+    public static final int THEME_DEFAULT_LENGTH = 25;
 
     public String toPrefString() {
         return getIndex() + SEPARATOR +
@@ -379,9 +378,16 @@ public class Theme extends Type {
             return null;
         }
         String[] array = prefString.split(SEPARATOR);
-        if (array.length != DEFAULT_LENGTH) {
+        if (array.length == THEME_DEFAULT_LENGTH) {
+            return valueOfThemePrefString(array);
+        } else if (array.length == TYPE_DEFAULT_LENGTH) {
+            return valueOfTypePrefString(array);
+        } else {
             return null;
         }
+    }
+
+    public static Theme valueOfThemePrefString(String[] array) {
         try {
             Theme theme = new Theme();
             theme.setIndex(Integer.valueOf(array[0]));
@@ -409,6 +415,29 @@ public class Theme extends Type {
             theme.setSpecialTopic(array[22].equals("true"));
             theme.setAvatar(Integer.valueOf(array[23]));
             theme.setAvatarName(array[24]);
+            return theme;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Theme valueOfTypePrefString(String[] array) {
+        try {
+            Theme theme = new Theme();
+            theme.setIndex(Integer.valueOf(array[0]));
+            theme.setId(Integer.valueOf(array[1]));
+            theme.setIdName(array[2]);
+            theme.setResType(array[3]);
+            theme.setItemIcon(array[4]);
+            theme.setName(array[5]);
+            theme.setAcceptIcon(array[6]);
+            theme.setRejectIcon(array[7]);
+            theme.setPreviewImage(array[8]);
+            theme.setThemeGuideImage(array[9]);
+            theme.setMp4Url(array[10]);
+            theme.setGifUrl(array[11]);
+            theme.setHot(array[12].equals("true"));
+            theme.setSuggestMediaType(Integer.valueOf(array[13]));
             return theme;
         } catch (Exception e) {
             return null;

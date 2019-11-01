@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.theme;
 
 import android.text.TextUtils;
 
+import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Theme;
 import com.superapps.util.Preferences;
 
@@ -65,8 +66,8 @@ public class ThemeApplyManager {
         if (TextUtils.isEmpty(themeStr)) {
             return "";
         }
-        String[] array = themeStr.split(Theme.SEPARATOR);
-        if (array.length != Theme.DEFAULT_LENGTH) {
+        String[] array = themeStr.split(Type.SEPARATOR);
+        if (array.length != Theme.THEME_DEFAULT_LENGTH && array.length != Type.TYPE_DEFAULT_LENGTH) {
             return "";
         }
         return array[1];

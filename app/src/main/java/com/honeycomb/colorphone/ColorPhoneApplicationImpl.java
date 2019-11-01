@@ -528,8 +528,6 @@ public class ColorPhoneApplicationImpl {
 
         logUserLevelDistribution();
 
-        watchLifeTimeAutopilot();
-
         DauChecker.get().start();
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
@@ -676,17 +674,6 @@ public class ColorPhoneApplicationImpl {
             }
         });
 
-    }
-
-    private void watchLifeTimeAutopilot() {
-        IntentFilter configFinishedFilter = new IntentFilter();
-        configFinishedFilter.addAction(AutopilotConfig.ACTION_USER_INIT_COMPLETE);
-        mBaseApplication.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                ThemeList.getInstance().updateThemes(false);
-            }
-        }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(mBaseApplication), null);
     }
 
     private void copyMediaFromAssertToFile() {

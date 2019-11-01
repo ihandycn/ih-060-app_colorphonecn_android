@@ -252,6 +252,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     }
 
     public String from;
+
     @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
         return new RequestPermissionsActivity.Event() {
             private int launchTime;
@@ -493,5 +494,14 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public Type getType(int themeId) {
         return ThemeApplyManager.getInstance().getAppliedThemeByThemeId(themeId);
+    }
+
+    @Override
+    public void addAppliedType(Type type) {
+        if (type instanceof Theme) {
+            ThemeApplyManager.getInstance().addAppliedTheme(((Theme) type).toPrefString());
+        } else {
+            ThemeApplyManager.getInstance().addAppliedTheme(type.toPrefTypeString());
+        }
     }
 }
