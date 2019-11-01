@@ -19,6 +19,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface IHttpRequest {
 
@@ -57,5 +58,9 @@ public interface IHttpRequest {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @HTTP(method = "DELETE", path = "user/{uid}/uploaded_shows", hasBody = true)
     Callable<ResponseBody> deleteUserVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body RequestBody body);
+
+
+    @GET
+    Callable<ResponseBody> getCallerAddress(@Url String url);
 }
 

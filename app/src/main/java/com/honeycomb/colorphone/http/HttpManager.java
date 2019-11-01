@@ -83,11 +83,11 @@ public final class HttpManager {
                 .addFormDataPart("gender", userInfo.getGender())
                 .addFormDataPart("signature", userInfo.getSignature());
 
-        if (!TextUtils.isEmpty(userInfo.getBirthday())){
+        if (!TextUtils.isEmpty(userInfo.getBirthday())) {
             builder.addFormDataPart("birthday", userInfo.getBirthday());
         }
 
-        if (!TextUtils.isEmpty(headImgFilePath)){
+        if (!TextUtils.isEmpty(headImgFilePath)) {
             File file = new File(headImgFilePath);
             if (HttpUtils.isFileValid(file)) {
                 RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -184,6 +184,14 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
+    public void getCallerAddressInfo(String number, Callback<ResponseBody> callBack) {
+        String url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=" + number;
+
+        DEFAULT.create(IHttpRequest.class)
+                .getCallerAddress(url)
+                .enqueue(callBack);
+    }
+
     public void saveUserTokenAndUid(String token, String uid) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_USER_TOKEN, token);
@@ -203,15 +211,15 @@ public final class HttpManager {
         return !TextUtils.isEmpty(getUserToken());
     }
 
-    public void logout(){
-        saveUserTokenAndUid("","");
+    public void logout() {
+        saveUserTokenAndUid("", "");
         refreshUserInfo(null);
     }
 
-    public void refreshUserInfo(@Nullable LoginUserBean.UserInfoBean userInfoBean){
+    public void refreshUserInfo(@Nullable LoginUserBean.UserInfoBean userInfoBean) {
         HSBundle bundle = new HSBundle();
-        bundle.putObject(KEY_USER_INFO,userInfoBean);
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO,bundle);
+        bundle.putObject(KEY_USER_INFO, userInfoBean);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO, bundle);
     }
 
 }

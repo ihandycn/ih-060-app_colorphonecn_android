@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.dialer;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.acb.call.FlashScreenPresenter;
@@ -9,6 +10,13 @@ import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.util.StringUtils;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class IncomingViewManager implements
@@ -41,7 +49,42 @@ public class IncomingViewManager implements
         final DialerCall dialerCall = CallList.getInstance().getIncomingCall();
         if (dialerCall != null) {
             FlashScreenPresenter.getInstance().onShowInDialer(dialerCall.getNumber());
-            mInCallWindow.show(dialerCall.getNumber());
+            HttpManager.getInstance().getCallerAddressInfo(dialerCall.getNumber(), new Callback<ResponseBody>() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    mInCallWindow.show(dialerCall.getNumber(), "");
+                }
+
+                @Override
+                public void onSuccess(ResponseBody responseBody) {
+                    String string = "";
+                    String address = "";
+                    String province;
+                    String city;
+                    String operator;
+                    try {
+                        string = responseBody.string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (!TextUtils.isEmpty(string)) {
+                        province = StringUtils.getProvince(string);
+                        city = StringUtils.getCity(string);
+                        operator = StringUtils.getOperator(string);
+
+                        if (!TextUtils.isEmpty(province)) {
+                            if (province.equals(city)) {
+                                province = "";
+                            }
+
+                            address = province + " " + city + " " + operator;
+                        }
+
+                    }
+                    mInCallWindow.show(dialerCall.getNumber(), address);
+                }
+            });
+
             mInCallWindow.setCallHandler(new InCallWindow.CallHandler() {
                 @Override
                 public void answer() {
