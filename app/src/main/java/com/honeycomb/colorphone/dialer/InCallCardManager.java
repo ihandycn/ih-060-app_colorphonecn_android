@@ -130,47 +130,51 @@ public class InCallCardManager implements
             HttpManager.getInstance().getCallerAddressInfo(number, new Callback<ResponseBody>() {
                 @Override
                 public void onFailure(String errorMsg) {
-                    if (TextUtils.isEmpty(nameStr)) {
-                        mSecondTextView.setVisibility(View.GONE);
-                    } else {
-                        mSecondTextView.setVisibility(View.VISIBLE);
-                        mSecondTextView.setText(number);
+                    if (mSecondTextView != null) {
+                        if (TextUtils.isEmpty(nameStr)) {
+                            mSecondTextView.setVisibility(View.GONE);
+                        } else {
+                            mSecondTextView.setVisibility(View.VISIBLE);
+                            mSecondTextView.setText(number);
+                        }
                     }
                 }
 
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onSuccess(ResponseBody responseBody) {
-                    String string = "";
-                    String address = "";
-                    String province;
-                    String city;
-                    String operator;
-                    try {
-                        string = responseBody.string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (!TextUtils.isEmpty(string)) {
-                        province = StringUtils.getProvince(string);
-                        city = StringUtils.getCity(string);
-                        operator = StringUtils.getOperator(string);
-
-                        if (!TextUtils.isEmpty(province)) {
-                            if (province.equals(city)) {
-                                province = "";
-                            }
-
-                            address = province + " " + city + " " + operator;
+                    if (mSecondTextView != null) {
+                        String string = "";
+                        String address = "";
+                        String province;
+                        String city;
+                        String operator;
+                        try {
+                            string = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }
+                        if (!TextUtils.isEmpty(string)) {
+                            province = StringUtils.getProvince(string);
+                            city = StringUtils.getCity(string);
+                            operator = StringUtils.getOperator(string);
 
-                    if (TextUtils.isEmpty(nameStr)) {
-                        mSecondTextView.setVisibility(View.VISIBLE);
-                        mSecondTextView.setText(address);
-                    } else {
-                        mSecondTextView.setVisibility(View.VISIBLE);
-                        mSecondTextView.setText(number + " " + address);
+                            if (!TextUtils.isEmpty(province)) {
+                                if (province.equals(city)) {
+                                    province = "";
+                                }
+
+                                address = province + " " + city + " " + operator;
+                            }
+                        }
+
+                        if (TextUtils.isEmpty(nameStr)) {
+                            mSecondTextView.setVisibility(View.VISIBLE);
+                            mSecondTextView.setText(address);
+                        } else {
+                            mSecondTextView.setVisibility(View.VISIBLE);
+                            mSecondTextView.setText(number + " " + address);
+                        }
                     }
                 }
             });

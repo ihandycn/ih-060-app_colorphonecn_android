@@ -52,36 +52,40 @@ public class IncomingViewManager implements
             HttpManager.getInstance().getCallerAddressInfo(dialerCall.getNumber(), new Callback<ResponseBody>() {
                 @Override
                 public void onFailure(String errorMsg) {
-                    mInCallWindow.show(dialerCall.getNumber(), "");
+                    if (mInCallWindow != null) {
+                        mInCallWindow.show(dialerCall.getNumber(), "");
+                    }
                 }
 
                 @Override
                 public void onSuccess(ResponseBody responseBody) {
-                    String string = "";
-                    String address = "";
-                    String province;
-                    String city;
-                    String operator;
-                    try {
-                        string = responseBody.string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (!TextUtils.isEmpty(string)) {
-                        province = StringUtils.getProvince(string);
-                        city = StringUtils.getCity(string);
-                        operator = StringUtils.getOperator(string);
+                    if (mInCallWindow != null) {
+                        String string = "";
+                        String address = "";
+                        String province;
+                        String city;
+                        String operator;
+                        try {
+                            string = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (!TextUtils.isEmpty(string)) {
+                            province = StringUtils.getProvince(string);
+                            city = StringUtils.getCity(string);
+                            operator = StringUtils.getOperator(string);
 
-                        if (!TextUtils.isEmpty(province)) {
-                            if (province.equals(city)) {
-                                province = "";
+                            if (!TextUtils.isEmpty(province)) {
+                                if (province.equals(city)) {
+                                    province = "";
+                                }
+
+                                address = province + " " + city + " " + operator;
                             }
 
-                            address = province + " " + city + " " + operator;
                         }
-
+                        mInCallWindow.show(dialerCall.getNumber(), address);
                     }
-                    mInCallWindow.show(dialerCall.getNumber(), address);
                 }
             });
 
