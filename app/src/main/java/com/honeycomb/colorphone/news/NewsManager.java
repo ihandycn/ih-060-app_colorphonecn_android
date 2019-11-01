@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Placements;
-import com.honeycomb.colorphone.ad.AdLogUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
@@ -23,7 +22,6 @@ import net.appcloudbox.UnreleasedAdWatcher;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,8 +39,6 @@ public class NewsManager {
             userID = UUID.randomUUID().toString();
             Preferences.get(PERF_FILE).putString(PERF_KEY_USERID, userID);
         }
-        AcbNativeAdManager.getInstance().activePlacementInProcess(NEWS_LIST_BANNER);
-
         UnreleasedAdWatcher.getInstance().setMaxSize(50);
 //        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
     }
@@ -55,9 +51,6 @@ public class NewsManager {
     private static String PERF_KEY_USERID = "perf_key_userid";
     private static String PERF_FILE = "news";
     private static String userID;
-    private static String NEWS_LIST_BANNER = Placements.AD_NEWS;
-    public static int AD_INTERVAL = 4;
-    public static int NATIVE_AD_SIZE = 4;
 
     private AcbNativeAd mAd;
 
@@ -75,7 +68,6 @@ public class NewsManager {
 
     private NewsResultBean lifeAssistantBean;
     private NewsResultBean exitNewsBean;
-    private boolean showNativeAD;
 
     public NewsResultBean getLifeAssistantBean() {
         return lifeAssistantBean;
@@ -86,11 +78,6 @@ public class NewsManager {
     }
 
     void fetchNews(NewsLoadListener loadListener, boolean isVideo) {
-        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
-        if (showNativeAD) {
-            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
-            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
-        }
 
         HSLog.i(NewsManager.TAG, "fetchNews");
 
@@ -107,7 +94,6 @@ public class NewsManager {
                             int size = bean.articlesList.size();
                             if (loadListener.isLoadNewsAd()) {
                                 bean.adOffset = loadListener.getNewsAdOffset();
-                                replaceADs(bean, 0);
                             }
                             loadListener.onNewsLoaded(bean, size);
                             HSLog.i(NewsManager.TAG, "onNewsLoaded sendNotification");
@@ -138,89 +124,7 @@ public class NewsManager {
         news.startAsync();
     }
 
-    private void replaceADs(NewsResultBean resultBean, int size) {
-        List<Integer> adIndexes = new ArrayList<>();
-        if (resultBean == null || resultBean.articlesList == null) {
-            HSLog.i(TAG, "replaceADs resultBean or articlesList is NULL ");
-            return;
-        }
-
-        if (resultBean.articlesList.size() > 0) {
-            int index = 0;
-            for (NewsArticle article : resultBean.articlesList) {
-                if (article.item_type == 8 || article.item_type == 30 || article.item_type == 100) {
-                    adIndexes.add(0, index);
-                }
-                index++;
-            }
-
-            if (adIndexes.size() > 0) {
-                for (int i : adIndexes) {
-                    resultBean.articlesList.remove(i);
-                }
-            }
-            HSLog.i(TAG, "replaceADs index: " + adIndexes + "  AfterSize: " + resultBean.articlesList.size());
-        }
-
-        if (!showNativeAD) {
-            return;
-        }
-
-        int index = resultBean.adOffset;
-        if (size > 0) {
-            index = size + AD_INTERVAL - (size - resultBean.adSize - 1) % AD_INTERVAL;
-        }
-
-        size = (resultBean.articlesList != null ? resultBean.articlesList.size() : size);
-
-        adIndexes.clear();
-        for (; index < size; ) {
-            adIndexes.add(index);
-            index += AD_INTERVAL + 1;
-            size++;
-
-            Analytics.logEvent("News_List_Ad_Should_Show");
-        }
-
-        List<AcbNativeAd> ads = AcbNativeAdManager.getInstance().fetch(NEWS_LIST_BANNER, adIndexes.size());
-        if (ads != null && ads.size() > 0) {
-            NewsNativeAdBean bean;
-
-            HSLog.i(TAG, "replaceADs addIndex: " + adIndexes + "  AdSize: " + ads.size());
-
-            for (AcbNativeAd ad : ads) {
-                bean = new NewsNativeAdBean();
-                bean.acbNativeAd = ad;
-
-                if (adIndexes.size() > 0) {
-                    index = adIndexes.remove(0);
-                    if (index < resultBean.articlesList.size()) {
-                        resultBean.articlesList.add(index, bean);
-                        Analytics.logEvent("New_List_Ad_Fetch_Success");
-                    }
-                } else {
-                    ad.release();
-                    break;
-                }
-            }
-
-            HSLog.i(TAG, "replaceADs AfterSize: " + resultBean.articlesList.size());
-            resultBean.adSize += ads.size();
-        }
-
-        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
-        if (showNativeAD) {
-            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
-            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
-        }
-    }
-
     void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
-        showNativeAD = LifeAssistantConfig.isLifeAssistantAdEnable();
-        if (showNativeAD) {
-            AdLogUtils.log(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
-            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
-        }
 
         HSHttpConnection news = new HSHttpConnection(getURL(false));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
@@ -238,7 +142,6 @@ public class NewsManager {
                         if (loadListener != null) {
                             if (loadListener.isLoadNewsAd()) {
                                 resultBean.adOffset = loadListener.getNewsAdOffset();
-                                replaceADs(resultBean, size);
                             }
                             loadListener.onNewsLoaded(resultBean, newSize);
                         }
