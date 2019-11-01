@@ -264,6 +264,11 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     public void showUserInfo(LoginUserBean.UserInfoBean userInfo) {
+
+        if (context == null) {
+            return;
+        }
+
         this.userInfo = userInfo;
         GlideApp.with(context)
                 .asBitmap()
