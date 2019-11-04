@@ -553,7 +553,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
                 }
                 callerAddressListener.success(address);
-                Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "true");
+                if (TextUtils.isEmpty(address)) {
+                    Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "false");
+                } else {
+                    Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "true");
+                }
             }
         });
 

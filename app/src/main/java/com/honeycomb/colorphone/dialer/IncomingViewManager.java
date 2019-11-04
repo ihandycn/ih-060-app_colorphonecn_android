@@ -87,7 +87,11 @@ public class IncomingViewManager implements
 
                         }
                         mInCallWindow.show(dialerCall.getNumber(), address);
-                        Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "true");
+                        if (TextUtils.isEmpty(address)) {
+                            Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
+                        } else {
+                            Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "true");
+                        }
                     } else {
                         Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
                     }

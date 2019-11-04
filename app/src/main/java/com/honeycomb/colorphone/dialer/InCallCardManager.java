@@ -172,14 +172,26 @@ public class InCallCardManager implements
                         }
 
                         if (TextUtils.isEmpty(nameStr)) {
-                            mSecondTextView.setVisibility(View.VISIBLE);
-                            mSecondTextView.setText(address);
+                            if (TextUtils.isEmpty(address)) {
+                                mSecondTextView.setVisibility(View.GONE);
+                            } else {
+                                mSecondTextView.setVisibility(View.VISIBLE);
+                                mSecondTextView.setText(address);
+                            }
                         } else {
                             mSecondTextView.setVisibility(View.VISIBLE);
-                            mSecondTextView.setText(number + " " + address);
+                            if (TextUtils.isEmpty(address)) {
+                                mSecondTextView.setText(number);
+                            } else {
+                                mSecondTextView.setText(number + " " + address);
+                            }
                         }
 
-                        Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "true");
+                        if (TextUtils.isEmpty(address)) {
+                            Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
+                        } else {
+                            Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "true");
+                        }
                     } else {
                         Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
                     }
