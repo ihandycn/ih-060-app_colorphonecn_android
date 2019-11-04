@@ -523,6 +523,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void onFailure(String errorMsg) {
                 callerAddressListener.fail();
+                Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "false");
             }
 
             @Override
@@ -552,6 +553,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
                 }
                 callerAddressListener.success(address);
+                Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "true");
             }
         });
 

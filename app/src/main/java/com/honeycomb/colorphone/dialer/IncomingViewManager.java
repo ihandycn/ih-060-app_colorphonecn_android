@@ -12,6 +12,7 @@ import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.StringUtils;
 
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class IncomingViewManager implements
                     if (mInCallWindow != null) {
                         mInCallWindow.show(dialerCall.getNumber(), "");
                     }
+                    Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
                 }
 
                 @Override
@@ -85,6 +87,9 @@ public class IncomingViewManager implements
 
                         }
                         mInCallWindow.show(dialerCall.getNumber(), address);
+                        Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "true");
+                    } else {
+                        Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
                     }
                 }
             });

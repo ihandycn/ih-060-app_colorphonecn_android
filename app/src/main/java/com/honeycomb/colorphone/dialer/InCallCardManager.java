@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.StringUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Threads;
@@ -138,6 +139,8 @@ public class InCallCardManager implements
                             mSecondTextView.setText(number);
                         }
                     }
+
+                    Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
                 }
 
                 @SuppressLint("SetTextI18n")
@@ -175,6 +178,10 @@ public class InCallCardManager implements
                             mSecondTextView.setVisibility(View.VISIBLE);
                             mSecondTextView.setText(number + " " + address);
                         }
+
+                        Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "true");
+                    } else {
+                        Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
                     }
                 }
             });
