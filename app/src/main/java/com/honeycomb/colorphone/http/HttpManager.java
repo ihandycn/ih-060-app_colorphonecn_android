@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
@@ -57,6 +56,11 @@ public final class HttpManager {
 
     public void login(String code, Callback<LoginUserBean> callback) {
 
+        if (TextUtils.isEmpty(code)) {
+            callback.onFailure("请先登录微信！！！");
+            return;
+        }
+
         JSONObject params = new JSONObject();
         try {
             params.put("login_type", 1);
@@ -83,11 +87,11 @@ public final class HttpManager {
                 .addFormDataPart("gender", userInfo.getGender())
                 .addFormDataPart("signature", userInfo.getSignature());
 
-        if (!TextUtils.isEmpty(userInfo.getBirthday())){
+        if (!TextUtils.isEmpty(userInfo.getBirthday())) {
             builder.addFormDataPart("birthday", userInfo.getBirthday());
         }
 
-        if (!TextUtils.isEmpty(headImgFilePath)){
+        if (!TextUtils.isEmpty(headImgFilePath)) {
             File file = new File(headImgFilePath);
             if (HttpUtils.isFileValid(file)) {
                 RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -203,15 +207,15 @@ public final class HttpManager {
         return !TextUtils.isEmpty(getUserToken());
     }
 
-    public void logout(){
-        saveUserTokenAndUid("","");
+    public void logout() {
+        saveUserTokenAndUid("", "");
         refreshUserInfo(null);
     }
 
-    public void refreshUserInfo(@Nullable LoginUserBean.UserInfoBean userInfoBean){
+    public void refreshUserInfo(@Nullable LoginUserBean.UserInfoBean userInfoBean) {
         HSBundle bundle = new HSBundle();
-        bundle.putObject(KEY_USER_INFO,userInfoBean);
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO,bundle);
+        bundle.putObject(KEY_USER_INFO, userInfoBean);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO, bundle);
     }
 
 }

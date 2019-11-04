@@ -74,6 +74,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     private void failure(String msg) {
-        Toast.makeText(this, "登录失败, msg = " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "登录失败, " + msg, Toast.LENGTH_LONG).show();
     }
 }
