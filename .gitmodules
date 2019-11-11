@@ -1,21 +1,21 @@
 [submodule "libs/libSuperApps"]
 	path = libs/libSuperApps
-	url = http://git.ihandysoft.com/nogroup/Lib_SuperApps_Android.git
+	url = https://git.infinigames.cn/060-group/lib_superapps_android.git
 [submodule "libs/libFlashlight"]
 	path = libs/libFlashlight
-	url = http://git.ihandysoft.com/bingroup/bin_flashlight_android.git
+	url = https://git.infinigames.cn/060-group/bin_flashlight_android.git
 [submodule "libs/libNewColorPhone"]
 	path = libs/libNewColorPhone
-	url = http://git.ihandysoft.com/nogroup/Lib_ColorPhone_Android.git
+	url = https://git.infinigames.cn/060-group/lib_colorphone_android.git
 [submodule "libs/libChargingImprover"]
 	path = libs/libChargingImprover
-	url = https://git.ihandysoft.com/nogroup/Lib_FlashlightCharging_Android.git
+	url = https://git.infinigames.cn/060-group/lib_flashlightcharging_android.git
 [submodule "libs/libPermissionacquire"]
 	path = libs/libPermissionacquire
-	url = https://git.ihandysoft.com/nogroup/lib_permissionacquire_android.git
+	url = https://git.infinigames.cn/060-group/lib_permissionacquire_android.git
 [submodule "libs/libCashCenter"]
 	path = libs/libCashCenter
-	url = https://git.ihandysoft.com/bingroup/lib_feast_android_outter.git
+	url = https://git.infinigames.cn/060-group/lib_feast_android_outter.git
 [submodule "libs/libRingtones"]
 	path = libs/libRingtones
-	url = https://git.ihandysoft.com/nogroup/lib_ringtone_android.git
+	url = https://git.infinigames.cn/060-group/lib_ringtone_android.git
