@@ -12803,9 +12803,9 @@
 			<key>Wallpapers</key>
 			<dict>
 				<key>Enabled</key>
-				<false/>
-				<key>IsHotEnabled</key>
 				<true/>
+				<key>IsHotEnabled</key>
+				<false/>
 				<key>3DWallpapers</key>
 				<dict>
 					<key>BaseUrl</key>
@@ -13582,6 +13582,11 @@
 					<key>ThumbnailExtension</key>
 					<string>png</string>
 				</dict>
+				<key>NewWallpaper</key>
+				<dict>
+					<key>BaseUrl</key>
+					<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/Wallpaper_New/</string>
+				</dict>
 				<key>Wallpapers</key>
 				<array>
 					<dict>
@@ -13609,7 +13614,7 @@
 							<string>自然</string>
 						</dict>
 						<key>Count</key>
-						<string>0-224</string>
+						<string>25-224</string>
 						<key>Identifier</key>
 						<string>Nature</string>
 					</dict>
@@ -13617,59 +13622,30 @@
 						<key>CategoryName</key>
 						<dict>
 							<key>Default</key>
-							<string>Fashion</string>
+							<string>Landscape</string>
 							<key>ar</key>
-							<string>موضة</string>
+							<string>مناظر طبيعية</string>
 							<key>es</key>
-							<string>Moda</string>
+							<string>Paisajes</string>
 							<key>hi</key>
-							<string>फैशन</string>
+							<string>भू-दृश्य</string>
 							<key>in</key>
-							<string>Mode</string>
+							<string>Lanskap</string>
 							<key>pt</key>
-							<string>Moda</string>
+							<string>Paisagem</string>
 							<key>ru</key>
-							<string>Мода</string>
+							<string>Пейзажи</string>
 							<key>th</key>
-							<string>แฟชัน</string>
+							<string>ภูมิทัศน์</string>
 							<key>tr</key>
-							<string>Moda</string>
+							<string>Manzara</string>
 							<key>zh-rCN</key>
-							<string>时尚</string>
+							<string>景观</string>
 						</dict>
 						<key>Count</key>
-						<string>0-192</string>
+						<string>0-234</string>
 						<key>Identifier</key>
-						<string>Fashion</string>
-					</dict>
-					<dict>
-						<key>CategoryName</key>
-						<dict>
-							<key>Default</key>
-							<string>Travel</string>
-							<key>ar</key>
-							<string>سفر</string>
-							<key>es</key>
-							<string>Viajes</string>
-							<key>hi</key>
-							<string>यात्रा</string>
-							<key>in</key>
-							<string>Wisata</string>
-							<key>pt</key>
-							<string>Viagem</string>
-							<key>ru</key>
-							<string>Путешествия</string>
-							<key>th</key>
-							<string>ท่องเที่ยว</string>
-							<key>tr</key>
-							<string>Seyahat</string>
-							<key>zh-rCN</key>
-							<string>旅行</string>
-						</dict>
-						<key>Count</key>
-						<string>0-202</string>
-						<key>Identifier</key>
-						<string>Travel</string>
+						<string>Landscape</string>
 					</dict>
 					<dict>
 						<key>CategoryName</key>
@@ -13704,6 +13680,35 @@
 						<key>CategoryName</key>
 						<dict>
 							<key>Default</key>
+							<string>Food</string>
+							<key>ar</key>
+							<string>طعام</string>
+							<key>es</key>
+							<string>Comida</string>
+							<key>hi</key>
+							<string>भोजन</string>
+							<key>in</key>
+							<string>Makanan</string>
+							<key>pt</key>
+							<string>Comida</string>
+							<key>ru</key>
+							<string>Еда</string>
+							<key>th</key>
+							<string>อาหาร</string>
+							<key>tr</key>
+							<string>Yiyecek</string>
+							<key>zh-rCN</key>
+							<string>美食</string>
+						</dict>
+						<key>Count</key>
+						<string>0-158</string>
+						<key>Identifier</key>
+						<string>Food</string>
+					</dict>
+					<dict>
+						<key>CategoryName</key>
+						<dict>
+							<key>Default</key>
 							<string>Love</string>
 							<key>ar</key>
 							<string>حب</string>
@@ -13733,6 +13738,64 @@
 						<key>CategoryName</key>
 						<dict>
 							<key>Default</key>
+							<string>Travel</string>
+							<key>ar</key>
+							<string>سفر</string>
+							<key>es</key>
+							<string>Viajes</string>
+							<key>hi</key>
+							<string>यात्रा</string>
+							<key>in</key>
+							<string>Wisata</string>
+							<key>pt</key>
+							<string>Viagem</string>
+							<key>ru</key>
+							<string>Путешествия</string>
+							<key>th</key>
+							<string>ท่องเที่ยว</string>
+							<key>tr</key>
+							<string>Seyahat</string>
+							<key>zh-rCN</key>
+							<string>旅行</string>
+						</dict>
+						<key>Count</key>
+						<string>0-202</string>
+						<key>Identifier</key>
+						<string>Travel</string>
+					</dict>
+					<dict>
+						<key>CategoryName</key>
+						<dict>
+							<key>Default</key>
+							<string>Fashion</string>
+							<key>ar</key>
+							<string>موضة</string>
+							<key>es</key>
+							<string>Moda</string>
+							<key>hi</key>
+							<string>फैशन</string>
+							<key>in</key>
+							<string>Mode</string>
+							<key>pt</key>
+							<string>Moda</string>
+							<key>ru</key>
+							<string>Мода</string>
+							<key>th</key>
+							<string>แฟชัน</string>
+							<key>tr</key>
+							<string>Moda</string>
+							<key>zh-rCN</key>
+							<string>时尚</string>
+						</dict>
+						<key>Count</key>
+						<string>0-192</string>
+						<key>Identifier</key>
+						<string>Fashion</string>
+					</dict>
+					<dict>
+						<key>CategoryName</key>
+						<dict>
+							<key>Default</key>
 							<string>City</string>
 							<key>ar</key>
 							<string>مدينة</string>
@@ -13757,35 +13820,6 @@
 						<string>0-202</string>
 						<key>Identifier</key>
 						<string>City</string>
-					</dict>
-					<dict>
-						<key>CategoryName</key>
-						<dict>
-							<key>Default</key>
-							<string>Food</string>
-							<key>ar</key>
-							<string>طعام</string>
-							<key>es</key>
-							<string>Comida</string>
-							<key>hi</key>
-							<string>भोजन</string>
-							<key>in</key>
-							<string>Makanan</string>
-							<key>pt</key>
-							<string>Comida</string>
-							<key>ru</key>
-							<string>Еда</string>
-							<key>th</key>
-							<string>อาหาร</string>
-							<key>tr</key>
-							<string>Yiyecek</string>
-							<key>zh-rCN</key>
-							<string>美食</string>
-						</dict>
-						<key>Count</key>
-						<string>0-158</string>
-						<key>Identifier</key>
-						<string>Food</string>
 					</dict>
 					<dict>
 						<key>CategoryName</key>
@@ -13990,41 +14024,7 @@
 						<key>Identifier</key>
 						<string>Festival</string>
 					</dict>
-					<dict>
-						<key>CategoryName</key>
-						<dict>
-							<key>Default</key>
-							<string>Landscape</string>
-							<key>ar</key>
-							<string>مناظر طبيعية</string>
-							<key>es</key>
-							<string>Paisajes</string>
-							<key>hi</key>
-							<string>भू-दृश्य</string>
-							<key>in</key>
-							<string>Lanskap</string>
-							<key>pt</key>
-							<string>Paisagem</string>
-							<key>ru</key>
-							<string>Пейзажи</string>
-							<key>th</key>
-							<string>ภูมิทัศน์</string>
-							<key>tr</key>
-							<string>Manzara</string>
-							<key>zh-rCN</key>
-							<string>景观</string>
-						</dict>
-						<key>Count</key>
-						<string>0-234</string>
-						<key>Identifier</key>
-						<string>Landscape</string>
-					</dict>
 				</array>
-				<key>NewWallpaper</key>
-				<dict>
-					<key>BaseUrl</key>
-					<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/Wallpaper_New/</string>
-				</dict>
 			</dict>
 		</dict>
 		<key>libCommons</key>
