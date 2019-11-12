@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="network_error">Lỗi mạng.</string>
+
+    <string name="congratulations">Xin chúc mừng!</string>
+    <string name="won_live_wallpaper">Bạn đã giành được một hình nền động!</string>
+    <string name="won_three_d_wallpaper">Bạn đã giành được một hình nền 3D!</string>
+    <string name="more">Thêm</string>
+    <string name="preview">Xem trước</string>
+    <string name="live_wallpaper_loading_text">Đang tải xuống…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">Đang kết nối…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">Tin nhắn chưa đọc</string>
+
+
+    <string name="wallpaper_share_msg">Tôi đã tìm thấy một hình nền tuyệt vời ở đây:</string>
+    <string name="wallpaper_share_live_image_msg">Tôi đã tìm thấy một hình nền động tuyệt vời ở đây:</string>
+    <string name="wallpaper_share_3d_image_msg">Tôi đã tìm thấy một hình nền 3D tuyệt vời ở đây:</string>
+
+    <string name="shared_by">Chia sẻ bởi</string>
+
+
+    <string name="next">TIẾP THEO</string>
+
+
+    <string name="permission_request_failed_message">Không thể cấp quyền truy cập</string>
+    <string name="permission_request_succeed_message">%1$s khả dụng</string>
+    <string name="floating_window_permission_guide_dialog_content">Cấp quyền để hiển thị cuộc gọi đến trên nền các ứng dụng khác.</string>
+    <string name="permission_request_call">Điện thoại</string>
+    <string name="permission_request_contacts">Danh bạ</string>
+
+    <string name="normal_permission_guide_permission">Quyền</string>
+
+    <string name="normal_permission_guide_dialog_content">Chọn "Quyền" và kích hoạt "Điện thoại", "Danh bạ"</string>
+    <string name="launcher_settings_update">Cập nhật</string>
+
+    <string name="privacy_policy_settings_title">Chính sách bảo mật</string>
+
+    <string name="terms_of_service_settings_title">Điều khoản dịch vụ</string>
+
+    <string name="update_toast_no_network">Vui lòng kiểm tra kết nối mạng</string>
+
+    <string name="update_toast_already_latest">Bạn đang sử dụng phiên bản mới nhất</string>
+
+    <string name="update_dialog_title">Tải phiên bản mới nhất</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">HỦY</string>
+
+    <string name="download_capital">TẢI XUỐNG</string>
+
+
+</resources>

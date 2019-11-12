@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.share.ShareWaySelectView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/share_wrapper_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/quantum_panel"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/paged_pad_view_title_height"
+            android:layout_marginBottom="@dimen/paged_pad_view_title_margin_bottom"
+            android:layout_marginLeft="@dimen/paged_pad_view_title_margin_left"
+            android:layout_marginTop="12dp">
+
+            <!-- Title -->
+            <com.superapps.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/shared_by"
+                android:textColor="#575757"
+                android:textSize="23sp"
+                launcher:typeface="@string/roboto_regular" />
+
+            <!-- Close Button -->
+            <ImageView
+                android:id="@+id/close_share_way_button"
+                android:layout_width="@dimen/paged_pad_view_title_height"
+                android:layout_height="@dimen/paged_pad_view_title_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="14dp"
+                android:background="@drawable/clickable_round_corner_bg"
+                android:padding="10.5dp"
+                android:src="@drawable/toast_close" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.33dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="#e8e8e8" />
+
+        <com.honeycomb.colorphone.share.ShareWaySelectPagedView
+            android:id="@+id/share_way_select_paged_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            launcher:pageIndicator="@+id/page_indicator_view" />
+
+        <include
+            android:id="@+id/page_indicator_view"
+            layout="@layout/page_indicator_in_white_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/paged_pad_view_indicator_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp" />
+
+    </LinearLayout>
+
+</com.honeycomb.colorphone.share.ShareWaySelectView>

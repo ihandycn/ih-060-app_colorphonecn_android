@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_3.glsl">
+        <image path="music/background_5.png" />
+        <image path="music/background_6.png" />
+        <image path="music/background_7.png" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="10"
+            alpha="0.7"
+            alphaDeviation="0.3"
+            blendMode="770"
+            alphaInterpolator="CubicEaseInDimmed"
+            sourceFromX="0.5"
+            sourceFromY="0.5"
+            sourceToX="0.5"
+            sourceToY="0.5"
+            delay="-100"
+            delayDeviation="100"
+            minVelocity="1500"
+            maxSelectIterations="8"
+            velocityDeviationX="3000.0"
+            velocityDeviationY="3000.0"
+            initialScale="0.8"
+            initialScaleDeviation="0.4"
+            scaleVelocity="0.8">
+
+            <image path="music/white_circle.png" ratio="1.0"/>
+        </background>
+    </particles>
+</live-wallpaper>

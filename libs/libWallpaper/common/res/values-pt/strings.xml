@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="ok">OK</string>
+    
+    <string name="download_launcher_hint">Usar tema co Lançador Ar</string>
+    <string name="upgrade_launcher_hint">Versão Lançador Ar \'s desactualizada. Atualizar.</string>
+    <string name="upgrade_btn">Atualização Lançador Ar</string>
+    <string name="current_theme_btn">Tema actual</string>
+    <string name="install_theme_list_btn">Instalar já</string>
+    <string name="theme_toast_set_success">Tema selecionado</string>
+    <string name="theme_toast_set_deferred_action">Aplicando tema…</string>
+    <string name="progress_bar_toast_action_continuing">Aplicando…</string>
+    <string name="theme_toast_already_set">\ já é o tema actual</string>
+    <string name="theme_setting_progress_dialog_text">Aplicando tema…</string>
+
+
+    <string name="download_launcher_guide_btn">Instalar já</string>
+    <string name="install_theme_activity_btn">TRANSFERE GRATUITAMENTE</string>
+
+    <string name="guide_download_launcher_text">O [launcher-name] adiciona estilo ao seu celular com papéis de parede em HD e mais temas.</string>
+    <string name="discover_btn">PROCURAR</string>
+    <string name="open_theme_btn">ABRIR</string>
+    <string name="discover_theme_text">Não faz o seu estilo? Veja outros temas populares!</string>
+    <string name="download_btn">OBTENHA NO GOOGLE PLAY</string>
+<string name="wallpaper_hint_3d_title">Incline o telefone para visualizar o papel de parede em 3D</string>
+  <string name="wallpaper_hint_live_title">1. Deslize o dedo na tela para visualizar o papel de parede animado</string>
+  <string name="wallpaper_hint_action">Clique em "Definir papel de parede”</string>
+  <string name="theme_live_apply_toast">Definir papel de parede animado para este tema</string>
+
+</resources>

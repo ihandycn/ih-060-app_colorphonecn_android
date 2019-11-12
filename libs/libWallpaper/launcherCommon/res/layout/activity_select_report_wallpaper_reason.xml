@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/customize_report_close_svg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/BaseSettings.ActionBarTheme"
+        tools:ignore="PrivateResource" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#B8000000"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/customize_report_page_title"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:typeface="@string/custom_font_bold"/>
+
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        >
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/reason_infringement"
+            style="@style/CustomizeReportRadioGroup"
+            android:text="@string/customize_report_reason_infringement"
+            />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/reason_porn"
+            style="@style/CustomizeReportRadioGroup"
+            android:text="@string/customize_report_reason_porn" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/reason_gambling"
+            style="@style/CustomizeReportRadioGroup"
+            android:text="@string/customize_report_reason_gambling" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/reason_political"
+            style="@style/CustomizeReportRadioGroup"
+            android:text="@string/customize_report_reason_political" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/reason_violence"
+            style="@style/CustomizeReportRadioGroup"
+            android:text="@string/customize_report_reason_violence" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/next_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/selector_blue_btn"
+        android:text="@string/next"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:enabled="false"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="PrivateResource"/>
+
+
+</android.support.constraint.ConstraintLayout>

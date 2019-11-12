@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_4.glsl">
+        <image path="jet/1.png" />
+        <image path="jet/2.png" />
+        <image path="jet/3.png" />
+        <image path="jet/4.png" />
+    </shader>
+</live-wallpaper>

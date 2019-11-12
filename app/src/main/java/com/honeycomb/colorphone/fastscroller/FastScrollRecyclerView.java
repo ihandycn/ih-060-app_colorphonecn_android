@@ -272,7 +272,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
      * Maps the touch (from 0..1) to the adapter position that should be visible.
      */
     public String scrollToPositionAtProgress(float touchFraction) {
-        int itemCount = getAdapter().getItemCount();
+        int itemCount = getItemCount();
         if (itemCount == 0) {
             return "";
         }
@@ -331,7 +331,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
 
     private void getPosOffset(int exactItemPos, ScrollPositionState scrollPosState, int[] posOffset) {
         int scrollOffsetKey = scrollPosState.rowIndex;
-        int itemCount =  getAdapter().getItemCount();
+        int itemCount =  getItemCount();
         int preDistance = calculateScrollDistanceToPosition(scrollOffsetKey);
         posOffset[0] = scrollOffsetKey;
         posOffset[1] = exactItemPos - preDistance;
@@ -355,7 +355,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
             return;
         }
 
-        int rowCount = getAdapter().getItemCount();
+        int rowCount = getItemCount();
         if (getLayoutManager() instanceof GridLayoutManager) {
             int spanCount = ((GridLayoutManager) getLayoutManager()).getSpanCount();
             rowCount = (int) Math.ceil((double) rowCount / spanCount);
@@ -386,7 +386,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
      * @return The total height of all rows in the RecyclerView
      */
     private int calculateAdapterHeight() {
-        return calculateScrollDistanceToPosition(getAdapter().getItemCount());
+        return calculateScrollDistanceToPosition(getItemCount());
     }
 
     /**
@@ -423,7 +423,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
         stateOut.rowTopOffset = -1;
         stateOut.rowHeight = -1;
 
-        int itemCount = getAdapter().getItemCount();
+        int itemCount = getItemCount();
 
         // Return early if there are no items, or no children.
         if (itemCount == 0 || getChildCount() == 0) {
@@ -484,6 +484,14 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
      */
     public void setPopupPosition(@FastScroller.FastScrollerPopupPosition int popupPosition) {
         mScrollbar.setPopupPosition(popupPosition);
+    }
+
+    private int getItemCount() {
+        Adapter adapter = getAdapter();
+        if (adapter != null) {
+            return adapter.getItemCount();
+        }
+        return 0;
     }
 
     private class ScrollOffsetInvalidator extends AdapterDataObserver {

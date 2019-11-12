@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/dialog_root_view"
+    android:layout_height="match_parent"
+    android:background="@color/new_dialog_background">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        launcher:layout_constraintGuide_percent="0.09" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        launcher:layout_constraintGuide_percent="0.91" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/new_dialog_bg"
+        android:clipChildren="false"
+        android:orientation="vertical"
+        launcher:layout_constraintBottom_toBottomOf="parent"
+        launcher:layout_constraintTop_toTopOf="parent"
+        launcher:layout_constraintStart_toStartOf="@id/guideline"
+        launcher:layout_constraintEnd_toEndOf="@id/guideline_end">
+
+        <FrameLayout
+            android:id="@+id/dialog_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.superapps.view.RoundImageView
+                android:id="@+id/horizontal_top_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                launcher:radius_leftTop="@dimen/dialog_corner_radius"
+                launcher:radius_rightTop="@dimen/dialog_corner_radius" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/horizontal_top_lottie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                launcher:lottie_autoPlay="true"
+                launcher:lottie_loop="false"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/content_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dialog_content_margin_right"
+            android:layout_marginLeft="@dimen/dialog_content_margin_left"
+            android:layout_marginRight="@dimen/dialog_content_margin_right"
+            android:layout_marginStart="@dimen/dialog_content_margin_left"
+            android:layout_marginTop="@dimen/dialog_content_margin_top"
+            android:layout_marginBottom="@dimen/dialog_content_margin_top"
+            android:clipChildren="false"
+            tools:ignore="RelativeOverlap" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/dialog_close_icon_margin_end"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/material_close_btn_bg_round"
+        launcher:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        launcher:layout_constraintTop_toTopOf="@+id/linearLayout"
+        android:layout_marginEnd="2dp" />
+
+</android.support.constraint.ConstraintLayout>

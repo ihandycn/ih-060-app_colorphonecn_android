@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:theme="@style/Theme.CustomOverScroll">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dialog_content_margin_right"
+            android:layout_marginLeft="@dimen/dialog_content_margin_left"
+            android:layout_marginRight="@dimen/dialog_content_margin_right"
+            android:layout_marginStart="@dimen/dialog_content_margin_left"
+            android:alpha="@dimen/dialog_content_title"
+            android:textColor="@color/color_dialog_title_text"
+            android:layout_marginBottom="@dimen/light_dialog_content_select_margin_top"
+            android:textSize="@dimen/light_dialog_content_title_size"
+            app:typefaceFileName="@string/light_dialog_content_title_font"
+            tools:text="Count Badge" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="invisible"
+            android:background="#eee"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice">
+
+        </ListView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="invisible"
+            android:background="#eee"/>
+    </LinearLayout>
+
+</LinearLayout>
+

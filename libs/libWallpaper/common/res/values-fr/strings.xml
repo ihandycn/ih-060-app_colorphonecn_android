@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="ok">OK</string>
+    <string name="download_launcher_hint">Ce thème n\'est accessible qu\'avec [launcher-name].</string>
+    <string name="download_btn">Obtenir sur Google Play</string>
+    <string name="upgrade_launcher_hint">Vous n\'avez pas la dernière version d\'[launcher-name]. Veuillez mettre à jour.</string>
+    <string name="upgrade_btn">Mettre à jour [launcher-name]</string>
+    <string name="current_theme_btn">Thème actuel</string>
+    
+    <string name="theme_toast_set_deferred_action">Application du thème</string>
+    <string name="progress_bar_toast_action_continuing">Appliquer…</string>
+    <string name="theme_toast_set_success">Thème appliqué</string>
+    <string name="open_theme_btn">Ouvrir</string>
+    <string name="theme_toast_already_set">Il s\'agit déjà de votre thème actuel</string>
+    <string name="theme_setting_progress_dialog_text">Application du thème</string>
+    <string name="discover_theme_text">Pas votre style ? Découvrez nos autres thèmes populaires !</string>
+    <string name="discover_btn">Parcourir</string>
+    <string name="guide_download_launcher_text">[launcher-name] donne du style à votre téléphone avec des fonds d\'écran HD et des thèmes.</string>
+    <string name="download_launcher_guide_btn">INSTALLER</string>
+    <string name="install_theme_activity_btn">TÉLÉCHARGER GRATUITEMENT</string>
+
+    <string name="install_theme_list_btn">INSTALLER</string>
+
+<string name="wallpaper_hint_3d_title">Inclinez votre téléphone pour un aperçu du fond d\'écran 3D</string>
+  <string name="wallpaper_hint_live_title">1. Faites glisser sur l\'écran pour un aperçu du fond d\'écran animé</string>
+  <string name="wallpaper_hint_action">Cliquez sur « Définir le fond d\'écran »</string>
+  <string name="theme_live_apply_toast">Définir un fond d\'écran animé pour ce thème</string>
+
+</resources>

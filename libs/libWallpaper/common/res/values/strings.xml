@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="all">
+
+    <!-- Common -->
+    <string name="ok">OK</string>
+
+    <!-- ThemeActivity -->
+    <string name="download_launcher_hint">This theme is only accessible through [launcher-name].</string>
+    <string name="upgrade_launcher_hint">You don’t have the latest version of [launcher-name]. Please update.</string>
+    <string name="upgrade_btn">UPDATE [launcher-name]</string>
+    <string name="current_theme_btn">CURRENT THEME</string>
+    <string name="install_theme_list_btn">FREE DOWNLOAD</string>
+    <string name="install_theme_activity_btn">DOWNLOAD FOR FREE</string>
+    <string name="theme_toast_set_success">Theme applied</string>
+    <string name="theme_toast_set_deferred_action">Applying theme…</string>
+    <string name="progress_bar_toast_action_continuing">Applying…</string>
+    <string name="theme_toast_already_set">It\'s already your current theme</string>
+    <string name="theme_setting_progress_dialog_text">Applying theme…</string>
+    <string name="discover_theme_text">Not your style? Check out other popular themes!</string>
+    <string name="guide_download_launcher_text">[launcher-name] styles up your phone with HD wallpapers &amp; more themes.</string>
+    <string name="guide_download_launcher_text_outside">Theme apply failed! Install [launcher-name] to apply this theme.</string>
+    <string name="discover_btn">BROWSE</string>
+    <string name="download_launcher_guide_btn">INSTALL</string>
+    <string name="open_theme_btn">OPEN</string>
+    <string name="download_btn">GET FROM GOOGLE PLAY</string>
+
+    <!-- Accessibility action to show quick actions menu for an icon. [CHAR_LIMIT=30] -->
+    <string name="action_deep_actionsheet">ActionSheet</string>
+    <!-- Accessibility description for the shortcuts menu shown for an app. -->
+    <string name="actionsheet_menu_description">
+    <xliff:g example="3" id="number_of_shortcuts">%1$d</xliff:g> shortcuts for <xliff:g example="Messenger" id="app_name">%2$s</xliff:g>
+  </string>
+    <string name="disabled_app_label">not set</string>
+    <string name="coming_soon_description">We are working hard to make multi-select function better, it will be launched in the next version, so stay turned!</string>
+
+    <string name="wallpaper_hint_3d_title">Tilt your phone \nto preview 3D wallpaper</string>
+    <string name="wallpaper_hint_live_title">1.Slide on screen to preview live wallpaper</string>
+    <string name="wallpaper_hint_action">Click “Set wallpaper”</string>
+    <string name="theme_live_apply_toast">Set live wallpaper for this theme</string>
+</resources>

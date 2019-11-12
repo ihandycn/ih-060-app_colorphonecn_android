@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.ad.AdLogUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;

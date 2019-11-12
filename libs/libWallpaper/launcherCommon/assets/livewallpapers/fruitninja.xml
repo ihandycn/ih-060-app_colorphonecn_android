@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_single.glsl">
+        <image path="fruitninja/background_1.jpg" />
+    </shader>
+
+    <particles>
+        <background
+            alphaInterpolator="InThenOut"
+            blendMode="770"
+            clickable="true"
+            destinationToY="0.25"
+            destinationToYDeviation="0.25"
+            emissionRate="2"
+            initialScale="0.8"
+            initialScaleDeviation="0.2"
+            scaleInterpolator="LargeThenSmall"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.02"
+            sourceFromX="0.01"
+            sourceFromY="0.75"
+            sourceFromYDeviation="0.25"
+            sourceToX="0.99"
+            velocityDeviationY="100"
+            velocityY="-250">
+
+            <image path="fruitninja/sakura_1.png" ratio="1.0"/>
+        </background>
+
+
+        <click
+            alphaInterpolator="BombOut"
+            initialRotation="0"
+            initialRotationDeviation="0"
+            initialScale="1.05"
+            initialScaleDeviation="0.25"
+            scaleInterpolator="Bomb"
+            ttl="200">
+
+            <image path="fruitninja/gesture.png" ratio="1.0"/>
+        </click>
+    </particles>
+</live-wallpaper>

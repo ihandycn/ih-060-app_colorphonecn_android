@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--new Dialog-->
+    <dimen name="dialog_corner_radius">6dp</dimen>
+    <color name="new_dialog_background">#00000000</color>
+    <color name="dialog_background_transparent">#66000000</color>
+    <dimen name="dialog_text_extra_line_height">20dp</dimen>
+    <dimen name="light_dialog_text_extra_line_height">18dp</dimen>
+    <dimen name="dialog_desc_text_extra_line_height">18dp</dimen>
+    <item name="dialog_text_line_height_multiple" format="float" type="dimen">0</item>
+    <item name="dialog_background_dim_amount" format="float" type="dimen">0.6</item>
+
+    <!--Light Dialog -->
+    <color name="light_dialog_from">#454545</color>
+    <dimen name="light_dialog_content_margin_top">47dp</dimen>
+    <dimen name="light_dialog_content_select_margin_top">20dp</dimen>
+    <dimen name="light_dialog_content_icon_margin_left">16dp</dimen>
+    <dimen name="light_dialog_from_top">16dp</dimen>
+    <dimen name="light_dialog_from_left">24dp</dimen>
+    <dimen name="light_dialog_icon_size">46dp</dimen>
+    <dimen name="light_dialog_from_size">14sp</dimen>
+    <dimen name="light_dialog_content_title_size">22sp</dimen>
+    <dimen name="light_dialog_content_text_size">15sp</dimen>
+    <string name="light_dialog_content_title_font">Custom-Bold.otf</string>
+    <string name="light_dialog_content_text_font">Custom-Semibold.otf</string>
+    <string name="light_dialog_header_text_font">Custom-Semibold.otf</string>
+    <string name="light_junk_clean_dialog_content_font">Custom-Semibold.otf</string>
+    <item name="light_dialog_from" format="float" type="dimen">0.5</item>
+
+    <!--Dialog Content-->
+    <dimen name="dialog_content_text_margin_top">8dp</dimen>
+    <dimen name="dialog_content_desc_margin_top">4dp</dimen>
+    <dimen name="dialog_content_margin_left">24dp</dimen>
+    <dimen name="dialog_content_margin_right">24dp</dimen>
+    <dimen name="dialog_content_title_size">22sp</dimen>
+    <dimen name="dialog_content_text_size">16sp</dimen>
+    <dimen name="dialog_content_desc_size">13sp</dimen>
+    <item name="dialog_content_title" format="float" type="dimen">1</item>
+    <item name="dialog_content_text" format="float" type="dimen">0.78</item>
+    <item name="dialog_content_desc" format="float" type="dimen">0.76</item>
+    <string name="dialog_content_title_font">Custom-Bold.otf</string>
+    <string name="dialog_content_text_font">Custom-Semibold.otf</string>
+    <string name="dialog_content_desc_font">Custom-Regular.otf</string>
+
+    <!--Dialog btn-->
+    <dimen name="dialog_close_icon_margin_end">6dp</dimen>
+    <dimen name="dialog_btn_corner_radius">6dp</dimen>
+    <dimen name="dialog_btn_height">44dp</dimen>
+    <dimen name="dialog_btn_margin_left">24dp</dimen>
+    <dimen name="dialog_btn_margin_right">24dp</dimen>
+    <dimen name="dialog_btn_margin_top">32dp</dimen>
+    <dimen name="dialog_btn_margin_bottom">24dp</dimen>
+    <dimen name="dialog_btn_padding_left">24dp</dimen>
+    <dimen name="dialog_btn_padding_right">24dp</dimen>
+    <dimen name="dialog_two_btn_padding_left">16dp</dimen>
+    <dimen name="dialog_two_btn_padding_right">16dp</dimen>
+    <dimen name="dialog_prefer_btn_padding_right">20dp</dimen>
+    <dimen name="dialog_prefer_btn_padding_top">8dp</dimen>
+
+    <dimen name="dialog_group_btn_margin_left">24dp</dimen>
+    <dimen name="dialog_group_btn_margin_right">24dp</dimen>
+    <dimen name="dialog_group_btn_margin_top">32dp</dimen>
+    <dimen name="dialog_group_btn_margin_bottom">24dp</dimen>
+    <dimen name="dialog_ok_btn_text_size">15sp</dimen>
+    <string name="dialog_ok_btn_font">Custom-Bold.otf</string>
+
+
+    <!--Dialog color-->
+    <color name="theme_main_color">#448AFF</color>
+    <color name="dialog_two_btn_negative">#E7E9EC</color>
+    <color name="dialog_two_btn_negative_text">#5B5B5B</color>
+
+    <color name="dialog_content_text">#454545</color>
+    <color name="color_dialog_title_text">#3c3c3c</color>
+    <color name="color_dialog_content_text">#454545</color>
+    <color name="color_dialog_desc_text">#4c4c4c</color>
+
+    <!--String Resource-->
+
+</resources>

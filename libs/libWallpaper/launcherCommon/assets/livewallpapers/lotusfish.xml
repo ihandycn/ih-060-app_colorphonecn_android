@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="lotusfish/background_1.jpg"/>
+        <image path="lotusfish/background_2.jpg"/>
+    </shader>
+
+    <particles>
+        <background
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            emissionRate="4"
+            initialScale="0.4"
+            initialScaleDeviation="0.35"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.01"
+            sourceFromX="0.0"
+            sourceFromY="1.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityDeviationX="100"
+            velocityDeviationY="100"
+            velocityX="-250"
+            velocityY="-250">
+
+            <image path="lotusfish/fish_1.png" ratio="1.0"/>
+        </background>
+
+        <background
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            emissionRate="6"
+            initialScale="0.5"
+            initialScaleDeviation="0.2"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01"
+            sourceFromX="1.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityDeviationX="100"
+            velocityDeviationY="100"
+            velocityX="-250"
+            velocityY="-250">
+
+            <image path="lotusfish/fish_1.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            emissionRate="35"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.3"
+            initialScaleDeviation="0.33">
+
+            <image path="lotusfish/gesture_1.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

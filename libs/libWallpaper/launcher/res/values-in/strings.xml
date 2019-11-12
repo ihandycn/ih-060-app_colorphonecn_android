@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <skip/>
+    <skip/>
+    <skip/>
+    <string name="setting_device_not_support_message">Perangkat Anda tidak mendukung.</string>
+    <string name="customize_wallpapers_title">Gambar Latar</string>
+    <string name="wallpaper_toast_set_failed">Terjadi masalah dengan gambar latar ini. Silakan coba lagi</string>
+    <string name="customize_local_title">Milik Saya</string>
+    <string name="wallpaper_setting_progress_dialog_text">Mengatur gambar latar…</string>
+
+
+    <string name="news_detail_error_reload">Muat ulang</string>
+
+    <!-- %1$s is the version number which should be kept, for example “v1.0.0"" -->
+
+    <!-- The following is an alert dialog which includes title, description and actions. Air is the name of the APP that needn’t to be translated.  -->
+
+
+    <!-- It’s the slogan of the app which can make your phone fast & stylish. &amp; stands for & in program. -->
+
+    <!-- It’s an action button, so it’s better to be short -->
+
+    <!-- It’s a prompt message that our app is preparing the desktop of the phone. -->
+
+
+    <string name="online_wallpaper_tab_title_categories">Kategori</string>
+
+
+    <!-- Hide apps means apps invisible on desktop -->
+
+    <!-- Unlock pattern is a kind of password, which has 9 dots on the screen organized in a 3×3 matrix. To unlock the phone the pattern has to be drawn on the screen, connecting certain points in a certain order. -->
+
+    <string name="customize_wallpapers_title_local">Gambar Latar Saya </string>
+    <string name="load_more">Memuat…</string>
+
+    <!-- Please translate and replace the words in red color -->
+    <!--It guides users to enter password -->
+
+    <!-- Notification toolbar is a bar with icons of Wi-Fi, Mobile Data, Flashlight and so on, which you can set your phone quickly by switching them On/Off. -->
+
+
+    <!-- It’s a switch to turn On/Off Mobile Data, better be short in one word or two -->
+    <string name="notification_toolbar_data">Data</string>
+
+
+    <!-- A collection of all apps in your phone -->
+    <string name="notification_toolbar_all_apps">Semua Aplikasi</string>
+    
+
+
+    <!-- It shows how much battery has been left. It will be used like “20% Battery Left” -->
+
+
+    <!-- It’s a button for saving battery, better be short in one word or two -->
+
+    <!-- It shows how much battery has been save. It will be used like “Battery Life Extended 20 minutes” -->
+
+
+    <!-- It’s a button for detail content, better be short in one word or two -->
+
+
+    <!-- It show how much memory has been used. It will be used like “200MB Memory Used” -->
+
+    <!-- It shows how much memory has been released. It will be used like “Memory Released 200MB” -->
+
+
+    <!-- The temperature of phone is too hot, better be short -->
+
+
+    <!-- It’s a button for cooling down temperature of phone, better be short in one word or two -->
+
+
+    <!-- It shows how much temperature has been cooled down. It will be used like “Cool Down 10 ℉／℃” -->
+
+
+    <!-- A new themes for phone including wallpapers and app icons. -->
+
+    <string name="notification_toolbar_wifi">Wi-Fi</string>
+
+
+    <!-- Please translate and replace the words in red color -->
+
+    <!-- Accessibility Service is a settings option in phone! -->
+    <!-- It will be used like “Freed up 200MB” , which means memory released in phone-->
+
+    <!-- An operation to make a app visible on the screen, better be short in one word or two -->
+
+    <!-- “Magic Locker” is an app name, don’t need to translate. Themes include images and app icons, which can make phone screen stylish. -->
+    <!-- An operation to install an app, better be short in one word or two -->
+    
+
+    <!-- Icon pack is a collection of designed app icons that can replace the default ones of your phone. -->
+    <!-- Memory has been released of the phone, which boosts your phone and makes it run faster. Better be short in one word or two.-->
+    <!-- Type the English name of the city and select the city from the search result. Only support English -->
+    <!-- ME Launcher is the name of App, which don’t need to translate. Themes can make your phone beautiful including wallpapers and app icons. The sentence below will be used in Applying theme like “ iOS 10 theme for ME Launcher has been installed. Apply it now?”-->
+
+
+    <!--A container with groups of apps,to keep and organize apps in phone. -->
+
+
+    <!--The following words are operations in Screen manager.-->
+    <!-- Screen Manager is a feature that you can manage your phone’s screens by ranking screens, increasinga new screen or deleting a screen . -->
+    <!--You can drag one screen and move its position to rank screens. -->
+    <!--Shake the phone to remove blanksbetween icons and make icons orderliness. -->
+
+
+    <!--The following words are operations inediting pictures. -->
+    <!--Crop, zoom in or zoom out a picture to suit your want.-->
+    <!--You can move the picture to choose the most beautiful part and scale to make the picture big or small. -->
+    <!--Edit the picture over again without storing the changes you have edited. -->
+    <string name="online_wallpaper_edit_reset_btn">Setel ulang</string>
+    <!--Exitthe picture editing without storing the changes you have edited. -->
+    <string name="online_wallpaper_cancel_edit_dialog_content">Buang perubahan untuk keluar?</string>
+
+    <string name="customize_my_wallpapers_remove_btn">Hapus</string>
+
+
+
+    <string name="local_wallpaper_pick_error">Terjadi masalah saat memilih wallpaper</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">Gambar GIF tidak didukung</string>
+
+    <string name="wallpaper_network_error_reload">Muat ulang</string>
+
+    <string name="battery_off">Mati</string>
+    <string name="notification_toolbar_search">Pencarian</string>
+    <string name="refresh">Menyegarkan</string>
+    <string name="wallpaper_edit_fixed">Tetap</string>
+    <string name="wallpaper_edit_scrollable">Dapat digulir</string>
+
+
+    <string name="news_load_more_re_try">Klik untuk mencoba</string>
+    <string name="got_it">PAHAM </string>
+
+    <string name="upload_wallpaper_tip">Tips：\n1. Gambar akan otomatis disesuaikan ke ukuran maksimal\n2. Gambar Anda akan ditampilkan di \“Me\”\n3. Gambar dengan kualitas tinggi lebih mungkin untuk disimpan oleh ME Launcher\n4. Gambar Anda akan muncul di kabar setelah gambar\ ditinjau</string>
+    <string name="upload_wallpaper_declaration">Dengan mengunggahnya, Anda menyetujui ME Launcher\</string>
+    <string name="upload_wallpaper_success">Unggahan berhasil</string>
+    <string name="wallpaper_network_error">Kesalahan jaringan. Silakan coba lagi.</string>
+    <string name="accessibility_service_description" tools:ignore="UnusedResources">Nyalakan saklar di atas, lalu ketuk OK.\n\nMemungkinkan untuk:\n1) Meningkatkan ponsel 80\%%\n2) Membersihkan file sampah\n3) Menghentikan aplikasi yang menguras baterai\n\n tim Boost+ ditugaskan untuk mempercepat ponsel dan tidak mengumpulkan segala data pribadi Anda.</string>
+
+    <string name="promotion_enable_btn">AKTIFKAN</string>
+
+
+    <string name="online_wallpaper_tab_title_hot">Panas</string>
+
+
+    <string name="upload_wallpaper">Unggah Wallpaper</string>
+    <string name="upload_wallpaper_button_text">Unggah</string>
+    <string name="add_wallpaper">Tambahkan Wallpaper</string>
+    <string name="theme_category_foot_text">- Kami senantiasa membuat berbagai tema yang lebih indah. -</string>
+
+
+    <!--app lock related-->
+
+
+    <string name="app_lock_submit">Kirim</string>
+
+
+    <string name="online_wallpaper_loading">Memuat wallpaper HD, mohon tunggu.</string>
+
+
+    <string name="online_3d_wallpaper_foot_text">- Kami secara konsisten membuat wallpaper 3D yang lebih indah. -</string>
+
+    <string name="launcher_settings_latest_version_detail">Versi terbaru: v%1$s</string>
+
+    <string name="launcher_settings_current_version_detail">Versi sekarang: v%1$s</string>
+
+
+</resources>

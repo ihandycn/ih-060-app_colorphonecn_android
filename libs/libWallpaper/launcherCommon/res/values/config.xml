@@ -1,0 +1,53 @@
+<resources>
+<!-- Miscellaneous -->
+
+    <!-- App data backup and restore. To enable backup, register with an android backup service.
+         http://developer.android.com/guide/topics/data/backup.html#BackupKey -->
+
+    <!-- Notification -->
+
+    <!-- Weather clock -->
+
+    <!-- Weather detail -->
+
+    <!-- DragController -->
+
+    <!-- AllApps & Launcher transitions -->
+    <!-- The alpha of the AppsCustomize bg in spring loaded mode workspaceScrimAlpha is the background of
+     workspace to control the alpha-->
+
+    <!-- Out of 100, the percent to shrink the workspace during spring loaded mode. -->
+
+    <!-- Fade/zoom in/out duration & scale in a Launcher overlay transition.
+         Note: This should be less than the config_overlayTransitionTime as they happen together. -->
+
+    <!-- This constant stores the ratio of the all apps button drawable which
+         is used for internal (baked-in) padding -->
+
+    <!-- Workspace -->
+    <!-- The duration (in ms) of the fade animation on the object outlines, used when
+         we are dragging objects around on the home screen. -->
+
+    <!-- The alpha value at which to show the most recent drop visualization outline. -->
+
+    <!-- Parameters controlling the animation for when an item is dropped on the home screen,
+         and it animates from its old position to the new one. -->
+
+    <!-- The duration of the UserFolder opening and closing animation -->
+
+    <!-- The distance at which the animation should take the max duration -->
+
+    <!-- The duration of page snap animation before highlighting an existing icon -->
+
+    <!-- Hotseat -->
+
+    <!-- Name of a subclass of AppFilter used to
+         filter the activities shown in the launcher. Can be empty. -->
+
+    <!-- Dialogs and panels (including OK/cancel dialogs and large panels) -->
+    <!-- The duration for modal pop-up dialogs' content to fade in -->
+
+    <!-- The duration for modal pop-up dialogs to fade out -->
+
+    <!-- Lucky -->
+</resources>

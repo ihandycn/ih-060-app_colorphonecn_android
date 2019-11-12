@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.wallpaper.customize.view.LocalCustomizePage
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/local_customize_page"
+    android:background="@android:color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/customize_toolbar_elevation"
+        android:orientation="horizontal"
+        tools:ignore="UnusedAttribute">
+
+        <ImageView
+            android:id="@+id/nav_back"
+            android:layout_width="wrap_content"
+            android:minWidth="56dp"
+            android:padding="8dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            style="@style/Widget.AppCompat.Toolbar.Button.Navigation"
+            android:src="@drawable/back_dark"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/local_customize_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/customize_toolbar_height"
+            android:layoutDirection="ltr"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="0dp"
+            app:tabMinWidth="6dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="@dimen/tab_padding_start"
+            app:tabPaddingStart="@dimen/tab_padding_start"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextAppearance="@style/TabLayoutTextAppearance.Customize"
+            app:tabTextColor="#ffffff"
+            tools:ignore="PrivateResource,UnusedAttribute"/>
+    </LinearLayout>
+
+    <com.superapps.view.ViewPagerFixed
+        android:id="@+id/local_customize_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</com.honeycomb.colorphone.wallpaper.customize.view.LocalCustomizePage>

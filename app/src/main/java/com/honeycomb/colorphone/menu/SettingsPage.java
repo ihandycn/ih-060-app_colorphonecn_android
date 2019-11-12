@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.menu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.view.MotionEvent;
@@ -22,7 +23,9 @@ import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.wallpaper.customize.activity.MyWallpaperActivity;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
@@ -95,6 +98,11 @@ public class SettingsPage implements View.OnClickListener {
                 }
             }
         });
+        if (!HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            rootView.findViewById(R.id.settings_mywallpapers).setVisibility(View.GONE);
+        } else {
+            rootView.findViewById(R.id.settings_mywallpapers).setOnClickListener(this);
+        }
 
         rootView.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         rootView.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
@@ -161,6 +169,10 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+            case R.id.settings_mywallpapers:
+                Navigations.startActivity(rootView.getContext(), MyWallpaperActivity.class);
+                Analytics.logEvent("Settings_MyWallpaper_Clicked");
                 break;
             default:
                 break;
