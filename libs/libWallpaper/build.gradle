@@ -46,34 +46,6 @@ android {
         }
     }
 
-    repositories {
-
-        maven {
-            url "http://maven.ihandysoft.com:8081/repository/ihandygroup/"
-        }
-
-        mavenCentral()
-
-        maven {
-            url "https://maven.google.com"
-        }
-        maven {
-            url "http://dl.bintray.com/waynejo/maven"
-        }
-
-        maven { url 'https://dl.bintray.com/umsdk/release' }
-
-        configurations.all {
-            resolutionStrategy {
-                cacheDynamicVersionsFor 0, 'seconds'
-                // 确保gradle sync的时候总是会去拉取最新的积木版本。默认情况下gradle 每24小时才回去更新缓存
-            }
-        }
-        configurations {
-            all*.exclude group: 'net.appcloudbox.common', module: 'libAcbCommonUtils.gm'
-        }
-    }
-
     dependencies {
         // Versions to use for dependencies
         final SUPPORT_LIBRARY_VERSION = '26.1.0'
@@ -87,7 +59,7 @@ android {
                 'com.airbnb.android:lottie:2.5.5',
 
                 'com.android.support.constraint:constraint-layout:1.0.2',
-                'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta07'
+                'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta08'
         ]
 
         final WALLPAPER_DEPENDENCIES = [
