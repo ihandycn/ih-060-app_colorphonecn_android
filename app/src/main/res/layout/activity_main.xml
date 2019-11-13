@@ -61,7 +61,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/tab_cash_center_guide"
+        android:id="@+id/tab_cash_center_guide_four"
         android:layout_width="117dp"
         android:layout_height="133dp"
         android:layout_marginBottom="46dp"
@@ -69,6 +69,19 @@
         app:lottie_fileName="lottie/tab_cash_center_guide.json"
         app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide"
         app:layout_constraintHorizontal_bias="0.687"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/tab_cash_center_guide_five"
+        android:layout_width="117dp"
+        android:layout_height="133dp"
+        android:layout_marginBottom="46dp"
+        android:visibility="gone"
+        app:lottie_fileName="lottie/tab_cash_center_guide.json"
+        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide"
+        app:layout_constraintHorizontal_bias="0.757"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

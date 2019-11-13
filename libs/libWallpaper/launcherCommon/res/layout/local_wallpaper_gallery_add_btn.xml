@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:launcher="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             tools:ignore="ContentDescription"
+             tools:layout_width="200dp">
+
+    <com.honeycomb.colorphone.wallpaper.view.RatioImageView
+        android:id="@+id/local_wallpaper_add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wallpaper_local_bg"
+        android:scaleType="centerInside"
+        launcher:ratio="1.125"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            launcher:srcCompat="@drawable/local_wallpaper_add"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_wallpaper"
+            android:textColor="@color/wallpaper_local_add_btn_text"
+            android:textSize="12sp"
+            launcher:typeface="@string/custom_font_regular"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/local_wallpaper_add_btn_over_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="#aaffffff"/>
+</FrameLayout>

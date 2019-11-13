@@ -4,11 +4,14 @@ from sys import argv
 from datetime import datetime
 
 LAUNCHER_VARIANT_ROOTS = [
-    'main',
-    'colorphoneCommon',
-    'colorphone',
-    'colorphoneYingyongbao',
-    'colorphoneJinritoutiao',
+    './app/src/main',
+    './app/src/colorphoneCommon',
+    './app/src/colorphone',
+    './app/src/colorphoneYingyongbao',
+    './app/src/colorphoneJinritoutiao',
+    './libs/libWallpaper/common',
+    './libs/libWallpaper/launcher',
+    './libs/libWallpaper/launcherCommon',
 ]
 
 def is_varient_root(root):
@@ -33,7 +36,7 @@ def replace_str_in_dir(directory, str_src, str_dst):
 
 
 if __name__ == '__main__':
-    path = './app/src/'
+    path = ''
     package_name = argv[1]
     application_id = argv[2]
     print package_name

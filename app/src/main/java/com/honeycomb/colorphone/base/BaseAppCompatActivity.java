@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 
 import com.honeycomb.colorphone.util.ActivityUtils;
+import com.honeycomb.colorphone.wallpaper.customize.wallpaper.WallpaperAwardDialog;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 public class BaseAppCompatActivity extends HSAppCompatActivity {
@@ -18,7 +19,7 @@ public class BaseAppCompatActivity extends HSAppCompatActivity {
         ActivityUtils.setNavigationBarDefaultColor(this);
     }
 
-    public void showDialogFragment(DialogFragment dialogFragment) {
+    public void showDialogFragment(WallpaperAwardDialog dialogFragment) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getCurrentDialogFragmentByTag(TAG_DIALOG_FRAGMENT);
         if (prev != null) {

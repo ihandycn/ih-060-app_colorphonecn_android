@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.honeycomb.colorphone.wallpaper.Manager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -84,6 +86,9 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
+import com.honeycomb.colorphone.wallpaper.customize.adapter.AbstractOnlineWallpaperAdapter;
+import com.honeycomb.colorphone.wallpaper.customize.view.CustomizeContentView;
+import com.honeycomb.colorphone.wallpaper.model.LauncherFiles;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -229,6 +234,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
     private RingtonePageView mRingtoneFrame;
+    private View mWallpaper;
     private LotteryWheelLayout lotteryWheelLayout;
 
 //    private static final int TAB_SIZE = 4;
@@ -391,7 +397,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
-
         mMainViewShowFlag = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -441,6 +446,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     R.drawable.seletor_tab_ringtone, "铃声", false));
         }
 
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            mTabItems.add(new TabItem(TabItem.TAB_WALLPAPER,
+                    R.drawable.seletor_tab_wallpaper, "壁纸", false));
+        }
+
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
                 R.drawable.seletor_tab_settings, "我的", true));
 
@@ -470,7 +480,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
-        tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_five);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tabCashCenterGuide.getLayoutParams();
+
+            int phoneWidth = Dimensions.getPhoneWidth(this);
+            float horizontalBias = (phoneWidth * 0.7f - layoutParams.width / 2f) / (phoneWidth - layoutParams.width);
+            layoutParams.horizontalBias = horizontalBias;
+            tabCashCenterGuide.requestLayout();
+        } else {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
+        }
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -608,6 +628,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     case TabItem.TAB_RINGTONE:
                         // TODO
 //                        Analytics.logEvent("Tab_News_Show");
+                        break;
+                    case TabItem.TAB_WALLPAPER:
+                        Analytics.logEvent("Tab_Wallpaper_Show");
+                        String defaultValue = "Null_Category";
+                        String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", defaultValue);
+                        if (!defaultValue.equals(current_category_name)) {
+                            Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", current_category_name,
+                                    "From", "TabClick");
+
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", true);
+                        } else {
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", false);
+                        }
                         break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
@@ -1038,6 +1071,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case WELCOME_REQUEST_CODE:
                 break;
         }
+
+        HSBundle hsBundle = new HSBundle();
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_REQUESTCODE, requestCode);
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_RESULTCODE, resultCode);
+        hsBundle.putObject(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_DATA, data);
+        HSGlobalNotificationCenter.sendNotification(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT, hsBundle);
     }
 
     private void saveThemeLikes() {
@@ -1079,6 +1118,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             CashCenterUtil.cleanAds(this);
             HSCashCenterManager.getInstance().releaseWheelAds();
         }
+
+        Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).remove("current_category_name");
 
         super.onDestroy();
     }
@@ -1301,6 +1342,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mRingtoneFrame = new RingtonePageView(this);
                 }
                 frame = mRingtoneFrame;
+                break;
+            case TabItem.TAB_WALLPAPER:
+                if (mWallpaper == null) {
+                    mWallpaper = getLayoutInflater().inflate(R.layout.activity_customize, null, false);
+                    CustomizeContentView customizeContentView = mWallpaper.findViewById(R.id.customize_content);
+                    customizeContentView.setChildSelected(0);
+                }
+                frame = mWallpaper;
                 break;
             case TabItem.TAB_CASH:
                 if (showTabCashCenter) {

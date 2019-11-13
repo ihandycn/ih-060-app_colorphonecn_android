@@ -19,29 +19,29 @@
             android:orientation="vertical">
 
             <!--<com.honeycomb.colorphone.view.RoundImageVIew-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="24dp"-->
-            <!--android:src="@drawable/drawer_icon"-->
-            <!--app:radius="16dp" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="24dp"-->
+                <!--android:src="@drawable/drawer_icon"-->
+                <!--app:radius="16dp" />-->
 
             <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="24dp"-->
-            <!--android:text="@string/app_name"-->
-            <!--android:textColor="@color/drawerText"-->
-            <!--android:textSize="24sp"-->
-            <!--android:textStyle="bold"-->
-            <!--app:typeface="@string/proxima_nova_semibold" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="24dp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:textColor="@color/drawerText"-->
+                <!--android:textSize="24sp"-->
+                <!--android:textStyle="bold"-->
+                <!--app:typeface="@string/proxima_nova_semibold" />-->
 
             <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:text="@string/app_slogan"-->
-            <!--android:textColor="@color/drawerSubText"-->
-            <!--app:typeface="@string/proxima_nova_regular" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:text="@string/app_slogan"-->
+                <!--android:textColor="@color/drawerSubText"-->
+                <!--app:typeface="@string/proxima_nova_regular" />-->
 
             <RelativeLayout
                 android:id="@+id/settings_account"
@@ -206,6 +206,26 @@
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:text="@string/contact_theme" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settings_mywallpapers"
+                style="@style/LayoutSettings"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/settings_icon_wallpaper" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.Drawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:text="@string/my_wallpaper" />
             </LinearLayout>
 
             <LinearLayout

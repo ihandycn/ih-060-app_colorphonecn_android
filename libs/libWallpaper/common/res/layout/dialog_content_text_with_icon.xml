@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:theme="@style/Theme.CustomOverScroll">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/light_dialog_icon_size"
+            android:layout_height="@dimen/light_dialog_icon_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/light_dialog_content_icon_margin_left"
+            android:layout_marginStart="@dimen/light_dialog_content_icon_margin_left">
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_dialog_title_text"
+                android:alpha="@dimen/dialog_content_title"
+                android:textSize="@dimen/dialog_content_title_size"
+                android:layout_marginBottom="@dimen/dialog_content_text_margin_top"
+                tools:text="Count Badge"
+                android:visibility="gone"
+                app:typefaceFileName="@string/dialog_content_title_font"/>
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/dialog_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dialog_content_text"
+                android:layout_marginBottom="@dimen/dialog_content_desc_margin_top"
+                android:alpha="@dimen/dialog_content_text"
+                android:textSize="@dimen/dialog_content_text_size"
+                android:lineSpacingExtra="@dimen/dialog_text_extra_line_height"
+                android:lineSpacingMultiplier="@dimen/dialog_text_line_height_multiple"
+                android:visibility="gone"
+                tools:text="Display unread count badges, no important message missed"
+                app:typefaceFileName="@string/light_junk_clean_dialog_content_font"/>
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/dialog_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_dialog_desc_text"
+                android:alpha="@dimen/dialog_content_desc"
+                android:textSize="@dimen/dialog_content_desc_size"
+                android:lineSpacingExtra="@dimen/light_dialog_text_extra_line_height"
+                android:lineSpacingMultiplier="@dimen/dialog_text_line_height_multiple"
+                android:visibility="gone"
+                tools:text="Open Accessibility by one step, Boost+ will be activated."
+                app:typefaceFileName="@string/dialog_content_desc_font"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+

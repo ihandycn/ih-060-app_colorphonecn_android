@@ -13,6 +13,8 @@ android {
         targetSdkVersion 22
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled false
     }
 
     compileOptions {
@@ -98,7 +100,12 @@ android {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
             assets.srcDirs = ['src/colorphoneJinritoutiao/assets', 'src/colorphoneCommon/assets', 'src/main/assets']
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res',
+                           '../libs/libWallpaper/common/res','../libs/libWallpaper/launcherCommon/res', '../libs/libWallpaper/launcher/res']
+            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
+                              '../libs/libWallpaper/common/assets','../libs/libWallpaper/launcherCommon/assets', '../libs/libWallpaper/launcher/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
+            renderscript.srcDirs = ['src/main/rs']
         }
     }
 
@@ -196,6 +203,7 @@ dependencies {
             "com.android.support:multidex:1.0.1",
 
             "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
+            'com.annimon:stream:1.1.7'
 
     ]
 

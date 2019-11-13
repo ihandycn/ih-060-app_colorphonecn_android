@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="ok">確定</string>
+    <string name="download_launcher_hint">這個主題只能通過ME Launcher進行訪問。</string>
+    <string name="download_btn">從Google Play獲取</string>
+    <string name="upgrade_launcher_hint">你沒有最新版本的ME Launcher。請更新。</string>
+    <string name="upgrade_btn">更新ME Launcher</string>
+    <string name="current_theme_btn">當前的主題</string>
+    
+    <string name="theme_toast_set_deferred_action">正在應用主題…</string>
+    <string name="progress_bar_toast_action_continuing">應用中…</string>
+    <string name="theme_toast_set_success">主題已應用</string>
+    <string name="open_theme_btn">打開</string>
+    <string name="theme_toast_already_set">這是當前的主題</string>
+    <string name="theme_setting_progress_dialog_text">正在應用主題…</string>
+    <string name="discover_theme_text">不是你的風格？查看其他受歡迎的主題！</string>
+    <string name="discover_btn">瀏覽</string>
+    <string name="guide_download_launcher_text">ME Launcher將您的手機與高清壁紙和更多的主題相融合。</string>
+    <string name="download_launcher_guide_btn">下載</string>
+    <string name="install_theme_activity_btn">免費下載</string>
+
+
+    <string name="install_theme_list_btn">下載</string>
+<string name="wallpaper_hint_3d_title">傾斜手機來預覽3D壁紙效果</string>
+  <string name="wallpaper_hint_live_title">1.滑動屏幕來預覽動態壁紙效果</string>
+  <string name="wallpaper_hint_action">點擊“設為壁紙”</string>
+  <string name="theme_live_apply_toast">給這套主題設置動態壁紙</string>
+
+</resources>

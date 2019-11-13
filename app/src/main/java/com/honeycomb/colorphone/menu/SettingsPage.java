@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -36,7 +37,9 @@ import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.honeycomb.colorphone.wallpaper.customize.activity.MyWallpaperActivity;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
@@ -119,6 +122,11 @@ public class SettingsPage implements View.OnClickListener {
                 }
             }
         });
+        if (!HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            rootView.findViewById(R.id.settings_mywallpapers).setVisibility(View.GONE);
+        } else {
+            rootView.findViewById(R.id.settings_mywallpapers).setOnClickListener(this);
+        }
 
         rootView.findViewById(R.id.settings_account).setOnClickListener(this);
         rootView.findViewById(R.id.settings_main_switch).setOnClickListener(this);
@@ -191,6 +199,10 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+            case R.id.settings_mywallpapers:
+                Navigations.startActivity(rootView.getContext(), MyWallpaperActivity.class);
+                Analytics.logEvent("Settings_MyWallpaper_Clicked");
                 break;
             case R.id.settings_upload:
                 if (HttpManager.getInstance().isLogin()) {

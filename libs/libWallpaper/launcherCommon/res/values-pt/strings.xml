@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="network_error">Falha na rede</string>
+
+    <string name="congratulations">Parabéns!</string>
+    <string name="won_live_wallpaper">Você ganhou um papel de parede animado!</string>
+    <string name="won_three_d_wallpaper">Você ganhou um papel de parede 3D!</string>
+    <string name="more">Mais</string>
+    <string name="preview">Visualizar</string>
+    <string name="live_wallpaper_loading_text">Baixando…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">Conectando…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">Por ler</string>
+
+
+    <string name="wallpaper_share_msg">Encontrei um papel de parede incrível aqui:</string>
+    <string name="wallpaper_share_live_image_msg">Encontrei um wallpaper animado incrível aqui:</string>
+    <string name="wallpaper_share_3d_image_msg">Encontrei um papel de parede 3D incrível aqui:</string>
+
+    <string name="shared_by">Compartilhar por</string>
+
+
+    <string name="next">AVANÇAR</string>
+
+    <string name="permission_request_failed_message">Falha na concessão de acesso</string>
+    <string name="permission_request_succeed_message">%1$s disponível</string>
+    <string name="floating_window_permission_guide_dialog_content">Conceder permissão para exibir chamadas recebidas sobre outros aplicativos.</string>
+    <string name="permission_request_call">Telefone</string>
+    <string name="permission_request_contacts">Contatos</string>
+
+    <string name="normal_permission_guide_permission">Permissões</string>
+
+    <string name="normal_permission_guide_dialog_content">Selecione “Permissões” e ative “Telefone” e “Contatos”</string>
+    <string name="launcher_settings_update">Actualizar</string>
+
+    <string name="privacy_policy_settings_title">Política de Privacidade</string>
+
+    <string name="terms_of_service_settings_title">Termos de serviço</string>
+
+    <string name="update_toast_no_network">Por favor, verifica a ligação</string>
+
+    <string name="update_toast_already_latest">Estás a utilizar a versão mais recente</string>
+
+    <string name="update_dialog_title">Descarregar a versão mais recente</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">Cancelar</string>
+
+    <string name="download_capital">DESCARREGAR</string>
+
+
+</resources>

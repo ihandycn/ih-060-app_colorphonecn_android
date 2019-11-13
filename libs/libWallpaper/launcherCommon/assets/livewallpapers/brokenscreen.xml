@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_2.glsl">
+        <image path="brokenscreen/1.png" />
+        <image path="brokenscreen/2.png" />
+    </shader>
+</live-wallpaper>

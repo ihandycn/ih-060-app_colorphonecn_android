@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <string name="ok">OK</string>
+    <string name="download_launcher_hint">このテーマは[launcher-name]を通してのみアクセスできます。</string>
+    <string name="download_btn"> Google Playから手に入れる</string>
+    <string name="upgrade_launcher_hint"> [launcher-name]の最新版をお持ちになっていません。</string>
+    <string name="upgrade_btn"> [launcher-name]を更新する</string>
+    <string name="current_theme_btn">現在のテーマ</string>
+    <string name="theme_toast_set_deferred_action">テーマを適用中…</string>
+    <string name="progress_bar_toast_action_continuing">適用中…</string>
+    <string name="theme_toast_set_success">テーマが適用されました</string>
+    <string name="open_theme_btn">開く</string>
+    <string name="theme_toast_already_set">それはすでに現在のテーマです</string>
+    <string name="theme_setting_progress_dialog_text">テーマを適用中…</string>
+    <string name="discover_theme_text">あなたのスタイルではない？ほかの人気のあるテーマをチェックしてください！</string>
+    <string name="discover_btn">閲覧する</string>
+    <string name="guide_download_launcher_text">[launcher-name]はお使いの携帯をHDの壁紙&amp;その他のテーマでおしゃれにします。</string>
+    <string name="download_launcher_guide_btn">インストール</string>
+    <string name="install_theme_activity_btn">無料でダウンロード</string>
+
+    <string name="install_theme_list_btn">インストール</string>
+
+<string name="wallpaper_hint_3d_title">携帯電話を傾けて3D壁紙をプレビュー</string>
+  <string name="wallpaper_hint_live_title">１．ライブの壁紙をプレビューするには、画面をスライドします</string>
+  <string name="wallpaper_hint_action">「壁紙を設定する」をクリックします</string>
+  <string name="theme_live_apply_toast">このテーマにライブ壁紙を設定する</string>
+
+</resources>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_static.glsl">
+        <image path="love/background.png" />
+    </shader>
+
+    <particles>
+        <background
+            emissionRate="2"
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            sourceFromX="0.0"
+            sourceFromY="1.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityX="-200"
+            velocityY="-200"
+            velocityDeviationX="75"
+            velocityDeviationY="75"
+            initialScale="0.4"
+            initialScaleDeviation="0.35"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.01">
+        </background>
+
+        <background
+            emissionRate="3"
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            sourceFromX="1.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityX="-200"
+            velocityY="-200"
+            velocityDeviationX="75"
+            velocityDeviationY="75"
+            initialScale="0.3"
+            initialScaleDeviation="0.2"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01">
+        </background>
+
+        <!-- Particles emitted from the tree -->
+        <background
+            emissionRate="2"
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            sourceFromX="0.59"
+            sourceFromXDeviation="0.27"
+            sourceFromY="0.51"
+            sourceFromYDeviation="0.12"
+            velocityX="-200"
+            velocityY="-200"
+            velocityDeviationX="75"
+            velocityDeviationY="75"
+            initialScale="0.3"
+            initialScaleDeviation="0.2"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01">
+        </background>
+
+        <touch
+            initNum="5"
+            emissionRate="30"
+            blendMode="770"
+            sourceFromX="1.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="1.0"
+            velocityX="-200"
+            velocityY="-200"
+            velocityDeviationX="75"
+            velocityDeviationY="75"
+            initialScale="0.3"
+            initialScaleDeviation="0.2"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01">
+            </touch>
+
+        <image path="love/heart_red.png" ratio="1.0"/>
+    </particles>
+</live-wallpaper>

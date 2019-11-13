@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_static.glsl">
+        <image path="gold/background_1.png" />
+    </shader>
+
+    <particles>
+        <background
+            blendMode="770"
+            emissionRate="8"
+            sourceFromX="0.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="0.0"
+            velocityX="40.0"
+            velocityDeviationX="150"
+            velocityY="110"
+            velocityDeviationY="110"
+            targetVelocityX="40.0"
+            targetVelocityY="120.0"
+            initialScale="0.75"
+            initialScaleDeviation="0.4">
+
+            <image path="gold/gold_1.png" ratio="1.0"/>
+            <image path="gold/gold_2.png" ratio="1.0"/>
+            <image path="gold/gold_3.png" ratio="1.0"/>
+            <image path="gold/gold_4.png" ratio="1.0"/>
+            <image path="gold/gold_5.png" ratio="1.0"/>
+            <image path="gold/gold_6.png" ratio="1.0"/>
+            <image path="gold/gold_7.png" ratio="1.0"/>
+            <image path="gold/gold_8.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            blendMode="770"
+            emissionRate="35"
+            velocityX="20.0"
+            velocityDeviationX="150"
+            velocityY="300"
+            velocityDeviationY="150"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            initialRotationDeviation="60"
+            initialScale="0.4"
+            initialScaleDeviation="0.12">
+
+            <image path="gold/gesture_1.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

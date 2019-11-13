@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="network_error">Netzwerkfehler.</string>
+
+    <string name="congratulations">Glückwunsch!</string>
+    <string name="won_live_wallpaper">Sie haben einen Live-Hintergrund gewonnen!</string>
+    <string name="won_three_d_wallpaper">Sie haben einen 3D-Hintergrund gewonnen!</string>
+    <string name="more">Mehr</string>
+    <string name="preview">Vorschau</string>
+    <string name="live_wallpaper_loading_text">Wird heruntergeladen…</string>
+
+
+    <string name="notification_toolbar_wifi_connecting">Verbinden…</string>
+    <string name="result_page_unreadmessage_promote_notification_access_guide_title">Ungelesene Nachrichten</string>
+
+
+    <string name="wallpaper_share_msg">Ich habe hier ein tolles Hintergrundbild gefunden.</string>
+    <string name="wallpaper_share_live_image_msg">Ich habe hier einen schönen Live-Hintergrund gefunden.</string>
+    <string name="wallpaper_share_3d_image_msg">Ich habe hier einen tollen 3D-Hintergrund gefunden.</string>
+
+    <string name="shared_by">Teilen mit</string>
+
+
+    <string name="next">WEITER</string>
+
+
+    <string name="permission_request_failed_message">Zugriff konnte nicht gewährt werden</string>
+    <string name="permission_request_succeed_message">%1$s verfügbar</string>
+    <string name="floating_window_permission_guide_dialog_content">Berechtigung aktivieren, dass eingehender Anruf über allen anderen Apps angezeigt werden darf.</string>
+    <string name="permission_request_call">Telefon</string>
+    <string name="permission_request_contacts">Kontakte</string>
+    <string name="normal_permission_guide_permission">Berechtigungen</string>
+
+    <string name="normal_permission_guide_dialog_content">„Berechtigungen“ wählen und „Telefon“, „Kontakte“ aktivieren</string>
+    <string name="launcher_settings_update">Update</string>
+
+    <string name="privacy_policy_settings_title">Datenschutzrichtlinie</string>
+
+    <string name="terms_of_service_settings_title">Nutzungsbedingungen</string>
+
+    <string name="update_toast_no_network">Bitte Verbindung überprüfen</string>
+
+    <string name="update_toast_already_latest">Sie setzen die neueste Version ein</string>
+
+    <string name="update_dialog_title">Neueste Version herunterladen</string>
+
+    <string name="online_wallpaper_edit_cancel_btn">ABBRECHEN</string>
+
+    <string name="download_capital">DOWNLOAD</string>
+
+
+</resources>
