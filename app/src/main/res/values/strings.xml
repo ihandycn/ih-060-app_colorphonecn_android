@@ -341,7 +341,7 @@
     <string name="upload">上传</string>
     <string name="color_phone_name">来电秀名称</string>
     <string name="please_input_name">请输入来电秀名称</string>
-    <string name="ok">确定</string>
+    <string name="upload_ok">确定</string>
     <string name="convert_ing">转换中…</string>
     <string name="upload_ing">上传中…%1$s</string>
 
