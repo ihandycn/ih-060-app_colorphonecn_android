@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +99,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -127,8 +130,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
+    private RelativeLayout mMainPage;
     private SmartRefreshLayout mSmartRefreshLayout;
     private RecyclerView mRecyclerView;
+    private LinearLayout mMainNetWorkErrView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
 //    private RewardVideoView mRewardVideoView;
@@ -385,6 +390,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }
         });
+
 
         mMainViewShowFlag = true;
         Utils.configActivityStatusBar(this, toolbar);
@@ -805,6 +811,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onFailure(String errorMsg) {
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
+                    if (mMainNetWorkErrView != null) {
+                        mMainNetWorkErrView.setVisibility(View.VISIBLE);
+                    }
                     isFirstRequestData = false;
                 }
                 Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
@@ -825,6 +834,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onSuccess(boolean isHasData) {
+                if (mMainNetWorkErrView != null) {
+                    mMainNetWorkErrView.setVisibility(View.GONE);
+                }
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First_Success");
                     isFirstRequestData = false;
@@ -1096,6 +1108,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ThemeList.getInstance().fillData(mRecyclerViewData);
     }
 
+    private void initNetworkErrorView(View rootView) {
+        mMainNetWorkErrView = rootView.findViewById(R.id.frame_no_network);
+        mMainNetWorkErrView.findViewById(R.id.no_network_action).setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ff696681"),
+                Dimensions.pxFromDp(22), true));
+        mMainNetWorkErrView.findViewById(R.id.no_network_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSmartRefreshLayout.autoRefresh();
+            }
+        });
+    }
+
     private void initRefreshView(SmartRefreshLayout smartRefreshLayout) {
         mSmartRefreshLayout = smartRefreshLayout;
         mSmartRefreshLayout.setEnableAutoLoadMore(true);
@@ -1246,12 +1270,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         final TabItem tabItem = mTabItems.get(position);
         switch (tabItem.getId()) {
             case TabItem.TAB_MAIN:
-                if (mSmartRefreshLayout == null) {
+                if (mMainPage == null) {
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
-                    initRefreshView((SmartRefreshLayout) frame);
+                    mMainPage = (RelativeLayout) frame;
+                    initNetworkErrorView(frame);
+                    initRefreshView(frame.findViewById(R.id.refresh_layout));
                     initRecyclerView(frame.findViewById(R.id.recycler_view));
                 } else {
-                    frame = mSmartRefreshLayout;
+                    frame = mMainPage;
                 }
                 break;
 
