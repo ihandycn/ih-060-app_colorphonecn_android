@@ -188,6 +188,14 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
+    public void getCallerAddressInfo(String number, Callback<ResponseBody> callBack) {
+        String url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=" + number;
+
+        DEFAULT.create(IHttpRequest.class)
+                .getCallerAddress(url)
+                .enqueue(callBack);
+    }
+
     public void saveUserTokenAndUid(String token, String uid) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_USER_TOKEN, token);
