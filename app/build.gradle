@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
 apply from: 'tasks.gradle'
 
-apply plugin: 'ihandy.proguard.rewrite'
 apply from: 'tinker-support.gradle'
 
 android {
@@ -98,8 +97,6 @@ android {
 
         colorphoneJinritoutiao {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
-            assets.srcDirs = ['src/colorphoneJinritoutiao/assets', 'src/colorphoneCommon/assets', 'src/main/assets']
             res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res',
                            '../libs/libWallpaper/common/res','../libs/libWallpaper/launcherCommon/res', '../libs/libWallpaper/launcher/res']
             assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
@@ -130,17 +127,6 @@ android {
     lintOptions {
 
         abortOnError false
-    }
-    ihandyProGuard {
-        packageNames = ['com.acb.call',
-                        'com.call.assistant',
-                        'com.ihs.chargingreport',
-                        'com.superapps',
-                        'colorphone.acb.com']
-        packageNameMap = [
-                "colorflash": ['cfl'],
-                "colorphone": ['cph']
-        ]
     }
 
     dexOptions {
