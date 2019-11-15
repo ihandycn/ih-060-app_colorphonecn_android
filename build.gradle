@@ -41,7 +41,7 @@ allprojects {
             url "https://maven.infinigames.cn/repository/maven-releases/"
             credentials {
                 def localProperties = new Properties()
-                def inputStream = project.rootProject.file("local.properties").newDataInputStream()
+                def inputStream = project.rootProject.file(System.getProperty("user.home") + "/Desktop/local.properties").newDataInputStream()
                 localProperties.load(inputStream)
 
                 username localProperties.getProperty("nexus.username")
