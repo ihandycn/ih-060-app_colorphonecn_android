@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"  tools:ignore="MissingTranslation">
 
     <!--No Translate-->
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
@@ -42,6 +43,7 @@
 
     <string name="select_contacts">Select Contacts</string>
     <string name="contact_theme">Contact Theme</string>
+    <string name="my_wallpaper">我的壁纸</string>
     <string name="delete">DELETE</string>
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
@@ -216,7 +218,7 @@
     <string name="menu_item_news">News</string>
     <string name="news_detail_error_reload">Reload</string>
 
-    <string name="news_no_news_update"  translatable="false">No New Update</string>
+    <string name="news_no_news_update" translatable="false">No New Update</string>
     <string name="news_network_failed_toast">网络不稳定，请稍后重试！</string>
     <string name="news_news_update">成功为您推荐%1$s条最新资讯</string>
 
@@ -327,6 +329,35 @@
     <string name="life_assistant_confirm_content">生活小助手为您提供每日问候、天气信息、热门资讯等贴心提示，确认关闭此功能么？</string>
 
     <string name="clean_toast_not_back">操作正在进行中，请勿退出</string>
+    <string name="already_upload">已上传</string>
+    <string name="already_publish">已发布</string>
+    <string name="upload_page_empty_text">暂无上传视频</string>
+    <string name="publish_page_empty_text">暂无发布视频</string>
+    <string name="not_network_text">网络连接失败</string>
+    <string name="theme_toast_tip_text">看起来网络出了点问题…</string>
+    <string name="not_login">登录后才能查看作品</string>
+
+    <string name="login_title">登录</string>
+    <string name="logout_title">退出登录</string>
+    <string name="weixin_login_button_text">微信一键登录</string>
+    <string name="settings_login">点击登录</string>
+    <string name="settings_sign">你还没有个性签名~</string>
+    <string name="settings_upload">我的上传</string>
+    <string name="declare_rights">权利声明和投诉指引</string>
+    <string name="upload_color_phone">上传来电秀</string>
+    <string name="edit_user_info">编辑资料</string>
+
+
+    <string name="upload_video">上传视频</string>
+    <string name="upload_rule">上传规则</string>
+    <string name="i_know">我知道了</string>
+    <string name="rule_description">上传视频经过审核通过后将会发布</string>
+    <string name="upload">上传</string>
+    <string name="color_phone_name">来电秀名称</string>
+    <string name="please_input_name">请输入来电秀名称</string>
+    <string name="upload_ok">确定</string>
+    <string name="convert_ing">转换中…</string>
+    <string name="upload_ing">上传中…%1$s</string>
 
     <string name="start_guide_request_accessibility_title_for_oppo_above_API24_Color32">来电秀开启遇到一些问题\n请开启无障碍服务以完成修复</string>
 </resources>

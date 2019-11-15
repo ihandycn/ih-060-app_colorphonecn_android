@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.superapps.view.FixedRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:aspectRatio="1.0"
+    tools:ignore="ContentDescription">
+
+    <ImageView
+        android:id="@+id/video_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:textColor="#ffffff"
+        android:textSize="11sp"
+        tools:text="00:07" />
+</com.superapps.view.FixedRatioLayout>

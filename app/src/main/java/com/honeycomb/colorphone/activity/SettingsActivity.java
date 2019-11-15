@@ -7,9 +7,12 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -18,17 +21,22 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostConfig;
+import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Calendars;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
+import com.superapps.util.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +104,41 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        TextView logoutButton = findViewById(R.id.settings_logout_button);
+        if (HttpManager.getInstance().isLogin()) {
+            logoutButton.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) logoutButton.getLayoutParams();
+            params.setMargins(0, (int) (140.0 / 640.0 * Dimensions.getPhoneHeight(this)),
+                    0, (int) (48 / 640.0 * Dimensions.getPhoneHeight(this)));
+            logoutButton.setLayoutParams(params);
+            logoutButton.setWidth((int) (177.0 / 360.0 * Dimensions.getPhoneWidth(this)));
+            logoutButton.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    HSApplication.getContext().getResources().getColor(R.color.colorPrimary),
+                    0x19ffffff,
+                    Dimensions.pxFromDp(1), 0x4Dffffff, Dimensions.pxFromDp(21), false, true));
+            logoutButton.setOnClickListener(view -> {
+                HttpManager.getInstance().logout();
+                finish();
+            });
+        } else {
+            logoutButton.setVisibility(View.GONE);
+        }
+
+        View itemUpload = findViewById(R.id.setting_item_upload);
+        itemUpload.setOnClickListener(view -> {
+            if (HttpManager.getInstance().isLogin()) {
+                Preferences preferences = Preferences.getDefault();
+                int count = preferences.getInt(VideoUploadActivity.KEY_UPLOAD_COUNT, 0);
+                long aLong = preferences.getLong(VideoUploadActivity.KEY_UPLOAD_TIME, 0);
+                if (count >= 5 && Calendars.isSameDay(aLong, System.currentTimeMillis())) {
+                    Toasts.showToast("今日上传个数已达上限，请明天再试");
+                } else {
+                    VideoListActivity.start(SettingsActivity.this);
+                }
+            } else {
+                LoginActivity.start(this);
+            }
+        });
 
         boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
         if (chargingImproverOpen) {
@@ -187,7 +230,8 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         if (BoostConfig.isBoostPushEnable()) {
             findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);
                     Navigations.startActivitySafely(SettingsActivity.this, intent);
                 }
@@ -207,7 +251,8 @@ public class SettingsActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         if (confirmDialog != null && confirmDialog.getVisibility() == View.VISIBLE) {
             confirmDialog.setVisibility(View.GONE);
         } else {

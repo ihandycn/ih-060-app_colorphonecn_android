@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+
+    <shader name="parallax_3d_football.glsl">
+        <image path="goldenleaves/1.png" />
+        <image path="goldenleaves/2.png" />
+        <image path="goldenleaves/3.png" />
+    </shader>
+</live-wallpaper>

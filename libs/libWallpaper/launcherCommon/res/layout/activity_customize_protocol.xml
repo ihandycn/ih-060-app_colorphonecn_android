@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@android:color/transparent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/BaseSettings.ActionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="PrivateResource"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#B8000000"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/cc0_protocol_title"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:typeface="@string/custom_font_bold"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/cc0_protocol_content"
+        android:layout_marginBottom="16dp"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical"
+        android:layout_marginTop="14dp"
+        android:textSize="15sp"
+        android:textColor="#80000000"
+        android:lineSpacingExtra="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/checkbox_container"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeStepGranularity="1sp"
+        app:typeface="@string/custom_font_regular"/>
+
+    <!--android:overScrollMode="never"-->
+
+
+    <LinearLayout
+        android:id="@+id/checkbox_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/next_btn"
+        android:layout_marginBottom="28dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/checkbox"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/customize_checkbox_unchecked"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginLeft="11dp"
+            android:textSize="15sp"
+            android:textColor="#B8000000"
+            android:layout_gravity="center_vertical"
+            android:text="@string/cc0_protocol_agree_it"
+            app:typeface="@string/custom_font_semibold"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/selector_blue_btn"
+        android:text="@string/next"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:enabled="false"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="PrivateResource"/>
+
+
+</android.support.constraint.ConstraintLayout>

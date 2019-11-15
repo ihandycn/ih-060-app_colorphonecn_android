@@ -39,8 +39,8 @@
     <!-- Ringtone -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -107,6 +107,9 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+
     <application
         android:name="com.honeycomb.colorphone.ColorPhoneApplication"
         android:allowBackup="true"
@@ -129,9 +132,9 @@
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
 
@@ -197,7 +200,46 @@
             android:theme="@style/AppTheme.DarkFullScreen" />
 
         <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+        <activity
+            android:name=".activity.UserInfoEditorActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
             android:name=".activity.SettingsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
+            android:name=".activity.VideoListActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
+            android:name=".activity.VideoUploadActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
+            android:name=".uploadview.UploadAndPublishActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -252,8 +294,8 @@
             android:name=".activity.GuideApplyThemeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:taskAffinity=".call"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
@@ -272,6 +314,15 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/ContactTheme" />
+
+        <activity
+            android:name="com.honeycomb.colorphone.wallpaper.customize.activity.MyWallpaperActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme">
+        </activity>
 
         <activity
             android:name=".activity.ContactsRingtoneSelectActivity"
@@ -301,7 +352,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:theme="@style/AppLightStatusBarTheme"/>
+            android:theme="@style/AppLightStatusBarTheme" />
 
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
@@ -317,10 +368,10 @@
         <activity
             android:name=".boost.BoostActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:noHistory="true"
             android:icon="@drawable/icon_boost2"
             android:label="@string/title_boost_activity"
+            android:launchMode="singleTask"
+            android:noHistory="true"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -328,9 +379,9 @@
         <activity
             android:name=".battery.BatteryCleanActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"
             android:icon="@drawable/icon_boost2"
             android:label="@string/title_boost_activity"
+            android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/SwitchCompatTheme" />
@@ -338,26 +389,27 @@
         <activity
             android:name=".cpucooler.CpuCoolDownActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/icon_boost2"
+            android:label="@string/title_boost_activity"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:icon="@drawable/icon_boost2"
-            android:label="@string/title_boost_activity"
             android:theme="@style/SwitchCompatTheme" />
 
         <activity
             android:name=".resultpage.ResultPageActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="nosensor"
             android:icon="@drawable/icon_boost2"
             android:label="@string/title_boost_activity"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent" />
 
-        <activity android:name="com.call.assistant.ui.CallIdleAlertActivity"
+        <activity
+            android:name="com.call.assistant.ui.CallIdleAlertActivity"
             android:icon="@drawable/icon_callassistant"
-            android:label="@string/title_callassistant_activity"/>
+            android:label="@string/title_callassistant_activity" />
 
 
         <activity
@@ -455,10 +507,9 @@
         <service android:name=".PermanentService$PermanentServiceInner" />
 
         <service
+            android:name="com.ihs.devicemonitor.accessibility.HSAccessibilityService"
             android:label="@string/acc_service_name"
-            tools:replace="android:label"
-            android:name="com.ihs.devicemonitor.accessibility.HSAccessibilityService">
-        </service>
+            tools:replace="android:label"></service>
 
         <service
             android:name=".LockJobService"
@@ -496,7 +547,7 @@
 
         <receiver
             android:name=".notification.NotificationActionReceiver"
-            android:exported="true"/>
+            android:exported="true" />
 
         <receiver
             android:name=".PermanentService$PermanentReceiver"
@@ -518,15 +569,16 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notification.NotificationAlarmReceiver"/>
+        <receiver android:name=".notification.NotificationAlarmReceiver" />
         <receiver android:name=".toolbar.NotificationReceiver" />
 
-        <activity android:name=".boost.BoostStarterActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
+        <activity
+            android:name=".boost.BoostStarterActivity"
+            android:excludeFromRecents="true"
             android:icon="@drawable/ic_boost_plus"
             android:label="@string/boost_title"
-            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/INVisibleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
@@ -547,25 +599,25 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".activity.CashCenterActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/BaseTheme"/>
+        <activity
+            android:name=".activity.CashCenterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseTheme" />
         <!-- JPush Daemon-->
         <service
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.colorphone.smooth.dialer.cn"/>
+                <category android:name="com.colorphone.smooth.dialer.cn" />
             </intent-filter>
         </service>
 
         <!-- Move this service to main process for download ad -->
         <service
             android:name="com.ss.android.socialbase.downloader.downloader.IndependentProcessDownloadService"
-            tools:remove="android:process">
-        </service>
+            tools:remove="android:process"></service>
 
         <!--===== Dialer Module =====-->
 
@@ -656,8 +708,7 @@
             android:authorities="${applicationId}.TTFileProvider"
             android:exported="false"
             android:grantUriPermissions="true"
-            tools:node="replace"
-            >
+            tools:node="replace">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/cmgamesdk_file_paths" />
@@ -677,20 +728,20 @@
 
         <activity
             android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
-            android:label="@string/title_message_activity"
             android:icon="@drawable/icon_message"
+            android:label="@string/title_message_activity"
             tools:replace="android:label" />
 
         <activity
             android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
-            android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
             android:label="@string/title_locker_activity" />
 
         <activity
             android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
-            android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
             android:label="@string/title_locker_activity" />
 
         <activity
@@ -701,35 +752,41 @@
 
         <activity
             android:name=".notification.CleanGuideActivity"
-            android:launchMode="singleTask"
             android:excludeFromRecents="true"
-            android:taskAffinity=":clean"
-            android:label="@string/clean_guide_activity_label"
             android:icon="@drawable/clean_guide_icon"
-            android:theme="@style/AppTranslucent"/>
+            android:label="@string/clean_guide_activity_label"
+            android:launchMode="singleTask"
+            android:taskAffinity=":clean"
+            android:theme="@style/AppTranslucent" />
 
         <activity
             android:name=".activity.ExitNewsActivity"
-            android:launchMode="singleTop"
             android:excludeFromRecents="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LightThemeFull" />
         <activity
             android:name=".lifeassistant.LifeAssistantActivity"
+            android:excludeFromRecents="true"
+            android:icon="@drawable/life_assistant_icon"
+            android:label="@string/life_assistant_title"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:excludeFromRecents="true"
-            android:label="@string/life_assistant_title"
-            android:icon="@drawable/life_assistant_icon"
-            android:theme="@style/LightTheme"/>
+            android:theme="@style/LightTheme" />
         <activity
             android:name=".lifeassistant.LifeAssistantSettingActivity"
-            android:launchMode="singleTop"
-            android:label="@string/life_assistant_title"
             android:excludeFromRecents="true"
             android:icon="@drawable/life_assistant_icon"
+            android:label="@string/life_assistant_title"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/LightThemeLifeAssistant"/>
+            android:theme="@style/LightThemeLifeAssistant" />
+        <activity android:name=".debug.DebugActivity" />
+        <activity
+            android:name="com.colorphone.smooth.dialer.cn.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <!--Override  - Tag : process-->
 
@@ -739,6 +796,182 @@
         <receiver
             android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
             tools:node="remove" />
+        <receiver android:name="com.colorphone.smooth.dialer.cn.wxapi.WXRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".wallpaper.customize.activity.CustomizeActivity"
+            android:alwaysRetainTaskState="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SET_WALLPAPER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wallpaper.customize.activity.WallpaperPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".wallpaper.customize.activity.Cc0ProtocolActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
+        <activity
+            android:name=".wallpaper.customize.activity.report.SelectReportReasonActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize.report"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
+        <activity
+            android:name=".wallpaper.customize.activity.report.InputEmailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize.report"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
+        <activity
+            android:name=".wallpaper.customize.activity.UploadWallpaperActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAppBarLightStatusBarActivity.White" />
+        <activity
+            android:name=".wallpaper.customize.activity.WallpaperEditActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".wallpaper.share.ShareActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TransparentWithNoTitle" />
+        <activity
+            android:name=".wallpaper.dialog.CustomAlertActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TransparentWithNoTitle" />
+
+
+        <receiver
+            android:name="com.honeycomb.colorphone.receiver.OurAppInstalledReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".wallpaper.view.WebViewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
+        <service
+            android:name=".wallpaper.livewallpaper.WallpaperPreloadService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":livewallpaper" />
+        <service
+            android:name="com.themelab.launcher.ThemeWallpaperService"
+            android:enabled="true"
+            android:icon="@drawable/live_wallpaper_thumbnail"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter android:priority="1">
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+        <service
+            android:name=".wallpaper.livewallpaper.GLWallpaperService"
+            android:enabled="true"
+            android:icon="@drawable/live_wallpaper_thumbnail"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":livewallpaper">
+            <intent-filter android:priority="1">
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+        <service
+            android:name=".wallpaper.livewallpaper.GLWallpaperService2"
+            android:enabled="true"
+            android:icon="@drawable/live_wallpaper_thumbnail"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":livewallpaper">
+            <intent-filter android:priority="1">
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+        <service
+            android:name=".wallpaper.livewallpaper.GLWallpaperService3"
+            android:enabled="true"
+            android:icon="@drawable/live_wallpaper_thumbnail"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":livewallpaper">
+            <intent-filter android:priority="1">
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+        <service
+            android:name=".wallpaper.livewallpaper.GLWallpaperService4"
+            android:enabled="true"
+            android:icon="@drawable/live_wallpaper_thumbnail"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":livewallpaper">
+            <intent-filter android:priority="1">
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+
+        <provider
+            android:name=".wallpaper.customize.WallpaperProvider"
+            android:authorities="${applicationId}.wallpaper"
+            android:exported="false" />
+
+        <meta-data
+            android:name="android.nfc.disable_beam_default"
+            android:value="true" />
+
+        <activity
+            android:name=".wallpaper.permission.NormalPermissionGuide"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TransparentWithNoTitle" />
+        <activity
+            android:name=".wallpaper.permission.FloatWindowPermissionGuide"
+            android:allowTaskReparenting="false"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.float.window.guide"
+            android:theme="@style/Theme.TransparentWithNoTitle" />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

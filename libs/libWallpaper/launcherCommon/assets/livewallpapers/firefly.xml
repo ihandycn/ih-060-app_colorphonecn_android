@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="firefly/background_1.png" />
+        <image path="firefly/background_2.png" />
+    </shader>
+
+    <particles>
+        <background
+            alpha="0.6"
+            alphaDeviation="0.4"
+            blendMode="770"
+            emissionRate="12"
+            sourceFromX="0.0"
+            sourceFromY="0.0"
+            sourceToX="1.0"
+            sourceToY="0.0"
+            velocityX="60.0"
+            velocityDeviationX="180"
+            velocityY="120"
+            velocityDeviationY="130"
+            targetVelocityX="60.0"
+            targetVelocityY="150.0"
+            initialScale="0.35"
+            initialScaleDeviation="0.2">
+
+            <image path="firefly/firefly_1.png" ratio="1.0"/>
+            <image path="firefly/firefly_2.png" ratio="1.0"/>
+        </background>
+
+        <touch
+            alphaInterpolator="InThenOut"
+            emissionRate="35"
+            velocityX="0.0"
+            velocityDeviationX="200"
+            velocityY="-150"
+            velocityDeviationY="-100"
+            initialRotationDeviation="30"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="firefly/gesture_1.png" ratio="1.0"/>
+            <image path="firefly/gesture_2.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

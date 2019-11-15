@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,19 +19,27 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acb.call.VideoManager;
+import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.honeycomb.colorphone.wallpaper.Manager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -46,8 +57,14 @@ import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.debug.DebugActions;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
+import com.honeycomb.colorphone.download.DownloadStateListener;
+import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.news.NewsFrame;
@@ -56,14 +73,22 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
+import com.honeycomb.colorphone.wallpaper.customize.adapter.AbstractOnlineWallpaperAdapter;
+import com.honeycomb.colorphone.wallpaper.customize.view.CustomizeContentView;
+import com.honeycomb.colorphone.wallpaper.model.LauncherFiles;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -75,6 +100,11 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -87,6 +117,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.debug.DebugConfig;
 import hugo.weaving.DebugLog;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -99,13 +130,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_SHOW = "prefs_cash_center_show";
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
+    private static final String PREFS_SET_DEFAULT_THEME = "prefs_set_default_theme";
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
+    private RelativeLayout mMainPage;
+    private SmartRefreshLayout mSmartRefreshLayout;
     private RecyclerView mRecyclerView;
+    private LinearLayout mMainNetWorkErrView;
     private ThemeSelectorAdapter mAdapter;
-    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
 //    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
@@ -117,6 +152,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
+    private boolean isFirstRequestData = true;
+
+    private TasksManagerModel model;
+    private TasksManagerModel ringtoneModel;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -196,6 +235,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
     private RingtonePageView mRingtoneFrame;
+    private View mWallpaper;
     private LotteryWheelLayout lotteryWheelLayout;
 
     private static final int TAB_SIZE = 4;
@@ -279,6 +319,44 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_HOME:
+                    return true;
+                case KeyEvent.KEYCODE_VOLUME_DOWN:
+                    if (DebugConfig.OVERRIDE_VOLUME_KEYS) {
+                        onDebugAction(true);
+                        return true;
+                    }
+                    break;
+                case KeyEvent.KEYCODE_VOLUME_UP:
+                    if (DebugConfig.OVERRIDE_VOLUME_KEYS) {
+                        onDebugAction(false);
+                        return true;
+                    }
+                    break;
+            }
+        } else if (event.getAction() == KeyEvent.ACTION_UP) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_HOME:
+                    return true;
+            }
+        }
+
+        return super.dispatchKeyEvent(event);
+    }
+
+    public void onDebugAction(boolean volumeDown) {
+        // Notice: DO NOT modify this method. Modify inside DebugActions#onDebugAction().
+        if (volumeDown) {
+            DebugActions.onVolumeDown(this);
+        } else {
+            DebugActions.onVolumeUp(this);
+        }
+    }
+
     public void showRewardVideoView(String themeName) {
 
     }
@@ -324,14 +402,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         initTab();
-
-        initData();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, this);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
+        HSGlobalNotificationCenter.addObserver(HttpManager.NOTIFY_REFRESH_USER_INFO, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME, this);
+
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         ConfigChangeManager.getInstance().registerCallbacks(
@@ -364,8 +445,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     R.drawable.seletor_tab_ringtone, "铃声", false));
         }
 
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            mTabItems.add(new TabItem(TabItem.TAB_WALLPAPER,
+                    R.drawable.seletor_tab_wallpaper, "壁纸", false));
+        }
+
         mTabItems.add(new TabItem(TabItem.TAB_SETTINGS,
-                R.drawable.seletor_tab_settings, "设置", true));
+                R.drawable.seletor_tab_settings, "我的", true));
 
         mTabFrameLayout = findViewById(R.id.tab_frame_container);
         mTabFrameLayout.setTabItems(mTabItems);
@@ -393,7 +479,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
-        tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
+        if (HSConfig.optBoolean(true, "Application", "Wallpapers", "Enabled")) {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_five);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tabCashCenterGuide.getLayoutParams();
+
+            int phoneWidth = Dimensions.getPhoneWidth(this);
+            float horizontalBias = (phoneWidth * 0.7f - layoutParams.width / 2f) / (phoneWidth - layoutParams.width);
+            layoutParams.horizontalBias = horizontalBias;
+            tabCashCenterGuide.requestLayout();
+        } else {
+            tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
+        }
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -533,6 +629,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         // TODO
 //                        Analytics.logEvent("Tab_News_Show");
                         break;
+                    case TabItem.TAB_WALLPAPER:
+                        Analytics.logEvent("Tab_Wallpaper_Show");
+                        String defaultValue = "Null_Category";
+                        String current_category_name = Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).getString("current_category_name", defaultValue);
+                        if (!defaultValue.equals(current_category_name)) {
+                            Manager.getInstance().getDelegate().logEvent("Wallpaper_Class_Show", "ClassName", current_category_name,
+                                    "From", "TabClick");
+
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", true);
+                        } else {
+                            Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).putBoolean("has_record_Wallpaper_Class_Show_firstly", false);
+                        }
+                        break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
                             guideLottie.setVisibility(View.GONE);
@@ -634,13 +743,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onStart() {
         super.onStart();
         tabTransController.upScrolled = false;
-        int maxId = -1;
-        for (Type type : Type.values()) {
-            if (maxId < type.getId()) {
-                maxId = type.getId();
-            }
-        }
-        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
 
         // log event
         long sessionPast = System.currentTimeMillis() - SessionMgr.getInstance().getCurrentSessionStartTime();
@@ -720,7 +822,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             mRecyclerView.getRecycledViewPool().clear();
         }
-
     }
 
     @Override
@@ -733,6 +834,141 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         // TODO: has better solution for OOM?
         Glide.get(this).clearMemory();
     }
+
+    private void requestThemeData(boolean isRefresh) {
+
+        ThemeList.getInstance().requestThemeForMainFrame(isRefresh, new ThemeUpdateListener() {
+            @Override
+            public void onFailure(String errorMsg) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
+                    if (mMainNetWorkErrView != null) {
+                        mMainNetWorkErrView.setVisibility(View.VISIBLE);
+                    }
+                    isFirstRequestData = false;
+                }
+                Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
+
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
+                Toast toast = new Toast(getBaseContext());
+                toast.setGravity(Gravity.CENTER | Gravity.TOP, 0, Dimensions.pxFromDp(80));
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
+                if (isRefresh) {
+                    mSmartRefreshLayout.finishRefresh();
+                } else {
+                    mSmartRefreshLayout.finishLoadMore(true);
+                }
+            }
+
+            @Override
+            public void onSuccess(boolean isHasData) {
+                if (mMainNetWorkErrView != null) {
+                    mMainNetWorkErrView.setVisibility(View.GONE);
+                }
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First_Success");
+                    isFirstRequestData = false;
+                }
+                Analytics.logEvent("CallFlash_Request_Success");
+
+                if (isRefresh) {
+                    mSmartRefreshLayout.finishRefresh();
+                    mSmartRefreshLayout.resetNoMoreData();
+                } else {
+                    mSmartRefreshLayout.finishLoadMore(true);
+                }
+                if (isHasData) {
+                    refreshData();
+                } else {
+                    if (!isRefresh) {
+                        mSmartRefreshLayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
+
+                //download first theme
+                if (Preferences.getDefault().getBoolean(PREFS_SET_DEFAULT_THEME, true) && Theme.getFirstTheme() != null) {
+                    model = TasksManager.getImpl().requestMediaTask(Theme.getFirstTheme());
+                    ringtoneModel = TasksManager.getImpl().requestRingtoneTask(Theme.getFirstTheme());
+
+                    if (model != null) {
+                        TasksManager.doDownload(model, null);
+                        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
+                    }
+
+                    if (ringtoneModel != null) {
+                        TasksManager.doDownload(ringtoneModel, null);
+                        FileDownloadMultiListener.getDefault().addStateListener(ringtoneModel.getId(), mRingtoneDownloadStateListener);
+                    }
+                    Preferences.getDefault().putBoolean(PREFS_SET_DEFAULT_THEME, false);
+                }
+            }
+        });
+    }
+
+    DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
+        @Override
+        public void updateDownloaded(boolean progressFlag) {
+            if (Theme.getFirstTheme() != null) {
+                Theme theme = Theme.getFirstTheme();
+                ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+                if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
+                    mRecyclerViewData.get(0).setSelected(true);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+            FileDownloadMultiListener.getDefault().removeStateListener(model.getId());
+        }
+
+        @Override
+        public void updateNotDownloaded(int status, long sofar, long total) {
+
+        }
+
+        @Override
+        public void updateDownloading(int status, long sofar, long total) {
+
+        }
+    };
+
+    DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
+        @Override
+        public void updateDownloaded(boolean progressFlag) {
+            if (Theme.getFirstTheme() != null) {
+                FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
+                if (!Settings.System.canWrite(getBaseContext())) {
+                    Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
+            }
+        }
+
+        @Override
+        public void updateNotDownloaded(int status, long sofar, long total) {
+        }
+
+        @Override
+        public void updateDownloading(int status, long sofar, long total) {
+        }
+    };
+
+    private void refreshData() {
+        setData();
+        mAdapter.notifyDataSetChanged();
+
+        int maxId = -1;
+        for (Type type : Type.values()) {
+            if (maxId < type.getId()) {
+                maxId = type.getId();
+            }
+        }
+        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+    }
+
 
     private void dispatchPermissionRequest() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
@@ -801,6 +1037,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case WELCOME_REQUEST_CODE:
                 break;
         }
+
+        HSBundle hsBundle = new HSBundle();
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_REQUESTCODE, requestCode);
+        hsBundle.putInt(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_RESULTCODE, resultCode);
+        hsBundle.putObject(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT_DATA, data);
+        HSGlobalNotificationCenter.sendNotification(AbstractOnlineWallpaperAdapter.KEY_ACTIVITY_RESULT, hsBundle);
     }
 
     private void saveThemeLikes() {
@@ -843,6 +1085,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSCashCenterManager.getInstance().releaseWheelAds();
         }
 
+        Preferences.get(LauncherFiles.CUSTOMIZE_PREFS).remove("current_category_name");
+
         super.onDestroy();
     }
 
@@ -866,8 +1110,48 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    private void initData() {
+    private void setData() {
+        ThemeList.getInstance().updateThemesTotally();
         ThemeList.getInstance().fillData(mRecyclerViewData);
+    }
+
+    private void initNetworkErrorView(View rootView) {
+        mMainNetWorkErrView = rootView.findViewById(R.id.frame_no_network);
+        mMainNetWorkErrView.findViewById(R.id.no_network_action).setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ff696681"),
+                Dimensions.pxFromDp(22), true));
+        mMainNetWorkErrView.findViewById(R.id.no_network_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSmartRefreshLayout.autoRefresh();
+            }
+        });
+    }
+
+    private void initRefreshView(SmartRefreshLayout smartRefreshLayout) {
+        mSmartRefreshLayout = smartRefreshLayout;
+        mSmartRefreshLayout.setEnableAutoLoadMore(true);
+        mSmartRefreshLayout.setRefreshHeader(new ClassicHeader(this));
+        mSmartRefreshLayout.setRefreshFooter(new HomePageRefreshFooter(this));
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First");
+                }
+                Analytics.logEvent("CallFlash_Request");
+                requestThemeData(true);
+            }
+        });
+        mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                Analytics.logEvent("CallFlash_Request");
+                requestThemeData(false);
+            }
+        });
+
+        //触发自动刷新
+        mSmartRefreshLayout.autoRefresh();
     }
 
     private void initRecyclerView(RecyclerView frame) {
@@ -942,14 +1226,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
-        if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+        if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) ||
+                ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
-        } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
-            HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
-            initData();
-            if (mAdapter != null) {
-                mAdapter.notifyDataSetChanged();
-            }
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
@@ -972,6 +1251,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d("preview pos = " + pos);
                 mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
             }
+        } else if (HttpManager.NOTIFY_REFRESH_USER_INFO.equals(s)) {
+            if (hsBundle != null && hsBundle.getObject(HttpManager.KEY_USER_INFO) instanceof LoginUserBean.UserInfoBean) {
+                mSettingsPage.showUserInfo((LoginUserBean.UserInfoBean) hsBundle.getObject(HttpManager.KEY_USER_INFO));
+            } else {
+                mSettingsPage.refreshUserInfo();
+            }
+        } else if (NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME.equals(s)) {
+            refreshData();
         }
     }
 
@@ -990,18 +1277,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         final TabItem tabItem = mTabItems.get(position);
         switch (tabItem.getId()) {
             case TabItem.TAB_MAIN:
-                if (mRecyclerView == null) {
+                if (mMainPage == null) {
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
-                    initRecyclerView((RecyclerView) frame);
+                    mMainPage = (RelativeLayout) frame;
+                    initNetworkErrorView(frame);
+                    initRefreshView(frame.findViewById(R.id.refresh_layout));
+                    initRecyclerView(frame.findViewById(R.id.recycler_view));
                 } else {
-                    frame = mRecyclerView;
+                    frame = mMainPage;
                 }
                 break;
 
             case TabItem.TAB_SETTINGS:
                 if (!mSettingsPage.isInit()) {
                     frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
-                    mSettingsPage.initPage(frame);
+                    mSettingsPage.initPage(frame, this);
                 } else {
                     frame = mSettingsPage.getRootView();
                 }
@@ -1018,6 +1308,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mRingtoneFrame = new RingtonePageView(this);
                 }
                 frame = mRingtoneFrame;
+                break;
+            case TabItem.TAB_WALLPAPER:
+                if (mWallpaper == null) {
+                    mWallpaper = getLayoutInflater().inflate(R.layout.activity_customize, null, false);
+                    CustomizeContentView customizeContentView = mWallpaper.findViewById(R.id.customize_content);
+                    customizeContentView.setChildSelected(0);
+                }
+                frame = mWallpaper;
                 break;
             case TabItem.TAB_CASH:
                 if (showTabCashCenter) {
@@ -1072,7 +1370,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else {
                     if (!mSettingsPage.isInit()) {
                         frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
-                        mSettingsPage.initPage(frame);
+                        mSettingsPage.initPage(frame, this);
                     } else {
                         frame = mSettingsPage.getRootView();
                     }

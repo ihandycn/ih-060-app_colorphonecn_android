@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.uploadview.UploadVideoView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/upload_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableScrollContentWhenLoaded="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/upload_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <TextView
+        android:id="@+id/upload_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/upload_view_delete_button_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="88dp"
+        android:paddingRight="88dp"
+        android:text="@string/delete"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/empty_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_emptypage" />
+
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/upload_page_empty_text"
+            android:textColor="#4b467a"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</com.honeycomb.colorphone.uploadview.UploadVideoView>

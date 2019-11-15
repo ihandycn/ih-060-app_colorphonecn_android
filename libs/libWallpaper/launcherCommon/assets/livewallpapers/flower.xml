@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="parallax_3d_3.glsl">
+        <image path="flower/1.png" />
+        <image path="flower/2.png" />
+        <image path="flower/3.png" />
+    </shader>
+
+    <background
+        emissionRate="10"
+        sourceFromX="0.5"
+        sourceFromY="0.5"
+        sourceToX="0.5"
+        sourceToY="0.5"
+        velocityDeviationX="3000.0"
+        velocityDeviationY="3000.0"
+        initialScale="0.8"
+        initialScaleDeviation="0.2">
+
+        <image path="music/white_circle.png" ratio="1.0"/>
+    </background>
+</live-wallpaper>

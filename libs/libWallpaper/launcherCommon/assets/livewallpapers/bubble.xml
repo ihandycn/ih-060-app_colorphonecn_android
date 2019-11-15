@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_static.glsl">
+        <image path="bubble/background.png"/>
+    </shader>
+
+    <particles>
+        <background
+            alphaInterpolator="InThenOut"
+            blendMode="770"
+            clickable="true"
+            destinationToY="0.25"
+            destinationToYDeviation="0.25"
+            emissionRate="2"
+            initialScale="0.8"
+            initialScaleDeviation="0.2"
+            scaleInterpolator="LargeThenSmall"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.02"
+            sourceFromX="0.01"
+            sourceFromY="0.75"
+            sourceFromYDeviation="0.25"
+            sourceToX="0.99"
+            velocityDeviationY="100"
+            velocityY="-250">
+
+            <image path="bubble/bubble.png" ratio="1.0"/>
+        </background>
+
+        <background
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            destinationToY="0.5"
+            destinationToYDeviation="0.2"
+            emissionRate="4"
+            initialScale="0.7"
+            initialScaleDeviation="0.2"
+            scaleInterpolator="LargeThenSmall"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01"
+            sourceFromX="0"
+            sourceFromY="0.7"
+            sourceToX="1.0"
+            sourceToY="0.3"
+            velocityDeviationY="100"
+            velocityY="-250">
+
+            <image path="bubble/light_1.png" ratio="1.0"/>
+        </background>
+
+        <!-- Particles emitted from the tree -->
+        <background
+            alphaInterpolator="CubicEaseInSlow"
+            blendMode="770"
+            destinationToY="0"
+            emissionRate="30"
+            initialScale="0.3"
+            initialScaleDeviation="0.2"
+            scaleInterpolator="LargeThenSmall"
+            scaleVelocity="-0.02"
+            scaleVelocityDeviation="0.01"
+            sourceFromX="0"
+            sourceFromY="0.5"
+            sourceFromYDeviation="0.5"
+            sourceToX="1.0"
+            velocityDeviationY="100"
+            velocityY="-250">
+
+            <image path="bubble/light_2.png" ratio="1.0"/>
+        </background>
+
+        <click
+            alphaInterpolator="BombOut"
+            initialRotation="360"
+            initialRotationDeviation="180"
+            initialScale="1.05"
+            initialScaleDeviation="0.25"
+            scaleInterpolator="Bomb"
+            ttl="200">
+
+            <image path="bubble/bubble_broken.png" ratio="1.0"/>
+        </click>
+    </particles>
+</live-wallpaper>

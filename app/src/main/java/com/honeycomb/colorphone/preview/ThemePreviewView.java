@@ -83,6 +83,7 @@ import com.honeycomb.colorphone.preview.transition.TransitionActionLayout;
 import com.honeycomb.colorphone.preview.transition.TransitionFadeView;
 import com.honeycomb.colorphone.preview.transition.TransitionNavView;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
@@ -109,7 +110,11 @@ import hugo.weaving.DebugLog;
 
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_PUBLISH_DOWNLOAD;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.DOWNLOADING_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.INVALID_MODE;
@@ -177,8 +182,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ImageView previewImage;
     private Theme mTheme;
-    private Type mThemeType;
     private View dimCover;
+    private String mFrom;
 
     private ThemeStateManager themeStateManager;
 
@@ -391,18 +396,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(ThemePreviewActivity activity, Theme theme, int position) {
+    public void init(ThemePreviewActivity activity, String from, Theme theme, int position) {
         mActivity = activity;
         mTheme = theme;
         mPosition = position;
-        ArrayList<Type> types = Type.values();
-        for (Type t : types) {
-            if (t.getValue() == mTheme.getId()) {
-                mThemeType = t;
-                break;
-            }
-        }
-
+        mFrom = from;
         activity.getLayoutInflater().inflate(R.layout.page_theme_preview, this, true);
 
         onCreate();
@@ -462,10 +460,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewWindow.setAnimationVisible(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
         mCallButtonView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
-        mCallButtonView.setTheme(mThemeType);
+        mCallButtonView.setTheme(mTheme);
         mCallButtonView.setAutoRun(false);
         mTransitionCallView.addTranstionView(new TransitionFadeView(mCallButtonView, CHANGE_MODE_DURATION));
-        updateThemePreviewLayout(mThemeType);
+        updateThemePreviewLayout(mTheme);
 
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
 
@@ -499,8 +497,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         mThemeLikeCount = findViewById(R.id.card_like_count_txt);
-        mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
+        if (mTheme.getDownload() > 0) {
+            mThemeLikeCount.setVisibility(VISIBLE);
+            mThemeLikeAnim.setVisibility(VISIBLE);
+        } else {
+            mThemeLikeCount.setVisibility(INVISIBLE);
+            mThemeLikeAnim.setVisibility(INVISIBLE);
+        }
+        mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         if (mTheme.isLike()) {
             mThemeLikeAnim.setProgress(1f);
         } else {
@@ -739,10 +744,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
+        ThemeApplyManager.getInstance().addAppliedTheme(mTheme.toPrefString());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+        if ("upload".equals(mFrom)) {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_UPLOAD_SELECT, bundle);
+        } else if ("publish".equals(mFrom)) {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_PUBLISH_SELECT, bundle);
+        } else {
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+        }
 
         Analytics.logEvent("ColorPhone_Set_Successed",
                 "SetType", "SetForAll",
@@ -759,7 +771,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
         GuideSetDefaultActivity.start(mActivity, false);
-        
+
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
         if (ConfigSettings.showAdOnApplyTheme()) {
@@ -997,6 +1009,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     /**
      * Navation back view & rigtone view
+     *
      * @param anim
      */
     private void fadeInActionView(boolean anim) {
@@ -1006,6 +1019,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     /**
      * Navation back view & rigtone view
+     *
      * @param anim
      */
     private void fadeOutActionView(boolean anim) {
@@ -1076,7 +1090,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (!mThemeType.isMedia()) {
+            if (!mTheme.isMedia()) {
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
@@ -1171,7 +1185,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeReady) {
             previewWindow.setAnimationVisible(VISIBLE);
-            previewWindow.playAnimation(mThemeType);
+            previewWindow.playAnimation(mTheme);
             mCallButtonView.doAnimation();
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.refreshMuteStatus();
@@ -1263,9 +1277,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (!mTheme.isLocked()) {
             HSBundle bundle = new HSBundle();
             bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+            if ("upload".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_UPLOAD_DOWNLOAD, bundle);
+            } else if ("publish".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_PUBLISH_DOWNLOAD, bundle);
+            } else {
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+            }
         }
-
 
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
     }
@@ -1380,7 +1399,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // Notify others
             HSBundle bundle = new HSBundle();
             bundle.putInt("position", position);
-            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
+            if ("upload".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_UPLOAD_POSITION, bundle);
+            } else if ("publish".equals(mFrom)) {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_PUBLISH_POSITION, bundle);
+            } else {
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
+            }
         }
         triggerPageChangeWhenIdle = true;
     }
@@ -1569,7 +1594,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         /**
-         *  Hide
+         * Hide
+         *
          * @param clean release resource if need
          */
         public void hide(boolean clean) {
@@ -1767,6 +1793,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                     break;
                 case R.id.ringtone_apply_change:
+                    if ("upload".equals(mFrom)) {
+                        Analytics.logEvent("MyUploads_CallFlash_Set");
+                    }
+                    Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
                     Analytics.logEvent("Ringtone_Video_Set_Clicked");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
@@ -1791,6 +1821,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
 
                     hideRingtoneSettings();
+                    if (mApplyForAll) {
+                        // Ringtone enabled
+                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
+                        onThemeApply();
+                    } else {
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        setAsRingtone(true, false);
+                        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+
+                    }
                     setRingtone();
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
@@ -1799,6 +1840,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     break;
                 case R.id.ringtone_apply_keep:
+                    if ("upload".equals(mFrom)) {
+                        Analytics.logEvent("MyUploads_CallFlash_Set");
+                    }
                     Analytics.logEvent("Ringtone_Default_Set_Success", "ThemeName", mTheme.getName());
 
                     hideRingtoneSettings();
@@ -1950,6 +1994,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setVisibility(VISIBLE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
         }
+
         private void unFoldView() {
 
             int startCoordinateDefault = Dimensions.pxFromDp(110);

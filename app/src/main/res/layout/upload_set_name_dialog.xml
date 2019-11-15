@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_60_transparent"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:id="@+id/bg"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        >
+
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/color_phone_name"
+            android:textColor="#2a2a2a"
+            android:textSize="20sp"
+            android:layout_marginTop="33.7dp"
+            app:typeface="@string/custom_font_medium" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="232dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="49dp"
+            android:hint="@string/please_input_name"
+            android:textColorHint="#949494"
+            android:textColor="#000"
+            android:theme="@style/MyEditText"
+            android:textSize="16sp" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/ok_btn"
+            android:layout_width="240dp"
+            android:layout_height="42dp"
+            android:layout_below="@+id/edit_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="29.3dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="14.7sp"
+            android:text="@string/upload_ok" />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="7.7dp"
+            android:padding="9dp"
+            android:background="@drawable/bg_round_material_compat_black"
+            android:src="@drawable/icon_rename_close"/>
+
+
+    </RelativeLayout>
+</RelativeLayout>

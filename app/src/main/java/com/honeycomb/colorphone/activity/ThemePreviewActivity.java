@@ -28,11 +28,13 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.PreviewAdManager;
 import com.honeycomb.colorphone.preview.ThemeAdView;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
@@ -41,6 +43,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
@@ -53,13 +56,18 @@ import java.util.List;
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
+    public static final String NOTIFY_THEME_UPLOAD_SELECT = "notify_theme_upload_select";
+    public static final String NOTIFY_THEME_PUBLISH_SELECT = "notify_theme_publish_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
+    public static final String NOTIFY_THEME_UPLOAD_DOWNLOAD = "notify_theme_upload_download";
+    public static final String NOTIFY_THEME_PUBLISH_DOWNLOAD = "notify_theme_publish_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
     public static final String FROM_MAIN = "notify_theme_context_key";
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
 
     private Theme mTheme;
+    private String from;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
     private ThemePagerAdapter mAdapter;
@@ -79,12 +87,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         start(context, position, from, null);
     }
 
-    private static void start(Context context, int position, String from, Bundle options) {
+    public static void start(Context context, int position, String from, Bundle options) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
         starter.putExtra("from", from);
         if (context instanceof Activity) {
-            ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+            ((Activity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
 
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -105,10 +113,24 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemes.addAll(getThemes());
-        mSavedState = savedInstanceState;
         int pos = getIntent().getIntExtra("position", 0);
-        String from = getIntent().getStringExtra("from");
+        from = getIntent().getStringExtra("from");
+        if ("upload".equals(from)) {
+            mThemes.clear();
+            mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
+        } else if ("publish".equals(from)) {
+            mThemes.clear();
+            mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
+        } else {
+            ThemeList.getInstance().fillData(mThemes);
+        }
+        mSavedState = savedInstanceState;
+
+        if (mThemes.size() <= pos) {
+            finish();
+            return;
+        }
+
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
@@ -172,6 +194,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setCurrentItem(pos);
         //mViewPager.setCanScroll(false);
 
+        mViewPager.postDelayed(() -> updateData(pos), 500);
+
         // Window transition
         mediaSharedElementCallback = new MediaSharedElementCallback();
         ActivityCompat.setEnterSharedElementCallback(this, mediaSharedElementCallback);
@@ -183,6 +207,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
 
             List<Integer> shouldShowAdIndex = new ArrayList<>();
+
             @Override
             public void onPageSelected(int position) {
                 if (lastPos != -1 && isShowThemeFullAd(position + position - lastPos) && mAdapter != null) {
@@ -214,6 +239,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     Analytics.logAdViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
                     shouldShowAdIndex.remove(Integer.valueOf(position));
                 }
+                updateData(position);
             }
 
             @Override
@@ -253,12 +279,79 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
-                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
+                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(), false);
             }
         });
 
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
+    }
+
+    boolean isUpdate = false;
+
+    private void updateData(int position) {
+        if (position > mAdapter.getCount() - 4) {
+            if (isUpdate) {
+                return;
+            }
+            isUpdate = true;
+            if ("upload".equals(from)) {
+                ThemeList.getInstance().requestThemeForUserUpload(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
+
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData) {
+                            mThemes.clear();
+                            mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_UPLOAD);
+                        }
+                    }
+                });
+            } else if ("publish".equals(from)) {
+                ThemeList.getInstance().requestThemeForUserPublish(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
+
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData) {
+                            mThemes.clear();
+                            mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_USER_PUBLISH);
+                        }
+                    }
+                });
+            } else {
+                ThemeList.getInstance().requestThemeForMainFrame(false, new ThemeUpdateListener() {
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        isUpdate = false;
+                    }
+
+                    @Override
+                    public void onSuccess(boolean isHasData) {
+                        isUpdate = false;
+                        if (isHasData) {
+                            ThemeList.getInstance().updateThemesTotally();
+                            ThemeList.getInstance().fillData(mThemes);
+                            mAdapter.notifyDataSetChanged();
+                            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME);
+                        }
+                    }
+                });
+            }
+        }
+
     }
 
     protected List<Theme> getThemes() {
@@ -327,7 +420,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 previewView.dismissRingtoneSettingPage();
                 intercept = true;
             }
-            if (previewView.isThemeSettingShow()){
+            if (previewView.isThemeSettingShow()) {
                 previewView.returnThemeSettingPage();
                 intercept = true;
             }
@@ -387,6 +480,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private class ThemePagerAdapter extends PagerAdapter {
         private int adCount = 0;
+
         public void addAdView() {
             adCount++;
         }
@@ -415,7 +509,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
                 ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-                controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position);
+                controller.init(ThemePreviewActivity.this, from, mThemes.get(themeIndex), position);
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
                     if (mSavedState != null) {

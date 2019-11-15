@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="fireworks/background_1.jpg" />
+        <image path="fireworks/background_2.jpg" />
+    </shader>
+
+    <particles>
+
+        <touch
+            alphaInterpolator="InThenOut"
+            emissionRate="20"
+            velocityX="0.0"
+            velocityDeviationX="200"
+            velocityY="-150"
+            velocityDeviationY="-100"
+            initialRotationDeviation="30"
+            initialScale="0.7"
+            initialScaleDeviation="0.33">
+
+            <image path="fireworks/gesture.png" ratio="1.0"/>
+        </touch>
+    </particles>
+</live-wallpaper>

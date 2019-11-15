@@ -128,7 +128,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int adapterPos = themePositionToAdapterPosition(pos);
                     RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
 
-                    if (holder instanceof  ThemeCardViewHolder) {
+                    if (holder instanceof ThemeCardViewHolder) {
                         ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
                         cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
                         if (theme.isLike()) {
@@ -138,6 +138,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         }
                     }
 
+                }
+            } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
+                //user selected theme on the upload page, so delete current theme tip of home page
+                if (data != null && data.size() > 0) {
+                    int prePos = -1;
+                    for (int i = 0; i < data.size(); i++) {
+                        Theme t = data.get(i);
+                        if (t.isSelected()) {
+                            prePos = i;
+                            break;
+                        }
+                    }
+                    if (prePos != -1) {
+                        Theme t = data.get(prePos);
+                        t.setSelected(false);
+                        notifyItemSelected(prePos, t);
+                    }
                 }
             }
         }
@@ -225,6 +242,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.addOnScrollListener(new WatchedScrollListener());
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, observer);
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
@@ -374,7 +393,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(activity,
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
-                            );
+                    );
 
             ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
         }
@@ -395,7 +414,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private boolean selectTheme(final int pos) {
-        int prePos = 0;
+        int prePos = -1;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
             Theme t = data.get(i);
@@ -408,9 +427,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (prePos == pos) {
             return false;
         } else {
-            Theme t = data.get(prePos);
-            t.setSelected(false);
-            notifyItemSelected(prePos, t);
+            if (prePos != -1) {
+                Theme t = data.get(prePos);
+                t.setSelected(false);
+                notifyItemSelected(prePos, t);
+            }
         }
         // Reset current.
         Theme selectedTheme = data.get(pos);
@@ -472,7 +493,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 curTheme.setPendingSelected(true);
             }
 
-            if ( curTheme.isPendingSelected()) {
+            if (curTheme.isPendingSelected()) {
                 curTheme.setSelected(true);
                 curTheme.setPendingSelected(false);
             }
@@ -630,7 +651,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             public void switchToReadyState(boolean ready, boolean isSelected) {
 
-                boolean showSelected = ready && isSelected ;
+                boolean showSelected = ready && isSelected;
                 if (showSelected) {
                     mThemeSelected.setVisibility(VISIBLE);
                 }

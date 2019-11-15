@@ -8,10 +8,13 @@ import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.http.bean.AllThemeBean;
+import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -24,7 +27,7 @@ public class Theme extends Type {
     public static final String CONFIG_UPLOADER = "Nickname";
 
     private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
-    private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
+    private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX = "prefs_theme_lock_id_prefix";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
 
@@ -39,6 +42,9 @@ public class Theme extends Type {
     // (e.g Theme file is downloading or download fail)
     private boolean pendingSelected;
 
+    private boolean isDeleteSelect = false;
+    private static boolean isSetDefaultTheme = true;
+
     private String ringtoneUrl;
     private String ringtonePath;
 
@@ -49,7 +55,13 @@ public class Theme extends Type {
 
     private String uploaderName;
 
+    private static Theme sFirstTheme;
+
     public static int RANDOM_THEME = 10000;
+
+    public static Theme getFirstTheme() {
+        return sFirstTheme;
+    }
 
     public long getDownload() {
         return download;
@@ -57,6 +69,14 @@ public class Theme extends Type {
 
     public void setDownload(long download) {
         this.download = download;
+    }
+
+    public boolean isDeleteSelected() {
+        return isDeleteSelect;
+    }
+
+    public void setDeleteSelected(boolean selected) {
+        isDeleteSelect = selected;
     }
 
     public boolean isSelected() {
@@ -211,7 +231,7 @@ public class Theme extends Type {
         boolean userUnLock = file.getBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), false);
         if (userUnLock) {
             isLocked = false;
-        } else if (!locked){
+        } else if (!locked) {
             isLocked = false;
             file.putBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), true);
         } else {
@@ -243,6 +263,185 @@ public class Theme extends Type {
 
     public boolean isPendingSelected() {
         return pendingSelected;
+    }
+
+    public static ArrayList<Type> transformData(int beforeDataSize, AllThemeBean data) {
+        ArrayList<Type> dataList = new ArrayList<>();
+        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
+            Theme theme = new Theme();
+            theme.setIndex(beforeDataSize + dataList.size());
+            theme.setId(bean.getShow_id());
+            theme.setIdName(bean.getId_name());
+            theme.setResType(bean.getRes_type());
+            theme.setItemIcon(bean.getIcon());
+            theme.setName(bean.getName());
+            theme.setAcceptIcon(bean.getIcon_accept());
+            theme.setRejectIcon(bean.getIcon_reject());
+            theme.setPreviewImage(bean.getPreview_image());
+            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
+            theme.setMp4Url(bean.getMp4());
+            theme.setGifUrl(bean.getGif());
+            theme.setHot(bean.isHot());
+            theme.setSuggestMediaType(Type.MEDIA_MP4);
+            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
+            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
+            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
+            theme.setDownload(bean.getDownload_num());
+            theme.setRingtoneUrl(bean.getRingtone());
+            theme.setUploaderName(bean.getUser_name());
+            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
+            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
+            theme.setSpecialTopic(false);
+            theme.setAvatar(R.drawable.theme_preview_avatar_default);
+            theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
+
+            if (isSetDefaultTheme) {
+                isSetDefaultTheme = false;
+                sFirstTheme = theme;
+            }
+
+            dataList.add(theme);
+        }
+
+        return dataList;
+    }
+
+    public static ArrayList<Theme> transformData(AllUserThemeBean bean) {
+        ArrayList<Theme> dataList = new ArrayList<>();
+        if (bean.getShow_list() != null && bean.getShow_list().size() > 0) {
+            for (AllUserThemeBean.ShowListBean item : bean.getShow_list()) {
+                Theme theme = new Theme();
+                theme.setIndex(dataList.size());
+                theme.setId(item.getCustomize_show_id());
+                theme.setIdName(item.getFile_name());
+                theme.setResType("url");
+                theme.setItemIcon("");
+                theme.setName(item.getFile_name());
+                theme.setAcceptIcon("http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png");
+                theme.setRejectIcon("http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png");
+                theme.setPreviewImage(item.getImage_url());
+                theme.setThemeGuideImage("");
+                theme.setMp4Url(item.getVideo_url());
+                theme.setGifUrl("");
+                theme.setHot(false);
+                theme.setSuggestMediaType(Type.MEDIA_MP4);
+                theme.setNotificationBigPictureUrl("");
+                theme.setNotificationLargeIconUrl("");
+                theme.setNotificationEnabled(false);
+                theme.setDownload(0);
+                theme.setRingtoneUrl(item.getAudio_url());
+                theme.setUploaderName("");
+                theme.setLocked(false);
+                theme.setCanDownload(true);
+                theme.setSpecialTopic(false);
+                theme.setAvatar(R.drawable.theme_preview_avatar_default);
+                theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
+
+                dataList.add(theme);
+            }
+        }
+        return dataList;
+    }
+
+    public static final int THEME_DEFAULT_LENGTH = 25;
+
+    public String toPrefString() {
+        return getIndex() + SEPARATOR +
+                getId() + SEPARATOR +
+                getIdName() + SEPARATOR +
+                getResType() + SEPARATOR +
+                getItemIcon() + SEPARATOR +
+                getName() + SEPARATOR +
+                getAcceptIcon() + SEPARATOR +
+                getRejectIcon() + SEPARATOR +
+                getPreviewImage() + SEPARATOR +
+                getThemeGuideImage() + SEPARATOR +
+                getMp4Url() + SEPARATOR +
+                getGifUrl() + SEPARATOR +
+                (isHot() ? "true" : "false") + SEPARATOR +
+                getSuggestMediaType() + SEPARATOR +
+                getNotificationBigPictureUrl() + SEPARATOR +
+                getNotificationLargeIconUrl() + SEPARATOR +
+                (isNotificationEnabled() ? "true" : "false") + SEPARATOR +
+                getDownload() + SEPARATOR +
+                getRingtoneUrl() + SEPARATOR +
+                getUploaderName() + SEPARATOR +
+                (isLocked() ? "true" : "false") + SEPARATOR +
+                (canBeDownloaded() ? "true" : "false") + SEPARATOR +
+                (isSpecialTopic() ? "true" : "false") + SEPARATOR +
+                getAvatar() + SEPARATOR +
+                getAvatarName();
+    }
+
+    public static Theme valueOfPrefString(String prefString) {
+        if (TextUtils.isEmpty(prefString)) {
+            return null;
+        }
+        String[] array = prefString.split(SEPARATOR);
+        if (array.length == THEME_DEFAULT_LENGTH) {
+            return valueOfThemePrefString(array);
+        } else if (array.length == TYPE_DEFAULT_LENGTH) {
+            return valueOfTypePrefString(array);
+        } else {
+            return null;
+        }
+    }
+
+    public static Theme valueOfThemePrefString(String[] array) {
+        try {
+            Theme theme = new Theme();
+            theme.setIndex(Integer.valueOf(array[0]));
+            theme.setId(Integer.valueOf(array[1]));
+            theme.setIdName(array[2]);
+            theme.setResType(array[3]);
+            theme.setItemIcon(array[4]);
+            theme.setName(array[5]);
+            theme.setAcceptIcon(array[6]);
+            theme.setRejectIcon(array[7]);
+            theme.setPreviewImage(array[8]);
+            theme.setThemeGuideImage(array[9]);
+            theme.setMp4Url(array[10]);
+            theme.setGifUrl(array[11]);
+            theme.setHot(array[12].equals("true"));
+            theme.setSuggestMediaType(Integer.valueOf(array[13]));
+            theme.setNotificationBigPictureUrl(array[14]);
+            theme.setNotificationLargeIconUrl(array[15]);
+            theme.setNotificationEnabled(array[16].equals("true"));
+            theme.setDownload(Integer.valueOf(array[17]));
+            theme.setRingtoneUrl(array[18]);
+            theme.setUploaderName(array[19]);
+            theme.setLocked(array[20].equals("true"));
+            theme.setCanDownload(array[21].equals("true"));
+            theme.setSpecialTopic(array[22].equals("true"));
+            theme.setAvatar(Integer.valueOf(array[23]));
+            theme.setAvatarName(array[24]);
+            return theme;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Theme valueOfTypePrefString(String[] array) {
+        try {
+            Theme theme = new Theme();
+            theme.setIndex(Integer.valueOf(array[0]));
+            theme.setId(Integer.valueOf(array[1]));
+            theme.setIdName(array[2]);
+            theme.setResType(array[3]);
+            theme.setItemIcon(array[4]);
+            theme.setName(array[5]);
+            theme.setAcceptIcon(array[6]);
+            theme.setRejectIcon(array[7]);
+            theme.setPreviewImage(array[8]);
+            theme.setThemeGuideImage(array[9]);
+            theme.setMp4Url(array[10]);
+            theme.setGifUrl(array[11]);
+            theme.setHot(array[12].equals("true"));
+            theme.setSuggestMediaType(Integer.valueOf(array[13]));
+            return theme;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

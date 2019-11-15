@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -306,7 +307,7 @@ public class ContactManager {
         try {
             if (select) {
                 // TODO thread safe ?
-                Theme theme = (Theme) com.acb.utils.Utils.getTypeByThemeId(entry.getThemeId());
+                Theme theme = ThemeApplyManager.getInstance().getAppliedThemeByThemeId(entry.getThemeId());
                 RingtoneHelper.setSingleRingtone(theme, String.valueOf(entry.getContactId()));
             } else {
                 RingtoneHelper.setSingleRingtone(null, String.valueOf(entry.getContactId()));

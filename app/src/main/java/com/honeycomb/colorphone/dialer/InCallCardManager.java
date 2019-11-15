@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.dialer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -18,8 +19,16 @@ import android.widget.ViewAnimator;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.StringUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Threads;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class InCallCardManager implements
@@ -29,6 +38,7 @@ public class InCallCardManager implements
         ViewManager {
 
     private TextView mContactView;
+    private TextView mSecondTextView;
     private ViewAnimator bottomTextSwitcher;
     private TextView bottomTextView;
     private Chronometer bottomTimerView;
@@ -39,6 +49,7 @@ public class InCallCardManager implements
     @Override
     public void onViewInit(InCallActivity activity, View mainCallView) {
         mContactView = (TextView) mainCallView.findViewById(R.id.contactgrid_contact_name);
+        mSecondTextView = (TextView) mainCallView.findViewById(R.id.second_line);
         bottomTextSwitcher = mainCallView.findViewById(R.id.contactgrid_bottom_text_switcher);
         bottomTextView = mainCallView.findViewById(R.id.contactgrid_bottom_text);
         bottomTimerView = mainCallView.findViewById(R.id.contactgrid_bottom_timer);
@@ -46,6 +57,7 @@ public class InCallCardManager implements
         Typeface typeface = ConfigProvider.get().getCustomTypeface();
         if (typeface != null) {
             mContactView.setTypeface(typeface);
+            mSecondTextView.setTypeface(typeface);
             bottomTextView.setTypeface(typeface);
             bottomTimerView.setTypeface(typeface);
         }
@@ -109,14 +121,82 @@ public class InCallCardManager implements
 
     private void onLoadContactName(String number, String nameStr) {
         if (mContactView != null) {
-            // TODO format number
-            // Set direction of the name field
             int nameDirection = View.TEXT_DIRECTION_INHERIT;
             if (TextUtils.isEmpty(nameStr)) {
                 nameDirection = View.TEXT_DIRECTION_LTR;
             }
             mContactView.setTextDirection(nameDirection);
             mContactView.setText(TextUtils.isEmpty(nameStr) ? number : nameStr);
+
+            HttpManager.getInstance().getCallerAddressInfo(number, new Callback<ResponseBody>() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    if (mSecondTextView != null) {
+                        if (TextUtils.isEmpty(nameStr)) {
+                            mSecondTextView.setVisibility(View.GONE);
+                        } else {
+                            mSecondTextView.setVisibility(View.VISIBLE);
+                            mSecondTextView.setText(number);
+                        }
+                    }
+
+                    Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
+                }
+
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onSuccess(ResponseBody responseBody) {
+                    if (mSecondTextView != null) {
+                        String string = "";
+                        String address = "";
+                        String province;
+                        String city;
+                        String operator;
+                        try {
+                            string = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (!TextUtils.isEmpty(string)) {
+                            province = StringUtils.getProvince(string);
+                            city = StringUtils.getCity(string);
+                            operator = StringUtils.getOperator(string);
+
+                            if (!TextUtils.isEmpty(province)) {
+                                if (province.equals(city)) {
+                                    province = "";
+                                }
+
+                                address = province + " " + city + " " + operator;
+                            }
+                        }
+
+                        if (TextUtils.isEmpty(nameStr)) {
+                            if (TextUtils.isEmpty(address)) {
+                                mSecondTextView.setVisibility(View.GONE);
+                            } else {
+                                mSecondTextView.setVisibility(View.VISIBLE);
+                                mSecondTextView.setText(address);
+                            }
+                        } else {
+                            mSecondTextView.setVisibility(View.VISIBLE);
+                            if (TextUtils.isEmpty(address)) {
+                                mSecondTextView.setText(number);
+                            } else {
+                                mSecondTextView.setText(number + " " + address);
+                            }
+                        }
+
+                        if (TextUtils.isEmpty(address)) {
+                            Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
+                        } else {
+                            Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "true");
+                        }
+                    } else {
+                        Analytics.logEvent("Dialer_Answering_Page_Location_Details", "withlocation", "false");
+                    }
+                }
+            });
         }
     }
 

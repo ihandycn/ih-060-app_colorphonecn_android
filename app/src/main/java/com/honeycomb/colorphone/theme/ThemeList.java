@@ -13,15 +13,13 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.notification.NotificationConstants;
-import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.util.Utils;
-import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AllThemeBean;
+import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
-import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +41,12 @@ public class ThemeList {
 
     private Theme mThemeNone;
     private final ArrayList<Theme> themes = new ArrayList<>(30);
+
+    private ThemeData mainFrameThemeData;
+    private ThemeDataForUser uploadThemeData;
+    private ThemeDataForUser publishThemeData;
+
+
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
         @Override
@@ -52,7 +56,6 @@ public class ThemeList {
                 iter.next();
                 iter.remove();
                 HSLog.d("THEME", "Test size --, current size = " + themes.size());
-                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 mTestHandler.postDelayed(this, 4000);
             }
 
@@ -65,6 +68,153 @@ public class ThemeList {
 
     public static ThemeList getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * @param isRefresh refresh or loadMore
+     */
+    public void requestThemeForMainFrame(boolean isRefresh, ThemeUpdateListener listener) {
+
+        if (mainFrameThemeData == null) {
+            mainFrameThemeData = new ThemeData();
+        }
+
+        int pageIndex;
+        if (isRefresh) {
+            mainFrameThemeData.clear();
+            pageIndex = mainFrameThemeData.getPageIndex();
+        } else {
+            pageIndex = mainFrameThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getAllThemes(pageIndex, new Callback<AllThemeBean>() {
+
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllThemeBean allThemeBean) {
+                if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
+                    if (mainFrameThemeData != null) {
+                        mainFrameThemeData.setPageIndex(allThemeBean.getPage_index());
+                        if (isRefresh) {
+                            mainFrameThemeData.setThemeList(Theme.transformData(0, allThemeBean));
+                        } else {
+                            mainFrameThemeData.appendTheme(Theme.transformData(mainFrameThemeData.getThemeSize(), allThemeBean));
+                        }
+                    }
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    public void requestThemeForUserUpload(boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (uploadThemeData == null) {
+                uploadThemeData = new ThemeDataForUser();
+            } else {
+                uploadThemeData.clear();
+            }
+            pageIndex = uploadThemeData.getPageIndex();
+        } else {
+            pageIndex = uploadThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getUserUploadedVideos(pageIndex, new Callback<AllUserThemeBean>() {
+
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
+                if (allUserThemeBean != null && allUserThemeBean.getShow_list() != null && !allUserThemeBean.getShow_list().isEmpty()) {
+                    uploadThemeData.setPageIndex(allUserThemeBean.getPage_index());
+                    ArrayList<Theme> dataList = Theme.transformData(allUserThemeBean);
+                    if (isRefresh) {
+                        uploadThemeData.updateData(dataList);
+                    } else {
+                        uploadThemeData.appendData(dataList);
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    public void requestThemeForUserPublish(boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (publishThemeData == null) {
+                publishThemeData = new ThemeDataForUser();
+            } else {
+                publishThemeData.clear();
+            }
+
+            pageIndex = publishThemeData.getPageIndex();
+        } else {
+            pageIndex = publishThemeData.getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getUserPublishedVideos(pageIndex, new Callback<AllUserThemeBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
+                if (allUserThemeBean != null && allUserThemeBean.getShow_list() != null && !allUserThemeBean.getShow_list().isEmpty()) {
+                    publishThemeData.setPageIndex(allUserThemeBean.getPage_index());
+                    ArrayList<Theme> dataList = Theme.transformData(allUserThemeBean);
+                    if (isRefresh) {
+                        publishThemeData.updateData(dataList);
+                    } else {
+                        publishThemeData.appendData(dataList);
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
+    public ArrayList<Theme> getUserPublishTheme() {
+        if (publishThemeData == null) {
+            return new ArrayList<>();
+        }
+        return publishThemeData.getDataList();
+    }
+
+    public void clearPublishData() {
+        if (publishThemeData != null) {
+            publishThemeData.clear();
+        }
+    }
+
+    public ArrayList<Theme> getUserUploadTheme() {
+        if (uploadThemeData == null) {
+            return new ArrayList<>();
+        }
+        return uploadThemeData.getDataList();
+    }
+
+    public void clearUploadData() {
+        if (uploadThemeData != null) {
+            uploadThemeData.clear();
+        }
     }
 
     private void loadRawThemesSync() {
@@ -89,12 +239,6 @@ public class ThemeList {
                 }
                 themes.add((Theme) type);
             }
-        }
-
-        boolean isThemeChanged = isThemeChanged(themes, oldThemes);
-        if (isThemeChanged) {
-            HSLog.d("Theme list changed");
-            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
         }
 
         if (DEBUG_THEME_CHANGE) {
@@ -136,14 +280,14 @@ public class ThemeList {
     }
 
     /**
-     *  Base type of theme info has changed.
+     * Base type of theme info has changed.
      * (Language change,or Remote config that define themes has changed)
-     *
+     * <p>
      * Reload theme info from config file.
      */
     public void updateThemesTotally() {
         synchronized (themes) {
-            Type.updateTypes();
+            //Type.updateTypes();
 
             themes.clear();
             loadRawThemesSync();
@@ -183,30 +327,6 @@ public class ThemeList {
     public List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
-        boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
-        boolean ddd = (selectedThemeId == -1) && (isSpacialUser ? defaultTheme : selectedThemeId == -1);
-//        boolean applyDefaultTheme = (selectedThemeId == -1);
-
-        boolean applyDefaultTheme;
-        if (selectedThemeId == -1) {
-            if (isSpacialUser) {
-                applyDefaultTheme = defaultTheme;
-            } else {
-                applyDefaultTheme = true;
-            }
-        } else {
-            applyDefaultTheme = false;
-        }
-
-        boolean autopilotRandomEnable = Ap.RandomTheme.enable();
-        if (applyDefaultTheme) {
-            selectedThemeId = autopilotRandomEnable ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
-            HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
-            ThemePreviewView.saveThemeApplys(selectedThemeId);
-            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
-        }
-
         final List<Theme> bgThemes = new ArrayList<>(themes());
 
         String[] likeThemes = getThemeLikes();
@@ -233,42 +353,22 @@ public class ThemeList {
             }
         });
 
-        final int idDefault = selectedThemeId;
         if (onApplicationInit) {
             Threads.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
-                    updateThemeTasks(bgThemes, applyDefaultTheme, idDefault);
+                    updateThemeTasks();
                     HSLog.d(TAG, "[Application init] Prepare theme list");
                 }
             });
         } else {
-            updateThemeTasks(bgThemes, applyDefaultTheme, idDefault);
+            updateThemeTasks();
         }
         return bgThemes;
     }
 
     @DebugLog
-    private void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
-        Theme needPreloadTheme  = null;
-        // Task update (if new theme added here, we update download task)
-        for (Theme theme : bgThemes) {
-            if (applyDefaultTheme && theme.getId() == idDefault) {
-                needPreloadTheme = theme;
-            }
-        }
-
-        // Prepare default theme
-        if (needPreloadTheme != null
-                && idDefault != Utils.localThemeId) {
-            final Theme targetTheme = needPreloadTheme;
-            Threads.postOnMainThread(new Runnable() {
-                @Override
-                public void run() {
-                    prepareThemeMediaFile(targetTheme);
-                }
-            });
-        }
+    private void updateThemeTasks() {
 
         // Prepare next random theme
         Threads.postOnMainThread(new Runnable() {

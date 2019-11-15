@@ -1,96 +1,96 @@
 stages:
-- build
-- cleanup_build
+  - build
+  - cleanup_build
 
 build_toutiao:
   stage: build
   script:
-  - commit_msg=$(git log --format=%B -n 1)
-  - echo $commit_msg
-  - ./gradlew clean
-  - mkdir outputs
-  - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
-  -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneJinritoutiaoDebug
-  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphoneJinritoutiao/debug/*.apk outputs/
-  - fi
-  - if [[ $commit_msg == *"[BuildToutiao]"* ]]; then
-  -   git submodule update --init
-  -   ./gradlew clean
-  -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
-  -   ./gradlew :app:clean :app:assembleColorphoneJinritoutiaoRelease --stacktrace
-  -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
-  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
-  -   cp app/build/outputs/mapping/colorphoneJinritoutiao/release/mapping.txt outputs/
-  -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/HSRemoteConfig.sp outputs/
-  -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/alerts.sp outputs/
-  -   cp app/build/intermediates/symbols/colorphoneJinritoutiao/release/R.txt outputs/
-  - fi
+    - commit_msg=$(git log --format=%B -n 1)
+    - echo $commit_msg
+    - ./gradlew clean
+    - mkdir outputs
+    - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
+    - git submodule update --init
+    - ./gradlew :app:assembleColorphoneJinritoutiaoDebug
+    - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
+    - cp app/build/outputs/apk/colorphoneJinritoutiao/debug/*.apk outputs/
+    - fi
+    - if [[ $commit_msg == *"[BuildToutiao]"* ]]; then
+    - git submodule update --init
+    - ./gradlew clean
+    - python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+    - ./gradlew :app:clean :app:assembleColorphoneJinritoutiaoRelease --stacktrace
+    - python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
+    - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
+    - cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
+    - cp app/build/outputs/mapping/colorphoneJinritoutiao/release/mapping.txt outputs/
+    - cp app/build/intermediates/merged_assets/colorphoneJinritoutiaoRelease/mergeColorphoneJinritoutiaoReleaseAssets/out/HSRemoteConfig.sp outputs/
+    - cp app/build/intermediates/merged_assets/colorphoneJinritoutiaoRelease/mergeColorphoneJinritoutiaoReleaseAssets/out/alerts.sp outputs/
+    - cp app/build/intermediates/symbols/colorphoneJinritoutiao/release/R.txt outputs/
+    - fi
   only:
     variables:
-    - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
+      - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
   artifacts:
     paths:
-    - outputs/build-dependencies.txt
-    - outputs/*.apk
-    - outputs/mapping.txt
-    - outputs/HSRemoteConfig.sp
-    - outputs/alerts.sp
-    - outputs/R.txt
+      - outputs/build-dependencies.txt
+      - outputs/*.apk
+      - outputs/mapping.txt
+      - outputs/HSRemoteConfig.sp
+      - outputs/alerts.sp
+      - outputs/R.txt
 
     expire_in: 1 week
   tags:
-  - android
+    - android
 
 build_yingyongbao:
   stage: build
   script:
-  - commit_msg=$(git log --format=%B -n 1)
-  - echo $commit_msg
-  - ./gradlew clean
-  - mkdir outputs
-  - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
-  -   git submodule update --init
-  -   ./gradlew clean
-  -   python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
-  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
-  -   python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
-  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
-  - fi
-  - if [[ $commit_msg == *"[BuildYingyongbao]"* ]]; then
-  -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneYingyongbaoRelease
-  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphoneYingyongbao/release/*.apk outputs/
-  -   cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
-  -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/HSRemoteConfig.sp outputs/
-  -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/alerts.sp outputs/
-  -   cp app/build/intermediates/symbols/colorphoneYingyongbao/release/R.txt outputs/
-  - fi
+    - commit_msg=$(git log --format=%B -n 1)
+    - echo $commit_msg
+    - ./gradlew clean
+    - mkdir outputs
+    - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
+    - git submodule update --init
+    - ./gradlew clean
+    - python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+    - ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
+    - python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
+    - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
+    - cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
+    - fi
+    - if [[ $commit_msg == *"[BuildYingyongbao]"* ]]; then
+    - git submodule update --init
+    - ./gradlew :app:assembleColorphoneYingyongbaoRelease
+    - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
+    - cp app/build/outputs/apk/colorphoneYingyongbao/release/*.apk outputs/
+    - cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
+    - cp app/build/intermediates/assets/colorphoneYingyongbao/release/HSRemoteConfig.sp outputs/
+    - cp app/build/intermediates/assets/colorphoneYingyongbao/release/alerts.sp outputs/
+    - cp app/build/intermediates/symbols/colorphoneYingyongbao/release/R.txt outputs/
+    - fi
   only:
     variables:
-    - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
+      - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
   artifacts:
     paths:
-    - outputs/build-dependencies.txt
-    - outputs/*.apk
-    - outputs/mapping.txt
-    - outputs/HSRemoteConfig.sp
-    - outputs/alerts.sp
-    - outputs/R.txt
+      - outputs/build-dependencies.txt
+      - outputs/*.apk
+      - outputs/mapping.txt
+      - outputs/HSRemoteConfig.sp
+      - outputs/alerts.sp
+      - outputs/R.txt
 
     expire_in: 1 week
   tags:
-  - android
+    - android
 
 cleanup_build_job:
-    stage: cleanup_build
-    script:
+  stage: cleanup_build
+  script:
     - ./gradlew clean
     - rm -r outputs
-    when: on_failure
-    tags:
+  when: on_failure
+  tags:
     - android

@@ -29,6 +29,7 @@ public class TestActivity extends AppCompatActivity {
     EditText editText;
     LottieAnimationView mLottieAnimationView;
     InCallWindow mInCallWindow;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,8 @@ public class TestActivity extends AppCompatActivity {
 
     public void startCallRingingWindow(View view) {
         String number = editText.getText().toString().trim();
-        mInCallWindow.show(TextUtils.isEmpty(number) ? "8888888" : number);
+        String address = "";
+        mInCallWindow.show(TextUtils.isEmpty(number) ? "8888888" : number, address);
         mHandler.postDelayed(() -> mInCallWindow.endFlashCall(), 8000);
 
     }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_2.glsl">
+        <image path="horse/background_1.png"/>
+        <image path="horse/background_2.png"/>
+    </shader>
+
+    <particles>
+        <background
+            initNum="10"
+            alpha="0.6"
+            alphaDeviation="0.4"
+            alphaInterpolator="SlowOut"
+            blendMode="770"
+            destinationToY="0.5"
+            destinationToYDeviation="0.1"
+            emissionRate="3"
+            initialRotation="360"
+            initialRotationDeviation="180"
+            initialScale="1.0"
+            initialScaleDeviation="0.3"
+            scaleVelocity="-0.03"
+            scaleVelocityDeviation="0.02"
+            sourceFromX="0.01"
+            sourceFromY="1.0"
+            sourceToX="0.99"
+            sourceToY="1"
+            velocityDeviationX="120"
+            velocityDeviationY="60"
+            velocityY="-100">
+        </background>
+
+        <touch
+            emissionRate="35"
+            initialRotationDeviation="60"
+            initialScale="1.1"
+            initialScaleDeviation="0.4"
+            targetVelocityX="24.0"
+            targetVelocityY="1000.0"
+            velocityDeviationX="150"
+            velocityDeviationY="150"
+            velocityX="20.0"
+            velocityY="300">
+        </touch>
+
+        <image path="horse/gesture_1.png" ratio="1.0"/>
+        <image path="horse/gesture_2.png" ratio="1.0"/>
+    </particles>
+</live-wallpaper>

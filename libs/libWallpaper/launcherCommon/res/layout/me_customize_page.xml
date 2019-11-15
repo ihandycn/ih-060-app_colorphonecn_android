@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.wallpaper.customize.view.MineCustomizePage xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/customize_toolbar_elevation"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        tools:ignore="UnusedAttribute">
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/local_customize_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/customize_toolbar_height"
+            android:layoutDirection="ltr"
+            android:text="我的"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/material_text_black_primary"
+            android:textAppearance="@style/TabLayoutTextAppearance.Customize"
+            tools:ignore="PrivateResource,UnusedAttribute"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.CustomOverScroll">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+            <!-- 我的壁纸 -->
+            <RelativeLayout
+                android:id="@+id/my_wallpaper_cell"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mine_page_item_height"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/mine_my_wallpaper"/>
+
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
+                    style="@style/SettingsItem.SingleLine"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:text="我的壁纸"
+                    app:typeface="@string/custom_font_regular"/>
+            </RelativeLayout>
+
+            <!-- 上传 -->
+            <RelativeLayout
+                android:id="@+id/upload_cell"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mine_page_item_height"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/mine_upload"/>
+
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
+                    style="@style/SettingsItem.SingleLine"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:text="@string/upload_wallpaper_button_text"
+                    app:typeface="@string/custom_font_regular"/>
+            </RelativeLayout>
+
+
+            <View
+                style="@style/WideHorizontalDivider"
+                android:layout_gravity="bottom"/>
+
+            <!-- 隐私协议 -->
+            <RelativeLayout
+                android:id="@+id/privacy_policy_cell_cell"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mine_page_item_height"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/mine_privacy_policy"/>
+
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
+                    style="@style/SettingsItem.SingleLine"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:text="@string/privacy_policy_settings_title"
+                    app:typeface="@string/custom_font_regular"/>
+            </RelativeLayout>
+
+            <!-- 服务条款 -->
+            <RelativeLayout
+                android:id="@+id/terms_of_service_cell"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mine_page_item_height"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/mine_terms_of_service"/>
+
+                <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
+                    style="@style/SettingsItem.SingleLine"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:text="@string/terms_of_service_settings_title"
+                    app:typeface="@string/custom_font_regular"/>
+            </RelativeLayout>
+
+            <!-- 更新 -->
+            <RelativeLayout
+                android:id="@+id/update_cell"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mine_page_item_height"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/mine_update"/>
+
+                <View
+                    android:id="@+id/separate_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/separate_line"
+                    android:gravity="left|start"
+                    android:orientation="horizontal">
+
+                    <com.honeycomb.colorphone.wallpaper.view.MarqueeTextView
+                        style="@style/SettingsItem.MultiLineTitle"
+                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="72dp"
+                        android:text="@string/launcher_settings_update"
+                        app:typeface="@string/custom_font_regular"/>
+
+                    <ImageView
+                        android:id="@+id/new_update_available_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/settings_red_badge"/>
+                </LinearLayout>
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/current_version_label"
+                    style="@style/SettingsItem.MultiLineDescription"
+                    android:layout_below="@+id/separate_line"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    app:typeface="@string/custom_font_regular"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</com.honeycomb.colorphone.wallpaper.customize.view.MineCustomizePage>

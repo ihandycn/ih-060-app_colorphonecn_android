@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<live-wallpaper>
+    <shader name="background_switch_3_water_ripple.glsl">
+        <image path="wave/background_1.png" />
+        <image path="wave/background_2.png" />
+        <image path="wave/background_3.png" />
+    </shader>
+</live-wallpaper>

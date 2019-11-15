@@ -34,6 +34,8 @@ import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
+import com.honeycomb.colorphone.wallpaper.EventsDelegate;
+import com.honeycomb.colorphone.wallpaper.Manager;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -341,7 +343,17 @@ public class ColorPhoneApplicationImpl {
         launchTime = System.currentTimeMillis();
 
         HSFeast.getInstance().init(mBaseApplication, null);
+        Manager.getInstance().setDelegate(new EventsDelegate() {
+            @Override
+            public void logEvent(String eventID) {
+                Analytics.logEvent(eventID);
+            }
 
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
+            }
+        });
     }
 
     private void onWorkProcessCreate() {
@@ -404,8 +416,8 @@ public class ColorPhoneApplicationImpl {
         FileDownloader.setupOnApplicationOnCreate(mBaseApplication)
                 .connectionCreator(new FileDownloadUrlConnection.Creator(
                         new FileDownloadUrlConnection.Configuration()
-                .connectTimeout(8000)
-                .readTimeout(4000)))
+                                .connectTimeout(8000)
+                                .readTimeout(4000)))
                 .commit();
 
         Threads.postOnSingleThreadExecutor(new Runnable() {
@@ -544,8 +556,6 @@ public class ColorPhoneApplicationImpl {
         SmsFlashListener.getInstance().start();
 
         logUserLevelDistribution();
-
-        watchLifeTimeAutopilot();
 
         DauChecker.get().start();
         if (mDailyLogger != null) {
@@ -710,17 +720,6 @@ public class ColorPhoneApplicationImpl {
             }
         });
 
-    }
-
-    private void watchLifeTimeAutopilot() {
-        IntentFilter configFinishedFilter = new IntentFilter();
-        configFinishedFilter.addAction(AutopilotConfig.ACTION_USER_INIT_COMPLETE);
-        mBaseApplication.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                ThemeList.getInstance().updateThemes(false);
-            }
-        }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(mBaseApplication), null);
     }
 
     private void copyMediaFromAssertToFile() {
