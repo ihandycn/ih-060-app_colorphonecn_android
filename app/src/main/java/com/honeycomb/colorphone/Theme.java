@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
@@ -43,7 +45,6 @@ public class Theme extends Type {
     private boolean pendingSelected;
 
     private boolean isDeleteSelect = false;
-    private static boolean isSetDefaultTheme = true;
 
     private String ringtoneUrl;
     private String ringtonePath;
@@ -295,8 +296,7 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (isSetDefaultTheme) {
-                isSetDefaultTheme = false;
+            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1) {
                 sFirstTheme = theme;
             }
 
