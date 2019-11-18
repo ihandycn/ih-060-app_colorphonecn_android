@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Theme extends Type {
 
     private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX = "prefs_theme_lock_id_prefix";
+    private static final String PREFS_KEY_THEME_SET_THEME_FOR_FIRST = "set_theme_for_first_request";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
 
@@ -296,8 +298,10 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1) {
+            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 &&
+                    HSPreferenceHelper.getDefault().getBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, true)) {
                 sFirstTheme = theme;
+                HSPreferenceHelper.getDefault().putBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, false);
             }
 
             dataList.add(theme);
