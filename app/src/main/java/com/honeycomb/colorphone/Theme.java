@@ -285,7 +285,7 @@ public class Theme extends Type {
             theme.setMp4Url(bean.getMp4());
             theme.setGifUrl(bean.getGif());
             theme.setHot(bean.isHot());
-            theme.setSuggestMediaType(Type.MEDIA_NONE);
+            theme.setSuggestMediaType(Type.MEDIA_MP4);
             theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
             theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
             theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
