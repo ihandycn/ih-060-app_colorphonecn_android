@@ -911,7 +911,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            if (Theme.getFirstTheme() != null) {
+            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
@@ -937,7 +937,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            if (Theme.getFirstTheme() != null) {
+            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
                 FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
                 if (!Settings.System.canWrite(getBaseContext())) {
                     Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
@@ -985,6 +985,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     /**
      * Only request first launch. (if Enabled and not has permission)
+     *
      * @param reqPermission
      */
     private void requiresPermission(List<String> reqPermission) {
