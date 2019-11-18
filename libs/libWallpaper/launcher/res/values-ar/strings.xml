@@ -140,8 +140,6 @@
     <string name="upload_wallpaper_success">تم الرفع بنجاح</string>
     <string name="wallpaper_network_error">أخطاء في شبكة الاتصال. يرجى المحاولة مرة أخرى.</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">شغّل مفتاح التبديل أعلاه ثم اضغط موافق.\n\nفعّل هذه الخاصية لـ:\n1) تسريع هاتفك بنسبة 80\%%\n2) تنظيف ملفات القمامة\n3) إيقاف التطبيقات التي تستنزف البطارية\n\nفريق تسريع+ حريص على بذل قصارى جهده لتسريع هاتفك ولن يقوم أبداً بجمع أي بيانات شخصية.</string>
-
     <string name="promotion_enable_btn">تمكين</string>
 
 

@@ -35,8 +35,6 @@
     <string name="got_it">알겠습니다.</string>
     <string name="wallpaper_network_error">네트워크 오류. 다시 시도하세요.</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">위의 스위치를 켜고, "네"를 탭하세요.\n\n기능:\n1) 핸드폰 80\%% 부스트\n2) 정크 파일 청소\n3) 배터리 소모 어플 제거 \n\n부스트+ 팀은 핸드폰 속도를 올리는 일에 헌신적이며 결코 개인 데이터를 수집하지 않습니다.</string>
-
 
     <string name="theme_category_foot_text">- 아름다운 테마를 지속적으로 제작 중입니다. -</string>
 

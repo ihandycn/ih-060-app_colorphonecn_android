@@ -137,7 +137,6 @@
     <string name="upload_wallpaper_declaration">โดยการอัปโหลด หมายความว่าคุณยอมรับ ME Launcher</string>
     <string name="upload_wallpaper_success">อัปโหลดสำเร็จ</string>
     <string name="wallpaper_network_error">ข้อผิดพลาดเครือข่าย กรุณาลองอีกครั้ง</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">เปิดสวิตช์ข้างบนนี้ แล้วแตะตกลง\n\nเปิดใช้งานเพื่อ:\n1) เร่งความเร็วโทรศัพท์ 80\%%\n2) ล้างไฟล์ขยะ\n3) ปิดแอปที่สูบแบตเตอรี่\n\nทีมงาน เร่งเครื่อง+ ทุ่มเทให้กับการเร่งความเร็วโทรศัพท์คุณ และจะไม่เก็บข้อมูลส่วนตัวใด ๆ </string>
 
     <string name="promotion_enable_btn">เปิดใช้งาน</string>
 

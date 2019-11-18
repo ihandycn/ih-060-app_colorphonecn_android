@@ -33,7 +33,6 @@
     <string name="news_load_more_re_try">Bấm để Thử lại</string>
     <string name="got_it">ĐÃ HIỂU</string>
     <string name="wallpaper_network_error">Có lỗi mạng, xin vui lòng thử lại.</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Bật chế độ chuyển đổi sau đó bấm OK.\n\nKích hoạt để:\n1) Tăng tốc điện thoại thêm 80\%%\n2) Làm sạch tập tin rác\n3) Dừng các ứng dụng gây ngốn pin \n\nnhóm Boost+ đang quyết tâm hẹn ăn trưa với bạn và không bao giờ thu thập bất kỳ thông tin nào</string>
 
     <string name="theme_category_foot_text">- Chúng tôi đang thường xuyên tạo thêm những chủ đề đẹp. -</string>
 
