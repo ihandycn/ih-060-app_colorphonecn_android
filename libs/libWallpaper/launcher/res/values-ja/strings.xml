@@ -54,8 +54,6 @@
 
     <string name="online_3d_wallpaper_foot_text">- 常により美しい3Dの壁紙を作り続けています。-</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">上記のスイッチをオンにして、OKをタップします。\n\n有効：\n1）ブースト電話80\%%\n2）迷惑メールを消去する\n3）バッテリーを消耗するアプリを削除する\n\n Boost+チームは携帯電話のスピードアップに専念し、個人情報を収集することはありません。</string>
-
     <string name="launcher_settings_latest_version_detail">最新バージョン: v%1$s</string>
 
     <string name="launcher_settings_current_version_detail">現在のバージョン：v%1$s</string>

@@ -136,7 +136,6 @@
     <string name="upload_wallpaper_declaration">Dengan mengunggahnya, Anda menyetujui ME Launcher\</string>
     <string name="upload_wallpaper_success">Unggahan berhasil</string>
     <string name="wallpaper_network_error">Kesalahan jaringan. Silakan coba lagi.</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Nyalakan saklar di atas, lalu ketuk OK.\n\nMemungkinkan untuk:\n1) Meningkatkan ponsel 80\%%\n2) Membersihkan file sampah\n3) Menghentikan aplikasi yang menguras baterai\n\n tim Boost+ ditugaskan untuk mempercepat ponsel dan tidak mengumpulkan segala data pribadi Anda.</string>
 
     <string name="promotion_enable_btn">AKTIFKAN</string>
 

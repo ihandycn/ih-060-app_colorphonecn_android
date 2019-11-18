@@ -141,7 +141,6 @@
     <string name="upload_wallpaper_declaration">Ao enviar concorda com a política da ME Launcher\’</string>
     <string name="upload_wallpaper_success">Envio bem sucedido</string>
     <string name="wallpaper_network_error">Erros de rede. Por favor, tente novamente.</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Ative o botão acima e depois toque em OK.\n\nAtive para:\n1) Melhorar o telefone 80\%%\n2) Limpar ficheiros de lixo \n3) Interrompa aplicações que gastam bateria \n\nA equipa da Boost+ está dedicada a aumentar a velocidade do seu telefone e nunca recolhe dados pessoais.</string>
 
     <string name="promotion_enable_btn">ATIVAR</string>
 

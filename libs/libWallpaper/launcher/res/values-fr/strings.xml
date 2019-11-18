@@ -35,9 +35,6 @@
     <string name="got_it">D\'accord</string>
     <string name="wallpaper_network_error">Erreur réseau. Veuillez réessayer.</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Activez le curseur ci-dessus, puis touchez OK.\n\nActivez pour :\n1) Booster le téléphone de 80 \%%\n2) Nettoyer les fichiers indésirables\n3) Fermer les applications qui vident la batterie\n\nL\'équipe de Boost+ s\'engage à accélérer votre téléphone et ne collecte jamais de données personnelles.</string>
-
-
     <string name="theme_category_foot_text">- Nous créons constamment de nouveaux thèmes -</string>
 
 

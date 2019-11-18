@@ -101,8 +101,8 @@
 
     <!--Smart Assistant (Recent apps)-->
 
-    <string name="accessibility_service_description">修复受限功能，请打开右上角开关↗ ↗ ↗\n修复完成后，可以正常使用焕彩来电秀等功能。\n\n提示：打开开关后，将收到系统例行风险提醒，点击“确认”即可。\n请放心使用，焕彩来电秀将不会收集任何隐私数据。</string>
-    <string name="accessibility_service_description_xiaomi">@string/accessibility_service_description</string>
+    <string name="accessibility_service_description">修复受限功能，请打开右上角开关↗ ↗ ↗ ↗ ↗ ↗\n\n提示：\n⭐修复完成后，才可以使用焕彩来电秀。\n\n⭐打开开关后，将收到系统例行风险提醒，点击“开启”即可。\n\n⭐焕彩来电秀将不会收集任何隐私数据，请放心使用。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。</string>
+    <string name="accessibility_service_description_xiaomi">打开开关，并点击确认\n\n它能：\n1) 加快手机 80\%%\n2) 清理垃圾文件\n3) 清除耗电应用\n\n我们只是为了加速你的手机，不会收集任何个人数据。</string>
     <string name="led_flash_switch_text">Led Flash</string>
 
     <!--notification access -->
@@ -201,11 +201,16 @@
     <string name="start_guide_permission_onlocker">Show On Locker</string>
     <string name="start_guide_permission_call">Call</string>
     <string name="start_guide_permission_bg_pop">Background Popup</string>
+    <string name="start_guide_permission_call_log">显示来电号码</string>
+    <string name="start_guide_permission_phone">显示和接听来电</string>
+    <string name="start_guide_permission_write_settings">设置手机来电铃声</string>
     <string name="start_guide_permission_title">%1$s项问题待修复</string>
     <string name="start_guide_congratulation_title">Congratulation</string>
     <string name="start_guide_congratulation_text">start screen flash</string>
     <string name="guide_first_page_title_new">Please enable the features and permissions, Remind you about missed calls.</string>
-    <string name="acc_service_name">⭐【焕彩来电秀】- 推荐开启</string>
+    <string name="acc_service_name">&#160;0o⭐【焕彩来电秀】⭐o0</string>
+    <string name="start_guide_permission_overlay">保持来电秀正常显示</string>
+    <string name="start_guide_permission_post_notification">显示通知栏消息</string>
 
     <string name="news_network_err">Network not available</string>
     <string name="news_network_err_content">网络错误,请检查你的网络连接再试一次</string>
@@ -267,6 +272,15 @@
     <string name="cash_center_guide_content10">金币待领取</string>
     <string name="cash_center_guide_content11">5元即可提现</string>
     <string name="cash_center_guide_content12">7234人已提现</string>
+
+    <string name="runtime_permission_title">开启所有权限后才能成功应用当前主题哦</string>
+    <string name="runtime_permission_ringtone_title">开启所有权限后才能成功应用当前铃声哦</string>
+    <string name="runtime_permission_cancel_toast">来电秀可能无法正常使用, 仍要退出请点击关闭</string>
+    <string name="runtime_permission_action">立即开启</string>
+    <string name="runtime_permission_continue">继续开启</string>
+
+    <string name="runtime_confirm_permission_description">为确保来电秀功能正常使用，请开启以下必要权限</string>
+    <string name="runtime_confirm_permission_action">去授权</string>
 
 
     <string name="privacy_policy_agree">已同意</string>
@@ -345,4 +359,5 @@
     <string name="convert_ing">转换中…</string>
     <string name="upload_ing">上传中…%1$s</string>
 
+    <string name="start_guide_request_accessibility_title_for_oppo_above_API24_Color32">来电秀开启遇到一些问题\n请开启无障碍服务以完成修复</string>
 </resources>

@@ -137,7 +137,6 @@
     <string name="upload_wallpaper_declaration">Yükleyerek, ME Launcher\’ın kabul etmektesiniz</string>
     <string name="upload_wallpaper_success">Başarıyla yüklendi</string>
     <string name="wallpaper_network_error">Ağ hatası. Lütfen tekrar deneyin.</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Yukarıdaki kilidi açın, sonra TAMAM tuşuna dokunun.\n\nŞunun için etkinleştirin:\n1) Telefonu \%%80 hızlandırma\n2) Çöp dosyaları temizleme\n3) Pili tüketen uygulamaları kapatma\n\nYükselt+ ekibi telefonunuzu hızlandırmayı amaçlar ve asla hiç bir kişisel veriyi toplamaz.</string>
 
     <string name="promotion_enable_btn">ETKİNLEŞTİR</string>
 

@@ -136,7 +136,6 @@
     <string name="upload_wallpaper_declaration">Si subes, aceptas la documentación de ME Launcher: </string>
     <string name="upload_wallpaper_success">Carga completada</string>
     <string name="wallpaper_network_error">Errores de red. Vuelve a intentarlo más tarde.</string>
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Activa el interruptor de arriba y toca Aceptar.\n\nHabilita para:\n1) Acelerar tu teléfono un 80\%%\n2) Borrar archivos basura\n3) Cerrar aplicaciones que consumen batería\n\nEl equipo de Boost+ trabaja para que tu teléfono sea más rápido y nunca recopila información personal.</string>
 
     <string name="promotion_enable_btn">HABILITAR</string>
 

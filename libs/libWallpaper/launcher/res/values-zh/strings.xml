@@ -34,8 +34,6 @@
     <string name="got_it">去開啟</string>
     <string name="wallpaper_network_error">無可用連接，請重試</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">打開開關，並點擊確認\n\n它能：\n1) 加快手機 80\%%\n2) 清理垃圾文件\n3) 清除耗電應用\n\n我們只是為了加速你的手機，不會收集任何個人數據。</string>
-
 
     <string name="theme_category_foot_text">我們將持續提供更多精美的主題</string>
 

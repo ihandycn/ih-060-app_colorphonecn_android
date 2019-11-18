@@ -34,9 +34,6 @@
     <string name="got_it">VERSTANDEN</string>
     <string name="wallpaper_network_error">Netzwerkfehler. Bitte erneut versuchen.</string>
 
-    <string name="accessibility_service_description" tools:ignore="UnusedResources">Schalten Sie den Schalter oben ein und tippen Sie dann auf OK.\n\nAktivieren, um:\n1) Telefon um 80\%% zu beschleunigen\n2) Junk-Dateien zu bereinigen\n3) Stromverbrauchende Apps zu beseitigen\n\nDas Team von Boost+ will nur Ihr Telefon beschleunigen und sammelt niemals persönliche Daten.</string>
-
-
     <string name="theme_category_foot_text">- Wir produzieren laufend neue hübsche Designs. -</string>
 
 
