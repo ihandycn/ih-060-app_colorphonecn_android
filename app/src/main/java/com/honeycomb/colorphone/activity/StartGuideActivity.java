@@ -29,6 +29,7 @@ import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -71,7 +72,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private String from;
     private boolean isAgreePrivacy;
 
-    public static @Nullable Intent getIntent(Context context, String from) {
+    public static @Nullable
+    Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
                 || RomUtils.checkIsHuaweiRom()) {
             Intent starter = new Intent(context, StartGuideActivity.class);
@@ -156,7 +158,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (!TextUtils.isEmpty(termServiceStr)) {
             TextView termsOfService = findViewById(R.id.start_guide_service);
             if (termsOfService != null) {
-                termsOfService.setOnClickListener(v ->  Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
+                termsOfService.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
             }
         }
     }
@@ -169,11 +171,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private boolean isRetryEnd() {
         return permissionShowCount >= HSConfig.optInteger(1, "Application", "AutoPermission", "AccessibilityShowCount");
-    }
-
-    private boolean canShowSkip() {
-        return permissionShowCount >= HSConfig.optInteger(3, "Application", "AutoPermission", "SkipShowCount")
-                && !AutoRequestManager.getInstance().isGrantAllPermission();
     }
 
     private void showAccessibilityPermissionPage() {
@@ -266,21 +263,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 showConfirmDialog(confirmPermission);
             }
 
-            if (canShowSkip()) {
-                if (TextUtils.equals(from, FROM_KEY_GUIDE) || TextUtils.equals(from, FROM_KEY_START)) {
-                    findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
-                    View skip = findViewById(R.id.start_guide_confirm_skip);
-                    skip.setVisibility(View.VISIBLE);
-                    skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+            View close = findViewById(R.id.start_guide_confirm_close);
+            close.setVisibility(View.GONE);
 
-                    skip.setOnClickListener(v -> {
-                        finish();
-                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
-                    });
-                } else {
-                    findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                    View close = findViewById(R.id.start_guide_confirm_close);
+            if (StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert()) {
+                Threads.postOnMainThreadDelayed(() -> {
                     close.setVisibility(View.VISIBLE);
                     close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
 
@@ -288,10 +275,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         showSkipDialog();
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
                     });
-                }
-            } else {
-                findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
+                },3000);
             }
         }
     }
@@ -415,7 +399,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         //Ignore back press.
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
@@ -435,12 +420,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
         HSGlobalNotificationCenter.removeObserver(this::onReceive);
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, s)) {
             HSLog.i("AutoPermission", "onPermissionChanged onReceive");
             onPermissionChanged();
@@ -481,6 +468,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private Toast toast;
+
     public void showToast() {
         if (toast != null) {
             toast.cancel();
@@ -493,7 +481,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
         TextView textView = contentView.findViewById(R.id.start_guide_check);
         textView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent), Dimensions.pxFromDp(8), false));
-        toast.setGravity(Gravity.CENTER, 0 , 0);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(contentView);
         toast.show();
 

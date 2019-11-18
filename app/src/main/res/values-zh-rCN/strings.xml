@@ -131,11 +131,11 @@
     <string name="start_guide_confirm_fix_one_key">立即修复</string>
     <string name="start_guide_request_image_title">自动开启中</string>
     <string name="start_guide_request_title">请耐心等待，误操作会打断进程哦~</string>
-    <string name="start_guide_permission_auto_start">保持来电秀正常启动</string>
+    <string name="start_guide_permission_auto_start">保持来电秀正常运行</string>
     <string name="start_guide_permission_onlocker">锁屏显示来电秀</string>
     <string name="start_guide_permission_call">读取来电时的通知</string>
     <string name="start_guide_permission_bg_pop">来电时展示来电秀</string>
-    <string name="start_guide_permission_title">只差最后一步啦！\n完成修复就可以使用来电秀哦</string>
+    <string name="start_guide_permission_title">只差最后一步啦！\n完成修复就可以正常使用来电秀</string>
     <string name="start_guide_congratulation_title">恭喜你</string>
     <string name="start_guide_congratulation_text">欢迎来到焕彩世界~</string>
     <string name="guide_first_page_title_new">请开启焕彩来电秀，享受非凡的来电体验</string>
