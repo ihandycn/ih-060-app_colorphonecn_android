@@ -102,7 +102,7 @@
     <!--Smart Assistant (Recent apps)-->
 
     <string name="accessibility_service_description">修复受限功能，请打开右上角开关↗ ↗ ↗ ↗ ↗ ↗\n\n提示：\n⭐修复完成后，才可以使用焕彩来电秀。\n\n⭐打开开关后，将收到系统例行风险提醒，点击“开启”即可。\n\n⭐焕彩来电秀将不会收集任何隐私数据，请放心使用。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。</string>
-    <string name="accessibility_service_description_xiaomi">打开开关，并点击确认\n\n它能：\n1) 加快手机 80\%%\n2) 清理垃圾文件\n3) 清除耗电应用\n\n我们只是为了加速你的手机，不会收集任何个人数据。</string>
+    <string name="accessibility_service_description_xiaomi">修复受限功能，请打开右上角开关↗ ↗ ↗ ↗ ↗ ↗\n\n提示：\n⭐修复完成后，才可以使用焕彩来电秀。\n\n⭐打开开关后，将收到系统例行风险提醒，点击“开启”即可。\n\n⭐焕彩来电秀将不会收集任何隐私数据，请放心使用。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。\n\n⭐此服务不会引起卡顿，修复完成后可随时关闭此服务。</string>
     <string name="led_flash_switch_text">Led Flash</string>
 
     <!--notification access -->
