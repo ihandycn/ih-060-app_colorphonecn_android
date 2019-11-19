@@ -3,7 +3,12 @@ package com.honeycomb.colorphone.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +45,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.honeycomb.colorphone.view.RoundRectOverlayView;
 import com.honeycomb.colorphone.wallpaper.Manager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -109,6 +115,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -131,9 +138,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
     private static final String PREFS_SET_DEFAULT_THEME = "prefs_set_default_theme";
+    private static final String PREFS_FIRST_OPEN = "prefs_first_open";
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
+
+    public static boolean showingOverlay = false;
+    private RoundRectOverlayView overlay;
 
     private RelativeLayout mMainPage;
     private SmartRefreshLayout mSmartRefreshLayout;
@@ -292,6 +303,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+
     }
 
     @Override
@@ -874,6 +886,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     Analytics.logEvent("CallFlash_Request_First_Success");
                     isFirstRequestData = false;
                 }
+
+                boolean isFirstOpen = Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREFS_FIRST_OPEN, true);
+                if (isFirstOpen || true) {
+                    Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREFS_FIRST_OPEN, false);
+                    addSetDefaultGuideOverlay();
+                }
+
                 Analytics.logEvent("CallFlash_Request_Success");
 
                 if (isRefresh) {
@@ -908,6 +927,88 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }
         });
+    }
+
+    private void addSetDefaultGuideOverlay() {
+        ViewGroup containerView = findViewById(R.id.container_view);
+        overlay= new RoundRectOverlayView(ColorPhoneActivity.this, new RoundRectOverlayView.OverlayInfo() {
+            RectF rectF;
+            @Override
+            public int getBaseColor() {
+                return Color.parseColor("#CC000000");
+            }
+
+            @Override
+            public int getHoleColor() {
+                return Color.parseColor("#ff000000");
+            }
+
+            @Override
+            public RectF getHoleRectF() {
+                if (rectF==null) {
+                    rectF = new RectF();
+                    if (mRecyclerView.getLayoutManager().getChildCount() > 0) {
+                        View view = mRecyclerView.getLayoutManager().getChildAt(0);
+                        rectF.left = view.getX();
+                        rectF.top = view.getY() + mTabFrameLayout.getY();
+                        rectF.right = view.getX() + view.getWidth();
+                        rectF.bottom = view.getY() + view.getHeight() + mTabFrameLayout.getY();
+                    }
+                }
+                return rectF;
+            }
+
+            @Override
+            public float getRadius() {
+                return Dimensions.pxFromDp(12);
+            }
+
+            @Override
+            public void onHoleClick() {
+                if (mRecyclerView.getLayoutManager().getChildCount() > 0) {
+                    View view = mRecyclerView.getLayoutManager().getChildAt(0);
+
+                    view.performClick();
+                    Threads.postOnMainThreadDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (overlay!=null) {
+                                containerView.removeView(overlay);
+                                overlay =null;
+                            }
+                            findViewById(R.id.activity_main_overlay_container).setVisibility(View.GONE);
+                        }
+                    },1000);
+                }
+            }
+
+            @Override
+            public void onDraw() {
+                if (!showingOverlay){
+                    RectF holeRectF = getHoleRectF();
+                    showingOverlay = true;
+                    View overlayContainer = findViewById(R.id.activity_main_overlay_container);
+                    overlayContainer.setVisibility(View.VISIBLE);
+                    overlayContainer.bringToFront();
+                    View border = findViewById(R.id.overlay_border);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) border.getLayoutParams();
+                    params.width = (int) (holeRectF.right-holeRectF.left)+Dimensions.pxFromDp(12);
+                    params.height = (int) (holeRectF.bottom - holeRectF.top)+Dimensions.pxFromDp(12);
+                    params.setMargins((int)holeRectF.left-Dimensions.pxFromDp(6),(int)holeRectF.top-Dimensions.pxFromDp(6),0,0);
+                }
+            }
+        });
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        containerView.addView(overlay, params);
+    }
+
+    public Bitmap ninePatchToBitmap(Context context, int resId, int width, int height) {
+        Drawable drawable = context.getResources().getDrawable(resId);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
@@ -1238,11 +1339,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         // Header
         updatePermissionHeader();
+
     }
 
     private void updatePermissionHeader() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                !AutoRequestManager.getInstance().isGrantAllPermission()) {
+                !AutoRequestManager.getInstance().isGrantAllPermission()&&false) {
 //                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
