@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
 apply from: 'tasks.gradle'
 
-apply plugin: 'optimizer.proguard.rewrite'
+apply plugin: 'ihandy.proguard.rewrite'
 apply from: 'tinker-support.gradle'
 
 android {
