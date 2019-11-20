@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.transition.Transition;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
@@ -40,11 +43,13 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
+import com.honeycomb.colorphone.view.RoundRectOverlayView;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -285,6 +290,66 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
+
+        if (ColorPhoneActivity.showingOverlay) {
+            initOverlay();
+
+        }
+    }
+
+    private void initOverlay() {
+        RelativeLayout container = findViewById(R.id.theme_preview_container);
+        RelativeLayout overlayContainer = findViewById(R.id.theme_preview_overlay_container);
+        overlayContainer.setVisibility(View.VISIBLE);
+
+        View overlay = new RoundRectOverlayView(this, new RoundRectOverlayView.OverlayInfo() {
+            RectF rectF;
+
+            @Override
+            public int getBaseColor() {
+                return Color.parseColor("#CC000000");
+            }
+
+            @Override
+            public RectF getHoleRectF() {
+                if (rectF == null) {
+                    rectF = new RectF();
+                    View view = findViewById(R.id.overlay_action_btn);
+                    rectF.left = view.getX();
+                    rectF.top = view.getY();
+                    rectF.right = view.getX() + view.getWidth();
+                    rectF.bottom = view.getY() + view.getHeight();
+                }
+                return rectF;
+            }
+
+            @Override
+            public float getRadius() {
+                return Dimensions.pxFromDp(27);
+            }
+
+            @Override
+            public void onHoleClick() {
+
+                finish();
+            }
+
+            @Override
+            public void onDraw() {
+                if (ColorPhoneActivity.showingOverlay) {
+                    ColorPhoneActivity.showingOverlay = false;
+                    RectF holeRectF = getHoleRectF();
+                    overlayContainer.bringToFront();
+                    View border = findViewById(R.id.overlay_border);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) border.getLayoutParams();
+                    params.width = (int) (holeRectF.right - holeRectF.left + Dimensions.pxFromDp(8.6f));
+                    params.height = (int) (holeRectF.bottom - holeRectF.top + Dimensions.pxFromDp(8.6f));
+                    params.setMargins((int) holeRectF.left - Dimensions.pxFromDp(4.3f), (int) holeRectF.top - Dimensions.pxFromDp(4.3f), 0, 0);
+                    border.setLayoutParams(params);
+                }
+            }
+        });
+        container.addView(overlay);
     }
 
     boolean isUpdate = false;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/theme_preview_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,4 +8,45 @@
         android:id="@+id/preview_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</merge>
+    <RelativeLayout
+        android:id="@+id/theme_preview_overlay_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/overlay_action_btn"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/shape_theme_setting"
+            android:gravity="center"
+            android:text="@string/theme_setting"
+            android:letterSpacing="0.3"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/overlay_border"
+            android:layout_width="130dp"
+            android:layout_height="52dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/set_default_guid_border"/>
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="73dp"
+            android:background="@drawable/theme_preview_guide_text"
+            android:layout_above="@id/overlay_border"
+            android:layout_alignRight="@id/overlay_border"
+            android:layout_marginBottom="9dp"
+            android:layout_marginRight="-8dp"/>
+    </RelativeLayout>
+</RelativeLayout>

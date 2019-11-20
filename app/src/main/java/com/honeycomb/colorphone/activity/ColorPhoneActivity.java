@@ -888,7 +888,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 boolean isFirstOpen = Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREFS_FIRST_OPEN, true);
-                if (isFirstOpen || true) {
+                if (isFirstOpen && !AutoRequestManager.getInstance().isGrantAllPermission()) {
                     Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREFS_FIRST_OPEN, false);
                     addSetDefaultGuideOverlay();
                 }
@@ -931,21 +931,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void addSetDefaultGuideOverlay() {
         ViewGroup containerView = findViewById(R.id.container_view);
-        overlay= new RoundRectOverlayView(ColorPhoneActivity.this, new RoundRectOverlayView.OverlayInfo() {
+        overlay = new RoundRectOverlayView(ColorPhoneActivity.this, new RoundRectOverlayView.OverlayInfo() {
             RectF rectF;
+
             @Override
             public int getBaseColor() {
                 return Color.parseColor("#CC000000");
             }
 
             @Override
-            public int getHoleColor() {
-                return Color.parseColor("#ff000000");
-            }
-
-            @Override
             public RectF getHoleRectF() {
-                if (rectF==null) {
+                if (rectF == null) {
                     rectF = new RectF();
                     if (mRecyclerView.getLayoutManager().getChildCount() > 0) {
                         View view = mRecyclerView.getLayoutManager().getChildAt(0);
@@ -972,43 +968,34 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     Threads.postOnMainThreadDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (overlay!=null) {
+                            if (overlay != null) {
                                 containerView.removeView(overlay);
-                                overlay =null;
+                                overlay = null;
                             }
                             findViewById(R.id.activity_main_overlay_container).setVisibility(View.GONE);
                         }
-                    },1000);
+                    }, 1000);
                 }
             }
 
             @Override
             public void onDraw() {
-                if (!showingOverlay){
-                    RectF holeRectF = getHoleRectF();
+                if (!showingOverlay) {
                     showingOverlay = true;
+                    RectF holeRectF = getHoleRectF();
                     View overlayContainer = findViewById(R.id.activity_main_overlay_container);
                     overlayContainer.setVisibility(View.VISIBLE);
                     overlayContainer.bringToFront();
                     View border = findViewById(R.id.overlay_border);
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) border.getLayoutParams();
-                    params.width = (int) (holeRectF.right-holeRectF.left)+Dimensions.pxFromDp(12);
-                    params.height = (int) (holeRectF.bottom - holeRectF.top)+Dimensions.pxFromDp(12);
-                    params.setMargins((int)holeRectF.left-Dimensions.pxFromDp(6),(int)holeRectF.top-Dimensions.pxFromDp(6),0,0);
+                    params.width = (int) (holeRectF.right - holeRectF.left) + Dimensions.pxFromDp(12);
+                    params.height = (int) (holeRectF.bottom - holeRectF.top) + Dimensions.pxFromDp(12);
+                    params.setMargins((int) holeRectF.left - Dimensions.pxFromDp(6), (int) holeRectF.top - Dimensions.pxFromDp(6), 0, 0);
                 }
             }
         });
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         containerView.addView(overlay, params);
-    }
-
-    public Bitmap ninePatchToBitmap(Context context, int resId, int width, int height) {
-        Drawable drawable = context.getResources().getDrawable(resId);
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
@@ -1344,7 +1331,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void updatePermissionHeader() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                !AutoRequestManager.getInstance().isGrantAllPermission()&&false) {
+                !AutoRequestManager.getInstance().isGrantAllPermission() && false) {
 //                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {

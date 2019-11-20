@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -48,7 +49,7 @@ public class RoundRectOverlayView extends View {
             paint.setColor(overlayInfo.getBaseColor());
             canvas.drawRect(0, 0, Dimensions.getPhoneWidth(context), Dimensions.getPhoneHeight(context), paint);
         } else if (type == TYPE_HOLE) {
-            paint.setColor(overlayInfo.getHoleColor());
+            paint.setColor(Color.parseColor("#ff000000"));
             canvas.drawRoundRect(overlayInfo.getHoleRectF(), overlayInfo.getRadius(), overlayInfo.getRadius(), paint);
         }
         return bitmap;
@@ -69,8 +70,6 @@ public class RoundRectOverlayView extends View {
 
     public interface OverlayInfo {
         int getBaseColor();
-
-        int getHoleColor();
 
         RectF getHoleRectF();
 
