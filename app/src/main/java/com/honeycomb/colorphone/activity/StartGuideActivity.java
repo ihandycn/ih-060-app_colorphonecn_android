@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +62,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String FROM_KEY_START = "Start";
     public static final String FROM_KEY_APPLY = "Apply";
     public static final String FROM_KEY_BANNER = "Banner";
+    public static final String FROM_KEY_SET_DEFAULT = "Default";
 
     private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
     private int permsCount = 0;
@@ -91,6 +93,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
     }
 
+    public static void startForResult(Activity activity,String from,int requestCode){
+        Intent intent = getIntent(activity, from);
+        if (intent != null) {
+            activity.startActivityForResult(intent,requestCode);
+        }
+    }
     public static boolean isStarted() {
         return Preferences.getDefault().contains(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME);
     }
@@ -226,7 +234,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 2000);
+
+
+            Threads.postOnMainThreadDelayed(() -> {
+                if (from.equals(FROM_KEY_SET_DEFAULT)){
+                    StartGuideActivity.this.setResult(ThemePreviewActivity.RESULT_PERMISSION_CODE);
+                }
+                StartGuideActivity.this.finish();
+            }, 2000);
         } else {
             HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
             if (holder == null) {

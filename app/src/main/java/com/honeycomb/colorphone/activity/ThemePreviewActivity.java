@@ -70,6 +70,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
     public static final String FROM_MAIN = "notify_theme_context_key";
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
+    public static final int REQUEST_PERMISSION_CODE = 100;
+    public static final int RESULT_PERMISSION_CODE = 120;
 
     private Theme mTheme;
     private String from;
@@ -83,6 +85,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private MediaSharedElementCallback mediaSharedElementCallback;
     private Bundle mSavedState;
+    private View overlay;
 
     public static void start(Context context, int position, Bundle options) {
         start(context, position, FROM_MAIN, options);
@@ -298,11 +301,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     private void initOverlay() {
-        RelativeLayout container = findViewById(R.id.theme_preview_container);
-        RelativeLayout overlayContainer = findViewById(R.id.theme_preview_overlay_container);
+        RelativeLayout containerView = findViewById(R.id.theme_preview_container);
+        ViewGroup overlayContainer = findViewById(R.id.theme_preview_overlay_container);
         overlayContainer.setVisibility(View.VISIBLE);
 
-        View overlay = new RoundRectOverlayView(this, new RoundRectOverlayView.OverlayInfo() {
+        overlay = new RoundRectOverlayView(this, new RoundRectOverlayView.OverlayInfo() {
             RectF rectF;
 
             @Override
@@ -330,26 +333,25 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             @Override
             public void onHoleClick() {
-
-                finish();
+                StartGuideActivity.startForResult(ThemePreviewActivity.this,StartGuideActivity.FROM_KEY_SET_DEFAULT,REQUEST_PERMISSION_CODE);
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (overlay != null) {
+                        containerView.removeView(overlay);
+                        overlay = null;
+                    }
+                    overlayContainer.setVisibility(View.GONE);
+                }, 1000);
             }
 
             @Override
             public void onDraw() {
                 if (ColorPhoneActivity.showingOverlay) {
                     ColorPhoneActivity.showingOverlay = false;
-                    RectF holeRectF = getHoleRectF();
                     overlayContainer.bringToFront();
-                    View border = findViewById(R.id.overlay_border);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) border.getLayoutParams();
-                    params.width = (int) (holeRectF.right - holeRectF.left + Dimensions.pxFromDp(8.6f));
-                    params.height = (int) (holeRectF.bottom - holeRectF.top + Dimensions.pxFromDp(8.6f));
-                    params.setMargins((int) holeRectF.left - Dimensions.pxFromDp(4.3f), (int) holeRectF.top - Dimensions.pxFromDp(4.3f), 0, 0);
-                    border.setLayoutParams(params);
                 }
             }
         });
-        container.addView(overlay);
+        containerView.addView(overlay);
     }
 
     boolean isUpdate = false;
@@ -497,6 +499,18 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             supportFinishAfterTransition();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_PERMISSION_CODE){
+            if (mViewPager.getChildCount()>0) {
+                ThemePreviewView previewView =((ThemePreviewView)(mViewPager.getChildAt(0)));
+                previewView.setApplyForAll(true);
+                previewView.applyRingtoneChange();
+            }
         }
     }
 

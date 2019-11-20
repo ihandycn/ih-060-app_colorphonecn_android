@@ -45,6 +45,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.honeycomb.colorphone.view.RoundRectOverlayView;
 import com.honeycomb.colorphone.wallpaper.Manager;
 import com.airbnb.lottie.LottieAnimationView;
@@ -888,7 +889,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 boolean isFirstOpen = Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREFS_FIRST_OPEN, true);
-                if (isFirstOpen && !AutoRequestManager.getInstance().isGrantAllPermission()) {
+                if (StartProcessTestAutopilotUtils.shouldGuideThemeSet()&&isFirstOpen && !AutoRequestManager.getInstance().isGrantAllPermission()) {
                     Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREFS_FIRST_OPEN, false);
                     addSetDefaultGuideOverlay();
                 }
@@ -931,6 +932,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void addSetDefaultGuideOverlay() {
         ViewGroup containerView = findViewById(R.id.container_view);
+        View overlayContainer = findViewById(R.id.activity_main_overlay_container);
         overlay = new RoundRectOverlayView(ColorPhoneActivity.this, new RoundRectOverlayView.OverlayInfo() {
             RectF rectF;
 
@@ -965,15 +967,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     View view = mRecyclerView.getLayoutManager().getChildAt(0);
 
                     view.performClick();
-                    Threads.postOnMainThreadDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (overlay != null) {
-                                containerView.removeView(overlay);
-                                overlay = null;
-                            }
-                            findViewById(R.id.activity_main_overlay_container).setVisibility(View.GONE);
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (overlay != null) {
+                            containerView.removeView(overlay);
+                            overlay = null;
                         }
+                        overlayContainer.setVisibility(View.GONE);
                     }, 1000);
                 }
             }
@@ -983,7 +982,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (!showingOverlay) {
                     showingOverlay = true;
                     RectF holeRectF = getHoleRectF();
-                    View overlayContainer = findViewById(R.id.activity_main_overlay_container);
                     overlayContainer.setVisibility(View.VISIBLE);
                     overlayContainer.bringToFront();
                     View border = findViewById(R.id.overlay_border);
@@ -1330,8 +1328,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updatePermissionHeader() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                !AutoRequestManager.getInstance().isGrantAllPermission() && false) {
+        if (!StartProcessTestAutopilotUtils.shouldGuideThemeSet()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+                !AutoRequestManager.getInstance().isGrantAllPermission()) {
 //                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
