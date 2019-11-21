@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
 apply from: 'tasks.gradle'
 
+apply plugin: 'ihandy.proguard.rewrite'
 apply from: 'tinker-support.gradle'
 
 android {
@@ -122,6 +123,19 @@ android {
             }
         }
     }
+
+    optimizerProGuard {
+        packageNames = ['com.acb.call',
+                        'com.call.assistant',
+                        'com.ihs.chargingreport',
+                        'com.superapps',
+                        'colorphone.acb.com']
+        packageNameMap = [
+                "colorflash": ['cfl'],
+                "colorphone": ['cph']
+        ]
+    }
+
     lintOptions {
 
         abortOnError false
