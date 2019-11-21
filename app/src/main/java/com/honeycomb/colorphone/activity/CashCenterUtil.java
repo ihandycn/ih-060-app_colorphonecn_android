@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.dialog.NoAdDialog;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 
@@ -59,7 +60,7 @@ class CashCenterUtil {
             @Override public void onInterstitialShown(boolean b) {
                 Analytics.logEvent("CashCenter_Wire_Ad_Show");
 
-                Analytics.logAdViewEvent("CashWire", b);
+                Analytics.logAdViewEvent(Placements.AD_CASH_WIRE, b);
             }
 
             @Override public void onRewardShown() {
@@ -69,7 +70,7 @@ class CashCenterUtil {
             @Override public void onNativeShown(boolean b) {
                 Analytics.logEvent("CashCenter_Native_Ad_Show");
 
-                Analytics.logAdViewEvent("CashNative", b);
+                Analytics.logAdViewEvent(Placements.AD_CASH_NATIVE, b);
             }
 
             @Override public void showInterstitialAd(NoAdDialog noAdDialog) {
@@ -82,13 +83,13 @@ class CashCenterUtil {
         AcbAds.getInstance().setActivity(activity);
         AcbAds.getInstance().setForegroundActivity(activity);
 
-        AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
-        HSCashCenterManager.setNativeAdPlacement("CashNative");
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess("CashWire");
-        HSCashCenterManager.setInterstitialAdPlacement("CashWire");
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_NATIVE);
+        HSCashCenterManager.setNativeAdPlacement(Placements.AD_CASH_NATIVE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_WIRE);
+        HSCashCenterManager.setInterstitialAdPlacement(Placements.AD_CASH_WIRE);
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess("CashReward");
-        HSCashCenterManager.setRewardAdPlacement("CashReward");
+        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_REWARD);
+        HSCashCenterManager.setRewardAdPlacement(Placements.AD_CASH_REWARD);
     }
 
     public static void cleanAds(Activity activity) {
