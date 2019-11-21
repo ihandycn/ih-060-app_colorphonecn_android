@@ -32,11 +32,11 @@ buildscript {
         // in the individual module build.gradle files
     }
 
-//    configurations.all {
-//        resolutionStrategy {
-//            force 'net.sf.proguard:proguard-gradle:5.3.3'
-//        }
-//    }
+    configurations.all {
+        resolutionStrategy {
+            force 'net.sf.proguard:proguard-gradle:5.3.3'
+        }
+    }
 }
 
 allprojects {
