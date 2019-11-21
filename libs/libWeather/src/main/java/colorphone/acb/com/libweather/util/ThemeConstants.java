@@ -32,8 +32,6 @@ public class ThemeConstants {
     public static final String ICON_PROCESS_PROVIDER_URI_SUFFIX = ".icon";
     public static final String BROADCAST_THEME_CHANGED = "com" + ".honeycomb.launcher.broadcast.THEME_RELOAD_FINISHED";
 
-    public static final String WALLPAPER_SERVICE_CLASS_NAME = "com.themelab.launcher.ThemeWallpaperService";
-
     /**
      * Minimum version code of launcher app that this theme supports.
      */

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<live-wallpaper>
-
-    <shader name="parallax_3d_3.glsl">
-        <image path="beautycar/1.jpg" />
-        <image path="beautycar/2.png" />
-        <image path="beautycar/3.png" />
-    </shader>
-</live-wallpaper>

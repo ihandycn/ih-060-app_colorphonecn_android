@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<live-wallpaper>
-
-    <shader name="parallax_3d_football.glsl">
-        <image path="birthday3d/1.jpg" />
-        <image path="birthday3d/2.png" />
-        <image path="birthday3d/3.png" />
-    </shader>
-</live-wallpaper>

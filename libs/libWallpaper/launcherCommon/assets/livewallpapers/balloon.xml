@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<live-wallpaper>
-
-    <shader name="parallax_3d_3.glsl">
-        <image path="balloon/1.png" />
-        <image path="balloon/2.png" />
-        <image path="balloon/3.png" />
-    </shader>
-</live-wallpaper>
