@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<live-wallpaper>
-
-    <shader name="parallax_3d_3.glsl">
-        <image path="rocket/1.jpg" />
-        <image path="rocket/2.png" />
-        <image path="rocket/3.png" />
-    </shader>
-</live-wallpaper>

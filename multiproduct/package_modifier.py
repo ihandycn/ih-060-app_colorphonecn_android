@@ -8,10 +8,7 @@ LAUNCHER_VARIANT_ROOTS = [
     './app/src/colorphoneCommon',
     './app/src/colorphone',
     './app/src/colorphoneYingyongbao',
-    './app/src/colorphoneJinritoutiao',
-    './libs/libWallpaper/common',
-    './libs/libWallpaper/launcher',
-    './libs/libWallpaper/launcherCommon',
+    './app/src/colorphoneJinritoutiao'
 ]
 
 def is_varient_root(root):

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<live-wallpaper>
-
-    <shader name="parallax_3d_football.glsl">
-        <image path="emojilove/1.jpg" />
-        <image path="emojilove/2.png" />
-        <image path="emojilove/3.png" />
-    </shader>
-</live-wallpaper>

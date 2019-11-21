@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/app_lock_ripple_color_alpha">
-    <item android:drawable="@drawable/app_lock_shape_round_corner_blue_background"/>
-</ripple>

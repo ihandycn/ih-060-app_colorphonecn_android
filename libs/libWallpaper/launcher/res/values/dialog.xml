@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="dialog_content_margin_top_img">0dp</dimen>
-
-    <!--img and lottie resource-->
-
-    <dimen name="boost_lottie_height">200dp</dimen>
-
-</resources>

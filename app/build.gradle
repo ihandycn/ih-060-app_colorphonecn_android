@@ -98,10 +98,8 @@ android {
 
         colorphoneJinritoutiao {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res',
-                           '../libs/libWallpaper/common/res','../libs/libWallpaper/launcherCommon/res', '../libs/libWallpaper/launcher/res']
-            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets',
-                              '../libs/libWallpaper/common/assets','../libs/libWallpaper/launcherCommon/assets', '../libs/libWallpaper/launcher/assets']
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
+            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
             renderscript.srcDirs = ['src/main/rs']
         }
@@ -145,15 +143,6 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include "armeabi"
-//            universalApk false
-//        }
-//    }
 
     /*
      * https://stackoverflow.com/questions/32317822/rebuild-required-after-changing-xml-layout-files-in-android-studio

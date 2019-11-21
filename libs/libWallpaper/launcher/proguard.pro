@@ -1,2 +1,0 @@
--repackageclasses 'com.huandong.wallpaper.live'
--allowaccessmodification
