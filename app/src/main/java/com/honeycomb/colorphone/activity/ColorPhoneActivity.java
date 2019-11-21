@@ -471,6 +471,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
+        tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
