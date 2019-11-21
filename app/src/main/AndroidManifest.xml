@@ -22,6 +22,7 @@
     <uses-sdk tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter" />
 
     <!-- Required by libAppFramework -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -101,14 +102,13 @@
         tools:node="remove" />
 
     <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
 
     <application
         android:name="com.honeycomb.colorphone.ColorPhoneApplication"
