@@ -1821,17 +1821,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
 
                     hideRingtoneSettings();
-                    if (mApplyForAll) {
-                        // Ringtone enabled
-                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-
-                        onThemeApply();
-                    } else {
-                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        setAsRingtone(true, false);
-                        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
-
-                    }
                     setRingtone();
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
