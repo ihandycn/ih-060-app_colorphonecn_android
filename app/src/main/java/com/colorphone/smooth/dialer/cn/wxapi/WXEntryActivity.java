@@ -46,6 +46,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             SendAuth.Resp authResp = (SendAuth.Resp) resp;
             final String code = authResp.code;
             if (code == null) {
+                finish();
                 return;
             }
             HttpManager.getInstance().login(code, new Callback<LoginUserBean>() {
