@@ -72,6 +72,20 @@
             android:text="删除用户已上传的视频"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/get_all_category_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取全部栏目"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/get_hot_category_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取热门栏目的来电秀"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 </ScrollView>

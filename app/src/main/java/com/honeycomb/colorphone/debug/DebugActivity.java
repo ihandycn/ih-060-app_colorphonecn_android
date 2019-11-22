@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.IHttpRequest;
+import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
@@ -86,6 +87,20 @@ public class DebugActivity extends Activity {
             @Override
             public void onClick(View v) {
                 delete();
+            }
+        });
+
+        findViewById(R.id.get_all_category_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAllCategory();
+            }
+        });
+
+        findViewById(R.id.get_hot_category_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHotCategoryThemes();
             }
         });
 
@@ -244,6 +259,37 @@ public class DebugActivity extends Activity {
 
             @Override
             public void onSuccess(ResponseBody responseBody) {
+                success();
+            }
+        });
+
+    }
+
+    private void getAllCategory() {
+        HttpManager.getInstance().getAllCategories( new Callback<AllCategoryBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                failure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllCategoryBean allCategoryBean) {
+                success();
+            }
+        });
+
+    }
+
+    private void getHotCategoryThemes() {
+        String themeId = "1";
+        HttpManager.getInstance().getCategoryThemes(themeId,1, new Callback<AllThemeBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                failure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllThemeBean allThemeBean) {
                 success();
             }
         });

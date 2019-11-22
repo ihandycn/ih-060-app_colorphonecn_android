@@ -15,6 +15,5 @@ public class DebugActions {
     }
 
     public static void onVolumeUp(Activity activity) {
-        HttpManager.getInstance().logout();
     }
 }
