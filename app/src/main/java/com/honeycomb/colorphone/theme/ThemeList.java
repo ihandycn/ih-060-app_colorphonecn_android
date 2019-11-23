@@ -24,8 +24,11 @@ import com.superapps.util.Threads;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import hugo.weaving.DebugLog;
 
@@ -45,7 +48,7 @@ public class ThemeList {
     private ThemeData mainFrameThemeData;
     private ThemeDataForUser uploadThemeData;
     private ThemeDataForUser publishThemeData;
-
+    private Map<String, ThemeDataForCategory> categoryThemeDataMap = new HashMap<>();
 
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
@@ -191,6 +194,47 @@ public class ThemeList {
         });
     }
 
+    public void requestCategoryThemes(String categoryId, boolean isRefresh, ThemeUpdateListener listener) {
+        int pageIndex;
+        if (isRefresh) {
+            if (categoryThemeDataMap.get(categoryId) == null) {
+                ThemeDataForCategory themeDataForCategory = new ThemeDataForCategory();
+                categoryThemeDataMap.put(categoryId, themeDataForCategory);
+            } else {
+                Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).clear();
+            }
+
+            pageIndex = Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getPageIndex();
+        } else {
+            pageIndex = Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getPageIndex() + 1;
+        }
+
+        HttpManager.getInstance().getCategoryThemes(categoryId, pageIndex, new Callback<AllThemeBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                listener.onFailure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllThemeBean allThemeBean) {
+                if (allThemeBean != null && allThemeBean.getShow_list() != null && !allThemeBean.getShow_list().isEmpty()) {
+                    Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(allThemeBean.getPage_index());
+                    if (isRefresh) {
+                        Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
+                                Theme.transformCategoryData(0, allThemeBean));
+                    } else {
+                        Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).appendData(
+                                Theme.transformCategoryData(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getThemeSize(), allThemeBean));
+                    }
+
+                    listener.onSuccess(true);
+                } else {
+                    listener.onSuccess(false);
+                }
+            }
+        });
+    }
+
     public ArrayList<Theme> getUserPublishTheme() {
         if (publishThemeData == null) {
             return new ArrayList<>();
@@ -217,8 +261,22 @@ public class ThemeList {
         }
     }
 
+    public ArrayList<Theme> getCategoryThemes(String categoryId) {
+        if (categoryThemeDataMap.get(categoryId) == null) {
+            return new ArrayList<>();
+        }
+        List<Theme> bgThemes = updateThemes(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getDataList());
+        return new ArrayList<>(bgThemes);
+    }
+
+    public void clearCategoryThemes(String categoryId) {
+        if (categoryThemeDataMap.get(categoryId) != null) {
+            Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).clear();
+        }
+    }
+
+
     private void loadRawThemesSync() {
-        final ArrayList<Theme> oldThemes = new ArrayList<>(themes);
         synchronized (themes) {
             themes.clear();
             ArrayList<Type> types = Type.values();
@@ -230,10 +288,6 @@ public class ThemeList {
                     continue;
                 }
 
-                if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
-                    HSLog.d("RandomTheme", "Unable");
-                    continue;
-                }
                 if (type.getId() == Type.NONE) {
                     mThemeNone = (Theme) type;
                 }
@@ -244,23 +298,6 @@ public class ThemeList {
         if (DEBUG_THEME_CHANGE) {
             mTestHandler.postDelayed(sTestRunnable, 8000);
         }
-    }
-
-    private static boolean isThemeChanged(ArrayList<Theme> themes, ArrayList<Theme> oldThemes) {
-        if (themes.size() != oldThemes.size()) {
-            return true;
-        }
-        final int size = themes.size();
-        for (int i = 0; i < size; i++) {
-            Theme t = themes.get(i);
-            Theme t2 = oldThemes.get(i);
-            if (t.getId() != t2.getId()
-                    || !TextUtils.equals(t.getName(), t2.getName())
-                    || !TextUtils.equals(t.getMp4Url(), t2.getMp4Url())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private ArrayList<Theme> getThemesInner() {
@@ -295,7 +332,7 @@ public class ThemeList {
     }
 
     public void fillData(ArrayList<Theme> mRecyclerViewData) {
-        final List<Theme> bgThemes = updateThemes(false);
+        final List<Theme> bgThemes = updateThemes(themes());
         // Data ready
         mRecyclerViewData.clear();
         mRecyclerViewData.addAll(bgThemes);
@@ -314,7 +351,7 @@ public class ThemeList {
                 Threads.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        updateThemes(true);
+                        updateThemes(themes());
                     }
                 });
             }
@@ -324,10 +361,10 @@ public class ThemeList {
     @NonNull
     @DebugLog
     @MainThread
-    public List<Theme> updateThemes(boolean onApplicationInit) {
+    public List<Theme> updateThemes(ArrayList<Theme> themeList) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        final List<Theme> bgThemes = new ArrayList<>(themes());
+        final List<Theme> bgThemes = new ArrayList<>(themeList);
 
         String[] likeThemes = getThemeLikes();
         final int count = bgThemes.size();
@@ -345,45 +382,7 @@ public class ThemeList {
                 theme.setSelected(true);
             }
         }
-
-        Collections.sort(bgThemes, new Comparator<Theme>() {
-            @Override
-            public int compare(Theme o1, Theme o2) {
-                return o1.getIndex() - o2.getIndex();
-            }
-        });
-
-        if (onApplicationInit) {
-            Threads.postOnThreadPoolExecutor(new Runnable() {
-                @Override
-                public void run() {
-                    updateThemeTasks();
-                    HSLog.d(TAG, "[Application init] Prepare theme list");
-                }
-            });
-        } else {
-            updateThemeTasks();
-        }
         return bgThemes;
-    }
-
-    @DebugLog
-    private void updateThemeTasks() {
-
-        // Prepare next random theme
-        Threads.postOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                if (Ap.RandomTheme.enable()) {
-                    RandomTheme.getInstance().prepareNextTheme();
-                }
-            }
-        });
-    }
-
-    private void prepareThemeMediaFile(Theme theme) {
-        HSLog.d(TAG, "prepareDefaultThemeFile");
-        TasksManager.getImpl().downloadTheme(theme, null);
     }
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
