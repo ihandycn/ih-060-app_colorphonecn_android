@@ -12,9 +12,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -111,7 +112,9 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import colorphone.acb.com.libweather.debug.DebugConfig;
 import hugo.weaving.DebugLog;
@@ -136,8 +139,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private LinearLayout mMainNetWorkErrView;
     private ThemeSelectorAdapter mAdapter;
-    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
-//    private RewardVideoView mRewardVideoView;
+    private List<MainPagerHolder> mainPagerRecyclePool;
+    private Map<Integer, MainPagerHolder> mainPagerCachedPool;
+
+    private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
+    private boolean firstShowPager = true;
 
     private boolean isPaused;
     private boolean isWindowFocus;
@@ -1285,9 +1291,31 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (mMainPage == null) {
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
                     mMainPage = (RelativeLayout) frame;
+                    ViewPager pager = frame.findViewById(R.id.main_tab_pager);
+                    mainPagerRecyclePool = new ArrayList<>();
+                    mainPagerCachedPool = new HashMap<>();
+                    pager.setAdapter(new ThemePagerAdapter());
+                    pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                        }
+
+                        @Override
+                        public void onPageSelected(int position) {
+                            MainPagerHolder holder = mainPagerCachedPool.get(position);
+                            if (holder != null && !holder.loaded) {
+                                holder.load();
+                            }
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+                        }
+                    });
                     initNetworkErrorView(frame);
-                    initRefreshView(frame.findViewById(R.id.refresh_layout));
-                    initRecyclerView(frame.findViewById(R.id.recycler_view));
+//                    initRefreshView(frame.findViewById(R.id.refresh_layout));
+//                    initRecyclerView(frame.findViewById(R.id.recycler_view));
                 } else {
                     frame = mMainPage;
                 }
@@ -1523,5 +1551,68 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         };
     }
 
+    public class ThemePagerAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == ((MainPagerHolder) object).getItemView();
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            MainPagerHolder holder;
+            if (mainPagerRecyclePool.size() > 0) {
+                int lastIndex = mainPagerRecyclePool.size() - 1;
+                holder = mainPagerRecyclePool.get(lastIndex);
+                mainPagerRecyclePool.remove(lastIndex);
+            } else {
+                holder = new MainPagerHolder(View.inflate(ColorPhoneActivity.this, R.layout.main_tab_pager_item, null));
+            }
+            container.addView(holder.getItemView());
+            if (firstShowPager && position == 0) {
+                firstShowPager = false;
+                holder.load();
+            }
+            mainPagerCachedPool.put(position, holder);
+            return holder;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            container.removeView(((MainPagerHolder) object).getItemView());
+            mainPagerRecyclePool.remove((MainPagerHolder) object);
+            mainPagerCachedPool.remove(position);
+        }
+    }
+
+    private class MainPagerHolder {
+        boolean loaded;
+        private View itemView;
+        private SmartRefreshLayout refreshLayout;
+        private RecyclerView recyclerView;
+
+        public MainPagerHolder(View itemView) {
+            this.loaded = false;
+            this.itemView = itemView;
+            this.refreshLayout = itemView.findViewById(R.id.refresh_layout);
+            this.recyclerView = itemView.findViewById(R.id.recycler_view);
+        }
+
+        public View getItemView() {
+            return itemView;
+        }
+
+        public void load() {
+            loaded = true;
+            initRefreshView(refreshLayout);
+//            requestThemeData(true);
+            initRecyclerView(recyclerView);
+        }
+    }
 
 }
