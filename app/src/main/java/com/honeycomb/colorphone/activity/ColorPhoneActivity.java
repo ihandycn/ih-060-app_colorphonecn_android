@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
@@ -24,6 +27,7 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -64,7 +68,9 @@ import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
+import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.menu.TabItem;
 import com.honeycomb.colorphone.news.NewsFrame;
@@ -141,7 +147,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ThemeSelectorAdapter mAdapter;
     private List<MainPagerHolder> mainPagerRecyclePool;
     private Map<Integer, MainPagerHolder> mainPagerCachedPool;
-
+    private List<AllCategoryBean.CategoryItem> categoryList;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
     private boolean firstShowPager = true;
 
@@ -258,6 +264,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView guideLottie;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
+    private ThemePagerAdapter mainPagerAdapter;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -435,7 +442,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initTab() {
         mTabItems.add(new TabItem(TabItem.TAB_MAIN,
-                R.drawable.seletor_tab_main, "首页", true));
+                R.drawable.seletor_tab_main, "首页", false));
 
 //        TabItem tabItemNews = new TabItem(TabItem.TAB_NEWS,
 //                R.drawable.seletor_tab_news, "资讯", true);
@@ -1126,6 +1133,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ThemeList.getInstance().fillData(mRecyclerViewData);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initNetworkErrorView(View rootView) {
         mMainNetWorkErrView = rootView.findViewById(R.id.frame_no_network);
         mMainNetWorkErrView.findViewById(R.id.no_network_action).setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ff696681"),
@@ -1133,12 +1141,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mMainNetWorkErrView.findViewById(R.id.no_network_action).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSmartRefreshLayout.autoRefresh();
+                if (categoryList.size()==1){
+                    requestCategories();
+                }else {
+                    mSmartRefreshLayout.autoRefresh();
+                }
             }
         });
+        mMainNetWorkErrView.setOnTouchListener((v, event) -> true);
     }
 
-    private void initRefreshView(SmartRefreshLayout smartRefreshLayout) {
+    private void initRefreshView(SmartRefreshLayout smartRefreshLayout, boolean autoRefresh) {
         mSmartRefreshLayout = smartRefreshLayout;
         mSmartRefreshLayout.setEnableAutoLoadMore(true);
         mSmartRefreshLayout.setRefreshHeader(new ClassicHeader(this));
@@ -1162,7 +1175,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         //触发自动刷新
-        mSmartRefreshLayout.autoRefresh();
+        if (autoRefresh) {
+            mSmartRefreshLayout.autoRefresh();
+        } else {
+            requestThemeData(true);
+        }
     }
 
     private void initRecyclerView(RecyclerView frame) {
@@ -1282,6 +1299,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return false;
     }
 
+    @SuppressLint("UseSparseArrays")
     private View createFrameItem(ViewGroup container, int position) {
         HSLog.d("MainTabAdapter", "getItem");
         View frame = null;
@@ -1291,10 +1309,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (mMainPage == null) {
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
                     mMainPage = (RelativeLayout) frame;
-                    ViewPager pager = frame.findViewById(R.id.main_tab_pager);
                     mainPagerRecyclePool = new ArrayList<>();
                     mainPagerCachedPool = new HashMap<>();
-                    pager.setAdapter(new ThemePagerAdapter());
+                    categoryList = new ArrayList<>();
+                    AllCategoryBean.CategoryItem categoryItem = new AllCategoryBean.CategoryItem();
+                    categoryItem.setId("-1");
+                    categoryItem.setName("热门");
+                    categoryList.add(categoryItem);
+
+                    ViewPager pager = frame.findViewById(R.id.main_tab_pager);
+                    TabLayout tabView = frame.findViewById(R.id.wallpaper_tabs);
+                    tabView.setupWithViewPager(pager);
+                    mainPagerAdapter = new ThemePagerAdapter();
+                    pager.setAdapter(mainPagerAdapter);
                     pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1305,7 +1332,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         public void onPageSelected(int position) {
                             MainPagerHolder holder = mainPagerCachedPool.get(position);
                             if (holder != null && !holder.loaded) {
-                                holder.load();
+                                holder.load(false);
                             }
                         }
 
@@ -1313,9 +1340,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         public void onPageScrollStateChanged(int state) {
                         }
                     });
+                    requestCategories();
                     initNetworkErrorView(frame);
-//                    initRefreshView(frame.findViewById(R.id.refresh_layout));
-//                    initRecyclerView(frame.findViewById(R.id.recycler_view));
                 } else {
                     frame = mMainPage;
                 }
@@ -1407,6 +1433,40 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         frame.setTag(position);
         return frame;
+    }
+
+    private void requestCategories() {
+        HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                if (isFirstRequestData) {
+                    Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
+                    if (mMainNetWorkErrView != null) {
+                        mMainNetWorkErrView.setVisibility(View.VISIBLE);
+                    }
+                    isFirstRequestData = false;
+                }
+                Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
+
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
+                Toast toast = new Toast(getBaseContext());
+                toast.setGravity(Gravity.CENTER | Gravity.TOP, 0, Dimensions.pxFromDp(80));
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
+            }
+
+            @Override
+            public void onSuccess(AllCategoryBean allCategoryBean) {
+                if (allCategoryBean.getCategories() != null && allCategoryBean.getCategories().size() > 1) {
+                    categoryList = allCategoryBean.getCategories();
+                    mainPagerAdapter.notifyDataSetChanged();
+                } else {
+                    onFailure("网络异常");
+                }
+            }
+        });
     }
 
     @Override
@@ -1554,7 +1614,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public class ThemePagerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return 4;
+            return categoryList.size();
         }
 
         @Override
@@ -1576,7 +1636,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             container.addView(holder.getItemView());
             if (firstShowPager && position == 0) {
                 firstShowPager = false;
-                holder.load();
+                holder.load(true);
             }
             mainPagerCachedPool.put(position, holder);
             return holder;
@@ -1585,8 +1645,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView(((MainPagerHolder) object).getItemView());
-            mainPagerRecyclePool.remove((MainPagerHolder) object);
+            mainPagerRecyclePool.remove(object);
             mainPagerCachedPool.remove(position);
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return categoryList.get(position).getName();
         }
     }
 
@@ -1596,7 +1662,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         private SmartRefreshLayout refreshLayout;
         private RecyclerView recyclerView;
 
-        public MainPagerHolder(View itemView) {
+        MainPagerHolder(View itemView) {
             this.loaded = false;
             this.itemView = itemView;
             this.refreshLayout = itemView.findViewById(R.id.refresh_layout);
@@ -1607,10 +1673,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             return itemView;
         }
 
-        public void load() {
+        public void load(boolean autoRefresh) {
             loaded = true;
-            initRefreshView(refreshLayout);
-//            requestThemeData(true);
+            initRefreshView(refreshLayout, autoRefresh);
             initRecyclerView(recyclerView);
         }
     }

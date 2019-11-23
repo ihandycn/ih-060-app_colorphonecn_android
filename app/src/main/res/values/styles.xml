@@ -174,4 +174,10 @@
         <item name="colorControlActivated">#000</item>
     </style>
 
+    <style name="MainPageTabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MainPageTabLayoutTextAppearance.Customize" parent="MainPageTabLayoutTextAppearance">
+    </style>
 </resources>

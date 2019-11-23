@@ -14,7 +14,7 @@ public class AllCategoryBean {
         this.category_list = categories;
     }
 
-    private static class CategoryItem {
+    public static class CategoryItem {
         private String id;
         private String name;
 
