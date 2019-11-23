@@ -4,14 +4,14 @@ import java.util.List;
 
 public class AllCategoryBean {
 
-    private List<CategoryItem> categories;
+    private List<CategoryItem> category_list;
 
     public List<CategoryItem> getCategories() {
-        return categories;
+        return category_list;
     }
 
     public void setCategories(List<CategoryItem> categories) {
-        this.categories = categories;
+        this.category_list = categories;
     }
 
     private static class CategoryItem {
