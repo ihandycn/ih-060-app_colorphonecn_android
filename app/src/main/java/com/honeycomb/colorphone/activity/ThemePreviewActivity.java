@@ -122,7 +122,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             mThemes.clear();
             mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
         } else {
-            ThemeList.getInstance().fillData(mThemes);
+            mThemes = ThemeList.getInstance().getCategoryThemes(from);
         }
         mSavedState = savedInstanceState;
 
@@ -332,7 +332,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     }
                 });
             } else {
-                ThemeList.getInstance().requestThemeForMainFrame(false, new ThemeUpdateListener() {
+                ThemeList.getInstance().requestCategoryThemes(from, false, new ThemeUpdateListener() {
                     @Override
                     public void onFailure(String errorMsg) {
                         isUpdate = false;
@@ -342,8 +342,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     public void onSuccess(boolean isHasData) {
                         isUpdate = false;
                         if (isHasData) {
-                            ThemeList.getInstance().updateThemesTotally();
-                            ThemeList.getInstance().fillData(mThemes);
+                            mThemes.clear();
+                            mThemes.addAll(ThemeList.getInstance().getCategoryThemes(from));
                             mAdapter.notifyDataSetChanged();
                             HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME);
                         }
