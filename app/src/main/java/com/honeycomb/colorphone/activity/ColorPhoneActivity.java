@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -148,7 +147,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
     private boolean isFirstRequestData = true;
-    private boolean isAlreadyDownloadFirstTheme = false;
+    private boolean isNeedSetFirstTheme = false;
 
     private TasksManagerModel model;
     private TasksManagerModel ringtoneModel;
@@ -857,6 +856,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 //download current theme
                 if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
+                    isNeedSetFirstTheme = true;
                     model = TasksManager.getImpl().requestMediaTask(Theme.getFirstTheme());
                     ringtoneModel = TasksManager.getImpl().requestRingtoneTask(Theme.getFirstTheme());
 
@@ -877,7 +877,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
+            if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
@@ -885,7 +885,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mRecyclerViewData.get(0).setSelected(true);
                 }
                 mAdapter.notifyDataSetChanged();
-                isAlreadyDownloadFirstTheme = true;
             }
             FileDownloadMultiListener.getDefault().removeStateListener(model.getId());
         }
@@ -904,25 +903,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            if (isAlreadyDownloadFirstTheme) {
-                if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
-                    FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
-                    if (!Settings.System.canWrite(getBaseContext())) {
-                        Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
+            if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
+                if (!Settings.System.canWrite(getBaseContext())) {
+                    Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                    return;
                 }
-            } else {
-                if (Theme.getFirstTheme() != null && ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == Theme.getFirstTheme().getId()) {
-                    FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
-                    if (!Settings.System.canWrite(getBaseContext())) {
-                        Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
-                }
+                RingtoneHelper.setDefaultRingtoneInBackground(Theme.getFirstTheme());
             }
+            FileDownloadMultiListener.getDefault().removeStateListener(ringtoneModel.getId());
         }
 
         @Override
