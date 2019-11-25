@@ -112,7 +112,7 @@
             android:layout_weight="1">
 
             <android.support.design.widget.TabLayout
-                android:id="@+id/wallpaper_tabs"
+                android:id="@+id/main_page_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"

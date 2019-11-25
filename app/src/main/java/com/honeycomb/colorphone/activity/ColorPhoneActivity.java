@@ -27,7 +27,6 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -266,6 +265,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
     private ThemePagerAdapter mainPagerAdapter;
+    private TabLayout mMainPageTab;
+    private ViewPager mViewPager;
+    private View mGridView;
+    private View mCategoriesTitle;
+    private View mArrowLeftPart;
+    private View mArrowRightPart;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -1317,12 +1322,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     categoryItem.setName("热门");
                     categoryList.add(categoryItem);
 
-                    ViewPager pager = frame.findViewById(R.id.main_tab_pager);
-                    TabLayout tabView = frame.findViewById(R.id.wallpaper_tabs);
-                    tabView.setupWithViewPager(pager);
+                    mMainPageTab = frame.findViewById(R.id.main_page_tabs);
+                    mViewPager = frame.findViewById(R.id.main_tab_pager);
+                    mGridView = frame.findViewById(R.id.categories_grid_view);
+                    mCategoriesTitle = frame.findViewById(R.id.categories_title);
+                    mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
+                    mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
+
+                    frame.findViewById(R.id.tab_layout_container)
+                            .setElevation(Dimensions.pxFromDp(1));
+
+                    mMainPageTab.setupWithViewPager(mViewPager);
                     mainPagerAdapter = new ThemePagerAdapter();
-                    pager.setAdapter(mainPagerAdapter);
-                    pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    mViewPager.setAdapter(mainPagerAdapter);
+                    mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -1341,7 +1354,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         public void onPageScrollStateChanged(int state) {
                         }
                     });
-                    requestCategories();
                     initNetworkErrorView(frame);
                 } else {
                     frame = mMainPage;
@@ -1636,11 +1648,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 holder = new MainPagerHolder(View.inflate(ColorPhoneActivity.this, R.layout.main_tab_pager_item, null));
             }
             container.addView(holder.getItemView());
+            mainPagerCachedPool.put(position, holder);
             if (firstShowPager && position == 0) {
                 firstShowPager = false;
+                requestCategories();
                 holder.load(true);
             }
-            mainPagerCachedPool.put(position, holder);
             return holder;
         }
 
