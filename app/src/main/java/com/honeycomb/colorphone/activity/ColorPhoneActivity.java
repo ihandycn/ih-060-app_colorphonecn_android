@@ -150,6 +150,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private List<AllCategoryBean.CategoryItem> categoryList;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
     private boolean firstShowPager = true;
+    private int mainPagerPosition = 0;
 
     private boolean isPaused;
     private boolean isWindowFocus;
@@ -820,7 +821,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void requestThemeData(boolean isRefresh) {
 
-        ThemeList.getInstance().requestThemeForMainFrame(isRefresh, new ThemeUpdateListener() {
+        ThemeList.getInstance().requestCategoryThemes(categoryList.get(mainPagerPosition).getId(), isRefresh, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
                 if (isFirstRequestData) {
@@ -1129,8 +1130,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void setData() {
-        ThemeList.getInstance().updateThemesTotally();
-        ThemeList.getInstance().fillData(mRecyclerViewData);
+        mRecyclerViewData = ThemeList.getInstance().getCategoryThemes(categoryList.get(mainPagerPosition).getId());
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1141,9 +1141,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mMainNetWorkErrView.findViewById(R.id.no_network_action).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (categoryList.size()==1){
+                if (categoryList.size() == 1) {
                     requestCategories();
-                }else {
+                } else {
                     mSmartRefreshLayout.autoRefresh();
                 }
             }
@@ -1330,6 +1330,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                         @Override
                         public void onPageSelected(int position) {
+                            mainPagerPosition = position;
                             MainPagerHolder holder = mainPagerCachedPool.get(position);
                             if (holder != null && !holder.loaded) {
                                 holder.load(false);
@@ -1461,6 +1462,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onSuccess(AllCategoryBean allCategoryBean) {
                 if (allCategoryBean.getCategories() != null && allCategoryBean.getCategories().size() > 1) {
                     categoryList = allCategoryBean.getCategories();
+                    mainPagerCachedPool.get(mainPagerPosition).load(true);
                     mainPagerAdapter.notifyDataSetChanged();
                 } else {
                     onFailure("网络异常");
