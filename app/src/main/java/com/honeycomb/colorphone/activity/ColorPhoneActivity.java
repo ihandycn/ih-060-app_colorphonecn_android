@@ -1,6 +1,10 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -111,6 +117,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -123,6 +130,9 @@ import java.util.Map;
 
 import colorphone.acb.com.libweather.debug.DebugConfig;
 import hugo.weaving.DebugLog;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements View.OnClickListener, INotificationObserver {
@@ -201,7 +211,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     guideLottie.playAnimation();
 
                     if (mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
-                        guideLottie.setVisibility(View.VISIBLE);
+                        guideLottie.setVisibility(VISIBLE);
                     }
                 }
             }
@@ -217,7 +227,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void run() {
             if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-                tabCashCenterGuide.setVisibility(View.VISIBLE);
+                tabCashCenterGuide.setVisibility(VISIBLE);
                 tabCashCenterGuide.useHardwareAcceleration();
                 tabCashCenterGuide.playAnimation();
 
@@ -267,10 +277,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ThemePagerAdapter mainPagerAdapter;
     private TabLayout mMainPageTab;
     private ViewPager mViewPager;
-    private View mGridView;
-    private View mCategoriesTitle;
-    private View mArrowLeftPart;
-    private View mArrowRightPart;
+    private GridView mGridView;
+    private TextView mCategoriesTitle;
+    private ImageView mArrowLeftPart;
+    private ImageView mArrowRightPart;
+    private AnimatorSet mAnimatorSet;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -505,7 +516,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 View hintView = ringtoneTab.findViewById(R.id.tab_layout_hint);
                 hintView.getLayoutParams().height = Dimensions.pxFromDp(6);
                 hintView.getLayoutParams().width = Dimensions.pxFromDp(6);
-                hintView.setVisibility(View.VISIBLE);
+                hintView.setVisibility(VISIBLE);
                 hintView.setTranslationX(-Dimensions.pxFromDp(5));
                 hintView.setTranslationY(Dimensions.pxFromDp(5));
                 hintView.requestLayout();
@@ -550,12 +561,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (TabItem.TAB_RINGTONE.equals(tabItem.getId())) {
                     Preferences.getDefault().putBoolean(PREFS_RINGTONE_SHOW, true);
                     if (tabView != null) {
-                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(GONE);
                     }
                 }
 
                 if (tabItem.getId().equals(TabItem.TAB_NEWS)) {
-                    toolbar.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(VISIBLE);
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(colorPrimary);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
@@ -571,22 +582,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
 
                     if (tabView != null) {
-                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(GONE);
                     }
                     updateTabStyle(true);
 
                 } else {
                     if (tabItem.isEnableToolBarTitle()) {
-                        toolbar.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(VISIBLE);
                     } else {
-                        toolbar.setVisibility(View.GONE);
+                        toolbar.setVisibility(GONE);
                     }
 
                     // Cash tab
                     if (tabItem.getId().equals(TabItem.TAB_CASH)) {
                         Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
-                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
-                        tabCashCenterGuide.setVisibility(View.GONE);
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(GONE);
+                        tabCashCenterGuide.setVisibility(GONE);
 
                         tabTransController.setInterceptView(null);
 
@@ -617,7 +628,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 switch (tabItem.getId()) {
                     case TabItem.TAB_MAIN:
                         if (guideLottie != null) {
-                            guideLottie.setVisibility(View.VISIBLE);
+                            guideLottie.setVisibility(VISIBLE);
                         }
 
                         Analytics.logEvent("Tab_Themes_Show");
@@ -631,7 +642,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
-                            guideLottie.setVisibility(View.GONE);
+                            guideLottie.setVisibility(GONE);
                         }
 
                         Analytics.logEvent("Tab_Settings_Show");
@@ -832,7 +843,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
                     if (mMainNetWorkErrView != null) {
-                        mMainNetWorkErrView.setVisibility(View.VISIBLE);
+                        mMainNetWorkErrView.setVisibility(VISIBLE);
                     }
                     isFirstRequestData = false;
                 }
@@ -855,7 +866,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onSuccess(boolean isHasData) {
                 if (mMainNetWorkErrView != null) {
-                    mMainNetWorkErrView.setVisibility(View.GONE);
+                    mMainNetWorkErrView.setVisibility(GONE);
                 }
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First_Success");
@@ -959,7 +970,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void refreshData() {
         setData();
-        mAdapter.notifyDataSetChanged();
 
         int maxId = -1;
         for (Type type : Type.values()) {
@@ -1136,6 +1146,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void setData() {
         mRecyclerViewData = ThemeList.getInstance().getCategoryThemes(categoryList.get(mainPagerPosition).getId());
+        mAdapter.setData(mRecyclerViewData);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1147,7 +1159,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onClick(View view) {
                 if (categoryList.size() == 1) {
-                    requestCategories();
+                    requestCategories(mainPagerCachedPool.get(0));
                 } else {
                     mSmartRefreshLayout.autoRefresh();
                 }
@@ -1169,6 +1181,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
                 Analytics.logEvent("CallFlash_Request");
                 requestThemeData(true);
+                mAdapter.setData(mRecyclerViewData);
+                mAdapter.notifyDataSetChanged();
             }
         });
         mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -1176,6 +1190,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 Analytics.logEvent("CallFlash_Request");
                 requestThemeData(false);
+                mAdapter.setData(mRecyclerViewData);
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -1187,14 +1203,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    private void initRecyclerView(RecyclerView frame) {
-        mRecyclerView = frame;
+    private void initRecyclerView() {
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mAdapter.setHotThemeHolderVisible(HSConfig.optBoolean(false, "Application", "Special", "SpecialEntrance"));
-        mRecyclerView.setAdapter(mAdapter);
+
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -1329,11 +1344,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
                     mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
 
+                    setArrowOnClickAnimation(frame, mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart);
+                    mMainPageTab.setSelectedTabIndicatorHeight(0);
                     frame.findViewById(R.id.tab_layout_container)
                             .setElevation(Dimensions.pxFromDp(1));
 
                     mMainPageTab.setupWithViewPager(mViewPager);
                     mainPagerAdapter = new ThemePagerAdapter();
+
+//                    CategoryViewAdapter categoryViewAdapter = new CategoryViewAdapter(this, categoryList);
+//                    mGridView.setAdapter(categoryViewAdapter);
                     mViewPager.setAdapter(mainPagerAdapter);
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
@@ -1345,8 +1365,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         public void onPageSelected(int position) {
                             mainPagerPosition = position;
                             MainPagerHolder holder = mainPagerCachedPool.get(position);
-                            if (holder != null && !holder.loaded) {
-                                holder.load(false);
+                            if (holder != null) {
+                                mRecyclerView = holder.recyclerView;
+                                Threads.postOnMainThreadDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!holder.loaded) {
+                                            holder.load(false);
+                                        }
+                                    }
+                                }, 300);
                             }
                         }
 
@@ -1405,7 +1433,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         });
 
                         TextView title = lotteryWheelLayout.findViewById(com.acb.cashcenter.R.id.cash_center_left_corner_text);
-                        title.setVisibility(View.VISIBLE);
+                        title.setVisibility(VISIBLE);
                         title.setText(R.string.cash_center);
                         title.setTextColor(0xffffffff);
                         title.setTextSize(14);
@@ -1448,14 +1476,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return frame;
     }
 
-    private void requestCategories() {
+    private void requestCategories(MainPagerHolder holder) {
         HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
                     if (mMainNetWorkErrView != null) {
-                        mMainNetWorkErrView.setVisibility(View.VISIBLE);
+                        mMainNetWorkErrView.setVisibility(VISIBLE);
                     }
                     isFirstRequestData = false;
                 }
@@ -1474,7 +1502,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onSuccess(AllCategoryBean allCategoryBean) {
                 if (allCategoryBean.getCategories() != null && allCategoryBean.getCategories().size() > 1) {
                     categoryList = allCategoryBean.getCategories();
-                    mainPagerCachedPool.get(mainPagerPosition).load(true);
+                    holder.load(true);
                     mainPagerAdapter.notifyDataSetChanged();
                 } else {
                     onFailure("网络异常");
@@ -1566,7 +1594,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         private void hide() {
             if (mInterceptView != null) {
-                if (mInterceptView.getVisibility() != View.VISIBLE) {
+                if (mInterceptView.getVisibility() != VISIBLE) {
                     mTab.animate().translationY(mTab.getHeight()).setStartDelay(200).setDuration(200).start();
                 }
             } else {
@@ -1651,8 +1679,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mainPagerCachedPool.put(position, holder);
             if (firstShowPager && position == 0) {
                 firstShowPager = false;
-                requestCategories();
-                holder.load(true);
+                mRecyclerView = holder.recyclerView;
+                requestCategories(holder);
             }
             return holder;
         }
@@ -1662,6 +1690,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             container.removeView(((MainPagerHolder) object).getItemView());
             mainPagerRecyclePool.remove(object);
             mainPagerCachedPool.remove(position);
+            ThemeList.getInstance().clearCategoryThemes(categoryList.get(position).getId());
         }
 
         @Nullable
@@ -1690,9 +1719,112 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         public void load(boolean autoRefresh) {
             loaded = true;
+            initRecyclerView();
             initRefreshView(refreshLayout, autoRefresh);
-            initRecyclerView(recyclerView);
         }
     }
 
+    private void setArrowOnClickAnimation(View frame, final GridView categoryView,
+                                          final TextView categoryTitle,
+                                          final ImageView arrowLeftPart,
+                                          final ImageView arrowRightPart) {
+        LinearLayout arrowContainer = frame.findViewById(R.id.arrow_container);
+        arrowContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrowClicked(frame, categoryView, categoryTitle, arrowLeftPart, arrowRightPart, "ArrowClicked");
+            }
+        });
+    }
+
+    private void arrowClicked(View frame, final GridView categoryView,
+                              final TextView categoryTitle,
+                              final ImageView arrowLeftPart,
+                              final ImageView arrowRightPart, final String flurryClickType) {
+        if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
+            mAnimatorSet.end();
+        }
+        final int start = Math.abs((int) arrowLeftPart.getRotation() % 360);
+        HSLog.d("WallpaperAnimator ", "start value " + start + "");
+        float startAlpha = start == 0 ? 0 : 1;
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(categoryView, "alpha", startAlpha, 1f - startAlpha);
+        alpha.setDuration(300);
+        alpha.setInterpolator(new AccelerateInterpolator());
+        int degree = !Dimensions.isRtl() ? 90 : -90;
+        // shrink
+        if (start == 90) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                frame.findViewById(R.id.tab_layout_container)
+                        .setElevation(Dimensions.pxFromDp(1));
+            }
+
+            ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", -degree, 0);
+            arrowRotateLeft.setDuration(300);
+
+            ObjectAnimator arrowRotateRight = ObjectAnimator.ofFloat(arrowRightPart, "rotation", degree, 0);
+            arrowRotateRight.setDuration(300);
+
+            mMainPageTab.setVisibility(VISIBLE);
+            categoryTitle.setVisibility(GONE);
+            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", 0, -categoryView.getHeight());
+            transY.setInterpolator(new AccelerateInterpolator());
+            transY.setDuration(160);
+
+            transY.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    categoryView.setVisibility(GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                    categoryView.setVisibility(GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+            mAnimatorSet = new AnimatorSet();
+            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, transY);
+            mAnimatorSet.start();
+        }
+        // expand
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                frame.findViewById(R.id.tab_layout_container)
+                        .setElevation(0);
+            }
+
+            ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", 0, -degree);
+            arrowRotateLeft.setDuration(300);
+
+            ObjectAnimator arrowRotateRight = ObjectAnimator.ofFloat(arrowRightPart, "rotation", 0, degree);
+            arrowRotateRight.setDuration(300);
+
+            mMainPageTab.setVisibility(GONE);
+            categoryTitle.setVisibility(VISIBLE);
+            categoryView.setVisibility(VISIBLE);
+
+            categoryView.setTranslationY(-categoryView.getHeight());
+
+            ObjectAnimator transY = ObjectAnimator.ofFloat(categoryView, "translationY", -categoryView.getHeight(), 0);
+            transY.setInterpolator(new AccelerateInterpolator());
+            transY.setDuration(300);
+
+            AnimatorSet title = (AnimatorSet) AnimatorInflater.loadAnimator(ColorPhoneActivity.this, R.animator.online_wallpaper_categories_title_in);
+            title.setTarget(categoryTitle);
+
+            mAnimatorSet = new AnimatorSet();
+            mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, title, alpha, transY);
+            mAnimatorSet.start();
+            mainPagerAdapter.notifyDataSetChanged();
+        }
+    }
 }

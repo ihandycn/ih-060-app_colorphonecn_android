@@ -216,7 +216,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-
+    public void setData(ArrayList<Theme> data){
+        this.data = data;
+    }
     public void setHeaderTipVisible(boolean visible) {
         mTipHeaderVisible = visible;
     }
