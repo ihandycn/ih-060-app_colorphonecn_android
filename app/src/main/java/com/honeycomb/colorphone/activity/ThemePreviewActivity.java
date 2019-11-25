@@ -63,11 +63,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_PUBLISH_DOWNLOAD = "notify_theme_publish_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
-    public static final String FROM_MAIN = "notify_theme_context_key";
+    public static final String FROM_MAIN = "main";
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
 
     private Theme mTheme;
     private String from;
+    private String categoryId;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
     private ThemePagerAdapter mAdapter;
@@ -79,18 +80,19 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private MediaSharedElementCallback mediaSharedElementCallback;
     private Bundle mSavedState;
 
-    public static void start(Context context, int position, Bundle options) {
-        start(context, position, FROM_MAIN, options);
-    }
-
     public static void start(Context context, int position, String from) {
         start(context, position, from, null);
     }
 
     public static void start(Context context, int position, String from, Bundle options) {
+        start(context, position, from, "", options);
+    }
+
+    public static void start(Context context, int position, String from, String categoryId, Bundle options) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
         starter.putExtra("from", from);
+        starter.putExtra("categoryId", categoryId);
         if (context instanceof Activity) {
             ((Activity) context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
@@ -98,7 +100,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter, options);
     }
-
 
     public List<ThemePreviewView> getViews() {
         return mViews;
@@ -115,14 +116,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         int pos = getIntent().getIntExtra("position", 0);
         from = getIntent().getStringExtra("from");
+        categoryId = getIntent().getStringExtra("categoryId");
         if ("upload".equals(from)) {
             mThemes.clear();
             mThemes.addAll(ThemeList.getInstance().getUserUploadTheme());
         } else if ("publish".equals(from)) {
             mThemes.clear();
             mThemes.addAll(ThemeList.getInstance().getUserPublishTheme());
-        } else {
-            mThemes = ThemeList.getInstance().getCategoryThemes(from);
+        } else if ("main".equals(from)) {
+            mThemes = ThemeList.getInstance().getCategoryThemes(categoryId);
         }
         mSavedState = savedInstanceState;
 
@@ -331,8 +333,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                         }
                     }
                 });
-            } else {
-                ThemeList.getInstance().requestCategoryThemes(from, false, new ThemeUpdateListener() {
+            } else if ("main".equals(from)) {
+                ThemeList.getInstance().requestCategoryThemes(categoryId, false, new ThemeUpdateListener() {
                     @Override
                     public void onFailure(String errorMsg) {
                         isUpdate = false;
@@ -343,7 +345,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                         isUpdate = false;
                         if (isHasData) {
                             mThemes.clear();
-                            mThemes.addAll(ThemeList.getInstance().getCategoryThemes(from));
+                            mThemes.addAll(ThemeList.getInstance().getCategoryThemes(categoryId));
                             mAdapter.notifyDataSetChanged();
                             HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_UPDATE_THEME_IN_MAIN_FRAME);
                         }

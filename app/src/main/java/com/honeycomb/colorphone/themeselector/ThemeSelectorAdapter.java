@@ -216,9 +216,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    public void setData(ArrayList<Theme> data){
+    public void setData(ArrayList<Theme> data) {
         this.data = data;
     }
+
     public void setHeaderTipVisible(boolean visible) {
         mTipHeaderVisible = visible;
     }
@@ -397,7 +398,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
 
-            ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
+            ThemePreviewActivity.start(activity, pos, "main", "1", activityOptionsCompat.toBundle());
         }
     }
 
