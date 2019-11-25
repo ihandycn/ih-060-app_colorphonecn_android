@@ -2,7 +2,12 @@
   "custom_audience_properties": [],
   "console_url": "https://ap-console.appcloudbox.net",
   "app_meta": {
-    "is_support_languages": false
+    "remote_config_get_interval_secs": {
+      "one_time": 3600,
+      "rtot_popup": 3600
+    },
+    "is_support_languages": false,
+    "session_end_delay": 10
   },
   "app_events": [
     {
@@ -13,9 +18,6 @@
     },
     {
       "name": "main_app_close"
-    },
-    {
-      "name": "extended_active"
     },
     {
       "name": "ad_click_native"
@@ -36,16 +38,7 @@
       "name": "iap"
     },
     {
-      "name": "extended_deactive"
-    },
-    {
       "name": "get_remote_config"
-    },
-    {
-      "name": "daily_active"
-    },
-    {
-      "name": "initial_completed"
     },
     {
       "name": "ad_click"
@@ -131,6 +124,16 @@
           "type": "string",
           "value": "",
           "strategy": "sole"
+        },
+        "image": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "url",
+          "value": "",
+          "strategy": "sole"
         }
       },
       "events": [
@@ -159,12 +162,91 @@
         }
       ],
       "topic_id": "topic-73p89g8i7"
+    },
+    "topic-7bzwyrj9r": {
+      "topic_type": "life_time",
+      "topic_name": "Start_Process_Test",
+      "variations": {
+        "set_theme_guide": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "skip_on_fixalert": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "user_rights": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-7bzwyrj9r"
+    }
+  },
+  "occasion_mgt": {
+    "archived_actions": {},
+    "custom_state_properties": [],
+    "actions": {},
+    "triggers": {
+      "unlock_screen": {
+        "trigger_id": "793"
+      },
+      "session_start": {
+        "trigger_id": "790"
+      },
+      "stop_charging_inapp": {
+        "trigger_id": "795"
+      },
+      "homepage_open": {
+        "trigger_id": "798"
+      },
+      "start_charging_inapp": {
+        "trigger_id": "794"
+      },
+      "session_end": {
+        "trigger_id": "791"
+      },
+      "start_charging_bg": {
+        "trigger_id": "796"
+      },
+      "stop_charging_bg": {
+        "trigger_id": "797"
+      },
+      "app_exit": {
+        "trigger_id": "799"
+      },
+      "screen_on": {
+        "trigger_id": "792"
+      }
     }
   },
   "autopilot_id": 10102,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "0fc901a8-b009-49cd-b98d-d72fa8d6ad3a",
+  "json_id": "fe16c637-d3f8-46b4-ad19-cfc04c0387d3",
   "autopilot_name": "ColorPhone_K",
   "autopilot_type": "app"
 }
