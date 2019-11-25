@@ -5,7 +5,7 @@ import com.superapps.util.rom.RomUtils;
 import net.appcloudbox.autopilot.AutopilotConfig;
 
 public class StartProcessTestAutopilotUtils {
-    private static final String TOPIC_ID = "Start_Process_Test";
+    private static final String TOPIC_ID = "topic-l-7bzz1dtye";
 
     public static boolean shouldShowSkipOnFixAlert(){
         if (RomUtils.checkIsMiuiRom()
