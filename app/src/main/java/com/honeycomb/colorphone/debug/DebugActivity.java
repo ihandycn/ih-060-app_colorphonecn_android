@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.IHttpRequest;
 import com.honeycomb.colorphone.http.bean.AllCategoryBean;
@@ -17,6 +18,8 @@ import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
+import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
@@ -66,7 +69,8 @@ public class DebugActivity extends Activity {
             }
         });
         findViewById(R.id.cancel_upload_btn).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 cancelUpload();
             }
         });
@@ -226,7 +230,8 @@ public class DebugActivity extends Activity {
                 failure(errorMsg);
             }
 
-            @Override public void onSuccess(AllUserThemeBean allUserThemeBean) {
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
                 success();
             }
         });
@@ -266,7 +271,7 @@ public class DebugActivity extends Activity {
     }
 
     private void getAllCategory() {
-        HttpManager.getInstance().getAllCategories( new Callback<AllCategoryBean>() {
+        HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 failure(errorMsg);
@@ -281,15 +286,14 @@ public class DebugActivity extends Activity {
     }
 
     private void getHotCategoryThemes() {
-        String themeId = "1";
-        HttpManager.getInstance().getCategoryThemes(themeId,1, new Callback<AllThemeBean>() {
+        ThemeList.getInstance().requestCategoryThemes("1", true, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
                 failure(errorMsg);
             }
 
             @Override
-            public void onSuccess(AllThemeBean allThemeBean) {
+            public void onSuccess(boolean isHasData) {
                 success();
             }
         });
