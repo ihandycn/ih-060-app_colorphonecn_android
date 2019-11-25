@@ -397,8 +397,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     makeSceneTransitionAnimation(activity,
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
+            ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity)activity;
 
-            ThemePreviewActivity.start(activity, pos, "main", "1", activityOptionsCompat.toBundle());
+            ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
         }
     }
 

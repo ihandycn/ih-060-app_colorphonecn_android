@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -159,7 +160,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private List<AllCategoryBean.CategoryItem> categoryList;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
     private boolean firstShowPager = true;
-    private int mainPagerPosition = 0;
+    public int mainPagerPosition = 0;
 
     private boolean isPaused;
     private boolean isWindowFocus;
@@ -318,6 +319,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+    }
+
+    public List<AllCategoryBean.CategoryItem> getCategoryList(){
+        return categoryList;
     }
 
     @Override
@@ -1344,6 +1349,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
                     mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
 
+
+                    mGridView.setAdapter(new MainPageGridAdapter());
                     setArrowOnClickAnimation(frame, mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart);
                     mMainPageTab.setSelectedTabIndicatorHeight(0);
                     frame.findViewById(R.id.tab_layout_container)
@@ -1825,6 +1832,37 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, title, alpha, transY);
             mAnimatorSet.start();
             mainPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class MainPageGridAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return categoryList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView textView = (TextView) View.inflate(ColorPhoneActivity.this,R.layout.main_page_grid_item,null);
+            textView.setText(categoryList.get(position).getName());
+                if (position==1){
+                    textView.setBackgroundResource(R.drawable.main_page_grid_item_bg_selected);
+                } else {
+                    textView.setBackgroundResource(R.drawable.main_page_grid_item_bg_normal);
+                }
+
+            return textView;
         }
     }
 }
