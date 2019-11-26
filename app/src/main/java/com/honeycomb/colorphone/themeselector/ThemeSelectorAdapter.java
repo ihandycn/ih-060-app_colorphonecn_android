@@ -302,6 +302,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+                    if (colorPhoneActivity.isCategoryGridExpand){
+                        colorPhoneActivity.findViewById(R.id.arrow_container).performClick();
+                        return;
+                    }
                     onCardClick(holder, view);
                 }
             });
