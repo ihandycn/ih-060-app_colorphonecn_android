@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tab_layout_container">
 
+        <ViewStub
+            android:id="@+id/stub_loading_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/layout_loading_animation" />
+
         <android.support.v4.view.ViewPager
             android:id="@+id/main_tab_pager"
             android:layout_width="match_parent"
@@ -150,10 +156,10 @@
             android:id="@+id/arrow_container"
             android:layout_width="48dp"
             android:layout_height="match_parent"
+            android:background="@drawable/main_page_arrow_click_bg"
             android:gravity="center"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:background="@drawable/main_page_arrow_click_bg">
+            android:paddingRight="5dp">
 
             <LinearLayout
                 android:layout_width="16dp"

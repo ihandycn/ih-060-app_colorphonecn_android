@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
@@ -97,6 +98,8 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.DotsPictureResManager;
+import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
@@ -286,6 +289,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ImageView mArrowLeftPart;
     private ImageView mArrowRightPart;
     private AnimatorSet mAnimatorSet;
+    private DotsPictureView mDotsPictureView;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -869,6 +873,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else {
                     mSmartRefreshLayout.finishLoadMore(true);
                 }
+                hideLoadingMainPage(true);
             }
 
             @Override
@@ -912,6 +917,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                     Preferences.getDefault().putBoolean(PREFS_SET_DEFAULT_THEME, false);
                 }
+                hideLoadingMainPage(true);
             }
         });
     }
@@ -1219,6 +1225,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initRecyclerView() {
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
@@ -1228,29 +1235,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                    if (isCategoryGridExpand) {
-                        clickOutOfCategoryGrid = true;
-                        View arrowContainer = findViewById(R.id.arrow_container);
-                        if (arrowContainer != null) {
-                            arrowContainer.performClick();
-                            mRecyclerView.onInterceptTouchEvent(event);
-                            return true;
-                        }
-                    } else if(clickOutOfCategoryGrid){
-                        Threads.postOnMainThreadDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                    clickOutOfCategoryGrid = false;
-                            }
-                        },300);
+        mRecyclerView.setOnTouchListener((v, event) -> {
+                if (isCategoryGridExpand) {
+                    clickOutOfCategoryGrid = true;
+                    View arrowContainer = findViewById(R.id.arrow_container);
+                    if (arrowContainer != null) {
+                        arrowContainer.performClick();
+                        mRecyclerView.onInterceptTouchEvent(event);
                         return true;
                     }
-                    return false;
-            }
-
+                } else if(clickOutOfCategoryGrid){
+                    Threads.postOnMainThreadDelayed(() -> clickOutOfCategoryGrid = false,300);
+                    return true;
+                }
+                return false;
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -1384,6 +1382,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
                     mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
 
+                    ViewStub stub = frame.findViewById(R.id.stub_loading_animation);
+                    stub.inflate();
+                    mDotsPictureView = frame.findViewById(R.id.dots_progress_view);
+                    mDotsPictureView.setVisibility(VISIBLE);
+
+
                     initGridViewListener(frame);
                     mGridView.setAdapter(new MainPageGridAdapter());
 
@@ -1395,8 +1399,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mMainPageTab.setupWithViewPager(mViewPager);
                     mainPagerAdapter = new ThemePagerAdapter();
 
-//                    CategoryViewAdapter categoryViewAdapter = new CategoryViewAdapter(this, categoryList);
-//                    mGridView.setAdapter(categoryViewAdapter);
                     mViewPager.setAdapter(mainPagerAdapter);
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
@@ -1420,6 +1422,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                     }
                                 }, 300);
                             }
+                            mDotsPictureView.setVisibility(VISIBLE);
+                            mDotsPictureView.startAnimation();
                         }
 
                         @Override
@@ -1918,5 +1922,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 arrowClicked(frame, mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
             }
         });
+    }
+
+    public void hideLoadingMainPage(boolean clean) {
+        if (mDotsPictureView != null) {
+            mDotsPictureView.setVisibility(View.INVISIBLE);
+            mDotsPictureView.stopAnimation();
+            if (clean) {
+                mDotsPictureView.releaseBitmaps();
+            }
+        }
     }
 }
