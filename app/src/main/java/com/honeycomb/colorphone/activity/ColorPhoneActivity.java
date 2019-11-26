@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -1151,8 +1152,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void setData() {
         mRecyclerViewData = ThemeList.getInstance().getCategoryThemes(categoryList.get(mainPagerPosition).getId());
-        mAdapter.setData(mRecyclerViewData);
-        mRecyclerView.setAdapter(mAdapter);
+        ThemeSelectorAdapter adapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
+        if (adapter ==null){
+            mAdapter.setData(mRecyclerViewData);
+            mRecyclerView.setAdapter(mAdapter);
+        }else {
+            mAdapter = adapter;
+            mAdapter.setData(mRecyclerViewData);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1349,8 +1357,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
                     mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
 
-
+                    initGridViewListener(frame);
                     mGridView.setAdapter(new MainPageGridAdapter());
+
                     setArrowOnClickAnimation(frame, mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart);
                     mMainPageTab.setSelectedTabIndicatorHeight(0);
                     frame.findViewById(R.id.tab_layout_container)
@@ -1372,6 +1381,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         public void onPageSelected(int position) {
                             mainPagerPosition = position;
                             MainPagerHolder holder = mainPagerCachedPool.get(position);
+                            ((MainPageGridAdapter)mGridView.getAdapter()).notifyDataSetChanged();
                             if (holder != null) {
                                 mRecyclerView = holder.recyclerView;
                                 Threads.postOnMainThreadDelayed(new Runnable() {
@@ -1760,10 +1770,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         int degree = !Dimensions.isRtl() ? 90 : -90;
         // shrink
         if (start == 90) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                frame.findViewById(R.id.tab_layout_container)
-                        .setElevation(Dimensions.pxFromDp(1));
-            }
+            frame.findViewById(R.id.tab_layout_container)
+                    .setElevation(Dimensions.pxFromDp(1));
 
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", -degree, 0);
             arrowRotateLeft.setDuration(300);
@@ -1804,10 +1812,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         // expand
         else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                frame.findViewById(R.id.tab_layout_container)
-                        .setElevation(0);
-            }
+            frame.findViewById(R.id.tab_layout_container)
+                    .setElevation(0);
 
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", 0, -degree);
             arrowRotateLeft.setDuration(300);
@@ -1856,7 +1862,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView textView = (TextView) View.inflate(ColorPhoneActivity.this,R.layout.main_page_grid_item,null);
             textView.setText(categoryList.get(position).getName());
-                if (position==1){
+                if (position==mainPagerPosition){
                     textView.setBackgroundResource(R.drawable.main_page_grid_item_bg_selected);
                 } else {
                     textView.setBackgroundResource(R.drawable.main_page_grid_item_bg_normal);
@@ -1864,5 +1870,24 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             return textView;
         }
+    }
+
+    private void initGridViewListener(View frame){
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position < 0 || position >= categoryList.size() || position == mainPagerPosition) {
+                    return;
+                }
+
+                MainPageGridAdapter adapter = (MainPageGridAdapter) parent.getAdapter();
+//                ((TextView)adapter.getItem(mainPagerPosition)).setBackgroundResource(R.drawable.main_page_grid_item_bg_normal);
+//                ((TextView)adapter.getItem(position)).setBackgroundResource(R.drawable.main_page_grid_item_bg_selected);
+                mainPagerPosition = position;
+                mViewPager.setCurrentItem(position, true);
+                adapter.notifyDataSetChanged();
+                arrowClicked(frame,mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart, "TabClicked");
+            }
+        });
     }
 }
