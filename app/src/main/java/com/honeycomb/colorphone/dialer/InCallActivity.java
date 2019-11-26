@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.dialer.disconnectdialog.DisconnectMessage;
 import com.honeycomb.colorphone.dialer.incalluilock.InCallUiLock;
 import com.honeycomb.colorphone.dialer.util.ViewUtil;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogFragment;
+import com.honeycomb.colorphone.util.EventUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -665,6 +666,7 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
             return false;
         }
 
+        EventUtils.tryToLogRetentionEvent();
         ViewGroup root = findViewById(R.id.main);
 
         if (mIncomingCallUI) {
