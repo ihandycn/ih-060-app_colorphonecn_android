@@ -55,7 +55,7 @@ public class ThemeSetHelper {
                     "SelectedContactsNumber", contacts.size() + "");
         }
 
-        Analytics.logEvent("ThemeDetail_SetForContact_Success");
+        Analytics.logEvent("ThemeDetail_SetForContact_Success", "Category", ThemePreviewActivity.getCategoryId());
         ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();
 

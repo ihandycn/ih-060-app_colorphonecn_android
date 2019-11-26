@@ -68,7 +68,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private Theme mTheme;
     private String from;
-    private String categoryId;
+    private static String categoryId;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
     private ThemePagerAdapter mAdapter;
@@ -587,5 +587,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
+    }
+
+    public static String getCategoryId() {
+        return categoryId;
     }
 }

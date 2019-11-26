@@ -577,8 +577,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
             Analytics.logEvent("ColorPhone_BanboList_Set_Success");
         } else {
-            Analytics.logEvent("ThemeDetail_SetForAll");
-            Analytics.logEvent("ThemeDetail_SetForAll_Success");
+            Analytics.logEvent("ThemeDetail_SetForAll", "Category", ThemePreviewActivity.getCategoryId());
+            Analytics.logEvent("ThemeDetail_SetForAll_Success", "Category", ThemePreviewActivity.getCategoryId());
         }
     }
 
@@ -588,7 +588,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
             Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
         } else {
-            Analytics.logEvent("ThemeDetail_SetForContact_Started");
+            Analytics.logEvent("ThemeDetail_SetForContact_Started", "Category", ThemePreviewActivity.getCategoryId());
             ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
         }
 
@@ -1407,7 +1407,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         "ThemeName", mTheme.getIdName(),
                         "From", "Slide");
                 Analytics.logEvent("ColorPhone_ThemeSwitch_Slide",
-                        "PreviewMode", ThemeStateManager.getInstance().getThemeModeName());
+                        "PreviewMode", ThemeStateManager.getInstance().getThemeModeName(), "Category", ThemePreviewActivity.getCategoryId());
                 resumeAnimation();
             } else {
                 HSLog.d("onPageUnSelected " + mPosition);
@@ -1889,8 +1889,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
                         Analytics.logEvent("ColorPhone_BanboList_Set_Success");
                     } else {
-                        Analytics.logEvent("ThemeDetail_SetForAll");
-                        Analytics.logEvent("ThemeDetail_SetForAll_Success");
+                        Analytics.logEvent("ThemeDetail_SetForAll", "Category", ThemePreviewActivity.getCategoryId());
+                        Analytics.logEvent("ThemeDetail_SetForAll_Success", "Category", ThemePreviewActivity.getCategoryId());
                     }
                 }
             });
@@ -1907,7 +1907,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                         Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
                     } else {
-                        Analytics.logEvent("ThemeDetail_SetForContact_Started");
+                        Analytics.logEvent("ThemeDetail_SetForContact_Started", "Category", ThemePreviewActivity.getCategoryId());
                         ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                     }
 
