@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.util.EventUtils;
 
 public class DebugActions {
 
@@ -15,6 +16,6 @@ public class DebugActions {
     }
 
     public static void onVolumeUp(Activity activity) {
-        HttpManager.getInstance().logout();
+        EventUtils.tryToLogRetentionEvent();
     }
 }

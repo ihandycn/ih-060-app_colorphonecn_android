@@ -91,6 +91,7 @@ import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
+import com.honeycomb.colorphone.util.EventUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -214,6 +215,7 @@ public class ColorPhoneApplicationImpl {
                  */
                 AppUsageMonitorMgr.getInstance().handleOnSessionStart();
                 AppMobileMonitorMgr.getInstance().handleOnSessionStart();
+                EventUtils.tryToLogRetentionEvent();
 
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
