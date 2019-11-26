@@ -479,6 +479,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (index > mMaxShowThemeIndex) {
                 mMaxShowThemeIndex = index;
                 Analytics.logEvent("ColorPhone_Mainview_Slide");
+                if (activity instanceof ColorPhoneActivity) {
+                    ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+                    Analytics.logEvent("ThemeCategory_Page_Slide", "Category", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getName());
+                }
             }
 
             if (activity instanceof PopularThemeActivity) {

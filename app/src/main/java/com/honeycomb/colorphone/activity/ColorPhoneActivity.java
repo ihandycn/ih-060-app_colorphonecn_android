@@ -290,6 +290,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ImageView mArrowRightPart;
     private AnimatorSet mAnimatorSet;
     private DotsPictureView mDotsPictureView;
+    private boolean mainPagerScrolled;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -639,6 +640,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 switch (tabItem.getId()) {
                     case TabItem.TAB_MAIN:
+                        Analytics.logEvent("ThemeCategory_Page_Show","Category",categoryList.get(mainPagerPosition).getName());
                         if (guideLottie != null) {
                             guideLottie.setVisibility(VISIBLE);
                         }
@@ -1397,13 +1399,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             .setElevation(Dimensions.pxFromDp(1));
 
                     mMainPageTab.setupWithViewPager(mViewPager);
+                    mMainPageTab.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                        @Override
+                        public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                            Analytics.logEvent("ThemeCategory_Tabbar_Slide");
+                        }
+                    });
                     mainPagerAdapter = new ThemePagerAdapter();
 
                     mViewPager.setAdapter(mainPagerAdapter);
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                            if (!mainPagerScrolled) {
+                                mainPagerScrolled = true;
+                            }
                         }
 
                         @Override
@@ -1424,6 +1434,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             }
                             mDotsPictureView.setVisibility(VISIBLE);
                             mDotsPictureView.startAnimation();
+                            Analytics.logEvent("ThemeCategory_Page_Switch","CategorySwitchMode",categoryList.get(position).getName(),"SwitchMode",mainPagerScrolled? "slide":"click");
+                            mainPagerScrolled = false;
                         }
 
                         @Override
@@ -1434,6 +1446,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else {
                     frame = mMainPage;
                 }
+                Analytics.logEvent("ThemeCategory_Page_Show","Category",categoryList.get(mainPagerPosition).getName());
                 break;
 
             case TabItem.TAB_SETTINGS:
@@ -1871,6 +1884,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mAnimatorSet.playTogether(arrowRotateLeft, arrowRotateRight, title, alpha, transY);
             mAnimatorSet.start();
             mainPagerAdapter.notifyDataSetChanged();
+            Analytics.logEvent("ThemeCategory_Tabbar_ShowMore");
         }
     }
 
