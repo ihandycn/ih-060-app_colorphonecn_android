@@ -5,25 +5,22 @@ import com.superapps.util.rom.RomUtils;
 import net.appcloudbox.autopilot.AutopilotConfig;
 
 public class StartProcessTestAutopilotUtils {
-    private static final String TOPIC_ID = "topic-l-7bzz1dtye";
+    private static final String TOPIC_ID = "topic-7c00my1zs";
 
     public static boolean shouldShowSkipOnFixAlert(){
         if (RomUtils.checkIsMiuiRom()
                 || RomUtils.checkIsHuaweiRom()) {
-        boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID,"skip_on_fixalert",true);
-            return result;
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID,"skip_on_fixalert",true);
         }else {
             return false;
         }
     }
 
     public static boolean shouldGuideThemeSet(){
-        boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID,"set_theme_guide",true);
-        return result;
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID,"set_theme_guide",true);
     }
 
     public static boolean shouldShowPermission() {
-        boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "user_rights", true);
-        return result;
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "user_rights", true);
     }
 }
