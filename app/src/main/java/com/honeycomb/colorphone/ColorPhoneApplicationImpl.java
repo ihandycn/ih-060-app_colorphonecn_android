@@ -293,6 +293,22 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+            if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIRST_LAUNCH, true)) {
+                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_FIRST_LAUNCH, false);
+                boolean skip = StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert();
+                boolean guide = StartProcessTestAutopilotUtils.shouldGuideThemeSet();
+                String type;
+                if (skip) {
+                    if (guide) {
+                        type = "Guide";
+                    } else {
+                        type = "Skip";
+                    }
+                } else {
+                    type = "Now";
+                }
+                LauncherAnalytics.logEvent("Start_Process_Test_R1", true, "Type", type);
+            }
         }
     };
 
@@ -547,23 +563,6 @@ public class ColorPhoneApplicationImpl {
         DauChecker.get().start();
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
-        }
-
-        if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIRST_LAUNCH, true)) {
-            Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_FIRST_LAUNCH, false);
-            boolean skip = StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert();
-            boolean guide = StartProcessTestAutopilotUtils.shouldGuideThemeSet();
-            String type;
-            if (skip) {
-                if (guide) {
-                    type = "Guide";
-                } else {
-                    type = "Skip";
-                }
-            } else {
-                type = "Now";
-            }
-            LauncherAnalytics.logEvent("Start_Process_Test_R1", true, "Type", type);
         }
 
         Threads.postOnMainThreadDelayed(FeedbackManager::sendFeedbackToServerIfNeeded, 10 * DateUtils.SECOND_IN_MILLIS);
