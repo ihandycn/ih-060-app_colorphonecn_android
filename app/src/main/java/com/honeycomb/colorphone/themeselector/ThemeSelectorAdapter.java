@@ -302,10 +302,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
-                    if (colorPhoneActivity.isCategoryGridExpand){
-                        colorPhoneActivity.findViewById(R.id.arrow_container).performClick();
-                        return;
+                    if (activity instanceof ColorPhoneActivity) {
+                        ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+                        if (colorPhoneActivity.isCategoryGridExpand) {
+                            View arrowContainer = colorPhoneActivity.findViewById(R.id.arrow_container);
+                            if (arrowContainer != null) {
+                                arrowContainer.performClick();
+                            }
+                            return;
+                        }
                     }
                     onCardClick(holder, view);
                 }
@@ -402,9 +407,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     makeSceneTransitionAnimation(activity,
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
-            ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity)activity;
-
-            ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
+            ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+            if (colorPhoneActivity.getCategoryList()!=null&&colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition)!=null) {
+                ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
+            }
         }
     }
 
