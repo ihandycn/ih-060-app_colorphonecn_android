@@ -1470,7 +1470,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                 Threads.postOnMainThreadDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (!holder.loaded) {
+                                        if (!holder.loaded()) {
                                             holder.load(false);
                                             mDotsPictureView.setVisibility(VISIBLE);
                                             mDotsPictureView.startAnimation();
@@ -1828,13 +1828,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private class MainPagerHolder {
-        boolean loaded;
         private View itemView;
         private SmartRefreshLayout refreshLayout;
         private RecyclerView recyclerView;
 
         MainPagerHolder(View itemView) {
-            this.loaded = false;
             this.itemView = itemView;
             this.refreshLayout = itemView.findViewById(R.id.refresh_layout);
             this.recyclerView = itemView.findViewById(R.id.recycler_view);
@@ -1845,9 +1843,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         public void load(boolean autoRefresh) {
-            loaded = true;
             initRecyclerView();
             initRefreshView(refreshLayout, autoRefresh);
+        }
+
+        public boolean loaded(){
+            return recyclerView.getAdapter() != null && recyclerView.getAdapter().getItemCount() > 1;
         }
     }
 
