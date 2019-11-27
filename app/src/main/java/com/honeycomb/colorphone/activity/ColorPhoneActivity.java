@@ -1478,12 +1478,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                     }
                                 }, 200);
                             }
+                            Analytics.logEvent("ThemeCategory_Page_Show", "Category", categoryList.get(mainPagerPosition).getName());
                             Analytics.logEvent("ThemeCategory_Page_Switch", "CategorySwitchMode", categoryList.get(position).getName(), "SwitchMode", mainPagerScrolled ? "slide" : "click");
-                            mainPagerScrolled = false;
                         }
 
                         @Override
                         public void onPageScrollStateChanged(int state) {
+                            if (state==ViewPager.SCROLL_STATE_IDLE) {
+                                mainPagerScrolled = false;
+                            }
                         }
                     });
                     initNetworkErrorView(frame);
