@@ -31,7 +31,6 @@ import com.acb.call.utils.FileUtils;
 import com.acb.colorphone.permissions.StableToast;
 import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.honeycomb.colorphone.wallpaper.EventsDelegate;
-import com.honeycomb.colorphone.wallpaper.LauncherAnalytics;
 import com.honeycomb.colorphone.wallpaper.Manager;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
@@ -307,7 +306,7 @@ public class ColorPhoneApplicationImpl {
                 } else {
                     type = "Now";
                 }
-                LauncherAnalytics.logEvent("Start_Process_Test_R1", true, "Type", type);
+                Analytics.logEvent("Start_Process_Test_R1", true, "Type", type);
             }
         }
     };
