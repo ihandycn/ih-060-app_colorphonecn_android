@@ -295,6 +295,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private DotsPictureView mDotsPictureView;
     private boolean mainPagerScrolled;
     private View arrowContainer;
+    private boolean tabScrolling = false;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -1370,6 +1371,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mArrowLeftPart = frame.findViewById(R.id.tab_top_arrow_left);
                     mArrowRightPart = frame.findViewById(R.id.tab_top_arrow_right);
 
+                    mViewPager.setOffscreenPageLimit(2);
                     ViewStub stub = frame.findViewById(R.id.stub_loading_animation);
                     stub.inflate();
                     mDotsPictureView = frame.findViewById(R.id.dots_progress_view);
@@ -1436,7 +1438,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mMainPageTab.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                         @Override
                         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                            Analytics.logEvent("ThemeCategory_Tabbar_Slide");
+                            if (!tabScrolling) {
+                                Analytics.logEvent("ThemeCategory_Tabbar_Slide");
+                                tabScrolling = true;
+                                Threads.postOnMainThreadDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tabScrolling = false;
+                                    }
+                                },500);
+                            }
                         }
                     });
                     mainPagerAdapter = new ThemePagerAdapter();
