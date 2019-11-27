@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,6 +96,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -120,6 +122,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -129,6 +132,7 @@ import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -640,7 +644,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 switch (tabItem.getId()) {
                     case TabItem.TAB_MAIN:
-                        Analytics.logEvent("ThemeCategory_Page_Show","Category",categoryList.get(mainPagerPosition).getName());
+                        Analytics.logEvent("ThemeCategory_Page_Show", "Category", categoryList.get(mainPagerPosition).getName());
                         if (guideLottie != null) {
                             guideLottie.setVisibility(VISIBLE);
                         }
@@ -1238,19 +1242,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
         mRecyclerView.setOnTouchListener((v, event) -> {
-                if (isCategoryGridExpand) {
-                    clickOutOfCategoryGrid = true;
-                    View arrowContainer = findViewById(R.id.arrow_container);
-                    if (arrowContainer != null) {
-                        arrowContainer.performClick();
-                        mRecyclerView.onInterceptTouchEvent(event);
-                        return true;
-                    }
-                } else if(clickOutOfCategoryGrid){
-                    Threads.postOnMainThreadDelayed(() -> clickOutOfCategoryGrid = false,300);
+            if (isCategoryGridExpand) {
+                clickOutOfCategoryGrid = true;
+                View arrowContainer = findViewById(R.id.arrow_container);
+                if (arrowContainer != null) {
+                    arrowContainer.performClick();
+                    mRecyclerView.onInterceptTouchEvent(event);
                     return true;
                 }
-                return false;
+            } else if (clickOutOfCategoryGrid) {
+                Threads.postOnMainThreadDelayed(() -> clickOutOfCategoryGrid = false, 300);
+                return true;
+            }
+            return false;
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -1399,6 +1403,46 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             .setElevation(Dimensions.pxFromDp(1));
 
                     mMainPageTab.setupWithViewPager(mViewPager);
+                    mMainPageTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            try {
+                                Field fieldView = tab.getClass().getDeclaredField("mView");
+                                fieldView.setAccessible(true);
+                                View view = (View) fieldView.get(tab);
+                                Field fieldTxt = view.getClass().getDeclaredField("mTextView");
+                                fieldTxt.setAccessible(true);
+                                TextView tabSelect = (TextView) fieldTxt.get(view);
+
+                                tabSelect.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM));
+                                tabSelect.setText(tab.getText());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+                            try {
+                                Field fieldView = tab.getClass().getDeclaredField("mView");
+                                fieldView.setAccessible(true);
+                                View view = (View) fieldView.get(tab);
+                                Field fieldTxt = view.getClass().getDeclaredField("mTextView");
+                                fieldTxt.setAccessible(true);
+                                TextView tabSelect = (TextView) fieldTxt.get(view);
+
+                                tabSelect.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_REGULAR));
+                                tabSelect.setText(tab.getText());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+
+                        }
+                    });
                     mMainPageTab.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                         @Override
                         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -1434,7 +1478,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             }
                             mDotsPictureView.setVisibility(VISIBLE);
                             mDotsPictureView.startAnimation();
-                            Analytics.logEvent("ThemeCategory_Page_Switch","CategorySwitchMode",categoryList.get(position).getName(),"SwitchMode",mainPagerScrolled? "slide":"click");
+                            Analytics.logEvent("ThemeCategory_Page_Switch", "CategorySwitchMode", categoryList.get(position).getName(), "SwitchMode", mainPagerScrolled ? "slide" : "click");
                             mainPagerScrolled = false;
                         }
 
@@ -1446,7 +1490,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else {
                     frame = mMainPage;
                 }
-                Analytics.logEvent("ThemeCategory_Page_Show","Category",categoryList.get(mainPagerPosition).getName());
+                Analytics.logEvent("ThemeCategory_Page_Show", "Category", categoryList.get(mainPagerPosition).getName());
                 break;
 
             case TabItem.TAB_SETTINGS:
@@ -1565,11 +1609,33 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     categoryList = allCategoryBean.getCategories();
                     holder.load(true);
                     mainPagerAdapter.notifyDataSetChanged();
+                    refreshMainPageTab();
                 } else {
                     onFailure("网络异常");
                 }
             }
         });
+    }
+
+    private void refreshMainPageTab() {
+        try {
+            for (int i = 0; i < mMainPageTab.getTabCount(); i++) {
+                TabLayout.Tab tab = mMainPageTab.getTabAt(i);
+                if (tab != null) {
+                    Field fieldView = tab.getClass().getDeclaredField("mView");
+                    fieldView.setAccessible(true);
+                    View view = (View) fieldView.get(tab);
+                    Field fieldTxt = view.getClass().getDeclaredField("mTextView");
+                    fieldTxt.setAccessible(true);
+                    TextView tabSelect = (TextView) fieldTxt.get(view);
+
+                    tabSelect.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_REGULAR));
+                    tabSelect.setText(tab.getText());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

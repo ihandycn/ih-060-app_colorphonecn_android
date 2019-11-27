@@ -124,6 +124,7 @@
                 android:fadingEdgeLength="6dp"
                 android:layoutDirection="ltr"
                 android:requiresFadingEdge="horizontal"
+                app:tabBackground="@color/transparent"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/boost_plus_red"
                 app:tabIndicatorHeight="1.5dp"
