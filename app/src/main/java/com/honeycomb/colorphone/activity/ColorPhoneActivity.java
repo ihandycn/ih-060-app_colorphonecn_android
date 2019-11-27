@@ -1473,12 +1473,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                     public void run() {
                                         if (!holder.loaded) {
                                             holder.load(false);
+                                            mDotsPictureView.setVisibility(VISIBLE);
+                                            mDotsPictureView.startAnimation();
                                         }
                                     }
-                                }, 300);
+                                }, 200);
                             }
-                            mDotsPictureView.setVisibility(VISIBLE);
-                            mDotsPictureView.startAnimation();
                             Analytics.logEvent("ThemeCategory_Page_Switch", "CategorySwitchMode", categoryList.get(position).getName(), "SwitchMode", mainPagerScrolled ? "slide" : "click");
                             mainPagerScrolled = false;
                         }
