@@ -72,6 +72,12 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <View
+            android:id="@+id/main_page_cover"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"/>
     </FrameLayout>
 
     <com.superapps.view.TypefacedTextView
@@ -131,8 +137,8 @@
                 app:tabMaxWidth="0dp"
                 app:tabMinWidth="6dp"
                 app:tabMode="scrollable"
-                app:tabPaddingEnd="15dp"
-                app:tabPaddingStart="15dp"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="10dp"
                 app:tabSelectedTextColor="#ffffff"
                 app:tabTextAppearance="@style/MainPageTabLayoutTextAppearance.Customize"
                 app:tabTextColor="#8a898f"

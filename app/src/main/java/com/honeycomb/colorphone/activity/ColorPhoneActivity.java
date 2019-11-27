@@ -163,6 +163,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private SmartRefreshLayout mSmartRefreshLayout;
     private RecyclerView mRecyclerView;
     private LinearLayout mMainNetWorkErrView;
+    private View mMainPageCover;
     private ThemeSelectorAdapter mAdapter;
     private List<MainPagerHolder> mainPagerRecyclePool;
     private Map<Integer, MainPagerHolder> mainPagerCachedPool;
@@ -170,8 +171,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
     private boolean firstShowPager = true;
     public int mainPagerPosition = 0;
-    public boolean isCategoryGridExpand = false;
-    private boolean clickOutOfCategoryGrid = false;
     private boolean isPaused;
     private boolean isWindowFocus;
 
@@ -295,6 +294,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private AnimatorSet mAnimatorSet;
     private DotsPictureView mDotsPictureView;
     private boolean mainPagerScrolled;
+    private View arrowContainer;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -1231,31 +1231,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void initRecyclerView() {
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mAdapter.setHotThemeHolderVisible(HSConfig.optBoolean(false, "Application", "Special", "SpecialEntrance"));
-
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
-
-        mRecyclerView.setOnTouchListener((v, event) -> {
-            if (isCategoryGridExpand) {
-                clickOutOfCategoryGrid = true;
-                View arrowContainer = findViewById(R.id.arrow_container);
-                if (arrowContainer != null) {
-                    arrowContainer.performClick();
-                    mRecyclerView.onInterceptTouchEvent(event);
-                    return true;
-                }
-            } else if (clickOutOfCategoryGrid) {
-                Threads.postOnMainThreadDelayed(() -> clickOutOfCategoryGrid = false, 300);
-                return true;
-            }
-            return false;
-        });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -1393,11 +1375,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mDotsPictureView = frame.findViewById(R.id.dots_progress_view);
                     mDotsPictureView.setVisibility(VISIBLE);
 
-
                     initGridViewListener(frame);
                     mGridView.setAdapter(new MainPageGridAdapter());
 
+                    arrowContainer = frame.findViewById(R.id.arrow_container);
                     setArrowOnClickAnimation(frame, mGridView, mCategoriesTitle, mArrowLeftPart, mArrowRightPart);
+                    mMainPageCover = frame.findViewById(R.id.main_page_cover);
+                    mMainPageCover.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            arrowContainer.performClick();
+                        }
+                    });
+
                     mMainPageTab.setSelectedTabIndicatorHeight(0);
                     frame.findViewById(R.id.tab_layout_container)
                             .setElevation(Dimensions.pxFromDp(1));
@@ -1855,13 +1845,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                           final TextView categoryTitle,
                                           final ImageView arrowLeftPart,
                                           final ImageView arrowRightPart) {
-        LinearLayout arrowContainer = frame.findViewById(R.id.arrow_container);
-        arrowContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                arrowClicked(frame, categoryView, categoryTitle, arrowLeftPart, arrowRightPart, "ArrowClicked");
-            }
-        });
+        arrowContainer.setOnClickListener(v -> arrowClicked(frame, categoryView, categoryTitle, arrowLeftPart, arrowRightPart, "ArrowClicked"));
     }
 
     private void arrowClicked(View frame, final GridView categoryView,
@@ -1880,7 +1864,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         int degree = !Dimensions.isRtl() ? 90 : -90;
         // shrink
         if (start == 90) {
-            isCategoryGridExpand = false;
+            mMainPageCover.setVisibility(GONE);
             frame.findViewById(R.id.tab_layout_container)
                     .setElevation(Dimensions.pxFromDp(1));
 
@@ -1923,7 +1907,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         // expand
         else {
-            isCategoryGridExpand = true;
+            mMainPageCover.setVisibility(VISIBLE);
             frame.findViewById(R.id.tab_layout_container)
                     .setElevation(0);
 
