@@ -1174,7 +1174,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             mAdapter = adapter;
             mAdapter.setData(mRecyclerViewData);
-            mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
             mAdapter.notifyDataSetChanged();
         }
     }
