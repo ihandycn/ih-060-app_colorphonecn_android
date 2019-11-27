@@ -336,6 +336,11 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
+            if (isSetDefaultTheme) {
+                isSetDefaultTheme = false;
+                sFirstTheme = theme;
+            }
+
             dataList.add(theme);
         }
 
