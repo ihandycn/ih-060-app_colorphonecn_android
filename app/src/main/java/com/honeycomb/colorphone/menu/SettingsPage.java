@@ -198,7 +198,7 @@ public class SettingsPage implements View.OnClickListener {
                 if (HttpManager.getInstance().isLogin()) {
                     UploadAndPublishActivity.start(context);
                 } else {
-                    Toasts.showToast(context.getResources().getString(R.string.not_login));
+                    Toasts.showToast(ColorPhoneApplication.getContext().getResources().getString(R.string.not_login));
                 }
 
                 break;
@@ -237,7 +237,7 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     public void refreshUserInfo() {
-        Resources resources = context.getResources();
+        Resources resources = ColorPhoneApplication.getContext().getResources();
         if (HttpManager.getInstance().isLogin()) {
             HttpManager.getInstance().getSelfUserInfo(new Callback<LoginUserBean>() {
                 @Override
@@ -293,7 +293,7 @@ public class SettingsPage implements View.OnClickListener {
         } else {
             signView.setText(sign);
         }
-        nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.settings_name_edit), null);
+        nameView.setCompoundDrawablesWithIntrinsicBounds(null, null, ColorPhoneApplication.getContext().getResources().getDrawable(R.drawable.settings_name_edit), null);
         signView.setVisibility(View.VISIBLE);
     }
 }
