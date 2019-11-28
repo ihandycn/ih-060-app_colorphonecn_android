@@ -8,6 +8,7 @@ import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.ihs.app.framework.HSApplication;
@@ -295,7 +296,7 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (isSetDefaultTheme) {
+            if (isSetDefaultTheme&& AutoRequestManager.getInstance().isGrantAllPermission()) {
                 isSetDefaultTheme = false;
                 sFirstTheme = theme;
             }
