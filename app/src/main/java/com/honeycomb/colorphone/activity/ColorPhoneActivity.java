@@ -1140,6 +1140,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             // Block
             return;
         }
+        if (overlay!=null){
+            return;
+        }
         boolean blockBackPress = mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_CASH)
                 && (lotteryWheelLayout != null && lotteryWheelLayout.isSpining());
 

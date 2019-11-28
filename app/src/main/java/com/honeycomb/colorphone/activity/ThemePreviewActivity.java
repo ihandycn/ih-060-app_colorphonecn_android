@@ -17,6 +17,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.transition.Transition;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ import com.superapps.util.Threads;
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -493,6 +495,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         }
         if (intercept) {
+            return;
+        }
+        if (overlay!=null){
             return;
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

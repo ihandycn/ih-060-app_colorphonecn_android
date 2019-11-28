@@ -79,9 +79,4 @@ public class RoundRectOverlayView extends View {
 
         void onDraw();
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return true;
-    }
 }
