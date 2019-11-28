@@ -333,7 +333,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             @Override
             public void onHoleClick() {
-                StartGuideActivity.startForResult(ThemePreviewActivity.this,StartGuideActivity.FROM_KEY_SET_DEFAULT,REQUEST_PERMISSION_CODE);
+                StartGuideActivity.startForResult(ThemePreviewActivity.this,StartGuideActivity.FROM_KEY_APPLY,REQUEST_PERMISSION_CODE);
                 Threads.postOnMainThreadDelayed(() -> {
                     if (overlay != null) {
                         containerView.removeView(overlay);

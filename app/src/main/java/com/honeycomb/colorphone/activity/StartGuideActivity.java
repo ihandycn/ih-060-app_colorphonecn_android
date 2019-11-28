@@ -62,7 +62,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String FROM_KEY_START = "Start";
     public static final String FROM_KEY_APPLY = "Apply";
     public static final String FROM_KEY_BANNER = "Banner";
-    public static final String FROM_KEY_SET_DEFAULT = "Default";
 
     private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
     private int permsCount = 0;
@@ -237,7 +236,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
 
             Threads.postOnMainThreadDelayed(() -> {
-                if (from.equals(FROM_KEY_SET_DEFAULT)){
+                if (from.equals(FROM_KEY_APPLY)){
                     StartGuideActivity.this.setResult(ThemePreviewActivity.RESULT_PERMISSION_CODE);
                 }
                 StartGuideActivity.this.finish();
