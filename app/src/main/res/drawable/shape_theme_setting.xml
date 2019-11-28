@@ -7,13 +7,8 @@
         android:endColor="#f655b3"/>
 
     <corners
-        android:topLeftRadius="27dp"
-        android:bottomLeftRadius="27dp"
-        android:topRightRadius="27dp"
-        android:bottomRightRadius="27dp"/>
-    <padding
-        android:bottom="14dp"
-        android:left="20dp"
-        android:right="20dp"
-        android:top="14dp" />
+        android:topLeftRadius="21.5dp"
+        android:bottomLeftRadius="21.5dp"
+        android:topRightRadius="21.5dp"
+        android:bottomRightRadius="21.5dp"/>
 </shape>

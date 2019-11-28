@@ -34,6 +34,7 @@ import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -190,7 +191,8 @@ public class ColorPhoneApplicationImpl {
     private List<AppInit> mAppInitList = new ArrayList<>();
 
     private HSApplication mBaseApplication;
-    private static HomeKeyWatcher homeKeyWatcher;
+    private HomeKeyWatcher homeKeyWatcher;
+    private static final String PREF_KEY_FIRST_LAUNCH = "PREF_KEY_FIRST_LAUNCH";
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -301,6 +303,22 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+            if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIRST_LAUNCH, true)) {
+                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_FIRST_LAUNCH, false);
+                boolean skip = StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert();
+                boolean guide = StartProcessTestAutopilotUtils.shouldGuideThemeSet();
+                String type;
+                if (skip) {
+                    if (guide) {
+                        type = "Guide";
+                    } else {
+                        type = "Skip";
+                    }
+                } else {
+                    type = "Now";
+                }
+                Analytics.logEvent("Start_Process_Test_R1", true, "Type", type);
+            }
         }
     };
 
@@ -576,7 +594,8 @@ public class ColorPhoneApplicationImpl {
             boolean cpuChangeToHigh = false;
             boolean batteryChangeToLow = false;
 
-            @Override public void onHomePressed() {
+            @Override
+            public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
@@ -616,7 +635,8 @@ public class ColorPhoneApplicationImpl {
                 }
             }
 
-            @Override public void onRecentsPressed() {
+            @Override
+            public void onRecentsPressed() {
 
             }
         });

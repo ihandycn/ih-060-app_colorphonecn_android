@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -105,5 +106,41 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/activity_main_overlay_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/overlay_border"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="182dp"
+            android:layout_height="311dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/set_default_guid_border"
+            tools:ignore="RtlHardcoded" />
+        <ImageView
+            android:id="@+id/overlay_arrow"
+            android:layout_width="56dp"
+            android:layout_height="86dp"
+            android:background="@drawable/set_default_guide_arrow"
+            android:layout_toRightOf="@id/overlay_border"
+            android:layout_alignTop="@id/overlay_border"
+            android:layout_marginLeft="-20dp"
+            android:layout_marginTop="145dp"
+            tools:ignore="RtlHardcoded" />
+        <ImageView
+            android:layout_width="143dp"
+            android:layout_height="36dp"
+            android:background="@drawable/set_default_guide_text"
+            android:layout_alignLeft="@id/overlay_arrow"
+            android:layout_below="@id/overlay_arrow"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="9dp"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

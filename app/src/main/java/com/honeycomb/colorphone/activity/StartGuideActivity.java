@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.startguide.StartGuideViewListHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -113,6 +115,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
+    public static void startForResult(Activity activity,String from,int requestCode){
+        Intent intent = getIntent(activity, from);
+        if (intent != null) {
+            activity.startActivityForResult(intent,requestCode);
+        }
+    }
     public static boolean isStarted() {
         return Preferences.getDefault().contains(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME);
     }
@@ -215,13 +223,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         return permissionShowCount >= HSConfig.optInteger(1, "Application", TAG, "AccessibilityShowCount");
     }
 
-    private boolean canShowSkip() {
-        return (permissionShowCount >= HSConfig.optInteger(3, "Application", TAG, "SkipShowCount")
-                && !AutoRequestManager.getInstance().isGrantAllPermission())
-                || (AutoRequestManager.getInstance().isGrantAllWithoutNAPermission()
-                && HSConfig.optBoolean(false, "Application", "AutoPermission", "AutoSkipWhenNAGranted"));
-    }
-
     private void showAccessibilityPermissionPage() {
         View view = findViewById(R.id.start_guide_function_page);
         view.setVisibility(View.GONE);
@@ -281,10 +282,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
             Threads.postOnMainThreadDelayed(() -> {
-                finish();
-                if (isOnNewIntent) {
-                    Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
+                if (from.equals(FROM_KEY_APPLY)){
+                    StartGuideActivity.this.setResult(ThemePreviewActivity.RESULT_PERMISSION_CODE);
                 }
+                StartGuideActivity.this.finish();
             }, 2000);
         } else {
             HSLog.i(TAG, "onPermissionChanged holder == " + holder);
@@ -373,24 +374,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 }
             }
 
-            if (canShowSkip()) {
-                if (TextUtils.equals(from, FROM_KEY_GUIDE) || TextUtils.equals(from, FROM_KEY_START)) {
-                    findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
-                    View skip = findViewById(R.id.start_guide_confirm_skip);
-                    skip.setVisibility(View.VISIBLE);
-                    skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+            View close = findViewById(R.id.start_guide_confirm_close);
+            close.setVisibility(View.GONE);
 
-                    skip.setOnClickListener(v -> {
-                        finish();
-                        if (isOnNewIntent) {
-                            Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
-                        }
-                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
-                    });
-                } else {
-                    findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                    View close = findViewById(R.id.start_guide_confirm_close);
+            if (StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert()) {
+                Threads.postOnMainThreadDelayed(() -> {
                     close.setVisibility(View.VISIBLE);
                     close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
 
@@ -398,10 +386,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         showSkipDialog();
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
                     });
-                }
-            } else {
-                findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
+                },3000);
             }
         }
     }

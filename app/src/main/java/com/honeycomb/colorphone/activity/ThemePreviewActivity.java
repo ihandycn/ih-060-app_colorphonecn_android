@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.transition.Transition;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
@@ -40,11 +43,13 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
+import com.honeycomb.colorphone.view.RoundRectOverlayView;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -65,6 +70,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
     public static final String FROM_MAIN = "notify_theme_context_key";
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
+    public static final int REQUEST_PERMISSION_CODE = 100;
+    public static final int RESULT_PERMISSION_CODE = 120;
 
     private Theme mTheme;
     private String from;
@@ -78,6 +85,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private MediaSharedElementCallback mediaSharedElementCallback;
     private Bundle mSavedState;
+    private View overlay;
 
     public static void start(Context context, int position, Bundle options) {
         start(context, position, FROM_MAIN, options);
@@ -285,6 +293,65 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
+
+        if (ColorPhoneActivity.showingOverlay) {
+            initOverlay();
+
+        }
+    }
+
+    private void initOverlay() {
+        RelativeLayout containerView = findViewById(R.id.theme_preview_container);
+        ViewGroup overlayContainer = findViewById(R.id.theme_preview_overlay_container);
+        overlayContainer.setVisibility(View.VISIBLE);
+
+        overlay = new RoundRectOverlayView(this, new RoundRectOverlayView.OverlayInfo() {
+            RectF rectF;
+
+            @Override
+            public int getBaseColor() {
+                return Color.parseColor("#CC000000");
+            }
+
+            @Override
+            public RectF getHoleRectF() {
+                if (rectF == null) {
+                    rectF = new RectF();
+                    View view = findViewById(R.id.overlay_action_btn);
+                    rectF.left = view.getX();
+                    rectF.top = view.getY();
+                    rectF.right = view.getX() + view.getWidth();
+                    rectF.bottom = view.getY() + view.getHeight();
+                }
+                return rectF;
+            }
+
+            @Override
+            public float getRadius() {
+                return Dimensions.pxFromDp(27);
+            }
+
+            @Override
+            public void onHoleClick() {
+                StartGuideActivity.startForResult(ThemePreviewActivity.this,StartGuideActivity.FROM_KEY_APPLY,REQUEST_PERMISSION_CODE);
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (overlay != null) {
+                        containerView.removeView(overlay);
+                        overlay = null;
+                    }
+                    overlayContainer.setVisibility(View.GONE);
+                }, 1000);
+            }
+
+            @Override
+            public void onDraw() {
+                if (ColorPhoneActivity.showingOverlay) {
+                    ColorPhoneActivity.showingOverlay = false;
+                    overlayContainer.bringToFront();
+                }
+            }
+        });
+        containerView.addView(overlay);
     }
 
     boolean isUpdate = false;
@@ -432,6 +499,18 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             supportFinishAfterTransition();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_PERMISSION_CODE){
+            if (mViewPager.getChildCount()>0) {
+                ThemePreviewView previewView =((ThemePreviewView)(mViewPager.getChildAt(0)));
+                previewView.setApplyForAll(true);
+                previewView.applyRingtoneChange();
+            }
         }
     }
 

@@ -59,6 +59,7 @@ import com.honeycomb.colorphone.ColorPhoneApplicationImpl;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
@@ -706,7 +707,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Utils.showApplySuccessToastView(rootView, mTransitionNavView);
             sThemeApplySuccessFlag = false;
         } else {
-            if (isSelectedPos()) {
+            if (isSelectedPos() && !ColorPhoneActivity.showingOverlay) {
                 checkVerticalScrollGuide();
             }
         }
@@ -1566,6 +1567,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    public void setApplyForAll(boolean applyForAll) {
+        mRingtoneViewHolder.setApplyForAll(applyForAll);
+    }
+
+    public void applyRingtoneChange() {
+        mRingtoneViewHolder.applyRingtoneChange();
+    }
+
     private class ProgressViewHolder {
 
         public DotsPictureView mDotsPictureView;
@@ -1821,12 +1830,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
 
                     hideRingtoneSettings();
-                    setRingtone();
-                    if (getThemeMode() == ENJOY_MODE) {
-                        mHandler.sendEmptyMessage(MSG_ENJOY);
-                    } else {
-                        mHandler.sendEmptyMessage(MSG_PREVIEW);
-                    }
+                    applyRingtoneChange();
                     break;
                 case R.id.ringtone_apply_keep:
                     if ("upload".equals(mFrom)) {
@@ -1849,6 +1853,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void applyRingtoneChange() {
+            if (mApplyForAll) {
+                // Ringtone enabled
+                RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
+                onThemeApply();
+            } else {
+                ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                setAsRingtone(true, false);
+                Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+
+            }
+            if (getThemeMode() == ENJOY_MODE) {
+                mHandler.sendEmptyMessage(MSG_ENJOY);
+            } else {
+                mHandler.sendEmptyMessage(MSG_PREVIEW);
             }
         }
 
@@ -1902,12 +1925,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
-                            && AutoPermissionChecker.isNotificationListeningGranted()) {
-                        Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                    if (AutoRequestManager.getInstance().isGrantAllPermission()) {
                         unFoldView();
-                    } else {
-                        Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+                    }else {
+                        StartGuideActivity.start(mActivity,StartGuideActivity.FROM_KEY_APPLY);
                     }
                 }
             });
