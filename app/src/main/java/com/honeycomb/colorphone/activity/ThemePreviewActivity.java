@@ -87,7 +87,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private MediaSharedElementCallback mediaSharedElementCallback;
     private Bundle mSavedState;
-    private View overlay;
+    public View overlay;
 
     public static void start(Context context, int position, Bundle options) {
         start(context, position, FROM_MAIN, options);
@@ -335,7 +335,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             @Override
             public void onHoleClick() {
-                StartGuideActivity.startForResult(ThemePreviewActivity.this,StartGuideActivity.FROM_KEY_APPLY,REQUEST_PERMISSION_CODE);
+                View mEnjoyApplyBtn = findViewById(R.id.theme_setting);
+                if (mEnjoyApplyBtn!=null){
+                    mEnjoyApplyBtn.performClick();
+                }
                 Threads.postOnMainThreadDelayed(() -> {
                     if (overlay != null) {
                         containerView.removeView(overlay);

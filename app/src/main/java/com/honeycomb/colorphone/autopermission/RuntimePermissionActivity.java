@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -247,6 +248,9 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                         super.onAnimationEnd(animation);
                         Threads.postOnMainThreadDelayed(() -> {
                             finish();
+                            if (!AutoRequestManager.getInstance().isGrantAllPermission()) {
+                                StartGuideActivity.start(RuntimePermissionActivity.this,StartGuideActivity.FROM_KEY_APPLY);
+                            }
                         }, 200);
                     }
                 });

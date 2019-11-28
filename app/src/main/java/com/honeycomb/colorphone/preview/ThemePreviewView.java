@@ -707,7 +707,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Utils.showApplySuccessToastView(rootView, mTransitionNavView);
             sThemeApplySuccessFlag = false;
         } else {
-            if (isSelectedPos() && !ColorPhoneActivity.showingOverlay) {
+            if (isSelectedPos() && !ColorPhoneActivity.showingOverlay && mActivity != null && mActivity.overlay == null) {
                 checkVerticalScrollGuide();
             }
         }
@@ -1925,11 +1925,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
-                    if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                            && AutoPermissionChecker.isNotificationListeningGranted()) {
+                        Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
                         unFoldView();
-                    }else {
-                        StartGuideActivity.start(mActivity,StartGuideActivity.FROM_KEY_APPLY);
+                    } else {
+                        Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
                     }
                 }
             });

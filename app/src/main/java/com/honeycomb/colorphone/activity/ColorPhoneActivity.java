@@ -853,7 +853,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 boolean isFirstOpen = Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREFS_FIRST_OPEN, true);
-                if (StartProcessTestAutopilotUtils.shouldGuideThemeSet()&&isFirstOpen && !AutoRequestManager.getInstance().isGrantAllPermission()) {
+                if (StartProcessTestAutopilotUtils.shouldGuideThemeSet() && isFirstOpen && !AutoRequestManager.getInstance().isGrantAllPermission()) {
                     Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREFS_FIRST_OPEN, false);
                     addSetDefaultGuideOverlay();
                 }
@@ -931,14 +931,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     View view = mRecyclerView.getLayoutManager().getChildAt(0);
 
                     view.performClick();
-                    Threads.postOnMainThreadDelayed(() -> {
-                        if (overlay != null) {
-                            containerView.removeView(overlay);
-                            overlay = null;
-                        }
-                        overlayContainer.setVisibility(View.GONE);
-                    }, 1000);
                 }
+
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (overlay != null) {
+                        containerView.removeView(overlay);
+                        overlay = null;
+                    }
+                    overlayContainer.setVisibility(View.GONE);
+                }, 1000);
             }
 
             @Override
@@ -1140,7 +1141,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             // Block
             return;
         }
-        if (overlay!=null){
+        if (overlay != null) {
             return;
         }
         boolean blockBackPress = mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_CASH)
@@ -1255,7 +1256,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updatePermissionHeader() {
-        if (!StartProcessTestAutopilotUtils.shouldGuideThemeSet()&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+        if (!StartProcessTestAutopilotUtils.shouldGuideThemeSet() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
                 !AutoRequestManager.getInstance().isGrantAllPermission()) {
 //                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
