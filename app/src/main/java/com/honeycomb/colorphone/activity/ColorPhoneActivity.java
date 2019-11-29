@@ -1160,7 +1160,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerViewData = ThemeList.getInstance().getCategoryThemes(categoryList.get(mainPagerPosition).getId());
         ThemeSelectorAdapter adapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
         if (adapter == null || isRefresh) {
-            mAdapter.setData(mRecyclerViewData);
+            mAdapter = new ThemeSelectorAdapter(this,mRecyclerViewData);
+            mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter = adapter;
@@ -1351,7 +1352,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     categoryList = new ArrayList<>();
                     AllCategoryBean.CategoryItem categoryItem = new AllCategoryBean.CategoryItem();
                     categoryItem.setId("-1");
-                    categoryItem.setName("热门");
+                    categoryItem.setName("推荐");
                     categoryList.add(categoryItem);
 
                     mMainPageTab = frame.findViewById(R.id.main_page_tabs);
