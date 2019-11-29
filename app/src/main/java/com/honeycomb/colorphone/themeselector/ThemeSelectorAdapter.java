@@ -104,17 +104,19 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 // TODO unclear
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
-                    Theme selectedTheme = data.get(pos);
+                    if (data!=null && data.size()>pos) {
+                        Theme selectedTheme = data.get(pos);
 
-                    if (!selectTheme(pos)) {
-                        if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
-                            notifyDataSetChanged();
+                        if (!selectTheme(pos)) {
+                            if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
+                                notifyDataSetChanged();
+                            }
                         }
-                    }
 
-                    ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                            selectedTheme.getIdName().toLowerCase(),
-                            ConfigLog.FROM_DETAIL);
+                        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                                selectedTheme.getIdName().toLowerCase(),
+                                ConfigLog.FROM_DETAIL);
+                    }
                 }
             } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
                 if (hsBundle != null) {
