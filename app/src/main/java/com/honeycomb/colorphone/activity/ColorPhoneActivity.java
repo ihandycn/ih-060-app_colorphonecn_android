@@ -1459,6 +1459,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             ((MainPageGridAdapter) mGridView.getAdapter()).notifyDataSetChanged();
                             if (holder != null) {
                                 mRecyclerView = holder.recyclerView;
+                                mSmartRefreshLayout = holder.refreshLayout;
                                 Threads.postOnMainThreadDelayed(new Runnable() {
                                     @Override
                                     public void run() {
