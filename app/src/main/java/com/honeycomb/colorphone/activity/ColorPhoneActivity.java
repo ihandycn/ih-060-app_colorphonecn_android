@@ -1458,6 +1458,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                         if (!holder.loaded()) {
                                             holder.load(false);
                                             mDotsPictureView.setVisibility(VISIBLE);
+                                            mDotsPictureView.setBitmapPool(DotsPictureResManager.get().getBitmapPool());
+                                            mDotsPictureView.setDotResultBitmap(DotsPictureResManager.get().getDotsBitmap());
                                             mDotsPictureView.startAnimation();
                                         }
                                     }
