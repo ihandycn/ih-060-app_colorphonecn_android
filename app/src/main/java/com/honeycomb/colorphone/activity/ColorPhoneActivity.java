@@ -937,7 +937,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
-                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId(),theme.getName());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
                 }
@@ -982,14 +982,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void refreshData(boolean isRefresh) {
         setData(isRefresh);
-
-        int maxId = -1;
-        for (Type type : Type.values()) {
-            if (maxId < type.getId()) {
-                maxId = type.getId();
-            }
-        }
-        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
     }
 
 

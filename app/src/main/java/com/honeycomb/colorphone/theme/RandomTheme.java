@@ -83,7 +83,7 @@ public class RandomTheme {
 
     private boolean isThemeReady(Theme nextTheme) {
         return !nextTheme.isMedia()
-                || TasksManager.getImpl().isThemeDownloaded(nextTheme.getId());
+                || TasksManager.getImpl().isThemeDownloaded(nextTheme);
     }
 
     public void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model, final DownloadStateListener delegateListener) {

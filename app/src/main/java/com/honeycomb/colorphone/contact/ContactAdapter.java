@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.view.GlideApp;
 
 import java.util.List;
@@ -29,7 +31,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private static final java.lang.String TAG = "ContactAdapter";
     private final List<SimpleContact> people;
     private final LayoutInflater layoutInflater;
-    private final int            rowLayout;
+    private final int rowLayout;
     /**
      * Indicates contact could be selected, and CheckBox is visible & checkable.
      */
@@ -41,13 +43,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private int headerOffset;
     private int itemHeight;
     private boolean themeVisible = true;
-    private List<Type> themeTypeList;
 
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
         this.people = people;
         this.layoutInflater = layoutInflater;
         this.rowLayout = rowLayout;
-        this.themeTypeList = Type.values();
     }
 
     public void setInSelectMode(boolean inSelectMode) {
@@ -82,9 +82,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = layoutInflater.inflate(rowLayout,
-                                        parent,
-                                        false);
-        final ViewHolder holder =  new ViewHolder(v);
+                parent,
+                false);
+        final ViewHolder holder = new ViewHolder(v);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +100,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int pos = holder.getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                   onItemChecked(pos, isChecked);
+                    onItemChecked(pos, isChecked);
                 }
             }
         });
@@ -161,7 +161,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
         holder.checkBox.setChecked(person.isSelected());
 
-        String photoUri  = person.getPhotoUri();
+        String photoUri = person.getPhotoUri();
         if (!TextUtils.isEmpty(photoUri)) {
             GlideApp.with(holder.avater)
                     .asBitmap()
@@ -185,12 +185,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         if (themeId < 0) {
             return "";
         }
-        for (Type type : themeTypeList) {
-            if (type.getId() == themeId) {
-                return type.getName();
-            }
+        Theme theme = ThemeApplyManager.getInstance().getAppliedThemeByThemeId(themeId);
+        if (theme != null) {
+            return theme.getName();
         }
-        return  "";
+        return "";
     }
 
     @Override

@@ -715,8 +715,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     @DebugLog
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
-        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
         ThemeApplyManager.getInstance().addAppliedTheme(mTheme.toPrefString());
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId(), mTheme.getName());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
