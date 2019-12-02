@@ -666,7 +666,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // Video has audio
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.setEnable(true);
-                mRingtoneViewHolder.refreshMuteStatus();
+//                mRingtoneViewHolder.refreshMuteStatus();
             } else {
                 mRingtoneViewHolder.setEnable(false);
                 mRingtoneViewHolder.hideMusicSwitch();
