@@ -568,8 +568,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                         || !AutoPermissionChecker.isNotificationListeningGranted()) {
                     Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
-                } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-//                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)
+                        || (!AutoRequestManager.getInstance().isGrantAllPermission())) {
                     StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                     mWaitForAll = true;
                 } else {
@@ -582,8 +582,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                     || !AutoPermissionChecker.isNotificationListeningGranted()) {
                 Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
-            } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-//                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+            } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)
+                    || (!AutoRequestManager.getInstance().isGrantAllPermission())) {
                 StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                 mWaitForAll = false;
             } else {
@@ -1927,6 +1927,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 public void onClick(View v) {
                     if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                             && AutoPermissionChecker.isNotificationListeningGranted()) {
+                        if (!AutoRequestManager.getInstance().isGrantAllPermission()) {
+                            StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
+                            return;
+                        }
                         Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
                         unFoldView();
                     } else {
