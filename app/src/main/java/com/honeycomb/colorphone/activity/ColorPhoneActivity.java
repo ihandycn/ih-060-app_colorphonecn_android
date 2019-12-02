@@ -1152,12 +1152,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerViewData = ThemeList.getInstance().getCategoryThemes(categoryList.get(mainPagerPosition).getId());
         ThemeSelectorAdapter adapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
         if (adapter == null || isRefresh) {
-            mAdapter = new ThemeSelectorAdapter(this,mRecyclerViewData);
+            mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData, mainPagerPosition);
             mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter = adapter;
-            mAdapter.setData(mRecyclerViewData);
+            mAdapter.setData(mRecyclerViewData, mainPagerPosition);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -1193,7 +1193,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
                 Analytics.logEvent("CallFlash_Request");
                 requestThemeData(true);
-                mAdapter.setData(mRecyclerViewData);
+                mAdapter.setData(mRecyclerViewData, mainPagerPosition);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -1202,7 +1202,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 Analytics.logEvent("CallFlash_Request");
                 requestThemeData(false);
-                mAdapter.setData(mRecyclerViewData);
+                mAdapter.setData(mRecyclerViewData, mainPagerPosition);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -1218,7 +1218,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initRecyclerView() {
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
+        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData, mainPagerPosition);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mAdapter.setHotThemeHolderVisible(HSConfig.optBoolean(false, "Application", "Special", "SpecialEntrance"));
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
@@ -1429,7 +1429,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                     public void run() {
                                         tabScrolling = false;
                                     }
-                                },500);
+                                }, 500);
                             }
                         }
                     });
@@ -1469,7 +1469,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                         @Override
                         public void onPageScrollStateChanged(int state) {
-                            if (state==ViewPager.SCROLL_STATE_IDLE) {
+                            if (state == ViewPager.SCROLL_STATE_IDLE) {
                                 mainPagerScrolled = false;
                             }
                         }
@@ -1835,7 +1835,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             initRefreshView(refreshLayout, autoRefresh);
         }
 
-        public boolean loaded(){
+        public boolean loaded() {
             return recyclerView.getAdapter() != null && recyclerView.getAdapter().getItemCount() > 1;
         }
     }
