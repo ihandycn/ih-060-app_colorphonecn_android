@@ -699,6 +699,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else if (TabItem.TAB_MAIN.equals(tabId)) {
                     if (mRecyclerView != null) {
                         mRecyclerView.scrollToPosition(0);
+                        mAdapter.notify();
                     }
                 }
             }
@@ -937,7 +938,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
-                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId(),theme.getName());
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId(), theme.getName());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
                 }
@@ -1837,8 +1838,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             initRefreshView(refreshLayout, autoRefresh);
         }
 
-        public boolean loaded() {
-            return recyclerView.getAdapter() != null && recyclerView.getAdapter().getItemCount() > 1;
+        private boolean loaded() {
+            boolean hasRefreshListener = false;
+            try {
+                Field listener = mSmartRefreshLayout.getClass().getDeclaredField("mRefreshListener");
+                listener.setAccessible(true);
+                hasRefreshListener = listener.get(mSmartRefreshLayout) != null;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return recyclerView.getAdapter() != null && recyclerView.getAdapter().getItemCount() > 1 && hasRefreshListener;
         }
     }
 
