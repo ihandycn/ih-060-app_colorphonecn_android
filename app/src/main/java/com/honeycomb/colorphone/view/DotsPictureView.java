@@ -118,7 +118,6 @@ public class DotsPictureView extends View {
     }
 
     /**
-     *
      * @param bm
      * @return brightness value , larger than 128 is bright, otherwise is darker.
      */
@@ -232,13 +231,15 @@ public class DotsPictureView extends View {
     }
 
     Bitmap makeBitmap(int width, int height, Bitmap.Config config) {
-        if(mBitmapPool != null) {
+        if (mBitmapPool != null) {
             return mBitmapPool.get(width, height, config);
         }
         return Bitmap.createBitmap(width, height, config);
     }
+
     /**
      * get matrix for center-crop effect
+     *
      * @param canvas view canvas
      */
     private void ensureDrawMatrix(Canvas canvas, int sWidth, int sHeight) {
@@ -343,10 +344,11 @@ public class DotsPictureView extends View {
 
     float strokeWidth = 0;
     int alpha = 0;
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (mBitmapCanvas == null) {
+        if (mBitmapCanvas == null || mDotResultBitmap == null || mDotResultBitmap.isRecycled()) {
             return;
         }
         if (fraction < 0.4f) {
