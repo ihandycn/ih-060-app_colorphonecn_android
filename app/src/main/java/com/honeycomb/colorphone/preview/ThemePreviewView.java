@@ -1925,8 +1925,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
-                            && AutoPermissionChecker.isNotificationListeningGranted()) {
+                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
                         if (!AutoRequestManager.getInstance().isGrantAllPermission()) {
                             StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                             return;

@@ -91,11 +91,6 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             }
         }
 
-        if (!AutoPermissionChecker.isNotificationListeningGranted()) {
-            allPermissions.add(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION);
-            deniedPermissions.add(AutoRequestManager.TYPE_CUSTOM_NOTIFICATION);
-        }
-
         if (allPermissions.size() > 0) {
             HSLog.i("RuntimePermission", "need request: " + allPermissions.size() + "  denied: " + deniedPermissions.size());
             holder = new RuntimePermissionViewListHolder(root, allPermissions);
