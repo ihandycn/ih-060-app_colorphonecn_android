@@ -44,10 +44,8 @@ public class TestActivity extends AppCompatActivity {
 
     public void startCallRingingWindow(View view) {
         String number = editText.getText().toString().trim();
-        String address = "";
-        mInCallWindow.show(TextUtils.isEmpty(number) ? "8888888" : number, address);
+        mInCallWindow.show(TextUtils.isEmpty(number) ? "8888888" : number);
         mHandler.postDelayed(() -> mInCallWindow.endFlashCall(), 8000);
-
     }
 
     @Override

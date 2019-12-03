@@ -50,54 +50,9 @@ public class IncomingViewManager implements
         final DialerCall dialerCall = CallList.getInstance().getIncomingCall();
         if (dialerCall != null) {
             FlashScreenPresenter.getInstance().onShowInDialer(dialerCall.getNumber());
-            HttpManager.getInstance().getCallerAddressInfo(dialerCall.getNumber(), new Callback<ResponseBody>() {
-                @Override
-                public void onFailure(String errorMsg) {
-                    if (mInCallWindow != null) {
-                        mInCallWindow.show(dialerCall.getNumber(), "");
-                    }
-                    Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
-                }
-
-                @Override
-                public void onSuccess(ResponseBody responseBody) {
-                    if (mInCallWindow != null) {
-                        String string = "";
-                        String address = "";
-                        String province;
-                        String city;
-                        String operator;
-                        try {
-                            string = responseBody.string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (!TextUtils.isEmpty(string)) {
-                            province = StringUtils.getProvince(string);
-                            city = StringUtils.getCity(string);
-                            operator = StringUtils.getOperator(string);
-
-                            if (!TextUtils.isEmpty(province)) {
-                                if (province.equals(city)) {
-                                    province = "";
-                                }
-
-                                address = province + " " + city + " " + operator;
-                            }
-
-                        }
-                        mInCallWindow.show(dialerCall.getNumber(), address);
-                        if (TextUtils.isEmpty(address)) {
-                            Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
-                        } else {
-                            Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "true");
-                        }
-                    } else {
-                        Analytics.logEvent("Dialer_Incoming_Page_Location_Details", "withlocation", "false");
-                    }
-                }
-            });
-
+            if (mInCallWindow != null) {
+                mInCallWindow.show(dialerCall.getNumber());
+            }
             mInCallWindow.setCallHandler(new InCallWindow.CallHandler() {
                 @Override
                 public void answer() {
