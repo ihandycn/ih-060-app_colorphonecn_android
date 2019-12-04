@@ -74,8 +74,10 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.preview.transition.TransitionView;
 import com.ihs.app.framework.HSApplication;
@@ -768,6 +770,7 @@ public final class Utils {
                             public void onAnimationEnd(Animator animation) {
                                 themeApply.setVisibility(View.GONE);
                                 viewGroup.removeView(contentView);
+                                GuideSetDefaultActivity.start(ColorPhoneApplication.getContext(), false);
                             }
                         })
                         .start();

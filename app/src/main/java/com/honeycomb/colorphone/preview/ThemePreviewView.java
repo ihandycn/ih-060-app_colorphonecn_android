@@ -771,7 +771,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
-        GuideSetDefaultActivity.start(mActivity, false);
 
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 

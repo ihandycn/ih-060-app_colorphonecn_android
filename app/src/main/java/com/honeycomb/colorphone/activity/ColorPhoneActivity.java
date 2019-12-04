@@ -190,8 +190,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
 
-                GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
-
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
                 if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
