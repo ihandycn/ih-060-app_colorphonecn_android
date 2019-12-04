@@ -893,6 +893,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void addSetDefaultGuideOverlay() {
+        Analytics.logEvent("Set_Theme_Guide_Mainview_Show", true);
         ViewGroup containerView = findViewById(R.id.container_view);
         View overlayContainer = findViewById(R.id.activity_main_overlay_container);
         overlay = new RoundRectOverlayView(ColorPhoneActivity.this, new RoundRectOverlayView.OverlayInfo() {
@@ -929,6 +930,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     View view = mRecyclerView.getLayoutManager().getChildAt(0);
 
                     view.performClick();
+                    Analytics.logEvent("Set_Theme_Guide_Mainview_Click", true);
                 }
 
                 Threads.postOnMainThreadDelayed(() -> {

@@ -303,6 +303,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     private void initOverlay() {
+        Analytics.logEvent("Set_Theme_Guide_Detail_Show", true);
         RelativeLayout containerView = findViewById(R.id.theme_preview_container);
         ViewGroup overlayContainer = findViewById(R.id.theme_preview_overlay_container);
         overlayContainer.setVisibility(View.VISIBLE);
@@ -335,6 +336,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             @Override
             public void onHoleClick() {
+                Analytics.logEvent("Set_Theme_Guide_Detail_Click", true);
                 View mEnjoyApplyBtn = findViewById(R.id.theme_setting);
                 if (mEnjoyApplyBtn!=null){
                     mEnjoyApplyBtn.performClick();
