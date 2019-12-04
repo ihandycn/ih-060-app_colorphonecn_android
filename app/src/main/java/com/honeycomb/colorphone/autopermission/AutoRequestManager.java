@@ -9,6 +9,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -70,10 +71,11 @@ public class AutoRequestManager {
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;
 
-    @StringDef({ AUTO_PERMISSION_FROM_AUTO,
-            AUTO_PERMISSION_FROM_FIX })
+    @StringDef({AUTO_PERMISSION_FROM_AUTO,
+            AUTO_PERMISSION_FROM_FIX})
     @Retention(RetentionPolicy.SOURCE)
-    private @interface AUTO_PERMISSION_FROM {}
+    private @interface AUTO_PERMISSION_FROM {
+    }
 
     private static final String TAG = "AutoRequestManager";
     private static final int MAX_RETRY_COUNT = 2;
@@ -91,7 +93,8 @@ public class AutoRequestManager {
 
     private int executeBackPressTryCount;
 
-    private AutoRequestManager() {}
+    private AutoRequestManager() {
+    }
 
     public static AutoRequestManager getInstance() {
         return sManager;
@@ -184,7 +187,7 @@ public class AutoRequestManager {
 
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
-                    HSLog.d(TAG, "Overlay : onSinglePermissionFinished , success = " + isSucceed );
+                    HSLog.d(TAG, "Overlay : onSinglePermissionFinished , success = " + isSucceed);
                     AutoLogger.logAutomaticPermissionResult(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, isSucceed, msg);
                     isRequestFloatPermission = false;
                 }
@@ -192,7 +195,7 @@ public class AutoRequestManager {
                 @Override
                 public void onSinglePermissionStarted(int index) {
                     super.onSinglePermissionStarted(index);
-                    HSLog.d(TAG, "Overlay : onSinglePermissionStarted" );
+                    HSLog.d(TAG, "Overlay : onSinglePermissionStarted");
                     isRequestFloatPermission = true;
                 }
 
@@ -447,7 +450,7 @@ public class AutoRequestManager {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] { intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
@@ -459,52 +462,22 @@ public class AutoRequestManager {
         if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
             if (AutoPermissionChecker.hasAutoStartPermission()) {
                 return true;
-            } else {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsHuaweiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
-                    } else if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING.equals(type)) {
             if (Permissions.isNotificationAccessGranted()) {
                 return true;
-            } else {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
                 return true;
-            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
             }
         } else if (TYPE_CUSTOM_BACKGROUND_POPUP.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
                 return true;
-            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasBgPopupPermission()) {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
             }
         }
 
-        HSPermissionRequestMgr.getInstance().switchRequestPage(type, new HSPermissionRequestCallback.Stub() {
+        HSPermissionRequestMgr.getInstance().getPermissionPageIntent(type, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {
                 if (totalCount == 0) {
@@ -527,8 +500,58 @@ public class AutoRequestManager {
                     notifyPermissionGranted(type, true);
                 }
                 if (BuildConfig.DEBUG) {
-                    String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
+                    String result = isSucceed ? " success !" : ("  failed reason : " + msg);
                     Toasts.showToast(type + result, Toast.LENGTH_LONG);
+                }
+            }
+
+            @Override
+            public void onOpenAction(Intent intent) {
+                Class guideClass = null;
+                switch (type) {
+                    case HSPermissionRequestMgr.TYPE_AUTO_START:
+                        if (RomUtils.checkIsHuaweiRom()) {
+                            guideClass = AutoStartHuaweiGuideActivity.class;
+                        } else if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = AutoStartMIUIGuideActivity.class;
+                        }
+                        break;
+                    case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+                        if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = NotificationMIUIGuideActivity.class;
+                        } else {
+                            guideClass = NotificationGuideActivity.class;
+                        }
+                        break;
+                    case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
+                        if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = ShowOnLockScreenMIUIGuideActivity.class;
+                        } else {
+                            guideClass = ShowOnLockScreenGuideActivity.class;
+                        }
+                        break;
+
+                    case TYPE_CUSTOM_BACKGROUND_POPUP:
+                        guideClass = BackgroundPopupMIUIGuideActivity.class;
+                        break;
+                }
+
+                if (guideClass != null) {
+                    Intent guideIntent = new Intent(HSApplication.getContext(), guideClass);
+                    if (RomUtils.checkIsHuaweiRom()) {
+                        Threads.postOnMainThreadDelayed(() -> {
+                            Navigations.startActivitySafely(HSApplication.getContext(), guideIntent);
+                        }, GUIDE_DELAY);
+
+                        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+
+                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
+                        Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                    }
+                } else {
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
                 }
             }
         });

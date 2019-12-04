@@ -51,3 +51,9 @@ dependencies {
     provided "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
 }
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.code.gson:gson:2.8.5'
+    }
+}
