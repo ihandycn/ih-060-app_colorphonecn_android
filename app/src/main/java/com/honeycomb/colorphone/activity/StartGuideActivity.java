@@ -115,12 +115,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
-    public static void startForResult(Activity activity,String from,int requestCode){
+    public static void startForResult(Activity activity, String from, int requestCode) {
         Intent intent = getIntent(activity, from);
         if (intent != null) {
-            activity.startActivityForResult(intent,requestCode);
+            activity.startActivityForResult(intent, requestCode);
         }
     }
+
     public static boolean isStarted() {
         return Preferences.getDefault().contains(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME);
     }
@@ -179,6 +180,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show",
                         "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("startguide_show");
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
@@ -248,6 +250,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             if (holder != null) {
                 if (holder.isManualFix() && !oneKeyFixPressed) {
                     AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
+                    StartProcessTestAutopilotUtils.logEventWithSdkVersion("fixalert_all_granted");
                 }
             }
 
@@ -255,6 +258,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             if (newView.getVisibility() != View.VISIBLE) {
                 Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("page_shown");
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("page_shown_from_"+from);
 
                 Analytics.logEvent("Congratulation_Page_Shown",
                         "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
@@ -282,7 +287,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
             Threads.postOnMainThreadDelayed(() -> {
-                if (from.equals(FROM_KEY_APPLY)){
+                if (from.equals(FROM_KEY_APPLY)) {
                     StartGuideActivity.this.setResult(ThemePreviewActivity.RESULT_PERMISSION_CODE);
                 }
                 StartGuideActivity.this.finish();
@@ -333,6 +338,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
                         "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("fixalert_from_" + from);
             } else {
                 int confirmPermission = holder.refreshConfirmPage();
                 if (confirmPermission == 0 && confirmDialogPermission != 0) {
@@ -379,14 +385,17 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             if (StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert()) {
                 Threads.postOnMainThreadDelayed(() -> {
+                    Analytics.logEvent("FixAlert_Cancel_Show", "From", from);
+                    StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_show_from_" + from);
                     close.setVisibility(View.VISIBLE);
                     close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
 
                     close.setOnClickListener(v -> {
                         showSkipDialog();
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                        StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_click_from_" + from);
                     });
-                },3000);
+                }, 3000);
             }
         }
     }
@@ -408,6 +417,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
             Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
+            StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_ok_" + from);
         });
 
         btn = view.findViewById(R.id.tv_second);
@@ -418,6 +428,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Navigations.startActivitySafely(StartGuideActivity.this, ColorPhoneActivity.class);
             }
             Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
+            Analytics.logEvent("FixAlert_Retain_Cancel_Clicked", "From", from);
+            StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_cancel_" + from);
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
@@ -428,6 +440,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         showDialog(dialog);
 
         Analytics.logEvent("FixAlert_Retain_Show", "From", from);
+        StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_show_from_" + from);
     }
 
     private boolean showPermissionDialog() {
@@ -614,6 +627,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 "Brand", AutoLogger.getBrand(),
                 "Os", AutoLogger.getOSVersion(),
                 "Permission", AutoLogger.getGrantRuntimePermissions());
+        StartProcessTestAutopilotUtils.logEventWithSdkVersion("acc_guide_show");
+        if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+            StartProcessTestAutopilotUtils.logEventWithSdkVersion("access_all_granted");
+        }
     }
 
     private boolean shouldShowNewOppoTittleText() {
@@ -641,19 +658,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         String[] romNumbers = romVersion.split("\\.");
-        if (romNumbers.length<2){
+        if (romNumbers.length < 2) {
             return false;
         }
-        if (!(isNumeric(romNumbers[0]) && isNumeric(romNumbers[1]))){
+        if (!(isNumeric(romNumbers[0]) && isNumeric(romNumbers[1]))) {
             return false;
         }
-        if (Integer.parseInt(romNumbers[0])<3){
+        if (Integer.parseInt(romNumbers[0]) < 3) {
             return false;
         }
         return Integer.parseInt(romNumbers[0]) != 3 || Integer.parseInt(romNumbers[1]) >= 2;
     }
 
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
 
         Pattern pattern = Pattern.compile("[0-9]*");
 
@@ -802,6 +819,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                                     "Brand", AutoLogger.getBrand(),
                                     "Os", AutoLogger.getOSVersion(),
                                     "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
+                            StartProcessTestAutopilotUtils.logEventWithSdkVersion("all_granted_from_auto");
                         }
                         break;
                     default:

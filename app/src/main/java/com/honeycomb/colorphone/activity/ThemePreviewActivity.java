@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.RoundRectOverlayView;
@@ -304,6 +305,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private void initOverlay() {
         Analytics.logEvent("Set_Theme_Guide_Detail_Show", true);
+        StartProcessTestAutopilotUtils.logEventWithSdkVersion("guide_detail_show");
         RelativeLayout containerView = findViewById(R.id.theme_preview_container);
         ViewGroup overlayContainer = findViewById(R.id.theme_preview_overlay_container);
         overlayContainer.setVisibility(View.VISIBLE);
@@ -337,6 +339,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             @Override
             public void onHoleClick() {
                 Analytics.logEvent("Set_Theme_Guide_Detail_Click", true);
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("guide_detail_click");
                 View mEnjoyApplyBtn = findViewById(R.id.theme_setting);
                 if (mEnjoyApplyBtn!=null){
                     mEnjoyApplyBtn.performClick();

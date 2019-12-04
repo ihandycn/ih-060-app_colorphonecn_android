@@ -15,6 +15,7 @@ import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
@@ -159,6 +160,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         success = findViewById(R.id.success);
 
         Analytics.logEvent("Permission_Guide_Show", "occasion", from);
+        StartProcessTestAutopilotUtils.logEventWithSdkVersion("permission_guide_show");
     }
 
     private void openSettingsForDeniedPermission() {
@@ -348,6 +350,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 });
 
                 Analytics.logEvent("Permission_Guide_All_Granted", "occasion", from);
+                StartProcessTestAutopilotUtils.logEventWithSdkVersion("permission_guide_grant");
             }
         }
     }
