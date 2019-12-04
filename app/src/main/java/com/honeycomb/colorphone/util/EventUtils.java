@@ -34,8 +34,8 @@ public class EventUtils {
         long duration = System.currentTimeMillis() - installMills;
         if (duration > lastDayMills && duration < (lastDayMills + oneDayMills)) {
             Preferences.getDefault().putBoolean(PREF_COLORPHONE_RETENTION_DAY1, true);
-            Analytics.logEvent("ColorPhone_Retention_Day1");
-            HSAnalytics.logEventToAppsFlyer("ColorPhone_Retention_Day1");
+            Analytics.logEvent("colorphone_retention_day1");
+            HSAnalytics.logEventToAppsFlyer("colorphone_retention_day1");
         }
     }
 }
