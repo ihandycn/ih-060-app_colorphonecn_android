@@ -699,7 +699,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 } else if (TabItem.TAB_MAIN.equals(tabId)) {
                     if (mRecyclerView != null) {
                         mRecyclerView.scrollToPosition(0);
-                        mAdapter.notifyDataSetChanged();
                     }
                 }
             }
