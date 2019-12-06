@@ -340,7 +340,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
                         "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
-                if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+                if ("guide".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                     StartProcessTestAutopilotUtils.logEventWithSdkVersion("fixalert_from_" + from);
                 }
             } else {
@@ -390,7 +390,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             if (StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert()) {
                 Threads.postOnMainThreadDelayed(() -> {
                     Analytics.logEvent("FixAlert_Cancel_Show", "From", from);
-                    if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+                    if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                         StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_show_from_" + from);
                     }
                     close.setVisibility(View.VISIBLE);
@@ -399,7 +399,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     close.setOnClickListener(v -> {
                         showSkipDialog();
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                        if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+                        if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                             StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_click_from_" + from);
                         }
                     });
@@ -425,7 +425,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
             Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
-            if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+            if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                 StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_ok_" + from);
             }
         });
@@ -439,7 +439,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
             Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
             Analytics.logEvent("FixAlert_Retain_Cancel_Clicked", "From", from);
-            if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+            if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                 StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_cancel_" + from);
             }
         });
@@ -452,7 +452,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         showDialog(dialog);
 
         Analytics.logEvent("FixAlert_Retain_Show", "From", from);
-        if ("start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+        if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
             StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_show_from_" + from);
         }
     }
