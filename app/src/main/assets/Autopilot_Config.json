@@ -237,15 +237,6 @@
           "name": "all_granted_from_auto_9"
         },
         {
-          "name": "fixalert_from_start_7"
-        },
-        {
-          "name": "fixalert_from_start_8"
-        },
-        {
-          "name": "fixalert_from_start_9"
-        },
-        {
           "name": "fixalert_from_apply_7"
         },
         {
@@ -460,6 +451,60 @@
         },
         {
           "name": "fixalert_all_granted_9"
+        },
+        {
+          "name": "fixalert_from_guide_7"
+        },
+        {
+          "name": "fixalert_from_guide_8"
+        },
+        {
+          "name": "fixalert_from_guide_9"
+        },
+        {
+          "name": "cancel_show_from_guide_7"
+        },
+        {
+          "name": "cancel_show_from_guide_8"
+        },
+        {
+          "name": "cancel_show_from_guide_9"
+        },
+        {
+          "name": "cancel_click_from_guide_7"
+        },
+        {
+          "name": "cancel_click_from_guide_8"
+        },
+        {
+          "name": "cancel_click_from_guide_9"
+        },
+        {
+          "name": "retain_show_from_guide_7"
+        },
+        {
+          "name": "retain_show_from_guide_8"
+        },
+        {
+          "name": "retain_show_from_guide_9"
+        },
+        {
+          "name": "retain_ok_guide_7"
+        },
+        {
+          "name": "retain_ok_guide_8"
+        },
+        {
+          "name": "retain_ok_guide_9"
+        },
+        {
+          "name": "retain_cancel_guide_7"
+        },
+        {
+          "name": "retain_cancel_guide_8"
+        },
+        {
+          "name": "retain_cancel_guide_9"
         }
       ],
       "topic_id": "topic-7c00my1zs"
@@ -516,7 +561,7 @@
   "autopilot_id": 10102,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "911a8f6a-4185-46b2-8372-86f6566c538b",
+  "json_id": "1662f9e3-bcc6-45e2-8e6b-e898d084009e",
   "autopilot_name": "ColorPhone_K",
   "autopilot_type": "app"
 }
