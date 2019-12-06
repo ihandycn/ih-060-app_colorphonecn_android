@@ -436,6 +436,30 @@
         },
         {
           "name": "permission_guide_grant_9"
+        },
+        {
+          "name": "acc_granted_from_start_7"
+        },
+        {
+          "name": "acc_granted_from_start_8"
+        },
+        {
+          "name": "acc_granted_from_start_9"
+        },
+        {
+          "name": "acc_granted_from_apply_7"
+        },
+        {
+          "name": "acc_granted_from_apply_8"
+        },
+        {
+          "name": "acc_granted_from_apply_9"
+        },
+        {
+          "name": "fixalert_all_granted_8"
+        },
+        {
+          "name": "fixalert_all_granted_9"
         }
       ],
       "topic_id": "topic-7c00my1zs"
@@ -492,7 +516,7 @@
   "autopilot_id": 10102,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "51455d52-d083-40ae-bf14-7265985ed8c3",
+  "json_id": "911a8f6a-4185-46b2-8372-86f6566c538b",
   "autopilot_name": "ColorPhone_K",
   "autopilot_type": "app"
 }
