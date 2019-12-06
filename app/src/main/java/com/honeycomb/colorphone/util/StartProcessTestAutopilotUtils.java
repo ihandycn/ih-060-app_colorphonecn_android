@@ -28,6 +28,7 @@ public class StartProcessTestAutopilotUtils {
     }
 
     public static void logEventWithSdkVersion(String event) {
+        event = event.toLowerCase();
         String sdkString;
         switch (Build.VERSION.SDK_INT) {
             case 24:

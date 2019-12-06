@@ -263,7 +263,9 @@ public class AutoRequestManager {
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
-                    StartProcessTestAutopilotUtils.logEventWithSdkVersion("acc_granted_from_" + point);
+                    if ("guide".equalsIgnoreCase(point) || "start".equalsIgnoreCase(point) || "apply".equalsIgnoreCase(point)) {
+                        StartProcessTestAutopilotUtils.logEventWithSdkVersion("acc_granted_from_" + point);
+                    }
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
                         AutoRepairingToast.showRepairingToast();
