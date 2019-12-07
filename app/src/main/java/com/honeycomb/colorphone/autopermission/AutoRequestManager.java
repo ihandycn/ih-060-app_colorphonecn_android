@@ -450,7 +450,16 @@ public class AutoRequestManager {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                Intent finalGuideIntent = guideIntent;
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        Navigations.startActivitySafely(HSApplication.getContext(), finalGuideIntent);
+                    }, GUIDE_DELAY);
+
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                } else {
+                    Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                }
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
