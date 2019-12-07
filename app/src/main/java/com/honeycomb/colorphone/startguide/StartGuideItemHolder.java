@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.startguide;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.ihs.commons.utils.HSLog;
 
 import java.lang.annotation.Retention;
@@ -67,7 +69,11 @@ public class StartGuideItemHolder {
         fix = item.findViewById(R.id.start_guide_permission_auto_start_fix);
         fix.setOnClickListener(v -> {
             clickToFix = true;
-            if (fix.getContext() instanceof Activity) {
+            Context context = fix.getContext();
+            if (context instanceof Activity) {
+                if (context instanceof StartGuideActivity){
+                    ((StartGuideActivity)context).oneKeyFixPressed = false;
+                }
                 StartGuidePermissionFactory.fixPermission(permissionType, (Activity) fix.getContext());
             } else {
                 StartGuidePermissionFactory.fixPermission(permissionType, null);

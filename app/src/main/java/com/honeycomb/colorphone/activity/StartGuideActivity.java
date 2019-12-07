@@ -82,7 +82,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private int permissionShowCount;
     private String from;
     private boolean directPermission;
-    private boolean oneKeyFixPressed = false;
+    public boolean oneKeyFixPressed = false;
     private int confirmDialogPermission = 0;
     private boolean isAgreePrivacy;
 
@@ -418,6 +418,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         View btn = view.findViewById(R.id.tv_first);
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
+            oneKeyFixPressed = true;
             dismissDialog();
             permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
@@ -427,6 +428,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         btn = view.findViewById(R.id.tv_second);
         btn.setOnClickListener(v -> {
+            if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                from = FROM_KEY_START;
+            }
             dismissDialog();
             finish();
             if (isOnNewIntent) {
