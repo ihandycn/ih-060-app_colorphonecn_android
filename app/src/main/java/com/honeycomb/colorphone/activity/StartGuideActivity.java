@@ -421,6 +421,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
             oneKeyFixPressed = true;
+            if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                from = FROM_KEY_START;
+            }
             dismissDialog();
             permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
             AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
@@ -433,9 +436,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         btn = view.findViewById(R.id.tv_second);
         btn.setOnClickListener(v -> {
-            if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
-                from = FROM_KEY_START;
-            }
             dismissDialog();
             finish();
             if (isOnNewIntent) {
