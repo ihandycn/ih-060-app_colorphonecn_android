@@ -389,20 +389,22 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             if (StartProcessTestAutopilotUtils.shouldShowSkipOnFixAlert()) {
                 Threads.postOnMainThreadDelayed(() -> {
-                    Analytics.logEvent("FixAlert_Cancel_Show", "From", from);
-                    if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
-                        StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_show_from_" + from);
-                    }
-                    close.setVisibility(View.VISIBLE);
-                    close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
-
-                    close.setOnClickListener(v -> {
-                        showSkipDialog();
-                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                    if (!(close.getVisibility() == View.VISIBLE)) {
+                        close.setVisibility(View.VISIBLE);
+                        Analytics.logEvent("FixAlert_Cancel_Show", "From", from);
                         if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
-                            StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_click_from_" + from);
+                            StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_show_from_" + from);
                         }
-                    });
+                        close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                        close.setOnClickListener(v -> {
+                            showSkipDialog();
+                            Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                            if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
+                                StartProcessTestAutopilotUtils.logEventWithSdkVersion("cancel_click_from_" + from);
+                            }
+                        });
+                    }
                 }, 3000);
             }
         }
