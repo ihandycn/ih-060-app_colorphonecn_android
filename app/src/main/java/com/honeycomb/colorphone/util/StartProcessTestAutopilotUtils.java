@@ -11,12 +11,7 @@ public class StartProcessTestAutopilotUtils {
     private static final String TOPIC_ID = "topic-7c00my1zs";
 
     public static boolean shouldShowSkipOnFixAlert() {
-        if (RomUtils.checkIsMiuiRom()
-                || RomUtils.checkIsHuaweiRom()) {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "skip_on_fixalert", true);
-        } else {
-            return false;
-        }
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "skip_on_fixalert", true);
     }
 
     public static boolean shouldGuideThemeSet() {
