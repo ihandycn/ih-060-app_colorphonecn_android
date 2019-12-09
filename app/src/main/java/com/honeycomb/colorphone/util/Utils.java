@@ -770,7 +770,7 @@ public final class Utils {
                             public void onAnimationEnd(Animator animation) {
                                 themeApply.setVisibility(View.GONE);
                                 viewGroup.removeView(contentView);
-                                GuideSetDefaultActivity.start(ColorPhoneApplication.getContext(), false);
+                                GuideSetDefaultActivity.start(rootView.getContext(), false);
                             }
                         })
                         .start();
