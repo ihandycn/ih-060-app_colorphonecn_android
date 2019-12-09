@@ -308,6 +308,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
 
                 oneKeyFix.setOnClickListener(v -> {
+                    Analytics.logEvent("FixAlert_Ok_Click", "From", from);
                     if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
                         from = FROM_KEY_START;
                     }
@@ -331,8 +332,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         }
                     }
                     oneKeyFixPressed = true;
-
-                    Analytics.logEvent("FixAlert_Ok_Click", "From", from);
                 });
 
                 Analytics.logEvent("FixAlert_Show",
@@ -423,11 +422,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
             oneKeyFixPressed = true;
-
-            dismissDialog();
-            permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
-
             Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
             if ("guide".equalsIgnoreCase(from) || "start".equalsIgnoreCase(from) || "apply".equalsIgnoreCase(from)) {
                 StartProcessTestAutopilotUtils.logEventWithSdkVersion("retain_ok_" + from);
@@ -435,6 +429,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
                 from = FROM_KEY_START;
             }
+            dismissDialog();
+            permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
+            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
         });
 
         btn = view.findViewById(R.id.tv_second);
