@@ -1251,7 +1251,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updatePermissionHeader() {
-        if (!StartProcessTestAutopilotUtils.shouldGuideThemeSet() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+        if (false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
                 !AutoRequestManager.getInstance().isGrantAllPermission()) {
 //                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
