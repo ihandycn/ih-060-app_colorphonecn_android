@@ -17,7 +17,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.transition.Transition;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,6 @@ import com.superapps.util.Threads;
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +84,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
     private int scrollCount = 0;
     private int lastPos = -1;
     private boolean windowTransitionFlag = true;
+    public boolean setDefaultThemeFromGuide = false;
 
     private MediaSharedElementCallback mediaSharedElementCallback;
     private Bundle mSavedState;
@@ -307,6 +306,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
     private void initOverlay() {
         Analytics.logEvent("Set_Theme_Guide_Detail_Show", true);
         StartProcessTestAutopilotUtils.logEventWithSdkVersion("guide_detail_show");
+        setDefaultThemeFromGuide = true;
         RelativeLayout containerView = findViewById(R.id.theme_preview_container);
         ViewGroup overlayContainer = findViewById(R.id.theme_preview_overlay_container);
         overlayContainer.setVisibility(View.VISIBLE);

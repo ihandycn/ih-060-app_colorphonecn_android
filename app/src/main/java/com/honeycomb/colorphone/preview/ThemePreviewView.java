@@ -71,7 +71,6 @@ import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -104,8 +103,6 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
-
-import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
@@ -172,7 +169,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
     private boolean isSetWriteSetting = false;
-    private boolean leavePreviewPage = false;
 
     private TransitionView mTransitionNavView;
     private TransitionView mTransitionActionLayout;
@@ -709,7 +705,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             sThemeApplySuccessFlag = false;
         } else {
             if (isSelectedPos() && !ColorPhoneActivity.showingOverlay && mActivity != null && mActivity.overlay == null) {
-                if (!leavePreviewPage) {
+                if (!mActivity.setDefaultThemeFromGuide) {
                     checkVerticalScrollGuide();
                 }
             }
@@ -1935,7 +1931,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
                         unFoldView();
                     } else {
-                        leavePreviewPage = true;
                         Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
                     }
                 }
