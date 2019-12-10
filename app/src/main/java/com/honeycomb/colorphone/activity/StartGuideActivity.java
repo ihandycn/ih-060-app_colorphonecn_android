@@ -290,7 +290,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             Threads.postOnMainThreadDelayed(() -> {
                 if (from.equals(FROM_KEY_APPLY)) {
-                    StartGuideActivity.this.setResult(ThemePreviewActivity.RESULT_PERMISSION_CODE);
+                    HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_SET_DEFAULT_THEME);
                 }
                 StartGuideActivity.this.finish();
             }, 2000);

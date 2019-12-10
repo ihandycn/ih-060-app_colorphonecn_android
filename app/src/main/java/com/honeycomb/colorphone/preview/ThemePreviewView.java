@@ -172,6 +172,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
     private boolean isSetWriteSetting = false;
+    private boolean leavePreviewPage = false;
 
     private TransitionView mTransitionNavView;
     private TransitionView mTransitionActionLayout;
@@ -708,7 +709,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             sThemeApplySuccessFlag = false;
         } else {
             if (isSelectedPos() && !ColorPhoneActivity.showingOverlay && mActivity != null && mActivity.overlay == null) {
-                checkVerticalScrollGuide();
+                if (!leavePreviewPage) {
+                    checkVerticalScrollGuide();
+                }
             }
         }
 
@@ -1932,6 +1935,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
                         unFoldView();
                     } else {
+                        leavePreviewPage = true;
                         Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
                     }
                 }

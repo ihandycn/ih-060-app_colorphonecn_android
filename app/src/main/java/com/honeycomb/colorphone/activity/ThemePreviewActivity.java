@@ -50,6 +50,8 @@ import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
@@ -62,7 +64,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ThemePreviewActivity extends HSAppCompatActivity {
+public class ThemePreviewActivity extends HSAppCompatActivity implements INotificationObserver {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
     public static final String NOTIFY_THEME_UPLOAD_SELECT = "notify_theme_upload_select";
     public static final String NOTIFY_THEME_PUBLISH_SELECT = "notify_theme_publish_select";
@@ -71,10 +73,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_PUBLISH_DOWNLOAD = "notify_theme_publish_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
+    public static final String NOTIFY_SET_DEFAULT_THEME = "notify_set_default_theme";
     public static final String FROM_MAIN = "notify_theme_context_key";
     public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
-    public static final int REQUEST_PERMISSION_CODE = 100;
-    public static final int RESULT_PERMISSION_CODE = 120;
 
     private Theme mTheme;
     private String from;
@@ -298,8 +299,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         PreviewAdManager.getInstance().preload(this);
 
         if (ColorPhoneActivity.showingOverlay) {
+            HSGlobalNotificationCenter.addObserver(NOTIFY_SET_DEFAULT_THEME, this);
             initOverlay();
-
         }
     }
 
@@ -341,7 +342,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 Analytics.logEvent("Set_Theme_Guide_Detail_Click", true);
                 StartProcessTestAutopilotUtils.logEventWithSdkVersion("guide_detail_click");
                 View mEnjoyApplyBtn = findViewById(R.id.theme_setting);
-                if (mEnjoyApplyBtn!=null){
+                if (mEnjoyApplyBtn != null) {
                     mEnjoyApplyBtn.performClick();
                 }
                 Threads.postOnMainThreadDelayed(() -> {
@@ -505,25 +506,13 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (intercept) {
             return;
         }
-        if (overlay!=null){
+        if (overlay != null) {
             return;
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             supportFinishAfterTransition();
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_PERMISSION_CODE){
-            if (mViewPager.getChildCount()>0) {
-                ThemePreviewView previewView =((ThemePreviewView)(mViewPager.getChildAt(0)));
-                previewView.setApplyForAll(true);
-                previewView.applyRingtoneChange();
-            }
         }
     }
 
@@ -568,6 +557,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         themeIndex = Math.max(0, Math.min(themeIndex, mThemes.size() - 1));
         HSLog.i("ThemeFullAd", "getThemeIndexByPosition index: " + themeIndex + "  pos: " + position);
         return themeIndex;
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        if (mViewPager.getChildCount() > 0) {
+            ThemePreviewView previewView = ((ThemePreviewView) (mViewPager.getChildAt(0)));
+            previewView.setApplyForAll(true);
+            previewView.applyRingtoneChange();
+        }
     }
 
     private class ThemePagerAdapter extends PagerAdapter {
