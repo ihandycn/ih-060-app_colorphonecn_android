@@ -145,14 +145,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             private String getDeviceInfo() {
-                if (Build.VERSION.SDK_INT >= 26) {
-                    return "8";
-                } else if (Build.VERSION.SDK_INT >= 24) {
-                    return "7";
-                } else if (Build.VERSION.SDK_INT >= 23) {
-                    return "6";
-                }
-                return "";
+                return String.valueOf(Build.VERSION.SDK_INT);
             }
 
             @Override
