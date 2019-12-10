@@ -189,6 +189,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mMainViewShowFlag = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
+                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                    GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
+                }
 
                 HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
