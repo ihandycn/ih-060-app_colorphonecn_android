@@ -57,11 +57,6 @@
     <string name="loved_it_desc">ありがとう！すばらしい、便利、おしゃれ…などの言葉で評価してください。</string>
     <string name="liked_it_desc">気に入らないことを教えてください。改善するために全力を尽くします！</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">通話に応答する通知アクセスを有効にする</string>
-    <string name="acb_phone_enable_notification_access_description">着信コールに応答するためにColor Phoneの通知アクセスを許可します。手動で有効にしてください。</string>
-    <string name="acb_phone_enable_notification">今すぐ有効にする</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">広告を観てアンロック</string>
     <string name="load_reward_ad_error">おっと、後でもう一度お試しください。</string>

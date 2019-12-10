@@ -56,11 +56,6 @@
     <string name="loved_it_desc">Thanks! Please rate with words like Nice, Useful, Stylish…</string>
     <string name="liked_it_desc">Please tell us what you dislike. We will try our best to improve it!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">Toegang tot meldingen inschakelen om oproepen te beantwoorden</string>
-    <string name="acb_phone_enable_notification_access_description">Toegang tot meldingen geven zodat Color Phone inkomende oproepen kan beantwoorden. Schakel het handmatig in.</string>
-    <string name="acb_phone_enable_notification">Nu inschakelen</string>
-
     <!--reward video -->
     <string name="watch_video_to_unlock">Bekijk een advertentie om te ontgrendelen</string>
     <string name="load_reward_ad_error">Oeps, probeer het later opnieuw.</string>

@@ -23,12 +23,10 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -44,12 +42,8 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
 import com.superapps.util.Compats;
-import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
-import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
-import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME;
-import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT;
 
 /**
  * Created by jelly on 2018/3/17.
@@ -88,10 +82,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         && ModuleUtils.isShareAlertOutsideAppShow(context, number)) {
                     return true;
                 }
-                if (isShowNotificationAccessOutAppGuide(context)) {
-                    NotificationAccessGuideAlertActivity.startOutAppGuide(context);
-                    return true;
-                }
                 if (callType == IncomingCallReceiver.CALL_IN_SUCCESS && FiveStarRateTip.canShowWhenEndCall()) {
                     RateAlertActivity.showRateFrom(context, FiveStarRateTip.From.END_CALL);
                     return true;
@@ -100,18 +90,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
         };
-    }
-
-    private  boolean isShowNotificationAccessOutAppGuide(Context context) {
-        boolean isAcceptCallFailed = HSPreferenceHelper.getDefault().getBoolean(PREFS_ACCEPT_FAIL, false);
-        boolean isEnabled = NotificationConfig.isOutsideAppAccessAlertOpen();
-        boolean isAtValidTime =
-                System.currentTimeMillis() - HSPreferenceHelper.getDefault().getLong(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME, 0)
-                        > NotificationConfig.getOutsideAppAccessAlertInterval();
-        boolean beyondMaxCount = HSPreferenceHelper.getDefault().getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0)
-                >= NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
-
-        return isAcceptCallFailed && isEnabled && isAtValidTime && !Permissions.isNotificationAccessGranted() && !beyondMaxCount;
     }
 
     private static volatile boolean isADShown = false;

@@ -55,11 +55,6 @@
     <string name="loved_it_desc">ขอบคุณ! กรุณาให้คะแนนด้วยคำพูดอย่างเช่น ดีงาม มีประโยชน์ มีสไตล์…</string>
     <string name="liked_it_desc">กรุณาบอกเราว่าไม่ชอบอะไร เราจะพยายามปรับปรุงให้ดีที่สุด!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">อนุญาตการเข้าถึงการแจ้งเตือนเพื่อรับสายเรียกเข้า</string>
-    <string name="acb_phone_enable_notification_access_description">อนุญาตการเข้าถึงโทรศัพท์สีเพื่อรับสายเรียกเข้า กรุณาอนุญาตด้วยตนเอง</string>
-    <string name="acb_phone_enable_notification">อนุญาตทันที</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">ชมโฆษณาเพื่อปลดล็อก</string>
     <string name="load_reward_ad_error">อ๊ะ ลองอีกครั้งภายหลัง</string>

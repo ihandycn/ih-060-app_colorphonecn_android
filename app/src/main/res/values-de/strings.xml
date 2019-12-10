@@ -55,11 +55,6 @@
     <string name="loved_it_desc">Danke! Bitte bewerten Sie die App mit Adjektiven wie: schön, praktisch, stilvoll…</string>
     <string name="liked_it_desc">Bitte sagen Sie uns, was Ihnen missfällt. Wir werden uns größte Mühe geben, die App zu verbessern.</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
-    <string name="acb_phone_enable_notification_access_description">Color Phone Benachrichtigungsberechtigung zur Annahme eingehender Anrufe gewähren. Bitte manuell aktivieren.</string>
-    <string name="acb_phone_enable_notification">Jetzt aktivieren</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">Für die Freischaltung einen Werbespot anschauen</string>
     <string name="load_reward_ad_error">Ups! Später erneut versuchen.</string>

@@ -564,7 +564,13 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
         if (mViewPager.getChildCount() > 0) {
             ThemePreviewView previewView = ((ThemePreviewView) (mViewPager.getChildAt(0)));
             previewView.setApplyForAll(true);
-            previewView.applyRingtoneChange();
+            Threads.postOnMainThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    previewView.applyRingtoneChange();
+                    previewView.findViewById(R.id.card_selected).setVisibility(View.VISIBLE);
+                }
+            },500);
         }
     }
 

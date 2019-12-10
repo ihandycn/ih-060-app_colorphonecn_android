@@ -55,12 +55,6 @@
     <string name="loved_it_desc">감사합니다! 멋짐, 유용함, 스타일 좋음 등으로 평가해주세요.</string>
     <string name="liked_it_desc">맘에 들지 않는 점을 말씀해주세요. 최선을 다해 개선하겠습니다!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">응답 통화에 알림 액세스 활성화</string>
-    <string name="acb_phone_enable_notification_access_description">Color Phone이 발신 전화에 응답하도록 알림 액세스를 승인해주세요.
-  수동으로 활성화해주세요.</string>
-    <string name="acb_phone_enable_notification">지금 활성화</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">광고를 보고 잠금 해제</string>
     <string name="load_reward_ad_error">이런, 나중에 다시 시도하세요</string>

@@ -55,11 +55,6 @@
     <string name="loved_it_desc">شكراً! يرجى التقييم وإضافة كلمات مثل جميل، جيد، مفيد…</string>
     <string name="liked_it_desc">أخبرنا ما لم يعجبك، من فضلك. سنبذل قصارى جهدنا لتحسينه!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">مكّن الوصول إلى الإخطارات للرد على المكالمات</string>
-    <string name="acb_phone_enable_notification_access_description">مكّن الوصول إلى الإخطارات ليتمكن Color Phone من الرد على المكالمات الواردة. يرجى تمكين الإذن يدوياً.</string>
-    <string name="acb_phone_enable_notification">تمكين الآن</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">شاهد إعلانًا لفتحه</string>
     <string name="load_reward_ad_error">عذراً، أعد المحاولة لاحقاً</string>

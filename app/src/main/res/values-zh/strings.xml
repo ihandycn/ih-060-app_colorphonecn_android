@@ -53,10 +53,6 @@
 
     <string name="loved_it_desc">非常感謝，請為我們評價。推薦您使用這些詞：好看、有用、時尚…</string>
     <string name="liked_it_desc">請給我們反饋您不喜歡的功能，我們會盡力優化的！</string>
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">為了輕鬆接聽來電請開啟通知訪問權限</string>
-    <string name="acb_phone_enable_notification_access_description">請手動為多彩電話開啟通知訪問權限，輕鬆接聽來電。</string>
-    <string name="acb_phone_enable_notification">立即開啟</string>
 
     <!--Reward_video -->
     <string name="watch_video_to_unlock">觀看廣告即可解鎖</string>

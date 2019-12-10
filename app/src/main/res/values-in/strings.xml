@@ -55,11 +55,6 @@
     <string name="loved_it_desc">Terima Kasih! Beri nilai dengan kata seperti Bagus, Bermanfaat, Gaya…</string>
     <string name="liked_it_desc">Beri tahu hal yang Anda tidak suka. Kami akan mencoba yang terbaik untuk menyempurnakannya!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">Aktifkan Akses Pemberitahuan untuk Menjawab Panggilan</string>
-    <string name="acb_phone_enable_notification_access_description">Berikan akses notifikasi untuk Telepon Warna untuk menjawab panggilan masuk. Aktifkan secara manual.</string>
-    <string name="acb_phone_enable_notification">Aktifkan Sekarang</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">Tonton iklan untuk membuka</string>
     <string name="load_reward_ad_error">Ups， coba lagi nanti</string>

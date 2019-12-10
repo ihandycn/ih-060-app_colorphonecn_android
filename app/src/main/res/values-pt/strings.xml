@@ -55,11 +55,6 @@
     <string name="loved_it_desc">Obrigado! Por favor, avalie com palavras como Legal, Útil, Estiloso…</string>
     <string name="liked_it_desc">Conte-nos o que você não gosta. Vamos tentar o nosso melhor para melhorá-lo!</string>
 
-    <!--notification access -->
-    <string name="acb_phone_grant_notification_access_title">Ative o acesso às notificações para atender chamadas</string>
-    <string name="acb_phone_enable_notification_access_description">Conceda acesso às notificações ao Color Phone para atender chamadas. Ative manualmente.</string>
-    <string name="acb_phone_enable_notification">Ative agora</string>
-
     <!--reward_video -->
     <string name="watch_video_to_unlock">Assista a um anúncio para desbloquear</string>
     <string name="load_reward_ad_error">Ops! Tente novamente mais tarde</string>

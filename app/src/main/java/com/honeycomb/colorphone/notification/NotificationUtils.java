@@ -46,40 +46,6 @@ public class NotificationUtils {
 
     private static final String TAG = NotificationUtils.class.getSimpleName();
 
-    public static final String PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED = "PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED";
-
-    public static boolean isShowNotificationGuideAlertInFirstSession(Context context) {
-        if (!isInsideAppAccessAlertEnabled(context)) {
-            return false;
-        }
-
-        if (HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, false)) {
-            return false;
-        }
-
-        if (Permissions.isNotificationAccessGranted()) {
-            return false;
-        }
-        return true;
-    }
-
-
-    private static boolean isInsideAppAccessAlertEnabled(Context context) {
-        if (!NotificationConfig.isInsideAppAccessAlertOpen()) {
-            return false;
-        }
-
-        if (DefaultPhoneUtils.isDefaultPhone()) {
-            return false;
-        }
-
-        if (Permissions.isNotificationAccessGranted()) {
-            return false;
-        }
-        return true;
-    }
-
-
     /**
      * theme notification
      */
