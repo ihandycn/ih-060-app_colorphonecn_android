@@ -910,7 +910,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void updateDownloaded(boolean progressFlag) {
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
-                if (!Settings.System.canWrite(getBaseContext())) {
+                if (RuntimePermissions.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != RuntimePermissions.PERMISSION_GRANTED ||
+                        !Settings.System.canWrite(getBaseContext())) {
+
                     Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
                     return;
                 }
