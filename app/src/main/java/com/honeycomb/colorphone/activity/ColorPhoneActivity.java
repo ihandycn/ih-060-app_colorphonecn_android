@@ -1648,12 +1648,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void overrideSharedElement(int exitPos) {
-        final int adapterPosition = mAdapter.themePositionToAdapterPosition(exitPos);
-        if (mRecyclerView != null) {
-            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
-            if (viewHolder != null && viewHolder.itemView != null) {
-                ImageView imageView = viewHolder.itemView.findViewById(R.id.card_preview_img);
-                sharedElementCallback.setSharedElementViews(imageView);
+        if (mAdapter != null) {
+            final int adapterPosition = mAdapter.themePositionToAdapterPosition(exitPos);
+            if (mRecyclerView != null) {
+                RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
+                if (viewHolder != null && viewHolder.itemView != null) {
+                    ImageView imageView = viewHolder.itemView.findViewById(R.id.card_preview_img);
+                    sharedElementCallback.setSharedElementViews(imageView);
+                }
             }
         }
     }
