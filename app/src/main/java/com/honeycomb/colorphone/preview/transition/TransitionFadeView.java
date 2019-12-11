@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.preview.transition;
 import android.view.View;
 
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.superapps.util.Threads;
 
 public class TransitionFadeView extends SimpleTransitionView {
     private long duration;
@@ -20,6 +21,12 @@ public class TransitionFadeView extends SimpleTransitionView {
                     .setDuration(duration)
                     .setInterpolator(ThemePreviewView.mInter)
                     .start();
+            Threads.postOnMainThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    targetView.setVisibility(View.GONE);
+                }
+            },duration);
         } else {
             targetView.setVisibility(View.GONE);
         }
