@@ -1170,11 +1170,15 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
   }
 
   private void removeFloatCallButton() {
-    mFloatCallButtonManager.hide();
+      if (mFloatCallButtonManager != null) {
+          mFloatCallButtonManager.hide();
+      }
   }
 
   private void showFloatCallButton() {
-    mFloatCallButtonManager.show(HSApplication.getContext());
+      if (mFloatCallButtonManager != null) {
+          mFloatCallButtonManager.show(HSApplication.getContext());
+      }
   }
 
   private void notifyVideoPauseController(boolean showing) {
