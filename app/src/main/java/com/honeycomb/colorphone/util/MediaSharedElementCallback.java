@@ -54,9 +54,11 @@ public class MediaSharedElementCallback extends SharedElementCallback {
         if (!mSharedElementViews.isEmpty()) {
             names.clear();
             for (View sharedElementView : mSharedElementViews) {
-                String transitionName = ViewCompat.getTransitionName(sharedElementView);
-                names.add(transitionName);
-                sharedElements.put(transitionName, sharedElementView);
+                if (sharedElements != null) {
+                    String transitionName = ViewCompat.getTransitionName(sharedElementView);
+                    names.add(transitionName);
+                    sharedElements.put(transitionName, sharedElementView);
+                }
             }
             if (clearAfterConsume) {
                 mSharedElementViews.clear();
