@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.view.TypefacedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="72dp"
+    android:layout_height="32dp"
+    android:minHeight="32dp"
+    android:text="热门"
+    android:textSize="13sp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    android:background="@drawable/main_page_grid_item_bg_normal"
+    />

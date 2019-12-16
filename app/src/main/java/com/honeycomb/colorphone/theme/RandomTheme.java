@@ -36,7 +36,6 @@ public class RandomTheme {
 
     private final List<Theme> mRandomThemePool = new ArrayList<>();
 
-    private boolean rollFlag = true;
     private boolean flashDisplayFlag;
 
     public static RandomTheme getInstance() {
@@ -55,7 +54,6 @@ public class RandomTheme {
             if (nextTheme != null
                     && isThemeReady(nextTheme)) {
                 HSLog.d(TAG, "Next theme ready , index = " + themeIndex);
-                rollFlag = true;
                 return nextTheme;
             }
             // Next theme not ready
@@ -85,48 +83,7 @@ public class RandomTheme {
 
     private boolean isThemeReady(Theme nextTheme) {
         return !nextTheme.isMedia()
-                || TasksManager.getImpl().isThemeDownloaded(nextTheme.getId());
-    }
-
-    public void prepareNextTheme() {
-        int nextIndex = calcNextThemeIndex();
-
-        prepareTheme(nextIndex);
-        if (nextIndex == 0) {
-            prepareTheme(1);
-        }
-    }
-
-    private void prepareTheme(int pendingThemeIndex) {
-        HSLog.d(TAG, "Prepare next theme start : " + pendingThemeIndex);
-
-        Theme theme = getTheme(pendingThemeIndex);
-        if (theme != null
-                && theme.isMedia()) {
-            // Need download it first
-            TasksManagerModel model = TasksManager.getImpl().requestMediaTask(theme);
-            if (model == null) {
-                return;
-            }
-            if (TasksManager.getImpl().isDownloaded(model)) {
-                HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + pendingThemeIndex);
-                return;
-            }
-
-            // Check wifi state
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                HSLog.d(TAG, "Start theme download job : index " + pendingThemeIndex);
-                try {
-                    startDownloadJob();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
-                downloadMediaTheme(pendingThemeIndex, model, null);
-            }
-        } else {
-            HSLog.d(TAG, "prepareTheme next success , native theme : " + pendingThemeIndex);
-        }
+                || TasksManager.getImpl().isThemeDownloaded(nextTheme);
     }
 
     public void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model, final DownloadStateListener delegateListener) {
@@ -201,20 +158,6 @@ public class RandomTheme {
         return getCurThemeIndex(0);
     }
 
-    public void roll() {
-        if (rollFlag) {
-            rollFlag = false;
-            updateThemeTime();
-            updateThemeIndex(calcNextThemeIndex());
-        }
-        prepareNextTheme();
-    }
-
-    public void updateThemeIndex(int index) {
-        HSLog.d(TAG, "Update index : " + index);
-        Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(PREFS_THEME_INDEX, index);
-    }
-
     private  int getCurThemeIndex(int defaultIndex) {
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(PREFS_THEME_INDEX, defaultIndex);
     }
@@ -225,10 +168,6 @@ public class RandomTheme {
 
     private long getLastThemeTime() {
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(PREFS_TIME, 0);
-    }
-
-    private void updateThemeTime() {
-        Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(PREFS_TIME, System.currentTimeMillis());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

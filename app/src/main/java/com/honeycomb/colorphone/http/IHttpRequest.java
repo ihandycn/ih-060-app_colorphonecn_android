@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.http;
 
+import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
@@ -59,6 +60,12 @@ public interface IHttpRequest {
     @HTTP(method = "DELETE", path = "user/{uid}/uploaded_shows", hasBody = true)
     Callable<ResponseBody> deleteUserVideos(@Header("X-ColorPhone-Session-Token") String token, @Path("uid") String uid, @Body RequestBody body);
 
+    @GET("categories")
+    Callable<AllCategoryBean> getAllCategories();
+
+
+    @GET("category/{category_id}/shows")
+    Callable<AllThemeBean> getCategoryThemes(@Path("category_id") String categoryId, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @GET
     Callable<ResponseBody> getCallerAddress(@Url String url);

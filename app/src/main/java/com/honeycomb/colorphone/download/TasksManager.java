@@ -38,7 +38,7 @@ public class TasksManager {
     private Runnable taskReadyCallback = null;
 
     public void downloadTheme(@NotNull Theme theme, @Nullable Object tag) {
-        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme);
         if (mediaTask == null) {
             mediaTask = addMediaTask(theme);
         }
@@ -46,7 +46,7 @@ public class TasksManager {
 
 
         if (theme.hasRingtone()) {
-            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme.getId());
+            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme);
             if (ringtoneTask == null) {
                 ringtoneTask =  addRingtoneTask(theme);
             }
@@ -232,8 +232,7 @@ public class TasksManager {
         unbindAllTasks();
     }
 
-    private TasksManagerModel getByThemeId(int themeId, String extraToken) {
-        Type theme = com.acb.utils.Utils.getTypeByThemeId(themeId);
+    private TasksManagerModel getByThemeId(Theme theme, String extraToken) {
         if (theme != null) {
             final String name = theme.getIdName() + extraToken;
             synchronized (this) {
@@ -247,16 +246,16 @@ public class TasksManager {
         return null;
     }
 
-    private TasksManagerModel getMediaTaskByThemeId(int themeId) {
-        return getByThemeId(themeId, "");
+    private TasksManagerModel getMediaTaskByThemeId(Theme theme) {
+        return getByThemeId(theme, "");
     }
 
-    private TasksManagerModel getRingtoneTaskByThemeId(int themeId) {
-        return getByThemeId(themeId, TOKEN_EXTRA_RINGTONE);
+    private TasksManagerModel getRingtoneTaskByThemeId(Theme theme) {
+        return getByThemeId(theme, TOKEN_EXTRA_RINGTONE);
     }
 
     public TasksManagerModel requestMediaTask(Theme theme) {
-        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme);
         if (mediaTask == null) {
             mediaTask = addMediaTask(theme);
         }
@@ -264,7 +263,7 @@ public class TasksManager {
     }
 
     public TasksManagerModel requestRingtoneTask(Theme theme) {
-        TasksManagerModel mediaTask = getRingtoneTaskByThemeId(theme.getId());
+        TasksManagerModel mediaTask = getRingtoneTaskByThemeId(theme);
         if (mediaTask == null) {
             mediaTask = addRingtoneTask(theme);
         }
@@ -296,8 +295,8 @@ public class TasksManager {
         return status == FileDownloadStatus.completed;
     }
 
-    public boolean isThemeDownloaded(int id) {
-        TasksManagerModel model = getMediaTaskByThemeId(id);
+    public boolean isThemeDownloaded(Theme theme) {
+        TasksManagerModel model = getMediaTaskByThemeId(theme);
         if (model == null) {
             return false;
         }
@@ -351,13 +350,13 @@ public class TasksManager {
      */
     public void ensureThemeDownloadTaskModels(Theme theme) {
         if (theme.hasRingtone()) {
-            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme.getId());
+            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme);
             if (ringtoneTask == null) {
                 addRingtoneTask(theme);
             }
         }
 
-        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme);
         if (mediaTask != null) {
             addMediaTask(theme);
         }

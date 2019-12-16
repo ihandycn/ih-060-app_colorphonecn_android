@@ -34,7 +34,7 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         mRecyclerView.setItemAnimator(null);
 
         initData();
-        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
+        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData, 0);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
 
@@ -59,7 +59,6 @@ public class PopularThemeActivity extends HSAppCompatActivity {
                 }
             }
         });
-
 
 
         findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {

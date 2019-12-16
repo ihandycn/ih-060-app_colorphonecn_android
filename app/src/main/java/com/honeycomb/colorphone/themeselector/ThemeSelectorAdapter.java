@@ -69,6 +69,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final String TAG = "ThemeSelectorAdapter";
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
     private final Activity activity;
+    private int pageIndex;
     private RecyclerView recyclerView;
 
     private ArrayList<Theme> data = null;
@@ -96,66 +97,71 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private INotificationObserver observer = new INotificationObserver() {
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
-            if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
-                if (hsBundle != null) {
-                    notifyItemChanged(getAdapterPos(hsBundle));
-                }
-            } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
-                // TODO unclear
-                if (hsBundle != null) {
-                    int pos = getDataPos(hsBundle);
-                    Theme selectedTheme = data.get(pos);
-
-                    if (!selectTheme(pos)) {
-                        if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
-                            notifyDataSetChanged();
-                        }
-                    }
-
-                    ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                            selectedTheme.getIdName().toLowerCase(),
-                            ConfigLog.FROM_DETAIL);
-                }
-            } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
-                if (hsBundle != null) {
-                    notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
-                }
-            } else if (ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE.equals(s)) {
-                if (hsBundle != null) {
-                    int pos = getDataPos(hsBundle);
-                    Theme theme = data.get(pos);
-                    int adapterPos = themePositionToAdapterPosition(pos);
-                    RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
-
-                    if (holder instanceof ThemeCardViewHolder) {
-                        ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
-                        cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
-                        if (theme.isLike()) {
-                            cardViewHolder.mThemeLikeAnim.setProgress(1f);
-                        } else {
-                            cardViewHolder.mThemeLikeAnim.setProgress(0f);
-                        }
-                    }
-
-                }
-            } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
-                //user selected theme on the upload page, so delete current theme tip of home page
-                if (data != null && data.size() > 0) {
-                    int prePos = -1;
-                    for (int i = 0; i < data.size(); i++) {
-                        Theme t = data.get(i);
-                        if (t.isSelected()) {
-                            prePos = i;
-                            break;
-                        }
-                    }
-                    if (prePos != -1) {
-                        Theme t = data.get(prePos);
-                        t.setSelected(false);
-                        notifyItemSelected(prePos, t);
-                    }
-                }
+            if (pageIndex != ((ColorPhoneActivity) activity).mainPagerPosition){
+                return;
             }
+                if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
+                    if (hsBundle != null) {
+                        notifyItemChanged(getAdapterPos(hsBundle));
+                    }
+                } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+                    // TODO unclear
+                    if (hsBundle != null) {
+                        int pos = getDataPos(hsBundle);
+                        if (data != null && data.size() > pos) {
+                            Theme selectedTheme = data.get(pos);
+
+                            if (!selectTheme(pos)) {
+                                if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
+                                    notifyDataSetChanged();
+                                }
+                            }
+
+                            ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                                    selectedTheme.getIdName().toLowerCase(),
+                                    ConfigLog.FROM_DETAIL);
+                        }
+                    }
+                } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
+                    if (hsBundle != null) {
+                        notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
+                    }
+                } else if (ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE.equals(s)) {
+                    if (hsBundle != null) {
+                        int pos = getDataPos(hsBundle);
+                        Theme theme = data.get(pos);
+                        int adapterPos = themePositionToAdapterPosition(pos);
+                        RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
+
+                        if (holder instanceof ThemeCardViewHolder) {
+                            ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
+                            cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
+                            if (theme.isLike()) {
+                                cardViewHolder.mThemeLikeAnim.setProgress(1f);
+                            } else {
+                                cardViewHolder.mThemeLikeAnim.setProgress(0f);
+                            }
+                        }
+
+                    }
+                } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
+                    //user selected theme on the upload page, so delete current theme tip of home page
+                    if (data != null && data.size() > 0) {
+                        int prePos = -1;
+                        for (int i = 0; i < data.size(); i++) {
+                            Theme t = data.get(i);
+                            if (t.isSelected()) {
+                                prePos = i;
+                                break;
+                            }
+                        }
+                        if (prePos != -1) {
+                            Theme t = data.get(prePos);
+                            t.setSelected(false);
+                            notifyItemSelected(prePos, t);
+                        }
+                    }
+                }
         }
 
         private int unlockThemeAndGetDatePos(HSBundle hsBundle) {
@@ -194,9 +200,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     };
 
-    public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data) {
+    public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data, int pageIndex) {
         this.activity = activity;
         this.data = data;
+        this.pageIndex = pageIndex;
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -216,6 +223,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
+    public void setData(ArrayList<Theme> data, int pageIndex) {
+        this.data = data;
+        this.pageIndex = pageIndex;
+    }
 
     public void setHeaderTipVisible(boolean visible) {
         mTipHeaderVisible = visible;
@@ -394,8 +405,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     makeSceneTransitionAnimation(activity,
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
-
-            ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
+            ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+            if (colorPhoneActivity.getCategoryList() != null && colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition) != null) {
+                ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
+            }
         }
     }
 
@@ -470,6 +483,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (index > mMaxShowThemeIndex) {
                 mMaxShowThemeIndex = index;
                 Analytics.logEvent("ColorPhone_Mainview_Slide");
+                if (activity instanceof ColorPhoneActivity) {
+                    ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
+                    Analytics.logEvent("ThemeCategory_Page_Slide", "Category", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getName());
+                }
             }
 
             if (activity instanceof PopularThemeActivity) {
