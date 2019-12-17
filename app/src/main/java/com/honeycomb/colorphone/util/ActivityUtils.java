@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.ColorInt;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -360,7 +361,7 @@ public class ActivityUtils {
     public static WindowManager.LayoutParams getFullScreenFloatWindowParams(WindowManager mWm) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.systemUiVisibility = 1;
-        layoutParams.type = 2010;
+        layoutParams.type = getFloatWindowType();
         layoutParams.screenOrientation = 1;
         layoutParams.gravity = 48;
         layoutParams.format = 1;
@@ -401,7 +402,6 @@ public class ActivityUtils {
             }
             layoutParams.gravity = 48;
             layoutParams.flags = 155714048;
-            layoutParams.type = 2006;
             layoutParams.systemUiVisibility = 5890;
         }
 
@@ -424,6 +424,21 @@ public class ActivityUtils {
         }
 
         return layoutParams;
+    }
+
+    protected static int getFloatWindowType() {
+        int floatWindowType;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_TOAST;
+        } else {
+            floatWindowType = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else if (Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(HSApplication.getContext())) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        }
+        return floatWindowType;
     }
 
 }

@@ -2,6 +2,7 @@ package com.acb.colorphone.permissions;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -53,7 +54,7 @@ public abstract class SimplePermissionGuideActivity extends AppCompatActivity {
         }
     }
 
-    protected abstract int getTitleStringResId();
+    protected abstract @StringRes int getTitleStringResId();
 
     private void setDescText(String descText) {
         TextView descTv = findViewById(R.id.description);

@@ -18,6 +18,5 @@
         android:paddingRight="16dp"
         android:text="@string/auto_start_toast_huawei"
         android:textColor="@android:color/white"
-        android:textSize="14dp" />
-
+        android:textSize="14sp" />
 </LinearLayout>

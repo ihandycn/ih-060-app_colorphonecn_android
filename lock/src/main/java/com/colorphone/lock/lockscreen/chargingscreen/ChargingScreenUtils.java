@@ -23,13 +23,14 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+import com.superapps.util.rom.RomUtils;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
 public class ChargingScreenUtils {
 
     private static final long MIN_INTERVAL_VALID_CLICK = 500;
-    private static final boolean MODE_ACTIVITY = true;
+    private static final boolean MODE_ACTIVITY = !RomUtils.checkIsOppoRom();
 
     private static volatile long lastClickTime;
     public static boolean isFromPush;
@@ -86,7 +87,6 @@ public class ChargingScreenUtils {
     }
 
     public static boolean isFastDoubleClick() {
-
         long currentClickTime = SystemClock.elapsedRealtime();
         long intervalClick = currentClickTime - lastClickTime;
 
@@ -161,13 +161,13 @@ public class ChargingScreenUtils {
             return;
         }
         isFromPush = fromPush;
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                "Brand", Build.BRAND.toLowerCase(),
+                "DeviceVersion", Locker.getDeviceInfo());
+
         if (MODE_ACTIVITY) {
             try {
-                String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
-                        "Brand", Build.BRAND.toLowerCase(),
-                        "DeviceVersion", Locker.getDeviceInfo());
-
                 Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_NO_ANIMATION);

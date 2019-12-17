@@ -1,5 +1,8 @@
 <manifest package="com.acb.colorphone.permissions"
     xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+
     <application>
         <activity
             android:name="com.acb.colorphone.permissions.OverlayGuideActivity"
@@ -64,7 +67,64 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
             />
+
+        <activity
+            android:name=".OverlayOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
+            />
+
+        <activity
+            android:name=".AutoStartAboveOOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast"
+            />
+
+        <activity
+            android:name=".AutoStartOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".NAOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".NotificationManagementOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".PhoneOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name=".DangerousOppoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".AutoStartHuaweiGuideActivity"
@@ -84,6 +144,55 @@
 
         <activity
             android:name=".BackgroundPopupMIUIGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".ContactHuawei8GuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+        <activity
+            android:name=".ContactHuawei9GuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".WriteSettingsPopupGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".PhoneHuawei8GuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".ContactMIUIGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
+        <activity
+            android:name=".PhoneMiuiGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+        <activity
+            android:name=".AccessibilityOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"

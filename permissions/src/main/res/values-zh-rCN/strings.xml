@@ -4,13 +4,15 @@
   <!-- TODO: string name="draw_overlay_window_hint" -->
     <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
-  <string name="acb_phone_grant_autostart_access_title">开启自启动权限，以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title">为确保来电秀正常启动，请开启自启动权限</string>
+  <string name="acb_phone_grant_notification_onlockscreen_access_title">为确保锁屏时正常显示来电秀，请开启锁屏显示权限</string>
 
     <string name="acb_phone_grant_autostart_access_title_vivo">开启加速白名单权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei">请找到焕彩来电秀，并允许开机自动启动，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above26">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei_above28">为确保来电秀正常启动\n1.请找到【焕彩来电秀】，点击关闭切换成手动管理；\n2.请开启所有启动权限。</string>
   <string name="acb_phone_grant_autostart_access_title_miui">为确保来电秀正常启动，请开启自启动权限</string>
   <string name="acb_phone_grant_background_popup_title_miui">为确保来电时展示来电秀，请开启后台弹出界面权限</string>
 
@@ -20,14 +22,17 @@
   <string name="acb_phone_grant_show_onlockscreen_access_title_miui">为确保锁屏时正常展示来电秀，请开启锁屏显示权限</string>
 
   <string name="acb_phone_permission_haode">好的</string>
-  <string name="acb_phone_grant_notification_access_title_huawei">请开启通知使用权，以正常接听来电</string>
-  <string name="acb_phone_grant_notification_access_title_miui">为确保正常接听来电，请开启通知使用权</string>
+  <string name="acb_phone_grant_notification_access_title_huawei">为确保成功读取来电时通知，请开启通知使用权</string>
+  <string name="acb_phone_grant_notification_access_title_miui">为确保成功读取来电时通知，请开启通知使用权</string>
   <string name="acb_phone_grant_notification_access_title_oppo">请开启读取应用通知权限，以正常接听来电</string>
   <string name="acb_phone_grant_notification_access_title_vivo">请开启通知使用权，以正常接听来电</string>
 
   <string name="acb_phone_grant_accessibility_title_huawei">1：向下滑动，点击【服务】下的【焕彩来电秀】\n2：在下一页打开右上角开关</string>
+  <string name="acb_phone_grant_accessibility_title_oppo">1：向下滑动，点击【已下载的服务】下的【0o⭐焕彩来电秀⭐o0】\n2：在下一页打开右上角开关</string>
   <string name="acb_phone_grant_accessibility_title_miui">请打开开关</string>
 
   <string name="acb_request_permission_bg_pop_title">后台弹出界面权限是否已开启？</string>
   <string name="acb_request_permission_bg_pop_content">后台弹出界面权限保证来电时展示来电秀</string>
+
+  <string name="acb_phone_grant_write_settings_title">为确保成功设置来电秀铃声，请开启修改系统设置权限</string>
 </resources>

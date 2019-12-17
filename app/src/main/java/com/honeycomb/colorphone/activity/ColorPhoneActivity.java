@@ -68,6 +68,7 @@ import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -154,7 +155,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_SHOW = "prefs_cash_center_show";
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
-    private static final String PREFS_SET_DEFAULT_THEME = "prefs_set_default_theme";
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
@@ -217,6 +217,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
                     guideLottie = findViewById(R.id.lottie_guide);
+                    guideLottie.setVisibility(View.VISIBLE);
                     guideLottie.setOnClickListener(view -> mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_RINGTONE)));
                     guideLottie.playAnimation();
 
@@ -265,15 +266,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RingtonePageView mRingtoneFrame;
     private LotteryWheelLayout lotteryWheelLayout;
 
-//    private static final int TAB_SIZE = 4;
-//    private static final int MAIN_POSITION = 0;
-//    // Disable news
-//    @Deprecated
-//    private static final int NEWS_POSITION = -100;
-//    private static final int RINGTONE_POSITION = 1;
-//
-//    public static final int CASH_POSITION = 2;
-//    private static final int SETTING_POSITION = 3;
+    private static final int TAB_SIZE = 4;
+    public static final int MAIN_POSITION = 0;
+    private static final int NEWS_POSITION = 1;
+    public static final int CASH_POSITION = 2;
+    private static final int SETTING_POSITION = 3;
 
     private TabFrameLayout mTabFrameLayout;
     private Toolbar toolbar;
@@ -332,6 +329,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
+
+        dispatchPermissionRequest();
     }
 
     public List<AllCategoryBean.CategoryItem> getCategoryList() {
@@ -648,6 +647,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         Analytics.logEvent("ThemeCategory_Page_Show", "Category", categoryList.get(mainPagerPosition).getName());
                         if (guideLottie != null) {
                             guideLottie.setVisibility(VISIBLE);
+                            guideLottie.setProgress(1f);
                         }
 
                         Analytics.logEvent("Tab_Themes_Show");
@@ -770,9 +770,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
-        if (!showAllFeatureGuide) {
-//            dispatchPermissionRequest();
-        }
+
         if (!showAllFeatureGuide) {
             isCreate = false;
         }
@@ -908,10 +906,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                 }
 
-                //download first theme
-                if (Preferences.getDefault().getBoolean(PREFS_SET_DEFAULT_THEME, true) && Theme.getFirstTheme() != null) {
+                //download current theme
+                if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 && Theme.getFirstTheme() != null) {
                     isNeedSetFirstTheme = true;
-
                     model = TasksManager.getImpl().requestMediaTask(Theme.getFirstTheme());
                     ringtoneModel = TasksManager.getImpl().requestRingtoneTask(Theme.getFirstTheme());
 
@@ -924,7 +921,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         TasksManager.doDownload(ringtoneModel, null);
                         FileDownloadMultiListener.getDefault().addStateListener(ringtoneModel.getId(), mRingtoneDownloadStateListener);
                     }
-                    Preferences.getDefault().putBoolean(PREFS_SET_DEFAULT_THEME, false);
                 }
                 hideLoadingMainPage(true);
             }
@@ -937,7 +933,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
-                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId(), theme.getName());
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
                 }
@@ -993,32 +989,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (!isEnabled) {
             return;
         }
-
-        Runnable runnable;
-
-        if (Build.VERSION.SDK_INT < 16) {
-            // Not support lottie.
-            runnable = () -> requiresPermission();
-        } else {
-            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
+        List<String> reqPermission = AutoRequestManager.getNOTGrantRuntimePermissions(AutoRequestManager.getAllRuntimePermission());
+        if (reqPermission.size() > 0) {
+            requiresPermission(reqPermission);
+            Analytics.logEvent("Permission_MainView_Request", "Permission", AutoLogger.getRuntimePermissionString(reqPermission));
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
-                == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
-            RuntimePermissions.requestPermissions(this,
-                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
-        }
-
-        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
-                runnable,
-                "permission_launch", HSConfig.optInteger(2, "Application", "GrantAccess", "MaxCount"));
     }
 
     /**
      * Only request first launch. (if Enabled and not has permission)
+     *
+     * @param reqPermission
      */
-    private void requiresPermission() {
+    private void requiresPermission(List<String> reqPermission) {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
         HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
@@ -1026,21 +1009,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             return;
         }
 
-        String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
-        boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-                == RuntimePermissions.PERMISSION_GRANTED;
-        boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                == RuntimePermissions.PERMISSION_GRANTED;
-        if (!phonePerm) {
-            Analytics.logEvent("Permission_Phone_View_Showed");
-        }
-        if (!contactPerm) {
-            Analytics.logEvent("Permission_Contact_View_Showed");
-        }
-        if (!phonePerm || !contactPerm) {
-            // Do not have permissions, request them now
-            RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
-        }
+        // Do not have permissions, request them now
+        RuntimePermissions.requestPermissions(this, reqPermission.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
     }
 
     @Override
@@ -1066,12 +1036,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                Analytics.logEvent("Permission_Phone_Allow_Success");
-            }
-            if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                Analytics.logEvent("Permission_Contact_Allow_Success");
-            }
+            Analytics.logEvent("Permission_MainView_Granted", "Permission", AutoLogger.getRuntimePermissionString(list));
         }
     }
 

@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.text.SpannableString;
@@ -640,6 +641,10 @@ public class CleanGuideCondition implements INotificationObserver {
                 .setDeleteIntent(notificationModel.deletePendingIntent)
                 .setTicker(notificationModel.title)
                 .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(NotificationManager.getInstance().getCleanGuideChannelId());
+        }
 
         if (notificationModel.isHeadsUp) {
             builder.setDefaults(0);

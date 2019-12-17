@@ -106,6 +106,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <application
         android:name="com.honeycomb.colorphone.ColorPhoneApplication"
         android:allowBackup="true"
@@ -732,13 +734,10 @@
             android:label="@string/title_locker_activity" />
 
         <activity
-            android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
-            android:excludeFromRecents="true"
+            android:name=".autopermission.RuntimePermissionActivity"
             android:launchMode="singleTask"
-            android:noHistory="true"
-            android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForMIUI"
-            tools:replace="android:theme" />
+            android:taskAffinity=":main"
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".notification.CleanGuideActivity"

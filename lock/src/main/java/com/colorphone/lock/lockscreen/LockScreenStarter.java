@@ -17,6 +17,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.Commons;
 
 /**
  * Receives screen on/off events and start lock screens.
@@ -88,10 +89,10 @@ public class LockScreenStarter {
             public void onReceive(Context context, Intent intent) {
 
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                    HSLog.d(TAG, "Screen Off");
+                    HSLog.d(TAG, "Screen OFF: " + Commons.isKeyguardLocked(context, false));
                     onScreenOff();
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                    HSLog.d(TAG, "Screen ON");
+                    HSLog.d(TAG, "Screen ON: "+ Commons.isKeyguardLocked(context, false));
                     tryShowChargingScreen();
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     HSLog.d(TAG, "Screen USER_PRESENT");
@@ -102,7 +103,7 @@ public class LockScreenStarter {
     }
 
     private void tryShowChargingScreen() {
-        if (!ChargingScreenActivity.exist
+        if (!isChargingScreenExist()
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
@@ -140,15 +141,23 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if (!ChargingScreenActivity.exist) {
+            if (!isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if (!LockerActivity.exist) {
+            if (!isLockScreenExist()) {
                 ChargingScreenUtils.startLockerActivity(false);
             }
         }
+    }
+
+    private boolean isLockScreenExist() {
+        return LockerActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
+    }
+
+    private boolean isChargingScreenExist() {
+        return ChargingScreenActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
     }
 
     private boolean isCharging() {

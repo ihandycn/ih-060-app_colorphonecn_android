@@ -40,8 +40,8 @@ import com.honeycomb.colorphone.WatchedScrollListener;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
-import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
@@ -54,6 +54,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
 
@@ -349,8 +350,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
-                    StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_BANNER);
+                    Navigations.startActivitySafely(v.getContext(), RuntimePermissionActivity.class);
                     Analytics.logEvent("List_Page_Permission_Alert_Click");
                 }
             });

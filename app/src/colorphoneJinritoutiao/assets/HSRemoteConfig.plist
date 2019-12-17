@@ -17,6 +17,8 @@
 			<dict>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
+				<key>AutoSkipWhenNAGranted</key>
+				<false/>
 				<key>IngoreBattery</key>
 				<true/>
 				<key>SkipShowCount</key>
@@ -264,6 +266,8 @@
 			<dict>
 				<key>MaxCount</key>
 				<integer>20</integer>
+				<key>RequestOnStartGuide</key>
+				<true/>
 			</dict>
 			<key>Guide</key>
 			<dict>
@@ -1348,7 +1352,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>98839</real>
+						<integer>98839</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -2355,7 +2359,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>63278</real>
+						<integer>63278</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3839,7 +3843,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>63619</real>
+						<integer>63619</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -6643,7 +6647,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>72864</real>
+						<integer>72864</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -6869,7 +6873,7 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<real>157</real>
+						<integer>157</integer>
 						<key>IdName</key>
 						<string>Tulip</string>
 						<key>LocalPush</key>

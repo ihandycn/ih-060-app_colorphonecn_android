@@ -19,12 +19,13 @@
         app:titleTextAppearance="@style/Toolbar.TitleText">
 
         <FrameLayout
+            android:id="@+id/layout_guide"
             android:layout_width="55dp"
-            android:layout_height="40dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="17dp"
             android:layout_marginRight="12dp"
-            android:layout_marginBottom="17dp">
+            android:layout_marginEnd="12dp"
+            android:layout_height="40dp" >
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_guide"
@@ -32,34 +33,53 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical|end"
                 android:visibility="gone"
-                app:lottie_fileName="lottie/ringtone_guide.json"
+                app:lottie_loop="false"
                 app:lottie_imageAssetsFolder="lottie/ringtone_guide_images"
-                app:lottie_loop="false" />
+                app:lottie_fileName="lottie/ringtone_guide.json"/>
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="55dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_height="40dp" >
 
-    </android.support.v7.widget.Toolbar>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_guide"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:visibility="gone"
+            app:lottie_loop="false"
+            app:lottie_imageAssetsFolder="lottie/ringtone_guide_images"
+            app:lottie_fileName="lottie/ringtone_guide.json"/>
+    </FrameLayout>
+
+
+</android.support.v7.widget.Toolbar>
 
     <com.honeycomb.colorphone.view.TabFrameLayout
         android:id="@+id/tab_frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <com.honeycomb.colorphone.view.MainTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tablayout_bottom_height"
         android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/tab_cash_center_guide_four"
@@ -67,12 +87,12 @@
         android:layout_height="133dp"
         android:layout_marginBottom="46dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.687"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:lottie_fileName="lottie/tab_cash_center_guide.json"
-        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide" />
+        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide"
+        app:layout_constraintHorizontal_bias="0.687"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/tab_cash_center_guide_five"
@@ -80,11 +100,11 @@
         android:layout_height="133dp"
         android:layout_marginBottom="46dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.757"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:lottie_fileName="lottie/tab_cash_center_guide.json"
-        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide" />
+        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide"
+        app:layout_constraintHorizontal_bias="0.757"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

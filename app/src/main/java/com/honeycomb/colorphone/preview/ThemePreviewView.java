@@ -45,6 +45,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -65,6 +66,9 @@ import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -88,6 +92,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -134,6 +139,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_DOWNLOAD_OK = 11;
     private static final int MSG_TRANSITION_TIMEOUT = 21;
 
+    private static final int CHECK_WRITE_SETTINGS_PERMISSION = 0x702;
+    private static final int CHECK_PERMISSION_TIMEOUT = 0x710;
+
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
 
@@ -162,6 +170,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private NetworkChangeReceiver networkChangeReceiver;
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
+    private boolean isSetWriteSetting = false;
 
     private TransitionView mTransitionNavView;
     private TransitionView mTransitionActionLayout;
@@ -259,6 +268,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onWindowTransitionEnd();
                     }
                     return true;
+                case CHECK_WRITE_SETTINGS_PERMISSION:
+                    if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                        mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                        Analytics.logEvent("Permission_WriteSetting_Granted");
+                    } else {
+                        HSLog.i(TAG, "handleMessage CHECK_WRITE_SETTINGS_PERMISSION");
+                        mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 500);
+                    }
+                    return false;
+                case CHECK_PERMISSION_TIMEOUT:
+                    mHandler.removeMessages(CHECK_WRITE_SETTINGS_PERMISSION);
+                    return false;
                 default:
                     return false;
 
@@ -542,7 +563,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+
+                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                        || !AutoPermissionChecker.isNotificationListeningGranted()) {
+                    Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+                } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
                     StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                     mWaitForAll = true;
@@ -553,7 +578,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
 
         mApplyForOne.setOnClickListener(v -> {
-            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                    || !AutoPermissionChecker.isNotificationListeningGranted()) {
+                Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+            } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
                 StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                 mWaitForAll = false;
@@ -1094,6 +1122,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
 
         }
+
+        if (isSetWriteSetting && AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+            Analytics.logEvent("Permission_WriteSetting_Granted");
+            mRingtoneViewHolder.setRingtone();
+        }
+        isSetWriteSetting = false;
     }
 
     public void cleanImage() {
@@ -1763,29 +1797,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Analytics.logEvent("MyUploads_CallFlash_Set");
                     }
                     Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
+                    Analytics.logEvent("Ringtone_Video_Set_Clicked");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (!Settings.System.canWrite(getContext())) {
+                        if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                             // Check permission
                             Toast.makeText(mActivity, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
                                     Uri.parse("package:" + getContext().getPackageName()));
                             Navigations.startActivitySafely(getContext(), intent);
+
+                            Threads.postOnMainThreadDelayed(() -> {
+                                Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                            }, 900);
+
+                            Analytics.logEvent("Permission_WriteSetting_Request");
+
+                            mHandler.sendEmptyMessageDelayed(CHECK_WRITE_SETTINGS_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
+                            mHandler.removeMessages(CHECK_PERMISSION_TIMEOUT);
+                            mHandler.sendEmptyMessageDelayed(CHECK_PERMISSION_TIMEOUT, 60 * DateUtils.SECOND_IN_MILLIS);
+                            isSetWriteSetting = true;
                             break;
                         }
                     }
 
                     hideRingtoneSettings();
-                    if (mApplyForAll) {
-                        // Ringtone enabled
-                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-
-                        onThemeApply();
-                    } else {
-                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        setAsRingtone(true, false);
-                        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
-
-                    }
+                    setRingtone();
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
                     } else {
@@ -1824,16 +1860,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return isEnable;
         }
 
-        public void setApplyForAll(boolean applyForAll) {
+        void setApplyForAll(boolean applyForAll) {
             mApplyForAll = applyForAll;
         }
 
-        public void refreshMuteStatus() {
+        void refreshMuteStatus() {
             if (ThemeStateManager.getInstance().isAudioMute()) {
                 mute();
             } else {
                 muteOff();
             }
+        }
+
+        void setRingtone() {
+            if (mApplyForAll) {
+                // Ringtone enabled
+                RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
+                onThemeApply();
+            } else {
+                setAsRingtone(true, false);
+
+                ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+            }
+            Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
         }
     }
 
@@ -1851,8 +1902,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
-                    unFoldView();
+                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                            && AutoPermissionChecker.isNotificationListeningGranted()) {
+                        Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                        unFoldView();
+                    } else {
+                        Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+                    }
                 }
             });
 

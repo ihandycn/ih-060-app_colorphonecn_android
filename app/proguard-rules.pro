@@ -117,7 +117,7 @@
 }
 
 -keepclasseswithmembers class * {
-    publåic <init>(android.content.Context, android.util.AttributeSet, int);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
 -keepclassmembers enum * {

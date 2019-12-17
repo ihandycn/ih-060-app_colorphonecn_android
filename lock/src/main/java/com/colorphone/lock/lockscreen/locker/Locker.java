@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -26,7 +25,6 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -40,6 +38,8 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
+
+import java.util.Calendar;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
@@ -111,11 +111,15 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
 
         HSGlobalNotificationCenter.addObserver(EVENT_FINISH_SELF, this);
-
+        if (!isActivityHost()) {
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
+        }
         LockerSettings.increaseLockerShowCount();
 
         // Life cycle
         LockScreensLifeCycleRegistry.setLockerActive(true);
+
 //        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
     }
 
@@ -128,37 +132,12 @@ public class Locker extends LockScreen implements INotificationObserver {
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStart();
         }
-    }
 
-    private Handler mHandler = new Handler();
-
-    private Runnable foregroundEventLogger = new Runnable() {
-        private boolean logOnceFlag = false;
-        @Override
-        public void run() {
-            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-            if (!logOnceFlag) {
-                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
-                        "Brand", Build.BRAND.toLowerCase(),
-                        "DeviceVersion", getDeviceInfo());
-                logOnceFlag = true;
-            }
-            if (ScreenStatusReceiver.isScreenOn()) {
-                LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
-                        "Brand", Build.BRAND.toLowerCase(),
-                        "DeviceVersion", getDeviceInfo());
-            }
-        }
-    };
-
-    public void onResume() {
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
-
-        mHandler.postDelayed(foregroundEventLogger, 1000);
     }
 
     private void initLockerWallpaper() {
@@ -222,7 +201,9 @@ public class Locker extends LockScreen implements INotificationObserver {
         HSLog.i("LockManager", "L dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                 "Reason", mDismissReason,
-                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
+                "Brand", Build.BRAND.toLowerCase(),
+                "DeviceVersion", getDeviceInfo(),
+                "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
         mRootView.findViewById(R.id.bottom_layer).setVisibility(View.GONE);
         ObjectAnimator fadeOutAnim = ObjectAnimator.ofFloat(mLockerWallpaper, View.ALPHA, 0f);
@@ -238,26 +219,11 @@ public class Locker extends LockScreen implements INotificationObserver {
                 // Life cycle
                 LockScreensLifeCycleRegistry.setLockerActive(false);
 
-                if (getContext() instanceof BaseKeyguardActivity) {
-                    final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
-                    if (dismissKeyguard) {
-                        activity.tryDismissKeyguard(true);
-                    } else {
-                        activity.finish();
-                        activity.overridePendingTransition(0, 0);
-                    }
-                } else {
-                    doDismiss();
-                    Locker.super.dismiss(context, dismissKeyguard);
-                }
+                Locker.super.dismiss(context, dismissKeyguard);
 
-                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
-                        "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
-
-                if (!Commons.isKeyguardLocked(context, false)) {
-                    HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
-                }
-
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_Screen_Close",
+                        "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
+                        "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
             }
         });
         fadeOutAnim.start();
@@ -275,16 +241,13 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public void onDestroy() {
         // ======== onDestroy ========
+        if (mIsDestroyed) {
+            return;
+        }
+        super.onDestroy();
         mHomeKeyWatcher.stopWatch();
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;
-    }
-
-    public void onPause() {
-        // ======== onPause ========
-        if (mLockerAdapter.lockerMainFrame != null) {
-            mLockerAdapter.lockerMainFrame.onPause();
-        }
     }
 
     public void onStop() {
