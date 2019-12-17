@@ -340,9 +340,10 @@ public class Theme extends Type {
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (isSetDefaultTheme) {
-                isSetDefaultTheme = false;
+            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 &&
+                    HSPreferenceHelper.getDefault().getBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, true)) {
                 sFirstTheme = theme;
+                HSPreferenceHelper.getDefault().putBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, false);
             }
 
             dataList.add(theme);
