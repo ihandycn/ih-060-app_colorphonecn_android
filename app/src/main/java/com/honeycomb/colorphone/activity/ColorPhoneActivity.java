@@ -1419,6 +1419,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             if (holder != null) {
                                 mRecyclerView = holder.recyclerView;
                                 mSmartRefreshLayout = holder.refreshLayout;
+                                if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
+                                    mAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
+                                }
                                 Threads.postOnMainThreadDelayed(new Runnable() {
                                     @Override
                                     public void run() {
