@@ -830,9 +830,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (tabTransController != null) {
             tabTransController.hide();
         }
-        if (mAdapter != null) {
-            HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
-            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
+        if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
+            ThemeSelectorAdapter themeSelectorAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
+            HSLog.d("ColorPhoneActivity", "onPause" + themeSelectorAdapter.getLastSelectedLayoutPos() + "");
+            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(themeSelectorAdapter.getLastSelectedLayoutPos());
             if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
                 ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
             }
@@ -1419,9 +1420,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             if (holder != null) {
                                 mRecyclerView = holder.recyclerView;
                                 mSmartRefreshLayout = holder.refreshLayout;
-                                if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
-                                    mAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
-                                }
                                 Threads.postOnMainThreadDelayed(new Runnable() {
                                     @Override
                                     public void run() {
