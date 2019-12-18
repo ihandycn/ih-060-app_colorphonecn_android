@@ -6,10 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +19,7 @@ import com.superapps.util.Dimensions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 public class AccessibilityMIUIGuideActivity extends AppCompatActivity {
@@ -44,7 +43,6 @@ public class AccessibilityMIUIGuideActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
 
         setMIUI6StatusBarDarkMode(this, true);
 

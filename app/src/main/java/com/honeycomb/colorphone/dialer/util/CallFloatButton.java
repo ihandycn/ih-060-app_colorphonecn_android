@@ -2,19 +2,23 @@ package com.honeycomb.colorphone.dialer.util;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Chronometer;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
@@ -29,6 +33,9 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     private Chronometer mCallDurationView;
     private ValueAnimator mAnimator;
     private long startTimeMills;
+    private LottieAnimationView mInCallDesktopButton;
+    private LinearLayout mCallAnsweringLayout;
+    private ImageView mCallAnsweringView;
 
     public CallFloatButton(Context context) {
         super(context);
@@ -47,10 +54,14 @@ public class CallFloatButton extends FloatWindowMovableDialog {
 
     private void init() {
         mContentView = (ViewGroup) View.inflate(getContext(), R.layout.incall_float_button, this);
+        mInCallDesktopButton = mContentView.findViewById(R.id.call_desktop_button);
+        mCallAnsweringLayout = mContentView.findViewById(R.id.call_answering_layout);
+        mCallAnsweringView = mContentView.findViewById(R.id.call_answer_view);
+
         mCallDurationView = mContentView.findViewById(R.id.call_chronometer);
         viewViewHeight = viewViewWidth = (int) (getResources().getDimensionPixelSize(R.dimen.call_button_height) * 1.2f);
         viewOriginalX = 0;
-        mAnimator = ValueAnimator.ofFloat(1.0f, 1.1f).setDuration(800);
+        /*mAnimator = ValueAnimator.ofFloat(1.0f, 1.1f).setDuration(800);
         mAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mAnimator.setRepeatMode(ValueAnimator.REVERSE);
         mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -62,12 +73,26 @@ public class CallFloatButton extends FloatWindowMovableDialog {
                 mContentView.setScaleY(value);
                 mContentView.invalidate();
             }
-        });
+        });*/
+        mInCallDesktopButton.setAnimation("lottie/call_float_button/dialer_prompt_answer.json");
+        mInCallDesktopButton.playAnimation();
 
     }
 
     public Chronometer getCallDurationView() {
         return mCallDurationView;
+    }
+
+    public LottieAnimationView getInCallDestopButton() {
+        return mInCallDesktopButton;
+    }
+
+    public LinearLayout getmCallAnsweringLayout() {
+        return mCallAnsweringLayout;
+    }
+
+    public ImageView getmCallAnsweringView() {
+        return mCallAnsweringView;
     }
 
     public void show() {
@@ -77,7 +102,8 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     }
 
     @Override public void dismiss() {
-        mAnimator.cancel();
+        //mAnimator.cancel();
+        mInCallDesktopButton.cancelAnimation();
         startTimeMills = 0;
         FloatWindowManager.getInstance().removeDialog(this);
     }
@@ -131,7 +157,7 @@ public class CallFloatButton extends FloatWindowMovableDialog {
             }
         }
     }
-
+    @TargetApi(Build.VERSION_CODES.M)
     private PendingIntent createLaunchPendingIntent(boolean isFullScreen) {
         Intent intent =
                 InCallActivity.getIntent(
@@ -164,13 +190,15 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mAnimator.start();
+        //mAnimator.start();
+        mInCallDesktopButton.playAnimation();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mAnimator.cancel();
-        mAnimator.cancel();
+        //mAnimator.cancel();
+        //mAnimator.cancel();
+        mInCallDesktopButton.cancelAnimation();
     }
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_permission_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="66dp"
+        android:layout_marginEnd="66dp"
+        android:lineSpacingExtra="12sp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:text="@string/start_guide_permission_auto_start"
+        android:alpha="0.6"
+        android:drawableLeft="@drawable/start_guide_confirm_image_screen_flash"
+        android:drawableStart="@drawable/start_guide_confirm_image_screen_flash"
+        android:drawablePadding="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/start_guide_permission_auto_start_ok"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/start_guide_confirm_alert_image"
+        android:alpha="0.7"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_item_title"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_item_title"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_item_title"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_permission_auto_start_fix"
+        android:layout_width="66dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:text="@string/start_guide_confirm_fix"
+        android:textColor="@color/start_guide_fix_text_selector"
+        android:textSize="12sp"
+        android:alpha="0.7"
+        android:visibility="visible"
+        android:drawableRight="@drawable/start_guide_permission_auto_start_fix_right"
+        android:drawableEnd="@drawable/start_guide_permission_auto_start_fix_right"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_item_title"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_item_title"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_item_title"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/start_guide_permission_item_loading"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:lottie_fileName="lottie/start_guide/permission_loading.json"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_item_title"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_item_title"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_item_title"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

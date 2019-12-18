@@ -28,7 +28,12 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
+import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -54,6 +59,9 @@ import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -133,6 +141,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
+import com.superapps.util.rom.RomUtils;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
@@ -151,6 +160,8 @@ import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -179,7 +190,7 @@ public class ColorPhoneApplicationImpl {
     private List<AppInit> mAppInitList = new ArrayList<>();
 
     private HSApplication mBaseApplication;
-    private HomeKeyWatcher homeKeyWatcher;
+    private static HomeKeyWatcher homeKeyWatcher;
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -423,9 +434,14 @@ public class ColorPhoneApplicationImpl {
             }
         }, TIME_NEED_LOW);
 
-        HSPermissionRequestMgr.getInstance().init(mBaseApplication);
-
+        HSPermissionRequestMgr.InitOptions initOptions = new HSPermissionRequestMgr.InitOptions();
+        initOptions.setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
+        HSPermissionRequestMgr.getInstance().init(initOptions);
     }
+
+    private int batteryScale;
+    private int batteryLevel;
+    private HSChargingManager.BatteryPluggedSource batteryPluggedSource;
 
     private void checkChargingOrLocker() {
         if (ChargingReportUtils.isScreenOn()) {
@@ -619,8 +635,12 @@ public class ColorPhoneApplicationImpl {
         });
 
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
-            @Override
-            public boolean onSetRingtone(Ringtone ringtone) {
+            @Override public boolean onSetRingtone(Ringtone ringtone) {
+                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                        || !AutoPermissionChecker.isNotificationListeningGranted()) {
+                    RuntimePermissionActivity.startForRingtone();
+                    return false;
+                }
                 return true;
             }
 
@@ -632,7 +652,20 @@ public class ColorPhoneApplicationImpl {
                         Toast.makeText(mBaseApplication, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
                                 Uri.parse("package:" + mBaseApplication.getPackageName()));
-                        Navigations.startActivitySafely(mBaseApplication, intent);
+
+                        if (RomUtils.checkIsHuaweiRom()) {
+                            Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
+                            Threads.postOnMainThreadDelayed(() -> {
+                                Navigations.startActivitySafely(mBaseApplication, guideIntent);
+                            }, 900);
+
+                            Navigations.startActivitySafely(mBaseApplication, intent);
+                        } else if (RomUtils.checkIsMiuiRom()) {
+                            Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
+                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[] { intent, guideIntent});
+                        } else {
+                            Navigations.startActivitySafely(mBaseApplication, intent);
+                        }
                         return false;
                     }
                 }
@@ -739,6 +772,16 @@ public class ColorPhoneApplicationImpl {
                         }
                     }
                 }
+                if (activity instanceof AccessibilityHuaweiGuideActivity
+                        || activity instanceof AccessibilityMIUIGuideActivity
+                        || activity instanceof AccessibilityOppoGuideActivity) {
+                    Analytics.logEvent("Accessbility_Alert_Show",
+                            "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(mBaseApplication.getContentResolver(), "bluetooth_name"),
+                            "Brand", AutoLogger.getBrand(),
+                            "Os", AutoLogger.getOSVersion(),
+                            "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
+                            "SDK", String.valueOf(Build.VERSION.SDK_INT));
+                }
             }
 
             @Override
@@ -762,7 +805,15 @@ public class ColorPhoneApplicationImpl {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
+                if (activity instanceof AccessibilityHuaweiGuideActivity
+                        || activity instanceof AccessibilityMIUIGuideActivity
+                        || activity instanceof AccessibilityOppoGuideActivity) {
+                    Analytics.logEvent("Accessbility_Alert_Closed",
+                            "Brand", AutoLogger.getBrand(),
+                            "Os", AutoLogger.getOSVersion(),
+                            "Version", com.honeycomb.colorphone.autopermission.RomUtils.getRomVersion(),
+                            "SDK", String.valueOf(Build.VERSION.SDK_INT));
+                }
             }
         });
 
@@ -894,6 +945,7 @@ public class ColorPhoneApplicationImpl {
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, mObserver);
         HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY, mObserver);
         HSGlobalNotificationCenter.addObserver(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS, mObserver);
+        HSGlobalNotificationCenter.addObserver(PermissionConstants.PERMISSION_GUIDE_EXIT, mObserver);
 
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/runtime_permission_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="12sp"
+        android:textColor="#e6000000"
+        android:textSize="16sp"
+        android:text="@string/acb_phone_permission_read_contact"
+        android:drawableLeft="@drawable/acb_phone_permission_read_contact"
+        android:drawableStart="@drawable/acb_phone_permission_read_contact"
+        android:drawablePadding="16dp"
+        android:paddingRight="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/runtime_permission_auto_start_ok"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:visibility="invisible"
+        android:src="@drawable/runtime_confirm_alert_image"
+        app:layout_constraintTop_toTopOf="@id/runtime_permission_item_title"
+        app:layout_constraintBottom_toBottomOf="@id/runtime_permission_item_title"
+        app:layout_constraintLeft_toRightOf="@id/runtime_permission_item_title"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

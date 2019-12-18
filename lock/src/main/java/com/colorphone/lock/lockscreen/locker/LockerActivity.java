@@ -55,19 +55,6 @@ public class LockerActivity extends BaseKeyguardActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mLocker.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mLocker.onPause();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         mLocker.onStop();
@@ -79,13 +66,6 @@ public class LockerActivity extends BaseKeyguardActivity {
         exist = false;
         super.onDestroy();
         mLocker.onDestroy();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_UnlockType",
-                "Type", mUserPresentWithoutSlide ? "untouch" : "touch");
     }
 
     @Override

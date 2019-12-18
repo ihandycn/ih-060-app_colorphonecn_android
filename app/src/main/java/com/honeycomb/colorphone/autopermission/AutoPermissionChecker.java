@@ -1,23 +1,31 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.text.TextUtils;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.notification.NotificationServiceV18;
+import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.permission.HSRuntimePermissions;
 import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
+import com.superapps.util.rom.RomUtils;
 
 /**
  * @author sundxing
  */
 public class AutoPermissionChecker {
+    private static final String PREFS_POST_NOTIFICATION_PERMISSION = "prefs_post_notification_permission";
+    private static final String PREFS_ADD_SHORTCUT_PERMISSION = "prefs_app_shortcut_permission";
+
+    public static boolean skipPhonePermission = false;
 
     public static boolean hasFloatWindowPermission() {
         boolean systemResult = Permissions.isFloatWindowAllowed(HSApplication.getContext());
@@ -37,7 +45,11 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasAutoStartPermission() {
-        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
+        boolean ret = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && RomUtils.checkIsMiuiRom()) {
+            ret = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
+        }
+        return ret || Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
     public static void onBgPopupChange(boolean hasPermission) {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("prefs_bg_popup_permission", hasPermission);
@@ -45,6 +57,9 @@ public class AutoPermissionChecker {
 
     public static boolean hasBgPopupPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.BACKGROUND_START_ACTIVITY) == PermissionsTarget22.GRANTED;
+            }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
         } else {
             // TODO
@@ -58,10 +73,8 @@ public class AutoPermissionChecker {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 return powerManager.isIgnoringBatteryOptimizations(HSApplication.getContext().getPackageName());
             }
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public static void onShowOnLockScreenChange(boolean hasPermission) {
@@ -70,6 +83,9 @@ public class AutoPermissionChecker {
 
     public static boolean hasShowOnLockScreenPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.SHOW_WHEN_LOCKED) == PermissionsTarget22.GRANTED;
+            }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_show_on_lockscreen_permission",
                     false);
         } else {
@@ -83,31 +99,7 @@ public class AutoPermissionChecker {
     }
 
     public static boolean isNotificationListeningGranted() {
-        int firstVersion = HSApplication.getFirstLaunchInfo().appVersionCode;
-        if (firstVersion < 160) {
-            return isNotificationListeningGrantedBelow160();
-        } else {
-            return Utils.isNotificationListeningGranted();
-        }
-    }
-
-    private static boolean isNotificationListeningGrantedBelow160() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return true;
-        }
-
-        String listenerString = Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "enabled_notification_listeners");
-        if (TextUtils.isEmpty(listenerString)) {
-            return false;
-        }
-        final String[] listeners = listenerString.split(":");
-        for (String listener : listeners) {
-            if (listener.contains(HSApplication.getContext().getPackageName())
-                    && listener.contains(NotificationServiceV18.class.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return Permissions.isNotificationAccessGranted();
     }
 
     public static int getAutoRequestCount() {
@@ -116,5 +108,62 @@ public class AutoPermissionChecker {
 
     public static void incrementAutoRequestCount() {
         Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("prefs_auto_request_count");
+    }
+
+    public static boolean isPhonePermissionGranted() {
+        boolean grant = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int permission_APC = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.ANSWER_PHONE_CALLS);
+            grant = permission_APC == RuntimePermissions.PERMISSION_GRANTED;
+            if (HSApplication.getFirstLaunchInfo().appVersionCode != HSApplication.getCurrentLaunchInfo().appVersionCode) {
+                grant |= permission_APC == RuntimePermissions.PERMISSION_PERMANENTLY_DENIED;
+            }
+
+            if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
+                grant |= permission_APC == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST;
+            }
+        }
+        return grant && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED
+                    && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE) == RuntimePermissions.PERMISSION_GRANTED;
+    }
+
+    public static boolean isWriteSettingsPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(HSApplication.getContext());
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean isPermissionPermanentlyDenied(String permission) {
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), permission) == RuntimePermissions.PERMISSION_PERMANENTLY_DENIED;
+    }
+
+    public static boolean isRuntimePermissionGrant(String permission) {
+        String perm = permission;
+        if (HSRuntimePermissions.isRuntimePermission(permission)) {
+            perm = HSRuntimePermissions.getAndroidPermName(permission);
+        }
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), perm) == RuntimePermissions.PERMISSION_GRANTED;
+    }
+
+    public static boolean isPostNotificationPermissionGrant() {
+        if (Compats.IS_OPPO_DEVICE) {
+            NotificationManagerCompat manager = NotificationManagerCompat.from(HSApplication.getContext());
+            return manager.areNotificationsEnabled();
+        }
+        return true;
+    }
+
+    public static void onPostNotificationPermissionChange(boolean hasPermission) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(PREFS_POST_NOTIFICATION_PERMISSION, hasPermission);
+    }
+
+    public static boolean isAddShortcutPermissionGrant() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(PREFS_ADD_SHORTCUT_PERMISSION, false);
+    }
+
+    public static void onAddShortcutPermissionChange(boolean hasPermission) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(PREFS_ADD_SHORTCUT_PERMISSION, hasPermission);
     }
 }

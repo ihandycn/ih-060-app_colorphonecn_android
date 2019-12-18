@@ -7,7 +7,7 @@
     android:layout_marginLeft="7dp"
     android:layout_marginRight="7dp"
     android:layout_height="49dp"
-    android:background="#e6000000">
+    tools:background="#e6000000">
 
     <TextView
         android:id="@+id/title"

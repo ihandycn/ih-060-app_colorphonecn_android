@@ -42,7 +42,8 @@ public class FloatWindowManager {
     };
 
     public void showDialog(FloatWindowDialog dialog) {
-        HSLog.d("FloatWindowManager", "show dialog : " + dialog.getClass().getSimpleName());
+        HSLog.d(TAG, "show dialog : " + dialog.getClass().getSimpleName());
+        boolean addToWindow = false;
         try {
             String token = dialog.getClass().getSimpleName();
             if (dialog.hasNoNeedToShow()) {
@@ -55,14 +56,17 @@ public class FloatWindowManager {
                 if (HSLog.isDebugging()) {
                     throw new IllegalStateException("Dialog exists already, please remove it before");
                 }
-                HSLog.e("");
             }
             final WindowManager.LayoutParams windowParams = dialog.getLayoutParams();
 
             getWindowManager().addView(dialog, windowParams);
+            addToWindow = true;
             dialog.onAddedToWindow(getWindowManager());
 
         } catch (Exception e) {
+            if (!addToWindow) {
+                mDialogs.remove(dialog.getClass());
+            }
             e.printStackTrace();
             HSLog.e("Error show dialog: " + e.getMessage());
         }
@@ -77,20 +81,20 @@ public class FloatWindowManager {
             try {
                 getWindowManager().updateViewLayout(dialog, windowParams);
             } catch (Exception ignored) {
-                HSLog.d("BoostPlusCleanDialog", "removeDialog Exception");
+                HSLog.d(TAG, "removeDialog Exception");
             }
         }
     }
 
     public void removeDialog(FloatWindowDialog dialog) {
-        HSLog.d("BoostPlusCleanDialog", "removeDialog == " + dialog);
+        HSLog.d(TAG, "removeDialog == " + dialog);
         if (dialog != null) {
             try {
                 dialog.setSystemUiVisibility(0);
                 getWindowManager().removeView(dialog);
-                HSLog.d("BoostPlusCleanDialog", "removeDialog success");
+                HSLog.d(TAG, "removeDialog success");
             } catch (Exception ignored) {
-                HSLog.d("BoostPlusCleanDialog", "removeDialog Exception");
+                HSLog.d(TAG, "removeDialog Exception");
             }
             mDialogs.remove(dialog.getClass());
         }

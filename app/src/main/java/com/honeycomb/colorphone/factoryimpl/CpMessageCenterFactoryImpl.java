@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateUtils;
 
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
+import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.activity.ExitNewsActivity;
 import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -54,8 +54,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override public boolean waitForLocker() {
-                return (FloatWindowController.getInstance().isLockScreenShown() || BaseKeyguardActivity.exist)
-                        && !Utils.isKeyguardLocked(HSApplication.getContext(), false);
+                return ChargingScreenActivity.exist
+                        || LockerActivity.exist
+                        || FloatWindowController.getInstance().isLockScreenShown();
             }
 
             @Override public String getLockerDismissEvent() {

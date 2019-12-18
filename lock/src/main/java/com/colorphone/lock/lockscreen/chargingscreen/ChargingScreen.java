@@ -43,9 +43,8 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
-import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -351,13 +350,13 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         updateChargingStateTipIconAnimator();
         processPowerStateChanged(true);
 
-        if (!(context instanceof Activity)) {
+        if (!isActivityHost()) {
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED,this);
-        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED,this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -369,12 +368,27 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-        onStart();
+
+        // Ad bind after view set up, so we delay start invoke.
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onStart();
+            }
+        }, 500);
 
         mIsSetup = true;
     }
 
+
+
     public void onStart() {
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+        if (!isScreenOn) {
+            return;
+        }
+
         if (isStart) {
             return;
         }
@@ -382,8 +396,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         isStart = true;
         HSLog.d(TAG, "onStart()");
 
-        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
 //        if (customizeContentContainer != null) {
 //            customizeContentContainer.onVisibilityChange(true);
@@ -394,10 +409,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 showExpressAd();
             } else if (expressAdView.getParent() == null) {
                 showExpressAd();
-            } else {
-                if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                    expressAdView.switchAd();
-                }
+            }
+
+            if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                expressAdView.switchAd();
             }
         }
 
@@ -413,11 +428,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             isChargingOnInit = false;
             updateChargingStateTipIconAnimator();
         }
-        if (isScreenOn) {
-            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
-                    "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-        }
+
 
         // ======== onResume ========
 
@@ -952,19 +963,19 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 onStart();
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
-                if (!isActivityHost()) {
-                    onStop();
-                }
+                onStop();
                 break;
+
+
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 unlockTextView.setText(R.string.unlock_tint_no_keyguard);
                 unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
                 break;
-            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+            case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 unlockTextView.setText(R.string.unlock_tint_keyguard);
                 unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
@@ -973,6 +984,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
     }
 
+    @Override
     public void onStop() {
         // ======== onPause ========
         isStart = false;
@@ -1004,6 +1016,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     }
 
     public void onDestroy() {
+        super.onDestroy();
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
         if (mHomeKeyWatcher != null) {
@@ -1033,8 +1046,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         mDismissed = true;
         HSLog.i("LockManager", "C dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
 
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
-                "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_Screen_Close",
+                "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
+                "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Close",
                 "Reason", mDismissReason,
@@ -1045,21 +1059,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
         mIsSetup = false;
 
-        if (context instanceof BaseKeyguardActivity) {
-            if (dismissKeyguard) {
-                ((BaseKeyguardActivity) context).tryDismissKeyguard(true);
-            } else {
-                ((Activity) context).finish();
-                ((Activity) context).overridePendingTransition(0, 0);
-            }
-        } else {
-            onStop();
-            onDestroy();
-            super.dismiss(context, dismissKeyguard);
-        }
-        if (!Commons.isKeyguardLocked(context, false)) {
-            HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
-        }
+        super.dismiss(context, dismissKeyguard);
     }
 
     public void setActivityMode(boolean activityMode) {

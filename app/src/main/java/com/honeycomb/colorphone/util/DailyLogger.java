@@ -51,19 +51,23 @@ public class DailyLogger {
     }
 
     private void logDailyStatus(int daysSinceInstall) {
+        String eventID = null;
         if (Compats.IS_XIAOMI_DEVICE) {
-            Analytics.logEvent("Rom_Active_Xiaomi",
-                    "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
-                    "Version", RomUtils.getRomVersion(),
-                    "SDK", String.valueOf(Build.VERSION.SDK_INT),
-                    "InDays", String.valueOf(daysSinceInstall));
+            eventID = "Rom_Active_Xiaomi";
         } else if (Compats.IS_HUAWEI_DEVICE) {
-            Analytics.logEvent("Rom_Active_Huawei",
+            eventID = "Rom_Active_Huawei";
+        } else if (Compats.IS_OPPO_DEVICE) {
+            eventID = "Rom_Active_Oppo";
+        }
+
+        if (!TextUtils.isEmpty(eventID)) {
+            Analytics.logEvent(eventID,
                     "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                     "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));
         }
+
 
         boolean isCallAssistantEnable = ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
                 && CallAssistantSettings.isCallAssistantModuleEnabled();

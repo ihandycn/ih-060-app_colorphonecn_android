@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
@@ -185,6 +186,18 @@ public final class HttpManager {
         RequestBody body = HttpUtils.getRequestBodyFromJson(params.toString());
         DEFAULT.create(IHttpRequest.class)
                 .deleteUserVideos(getUserToken(), getSelfUserId(), body)
+                .enqueue(callback);
+    }
+
+    public void getAllCategories(Callback<AllCategoryBean> callback) {
+        DEFAULT.create(IHttpRequest.class)
+                .getAllCategories()
+                .enqueue(callback);
+    }
+
+    public void getCategoryThemes(String categoryId, int pageIndex, Callback<AllThemeBean> callback) {
+        DEFAULT.create(IHttpRequest.class)
+                .getCategoryThemes(categoryId, IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
                 .enqueue(callback);
     }
 

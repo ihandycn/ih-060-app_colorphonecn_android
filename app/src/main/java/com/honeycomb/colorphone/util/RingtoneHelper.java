@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.util;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Compats;
 import com.superapps.util.Threads;
+import com.umeng.commonsdk.debug.E;
 
 import java.io.File;
 import java.util.HashSet;
@@ -35,17 +37,18 @@ import hugo.weaving.DebugLog;
  */
 
 public class RingtoneHelper {
-    private static String PREFS_KEY_ACTIVE = "ringtone_key_active";
-    private static String PREFS_KEY_ANIM = "ringtone_key_anim";
-    private static String PREFS_KEY_FIRST_RINGTONE = "ringtone_key_ringtone_first";
-    private static String PREFS_KEY_SYSTEM_RINGTONE = "ringtone_key_system_ringtone";
+    private final static String PREFS_KEY_ACTIVE = "ringtone_key_active";
+    private final static String PREFS_KEY_ANIM = "ringtone_key_anim";
+    private final static String PREFS_KEY_FIRST_RINGTONE = "ringtone_key_ringtone_first";
+    private final static String PREFS_KEY_SYSTEM_RINGTONE = "ringtone_key_system_ringtone";
 
-    private static String PREFS_KEY_TOAST_FLAG = "ringtone_key_toast";
+    private final static String PREFS_KEY_TOAST_FLAG = "ringtone_key_toast";
 
-    private static String SPLIT = ",";
+    private final static String SPLIT = ",";
+    private final static ConcurrentHashMap<String, String> mPathUriMaps = new ConcurrentHashMap<String, String>();
+
     private static Set<Integer> mAnimThemes;
     private static Set<Integer> mActiveThemes;
-    private static ConcurrentHashMap<String, String> mPathUriMaps = new ConcurrentHashMap<String, String>();
 
 
     public static boolean isAnimationFinish(int themeId) {
@@ -92,9 +95,13 @@ public class RingtoneHelper {
 
     private static void ensureActiveThemeList() {
         synchronized (PREFS_KEY_ACTIVE) {
-            if (mActiveThemes == null) {
-                mActiveThemes = new HashSet<>();
-                readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+            try {
+                if (mActiveThemes == null) {
+                    mActiveThemes = new HashSet<>();
+                    readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+                }
+            } catch (Exception e) {
+                //
             }
         }
     }
@@ -231,6 +238,22 @@ public class RingtoneHelper {
                 HSLog.e("ringtone sim2 set error" + e.getMessage());
             }
         }
+
+        if (Compats.IS_OPPO_DEVICE) {
+            try {
+                android.content.ContentResolver r2 = context.getContentResolver();
+                java.lang.String r4 = "ringtone_sim2"; // 权限不允许
+                java.lang.String r3 = newUri.toString();
+                android.provider.Settings.System.putString(r2, r4, r3);
+            } catch (Exception e) {
+                HSLog.e("ringtone sim2 set error by system" + e.getMessage());
+                try {
+                    b2(context, path, title);
+                } catch (Exception e1) {
+                    HSLog.e("ringtone sim2 set error by content provider" + e1.getMessage());
+                }
+            }
+        }
 //
 //        StringBuilder sb = new StringBuilder();
 //        sb.append("?path=");
@@ -254,6 +277,63 @@ public class RingtoneHelper {
             Log.d("RingtoneHelper:", "Ringtone change to: " + title);
         }
     }
+
+    private static void b2(Context context, String str, String str2) {
+        if (context != null && !TextUtils.isEmpty(str)) {
+            String ringtone_sim2 = Settings.System.getString(context.getContentResolver(), "ringtone_sim2");
+            Uri a2 = Uri.parse(ringtone_sim2);
+            if (a2 != null) {
+                ContentResolver contentResolver = context.getContentResolver();
+                //a(contentResolver, a2, str);
+                ContentValues contentValues = new ContentValues();
+                o.a(contentResolver, a2, contentValues, new o.a() {
+                    public boolean a(String str, int i, Object obj, ContentValues contentValues) {
+                        return "_id".equals(str) || str.equals("artist_key") || str.equals("album_key");
+                    }
+                });
+                ContentValues contentValues2 = new ContentValues();
+                contentValues2.put("title", str2);
+                boolean b2 = b(context, a2, str);
+                if (!b2) {
+                    contentValues2.put("_data", str);
+                }
+                int update = contentResolver.update(a2, contentValues2, null, null);
+                if (!b2 && update >= 1) {
+                    String a3 = o.a(a2);
+                    String uri = a2.toString();
+                    Uri insert = context.getContentResolver().insert(Uri.parse(uri.substring(0, uri.lastIndexOf("/" + a3))), contentValues);
+                }
+            }
+        }
+    }
+
+
+    private static void a(ContentResolver contentResolver, Uri uri, String str) {
+        if (contentResolver != null && uri != null && !TextUtils.isEmpty(str)) {
+            String a2 = o.a(uri);
+            int delete = contentResolver.delete(MediaStore.Files.getContentUri("internal"), "_id !=? and _data =?", new String[]{String.valueOf(a2), str});
+            int delete2 = contentResolver.delete(MediaStore.Files.getContentUri("external"), "_id !=? and _data =?", new String[]{String.valueOf(a2), str});
+        }
+    }
+
+    private static String[] f12050b = {"title", "_data", "_size"};
+
+    private static boolean b(Context context, Uri uri, String str) {
+        boolean z = false;
+        if (context == null || uri == null || TextUtils.isEmpty(str)) {
+            return false;
+        }
+        Cursor query = context.getContentResolver().query(uri, f12050b, null, null, null);
+        if (query == null) {
+            return false;
+        }
+        if (query.moveToFirst()) {
+            z = str.equals(query.getString(query.getColumnIndex("_data")));
+        }
+        o.a(query);
+        return z;
+    }
+
 
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();

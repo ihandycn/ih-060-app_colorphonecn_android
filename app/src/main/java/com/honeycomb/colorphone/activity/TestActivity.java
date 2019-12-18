@@ -46,7 +46,6 @@ public class TestActivity extends AppCompatActivity {
         String number = editText.getText().toString().trim();
         mInCallWindow.show(TextUtils.isEmpty(number) ? "8888888" : number);
         mHandler.postDelayed(() -> mInCallWindow.endFlashCall(), 8000);
-
     }
 
     @Override

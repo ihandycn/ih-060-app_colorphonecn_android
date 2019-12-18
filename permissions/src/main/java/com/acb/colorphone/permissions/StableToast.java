@@ -1,10 +1,15 @@
 package com.acb.colorphone.permissions;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +51,23 @@ public class StableToast {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(layoutId, null);
         if (stringId != 0) {
             TextView tv = contentView.findViewById(R.id.toast_tv);
-            tv.setText(stringId);
+            String string = HSApplication.getContext().getResources().getString(stringId);
+            if (string.contains("icon")) {
+                int identifier = HSApplication.getContext().getResources().getIdentifier("ic_launcher", "mipmap", HSApplication.getContext().getPackageName());
+                Drawable appIcon = ContextCompat.getDrawable(HSApplication.getContext(), identifier);
+                int appIconIndex = string.indexOf("icon");
+                if (appIconIndex >= 0) {
+                    SpannableString highlighted = new SpannableString(string);
+
+                    int size = Dimensions.pxFromDp(40);
+                    appIcon.setBounds(0, 0, size, size);
+                    ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
+                    highlighted.setSpan(span, appIconIndex, appIconIndex + 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    tv.setText(highlighted);
+                }
+            } else {
+                tv.setText(string);
+            }
         }
         contentView.setAlpha(0.9f);
         contentView.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#000000"),

@@ -95,9 +95,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public void onCallFinish(String number) {
         super.onCallFinish(number);
-        if (Ap.RandomTheme.enable()) {
-            RandomTheme.getInstance().roll();
-        }
     }
 
     @Override

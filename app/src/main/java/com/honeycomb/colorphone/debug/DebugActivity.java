@@ -8,14 +8,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.IHttpRequest;
+import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
+import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.theme.ThemeUpdateListener;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
@@ -65,7 +69,8 @@ public class DebugActivity extends Activity {
             }
         });
         findViewById(R.id.cancel_upload_btn).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 cancelUpload();
             }
         });
@@ -86,6 +91,20 @@ public class DebugActivity extends Activity {
             @Override
             public void onClick(View v) {
                 delete();
+            }
+        });
+
+        findViewById(R.id.get_all_category_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAllCategory();
+            }
+        });
+
+        findViewById(R.id.get_hot_category_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHotCategoryThemes();
             }
         });
 
@@ -211,7 +230,8 @@ public class DebugActivity extends Activity {
                 failure(errorMsg);
             }
 
-            @Override public void onSuccess(AllUserThemeBean allUserThemeBean) {
+            @Override
+            public void onSuccess(AllUserThemeBean allUserThemeBean) {
                 success();
             }
         });
@@ -244,6 +264,36 @@ public class DebugActivity extends Activity {
 
             @Override
             public void onSuccess(ResponseBody responseBody) {
+                success();
+            }
+        });
+
+    }
+
+    private void getAllCategory() {
+        HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
+            @Override
+            public void onFailure(String errorMsg) {
+                failure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(AllCategoryBean allCategoryBean) {
+                success();
+            }
+        });
+
+    }
+
+    private void getHotCategoryThemes() {
+        ThemeList.getInstance().requestCategoryThemes("1", true, new ThemeUpdateListener() {
+            @Override
+            public void onFailure(String errorMsg) {
+                failure(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(boolean isHasData) {
                 success();
             }
         });
