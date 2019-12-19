@@ -649,28 +649,30 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             guideLottie.setVisibility(VISIBLE);
                             guideLottie.setProgress(1f);
                         }
-
+                        startCurrentVideo();
                         Analytics.logEvent("Tab_Themes_Show");
                         break;
                     case TabItem.TAB_NEWS:
+                        endCurrentVideo();
                         Analytics.logEvent("Tab_News_Show");
                         break;
                     case TabItem.TAB_RINGTONE:
-                        // TODO
-//                        Analytics.logEvent("Tab_News_Show");
+                        endCurrentVideo();
+                        Analytics.logEvent("Tab_RingTone_Show");
                         break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
                             guideLottie.setVisibility(GONE);
                         }
-
+                        endCurrentVideo();
                         Analytics.logEvent("Tab_Settings_Show");
                         break;
                     case TabItem.TAB_CASH:
-                        Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
                         if (lotteryWheelLayout != null) {
                             lotteryWheelLayout.refreshData();
                         }
+                        endCurrentVideo();
+                        Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
                         break;
                     default:
                         break;
@@ -781,6 +783,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    private void startCurrentVideo() {
+        if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
+            ThemeSelectorAdapter themeSelectorAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
+            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(themeSelectorAdapter.getLastSelectedLayoutPos());
+            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
+            }
+        }
+    }
+
+    private void endCurrentVideo() {
+        if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
+            ThemeSelectorAdapter themeSelectorAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
+            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(themeSelectorAdapter.getLastSelectedLayoutPos());
+            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -792,19 +814,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (mTabLayout != null) {
             updateTitle(mTabLayout.getSelectedTabPosition());
+
+            //start home page list video (make current theme playing)
+            if (mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_MAIN)) {
+                startCurrentVideo();
+            }
         }
 
         if (tabTransController != null) {
             tabTransController.show();
-        }
-
-        if (mAdapter != null) {
-            HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
-            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
-            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
-                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
-            }
-
         }
 
         if (showTabCashCenter
@@ -830,16 +848,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (tabTransController != null) {
             tabTransController.hide();
         }
-        if (mRecyclerView != null && mRecyclerView.getAdapter() instanceof ThemeSelectorAdapter) {
-            ThemeSelectorAdapter themeSelectorAdapter = (ThemeSelectorAdapter) mRecyclerView.getAdapter();
-            HSLog.d("ColorPhoneActivity", "onPause" + themeSelectorAdapter.getLastSelectedLayoutPos() + "");
-            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(themeSelectorAdapter.getLastSelectedLayoutPos());
-            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
-                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
-            }
 
+        if (mRecyclerView != null) {
             mRecyclerView.getRecycledViewPool().clear();
         }
+
+        endCurrentVideo();
     }
 
     @Override
