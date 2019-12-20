@@ -1147,6 +1147,10 @@ public class AutoRequestManager {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
 
+        //request location permission for ads (Accurate delivery)
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+
         return permissions;
     }
 
