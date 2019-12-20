@@ -94,17 +94,47 @@
             app:layout_constraintVertical_bias="0.12"
             app:typeface="@string/barlow_regular"/>
 
-        <com.colorphone.lock.TypefacedTextView
-            android:id="@+id/tv_date"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="12.3sp"
-            android:textColor="#b3ffffff"
-            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_time"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical">
 
+            <com.colorphone.lock.TypefacedTextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:lineSpacingExtra="12.3sp"
+                android:textColor="#b3ffffff"
+                android:textSize="14sp" />
+
+            <com.colorphone.lock.TypefacedTextView
+                android:id="@+id/tv_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@id/tv_date"
+                android:layout_toRightOf="@id/tv_date"
+                android:lineSpacingExtra="12.3sp"
+                android:lines="1"
+                android:textColor="#b3ffffff"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_weather_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_toEndOf="@id/tv_weather"
+                android:layout_toRightOf="@id/tv_weather" />
+        </RelativeLayout>
     </android.support.constraint.ConstraintLayout>
 
     <View

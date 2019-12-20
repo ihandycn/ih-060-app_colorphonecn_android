@@ -70,6 +70,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
+import colorphone.acb.com.libweather.WeatherUtils;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
@@ -107,6 +110,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private TextView mTvTime;
     private TextView mTvDate;
+    private TextView mTvWeather;
+    private ImageView mConditionIcon;
     private AcbExpressAdView expressAdView;
     private boolean mAdShown;
     private long mOnStartTime;
@@ -119,10 +124,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private View mGameLottieTitleEntrance;
     private String gameEntranceType;
 
-
     private Handler mHandler = new Handler();
     private Runnable foregroundEventLogger = new Runnable() {
         private boolean logOnceFlag = false;
+
         @Override
         public void run() {
             String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
@@ -277,6 +282,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         mTvTime = (TextView) findViewById(R.id.tv_time);
         mTvDate = (TextView) findViewById(R.id.tv_date);
+        mTvWeather = (TextView) findViewById(R.id.tv_weather);
+        mConditionIcon = (ImageView) findViewById(R.id.iv_weather_icon);
         refreshClock();
         registerReceiverForClock();
         mAdShown = false;
@@ -332,18 +339,18 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void onGameClick() {
         LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked","type", gameEntranceType);
+        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked", "type", gameEntranceType);
     }
 
     private void increaseLockerCounter() {
         lockerCount++;
-        if (lockerCount > 20){
+        if (lockerCount > 20) {
             lockerCount = 0;
         }
         Preferences.get(ChargingScreenSettings.LOCKER_PREFS).putInt("locker_game_count", lockerCount);
     }
 
-    private void updateLockerEntrance(){
+    private void updateLockerEntrance() {
         lockerCount = Preferences.get(ChargingScreenSettings.LOCKER_PREFS)
                 .getInt("locker_game_count", 0);
 
@@ -415,7 +422,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         });
 
         expressAdView.prepareAdPlus(new AcbExpressAdView.PrepareAdPlusListener() {
-            @Override public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
+            @Override
+            public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
 
             }
         });
@@ -544,11 +552,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 mUnlockText.setText(R.string.unlock_tint_no_keyguard);
-                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0, 0);
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 mUnlockText.setText(R.string.unlock_tint_keyguard);
-                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
+                mUnlockText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 break;
             default:
                 break;
@@ -556,9 +564,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void registerReceiverForClock() {
-        IntentFilter filter=new IntentFilter();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIME_TICK);
-        getContext().registerReceiver(timeChangeReceiver,filter);
+        getContext().registerReceiver(timeChangeReceiver, filter);
         ifRegisterForTime = true;
     }
 
@@ -583,6 +591,19 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mTvTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
         DateFormat format = new SimpleDateFormat("M月d日\tEEE", Locale.getDefault());
         mTvDate.setText(format.format(new Date()));
+
+        if (WeatherClockManager.getInstance().getWeather() != null) {
+            mTvWeather.setVisibility(VISIBLE);
+            mConditionIcon.setVisibility(VISIBLE);
+            String simpleConditionDesc = WeatherClockManager.getInstance().getSimpleConditionDescription(
+                    WeatherClockManager.getInstance().getWeather().getCurrentCondition().getCondition());
+            mTvWeather.setText(simpleConditionDesc);
+            mConditionIcon.setImageResource(WeatherUtils.getWeatherConditionSmallIconResourceId(
+                    WeatherClockManager.getInstance().getWeather().getCurrentCondition().getCondition(), false));
+        } else {
+            mTvWeather.setVisibility(GONE);
+            mConditionIcon.setVisibility(GONE);
+        }
     }
 
 
@@ -759,6 +780,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Intent.ACTION_TIME_TICK)) {
+                //request data for update weather
+                WeatherClockManager.getInstance().updateWeatherIfNeeded();
+
                 refreshClock();
             }
         }
@@ -786,7 +810,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
                 if (yCoordinateOfAboveNotification <= yCoordinatesOfBottomForDate) {
                     if (phoneHeight <= 1920) {
-                        mTvTime.setTextSize(60  * phoneHeight / 1920);
+                        mTvTime.setTextSize(60 * phoneHeight / 1920);
                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mTvTime.getLayoutParams();
                         layoutParams.verticalBias = 0.12f * phoneHeight / 1920;
                         mTvTime.setLayoutParams(layoutParams);
