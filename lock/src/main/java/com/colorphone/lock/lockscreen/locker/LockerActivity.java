@@ -8,6 +8,8 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
+
 public class LockerActivity extends BaseKeyguardActivity {
 
     private Locker mLocker;
@@ -26,7 +28,7 @@ public class LockerActivity extends BaseKeyguardActivity {
 //
 //                }
 //            });
-
+            WeatherClockManager.getInstance().updateWeatherIfNeeded();
             mLocker = new Locker();
             mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
