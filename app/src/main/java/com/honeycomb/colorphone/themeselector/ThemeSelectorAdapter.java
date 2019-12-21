@@ -406,7 +406,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
             ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
-            if (colorPhoneActivity.getCategoryList() != null && colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition) != null) {
+            if (!colorPhoneActivity.isRefreshing()&&colorPhoneActivity.getCategoryList() != null && colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition) != null) {
                 ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
             }
         }
