@@ -171,6 +171,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
@@ -481,6 +482,8 @@ public class ColorPhoneApplicationImpl {
         ThemeList.getInstance().initThemes();
 
         copyMediaFromAssertToFile();
+
+        WeatherClockManager.getInstance().updateWeatherIfNeeded();
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
