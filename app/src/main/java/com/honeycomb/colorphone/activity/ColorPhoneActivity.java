@@ -873,7 +873,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void requestThemeData(boolean isRefresh) {
-
+        Analytics.logEvent("CallFlash_Request");
         ThemeList.getInstance().requestCategoryThemes(categoryList.get(mainPagerPosition).getId(), isRefresh, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
@@ -1178,7 +1178,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (isFirstRequestData) {
                     Analytics.logEvent("CallFlash_Request_First");
                 }
-                Analytics.logEvent("CallFlash_Request");
                 requestThemeData(true);
                 mAdapter.setData(mRecyclerViewData, mainPagerPosition);
                 mAdapter.notifyDataSetChanged();
@@ -1187,7 +1186,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                Analytics.logEvent("CallFlash_Request");
                 requestThemeData(false);
                 mAdapter.setData(mRecyclerViewData, mainPagerPosition);
                 mAdapter.notifyDataSetChanged();
