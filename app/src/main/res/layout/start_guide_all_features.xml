@@ -203,9 +203,9 @@
         layout="@layout/start_guide_congratulation"
         android:visibility="gone" />
 
-    <include
+    <ViewStub
         android:id="@+id/start_guide_confirm_permission"
-        layout="@layout/start_guide_confirm_permission"
-        android:visibility="gone" />
-    
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"  tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!--No Translate-->
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
@@ -280,6 +280,11 @@
 
     <string name="runtime_confirm_permission_description">为确保来电秀功能正常使用，请开启以下必要权限</string>
     <string name="runtime_confirm_permission_action">去授权</string>
+
+    <string name="runtime_confirm_permission_title_new">为了确保来电秀功能正常使用\n请开启以下必要权限</string>
+    <string name="runtime_confirm_permission_description_new">请充分阅读并理解《服务条款》和《隐私政策》\n1. 在使用焕彩来电秀时，为保障服务所需，我们会申请系统权限收集设备信息，用于安全风控。此权限不会收集隐私信息\n2. 为了在来电秀上您可以直接接听或拨打电话，我们会申请电话权限\n3. 为了在呼叫页面中显示联系人信息和为联系人设置来电秀及铃声，我们会申请通讯录权限\n4. 为了存储并读取来电秀和铃声资源，我们会申请存储权限</string>
+    <string name="runtime_confirm_permission_description_new_9">\n5. 为了在来电秀上显示来电号码，我们会申请通话记录权限</string>
+    <string name="runtime_confirm_permission_action_new">我知道了</string>
 
 
     <string name="privacy_policy_agree">已同意</string>

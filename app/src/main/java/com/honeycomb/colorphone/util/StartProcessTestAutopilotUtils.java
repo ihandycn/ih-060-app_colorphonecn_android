@@ -15,11 +15,11 @@ public class StartProcessTestAutopilotUtils {
     }
 
     public static boolean shouldGuideThemeSet() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "set_theme_guide", true);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "set_theme_guide", false);
     }
 
     public static boolean shouldShowPermission() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "user_rights", true);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "user_rights", false);
     }
 
     public static void logEventWithSdkVersion(String event) {

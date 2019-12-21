@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -468,7 +469,20 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             return false;
         }
 
-        View permissionDialog = findViewById(R.id.start_guide_confirm_permission);
+        ViewStub permissionDialogStub = findViewById(R.id.start_guide_confirm_permission);
+        View permissionDialog;
+        if (StartProcessTestAutopilotUtils.shouldShowPermission()|true){
+            permissionDialogStub.setLayoutResource(R.layout.start_guide_confirm_permission_new);
+            permissionDialog = permissionDialogStub.inflate();
+            if (Build.VERSION.SDK_INT>=28||true){
+                TextView descriptionView = findViewById(R.id.start_guide_confirm_permission_description);
+                String description = getResources().getString(R.string.runtime_confirm_permission_description_new)+getResources().getString(R.string.runtime_confirm_permission_description_new_9);
+                descriptionView.setText(description);
+            }
+        } else {
+            permissionDialogStub.setLayoutResource(R.layout.start_guide_confirm_permission);
+            permissionDialog = permissionDialogStub.inflate();
+        }
         permissionDialog.setVisibility(View.VISIBLE);
         permissionDialog.setOnTouchListener(new View.OnTouchListener() {
             @Override
