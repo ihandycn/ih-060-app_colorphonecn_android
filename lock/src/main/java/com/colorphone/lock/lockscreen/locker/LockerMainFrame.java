@@ -601,7 +601,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             mConditionIcon.setImageResource(WeatherUtils.getWeatherConditionSmallIconResourceId(
                     WeatherClockManager.getInstance().getWeather().getCurrentCondition().getCondition(), false));
         } else {
-            WeatherClockManager.getInstance().updateWeatherIfNeeded();
             mTvWeather.setVisibility(GONE);
             mConditionIcon.setVisibility(GONE);
         }
