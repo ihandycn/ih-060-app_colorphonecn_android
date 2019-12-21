@@ -28,7 +28,6 @@ public class LockerActivity extends BaseKeyguardActivity {
 //
 //                }
 //            });
-            WeatherClockManager.getInstance().updateWeatherIfNeeded();
             mLocker = new Locker();
             mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
