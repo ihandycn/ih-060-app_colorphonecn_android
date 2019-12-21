@@ -25,6 +25,8 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.rom.RomUtils;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
+
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
 public class ChargingScreenUtils {
@@ -160,6 +162,7 @@ public class ChargingScreenUtils {
         if (isCalling()) {
             return;
         }
+        WeatherClockManager.getInstance().updateWeatherIfNeeded();
         isFromPush = fromPush;
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,

@@ -483,8 +483,6 @@ public class ColorPhoneApplicationImpl {
 
         copyMediaFromAssertToFile();
 
-        WeatherClockManager.getInstance().updateWeatherIfNeeded();
-
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
             @Override
@@ -624,6 +622,7 @@ public class ColorPhoneApplicationImpl {
             }
         });
         homeKeyWatcher.startWatch();
+        WeatherClockManager.getInstance().updateWeatherIfNeeded();
     }
 
     private void initKuyinRingtone() {
