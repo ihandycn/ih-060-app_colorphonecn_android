@@ -41,7 +41,7 @@ public final class RetrofitFactory {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl(BuildConfig.DEBUG ? IHttpRequest.DEBUG_BASE_URR : IHttpRequest.BASE_URL)
+                .baseUrl(BuildConfig.DEBUG ? IHttpRequest.BASE_URL : IHttpRequest.BASE_URL)
                 .addCallAdapterFactory(CallAdapterFactory.getInstance())
                 .addCallAdapterFactory(DownloadFileCallAdapterFactory.getInstance())
                 .addConverterFactory(new FilesConvertFactory())

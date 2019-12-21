@@ -119,6 +119,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.superapps.util.BackgroundDrawables;
@@ -403,6 +404,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     public void showRewardVideoView(String themeName) {
 
+    }
+
+    public boolean isRefreshing(){
+        return mSmartRefreshLayout!=null&&mSmartRefreshLayout.getState()== RefreshState.Refreshing;
     }
 
     @Override
