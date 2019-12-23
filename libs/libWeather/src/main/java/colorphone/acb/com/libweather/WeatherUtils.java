@@ -513,6 +513,6 @@ public class WeatherUtils {
      * @return
      */
     public static boolean onlyIpLocation() {
-        return true;
+        return false;
     }
 }

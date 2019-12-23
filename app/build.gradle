@@ -188,6 +188,7 @@ dependencies {
             "com.android.support.constraint:constraint-layout:1.0.2",
 
             "com.android.support:multidex:1.0.1",
+            "com.google.android.gms:play-services-location:15.0.0",
 
             "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
             'com.annimon:stream:1.1.7'
