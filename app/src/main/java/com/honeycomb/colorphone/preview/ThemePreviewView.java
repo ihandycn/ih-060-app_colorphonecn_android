@@ -591,6 +591,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
+    public Theme getmTheme(){
+        return mTheme;
+    }
+
     private void onApplyForAll() {
         if (!mTheme.hasRingtone()) {
             onThemeApply();

@@ -145,7 +145,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
-        lastPos = pos;
         // Open music
         ThemeStateManager.getInstance().resetState();
 
@@ -526,6 +525,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
         mViews.clear();
         PreviewAdManager.getInstance().releaseNativeAd();
         DotsPictureResManager.get().releaseDotsBitmap();
+        HSGlobalNotificationCenter.removeObserver(NOTIFY_SET_DEFAULT_THEME, this);
     }
 
     private int lastThemeFullAdIndex = -1;
@@ -561,17 +561,19 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
-        if (lastPos != -1 && mViewPager.getChildCount() > lastPos) {
-            ThemePreviewView previewView = ((ThemePreviewView) (mViewPager.getChildAt(lastPos)));
-            previewView.setApplyForAll(true);
-            Threads.postOnMainThreadDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    previewView.applyRingtoneChange();
-                    previewView.findViewById(R.id.card_selected).setVisibility(View.VISIBLE);
+            ThemePreviewView previewView;
+            for (int i = 0; i < mViewPager.getChildCount(); i++) {
+                if(((ThemePreviewView) (mViewPager.getChildAt(i))).getmTheme() == mTheme){
+                    previewView = ((ThemePreviewView) (mViewPager.getChildAt(i)));
+                    previewView.setApplyForAll(true);
+                    Threads.postOnMainThreadDelayed(() -> {
+                        previewView.applyRingtoneChange();
+                        previewView.findViewById(R.id.card_selected).setVisibility(View.VISIBLE);
+                    }, 500);
+
+                    break;
                 }
-            }, 500);
-        }
+            }
     }
 
     private class ThemePagerAdapter extends PagerAdapter {
