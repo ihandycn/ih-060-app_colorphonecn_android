@@ -470,6 +470,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         ViewStub permissionDialogStub = findViewById(R.id.start_guide_confirm_permission);
+        if (permissionDialogStub==null){
+            return false;
+        }
         View permissionDialog;
         if (StartProcessTestAutopilotUtils.shouldShowPermission()){
             permissionDialogStub.setLayoutResource(R.layout.start_guide_confirm_permission_new);
