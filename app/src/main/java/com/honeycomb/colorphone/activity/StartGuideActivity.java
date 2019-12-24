@@ -77,6 +77,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String FROM_KEY_GUIDE = "Guide";
     public static final String FROM_KEY_START = "Start";
     public static final String FROM_KEY_APPLY = "Apply";
+    public static final String FROM_KEY_RINGTONE = "Ringtone";
     public static final String FROM_KEY_BANNER = "Banner";
 
     private Handler mHandler = new Handler(Looper.getMainLooper());

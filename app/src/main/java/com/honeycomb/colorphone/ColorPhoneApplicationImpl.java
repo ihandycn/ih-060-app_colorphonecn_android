@@ -34,6 +34,8 @@ import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.StartProcessTestAutopilotUtils;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
@@ -659,6 +661,10 @@ public class ColorPhoneApplicationImpl {
                 if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                         || !AutoPermissionChecker.isNotificationListeningGranted()) {
                     RuntimePermissionActivity.startForRingtone();
+                    return false;
+                }
+                if (!AutoRequestManager.getInstance().isGrantAllPermission()){
+                    StartGuideActivity.start(ColorPhoneApplication.getContext(), StartGuideActivity.FROM_KEY_RINGTONE);
                     return false;
                 }
                 return true;
