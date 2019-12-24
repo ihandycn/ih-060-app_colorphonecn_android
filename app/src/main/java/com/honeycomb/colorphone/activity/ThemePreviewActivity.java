@@ -145,7 +145,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
-
+        lastPos = pos;
         // Open music
         ThemeStateManager.getInstance().resetState();
 
@@ -297,8 +297,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
 
+        HSGlobalNotificationCenter.addObserver(NOTIFY_SET_DEFAULT_THEME, this);
         if (ColorPhoneActivity.showingOverlay) {
-            HSGlobalNotificationCenter.addObserver(NOTIFY_SET_DEFAULT_THEME, this);
             initOverlay();
         }
     }
@@ -561,8 +561,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
-        if (mViewPager.getChildCount() > 0) {
-            ThemePreviewView previewView = ((ThemePreviewView) (mViewPager.getChildAt(0)));
+        if (lastPos != -1 && mViewPager.getChildCount() > lastPos) {
+            ThemePreviewView previewView = ((ThemePreviewView) (mViewPager.getChildAt(lastPos)));
             previewView.setApplyForAll(true);
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
@@ -570,7 +570,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity implements INotifi
                     previewView.applyRingtoneChange();
                     previewView.findViewById(R.id.card_selected).setVisibility(View.VISIBLE);
                 }
-            },500);
+            }, 500);
         }
     }
 
