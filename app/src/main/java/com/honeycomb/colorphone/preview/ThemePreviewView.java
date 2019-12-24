@@ -1570,7 +1570,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void applyRingtoneChange() {
-        mRingtoneViewHolder.applyRingtoneChange();
+        if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+            RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+        }
+        onThemeApply();
     }
 
     private class ProgressViewHolder {
