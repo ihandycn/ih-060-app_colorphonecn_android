@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -51,7 +49,6 @@ import com.acb.call.VideoManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
-import com.acb.call.themes.Type;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
@@ -124,7 +121,6 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -182,6 +178,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final int SCROLL_STATE_DRAGGING = 1;
     private boolean isDoubleClickToolbar = false;
     private boolean isFirstRequestData = true;
+    private boolean hasLoggedRequestCategory = true;
     private boolean isNeedSetFirstTheme = false;
 
     private TasksManagerModel model;
@@ -873,7 +870,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void requestThemeData(boolean isRefresh) {
-        Analytics.logEvent("CallFlash_Request");
+        if (!hasLoggedRequestCategory) {
+            Analytics.logEvent("CallFlash_Request");
+        }
+        hasLoggedRequestCategory = false;
         ThemeList.getInstance().requestCategoryThemes(categoryList.get(mainPagerPosition).getId(), isRefresh, new ThemeUpdateListener() {
             @Override
             public void onFailure(String errorMsg) {
@@ -1175,9 +1175,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                if (isFirstRequestData) {
-                    Analytics.logEvent("CallFlash_Request_First");
-                }
                 requestThemeData(true);
                 mAdapter.setData(mRecyclerViewData, mainPagerPosition);
                 mAdapter.notifyDataSetChanged();
@@ -1557,6 +1554,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void requestCategories(MainPagerHolder holder) {
+        if (isFirstRequestData) {
+            Analytics.logEvent("CallFlash_Request_First");
+        } else {
+            Analytics.logEvent("CallFlash_Request");
+        }
+        hasLoggedRequestCategory = true;
         HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
             @Override
             public void onFailure(String errorMsg) {
