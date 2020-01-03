@@ -34,7 +34,7 @@ public class AutoLogger {
 
     public static void logEventWithBrandAndOS(String EventID) {
         Analytics.logEvent(EventID,
-                "Brand", getBrand(), "Os", getOSVersion(),"Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"));
+                "Brand", getBrand(), "Os", getOSVersion(), "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"));
     }
 
     public static String formatPermissionName(String type) {
@@ -56,7 +56,7 @@ public class AutoLogger {
         }
     }
 
-    public static String getOSVersion(){
+    public static String getOSVersion() {
         return Utils.getDeviceInfo();
     }
 
@@ -132,6 +132,12 @@ public class AutoLogger {
                         break;
                     case Manifest.permission.READ_CALL_LOG:
                         sb.append("callLog+");
+                        break;
+                    case Manifest.permission.ACCESS_COARSE_LOCATION:
+                        sb.append("coarse_location+");
+                        break;
+                    case Manifest.permission.ACCESS_FINE_LOCATION:
+                        sb.append("fine_location+");
                         break;
                 }
             }
