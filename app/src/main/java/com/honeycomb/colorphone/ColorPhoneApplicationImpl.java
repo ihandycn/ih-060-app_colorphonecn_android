@@ -362,7 +362,6 @@ public class ColorPhoneApplicationImpl {
         pushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
-                PushMgr.sendTokenToServer(deviceToken);
                 HSLog.d("Umeng.test", "注册成功：deviceToken：-------->  " + deviceToken);
             }
 
