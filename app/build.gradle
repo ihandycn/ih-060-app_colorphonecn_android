@@ -94,6 +94,7 @@ android {
             res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
             assets.srcDirs = ['src/colorphoneYingyongbao/assets', 'src/colorphoneCommon/assets', 'src/main/assets']
             java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
+            renderscript.srcDirs = ['src/main/rs']
         }
 
         colorphoneJinritoutiao {
