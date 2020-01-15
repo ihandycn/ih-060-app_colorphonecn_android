@@ -101,9 +101,9 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     protected String getConfigFileName() {
         if (BuildConfig.DEBUG) {
-            return "config-d.ya";
+            return "config-d.yaml";
         } else {
-            return "config-r.ya";
+            return "config-r.yaml";
         }
     }
 }

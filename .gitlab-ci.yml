@@ -58,16 +58,19 @@ build_yingyongbao:
     - ./gradlew :app:assembleColorphoneJinritoutiaoRelease --stacktrace --info
     - python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
     - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-    - cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
+    - cp app/build/outputs/apk/colorphoneJinritoutiao/debug/*.apk outputs/
     - fi
     - if [[ $commit_msg == *"[BuildYYB]"* ]]; then
     - git submodule update --init
-    - ./gradlew :app:assembleColorphoneYingyongbaoRelease
+    - ./gradlew clean
+    - python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+    - ./gradlew :app:clean :app:assembleColorphoneYingyongbaoRelease --stacktrace
+    - python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
     - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
     - cp app/build/outputs/apk/colorphoneYingyongbao/release/*.apk outputs/
     - cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
-    - cp app/build/intermediates/assets/colorphoneYingyongbao/release/HSRemoteConfig.sp outputs/
-    - cp app/build/intermediates/assets/colorphoneYingyongbao/release/alerts.sp outputs/
+    - cp app/build/intermediates/merged_assets/colorphoneYingyongbaoRelease/mergeColorphoneYingyongbaoReleaseAssets/out/HSRemoteConfig.sp outputs/
+    - cp app/build/intermediates/merged_assets/colorphoneYingyongbaoRelease/mergeColorphoneYingyongbaoReleaseAssets/out/alerts.sp outputs/
     - cp app/build/intermediates/symbols/colorphoneYingyongbao/release/R.txt outputs/
     - fi
   only:
