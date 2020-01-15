@@ -115,6 +115,10 @@
         tools:ignore="GoogleAppIndexingWarning">
         <!-- required by libAppFramework & libNativeAds -->
 
+        <meta-data
+            android:name="net.appcloudbox.autopilot.SDKConfigFileName"
+            android:value="autopilot-topics.json" />
+
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="CHANNEL" android:value="ColorPhone_K" />
         <activity

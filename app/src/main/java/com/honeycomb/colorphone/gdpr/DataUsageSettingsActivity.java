@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
 
@@ -36,7 +35,6 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
         mDataUsageSwitchButton.setOnCheckedChangeListener(this);
         mDataUsageSwitchButton.setFocusableInTouchMode(false);
         mDataUsageSwitchButton.setClickable(false);
-        mDataUsageSwitchButton.setChecked(HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.ACCEPTED);
 
         mContainer = findViewById(R.id.data_usage_cell);
         mContainer.setOnClickListener(this);
@@ -73,11 +71,6 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView == mDataUsageSwitchButton) {
-            if (isChecked) {
-                GdprUtils.setDataUsageUserEnabled(true);
-            }
-        }
     }
 
     private void showCloseDialog() {
@@ -105,7 +98,6 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
                     mCloseDialog.dismiss();
                     mCloseDialog = null;
 //                    Analytics.logEvent("GDPR_Access_Closed_Settings");
-                    GdprUtils.setDataUsageUserEnabled(false);
                     mDataUsageSwitchButton.setChecked(false);
                     showProgressDialog();
 

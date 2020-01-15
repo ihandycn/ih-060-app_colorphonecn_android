@@ -76,7 +76,6 @@ import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
-import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
@@ -106,7 +105,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.chargingimprover.ChargingImproverManager;
@@ -326,7 +324,6 @@ public class ColorPhoneApplicationImpl {
     @DebugLog
     public void onCreate() {
         systemFix();
-        mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         mAppInitList.add(new NotificationBarInit());
 
@@ -461,7 +458,7 @@ public class ColorPhoneApplicationImpl {
     }
 
     private void initAutopilot() {
-        AutopilotConfig.initialize(mBaseApplication, "Autopilot_Config.json");
+        AutopilotConfig.initialize(mBaseApplication);
         if (!AutopilotConfig.hasConfigFetchFinished()) {
             IntentFilter configFinishedFilter = new IntentFilter();
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
@@ -490,21 +487,6 @@ public class ColorPhoneApplicationImpl {
 
             }
         });
-        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
-            @Override
-            public void logFirebaseEvent(String s, Bundle bundle) {
-
-                if (GdprUtils.isNeedToAccessDataUsage()) {
-                    // TODO Firebase event.
-                }
-
-            }
-        });
-        if (HSGdprConsent.isGdprUser()) {
-            if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
-                AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
-            }
-        }
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());

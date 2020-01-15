@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -108,16 +107,6 @@ public class CashUtils {
 
     public static int maxTimeOnBacktoMain() {
         return 1;
-    }
-
-    public static void logSwitchStatusToServer() {
-        if (!Utils.isNewUser()) {
-            return;
-        }
-        boolean open = masterSwitch();
-        int sessionId = HSSessionMgr.getCurrentSessionId();
-        Analytics.logEvent("NewUser_Cash_Switch", "Switch", String.valueOf(open),
-                "Session", String.valueOf(sessionId), "GdprUser", String.valueOf(GdprUtils.isGdprUser()));
     }
 
 
