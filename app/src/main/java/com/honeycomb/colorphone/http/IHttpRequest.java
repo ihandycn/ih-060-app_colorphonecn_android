@@ -25,7 +25,7 @@ import retrofit2.http.Url;
 public interface IHttpRequest {
 
     String BASE_URL = "https://colorphone-service.atcloudbox.com";
-    String DEBUG_BASE_URR = "http://dev-colorphone-service.appcloudbox.net/";
+    String DEBUG_BASE_URR = "https://colorphone-service.atcloudbox.com";
 
     String GENDER_MAN = "man";
     String GENDER_WOMAN = "woman";

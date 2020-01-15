@@ -19,7 +19,7 @@
         android:name="android.hardware.camera.any"
         android:required="false" />
 
-    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter" />
+    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.trident, net.appcloudbox.autopilot, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs" />
 
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -117,7 +117,7 @@
 
         <meta-data
             android:name="net.appcloudbox.autopilot.SDKConfigFileName"
-            android:value="autopilot-topics.json" />
+            android:value="Autopilot_Config.json" />
 
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="CHANNEL" android:value="ColorPhone_K" />

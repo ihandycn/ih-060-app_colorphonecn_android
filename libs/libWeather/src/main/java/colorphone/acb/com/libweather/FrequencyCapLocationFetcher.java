@@ -100,7 +100,7 @@ public class FrequencyCapLocationFetcher {
             @Override
             public void onGeographyInfoFetched(boolean success, HSLocationManager hsLocationManager) {
                 if (success) {
-                    listener.onCountryAndRegionCodeFetched(hsLocationManager.getCountryCode());
+                    listener.onCountryAndRegionCodeFetched("86");
                 }
             }
         };

@@ -50,7 +50,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    provided 'com.ihandy.appframework:libAppframework.gm:4.6.3.gm'
+    provided 'cn.ihandy.appframework:libAppframework.beta:4.10.0.cn.beta01'
     compile 'com.annimon:stream:1.1.7'
     compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'

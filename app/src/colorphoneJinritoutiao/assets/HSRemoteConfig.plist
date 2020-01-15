@@ -239,7 +239,7 @@
 			<key>FeedbackEmailAddress</key>
 			<string>support_colorphone@126.com</string>
 			<key>FeedbackURL</key>
-			<string>https://service.appcloudbox.net/feedback</string>
+			<string>https://service.atcloudbox.com/feedback</string>
 			<key>FullScreen</key>
 			<dict>
 				<key>DetailView</key>

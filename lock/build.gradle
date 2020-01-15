@@ -47,8 +47,8 @@ dependencies {
 
     compileOnly project(':libWeather')
 
-    provided ("net.appcloudbox.autopilot:libAutoPilot.gm:5.3.2.gm")
-    provided 'com.ihandy.appframework:libAppframework.gm:4.9.0.gm'
+    provided ("cn.appcloudbox.autopilot:libAutoPilot.beta:5.6.2.cn.beta01")
+    provided 'cn.ihandy.appframework:libAppframework.beta:4.10.0.cn.beta01'
     provided 'net.appcloudbox.ads:libAcbAds.beta:5.13.5.beta01'
     provided "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
