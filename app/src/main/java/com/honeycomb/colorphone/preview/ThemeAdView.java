@@ -294,7 +294,6 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
 
         AcbNativeAd ad = PreviewAdManager.getInstance().getNativeAd();
         ad.indeedNeedShowFullAd(mAdContainer);
-        ad.setMuted(false);
         mAdContainer.fillNativeAd(ad, "");
 
         clickView.setOnClickListener(v -> {
