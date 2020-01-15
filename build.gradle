@@ -10,10 +10,6 @@ buildscript {
         }
 
         maven {
-            url uri('proguard-ihandy')
-        }
-
-        maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
         google() // Google's Maven repository
@@ -26,16 +22,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
-        classpath 'com.optimizer.proguard:gradle-plugin:1.2.beta2'
         classpath 'com.tencent.bugly:tinker-support:1.1.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-    }
-
-    configurations.all {
-        resolutionStrategy {
-            force 'net.sf.proguard:proguard-gradle:5.3.3'
-        }
     }
 }
 
