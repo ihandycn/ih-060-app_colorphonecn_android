@@ -60,7 +60,7 @@ build_yingyongbao:
     - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
     - cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
     - fi
-    - if [[ $commit_msg == *"[BuildYingyongbao]"* ]]; then
+    - if [[ $commit_msg == *"[BuildYYB]"* ]]; then
     - git submodule update --init
     - ./gradlew :app:assembleColorphoneYingyongbaoRelease
     - ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
