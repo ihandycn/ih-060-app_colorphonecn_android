@@ -21,10 +21,6 @@ public class Constants {
     public static final String NOTIFY_KEY_LIST_UPLOAD_SCROLLED_TOP = "content_list_upload_scrolled_TOP";
     public static final String NOTIFY_KEY_APP_FULLY_DISPLAY = "key_app_fully_display";
 
-    public static String getFeedBackAddress() {
-        return HSConfig.optString("", "Application", "FeedbackEmailAddress");
-    }
-
     public static String getUrlPrivacy() {
         return HSConfig.optString("", "Application", "PrivacyPolicyURL");
     }
