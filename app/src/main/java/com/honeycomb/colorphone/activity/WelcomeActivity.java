@@ -3,18 +3,34 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
+import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
+
+import net.appcloudbox.common.analytics.AnalyticsUtils;
 
 import java.io.IOException;
 
@@ -23,10 +39,11 @@ import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATIO
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 public class WelcomeActivity extends Activity {
-
+    private static final String PREF_USER_IS_AGREE_PRIVACY = "pref_user_is_agree_privacy";
     private WelcomeVideoView mVidView;
     private static boolean coldLaunch = true;
     private boolean mediaFinished;
+    private View privacyRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +65,53 @@ public class WelcomeActivity extends Activity {
 
             if (coldLaunch) {
                 mVidView.setCover(cover);
-                mVidView.setPlayEndListener(() -> toMainView());
+                mVidView.setPlayEndListener(() -> tryToShowPrivacy());
                 boolean playSuccess = showVideo(mVidView);
                 if (!playSuccess) {
-                    toMainView();
+                    tryToShowPrivacy();
                 }
                 coldLaunch = false;
             } else {
                 cover.setBackgroundResource(R.drawable.page_start_bg);
-                toMainView();
+                tryToShowPrivacy();
             }
         } else {
-            toMainView();
+            tryToShowPrivacy();
         }
 
+    }
+
+    private void tryToShowPrivacy() {
+        if (!Utils.isNewUser() || isAgreePrivacy()) {
+            toMainView();
+            return;
+        }
+        initPrivacyView();
+    }
+
+    private void initPrivacyView() {
+        setContentView(R.layout.activity_privacy);
+        privacyRootView = findViewById(R.id.privacy_root_view);
+
+        View disagreeBtn = findViewById(R.id.button_disagree);
+        disagreeBtn.setOnClickListener((view -> {
+            Analytics.logEvent("Agreement_No_Click", false);
+            Toasts.showToast(R.string.privacy_force_agree_text);
+        }));
+        View agreeBtn = findViewById(R.id.button_agree);
+        agreeBtn.setOnClickListener(v -> onButtonAgreeClick());
+
+        TextView textViewWithLink = findViewById(R.id.privacy_content_part5_with_link);
+        textViewWithLink.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewWithLink.setText(getClickableSpan());
+
+        Analytics.logEvent("Agreement_Show", false);
+    }
+
+    public void onButtonAgreeClick() {
+        Analytics.logEvent("Agreement_Click", false);
+        agreePrivacy();
+        toMainView();
     }
 
     private void toMainView() {
@@ -108,7 +158,7 @@ public class WelcomeActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (mediaFinished) {
-            toMainView();
+            tryToShowPrivacy();
         }
     }
 
@@ -135,5 +185,46 @@ public class WelcomeActivity extends Activity {
         }
         return false;
     }
+
+    public boolean isAgreePrivacy() {
+        return Preferences.getDefault().getBoolean(PREF_USER_IS_AGREE_PRIVACY, false);
+    }
+
+    public void agreePrivacy() {
+        Preferences.getDefault().putBoolean(PREF_USER_IS_AGREE_PRIVACY, true);
+    }
+
+    private SpannableString getClickableSpan() {
+
+        String originalString = getString(R.string.privacy_content_part5);
+        SpannableString spanStr = new SpannableString(originalString);
+
+        int firstSpanStart = originalString.indexOf("《");
+        int firstSpanEnd = originalString.indexOf("》") + 1;
+
+        int secondSpanStart = originalString.indexOf("《", firstSpanEnd);
+        int secondSpanEnd = originalString.indexOf("》", firstSpanEnd) + 1;
+
+
+        spanStr.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                Analytics.logEvent("Agreement_Privacy_Click", false);
+                WebLoadActivity.start(WelcomeActivity.this, Constants.getUrlTermServices());
+            }
+        }, firstSpanStart, firstSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStr.setSpan(new ForegroundColorSpan(Color.parseColor("#337bff")), firstSpanStart, firstSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spanStr.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                Analytics.logEvent("Agreement_Privacy_Click", false);
+                WebLoadActivity.start(WelcomeActivity.this, Constants.getUrlPrivacy());
+            }
+        }, secondSpanStart, secondSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStr.setSpan(new ForegroundColorSpan(Color.parseColor("#337bff")), secondSpanStart, secondSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanStr;
+    }
+
 
 }
