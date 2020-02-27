@@ -28,6 +28,7 @@ public class ConfigUtils {
             return new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
         }
     };
+
     public static boolean isEnabled(String... path) {
         boolean result = false;
         try {
@@ -69,7 +70,7 @@ public class ConfigUtils {
         List<?> lockers = HSConfig.getList(path);
         for (Object item : lockers) {
             try {
-                HSApplication.getContext().getPackageManager().getPackageInfo((String)item, 0);
+                HSApplication.getContext().getPackageManager().getPackageInfo((String) item, 0);
                 return true;
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
@@ -85,6 +86,9 @@ public class ConfigUtils {
     }
 
     public static boolean isNewUserInAdBlockStatus() {
+        if (HSSessionMgr.getFirstSessionStartTime() == 0) {
+            return true;
+        }
         long currentTimeMills = System.currentTimeMillis();
         return currentTimeMills - HSSessionMgr.getFirstSessionStartTime() <
                 HSConfig.optInteger(360, "Application", "AdProtection", "EnableAfterInstallMinutes")

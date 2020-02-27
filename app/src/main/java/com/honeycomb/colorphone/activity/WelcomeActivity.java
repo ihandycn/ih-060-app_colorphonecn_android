@@ -21,7 +21,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSApplication;
@@ -41,7 +40,7 @@ public class WelcomeActivity extends Activity {
     private WelcomeVideoView mVidView;
     private static boolean coldLaunch = true;
     private boolean mediaFinished;
-    private boolean shouldShieldBackKey = false;
+    private boolean showingPrivacyPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,7 @@ public class WelcomeActivity extends Activity {
     }
 
     private void initPrivacyView() {
-        shouldShieldBackKey = true;
+        showingPrivacyPage = true;
         findViewById(R.id.privacy_page).setVisibility(View.VISIBLE);
         View disagreeBtn = findViewById(R.id.button_disagree);
         disagreeBtn.setOnClickListener((view -> {
@@ -112,7 +111,7 @@ public class WelcomeActivity extends Activity {
     }
 
     public void onButtonAgreeClick() {
-        shouldShieldBackKey = false;
+        showingPrivacyPage = false;
         Analytics.logEvent("Agreement_Click", false);
         agreePrivacy();
         toMainView();
@@ -232,7 +231,7 @@ public class WelcomeActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (shouldShieldBackKey) {
+        if (showingPrivacyPage) {
             return;
         }
         super.onBackPressed();
