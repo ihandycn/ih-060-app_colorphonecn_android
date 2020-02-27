@@ -24,13 +24,11 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
-
-import net.appcloudbox.common.analytics.AnalyticsUtils;
 
 import java.io.IOException;
 
@@ -44,6 +42,7 @@ public class WelcomeActivity extends Activity {
     private static boolean coldLaunch = true;
     private boolean mediaFinished;
     private View privacyRootView;
+    private boolean shouldShieldBackKey = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +81,20 @@ public class WelcomeActivity extends Activity {
     }
 
     private void tryToShowPrivacy() {
-        if (!Utils.isNewUser() || isAgreePrivacy()) {
+        if (!canShowPrivacy() || isAgreePrivacy()) {
             toMainView();
             return;
         }
         initPrivacyView();
     }
 
+    private boolean canShowPrivacy() {
+        int currentVersionCode = HSApplication.getCurrentLaunchInfo().appVersionCode;
+        return (currentVersionCode > 1044 || (currentVersionCode < 1000 && currentVersionCode > 170));
+    }
+
     private void initPrivacyView() {
+        shouldShieldBackKey = true;
         setContentView(R.layout.activity_privacy);
         privacyRootView = findViewById(R.id.privacy_root_view);
 
@@ -109,6 +114,7 @@ public class WelcomeActivity extends Activity {
     }
 
     public void onButtonAgreeClick() {
+        shouldShieldBackKey = false;
         Analytics.logEvent("Agreement_Click", false);
         agreePrivacy();
         toMainView();
@@ -226,5 +232,11 @@ public class WelcomeActivity extends Activity {
         return spanStr;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (shouldShieldBackKey) {
+            return;
+        }
+        super.onBackPressed();
+    }
 }
