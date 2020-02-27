@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:background="@drawable/privacy_bg"
         android:orientation="vertical"
         android:paddingLeft="23dp"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:text="@string/privacy_content_part2"
             android:textColor="#383838"
             android:textSize="13sp"
@@ -50,7 +50,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -97,7 +97,7 @@
             android:id="@+id/privacy_content_part5_with_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:text="@string/privacy_content_part5"
             android:textColor="#626262"
             android:textSize="13sp" />
@@ -106,10 +106,12 @@
         <Button
             android:id="@+id/button_agree"
             android:layout_width="match_parent"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_height="42dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/privacy_btn_bg"
             android:text="同意并继续"
+            android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="13sp" />
 
@@ -121,6 +123,7 @@
             android:layout_marginTop="13dp"
             android:layout_marginBottom="11dp"
             android:text="不同意"
+            android:textStyle="bold"
             android:textColor="#929292"
             android:gravity="center"
             android:textSize="13sp"/>

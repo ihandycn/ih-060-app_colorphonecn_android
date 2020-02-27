@@ -41,7 +41,6 @@ public class WelcomeActivity extends Activity {
     private WelcomeVideoView mVidView;
     private static boolean coldLaunch = true;
     private boolean mediaFinished;
-    private View privacyRootView;
     private boolean shouldShieldBackKey = false;
 
     @Override
@@ -99,8 +98,6 @@ public class WelcomeActivity extends Activity {
     private void initPrivacyView() {
         shouldShieldBackKey = true;
         findViewById(R.id.privacy_page).setVisibility(View.VISIBLE);
-        privacyRootView = findViewById(R.id.privacy_root_view);
-
         View disagreeBtn = findViewById(R.id.button_disagree);
         disagreeBtn.setOnClickListener((view -> {
             Analytics.logEvent("Agreement_No_Click", false);
