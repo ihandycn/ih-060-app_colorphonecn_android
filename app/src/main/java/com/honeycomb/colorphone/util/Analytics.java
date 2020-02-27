@@ -77,7 +77,7 @@ public class Analytics {
                 }
             }
         } else {
-            HSLog.i("FlurryWithAnswers", "not init fabric event: " + eventID);
+            HSLog.i("FlurryWithAnswers", "not init umeng event: " + eventID);
         }
     }
 
