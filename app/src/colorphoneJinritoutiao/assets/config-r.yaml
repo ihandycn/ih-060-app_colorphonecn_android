@@ -2,7 +2,7 @@ libCommons:
   RemoteConfig:
     PlistServerEnabled: false
     PlistFile: "HSRemoteConfig.sp"
-    PlistUrl: ""
+    PlistUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/configs/jrtt_config_colorphone_1.3.87.sp"
   ImageCache:
     CacheSize: 0
   Analytics:
@@ -40,7 +40,7 @@ libCommons:
 libFramework:
   Alerts:
     LocalFile: "alerts.sp"
-    RemoteUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/alerts/jrtt_alerts_colorphone_1.3.82.sp"
+    RemoteUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/alerts/jrtt_alerts_colorphone_1.3.87.sp"
   Push:
     SenderID: ""
     SendTokenToServer: false
