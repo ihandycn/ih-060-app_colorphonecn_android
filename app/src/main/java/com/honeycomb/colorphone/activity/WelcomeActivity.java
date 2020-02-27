@@ -64,26 +64,29 @@ public class WelcomeActivity extends Activity {
 
             if (coldLaunch) {
                 mVidView.setCover(cover);
-                mVidView.setPlayEndListener(() -> tryToShowPrivacy());
+                mVidView.setPlayEndListener(() -> tryToShowPrivacy(true));
                 boolean playSuccess = showVideo(mVidView);
                 if (!playSuccess) {
-                    tryToShowPrivacy();
+                    tryToShowPrivacy(true);
                 }
                 coldLaunch = false;
             } else {
                 cover.setBackgroundResource(R.drawable.page_start_bg);
-                tryToShowPrivacy();
+                tryToShowPrivacy(true);
             }
         } else {
-            tryToShowPrivacy();
+            tryToShowPrivacy(true);
         }
 
     }
 
-    private void tryToShowPrivacy() {
+    private void tryToShowPrivacy(boolean fromCreate) {
         if (!canShowPrivacy() || isAgreePrivacy()) {
             toMainView();
             return;
+        }
+        if (fromCreate){
+            Analytics.logEvent("Agreement_Show", false);
         }
         initPrivacyView();
     }
@@ -95,7 +98,7 @@ public class WelcomeActivity extends Activity {
 
     private void initPrivacyView() {
         shouldShieldBackKey = true;
-        setContentView(R.layout.activity_privacy);
+        findViewById(R.id.privacy_page).setVisibility(View.VISIBLE);
         privacyRootView = findViewById(R.id.privacy_root_view);
 
         View disagreeBtn = findViewById(R.id.button_disagree);
@@ -109,8 +112,6 @@ public class WelcomeActivity extends Activity {
         TextView textViewWithLink = findViewById(R.id.privacy_content_part5_with_link);
         textViewWithLink.setMovementMethod(LinkMovementMethod.getInstance());
         textViewWithLink.setText(getClickableSpan());
-
-        Analytics.logEvent("Agreement_Show", false);
     }
 
     public void onButtonAgreeClick() {
@@ -164,7 +165,7 @@ public class WelcomeActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (mediaFinished) {
-            tryToShowPrivacy();
+            tryToShowPrivacy(false);
         }
     }
 
