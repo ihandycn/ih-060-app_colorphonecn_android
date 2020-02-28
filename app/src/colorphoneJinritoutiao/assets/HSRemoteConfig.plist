@@ -12795,7 +12795,7 @@
 				<key>RingtoneEnable</key>
 				<true/>
 				<key>ScrollShowAds</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>
