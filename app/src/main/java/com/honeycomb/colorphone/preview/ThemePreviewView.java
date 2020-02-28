@@ -104,8 +104,6 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
-import java.util.ArrayList;
-
 import hugo.weaving.DebugLog;
 
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
@@ -1722,14 +1720,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        public void setAsRingtone(boolean asRingtone, boolean resetDefault) {
+        public void setAsRingtone(boolean asRingtone) {
             Threads.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
                     RingtoneHelper.ringtoneActive(mTheme.getId(), asRingtone);
-                    if (resetDefault) {
-                        RingtoneHelper.resetDefaultRingtone();
-                    }
                     ContactManager.getInstance().updateRingtoneOnTheme(mTheme, asRingtone);
                 }
             });
@@ -1879,9 +1874,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 onThemeApply();
             } else {
-                setAsRingtone(true, false);
-
                 ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                setAsRingtone(true);
                 Utils.showApplySuccessToastView(rootView, mTransitionNavView);
             }
             Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
