@@ -70,6 +70,8 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private TextView mTopActionView;
 
     public static void startSelect(Context context, Theme theme, int type) {
+        ContactManager.getInstance().update();
+
         Intent starter = new Intent(context, ContactsSelectActivity.class);
         starter.putExtra(EXTRA_THEME, theme);
         starter.putExtra(INTENT_KEY_FROM_TYPE, type);
