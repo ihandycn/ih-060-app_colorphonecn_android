@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -217,6 +218,7 @@ public class WelcomeActivity extends Activity {
             }
         }, firstSpanStart, firstSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStr.setSpan(new ForegroundColorSpan(Color.parseColor("#337bff")), firstSpanStart, firstSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStr.setSpan(new BackgroundColorSpan(Color.parseColor("#ffffff")), firstSpanStart, firstSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spanStr.setSpan(new ClickableSpan() {
             @Override
@@ -226,6 +228,7 @@ public class WelcomeActivity extends Activity {
             }
         }, secondSpanStart, secondSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStr.setSpan(new ForegroundColorSpan(Color.parseColor("#337bff")), secondSpanStart, secondSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStr.setSpan(new BackgroundColorSpan(Color.parseColor("#ffffff")), secondSpanStart, secondSpanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spanStr;
     }
 
