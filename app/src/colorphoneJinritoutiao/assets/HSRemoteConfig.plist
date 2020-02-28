@@ -77,7 +77,7 @@
 			<key>CashCenter</key>
 			<dict>
 				<key>Enable</key>
-				<false/>
+				<true/>
 				<key>FloatingGuide</key>
 				<false/>
 			</dict>
@@ -12795,7 +12795,7 @@
 				<key>RingtoneEnable</key>
 				<true/>
 				<key>ScrollShowAds</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>
