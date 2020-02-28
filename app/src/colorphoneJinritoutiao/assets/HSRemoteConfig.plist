@@ -77,7 +77,7 @@
 			<key>CashCenter</key>
 			<dict>
 				<key>Enable</key>
-				<true/>
+				<false/>
 				<key>FloatingGuide</key>
 				<false/>
 			</dict>
