@@ -91,8 +91,8 @@ public class WelcomeActivity extends Activity {
     }
 
     private boolean canShowPrivacy() {
-        int currentVersionCode = HSApplication.getCurrentLaunchInfo().appVersionCode;
-        return (currentVersionCode > 1044 || (currentVersionCode < 1000 && currentVersionCode > 170));
+        int firstLaunchVersionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        return (firstLaunchVersionCode > 1044 || (firstLaunchVersionCode < 1000 && firstLaunchVersionCode > 170));
     }
 
     private void initPrivacyView() {
