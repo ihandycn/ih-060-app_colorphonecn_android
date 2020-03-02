@@ -5,7 +5,7 @@ android {
     buildToolsVersion "28.0.3"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -52,6 +52,7 @@ dependencies {
     provided 'net.appcloudbox.ads:libAcbAds.beta:5.13.5.beta01'
     provided "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 }
 
 configurations.all {

@@ -21,4 +21,50 @@
     <color name="clean_app_green">#60bb1d</color>
     <color name="material_ripple">#33000000</color>
     <color name="button_pressed_bg">#0d000000</color>
+
+    <!-- SmartLocker -->
+    <color name="battery_status">#FFFA5843</color>
+    <color name="top_battery_green">#22c62e</color>
+    <color name="smart_locker_status_normal_color">#689df6</color>
+    <color name="smart_locker_charging_color">#55d223</color>
+    <color name="smart_lock_danger_color">#ffa000</color>
+    <color name="smart_lock_safe_color">#8eb6f8</color>
+    <color name="smart_locker_danger_text_color">#ff9641</color>
+    <color name="battery_monitor_notification_title">#ff000000</color>
+    <color name="battery_monitor_notification_content">#000000</color>
+    <color name="battery_monitor_screen_notification_action">#336bf3</color>
+    <color name="charging_screen_alert_negative_action">#999999</color>
+    <color name="charging_screen_alert_positive_action">#336bf3</color>
+    <color name="charging_screen_blue_state_tip_negative">#ffffffff</color>
+    <color name="charging_screen_blue_state_tip_positive">#ffffffff</color>
+    <color name="charging_screen_black_state_tip_negative">#ffffffff</color>
+    <color name="charging_screen_black_state_tip_positive">#ff95ee4d</color>
+    <color name="charging_screen_wallpaper_state_tip_negative">#ffffffff</color>
+    <color name="charging_screen_wallpaper_state_tip_positive">#ff95ee4d</color>
+    <color name="promote_list_smart_charge_card_switch_thumb">#ffd54f</color>
+    <color name="promote_list_smart_charge_card_switch_track_off">#d8d8d8</color>
+    <color name="promote_list_card_smart_charge_icon_background">#649420</color>
+    <color name="promote_list_card_smart_charge_content_background">#7db928</color>
+    <color name="promote_list_card_smart_charge_action">#ffff00</color>
+    <color name="text_chosen_color">#31bc77</color>
+    <color name="text_unchosen_color">#d0d0d0</color>
+    <color name="boost_plus_red">#ff4f3d</color>
+    <color name="image_place_holder_color">#d8d8d8</color>
+    <color name="white_primary">#FFFFFFFF</color>
+    <color name="primary_red">#FFF44336</color>
+    <color name="black_primary">#DE000000</color>
+    <color name="progress_bar_color">#22beeb</color>
+    <color name="green_button_pressed">#00AB4B</color>
+    <color name="primary_green">#FF56B34E</color>
+    <color name="promotecard_smartcharging_background">#7db928</color>
+    <color name="blue_button_normal">#FF4285F4</color>
+    <color name="notification_organizer_guide_button_normal">#1496F1</color>
+
+    <color name="transparent_background">#00000000</color>
+    <color name="white_100_transparent">#FFFFFF</color>
+    <color name="black_12_transparent">#1f000000</color>
+    <color name="black_30_transparent">#4D000000</color>
+    <color name="black_40_transparent">#66000000</color>
+    <color name="black_54_transparent">#8A000000</color>
+    <color name="black_87_transparent">#DF000000</color>
 </resources>

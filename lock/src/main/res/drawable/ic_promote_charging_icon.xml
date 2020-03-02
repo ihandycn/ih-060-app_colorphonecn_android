@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120.0"
+    android:viewportHeight="120.0">
+    <path
+        android:fillColor="@color/promotecard_smartcharging_background"
+        android:pathData="M60,60m-60,0a60,60 0,1 1,120 0a60,60 0,1 1,-120 0" />
+    <path
+        android:fillColor="@color/white_primary"
+        android:pathData="M70,40.43L67,40.43L67,35a2,2 0,0 0,-2 -2L55,33a2,2 0,0 0,-2 2v5.41L50,40.41a6,6 0,0 0,-6 6v28a6,6 0,0 0,6 6h7L57,87h6L63,80.43h7a6,6 0,0 0,6 -6v-28A6,6 0,0 0,70 40.43ZM70,74.43L50,74.43v-28L70,46.43Z" />
+    <path
+        android:fillColor="@color/white_primary"
+        android:pathData="M54.31,69.76a0.5,0.5 0,0 0,0.3 -0.1l11.05,-8.31a0.5,0.5 0,0 0,0 -0.82L62,58.21l4.08,-6.33a0.5,0.5 0,0 0,-0.72 -0.67L54.33,59.51a0.5,0.5 0,0 0,0 0.82L58,62.66 53.89,69a0.5,0.5 0,0 0,0.42 0.77Z" />
+</vector>

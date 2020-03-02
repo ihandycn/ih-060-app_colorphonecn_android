@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="BaseSettings.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
         <item name="colorControlNormal">@color/material_text_black_primary</item>
     </style>
@@ -12,6 +13,7 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_alignParentLeft">true</item>
     </style>
+
     <style name="SettingsItem.SingleLine">
         <item name="android:textColor">@color/material_text_black_primary</item>
         <item name="android:lines">1</item>
@@ -32,4 +34,63 @@
         <item name="android:windowExitAnimation">@null</item>
     </style>
 
+
+    <style name="charging_screen_transparent_background" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:listDivider">@drawable/charging_screen_divider</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="charging_screen_untransparent_background" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:listDivider">@drawable/charging_screen_divider</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="vitalNotificationStyle" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="dismiss_keygurad_style" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="alert_charging_screen_style" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="TextAppearance.Design.Tab" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <style name="TabLayoutTextAppearance.Customize" parent="TabLayoutTextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="SwitchStyle">
+        <item name="colorControlActivated">#4285f4</item>
+        <item name="colorSwitchThumbNormal">#e7e7e7</item>
+        <item name="android:colorForeground">#a3a3a3</item>
+    </style>
 </resources>

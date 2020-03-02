@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/vital_notification_settings"
+        android:icon="@drawable/vital_notification_setting_icon"
+        android:title="settings"
+        app:showAsAction="always" />
+</menu>

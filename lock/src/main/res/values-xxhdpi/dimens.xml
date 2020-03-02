@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="charging_screen_big_battery_level">80sp</dimen>
+    <dimen name="smart_lock_state_container_margin_top">31dp</dimen>
+    <dimen name="smart_lock_container_margin_top">27dp</dimen>
+    <dimen name="charging_screen_big_battery_level_margin_top">23dp</dimen>
+    <dimen name="smart_lock_datetime_margin_top">7dp</dimen>
+
+    <!--size-->
+    <dimen name="charging_screen_power_percentage_font_size">115sp</dimen>
+
+    <!--margin-->
+    <dimen name="charging_screen_title_margin_top">12dp</dimen>
+    <dimen name="charging_screen_power_percentage_margin_top">46dp</dimen>
+    <dimen name="charging_screen_full_charge_left_margin_top">0dp</dimen>
+    <dimen name="charging_screen_charging_state_margin_top">19dp</dimen>
+    <dimen name="charging_screen_advertisement_margin_top">4dp</dimen>
+
+    <dimen name="charging_screen_slid_to_unlock_margin_bottom">14dp</dimen>
+    <dimen name="charging_screen_ad_height">172dp</dimen>
+
+    <dimen name="content_style_5_for_smart_lock_title_size">24sp</dimen>
+</resources>
