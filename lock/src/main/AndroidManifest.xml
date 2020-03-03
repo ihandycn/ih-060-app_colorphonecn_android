@@ -48,7 +48,6 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:process=":work"
             android:screenOrientation="portrait"
             android:taskAffinity=".cp_locker" />
 
@@ -56,7 +55,6 @@
             android:name="com.colorphone.smartlocker.NewsDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true"
-            android:process=":work"
             android:screenOrientation="portrait" />
 
         <activity

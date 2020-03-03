@@ -305,7 +305,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         isLongScreen = (DisplayUtils.getScreenWithNavigationBarHeight() * 1f / DisplayUtils.getScreenWidth(this)) > 16 / 9f;
         startType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_PLUG_IN);
 
-        appPlacement = LockerCustomConfig.get().getLockerAdName();
+        appPlacement = "AirBoostDone";
 
         rootLayout = findViewById(R.id.root_layout);
         smartLockerContainer = findViewById(R.id.locker_container);
