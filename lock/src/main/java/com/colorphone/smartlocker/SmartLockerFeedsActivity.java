@@ -129,6 +129,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private boolean isFirstLoadData = true;
     private boolean isNormalFinishing = true;
     private boolean currentPowerConnected;
+    public static boolean exist = false;
 
     private int startType;
     private String appPlacement;
@@ -283,7 +284,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HSLog.d(TAG, "Weicools onCreate");
+        HSLog.d(TAG, "SmartLockerFeedsActivity onCreate");
         boolean dismissKeyguard;
         try {
             KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
@@ -303,7 +304,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         categoryParam = BaiduFeedManager.CATEGORY_ALL;
         isLongScreen = (DisplayUtils.getScreenWithNavigationBarHeight() * 1f / DisplayUtils.getScreenWidth(this)) > 16 / 9f;
         startType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_PLUG_IN);
-
+        SmartLockerManager.getInstance().setStartType(startType);
         appPlacement = "AirBoostDone";
 
         rootLayout = findViewById(R.id.root_layout);
@@ -426,12 +427,14 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         } else {
             LockerCustomConfig.getLogger().logEvent("ChargingPage_News_Viewed");
         }
+
+        exist = true;
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        HSLog.d(TAG, "Weicools onNewIntent");
+        HSLog.d(TAG, "SmartLockerFeedsActivity onNewIntent");
 
         viewedStartTime = System.currentTimeMillis();
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
@@ -451,7 +454,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        HSLog.d(TAG, "Weicools onStart");
+        HSLog.d(TAG, "SmartLockerFeedsActivity onStart");
 
         if (timeTickReceiver == null) {
             registerReceiver(timeTickReceiver = new BroadcastReceiver() {
@@ -933,5 +936,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         for (AcbNativeAd ad : nativeAdList) {
             ad.release();
         }
+        exist = false;
     }
 }

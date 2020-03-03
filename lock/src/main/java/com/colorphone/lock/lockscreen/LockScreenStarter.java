@@ -14,6 +14,8 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.smartlocker.SmartLockerFeedsActivity;
+import com.colorphone.smartlocker.SmartLockerManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
@@ -21,7 +23,7 @@ import com.superapps.util.Commons;
 
 /**
  * Receives screen on/off events and start lock screens.
- *
+ * <p>
  * Works in ":work" process (with the exception of method {@link #handleStart(Intent)}),
  * which is kept alive.
  */
@@ -50,11 +52,13 @@ public class LockScreenStarter {
             }
         }
 
-        @Override public void onChargingRemainingTimeChanged(int i) {
+        @Override
+        public void onChargingRemainingTimeChanged(int i) {
 
         }
 
-        @Override public void onBatteryTemperatureChanged(float v, float v1) {
+        @Override
+        public void onBatteryTemperatureChanged(float v, float v1) {
 
         }
     };
@@ -92,7 +96,7 @@ public class LockScreenStarter {
                     HSLog.d(TAG, "Screen OFF: " + Commons.isKeyguardLocked(context, false));
                     onScreenOff();
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                    HSLog.d(TAG, "Screen ON: "+ Commons.isKeyguardLocked(context, false));
+                    HSLog.d(TAG, "Screen ON: " + Commons.isKeyguardLocked(context, false));
                     tryShowChargingScreen();
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     HSLog.d(TAG, "Screen USER_PRESENT");
@@ -141,12 +145,18 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if (!isChargingScreenExist()) {
+            if (true ? !isChargingSmartLockerExist() : !isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
+                if (true) {
+                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+                }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if (!isLockScreenExist()) {
+            if (true ? !isSmartLockerExist() : !isLockScreenExist()) {
+                if (true) {
+                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+                }
                 ChargingScreenUtils.startLockerActivity(false);
             }
         }
@@ -158,6 +168,14 @@ public class LockScreenStarter {
 
     private boolean isChargingScreenExist() {
         return ChargingScreenActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
+    }
+
+    private boolean isChargingSmartLockerExist() {
+        return SmartLockerFeedsActivity.exist && SmartLockerManager.getInstance().getStartType() == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF;
+    }
+
+    private boolean isSmartLockerExist() {
+        return SmartLockerFeedsActivity.exist && SmartLockerManager.getInstance().getStartType() == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER;
     }
 
     private boolean isCharging() {

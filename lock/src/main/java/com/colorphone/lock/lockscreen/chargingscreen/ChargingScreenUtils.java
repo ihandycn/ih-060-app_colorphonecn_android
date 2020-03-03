@@ -135,8 +135,7 @@ public class ChargingScreenUtils {
 
         if (MODE_ACTIVITY) {
             if (true) {
-                SmartLockerManager.tryToPreLoadBaiduNews();
-                SmartLockerManager.tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+                SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
             } else {
                 Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -180,8 +179,7 @@ public class ChargingScreenUtils {
         if (MODE_ACTIVITY) {
             try {
                 if (true) {
-                    SmartLockerManager.tryToPreLoadBaiduNews();
-                    SmartLockerManager.tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
+                    SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
                 } else {
                     Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK

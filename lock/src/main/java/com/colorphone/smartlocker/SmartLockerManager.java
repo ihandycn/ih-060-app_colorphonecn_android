@@ -38,10 +38,19 @@ public class SmartLockerManager {
 
     public static final String EXTRA_START_TYPE = "EXTRA_START_TYPE";
 
-    public SmartLockerManager() {
+    private int startType;
+
+    private volatile static SmartLockerManager sInstance;
+
+    public static SmartLockerManager getInstance() {
+        if (sInstance == null) {
+            sInstance = new SmartLockerManager();
+        }
+
+        return sInstance;
     }
 
-    public static void tryToStartChargingScreenOrLockerActivity(@StartType int startType) {
+    public void tryToStartChargingScreenOrLockerActivity(@StartType int startType) {
         TelephonyManager telephonyManager = (TelephonyManager) HSApplication.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         switch (telephonyManager.getCallState()) {
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -53,7 +62,7 @@ public class SmartLockerManager {
         tryToStartSmartLockerFeeds(startType);
     }
 
-    private static void tryToStartSmartLockerFeeds(@StartType int startType) {
+    private void tryToStartSmartLockerFeeds(@StartType int startType) {
         if (!NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
             if (startType == EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("CablePage_News", "news_nofill", "network_disconnected");
@@ -78,6 +87,7 @@ public class SmartLockerManager {
             } else {
                 LockerCustomConfig.getLogger().logEvent("ChargingPage_News", "news_nofill", "Load_failed");
             }
+            HSLog.d(TAG, "baiduFeedBeanList news count < 5");
             return;
         }
 
@@ -97,7 +107,7 @@ public class SmartLockerManager {
         }
     }
 
-    public static void tryToPreLoadBaiduNews() {
+    public void tryToPreLoadBaiduNews() {
         BaiduFeedManager.getInstance().loadNews(BaiduFeedManager.CATEGORY_ALL, BaiduFeedManager.LOAD_FIRST, new BaiduFeedManager.DataBackListener() {
             @Override
             public void onDataBack(JSONObject response) {
@@ -107,5 +117,13 @@ public class SmartLockerManager {
                 }
             }
         });
+    }
+
+    public int getStartType() {
+        return startType;
+    }
+
+    public void setStartType(int startType) {
+        this.startType = startType;
     }
 }
