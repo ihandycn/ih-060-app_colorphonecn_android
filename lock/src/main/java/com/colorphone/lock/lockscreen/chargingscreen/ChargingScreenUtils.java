@@ -15,7 +15,8 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
-import com.colorphone.smartlocker.SmartLockerFeedsActivity;
+import com.colorphone.lock.lockscreen.locker.LockerActivity;
+import com.colorphone.smartlocker.SmartLockerManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -28,6 +29,8 @@ import com.superapps.util.rom.RomUtils;
 import colorphone.acb.com.libweather.WeatherClockManager;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
+import static com.colorphone.smartlocker.SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF;
+import static com.colorphone.smartlocker.SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER;
 
 public class ChargingScreenUtils {
 
@@ -131,14 +134,19 @@ public class ChargingScreenUtils {
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, chargingStateChanged);
 
         if (MODE_ACTIVITY) {
-            Intent intent = new Intent(HSApplication.getContext(), SmartLockerFeedsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.putExtras(bundle);
+            if (true) {
+                SmartLockerManager.tryToPreLoadBaiduNews();
+                SmartLockerManager.tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+            } else {
+                Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtras(bundle);
 
-            HSBundle hsBundle = new HSBundle();
-            hsBundle.getBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
-            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, hsBundle);
-            Navigations.startActivitySafely(HSApplication.getContext(),intent);
+                HSBundle hsBundle = new HSBundle();
+                hsBundle.getBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, hsBundle);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
+            }
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
@@ -171,10 +179,15 @@ public class ChargingScreenUtils {
 
         if (MODE_ACTIVITY) {
             try {
-                Intent intent = new Intent(HSApplication.getContext(), SmartLockerFeedsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                if (true) {
+                    SmartLockerManager.tryToPreLoadBaiduNews();
+                    SmartLockerManager.tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
+                } else {
+                    Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                }
             } catch (ActivityNotFoundException ignore) {
                 // crash #749 some device report.
             }

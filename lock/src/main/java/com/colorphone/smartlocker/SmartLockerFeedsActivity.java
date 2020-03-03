@@ -253,7 +253,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             if (adLoader != null) {
                 return;
             }
-//            AcbNativeAdManager.recordAdChanceEvent(appPlacement);
             adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
             adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
                 @Override
@@ -752,7 +751,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         SmartLockerAdListItem adListItem;
         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
         if (!adList.isEmpty()) {
-//            AcbNativeAdManager.recordAdChanceEvent(appPlacement);
             adListItem = new SmartLockerAdListItem(appPlacement, adList.get(0));
         } else {
             if (newsCount == (isLongScreen ? 2 : 1)) {
