@@ -52,7 +52,7 @@
     <dimen name="smart_locker_status_bar_height">24dp</dimen>
     <dimen name="content_style_5_for_smart_lock_title_size">24sp</dimen>
     <dimen name="smart_locker_content_view_max_trans_y">30dp</dimen>
-    <dimen name="height_toolbar">30dp</dimen>
+    <dimen name="height_toolbar">56dp</dimen>
 
     <dimen name="progress_bar_height">2dp</dimen>
 

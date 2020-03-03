@@ -145,7 +145,6 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_right_image" />
         </com.colorphone.smartlocker.view.RefreshView>
-        >
 
         <View
             android:id="@+id/slide_unlock_cover_view"
@@ -155,6 +154,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/slide_unlock_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="@string/charging_screen_right_unlock_describe"
+            app:layout_constraintBottom_toBottomOf="@id/slide_unlock_cover_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/slide_unlock_cover_view" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/slide_unlock_icon_view"
@@ -166,15 +177,5 @@
             app:layout_constraintTop_toTopOf="@id/slide_unlock_cover_view"
             app:srcCompat="@drawable/ic_smart_locker_unlock_arrow" />
 
-        <TextView
-            android:id="@+id/slide_unlock_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/charging_screen_right_unlock_describe"
-            app:layout_constraintBottom_toBottomOf="@id/slide_unlock_cover_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/slide_unlock_cover_view" />
     </com.colorphone.smartlocker.view.SlidingFinishLayout>
 </RelativeLayout>

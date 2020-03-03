@@ -39,8 +39,8 @@ public class BaiduFeedManager {
 
     //    private static final String TOKEN = HSConfig.getString("Application", "BaiduFeed", "Secret");
 //    private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
-    private static final String TOKEN = "f0c1081d";
-    private static final String APPSID = "73cd34c8ff2f1d3895835cdf5";
+    private static final String TOKEN = "73cd34c8ff2f1d3895835cdf5";
+    private static final String APPSID = "f0c1081d";
     private static final String URL = "https://cpu-openapi.baidu.com/api/v2/data/list";
 
     private static String ANDROID = Settings.Secure.getString(HSApplication.getContext().getContentResolver(),
