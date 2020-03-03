@@ -55,9 +55,9 @@ public class WelcomeActivity extends Activity {
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
 
+        setContentView(R.layout.activity_welcome);
 
         if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
-            setContentView(R.layout.activity_welcome);
             mVidView = findViewById(R.id.welcome_video);
             View cover = findViewById(R.id.welcome_cover);
 
@@ -84,7 +84,7 @@ public class WelcomeActivity extends Activity {
             toMainView();
             return;
         }
-        if (fromCreate){
+        if (fromCreate) {
             Analytics.logEvent("Agreement_Show", false);
         }
         initPrivacyView();
