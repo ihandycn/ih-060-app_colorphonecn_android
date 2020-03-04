@@ -153,16 +153,18 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if (true ? !isChargingSmartLockerExist() : !isChargingScreenExist()) {
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable"))
+                    ? !isChargingSmartLockerExist() : !isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
-                if (true) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if (true ? !isSmartLockerExist() : !isLockScreenExist()) {
-                if (true) {
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse"))
+                    ? !isSmartLockerExist() : !isLockScreenExist()) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse")) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startLockerActivity(false);

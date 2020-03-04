@@ -34,4 +34,9 @@ public class Placements {
     public static final String AD_EXIT_TEXTURE_WIRE = "AdExitTextureWire";
     public static final String AD_CLEAN_GUIDE = "BoostGuide";  // Express
     public static final String AD_EXIT_WIRE_NEW = "AdExitTextureNew"; // 信息助手退出 Native 拼全屏
+
+    public static final String SMART_LOCKER_FEED1 = "AirCable";
+    public static final String SMART_LOCKER_FEED2 = "AirBoostDone";
+    public static final String SMART_LOCKER_FEED3 = "AirBoostDone";
+    public static final String SMART_LOCKER_FEED4 = "AirBoostDone";
 }

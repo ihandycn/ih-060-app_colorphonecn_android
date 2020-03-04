@@ -15,6 +15,10 @@ public class LockerCustomConfig {
     private String mChargingExpressAdName;
     private String mSPFileName;
     private String mLockerAdName;
+    private String mSmartLockerAdName1;
+    private String mSmartLockerAdName2;
+    private String mSmartLockerAdName3;
+    private String mSmartLockerAdName4;
     private int mLauncherIcon;
     private int mCustomScreenIcon;
     private Event mEventDelegate = new DefaultEvent();
@@ -35,16 +39,7 @@ public class LockerCustomConfig {
     }
 
     public void setChargingExpressAdName(String chargingExpressAdName) {
-        //TODO
         mChargingExpressAdName = chargingExpressAdName;
-    }
-
-    public String getSPFileName() {
-        return mSPFileName;
-    }
-
-    public void setSPFileName(String SPFileName) {
-        mSPFileName = SPFileName;
     }
 
     public String getLockerAdName() {
@@ -53,6 +48,46 @@ public class LockerCustomConfig {
 
     public void setLockerAdName(String lockerAdName) {
         mLockerAdName = lockerAdName;
+    }
+
+    public String getSmartLockerAdName1() {
+        return mSmartLockerAdName1;
+    }
+
+    public void setSmartLockerAdName1(String mSmartLockerAdName) {
+        this.mSmartLockerAdName1 = mSmartLockerAdName;
+    }
+
+    public String getSmartLockerAdName2() {
+        return mSmartLockerAdName2;
+    }
+
+    public void setSmartLockerAdName2(String mSmartLockerAdName2) {
+        this.mSmartLockerAdName2 = mSmartLockerAdName2;
+    }
+
+    public String getSmartLockerAdName3() {
+        return mSmartLockerAdName3;
+    }
+
+    public void setSmartLockerAdName3(String mSmartLockerAdName3) {
+        this.mSmartLockerAdName3 = mSmartLockerAdName3;
+    }
+
+    public String getSmartLockerAdName4() {
+        return mSmartLockerAdName4;
+    }
+
+    public void setSmartLockerAdName4(String mSmartLockerAdName4) {
+        this.mSmartLockerAdName4 = mSmartLockerAdName4;
+    }
+
+    public String getSPFileName() {
+        return mSPFileName;
+    }
+
+    public void setSPFileName(String SPFileName) {
+        mSPFileName = SPFileName;
     }
 
     public int getLauncherIcon() {
@@ -127,7 +162,7 @@ public class LockerCustomConfig {
     public static abstract class Event {
         public abstract void onEventLockerAdShow();
 
-        public abstract void onEventLockerShow() ;
+        public abstract void onEventLockerShow();
 
         public abstract void onEventLockerAdClick();
 
@@ -173,6 +208,7 @@ public class LockerCustomConfig {
 
     public interface RemoteLogger {
         void logEvent(String eventID);
+
         void logEvent(String eventID, String... vars);
     }
 

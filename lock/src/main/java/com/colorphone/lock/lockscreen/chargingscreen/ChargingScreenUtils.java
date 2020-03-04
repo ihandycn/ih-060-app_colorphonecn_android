@@ -135,9 +135,9 @@ public class ChargingScreenUtils {
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, chargingStateChanged);
 
         if (MODE_ACTIVITY) {
-            if (isShowFeedMode()) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
                 SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
-            } else {
+            } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
                 LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
                 AutoPilotUtils.logLockerModeAutopilotEvent("charging_should_show");
 
@@ -180,9 +180,9 @@ public class ChargingScreenUtils {
 
         if (MODE_ACTIVITY) {
             try {
-                if (isShowFeedMode()) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse")) {
                     SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
-                } else {
+                } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
                     String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
                     LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
                             "Brand", Build.BRAND.toLowerCase(),
@@ -206,10 +206,6 @@ public class ChargingScreenUtils {
 
             FloatWindowController.getInstance().showLockScreen();
         }
-    }
-
-    private static boolean isShowFeedMode() {
-        return AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable");
     }
 
     private static boolean isCalling() {

@@ -328,7 +328,18 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         isLongScreen = (DisplayUtils.getScreenWithNavigationBarHeight() * 1f / DisplayUtils.getScreenWidth(this)) > 16 / 9f;
         startType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
         SmartLockerManager.getInstance().setStartType(startType);
-        appPlacement = "AirBoostDone";
+
+        switch (AutoPilotUtils.getLockerMode()) {
+            case "fuse":
+                appPlacement = LockerCustomConfig.get().getSmartLockerAdName3();
+                break;
+            case "cable":
+                appPlacement = LockerCustomConfig.get().getSmartLockerAdName4();
+                break;
+            default:
+                appPlacement = LockerCustomConfig.get().getSmartLockerAdName2();
+                break;
+        }
 
         rootLayout = findViewById(R.id.root_layout);
         smartLockerContainer = findViewById(R.id.locker_container);

@@ -152,7 +152,7 @@
         "cable_mode": {
           "values": [
             {
-              "value": "normal"
+              "value": "cableandfuse"
             }
           ],
           "type": "string",

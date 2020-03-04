@@ -132,7 +132,6 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.occasion.OccasionManager;
-import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
@@ -159,8 +158,6 @@ import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -173,8 +170,6 @@ import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
-import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
-import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplicationImpl {
     private static final long TIME_NEED_LOW = 10 * 1000; // 10s
@@ -899,6 +894,10 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(Placements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(Placements.AD_CHARGING_SCREEN);
+        LockerCustomConfig.get().setSmartLockerAdName1(Placements.SMART_LOCKER_FEED1);
+        LockerCustomConfig.get().setSmartLockerAdName2(Placements.SMART_LOCKER_FEED2);
+        LockerCustomConfig.get().setSmartLockerAdName3(Placements.SMART_LOCKER_FEED3);
+        LockerCustomConfig.get().setSmartLockerAdName4(Placements.SMART_LOCKER_FEED4);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
