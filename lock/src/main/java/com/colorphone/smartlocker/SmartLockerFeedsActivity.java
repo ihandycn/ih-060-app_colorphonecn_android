@@ -1,15 +1,18 @@
 package com.colorphone.smartlocker;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.database.ContentObserver;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,24 +21,21 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.transition.Fade;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,7 +43,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.lock.util.ViewUtils;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
@@ -64,6 +69,7 @@ import com.colorphone.smartlocker.view.SlidingFinishLayout;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
@@ -77,6 +83,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
@@ -158,6 +166,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Nullable
     private PopupWindow menuPopupWindow;
 
+    private PopupView mCloseLockerPopupView;
+
     private Context context;
     private Handler handler = new Handler();
 
@@ -172,7 +182,9 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             switch (intent.getAction()) {
                 case Intent.ACTION_POWER_CONNECTED:
                     HSLog.d(TAG, "processPowerStateChanged Intent.ACTION_POWER_CONNECTED");
-                    processPowerStateChanged(true);
+                    if (SmartChargingSettings.isChargingScreenEnabled()) {
+                        processPowerStateChanged(true);
+                    }
                     break;
                 case Intent.ACTION_POWER_DISCONNECTED:
                     HSLog.d(TAG, "processPowerStateChanged Intent.ACTION_POWER_DISCONNECTED");
@@ -247,6 +259,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private Runnable loadAdRunnable = new Runnable() {
         @Override
         public void run() {
+
+            Log.i("hsmhsm", "emptyAdItemCount:" + emptyAdItemCount);
             if (emptyAdItemCount <= 0) {
                 loadAdHandler.postDelayed(loadAdRunnable, 500L);
                 return;
@@ -531,8 +545,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             });
 
             menuPopupWindow = new PopupWindow(view);
-            menuPopupWindow.setWidth(Toolbar.LayoutParams.WRAP_CONTENT);
-            menuPopupWindow.setHeight(Toolbar.LayoutParams.WRAP_CONTENT);
+            menuPopupWindow.setWidth(WRAP_CONTENT);
+            menuPopupWindow.setHeight(WRAP_CONTENT);
             menuPopupWindow.setFocusable(true);
             menuPopupWindow.setOutsideTouchable(true);
             menuPopupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -547,54 +561,67 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void showChargingScreenCloseDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (mCloseLockerPopupView == null) {
+            mCloseLockerPopupView = new PopupView(this, rootLayout);
+            View content = LayoutInflater.from(this).inflate(R.layout.locker_popup_dialog, null);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (Dimensions
+                    .getPhoneWidth(this) * 0.872f), WRAP_CONTENT);
+            content.setLayoutParams(layoutParams);
+            TextView title = ViewUtils.findViewById(content, R.id.title);
+            TextView hintContent = ViewUtils.findViewById(content, R.id.hint_content);
+            AppCompatButton buttonYes = ViewUtils.findViewById(content, R.id.button_yes);
+            AppCompatButton buttonNo = ViewUtils.findViewById(content, R.id.button_no);
+            buttonNo.setTextColor(getResources().getColor(R.color.primary_green));
+            title.setText(R.string.charging_screen_close_dialog_title);
+            hintContent.setText(R.string.charging_screen_close_dialog_content);
+            buttonNo.setText(R.string.charging_screen_close_dialog_positive_action);
+            buttonNo.setOnClickListener(new View.OnClickListener() {
 
-        String title = getString(R.string.charging_screen_close_dialog_title);
-        SpannableString spannableStringTitle = new SpannableString(title);
-        spannableStringTitle.setSpan(new ForegroundColorSpan(0xDF000000),
-                0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setTitle(spannableStringTitle);
+                @Override
+                public void onClick(View v) {
+                    mCloseLockerPopupView.dismiss();
+                }
+            });
+            buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                GradientDrawable mask = new GradientDrawable();
+                mask.setColor(Color.WHITE);
+                GradientDrawable shape = new GradientDrawable();
+                shape.setColor(Color.TRANSPARENT);
+                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
 
-        String message = getString(R.string.charging_screen_close_dialog_content);
-        SpannableString spannableStringMessage = new SpannableString(message);
-        spannableStringMessage.setSpan(new ForegroundColorSpan(0x8A000000),
-                0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setMessage(spannableStringMessage);
-
-        builder.setPositiveButton(getString(R.string.charging_screen_close_dialog_positive_action), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+                buttonNo.setBackground(buttonYesDrawable);
+                buttonYes.setBackground(buttonNoDrawable);
             }
-        });
+            buttonYes.setOnClickListener(new View.OnClickListener() {
 
-        builder.setNegativeButton(getString(R.string.charging_screen_close_dialog_negative_action), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-//                if (HSChargingManager.getInstance().isCharging() && SettingProvider.isSmartChargingOpened(context)) {
-//                    SettingProvider.switchSmartLocker(context, false);
-//                    SettingProvider.switchSmartChargingWithBinding(context, false, SettingProvider.MODULE_CHARGING_SCREEN);
-//                } else {
-//                    SettingProvider.switchSmartLocker(context, false);
-//                }
-                LockerCustomConfig.getLogger().logEvent("Cable_Feed_Closed", "Origin", startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
-                        ? "Cable" : "Charging");
-                HSLog.d(TAG, "activity finish by turn off");
-                isNormalFinishing = true;
-                finish();
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+                        LockerSettings.setLockerEnabled(false);
+                        LockerCustomConfig.getLogger().logEvent("Cable_Feed_Closed", "Origin", "Cable");
+                    } else {
+                        ChargingScreenSettings.setChargingScreenEnabled(false);
+                        LockerCustomConfig.getLogger().logEvent("Cable_Feed_Closed", "Origin", "Charging");
+                    }
+                    HSLog.d(TAG, "activity finish by turn off");
+                    isNormalFinishing = true;
+                    mCloseLockerPopupView.dismiss();
+                    finish();
+                }
+            });
+            mCloseLockerPopupView.setOutSideBackgroundColor(0xB3000000);
+            mCloseLockerPopupView.setContentView(content);
+            mCloseLockerPopupView.setOutSideClickListener(new View.OnClickListener() {
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                negativeButton.setTextColor(ContextCompat.getColor(context, R.color.charging_screen_alert_negative_action));
-                positiveButton.setTextColor(ThemeManager.getPrimaryColor());
-            }
-        });
-        showDialog(alertDialog);
+                @Override
+                public void onClick(View v) {
+                    mCloseLockerPopupView.dismiss();
+                }
+            });
+        }
+        mCloseLockerPopupView.showInCenter();
     }
 
     private void updateTimeAndDateView() {
