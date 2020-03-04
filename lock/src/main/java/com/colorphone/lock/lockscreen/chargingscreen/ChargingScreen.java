@@ -408,6 +408,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 //            customizeContentContainer.onVisibilityChange(true);
 //        }
         if (adEnabled) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
             LockerCustomConfig.getLogger().logEvent("ad_chance");
             AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             if (expressAdView == null) {
@@ -465,6 +466,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
                 LockerCustomConfig.getLogger().logEvent("ad_show");
                 AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
@@ -477,6 +479,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdClick");
                 LockerCustomConfig.getLogger().logEvent("ad_click");
                 mDismissReason = "AdClick";
                 dismiss(getContext(), true);

@@ -268,6 +268,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             if (adLoader != null) {
                 return;
             }
+
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Change");
+            if (AutoPilotUtils.getLockerMode().equals("fuse")) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Change");
+            } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Change");
+            }
             LockerCustomConfig.getLogger().logEvent("ad_chance");
             AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
@@ -815,6 +822,12 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         SmartLockerAdListItem adListItem;
         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
         if (!adList.isEmpty()) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Change");
+            if (AutoPilotUtils.getLockerMode().equals("fuse")) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Change");
+            } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Change");
+            }
             LockerCustomConfig.getLogger().logEvent("ad_chance");
             AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             adListItem = new SmartLockerAdListItem(appPlacement, adList.get(0));
