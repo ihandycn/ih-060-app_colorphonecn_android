@@ -495,6 +495,9 @@ public class ColorPhoneApplicationImpl {
         CleanGuideCondition.getInstance();
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED2);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED3);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED4);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
         ColorPhonePermanentUtils.keepAlive();
@@ -980,7 +983,7 @@ public class ColorPhoneApplicationImpl {
 
     private void initModules() {
         Module locker = new Module();
-        locker.setAdName(Placements.AD_LOCKER);
+        locker.setAdName(Placements.SMART_LOCKER_FEED1);
         locker.setAdType(Module.AD_EXPRESS);
         locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
         locker.setChecker(new Module.Checker() {
@@ -991,7 +994,7 @@ public class ColorPhoneApplicationImpl {
         });
 
         Module charging = new Module();
-        charging.setAdName(Placements.AD_CHARGING_SCREEN);
+        charging.setAdName(Placements.SMART_LOCKER_FEED1);
         charging.setAdType(Module.AD_EXPRESS);
         charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
         charging.setChecker(new Module.Checker() {
