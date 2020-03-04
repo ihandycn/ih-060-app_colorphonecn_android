@@ -1,9 +1,7 @@
 {
   "custom_audience_properties": [],
   "console_url": "https://ap-console.appcloudbox.net",
-  "app_meta": {
-    "is_support_languages": false
-  },
+  "objects_submit_url": "https://ap-obsersu.appcloudbox.net",
   "app_events": [
     {
       "name": "active"
@@ -13,9 +11,6 @@
     },
     {
       "name": "main_app_close"
-    },
-    {
-      "name": "extended_active"
     },
     {
       "name": "ad_click_native"
@@ -36,16 +31,7 @@
       "name": "iap"
     },
     {
-      "name": "extended_deactive"
-    },
-    {
       "name": "get_remote_config"
-    },
-    {
-      "name": "daily_active"
-    },
-    {
-      "name": "initial_completed"
     },
     {
       "name": "ad_click"
@@ -131,6 +117,16 @@
           "type": "string",
           "value": "",
           "strategy": "sole"
+        },
+        "image": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "url",
+          "value": "",
+          "strategy": "sole"
         }
       },
       "events": [
@@ -149,6 +145,94 @@
       ],
       "topic_id": "topic-rp-73firir8m"
     },
+    "topic-7fysxrksq": {
+      "topic_type": "life_time",
+      "topic_name": "CableFeed_Test",
+      "variations": {
+        "cable_mode": {
+          "values": [
+            {
+              "value": "normal"
+            }
+          ],
+          "type": "string",
+          "value": "normal",
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "news_show"
+        },
+        {
+          "name": "news_chance"
+        },
+        {
+          "name": "ad_chance"
+        },
+        {
+          "name": "ad_show"
+        },
+        {
+          "name": "charging_should_show"
+        },
+        {
+          "name": "charging_show"
+        },
+        {
+          "name": "charging_news_should_show"
+        },
+        {
+          "name": "charging_news_show"
+        },
+        {
+          "name": "charging_news_slide"
+        },
+        {
+          "name": "charging_news_click"
+        },
+        {
+          "name": "charging_news_loadmore"
+        },
+        {
+          "name": "charging_news_close"
+        },
+        {
+          "name": "charging_disabled"
+        },
+        {
+          "name": "lock_should_show"
+        },
+        {
+          "name": "lock_show"
+        },
+        {
+          "name": "lock_news_should_show"
+        },
+        {
+          "name": "lock_news_show"
+        },
+        {
+          "name": "lock_news_slide"
+        },
+        {
+          "name": "lock_news_click"
+        },
+        {
+          "name": "lock_news_loadmore"
+        },
+        {
+          "name": "lock_news_close"
+        },
+        {
+          "name": "lock_disabled"
+        }
+      ],
+      "topic_id": "topic-7fysxrksq"
+    },
     "topic-73p89g8i7": {
       "topic_type": "life_time",
       "topic_name": "Empty Topic",
@@ -161,10 +245,56 @@
       "topic_id": "topic-73p89g8i7"
     }
   },
+  "occasion_mgt": {
+    "archived_actions": {},
+    "custom_state_properties": [],
+    "actions": {},
+    "triggers": {
+      "unlock_screen": {
+        "trigger_id": "793"
+      },
+      "session_start": {
+        "trigger_id": "790"
+      },
+      "stop_charging_inapp": {
+        "trigger_id": "795"
+      },
+      "homepage_open": {
+        "trigger_id": "798"
+      },
+      "start_charging_inapp": {
+        "trigger_id": "794"
+      },
+      "session_end": {
+        "trigger_id": "791"
+      },
+      "start_charging_bg": {
+        "trigger_id": "796"
+      },
+      "stop_charging_bg": {
+        "trigger_id": "797"
+      },
+      "app_exit": {
+        "trigger_id": "799"
+      },
+      "screen_on": {
+        "trigger_id": "792"
+      }
+    }
+  },
   "autopilot_id": 10102,
+  "app_meta": {
+    "remote_config_get_interval_secs": {
+      "one_time": 3600,
+      "rtot_popup": 3600
+    },
+    "is_support_languages": false,
+    "session_end_delay": 10
+  },
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "0fc901a8-b009-49cd-b98d-d72fa8d6ad3a",
+  "objects_get_url": "https://ap-obserge.appcloudbox.net",
+  "json_id": "c9fbd04b-0b76-4e6d-979b-f81306ec0809",
   "autopilot_name": "ColorPhone_K",
   "autopilot_type": "app"
 }
