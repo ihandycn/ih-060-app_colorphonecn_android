@@ -56,6 +56,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.colorphone.lock.util.ViewUtils;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -400,10 +401,15 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
+        AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
+
 //        if (customizeContentContainer != null) {
 //            customizeContentContainer.onVisibilityChange(true);
 //        }
         if (adEnabled) {
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             if (expressAdView == null) {
                 requestAds();
                 showExpressAd();
@@ -459,6 +465,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("ad_show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
                 LockerCustomConfig.get().onEventChargingAdShow();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -469,6 +477,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("ad_click");
                 mDismissReason = "AdClick";
                 dismiss(getContext(), true);
                 LockerCustomConfig.get().onEventChargingAdClick();

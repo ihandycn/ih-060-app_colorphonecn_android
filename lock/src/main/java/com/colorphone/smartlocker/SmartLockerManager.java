@@ -2,7 +2,6 @@ package com.colorphone.smartlocker;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.telephony.TelephonyManager;
 
@@ -10,6 +9,7 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
@@ -58,16 +58,22 @@ public class SmartLockerManager {
                 return;
         }
 
-        LockerCustomConfig.getLogger().logEvent(startType != EXTRA_VALUE_START_BY_LOCKER ? "ChargingPage_News_Chance" : "CablePage_News_Chance");
+        LockerCustomConfig.getLogger().logEvent("news_chance");
+        AutoPilotUtils.logLockerModeAutopilotEvent("news_chance");
+        if (startType == EXTRA_VALUE_START_BY_LOCKER) {
+            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_should_show");
+        } else {
+            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_should_show");
+        }
         tryToStartSmartLockerFeeds(startType);
     }
 
     private void tryToStartSmartLockerFeeds(@StartType int startType) {
         if (!NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
             if (startType == EXTRA_VALUE_START_BY_LOCKER) {
-                LockerCustomConfig.getLogger().logEvent("CablePage_News", "news_nofill", "network_disconnected");
+                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Network");
             } else {
-                LockerCustomConfig.getLogger().logEvent("ChargingPage_News", "news_nofill", "network_disconnected");
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Network");
             }
             return;
         }
@@ -83,9 +89,9 @@ public class SmartLockerManager {
         }
         if (newsCount < 5) {
             if (startType == EXTRA_VALUE_START_BY_LOCKER) {
-                LockerCustomConfig.getLogger().logEvent("CablePage_News", "news_nofill", "Load_failed");
+                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Count");
             } else {
-                LockerCustomConfig.getLogger().logEvent("ChargingPage_News", "news_nofill", "Load_failed");
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Count");
             }
             HSLog.d(TAG, "baiduFeedBeanList news count < 5");
             return;
@@ -100,8 +106,11 @@ public class SmartLockerManager {
 
         try {
             HSApplication.getContext().startActivity(intent);
-            LockerCustomConfig.getLogger().logEvent("SmartLockerPage_Should_Viewed",
-                    "DeviceInfo", Build.MODEL, "SystemVersion", Build.VERSION.RELEASE);
+            if (startType == EXTRA_VALUE_START_BY_LOCKER) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Success");
+            } else {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Success");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

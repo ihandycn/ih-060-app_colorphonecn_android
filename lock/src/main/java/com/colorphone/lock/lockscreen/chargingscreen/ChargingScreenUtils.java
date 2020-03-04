@@ -17,6 +17,7 @@ import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -134,9 +135,12 @@ public class ChargingScreenUtils {
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, chargingStateChanged);
 
         if (MODE_ACTIVITY) {
-            if (true) {
+            if (isShowFeedMode()) {
                 SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
             } else {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("charging_should_show");
+
                 Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtras(bundle);
@@ -147,6 +151,8 @@ public class ChargingScreenUtils {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
         } else {
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
+            AutoPilotUtils.logLockerModeAutopilotEvent("charging_should_show");
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
     }
@@ -171,16 +177,18 @@ public class ChargingScreenUtils {
         }
         WeatherClockManager.getInstance().updateWeatherIfNeeded();
         isFromPush = fromPush;
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
-                "Brand", Build.BRAND.toLowerCase(),
-                "DeviceVersion", Locker.getDeviceInfo());
 
         if (MODE_ACTIVITY) {
             try {
-                if (true) {
+                if (isShowFeedMode()) {
                     SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
                 } else {
+                    String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+                    LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                            "Brand", Build.BRAND.toLowerCase(),
+                            "DeviceVersion", Locker.getDeviceInfo());
+                    AutoPilotUtils.logLockerModeAutopilotEvent("lock_should_show");
+
                     Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -190,8 +198,18 @@ public class ChargingScreenUtils {
                 // crash #749 some device report.
             }
         } else {
+            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+            LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                    "Brand", Build.BRAND.toLowerCase(),
+                    "DeviceVersion", Locker.getDeviceInfo());
+            AutoPilotUtils.logLockerModeAutopilotEvent("lock_should_show");
+
             FloatWindowController.getInstance().showLockScreen();
         }
+    }
+
+    private static boolean isShowFeedMode() {
+        return AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable");
     }
 
     private static boolean isCalling() {

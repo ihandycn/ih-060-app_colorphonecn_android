@@ -16,6 +16,7 @@ import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
@@ -46,6 +47,11 @@ public class LockScreenStarter {
 
             if (SmartChargingSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
+
+                if (AutoPilotUtils.getLockerMode().equals("fuse")) {
+                    return;
+                }
+
                 ChargingScreenSettings.increaseChargingCount();
 //                boolean chargeDoNotDisturb = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDoNotDisturb");
                 ChargingScreenUtils.startChargingScreenActivity(true, false);
@@ -107,7 +113,9 @@ public class LockScreenStarter {
     }
 
     private void tryShowChargingScreen() {
-        if (!isChargingScreenExist()
+        if ((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal") ||
+                !isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cableandfuse") ||
+                !isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cable"))
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {

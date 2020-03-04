@@ -51,6 +51,7 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.ViewUtils;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -135,6 +136,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", Locker.getDeviceInfo());
+                AutoPilotUtils.logLockerModeAutopilotEvent("lock_show");
                 logOnceFlag = true;
             }
             if (ScreenStatusReceiver.isScreenOn()) {
@@ -404,6 +406,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("ad_show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
                 LockerCustomConfig.get().onEventLockerAdShow();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -414,6 +418,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("ad_click");
                 LockerCustomConfig.get().onEventLockerAdClick();
                 HSBundle bundle = new HSBundle();
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "AdClick");
@@ -432,6 +437,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void showExpressAd() {
+        LockerCustomConfig.getLogger().logEvent("ad_chance");
+        AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
         if (expressAdView != null && expressAdView.getParent() == null) {
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         }

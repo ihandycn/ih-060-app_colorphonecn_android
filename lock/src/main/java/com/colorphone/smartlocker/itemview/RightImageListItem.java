@@ -8,13 +8,11 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.bean.IFeedBean;
 import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.viewholder.RightImageViewHolder;
-import com.ihs.commons.utils.HSLog;
 
 
 public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
@@ -79,9 +77,6 @@ public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewH
                     return;
                 }
 
-                LockerCustomConfig.getLogger().logEvent("feed_news_clicked", "place", "daily", "content", "onesmallimg", "channel", category);
-                LockerCustomConfig.getLogger().logEvent("NewsFeed_Clicked");
-
                 DailyNewsUtils.jumpToNewsDetail(context, feedBean.getArticleUrl());
             }
         });
@@ -95,8 +90,6 @@ public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewH
     public void logViewedEvent() {
         if (!hasViewed) {
             hasViewed = true;
-            HSLog.d("Daily news viewed ", "category = " + category + "  item is " + getClass().getSimpleName());
-            LockerCustomConfig.getLogger().logEvent("feed_news_viewed", "place", "daily", "content", "onesmallimg", "channel", category);
         }
     }
 

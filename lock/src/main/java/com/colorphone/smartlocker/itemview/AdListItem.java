@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.viewholder.AdViewHolder;
 
 import net.appcloudbox.ads.base.AcbAd;
@@ -76,14 +77,15 @@ public class AdListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
             adViewHolder.acbNativeAdContainerView.fillNativeAd(acbNativeAd, "");
 
 
-            LockerCustomConfig.getLogger().logEvent("feed_ads_viewed", "place", "daily", "channel", category);
+            LockerCustomConfig.getLogger().logEvent("ad_show");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
 
 
             acbNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
 
                 @Override
                 public void onAdClick(AcbAd acbAd) {
-                    LockerCustomConfig.getLogger().logEvent("feed_ads_clicked", "place", "daily", "channel", category);
+                    LockerCustomConfig.getLogger().logEvent("ad_click");
                     updateAd();
                 }
             });
