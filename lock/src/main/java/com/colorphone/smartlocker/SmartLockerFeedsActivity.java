@@ -260,8 +260,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         @Override
         public void run() {
 
-            HSLog.i(TAG, "emptyAdItemCount:" + emptyAdItemCount);
-            if (emptyAdItemCount <= 0) {
+            if (emptyAdItemCount <= 1) {
                 loadAdHandler.postDelayed(loadAdRunnable, 500L);
                 return;
             }
