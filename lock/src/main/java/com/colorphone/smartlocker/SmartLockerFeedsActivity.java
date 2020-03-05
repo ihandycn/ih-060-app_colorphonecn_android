@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
-import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -207,15 +205,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     overridePendingTransition(0, 0);
                 }
             }
-        }
-    };
-
-    private ContentObserver finishSelfObserver = new ContentObserver(null) {
-        @Override
-        public void onChange(boolean selfChange) {
-            isNormalFinishing = false;
-            finish();
-            overridePendingTransition(0, 0);
         }
     };
 
@@ -522,8 +511,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         registerReceiver(powerStateReceiver, powerStateIntentFilter);
 
         registerReceiver(onHomeClickReceiver, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-
-        getContentResolver().registerContentObserver(Uri.parse(SmartLockerConstants.CONTENT_URI), true, finishSelfObserver);
 
         try {
             TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -1002,8 +989,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
         unregisterReceiver(powerStateReceiver);
         unregisterReceiver(onHomeClickReceiver);
-
-        getContentResolver().unregisterContentObserver(finishSelfObserver);
 
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager != null) {
