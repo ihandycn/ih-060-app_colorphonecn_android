@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
+import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
@@ -68,6 +69,7 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
@@ -205,6 +207,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     overridePendingTransition(0, 0);
                 }
             }
+        }
+    };
+
+    private Runnable displaySuccessChecker = new Runnable() {
+        @Override
+        public void run() {
+            LockScreenStarter.getInstance().onScreenDisplayed();
         }
     };
 
@@ -502,6 +511,18 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         updateBatteryState(HSChargingManager.getInstance().getBatteryRemainingPercent());
 
         loadAdHandler.postDelayed(loadAdRunnable, 500L);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        Threads.removeOnMainThread(displaySuccessChecker);
+        super.onPause();
     }
 
     private void initPhoneStateListener() {
