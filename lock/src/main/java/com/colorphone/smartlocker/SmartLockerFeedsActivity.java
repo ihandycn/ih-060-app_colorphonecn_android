@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
@@ -71,6 +72,7 @@ import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
+import net.appcloudbox.UnreleasedAdWatcher;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
@@ -467,6 +469,11 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
 
         exist = true;
+
+        if (BuildConfig.DEBUG) {
+            UnreleasedAdWatcher.getInstance().setEnabled(false);
+        }
+
     }
 
     @Override
@@ -511,6 +518,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         updateBatteryState(HSChargingManager.getInstance().getBatteryRemainingPercent());
 
         loadAdHandler.postDelayed(loadAdRunnable, 500L);
+
     }
 
     @Override
@@ -1017,7 +1025,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             phoneStateListener.unbindActivity();
         }
         HSChargingManager.getInstance().removeChargingListener(chargingListener);
-        HSChargingManager.getInstance().stop();
 
         if (menuPopupWindow != null) {
             menuPopupWindow.dismiss();
@@ -1031,5 +1038,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             ad.release();
         }
         exist = false;
+
     }
 }

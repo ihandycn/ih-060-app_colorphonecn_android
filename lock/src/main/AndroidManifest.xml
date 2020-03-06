@@ -47,9 +47,9 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity=".cp_locker" />
+            android:taskAffinity=".cp_smart_locker" />
 
         <activity
             android:name="com.colorphone.smartlocker.NewsDetailActivity"

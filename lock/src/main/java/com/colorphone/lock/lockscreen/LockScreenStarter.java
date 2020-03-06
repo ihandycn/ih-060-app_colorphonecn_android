@@ -53,7 +53,9 @@ public class LockScreenStarter {
                 }
 
                 ChargingScreenSettings.increaseChargingCount();
-//                boolean chargeDoNotDisturb = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDoNotDisturb");
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+                }
                 ChargingScreenUtils.startChargingScreenActivity(true, false);
             }
         }
@@ -121,6 +123,9 @@ public class LockScreenStarter {
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
                     "Brand", Build.BRAND.toLowerCase());
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+            }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
         }
     }
