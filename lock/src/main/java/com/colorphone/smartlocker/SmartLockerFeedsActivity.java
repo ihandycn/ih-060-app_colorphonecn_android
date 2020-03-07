@@ -948,11 +948,9 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         recordSlideFlurry = false;
         long duration = (System.currentTimeMillis() - viewedStartTime) / 1000;
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
-            LockerCustomConfig.getLogger().logEvent("LockScreen_News_Close", "view_Interval", getFlurryDuration(duration));
-            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_close");
+            LockerCustomConfig.getLogger().logEvent("LockScreen_News_StayTime", "time", getFlurryDuration(duration));
         } else if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Close", "view_Interval", getFlurryDuration(duration));
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_close");
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_StayTime", "time", getFlurryDuration(duration));
         }
 
         if (timeTickReceiver != null) {
@@ -998,6 +996,14 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+            LockerCustomConfig.getLogger().logEvent("LockScreen_News_Close");
+            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_close");
+        } else if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Close");
+            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_close");
+        }
 
         sendBroadcast(new Intent("ACTION_CHARGING_SCREEN_ON_DESTROY")
                 .putExtra("EXTRA_CHARGING_SCREEN_ON_DESTROY_NORMAL", isNormalFinishing)

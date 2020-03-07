@@ -62,7 +62,6 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         }
         this.context = context;
         adViewHolder = (AdViewHolder) holder;
-        logAdChance();
         if (fetchNativeAd == null && loadNativeAd == null) {
             adViewHolder.adContainer.setVisibility(View.GONE);
             return;
@@ -78,8 +77,6 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
                 updateAd();
             }
         });
-
-        logAdShow();
     }
 
     public void setCategory(String category) {
@@ -123,10 +120,11 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
 
     @Override
     public void logViewedEvent() {
-        if (fetchNativeAd == null && loadNativeAd == null) {
-            return;
-        }
         if (!hasViewed) {
+            logAdChance();
+            if (fetchNativeAd != null || loadNativeAd != null) {
+                logAdShow();
+            }
             hasViewed = true;
         }
     }
