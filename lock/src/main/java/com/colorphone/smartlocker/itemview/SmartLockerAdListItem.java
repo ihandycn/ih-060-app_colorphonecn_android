@@ -62,7 +62,7 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         }
         this.context = context;
         adViewHolder = (AdViewHolder) holder;
-
+        logAdChance();
         if (fetchNativeAd == null && loadNativeAd == null) {
             adViewHolder.adContainer.setVisibility(View.GONE);
             return;
@@ -70,18 +70,16 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         adViewHolder.adContainer.setVisibility(View.VISIBLE);
         AcbNativeAd nativeAd = fetchNativeAd != null ? fetchNativeAd : loadNativeAd;
         adViewHolder.acbNativeAdContainerView.fillNativeAd(nativeAd, "");
+        assert nativeAd != null;
         nativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
             @Override
             public void onAdClick(AcbAd ad) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
-                if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-                    LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
-                } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-                    LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
-                }
+                logAdClick();
                 updateAd();
             }
         });
+
+        logAdShow();
     }
 
     public void setCategory(String category) {
@@ -89,26 +87,22 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
     }
 
     private void updateAd() {
+        logAdChance();
         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
         if (!adList.isEmpty()) {
             if (fetchNativeAd != null) {
                 fetchNativeAd.release();
             }
-
-//            AcbNativeAdManager.recordAdChanceEvent(appPlacement);
+            logAdShow();
 
             fetchNativeAd = adList.get(0);
             adViewHolder.acbNativeAdContainerView.fillNativeAd(fetchNativeAd, "");
 
+            assert fetchNativeAd != null;
             fetchNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
                 @Override
                 public void onAdClick(AcbAd ad) {
-                    LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
-                    if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-                        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
-                    } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-                        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
-                    }
+                    logAdClick();
                     updateAd();
                 }
             });
@@ -129,7 +123,20 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
 
     @Override
     public void logViewedEvent() {
+        if (fetchNativeAd == null && loadNativeAd == null) {
+            return;
+        }
+        if (!hasViewed) {
+            hasViewed = true;
+        }
+    }
 
+    @Override
+    public boolean hasViewed() {
+        return hasViewed;
+    }
+
+    private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         if (AutoPilotUtils.getLockerMode().equals("fuse")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Chance");
@@ -138,14 +145,9 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         }
         LockerCustomConfig.getLogger().logEvent("ad_chance");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+    }
 
-        if (fetchNativeAd == null && loadNativeAd == null) {
-            return;
-        }
-        if (!hasViewed) {
-            hasViewed = true;
-        }
-
+    private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         if (AutoPilotUtils.getLockerMode().equals("fuse")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdView");
@@ -156,8 +158,12 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
     }
 
-    @Override
-    public boolean hasViewed() {
-        return hasViewed;
+    private void logAdClick() {
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
+        if (AutoPilotUtils.getLockerMode().equals("fuse")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
+        } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
+        }
     }
 }
