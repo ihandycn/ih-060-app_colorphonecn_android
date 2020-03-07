@@ -13,9 +13,6 @@ import com.colorphone.smartlocker.viewholder.AdViewHolder;
 
 import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
-import net.appcloudbox.ads.nativead.AcbNativeAdManager;
-
-import java.util.List;
 
 public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
 
@@ -74,36 +71,12 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
             @Override
             public void onAdClick(AcbAd ad) {
                 logAdClick();
-                updateAd();
             }
         });
     }
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    private void updateAd() {
-        logAdChance();
-        List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
-        if (!adList.isEmpty()) {
-            if (fetchNativeAd != null) {
-                fetchNativeAd.release();
-            }
-            logAdShow();
-
-            fetchNativeAd = adList.get(0);
-            adViewHolder.acbNativeAdContainerView.fillNativeAd(fetchNativeAd, "");
-
-            assert fetchNativeAd != null;
-            fetchNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
-                @Override
-                public void onAdClick(AcbAd ad) {
-                    logAdClick();
-                    updateAd();
-                }
-            });
-        }
     }
 
     @Override
