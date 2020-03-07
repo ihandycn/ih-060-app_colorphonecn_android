@@ -135,33 +135,48 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
     }
 
     private void logAdChance() {
-        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
-        if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Chance");
-        } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Chance");
+        switch (AutoPilotUtils.getLockerMode()) {
+            case "cableandfuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
+                break;
+            case "fuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Chance");
+                break;
+            case "cable":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Chance");
+                break;
         }
         LockerCustomConfig.getLogger().logEvent("ad_chance");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
     }
 
     private void logAdShow() {
-        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
-        if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdView");
-        } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdView");
+        switch (AutoPilotUtils.getLockerMode()) {
+            case "cableandfuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
+                break;
+            case "fuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdView");
+                break;
+            case "cable":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdView");
+                break;
         }
         LockerCustomConfig.getLogger().logEvent("ad_show");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
     }
 
     private void logAdClick() {
-        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
-        if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
-        } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
+        switch (AutoPilotUtils.getLockerMode()) {
+            case "cableandfuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
+                break;
+            case "fuse":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
+                break;
+            case "cable":
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
+                break;
         }
     }
 }
