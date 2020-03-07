@@ -331,6 +331,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 break;
         }
 
+        AcbNativeAdManager.getInstance().activePlacementInProcess(appPlacement);
+
         rootLayout = findViewById(R.id.root_layout);
         smartLockerContainer = findViewById(R.id.locker_container);
         smartLockerContainer.setEnableScrollUp(false);

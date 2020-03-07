@@ -495,9 +495,6 @@ public class ColorPhoneApplicationImpl {
         CleanGuideCondition.getInstance();
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED2);
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED3);
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.SMART_LOCKER_FEED4);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
         ColorPhonePermanentUtils.keepAlive();
