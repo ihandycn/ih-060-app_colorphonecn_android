@@ -420,7 +420,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdClick");
-                LockerCustomConfig.getLogger().logEvent("ad_click");
                 LockerCustomConfig.get().onEventLockerAdClick();
                 HSBundle bundle = new HSBundle();
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "AdClick");

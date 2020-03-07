@@ -480,7 +480,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdClick");
-                LockerCustomConfig.getLogger().logEvent("ad_click");
                 mDismissReason = "AdClick";
                 dismiss(getContext(), true);
                 LockerCustomConfig.get().onEventChargingAdClick();

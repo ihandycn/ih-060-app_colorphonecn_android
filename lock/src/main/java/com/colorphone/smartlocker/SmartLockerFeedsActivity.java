@@ -260,22 +260,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         @Override
         public void run() {
 
-            if (emptyAdItemCount <= 1) {
+            if (emptyAdItemCount <= 0) {
                 loadAdHandler.postDelayed(loadAdRunnable, 500L);
                 return;
             }
             if (adLoader != null) {
                 return;
             }
-
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Change");
-            if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Change");
-            } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Change");
-            }
-            LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
             adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
                 @Override
@@ -524,12 +515,16 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
+        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
+            Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
+        }
     }
 
     @Override
     protected void onPause() {
-        Threads.removeOnMainThread(displaySuccessChecker);
+        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
+            Threads.removeOnMainThread(displaySuccessChecker);
+        }
         super.onPause();
     }
 
@@ -848,14 +843,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         SmartLockerAdListItem adListItem;
         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
         if (!adList.isEmpty()) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Change");
-            if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Change");
-            } else if (AutoPilotUtils.getLockerMode().equals("cable")) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Change");
-            }
-            LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             adListItem = new SmartLockerAdListItem(appPlacement, adList.get(0));
         } else {
             if (newsCount == (isLongScreen ? 2 : 1)) {
