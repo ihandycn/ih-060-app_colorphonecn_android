@@ -54,6 +54,8 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
+import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -295,6 +297,11 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable") ||
+                    AutoPilotUtils.getLockerMode().equals("fuse")) {
+                SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+            }
         }
     };
 
@@ -553,7 +560,8 @@ public class ColorPhoneApplicationImpl {
             boolean cpuChangeToHigh = false;
             boolean batteryChangeToLow = false;
 
-            @Override public void onHomePressed() {
+            @Override
+            public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
@@ -593,7 +601,8 @@ public class ColorPhoneApplicationImpl {
                 }
             }
 
-            @Override public void onRecentsPressed() {
+            @Override
+            public void onRecentsPressed() {
 
             }
         });
@@ -613,7 +622,8 @@ public class ColorPhoneApplicationImpl {
         });
 
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
-            @Override public boolean onSetRingtone(Ringtone ringtone) {
+            @Override
+            public boolean onSetRingtone(Ringtone ringtone) {
                 if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                         || !AutoPermissionChecker.isNotificationListeningGranted()) {
                     RuntimePermissionActivity.startForRingtone();
@@ -640,7 +650,7 @@ public class ColorPhoneApplicationImpl {
                             Navigations.startActivitySafely(mBaseApplication, intent);
                         } else if (RomUtils.checkIsMiuiRom()) {
                             Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
-                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[] { intent, guideIntent});
+                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[]{intent, guideIntent});
                         } else {
                             Navigations.startActivitySafely(mBaseApplication, intent);
                         }
