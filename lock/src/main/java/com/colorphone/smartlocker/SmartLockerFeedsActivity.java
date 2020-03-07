@@ -880,10 +880,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                         @Override
                         public void run() {
                             feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
+                            firstWaitInsertAdPosition = -1;
                         }
                     });
                     HSLog.d(TAG, "tryToInsertAdToItem: notifyItemChanged firstWaitInsertAdPosition = " + firstWaitInsertAdPosition);
-                    firstWaitInsertAdPosition = -1;
                     return;
                 }
             }

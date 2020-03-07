@@ -22,6 +22,7 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
     private AdViewHolder adViewHolder;
 
     private boolean hasViewed = false;
+    private boolean hasLogShow = false;
 
     private Context context;
     private String category;
@@ -100,6 +101,12 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
             }
             hasViewed = true;
         }
+
+        if (!hasLogShow) {
+            if (fetchNativeAd != null || loadNativeAd != null) {
+                logAdShow();
+            }
+        }
     }
 
     @Override
@@ -137,6 +144,8 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         }
         LockerCustomConfig.getLogger().logEvent("ad_show");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
+
+        hasLogShow = true;
     }
 
     private void logAdClick() {
