@@ -45,7 +45,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ViewUtils;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
@@ -186,9 +185,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             switch (intent.getAction()) {
                 case Intent.ACTION_POWER_CONNECTED:
                     HSLog.d(TAG, "processPowerStateChanged Intent.ACTION_POWER_CONNECTED");
-                    if (SmartChargingSettings.isChargingScreenEnabled()) {
-                        processPowerStateChanged(true);
-                    }
+                    processPowerStateChanged(true);
                     break;
                 case Intent.ACTION_POWER_DISCONNECTED:
                     HSLog.d(TAG, "processPowerStateChanged Intent.ACTION_POWER_DISCONNECTED");
