@@ -30,6 +30,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -297,6 +299,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSLog.d(TAG, "SmartLockerFeedsActivity onCreate");
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
         mKeyguardHandler = new KeyguardHandler(this);
         mKeyguardHandler.onInit();
 
