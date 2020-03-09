@@ -61,10 +61,10 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         this.context = context;
         adViewHolder = (AdViewHolder) holder;
         if (fetchNativeAd == null && loadNativeAd == null) {
-            adViewHolder.adContainer.setVisibility(View.GONE);
+            adViewHolder.adContainer.findViewById(R.id.ad_container).setVisibility(View.GONE);
             return;
         }
-        adViewHolder.adContainer.setVisibility(View.VISIBLE);
+        adViewHolder.adContainer.findViewById(R.id.ad_container).setVisibility(View.VISIBLE);
         AcbNativeAd nativeAd = fetchNativeAd != null ? fetchNativeAd : loadNativeAd;
         adViewHolder.acbNativeAdContainerView.fillNativeAd(nativeAd, "");
         assert nativeAd != null;
