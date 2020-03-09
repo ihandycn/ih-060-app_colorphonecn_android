@@ -174,7 +174,6 @@ dependencies {
             "com.android.support.constraint:constraint-layout:1.0.2",
 
             "com.android.support:multidex:1.0.1",
-            "com.google.android.gms:play-services-location:15.0.0",
 
             "cn.appcloudbox.autopilot:libAutoPilot.beta:5.6.2.cn.beta01",
             'com.annimon:stream:1.1.7'
@@ -251,6 +250,9 @@ dependencies {
     colorphoneCompile 'com.umeng.umsdk:common:2.0.0'
     colorphoneCompile 'com.umeng.umsdk:utdid:1.1.5.3'
     colorphoneCompile 'com.umeng.umsdk:push:5.0.2'
+
+    //Flurry
+    implementation 'com.flurry.android:analytics:12.1.0'
 
     // Cmgame
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
