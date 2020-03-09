@@ -251,6 +251,9 @@ dependencies {
     colorphoneCompile 'com.umeng.umsdk:utdid:1.1.5.3'
     colorphoneCompile 'com.umeng.umsdk:push:5.0.2'
 
+    //Flurry
+    implementation 'com.flurry.android:analytics:12.1.0'
+
     // Cmgame
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'com.squareup.okhttp3:okhttp:3.12.0'
