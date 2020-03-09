@@ -1,7 +1,6 @@
 package com.colorphone.smartlocker;
 
 import android.annotation.SuppressLint;
-import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,8 +30,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,6 +40,7 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
+import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -116,7 +114,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                         }
                         HSLog.d(TAG, "onCallStateChanged(), finish activity");
                         refActivity.isNormalFinishing = false;
-                        refActivity.finish();
+                        refActivity.dismiss();
                     }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
@@ -173,6 +171,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private Context context;
     private Handler handler = new Handler();
 
+    protected KeyguardHandler mKeyguardHandler;
+
     private BroadcastReceiver timeTickReceiver;
 
     private BroadcastReceiver powerStateReceiver = new BroadcastReceiver() {
@@ -205,8 +205,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 String reason = intent.getStringExtra("reason");
                 if (null != reason && reason.equals("homekey")) {
                     isNormalFinishing = true;
-                    finish();
-                    overridePendingTransition(0, 0);
+                    dismiss();
                 }
             }
         }
@@ -298,18 +297,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSLog.d(TAG, "SmartLockerFeedsActivity onCreate");
-        boolean dismissKeyguard;
-        try {
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            dismissKeyguard = keyguardManager == null || !keyguardManager.isKeyguardSecure();
-        } catch (Exception e) {
-            dismissKeyguard = true;
-        }
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        if (dismissKeyguard) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        }
+        mKeyguardHandler = new KeyguardHandler(this);
+        mKeyguardHandler.onInit();
 
         setContentView(R.layout.activity_smart_locker_feeds);
 
@@ -340,8 +329,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             @Override
             public void onSlidingFinish(int slidingState) {
                 isNormalFinishing = true;
-                finish();
-                overridePendingTransition(0, 0);
+                dismiss();
 
                 HSLog.d(TAG, "activity finish by onSlidingFinish");
             }
@@ -571,7 +559,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     if (menuPopupWindow != null) {
                         menuPopupWindow.dismiss();
                     }
-                    showChargingScreenCloseDialog();
+                    showCloseDialog();
                 }
 
                 private boolean isFastDoubleClick() {
@@ -601,7 +589,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 -(getResources().getDimensionPixelOffset(R.dimen.charging_screen_menu_to_top_height) + parentView.getHeight()) >> 1);
     }
 
-    private void showChargingScreenCloseDialog() {
+    private void showCloseDialog() {
         if (mCloseLockerPopupView == null) {
             mCloseLockerPopupView = new PopupView(this, rootLayout);
             View content = LayoutInflater.from(this).inflate(R.layout.locker_popup_dialog, null);
@@ -613,8 +601,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             AppCompatButton buttonYes = ViewUtils.findViewById(content, R.id.button_yes);
             AppCompatButton buttonNo = ViewUtils.findViewById(content, R.id.button_no);
             buttonNo.setTextColor(getResources().getColor(R.color.primary_green));
-            title.setText(R.string.charging_screen_close_dialog_title);
-            hintContent.setText(R.string.charging_screen_close_dialog_content);
+            if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+                title.setText(R.string.locker_disable_confirm);
+                hintContent.setText(R.string.locker_disable_confirm_detail);
+            } else {
+                title.setText(R.string.charging_screen_close_dialog_title);
+                hintContent.setText(R.string.charging_screen_close_dialog_content);
+            }
             buttonNo.setText(R.string.charging_screen_close_dialog_positive_action);
             buttonNo.setOnClickListener(new View.OnClickListener() {
 
@@ -651,7 +644,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     HSLog.d(TAG, "activity finish by turn off");
                     isNormalFinishing = true;
                     mCloseLockerPopupView.dismiss();
-                    finish();
+                    dismiss();
                 }
             });
             mCloseLockerPopupView.setOutSideBackgroundColor(0xB3000000);
@@ -995,9 +988,15 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
     }
 
+    private void dismiss() {
+        mKeyguardHandler.tryDismissKeyguard(true, this);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        mKeyguardHandler.onViewDestroy();
 
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
             LockerCustomConfig.getLogger().logEvent("LockScreen_News_Close");
