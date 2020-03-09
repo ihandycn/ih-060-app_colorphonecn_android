@@ -356,8 +356,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
-        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED,this);
-        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED, this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -380,7 +380,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         mIsSetup = true;
     }
-
 
 
     public void onStart() {
@@ -408,19 +407,19 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 //            customizeContentContainer.onVisibilityChange(true);
 //        }
         if (adEnabled) {
-            if (expressAdView == null) {
-                requestAds();
-                showExpressAd();
-            } else if (expressAdView.getParent() == null) {
-                showExpressAd();
-            }
-
-            if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
                 LockerCustomConfig.getLogger().logEvent("ad_chance");
                 AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
 
                 expressAdView.switchAd();
+            }
+
+            if (expressAdView == null) {
+                requestAds();
+                showExpressAd();
+            } else if (expressAdView.getParent() == null) {
+                showExpressAd();
             }
         }
 
@@ -492,7 +491,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         });
 
         expressAdView.prepareAdPlus(new AcbExpressAdView.PrepareAdPlusListener() {
-            @Override public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
+            @Override
+            public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
 
             }
         });
@@ -980,19 +980,17 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 onStop();
                 break;
-
-
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 unlockTextView.setText(R.string.unlock_tint_no_keyguard);
-                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0, 0);
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 unlockTextView.setText(R.string.unlock_tint_keyguard);
-                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 break;
             default:
                 break;
@@ -1092,7 +1090,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             int phoneHeight = Dimensions.getPhoneHeight(getContext());
             if (showNumber == 2) {
                 if (phoneHeight <= 1920) {
-                    chargingQuantityView.setTextSize(80  * phoneHeight / 1920 - 5);
+                    chargingQuantityView.setTextSize(80 * phoneHeight / 1920 - 5);
                 }
             } else {
                 chargingQuantityView.setTextSize(90);

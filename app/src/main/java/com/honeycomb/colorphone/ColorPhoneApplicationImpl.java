@@ -996,7 +996,7 @@ public class ColorPhoneApplicationImpl {
         locker.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return LockerSettings.isLockerEnabled();
+                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
             }
         });
 
@@ -1007,7 +1007,7 @@ public class ColorPhoneApplicationImpl {
         charging.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return SmartChargingSettings.isChargingScreenEnabled();
+                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
             }
         });
 

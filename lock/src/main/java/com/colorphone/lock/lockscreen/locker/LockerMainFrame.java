@@ -535,8 +535,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
                 if (mLockScreen != null && !mLockScreen.isActivityHost()) {
                     onStart();
-                } else {
-                    showExpressAd();
                 }
 
                 if (!mShimmer.isAnimating()) {
