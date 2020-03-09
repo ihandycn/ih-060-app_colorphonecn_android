@@ -408,9 +408,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 //            customizeContentContainer.onVisibilityChange(true);
 //        }
         if (adEnabled) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
-            LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
             if (expressAdView == null) {
                 requestAds();
                 showExpressAd();
@@ -419,6 +416,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             }
 
             if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+                LockerCustomConfig.getLogger().logEvent("ad_chance");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+
                 expressAdView.switchAd();
             }
         }
@@ -462,6 +463,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
 
     private void requestAds() {
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+        LockerCustomConfig.getLogger().logEvent("ad_chance");
+        AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
