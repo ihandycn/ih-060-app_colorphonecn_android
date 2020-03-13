@@ -104,6 +104,7 @@ import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
@@ -132,7 +133,6 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.occasion.OccasionManager;
-import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
@@ -159,8 +159,6 @@ import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -173,8 +171,6 @@ import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
-import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
-import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplicationImpl {
     private static final long TIME_NEED_LOW = 10 * 1000; // 10s
@@ -348,6 +344,9 @@ public class ColorPhoneApplicationImpl {
     }
 
     private void onAllProcessCreated() {
+
+        initFlurry();
+
         CrashReport.initCrashReport(mBaseApplication.getApplicationContext(), mBaseApplication.getString(R.string.bugly_app_id), BuildConfig.DEBUG);
 
         String channel = ChannelInfoUtil.getChannelInfo(mBaseApplication);
@@ -434,6 +433,14 @@ public class ColorPhoneApplicationImpl {
         HSPermissionRequestMgr.InitOptions initOptions = new HSPermissionRequestMgr.InitOptions();
         initOptions.setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
         HSPermissionRequestMgr.getInstance().init(initOptions);
+    }
+
+    private void initFlurry() {
+        String yybChannel = "YYB_organic_none_none_0";
+        String channel = ChannelInfoUtil.getChannelInfo(mBaseApplication);
+        if (yybChannel.equals(channel)) {
+            HSAnalytics.enableFlurry(false);
+        }
     }
 
     private int batteryScale;
@@ -558,7 +565,8 @@ public class ColorPhoneApplicationImpl {
             boolean cpuChangeToHigh = false;
             boolean batteryChangeToLow = false;
 
-            @Override public void onHomePressed() {
+            @Override
+            public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
@@ -598,7 +606,8 @@ public class ColorPhoneApplicationImpl {
                 }
             }
 
-            @Override public void onRecentsPressed() {
+            @Override
+            public void onRecentsPressed() {
 
             }
         });
@@ -618,7 +627,8 @@ public class ColorPhoneApplicationImpl {
         });
 
         RingtoneConfig.getInstance().setRingtoneSetter(new RingtoneSetter() {
-            @Override public boolean onSetRingtone(Ringtone ringtone) {
+            @Override
+            public boolean onSetRingtone(Ringtone ringtone) {
                 if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()
                         || !AutoPermissionChecker.isNotificationListeningGranted()) {
                     RuntimePermissionActivity.startForRingtone();
@@ -645,7 +655,7 @@ public class ColorPhoneApplicationImpl {
                             Navigations.startActivitySafely(mBaseApplication, intent);
                         } else if (RomUtils.checkIsMiuiRom()) {
                             Intent guideIntent = new Intent(mBaseApplication, WriteSettingsPopupGuideActivity.class);
-                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[] { intent, guideIntent});
+                            Navigations.startActivitiesSafely(mBaseApplication, new Intent[]{intent, guideIntent});
                         } else {
                             Navigations.startActivitySafely(mBaseApplication, intent);
                         }

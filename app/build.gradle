@@ -181,7 +181,7 @@ dependencies {
     ]
 
     final COMMON_COLORPHONE = [
-            "cn.ihandy.appframework:libAppframework.beta:4.10.0.cn.beta01"
+            "cn.ihandy.appframework:libAppframework.beta:4.10.1.cn.beta01"
     ]
 
 
@@ -261,7 +261,7 @@ dependencies {
 
     compile name: 'libCmgameCenter/cmgame-sdk-tt2011-1.0.7', ext: 'aar'
 
-    implementation 'com.appsflyer:af-android-sdk:4.9.0'
+    implementation 'com.appsflyer:af-android-sdk:5.1.1'
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
