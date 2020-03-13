@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.animation.PathInterpolatorCompat;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.RevealFlashButton;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -71,8 +69,8 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         isShowNativeAD = false;
         if (isShowNativeAD) {
             setContentView(R.layout.clean_guide_activity_with_ad);
-            AcbExpressAdManager.getInstance().activePlacementInProcess(Placements.AD_CLEAN_GUIDE);
-            AcbExpressAdManager.getInstance().preload(1, Placements.AD_CLEAN_GUIDE);
+            AcbExpressAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_CLEAN_GUIDE));
+            AcbExpressAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.AD_CLEAN_GUIDE));
 
             View view = findViewById(R.id.content_view);
             view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(6), false));
@@ -208,7 +206,7 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         Analytics.logEvent("Clean_Guide_AD_Should_Show");
 
         if (adView == null) {
-            adView = new AcbExpressAdView(this, Placements.AD_CLEAN_GUIDE, "");
+            adView = new AcbExpressAdView(this, Placements.getAdPlacement(Placements.AD_CLEAN_GUIDE), "");
             AcbContentLayout layout = new AcbContentLayout(com.messagecenter.R.layout.acb_phone_alert_ad_card_big);
             layout.setActionId(com.messagecenter.R.id.ad_call_to_action);
             layout.setChoiceId(com.messagecenter.R.id.ad_conner);

@@ -355,7 +355,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
         @Override
         public String getAdPlaceName() {
-            return Placements.AD_CALL_OFF;
+            return Placements.getAdPlacement(Placements.AD_CALL_OFF);
         }
 
         @Override
@@ -369,7 +369,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public String getFullScreenAdPlacement() {
-            return Placements.AD_CALL_ASSISTANT_FULL_SCREEN;
+            return Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
         }
 
 
@@ -419,7 +419,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public String getTextureWirePlacement() {
-            return Placements.AD_EXIT_TEXTURE_WIRE;
+            return Placements.getAdPlacement(Placements.AD_EXIT_TEXTURE_WIRE);
         }
 
         @Override

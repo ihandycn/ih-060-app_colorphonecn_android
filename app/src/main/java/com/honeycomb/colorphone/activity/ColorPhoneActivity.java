@@ -773,7 +773,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("List_Page_Permission_Alert_Show");
             }
         }
-        AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
 
         if (!showAllFeatureGuide) {
             isCreate = false;

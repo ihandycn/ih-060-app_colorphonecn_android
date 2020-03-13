@@ -39,7 +39,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
         return new NotificationMessageAlertActivity.Config() {
             @Override
             public String getAdPlacement() {
-                return Placements.AD_MSG;
+                return Placements.getAdPlacement(Placements.AD_MSG);
             }
 
             @Override
@@ -166,7 +166,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public String getTextureWirePlacement() {
-                return Placements.AD_EXIT_TEXTURE_WIRE;
+                return Placements.getAdPlacement(Placements.AD_EXIT_TEXTURE_WIRE);
             }
 
             @Override

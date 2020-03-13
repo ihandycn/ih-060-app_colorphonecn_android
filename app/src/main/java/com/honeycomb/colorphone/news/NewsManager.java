@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Placements;
-import com.honeycomb.colorphone.ad.AdLogUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
@@ -260,7 +259,7 @@ public class NewsManager {
     }
 
     private static String getNativeAdPlacementName() {
-        return Placements.AD_EXIT_WIRE_NEW;
+        return Placements.getAdPlacement(Placements.AD_EXIT_WIRE_NEW);
     }
 
     public AcbNativeAd getNativeAd() {

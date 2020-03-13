@@ -54,8 +54,8 @@ public class ResultPageManager {
         boolean hasNative = false;
         boolean hasInters = false;
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            hasNative = getAd(Placements.BOOST_DONE) != null;
-            hasInters = getInterstitialAd(Placements.BOOST_WIRE) != null;
+            hasNative = getAd(Placements.getAdPlacement(Placements.BOOST_DONE)) != null;
+            hasInters = getInterstitialAd(Placements.getAdPlacement(Placements.BOOST_WIRE)) != null;
         }
 
         if (!hasNative) {
@@ -134,11 +134,11 @@ public class ResultPageManager {
     }
 
     public String getExpressAdPlacement() {
-        return isFromBatteryImprover() ? Placements.CABLE_DOWN : Placements.BOOST_DONE;
+        return isFromBatteryImprover() ? Placements.getAdPlacement(Placements.CABLE_DOWN) : Placements.getAdPlacement(Placements.BOOST_DONE);
     }
 
     public String getInterstitialAdPlacement() {
-        return  isFromBatteryImprover() ? Placements.CABLE_WIRE : Placements.BOOST_WIRE;
+        return isFromBatteryImprover() ? Placements.getAdPlacement(Placements.CABLE_WIRE) : Placements.getAdPlacement(Placements.BOOST_WIRE);
     }
 
     public String getFromAdPlacement() {
