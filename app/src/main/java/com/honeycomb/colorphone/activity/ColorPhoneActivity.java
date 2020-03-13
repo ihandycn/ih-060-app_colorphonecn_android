@@ -1326,7 +1326,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     categoryList = new ArrayList<>();
                     AllCategoryBean.CategoryItem categoryItem = new AllCategoryBean.CategoryItem();
                     categoryItem.setId("-1");
-                    categoryItem.setName("推荐");
+                    categoryItem.setName("发现");
                     categoryList.add(categoryItem);
 
                     mMainPageTab = frame.findViewById(R.id.main_page_tabs);
