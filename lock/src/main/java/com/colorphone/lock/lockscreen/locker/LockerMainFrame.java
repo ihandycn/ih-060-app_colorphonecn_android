@@ -333,6 +333,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void onGameClick() {
         LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
+    }
 
     private void increaseLockerCounter() {
         lockerCount++;

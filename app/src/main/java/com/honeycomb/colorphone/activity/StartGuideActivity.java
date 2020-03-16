@@ -470,12 +470,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
 
             permissionDialog.setVisibility(View.GONE);
+            Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
         });
 
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
         layout.setAlpha(0.3f);
         layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).setListener(null).start();
+        Analytics.logEvent("StartGuide_PermissionGuide_Show");
 
         return true;
     }
