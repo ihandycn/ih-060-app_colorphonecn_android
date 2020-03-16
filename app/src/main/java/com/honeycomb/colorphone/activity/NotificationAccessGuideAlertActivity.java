@@ -109,7 +109,6 @@ public class NotificationAccessGuideAlertActivity extends Activity {
 
     private void onShow(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            Analytics.logEvent("Notification_Alert_Show_First_Launch");
             return;
         }
         int order;
@@ -118,14 +117,12 @@ public class NotificationAccessGuideAlertActivity extends Activity {
             Analytics.logEvent("Notification_Alert_Show_Inside_App", "time", "" + order);
         } else {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0);
-            Analytics.logEvent("Notification_Alert_Show_Outside_App", "time", "" + order);
         }
     }
 
 
     private void onEnableClick(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            Analytics.logEvent("Notification_Alert_Ok_Clicked_First_Launch");
             return;
         }
         int order;
@@ -134,22 +131,15 @@ public class NotificationAccessGuideAlertActivity extends Activity {
             Analytics.logEvent("Notification_Alert_Ok_Clicked_Inside_App", "time", "" + order);
         } else {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0);
-            Analytics.logEvent("Notification_Alert_Ok_Clicked_Outside_App", "time", "" + order);
         }
     }
 
     private void onOpenPermissionSettings(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            Analytics.logEvent("SystemNotificationAccessView_Show", "from", "firstLaunch");
             return;
         }
 
-        Analytics.logEvent("SystemNotificationAccessView_Show", "from", insideApp ? "insideApp" : "outsideApp");
     }
 
-    private void onNotificationAccessGranted(String fromType) {
-        Analytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
-
-    }
 }
 

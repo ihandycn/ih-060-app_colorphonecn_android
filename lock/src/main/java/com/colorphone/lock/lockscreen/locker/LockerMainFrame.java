@@ -220,7 +220,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onClick(View v) {
                 LockerMainFrame.this.showMenuPopupWindow(getContext(), mMenuMore);
-                LockerCustomConfig.getLogger().logEvent("Locker_Menu_Clicked");
             }
         });
 
@@ -241,7 +240,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         if (isGameEntranceEnable()) {
             updateLockerEntrance();
-            onGameShow();
         } else {
             mGameIconEntrance.setVisibility(GONE);
             mGameLottieEntrance.setVisibility(GONE);
@@ -333,14 +331,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         return LockerCustomConfig.get().isGameEntranceEnable();
     }
 
-    private void onGameShow() {
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Shown", "type", gameEntranceType);
-    }
-
     private void onGameClick() {
         LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked", "type", gameEntranceType);
-    }
 
     private void increaseLockerCounter() {
         lockerCount++;
@@ -622,7 +614,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (mIsSlidingDrawerOpened) {
             mBottomOperationArea.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_OPENED);
-            LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Slided");
         } else {
             mDimCover.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_CLOSED);

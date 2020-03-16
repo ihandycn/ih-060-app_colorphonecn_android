@@ -624,7 +624,6 @@ public class CleanGuideCondition implements INotificationObserver {
         );
         showNotification(localNotification);
 
-        Analytics.logEvent("Clean_Guide_Show", "Type", "Guide" + info.cleanGuideType);
     }
 
     private void showNotification(LocalNotification notificationModel) {

@@ -450,7 +450,6 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostDone_Page_Shown_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
-                Analytics.logEvent("BoostDone_Page_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostDone_Page_Shown_FromToolbar");
@@ -485,7 +484,6 @@ abstract class ResultController implements View.OnClickListener {
                     Ap.Improver.logEvent("cableimproverwire_should_show");
                 } else {
                     if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
-                        Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "Battery");
                     } else {
                         Analytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
                     }
@@ -498,7 +496,6 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
-                Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromToolbar");
@@ -507,11 +504,9 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
-                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_WireAd_Should_Shown_FromPush", "Type", "CPU");
                 } else {
                     Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
                 }
@@ -532,7 +527,6 @@ abstract class ResultController implements View.OnClickListener {
 
                 } else {
                     if (mEventType == ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE) {
-                        Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Battery");
                     } else {
                         Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
                     }
@@ -544,7 +538,6 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
-                Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostWire_Ad_Shown_FromPush");
@@ -557,11 +550,9 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Shown_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
-                Analytics.logEvent("BoostWire_Ad_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
-                    Analytics.logEvent("CleanDone_WireAd_Shown_FromPush", "Type", "Cpu");
                 } else {
                     Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 }
@@ -606,7 +597,6 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostDone_Ad_Shown_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
-                Analytics.logEvent("BoostDone_Ad_Shown_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 if (mEventType == ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE) {
@@ -624,25 +614,20 @@ abstract class ResultController implements View.OnClickListener {
     private void logBoostDoneAdClicked() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                Analytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 Analytics.logEvent("BoostDone_Ad_Clicked_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("BoostDone_Ad_Clicked_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostDone_Ad_Clicked_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
-                Analytics.logEvent("BoostDone_Ad_Clicked_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
-                Analytics.logEvent("BoostDone_Ad_Clicked_FromLocker");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                Analytics.logEvent("Colorphone_CPUDone_Ad_Clicked");
                 break;
             default:
                 break;

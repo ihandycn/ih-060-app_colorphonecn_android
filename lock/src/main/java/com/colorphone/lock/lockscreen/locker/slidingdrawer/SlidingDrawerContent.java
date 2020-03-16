@@ -119,11 +119,9 @@ public class SlidingDrawerContent extends FrameLayout
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case EVENT_SYSTEM_SETTING_WIFI:
-                    LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Wifi");
                     wifiState.setEnabled(true);
                     break;
                 case EVENT_SYSTEM_SETTING_BLUETOOTH:
-                    LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Bluetooth");
                     bluetoothState.setEnabled(true);
                     break;
                 case EVENT_SYSTEM_SETTING_MOBILE_DATA:
@@ -349,7 +347,6 @@ public class SlidingDrawerContent extends FrameLayout
 
 
                 HSGlobalNotificationCenter.sendNotification(EVENT_SHOW_BLACK_HOLE);
-                LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Boost");
             }
         });
 
@@ -503,7 +500,6 @@ public class SlidingDrawerContent extends FrameLayout
                     isCameraUsageAccess = false;
                 }
             }
-            LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Flashlight");
             flashlight.setImageResource(FlashlightManager.getInstance().isOn() ?
                     R.drawable.locker_flashlight_on : R.drawable.locker_flashlight_off);
 
@@ -513,7 +509,6 @@ public class SlidingDrawerContent extends FrameLayout
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "CalcClick");
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
                 openCalculator();
-                LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Calculator");
             }
         } else {
         }
@@ -558,10 +553,8 @@ public class SlidingDrawerContent extends FrameLayout
                             params.put("type", "success");
                             if (currentState == 1) {
                                 params.put("state", "on");
-                                LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "MobileData");
                             } else {
                                 params.put("state", "off");
-                                LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "MobileData");
                             }
                             mobileDataLastState = currentState;
                         }
@@ -579,10 +572,8 @@ public class SlidingDrawerContent extends FrameLayout
             case BLUETOOTH:
                 if (handler.hasMessages(EVENT_SYSTEM_SETTING_BLUETOOTH)) {
                     if (state == 1) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Bluetooth");
                         handler.removeMessages(EVENT_SYSTEM_SETTING_BLUETOOTH);
                     } else if (state == 0) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Bluetooth");
                         handler.removeMessages(EVENT_SYSTEM_SETTING_BLUETOOTH);
                     }
                 }
@@ -593,10 +584,8 @@ public class SlidingDrawerContent extends FrameLayout
                 if (handler.hasMessages(EVENT_SYSTEM_SETTING_WIFI)) {
                     Map<String, String> params = new HashMap<>();
                     if (state == 1) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Wifi");
                         handler.removeMessages(EVENT_SYSTEM_SETTING_WIFI);
                     } else if (state == 0) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Wifi");
                         handler.removeMessages(EVENT_SYSTEM_SETTING_WIFI);
                     }
                 }
@@ -611,13 +600,6 @@ public class SlidingDrawerContent extends FrameLayout
                 break;
             case RINGMODE:
                 if (handler.hasMessages(EVENT_SYSTEM_SETTING_SOUND_PROFILE)) {
-                    if (state == 2) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Sound");
-                    } else if (state == 1) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Sound");
-                    } else {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Sound");
-                    }
                     handler.removeMessages(EVENT_SYSTEM_SETTING_SOUND_PROFILE);
                 }
                 soundProfileState.setImageResource(soundStateRes[state]);
@@ -639,7 +621,6 @@ public class SlidingDrawerContent extends FrameLayout
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         brightnessValue = seekBar.getProgress();
-        LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Bright");
     }
 
     @Override

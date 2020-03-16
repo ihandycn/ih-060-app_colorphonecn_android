@@ -620,9 +620,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             HSLog.i(NewsManager.TAG, "UrlDecode:" + URLDecoder.decode(url));
             Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(URLDecoder.decode(url), false, WebViewActivity.FROM_LIST));
 
-            logger.logShowNewsDetail(true, type == NewsAdapter.NEWS_TYPE_VIDEO);
         } else {
-            logger.logShowNewsDetail(false, type == NewsAdapter.NEWS_TYPE_VIDEO);
             showToast(R.string.news_network_failed_toast);
         }
     }

@@ -656,7 +656,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case TabItem.TAB_NEWS:
                         endCurrentVideo();
-                        Analytics.logEvent("Tab_News_Show");
                         break;
                     case TabItem.TAB_RINGTONE:
                         endCurrentVideo();

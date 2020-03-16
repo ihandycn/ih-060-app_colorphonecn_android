@@ -272,7 +272,6 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
 //                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
-                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
                 Navigations.startActivitySafely(getContext(), FeedbackActivity.class);
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);

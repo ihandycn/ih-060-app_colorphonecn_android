@@ -147,7 +147,6 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
                     HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
                 } else {
                     if (Navigations.startCamera(HSApplication.getContext())) {
-                        LockerCustomConfig.getLogger().logEvent("Locker_Camera_Opened");
                         HSBundle bundle = new HSBundle();
                         bundle.putString(Locker.EXTRA_DISMISS_REASON, "CameraClick");
                         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);

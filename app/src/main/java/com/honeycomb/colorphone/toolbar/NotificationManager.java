@@ -561,46 +561,33 @@ public class NotificationManager implements FlashlightStatusListener {
                 Navigations.startActivitySafely(context, cleanBatteryAppIntent);
                 showNotificationToolbarIfEnabled(false);
 
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide6");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case NotificationManager.CLEAN_GUIDE_TYPE_BATTERY_LOW_ACTION:
                 Intent cleanBatteryLowIntent = new Intent(context, BatteryCleanActivity.class);
                 cleanBatteryLowIntent.putExtra(BatteryCleanActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_BATTERY_CLEAN_GUIDE);
                 Navigations.startActivitySafely(context, cleanBatteryLowIntent);
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide1");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_APPS_ACTION:
                 BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide5");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_JUNK_ACTION:
                 BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide4");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case NotificationManager.CLEAN_GUIDE_TYPE_BOOST_MEMORY_ACTION:
                 BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE);
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide3");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case NotificationManager.CLEAN_GUIDE_TYPE_CPU_HOT_ACTION:
                 Intent cpuHotIntent = new Intent(context, CpuCoolDownActivity.class);
                 cpuHotIntent.putExtra(CpuCoolDownActivity.EXTRA_KEY_RESULT_PAGE_TYPE, ResultConstants.RESULT_TYPE_CPU_CLEAN_GUIDE);
                 Navigations.startActivitySafely(context, cpuHotIntent);
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Click", "Type", "Guide2");
-                Analytics.logEvent("Clean_Guide_Close", "Type", "OKBtn");
                 break;
             case CLEAN_GUIDE_DISMISS_ACTION:
                 showNotificationToolbarIfEnabled(false);
-                Analytics.logEvent("Clean_Guide_Close", "Type", "Slide");
                 break;
             default:
                 HSLog.w(TAG, "Unsupported action");

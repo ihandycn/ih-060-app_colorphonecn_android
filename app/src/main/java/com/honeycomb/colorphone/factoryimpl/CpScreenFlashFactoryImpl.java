@@ -350,8 +350,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashPhoneAccessRequested() {
-                Analytics.logEvent("Permission_Guide_Phone_Allow_Click",
-                        "type", source, "from", String.valueOf(launchTime));
                 if (PermissionTestUtils.functionVersion()) {
                     Analytics.logEvent("Permission_Guide_Phone_Allow_Click_new",
                             "type", source, "from", String.valueOf(launchTime));
@@ -361,12 +359,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
-                Analytics.logEvent("Permission_Guide_Phone_Allow_Success",
-                        "type", source, "from", String.valueOf(launchTime));
-                if (PermissionTestUtils.functionVersion()) {
-                    Analytics.logEvent("Permission_Guide_Phone_Allow_Success_new",
-                            "type", source, "from", String.valueOf(launchTime));
-                }
 //                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_allow_success");
             }
 
@@ -405,21 +397,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashNotificationAccessRequested() {
                 Analytics.logEvent("Permission_Guide_NA_Allow_Click",
                         "type", source, "from", String.valueOf(launchTime));
-                if (PermissionTestUtils.functionVersion()) {
-                    Analytics.logEvent("Permission_Guide_NA_Allow_Click_new",
-                            "type", source, "from", String.valueOf(launchTime));
-                }
 //                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_view_show");
             }
 
             @Override
             public void logScreenFlashNotificationAccessSucceed() {
-                Analytics.logEvent("Permission_Guide_NA_Allow_Success",
-                        "type", source, "from", String.valueOf(launchTime));
-                if (PermissionTestUtils.functionVersion()) {
-                    Analytics.logEvent("Permission_Guide_NA_Allow_Success_new",
-                            "type", source, "from", String.valueOf(launchTime));
-                }
 //                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_allow_success");
             }
 

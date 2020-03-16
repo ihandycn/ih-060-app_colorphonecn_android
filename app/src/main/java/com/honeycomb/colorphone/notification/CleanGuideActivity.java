@@ -113,7 +113,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override public void onHomePressed() {
                 finish();
-                Analytics.logEvent("Clean_Guide_Close", "Type", exitReason);
             }
 
             @Override public void onRecentsPressed() {
@@ -143,13 +142,11 @@ public class CleanGuideActivity extends HSAppCompatActivity {
         action.setOnClickListener(v -> {
             finish();
             info.actionRunnable.run();
-            Analytics.logEvent("Clean_Guide_Click", "Type", "Guide" + type);
             exitReason = "OKBtn";
         });
 
         startButtonAppearAnimation();
 
-        Analytics.logEvent("Clean_Guide_Show", "Type", "Guide" + type);
     }
 
     private void startButtonAppearAnimation() {
@@ -179,7 +176,6 @@ public class CleanGuideActivity extends HSAppCompatActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        Analytics.logEvent("Clean_Guide_Close", "Type", exitReason);
         if (adView != null) {
             adView.destroy();
         }

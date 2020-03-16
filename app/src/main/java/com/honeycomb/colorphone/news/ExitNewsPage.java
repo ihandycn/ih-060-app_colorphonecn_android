@@ -310,12 +310,6 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             Analytics.logEvent("Message_News_Ad_Show");
         }
 
-        protected void logShowNewsDetail(boolean hasNetwork, boolean isVideo) {
-            if (hasNetwork) {
-                Analytics.logEvent("Message_News_Details_Show",
-                        "NewsType", (isVideo ? "Video" : "News"));
-            }
-        }
     }
 
 }

@@ -56,7 +56,6 @@ public class PermissionHelper {
         if (needGuideNotificationPermisson && !Permissions.isNotificationAccessGranted()) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
-            Analytics.logEvent("SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
                 if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom()) {
                     Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);

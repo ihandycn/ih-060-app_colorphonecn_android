@@ -309,7 +309,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     } else {
                         if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)
                                 || AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.CALL_PHONE)) {
-                            Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Request");
                             AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                         } else {
                             if (!AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.READ_PHONE_STATE)) {
@@ -344,7 +343,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     holder.requestNextPermission();
                     if (confirmPermission == StartGuidePermissionFactory.PERMISSION_TYPE_PHONE) {
                         if (oneKeyFixPressed) {
-                            Analytics.logEvent("FixAlert_Automatic_Phone_Settings_Granted");
                         } else {
                             Analytics.logEvent("FixAlert_Phone_Settings_Granted");
                         }
@@ -445,8 +443,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         dialog = builder.create();
 
         showDialog(dialog);
-
-        Analytics.logEvent("FixAlert_Retain_Show", "From", from);
     }
 
     private boolean showPermissionDialog() {
@@ -474,14 +470,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
 
             permissionDialog.setVisibility(View.GONE);
-            Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
         });
 
         layout.setScaleX(0.7f);
         layout.setScaleY(0.7f);
         layout.setAlpha(0.3f);
         layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).setListener(null).start();
-        Analytics.logEvent("StartGuide_PermissionGuide_Show");
 
         return true;
     }
