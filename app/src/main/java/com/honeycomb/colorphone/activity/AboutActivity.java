@@ -36,14 +36,14 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.privacy_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigations.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlPrivacy()));
+                WebLoadActivity.start(AboutActivity.this, Constants.getUrlPrivacy());
             }
         });
 
         findViewById(R.id.term_service_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigations.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlTermServices()));
+                WebLoadActivity.start(AboutActivity.this, Constants.getUrlTermServices());
             }
         });
 
