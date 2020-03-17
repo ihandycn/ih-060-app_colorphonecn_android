@@ -52,7 +52,7 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.declare_rights).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigations.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlDeclareRights()));
+                WebLoadActivity.start(AboutActivity.this, Constants.getUrlDeclareRights());
             }
         });
     }
