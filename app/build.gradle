@@ -195,7 +195,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     // Fix crash on Android O background service
-    compile 'com.liulishuo.filedownloader:library:1.7.6-SNAPSHOT'
+    compile 'com.liulishuo.filedownloader:library:1.7.7'
     compile("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
