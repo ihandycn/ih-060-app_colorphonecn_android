@@ -97,6 +97,7 @@ public class SmartLockerManager {
             return;
         }
 
+        HSLog.d("Rango", "start SmartLockerFeedsActivity....");
         Intent intent = new Intent(HSApplication.getContext(), SmartLockerFeedsActivity.class);
         intent.putExtra(SmartLockerFeedsActivity.EXTRA_INT_BATTERY_LEVEL_PERCENT,
                 HSChargingManager.getInstance().getBatteryRemainingPercent());
