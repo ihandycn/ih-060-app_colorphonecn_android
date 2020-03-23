@@ -15,9 +15,9 @@ import android.widget.ScrollView;
 import android.widget.Scroller;
 
 import com.colorphone.smartlocker.RefreshViewState;
-import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.DisplayUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
+import com.colorphone.smartlocker.utils.NewsUtils;
 import com.ihs.commons.utils.HSLog;
 
 public class RefreshView extends LinearLayout {
@@ -118,7 +118,7 @@ public class RefreshView extends LinearLayout {
 
     private void dealAddHeaderView() {
         if (indexOfChild(refreshViewHeader) == -1) {
-            DailyNewsUtils.removeViewFromParent(refreshViewHeader);
+            NewsUtils.removeViewFromParent(refreshViewHeader);
             addView(refreshViewHeader, 0);
             checkPullRefreshEnable();
         }
@@ -369,10 +369,10 @@ public class RefreshView extends LinearLayout {
         int offsetY;
         if (pullRefreshing) {
             offsetY = headerViewHeight - this.offsetY;
-            startScroll(offsetY, DailyNewsUtils.computeScrollVerticalDuration(offsetY, getHeight()));
+            startScroll(offsetY, NewsUtils.computeScrollVerticalDuration(offsetY, getHeight()));
         } else {
             offsetY = 0 - this.offsetY;
-            startScroll(offsetY, DailyNewsUtils.computeScrollVerticalDuration(offsetY, getHeight()));
+            startScroll(offsetY, NewsUtils.computeScrollVerticalDuration(offsetY, getHeight()));
         }
         HSLog.d(TAG, "resetHeaderHeight offsetY=" + offsetY);
     }
@@ -438,7 +438,7 @@ public class RefreshView extends LinearLayout {
                     } else {
                         //有时scroller已经停止了，但是却没有回到应该在的位置，执行下面的方法恢复
                         if (stoppingRefresh && !pullRefreshing) {
-                            startScroll(-currentY, DailyNewsUtils.computeScrollVerticalDuration(currentY, getHeight()));
+                            startScroll(-currentY, NewsUtils.computeScrollVerticalDuration(currentY, getHeight()));
                         }
                     }
                 }

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.bean.IFeedBean;
-import com.colorphone.smartlocker.utils.DailyNewsUtils;
+import com.colorphone.smartlocker.utils.NewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.viewholder.RightImageViewHolder;
 
@@ -72,7 +72,7 @@ public class RightImageListItem implements INewsListItem<RecyclerView.ViewHolder
                     return;
                 }
 
-                DailyNewsUtils.jumpToNewsDetail(context, feedBean.getArticleUrl());
+                NewsUtils.jumpToNewsDetail(context, feedBean.getArticleUrl());
             }
         });
     }

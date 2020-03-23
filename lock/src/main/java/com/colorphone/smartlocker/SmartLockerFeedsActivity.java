@@ -57,9 +57,9 @@ import com.colorphone.smartlocker.itemview.RightImageListItem;
 import com.colorphone.smartlocker.itemview.SmartLockerAdListItem;
 import com.colorphone.smartlocker.itemview.ThreeImageListItem;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
-import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.DisplayUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
+import com.colorphone.smartlocker.utils.NewsUtils;
 import com.colorphone.smartlocker.utils.StatusBarUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.view.NewsDetailView;
@@ -722,7 +722,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void loadOldData() {
-        JSONObject jsonObject = DailyNewsUtils.getLastNews(categoryParam);
+        JSONObject jsonObject = NewsUtils.getLastNews(categoryParam);
         if (jsonObject == null || !NetworkStatusUtils.isNetworkConnected(context)) {
             return;
         }
@@ -730,6 +730,12 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void loadData(final boolean isPullDown) {
+
+        if (!NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
+            LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Network");
+            return;
+        }
+
         if (isLoading) {
             return;
         }
@@ -742,8 +748,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     isLoading = false;
                     if (NetworkStatusUtils.isNetworkConnected(context)) {
                         Toast.makeText(context, context.getString(R.string.sdk_response_err), Toast.LENGTH_SHORT).show();
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "ResponseNull");
                     } else {
                         Toast.makeText(context, context.getString(R.string.no_network_now), Toast.LENGTH_SHORT).show();
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Network");
                     }
                     refreshView.stopRefresh();
                     if (!isPullDown) {
@@ -756,6 +764,12 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                         }
                     }
                     return;
+                }
+
+                if (NewsUtils.getCountOfResponse(response.toString()) < 5) {
+                    LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Count");
+                } else {
+                    LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Success");
                 }
 
                 if (!isPullDown) {

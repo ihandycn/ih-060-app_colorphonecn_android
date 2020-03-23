@@ -10,8 +10,8 @@ import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
-import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
+import com.colorphone.smartlocker.utils.NewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -77,7 +77,7 @@ public class SmartLockerManager {
             }
             return;
         }
-        JSONObject jsonObject = DailyNewsUtils.getLastNews(BaiduFeedManager.CATEGORY_ALL);
+        JSONObject jsonObject = NewsUtils.getLastNews(BaiduFeedManager.CATEGORY_ALL);
         BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(jsonObject);
         List<BaiduFeedBean> baiduFeedBeanList = baiduFeedItemsBean.getBaiduFeedBeans();
         int newsCount = 0;
@@ -118,12 +118,28 @@ public class SmartLockerManager {
     }
 
     public void tryToPreLoadBaiduNews() {
+        if (!NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
+            LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Network");
+            return;
+        }
         BaiduFeedManager.getInstance().loadNews(BaiduFeedManager.CATEGORY_ALL, BaiduFeedManager.LOAD_FIRST, new BaiduFeedManager.DataBackListener() {
             @Override
             public void onDataBack(JSONObject response) {
-                HSLog.d(TAG, "tryToPreLoadBaiduNews onDataBack response success? " + (response != null));
                 if (response != null) {
-                    DailyNewsUtils.saveNews(BaiduFeedManager.CATEGORY_ALL, response.toString());
+                    NewsUtils.saveNews(BaiduFeedManager.CATEGORY_ALL, response.toString());
+
+                    if (NewsUtils.getCountOfResponse(response.toString()) < 5) {
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Count");
+                    } else {
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Success");
+                    }
+
+                } else {
+                    if (NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "ResponseNull");
+                    } else {
+                        LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Network");
+                    }
                 }
             }
         });
