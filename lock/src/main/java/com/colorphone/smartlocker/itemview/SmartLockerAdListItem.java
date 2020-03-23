@@ -80,6 +80,13 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         this.category = category;
     }
 
+    public int getCurrentPosition() {
+        if (adViewHolder != null) {
+            return adViewHolder.getAdapterPosition();
+        }
+        return -1;
+    }
+
     @Override
     public void release() {
         if (fetchNativeAd != null) {

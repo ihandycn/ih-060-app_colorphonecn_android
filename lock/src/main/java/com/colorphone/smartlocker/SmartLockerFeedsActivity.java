@@ -65,6 +65,7 @@ import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.view.NewsDetailView;
 import com.colorphone.smartlocker.view.RefreshView;
 import com.colorphone.smartlocker.view.SlidingFinishLayout;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
@@ -239,6 +240,15 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
     };
 
+    private BroadcastReceiver screenOnReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+                refreshAd();
+            }
+        }
+    };
+
     private SafePhoneStateListener phoneStateListener = new SafePhoneStateListener();
 
     private int firstWaitInsertAdPosition = -1;
@@ -304,6 +314,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         mKeyguardHandler.onInit();
 
         setContentView(R.layout.activity_smart_locker_feeds);
+
+        registerScreenOn();
 
         context = this;
         categoryParam = BaiduFeedManager.CATEGORY_ALL;
@@ -930,6 +942,41 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
     }
 
+    private void refreshAd() {
+        if (linearLayoutManager != null && feedAdapter != null) {
+            int lastItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+            int firstItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+            if (firstItemPosition >= 0 && firstItemPosition < feedAdapter.getItemCount()
+                    && lastItemPosition < feedAdapter.getItemCount()) {
+                for (int i = firstItemPosition; i <= lastItemPosition; i++) {
+                    final IDailyNewsListItem feedListItem = feedAdapter.getItem(i);
+                    if (feedListItem instanceof SmartLockerAdListItem) {
+                        List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
+                        if (!adList.isEmpty()) {
+                            ((SmartLockerAdListItem) feedListItem).setLoadNativeAd(adList.get(0));
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (((SmartLockerAdListItem) feedListItem).getCurrentPosition() != -1) {
+                                        feedAdapter.notifyItemChanged(((SmartLockerAdListItem) feedListItem).getCurrentPosition());
+                                    }
+                                }
+                            });
+                            AcbNativeAdManager.getInstance().preload(1, appPlacement);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void registerScreenOn() {
+        final IntentFilter screenFilter = new IntentFilter();
+        screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        HSApplication.getContext().registerReceiver(screenOnReceiver, screenFilter);
+    }
+
     @Override
     public void onBackPressed() {
         if (newsDetailView != null) {
@@ -998,6 +1045,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        HSApplication.getContext().unregisterReceiver(screenOnReceiver);
 
         mKeyguardHandler.onViewDestroy();
 
