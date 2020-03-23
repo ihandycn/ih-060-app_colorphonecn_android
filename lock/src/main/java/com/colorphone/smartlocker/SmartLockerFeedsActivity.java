@@ -86,6 +86,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -184,7 +185,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             if (TextUtils.isEmpty(intent.getAction())) {
                 return;
             }
-            switch (intent.getAction()) {
+            switch (Objects.requireNonNull(intent.getAction())) {
                 case Intent.ACTION_POWER_CONNECTED:
                     HSLog.d(TAG, "processPowerStateChanged Intent.ACTION_POWER_CONNECTED");
                     processPowerStateChanged(true);
@@ -259,6 +260,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private int emptyAdItemCount = 0;
     private int adIntervalIndex = 0;
     private int[] adInterval = {2, 3};
+    private int onStartTimes = 0; //新闻第一次出现时不刷新广告
 
     @Nullable
     private AcbNativeAdLoader adLoader;
@@ -500,6 +502,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onStart() {
         super.onStart();
         HSLog.d(TAG, "SmartLockerFeedsActivity onStart");
+
+        onStartTimes++;
 
         if (timeTickReceiver == null) {
             registerReceiver(timeTickReceiver = new BroadcastReceiver() {
@@ -943,6 +947,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     private void refreshAd() {
         if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            return;
+        }
+
+        if (onStartTimes < 2) {
             return;
         }
 
