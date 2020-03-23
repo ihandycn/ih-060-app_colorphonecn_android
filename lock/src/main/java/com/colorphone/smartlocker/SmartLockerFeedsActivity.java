@@ -351,15 +351,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            StatusBarUtils.setTransparent(this);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                StatusBarUtils.addTranslucentView(this, StatusBarUtils.DEFAULT_STATUS_BAR_ALPHA);
-            }
-            smartLockerContainer.setPadding(0, StatusBarUtils.getStatusBarHeight(this), 0, 0);
+        StatusBarUtils.setTransparent(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            StatusBarUtils.addTranslucentView(this, StatusBarUtils.DEFAULT_STATUS_BAR_ALPHA);
         }
+        smartLockerContainer.setPadding(0, StatusBarUtils.getStatusBarHeight(this), 0, 0);
 
         chargingTipTextView = findViewById(R.id.charging_tip_text_view);
         chargingPercentTextView = findViewById(R.id.charging_percent_text_view);
@@ -477,14 +475,17 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         HSLog.d(TAG, "SmartLockerFeedsActivity onNewIntent");
-
         viewedStartTime = System.currentTimeMillis();
-        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
-            LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
-            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");
-        } else {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Show");
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_show");
+
+        int newType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
+        if (newType != startType) {
+            if (newType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");
+            } else {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_show");
+            }
         }
     }
 
@@ -633,17 +634,15 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 }
             });
             buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                GradientDrawable mask = new GradientDrawable();
-                mask.setColor(Color.WHITE);
-                GradientDrawable shape = new GradientDrawable();
-                shape.setColor(Color.TRANSPARENT);
-                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
-                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+            GradientDrawable mask = new GradientDrawable();
+            mask.setColor(Color.WHITE);
+            GradientDrawable shape = new GradientDrawable();
+            shape.setColor(Color.TRANSPARENT);
+            Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+            Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(rootLayout.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
 
-                buttonNo.setBackground(buttonYesDrawable);
-                buttonYes.setBackground(buttonNoDrawable);
-            }
+            buttonNo.setBackground(buttonYesDrawable);
+            buttonYes.setBackground(buttonNoDrawable);
             buttonYes.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -943,6 +942,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void refreshAd() {
+        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            return;
+        }
+
         if (linearLayoutManager != null && feedAdapter != null) {
             int lastItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             int firstItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
@@ -953,9 +956,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     final INewsListItem feedListItem = feedAdapter.getItem(i);
                     if (feedListItem instanceof SmartLockerAdListItem) {
 
-                        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                            logAdChance();
-                        }
+                        logAdChance();
 
                         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
                         if (!adList.isEmpty()) {
@@ -968,9 +969,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                                     }
                                 }
                             });
-                            if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                                logAdShow();
-                            }
+
+                            logAdShow();
                         }
                         AcbNativeAdManager.getInstance().preload(1, appPlacement);
                     }

@@ -54,6 +54,7 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
+import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -438,21 +439,17 @@ public class ColorPhoneApplicationImpl {
         HSPermissionRequestMgr.getInstance().init(initOptions);
     }
 
-    private int batteryScale;
-    private int batteryLevel;
-    private HSChargingManager.BatteryPluggedSource batteryPluggedSource;
-
     private void checkChargingOrLocker() {
         if (ChargingReportUtils.isScreenOn()) {
             return;
         }
         if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
             //
-            if (!ChargingScreenActivity.exist) {
+            if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!LockerActivity.exist) {
+            if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }

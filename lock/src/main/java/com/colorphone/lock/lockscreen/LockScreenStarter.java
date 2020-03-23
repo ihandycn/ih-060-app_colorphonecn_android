@@ -115,9 +115,9 @@ public class LockScreenStarter {
     }
 
     private void tryShowChargingScreen() {
-        if ((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal") ||
-                !isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cableandfuse") ||
-                !isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cable"))
+        if (((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal")) ||
+                (!isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cableandfuse")) ||
+                (!isChargingSmartLockerExist() && AutoPilotUtils.getLockerMode().equals("cable")))
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
