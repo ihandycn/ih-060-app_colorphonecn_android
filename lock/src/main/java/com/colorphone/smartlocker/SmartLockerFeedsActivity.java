@@ -446,6 +446,14 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     resetNewsAdData();
                     loadData(true);
                 }
+
+                if (isPullDown) {
+                    if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+                        LockerCustomConfig.getLogger().logEvent("LockScreen_News_Refresh ");
+                    } else {
+                        LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Refresh");
+                    }
+                }
             }
         });
         resetNewsAdData();
@@ -481,6 +489,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
         int newType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
         if (newType != startType) {
+            SmartLockerManager.getInstance().setStartType(newType);
             if (newType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
                 AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");
