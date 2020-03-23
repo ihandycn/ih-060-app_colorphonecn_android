@@ -450,8 +450,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 if (isPullDown) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                         LockerCustomConfig.getLogger().logEvent("LockScreen_News_Refresh ");
+                        AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_refresh");
                     } else {
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Refresh");
+                        AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_refresh");
                     }
                 }
             }
