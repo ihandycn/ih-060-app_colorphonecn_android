@@ -11,10 +11,6 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hao.li on 2019/9/16.
- */
-
 @Keep
 public class BaiduFeedBean implements IFeedBean {
 

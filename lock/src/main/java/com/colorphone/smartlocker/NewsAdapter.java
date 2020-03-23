@@ -7,16 +7,12 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.colorphone.smartlocker.itemview.IDailyNewsListItem;
+import com.colorphone.smartlocker.itemview.INewsListItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hao.li on 2019/4/25.
- */
-
-public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private class ExceptionViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,10 +22,10 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private Context context;
-    private SparseArray<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> typeInstances = new SparseArray<>();
-    private List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> items = new ArrayList<>();
+    private SparseArray<INewsListItem<? extends RecyclerView.ViewHolder>> typeInstances = new SparseArray<>();
+    private List<INewsListItem<? extends RecyclerView.ViewHolder>> items = new ArrayList<>();
 
-    public DailyNewsAdapter(Context context, List<IDailyNewsListItem<RecyclerView.ViewHolder>> items) {
+    public NewsAdapter(Context context, List<INewsListItem<RecyclerView.ViewHolder>> items) {
         this.context = context;
         this.items.addAll(items);
     }
@@ -37,7 +33,7 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        IDailyNewsListItem<? extends RecyclerView.ViewHolder> item = typeInstances.get(viewType);
+        INewsListItem<? extends RecyclerView.ViewHolder> item = typeInstances.get(viewType);
         if (item == null) {
             return new ExceptionViewHolder();
         }
@@ -47,7 +43,7 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        IDailyNewsListItem<? extends RecyclerView.ViewHolder> item = items.get(position);
+        INewsListItem<? extends RecyclerView.ViewHolder> item = items.get(position);
         if (item == null) {
             return;
         }
@@ -61,8 +57,16 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        if (holder instanceof INewsListItem) {
+            ((INewsListItem) holder).detachedFromWindow();
+        }
+        super.onViewDetachedFromWindow(holder);
+    }
+
+    @Override
     public int getItemViewType(int position) {
-        IDailyNewsListItem<? extends RecyclerView.ViewHolder> item = items.get(position);
+        INewsListItem<? extends RecyclerView.ViewHolder> item = items.get(position);
         if (item == null) {
             return 0;
         }
@@ -75,14 +79,14 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void release() {
-        for (IDailyNewsListItem<? extends RecyclerView.ViewHolder> item : items) {
+        for (INewsListItem<? extends RecyclerView.ViewHolder> item : items) {
             item.release();
         }
 
         items.clear();
     }
 
-    public void addItems(int position, List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> items) {
+    public void addItems(int position, List<INewsListItem<? extends RecyclerView.ViewHolder>> items) {
         if (position < 0) {
             position = 0;
         }
@@ -90,7 +94,7 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemRangeInserted(position, items.size());
     }
 
-    public void addItem(int position, IDailyNewsListItem<RecyclerView.ViewHolder> item) {
+    public void addItem(int position, INewsListItem<RecyclerView.ViewHolder> item) {
         if (position < 0) {
             position = 0;
         }
@@ -98,7 +102,7 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemInserted(position);
     }
 
-    public IDailyNewsListItem<? extends RecyclerView.ViewHolder> getItem(int position) {
+    public INewsListItem<? extends RecyclerView.ViewHolder> getItem(int position) {
         return items.get(position);
     }
 
@@ -109,7 +113,7 @@ public class DailyNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> getData() {
+    public List<INewsListItem<? extends RecyclerView.ViewHolder>> getData() {
         return items;
     }
 

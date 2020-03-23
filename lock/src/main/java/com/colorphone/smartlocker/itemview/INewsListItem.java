@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 
-public interface IDailyNewsListItem<VH extends RecyclerView.ViewHolder> {
+public interface INewsListItem<VH extends RecyclerView.ViewHolder> {
     @LayoutRes
     int getLayoutRes();
 
@@ -15,6 +15,8 @@ public interface IDailyNewsListItem<VH extends RecyclerView.ViewHolder> {
     void release();
 
     void logViewedEvent();
+
+    void detachedFromWindow();
 
     boolean hasViewed();
 }

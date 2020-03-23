@@ -6,10 +6,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hao.li on 2019/9/16.
- */
-
 public class BaiduFeedItemsBean {
 
     private List<BaiduFeedBean> baiduFeedBeans = new ArrayList<>();

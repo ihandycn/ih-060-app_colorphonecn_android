@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.viewholder.LoadMoreViewHolder;
-import com.colorphone.smartlocker.viewholder.TouTiaoLoadMoreViewHolder;
 
-public class LoadMoreItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
-    private boolean hasMore;
+public class LoadMoreItem implements INewsListItem<RecyclerView.ViewHolder> {
 
     public LoadMoreItem(boolean hasMore) {
-        this.hasMore = hasMore;
     }
 
     @Override
@@ -27,16 +24,6 @@ public class LoadMoreItem implements IDailyNewsListItem<RecyclerView.ViewHolder>
 
     @Override
     public void bindViewHolder(Context context, RecyclerView.ViewHolder holder, int position) {
-        if (!(holder instanceof TouTiaoLoadMoreViewHolder)) {
-            return;
-        }
-
-        TouTiaoLoadMoreViewHolder viewHolder = (TouTiaoLoadMoreViewHolder) holder;
-        if (hasMore) {
-            viewHolder.loadTextView.setText(context.getString(R.string.loading_more));
-        } else {
-            viewHolder.loadTextView.setText(context.getString(R.string.no_more_data));
-        }
     }
 
     @Override
@@ -46,6 +33,11 @@ public class LoadMoreItem implements IDailyNewsListItem<RecyclerView.ViewHolder>
 
     @Override
     public void logViewedEvent() {
+
+    }
+
+    @Override
+    public void detachedFromWindow() {
 
     }
 

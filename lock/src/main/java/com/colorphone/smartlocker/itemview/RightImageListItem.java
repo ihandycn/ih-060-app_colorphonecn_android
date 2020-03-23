@@ -15,18 +15,15 @@ import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.viewholder.RightImageViewHolder;
 
 
-public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
+public class RightImageListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
-    private String category;
     private IFeedBean feedBean;
     private boolean hasViewed = false;
-    private Context context;
 
     @Nullable
     private IDailyNewsClickListener clickListener;
 
     public RightImageListItem(String category, IFeedBean feedBean) {
-        this.category = category;
         this.feedBean = feedBean;
     }
 
@@ -50,8 +47,6 @@ public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewH
         if (!(holder instanceof RightImageViewHolder)) {
             return;
         }
-
-        this.context = context;
 
         RightImageViewHolder viewHolder = (RightImageViewHolder) holder;
 
@@ -91,6 +86,11 @@ public class RightImageListItem implements IDailyNewsListItem<RecyclerView.ViewH
         if (!hasViewed) {
             hasViewed = true;
         }
+    }
+
+    @Override
+    public void detachedFromWindow() {
+
     }
 
     @Override

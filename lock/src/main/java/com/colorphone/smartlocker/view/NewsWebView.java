@@ -39,11 +39,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 
-/**
- * Created by chen.zhao on 2017/10/10.
- * progressBar and webView
- */
-
 public class NewsWebView extends RelativeLayout {
 
     public interface WebViewStatusChangedListener {

@@ -14,7 +14,7 @@ import com.colorphone.smartlocker.utils.DailyNewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.colorphone.smartlocker.viewholder.ThreeImageViewHolder;
 
-public class ThreeImageListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
+public class ThreeImageListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
     private String category;
     private IFeedBean feedBean;
@@ -96,6 +96,11 @@ public class ThreeImageListItem implements IDailyNewsListItem<RecyclerView.ViewH
         if (!hasViewed) {
             hasViewed = true;
         }
+    }
+
+    @Override
+    public void detachedFromWindow() {
+
     }
 
     @Override

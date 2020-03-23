@@ -34,11 +34,6 @@ import com.ihs.app.framework.HSApplication;
 
 import java.lang.reflect.Method;
 
-/**
- * Author JackSparrow
- * Create Date 01/11/2016.
- */
-
 public class DisplayUtils {
 
     private static int screenHeight = -1;

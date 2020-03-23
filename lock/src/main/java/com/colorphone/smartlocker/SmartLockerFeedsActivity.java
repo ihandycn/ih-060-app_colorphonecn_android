@@ -51,7 +51,7 @@ import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
 import com.colorphone.smartlocker.itemview.IDailyNewsClickListener;
-import com.colorphone.smartlocker.itemview.IDailyNewsListItem;
+import com.colorphone.smartlocker.itemview.INewsListItem;
 import com.colorphone.smartlocker.itemview.LoadMoreItem;
 import com.colorphone.smartlocker.itemview.RightImageListItem;
 import com.colorphone.smartlocker.itemview.SmartLockerAdListItem;
@@ -163,7 +163,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     private RefreshView refreshView;
     private RecyclerView recyclerView;
-    private DailyNewsAdapter feedAdapter;
+    private NewsAdapter feedAdapter;
     private LinearLayoutManager linearLayoutManager;
 
     @Nullable
@@ -428,7 +428,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 return false;
             }
         });
-        feedAdapter = new DailyNewsAdapter(this, new ArrayList<IDailyNewsListItem<RecyclerView.ViewHolder>>());
+        feedAdapter = new NewsAdapter(this, new ArrayList<INewsListItem<RecyclerView.ViewHolder>>());
         recyclerView.setAdapter(feedAdapter);
 
         refreshView.setRefreshViewListener(new RefreshView.RefreshViewListener() {
@@ -772,7 +772,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void parseData(boolean isPullDown, JSONObject response) {
-        final List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> dailyNewsListItems = parseBaiduNewsJson(response, categoryParam);
+        final List<INewsListItem<? extends RecyclerView.ViewHolder>> dailyNewsListItems = parseBaiduNewsJson(response, categoryParam);
 
         if (isPullDown) {
             feedAdapter.removeAllItem();
@@ -798,8 +798,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         isFirstLoadData = false;
     }
 
-    private List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> parseBaiduNewsJson(JSONObject response, String category) {
-        List<IDailyNewsListItem<? extends RecyclerView.ViewHolder>> listItems = new ArrayList<>();
+    private List<INewsListItem<? extends RecyclerView.ViewHolder>> parseBaiduNewsJson(JSONObject response, String category) {
+        List<INewsListItem<? extends RecyclerView.ViewHolder>> listItems = new ArrayList<>();
         try {
             BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(response);
             List<BaiduFeedBean> baiduFeedBeanList = baiduFeedItemsBean.getBaiduFeedBeans();
@@ -862,7 +862,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             emptyAdItemCount++;
             adListItem = new SmartLockerAdListItem(appPlacement, null);
         }
-        adListItem.setCategory(categoryParam);
 
         targetNewsCount = newsCount + adInterval[(++adIntervalIndex) % adInterval.length];
 
@@ -936,7 +935,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             if (firstItemPosition >= 0 && firstItemPosition < feedAdapter.getItemCount()
                     && lastItemPosition < feedAdapter.getItemCount()) {
                 for (int i = firstItemPosition; i <= lastItemPosition; i++) {
-                    IDailyNewsListItem feedListItem = feedAdapter.getItem(i);
+                    INewsListItem feedListItem = feedAdapter.getItem(i);
                     feedListItem.logViewedEvent();
                 }
             }
@@ -951,7 +950,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             if (firstItemPosition >= 0 && firstItemPosition < feedAdapter.getItemCount()
                     && lastItemPosition < feedAdapter.getItemCount()) {
                 for (int i = firstItemPosition; i <= lastItemPosition; i++) {
-                    final IDailyNewsListItem feedListItem = feedAdapter.getItem(i);
+                    final INewsListItem feedListItem = feedAdapter.getItem(i);
                     if (feedListItem instanceof SmartLockerAdListItem) {
 
                         if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {

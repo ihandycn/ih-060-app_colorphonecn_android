@@ -20,10 +20,6 @@ import com.colorphone.smartlocker.utils.DisplayUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by hao.li on 2019/4/24.
- */
-
 public class FlyLineView extends View {
 
     private class RandomRectF {

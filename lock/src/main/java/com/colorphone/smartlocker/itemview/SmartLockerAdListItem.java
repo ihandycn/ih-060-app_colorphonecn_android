@@ -14,7 +14,7 @@ import com.colorphone.smartlocker.viewholder.AdViewHolder;
 import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
-public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.ViewHolder> {
+public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
     @Nullable
     private AcbNativeAd fetchNativeAd, loadNativeAd;
@@ -23,14 +23,9 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
 
     private boolean hasViewed = false;
     private boolean hasLogShow = false;
-
-    private Context context;
-    private String category;
-
-    private String appPlacement;
+    private boolean isDetachedFromWindow = true;
 
     public SmartLockerAdListItem(String appPlacement, @Nullable AcbNativeAd fetchNativeAd) {
-        this.appPlacement = appPlacement;
         this.fetchNativeAd = fetchNativeAd;
     }
 
@@ -58,7 +53,6 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
         if (!(holder instanceof AdViewHolder)) {
             return;
         }
-        this.context = context;
         adViewHolder = (AdViewHolder) holder;
         if (fetchNativeAd == null && loadNativeAd == null) {
             adViewHolder.adContainer.findViewById(R.id.ad_container).setVisibility(View.GONE);
@@ -74,10 +68,6 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
                 logAdClick();
             }
         });
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public int getCurrentPosition() {
@@ -101,19 +91,30 @@ public class SmartLockerAdListItem implements IDailyNewsListItem<RecyclerView.Vi
 
     @Override
     public void logViewedEvent() {
+        //是否首次展示
         if (!hasViewed) {
             logAdChance();
             if (fetchNativeAd != null || loadNativeAd != null) {
                 logAdShow();
             }
             hasViewed = true;
-        }
-
-        if (!hasLogShow) {
-            if (fetchNativeAd != null || loadNativeAd != null) {
-                logAdShow();
+        } else {
+            //再次展示时，判断是否展示过广告，展示过则不记录chance
+            if (!hasLogShow) {
+                if (isDetachedFromWindow) {
+                    logAdChance();
+                }
+                if (fetchNativeAd != null || loadNativeAd != null) {
+                    logAdShow();
+                }
             }
         }
+        isDetachedFromWindow = false;
+    }
+
+    @Override
+    public void detachedFromWindow() {
+        isDetachedFromWindow = true;
     }
 
     @Override

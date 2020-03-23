@@ -11,11 +11,6 @@ import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.ihs.app.framework.HSApplication;
-//import com.walk.sports.cn.R;
-
-/**
- * Created by wangmeng on 2018/1/15.
- */
 
 public class NetworkStatusUtils {
 

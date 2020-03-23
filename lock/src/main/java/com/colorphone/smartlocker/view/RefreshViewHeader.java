@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 
 import com.colorphone.lock.R;
 
-
 public class RefreshViewHeader extends LinearLayout {
     private static long DURATION_REFRESH = 600L;
 

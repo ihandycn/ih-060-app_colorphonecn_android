@@ -40,7 +40,6 @@ public class TouTiaoFeedUtils {
 
     public static final String PREF_FILE_NAME = "optimizer_toutiaofeed";
     private static final String PREF_KEY_NAME_ACCESS_TOKEN = "PREF_KEY_NAME_ACCESS_TOKEN";
-    public static final String PREF_KEY_NAME_ANIM_COUNT = "PREF_KEY_NAME_ANIM_COUNT";
 
     private static final String nonce = String.valueOf(new Random().nextInt(1000000));
     private static final String secureKey = HSConfig.getString("Application", "ToutiaoFeed", "Secure_key");
