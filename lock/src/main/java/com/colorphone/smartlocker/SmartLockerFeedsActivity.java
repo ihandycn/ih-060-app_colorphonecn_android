@@ -994,22 +994,49 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
                         if (!adList.isEmpty()) {
                             ((SmartLockerAdListItem) feedListItem).setLoadNativeAd(adList.get(0));
-                            recyclerView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (((SmartLockerAdListItem) feedListItem).getCurrentPosition() != -1) {
-                                        feedAdapter.notifyItemChanged(((SmartLockerAdListItem) feedListItem).getCurrentPosition());
-                                    }
-                                }
-                            });
+
+                            refreshAdView(adList, feedListItem);
 
                             logAdShow();
+                        } else {
+                            adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
+                            adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
+                                @Override
+                                public void onAdReceived(AcbNativeAdLoader acbNativeAdLoader, List<AcbNativeAd> list) {
+                                    adLoader = null;
+                                    if (list == null || list.isEmpty()) {
+                                        return;
+                                    }
+
+                                    refreshAdView(list, feedListItem);
+
+                                    logAdShow();
+                                }
+
+                                @Override
+                                public void onAdFinished(AcbNativeAdLoader acbNativeAdLoader, AcbError acbError) {
+                                    adLoader = null;
+                                }
+                            });
                         }
+
                         AcbNativeAdManager.getInstance().preload(1, appPlacement);
                     }
                 }
             }
         }
+    }
+
+    private void refreshAdView(List<AcbNativeAd> adList, final INewsListItem feedListItem) {
+        nativeAdList.addAll(adList);
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (((SmartLockerAdListItem) feedListItem).getCurrentPosition() != -1) {
+                    feedAdapter.notifyItemChanged(((SmartLockerAdListItem) feedListItem).getCurrentPosition());
+                }
+            }
+        });
     }
 
     private void registerScreenOn() {
