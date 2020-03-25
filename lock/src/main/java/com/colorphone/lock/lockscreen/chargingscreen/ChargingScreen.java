@@ -362,10 +362,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         isStart = true;
         HSLog.d(TAG, "onStart()");
 
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
-                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-
         if (isCreateShow) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
             AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
