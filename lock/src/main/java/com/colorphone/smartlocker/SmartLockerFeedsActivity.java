@@ -324,7 +324,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         categoryParam = BaiduFeedManager.CATEGORY_ALL;
         isLongScreen = (DisplayUtils.getScreenWithNavigationBarHeight() * 1f / DisplayUtils.getScreenWidth(this)) > 16 / 9f;
         startType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
-        SmartLockerManager.getInstance().setStartType(startType);
 
         switch (AutoPilotUtils.getLockerMode()) {
             case "fuse":
@@ -491,7 +490,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
         int newType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
         if (newType != startType) {
-            SmartLockerManager.getInstance().setStartType(newType);
             if (newType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
                 AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");

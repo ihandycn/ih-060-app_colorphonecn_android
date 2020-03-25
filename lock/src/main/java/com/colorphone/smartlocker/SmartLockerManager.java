@@ -144,12 +144,4 @@ public class SmartLockerManager {
             }
         });
     }
-
-    public int getStartType() {
-        return startType;
-    }
-
-    public void setStartType(int startType) {
-        this.startType = startType;
-    }
 }
