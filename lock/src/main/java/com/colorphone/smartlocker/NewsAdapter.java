@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.R;
 import com.colorphone.smartlocker.itemview.INewsListItem;
 
 import java.util.ArrayList;
@@ -58,8 +59,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
-        if (holder instanceof INewsListItem) {
-            ((INewsListItem) holder).detachedFromWindow();
+        if (holder.getItemViewType() == R.layout.daily_news_ad_container) {
+            items.get(holder.getLayoutPosition()).detachedFromWindow();
         }
         super.onViewDetachedFromWindow(holder);
     }
