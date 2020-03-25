@@ -447,12 +447,10 @@ public class ColorPhoneApplicationImpl {
             //
             if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
-                Toast.makeText(HSApplication.getContext(), "news_chance , checkChargingOrLocker", Toast.LENGTH_SHORT).show();
             }
         } else if (LockerSettings.isLockerEnabled()) {
             if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startLockerActivity(true);
-                Toast.makeText(HSApplication.getContext(), "news_chance , checkChargingOrLocker", Toast.LENGTH_SHORT).show();
             }
         }
     }

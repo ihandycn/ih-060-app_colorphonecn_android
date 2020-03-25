@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.widget.Toast;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
@@ -60,7 +59,6 @@ public class LockScreenStarter {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
                     ChargingScreenUtils.startChargingScreenActivity(true, false);
-                    Toast.makeText(HSApplication.getContext(), "news_chance , onChargingStateChanged", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -132,7 +130,6 @@ public class LockScreenStarter {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
-            Toast.makeText(HSApplication.getContext(), "news_chance , tryShowChargingScreen", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -171,7 +168,6 @@ public class LockScreenStarter {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
-                Toast.makeText(HSApplication.getContext(), "news_chance , handleStart", Toast.LENGTH_SHORT).show();
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
             if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse"))
@@ -180,7 +176,6 @@ public class LockScreenStarter {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startLockerActivity(false);
-                Toast.makeText(HSApplication.getContext(), "news_chance , handleStart", Toast.LENGTH_SHORT).show();
             }
         }
     }

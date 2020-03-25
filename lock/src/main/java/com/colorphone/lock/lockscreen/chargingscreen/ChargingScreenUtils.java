@@ -192,6 +192,7 @@ public class ChargingScreenUtils {
                     Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    HSGlobalNotificationCenter.sendNotification(ChargingScreen.EVENT_CHARGING_FINISH_SELF);
                     Navigations.startActivitySafely(HSApplication.getContext(), intent);
                 }
             } catch (ActivityNotFoundException ignore) {

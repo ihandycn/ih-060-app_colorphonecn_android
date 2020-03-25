@@ -98,6 +98,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private static final float CHARGING_STATE_TIP_ICON_ANIMATOR_MAX_ALPHA = 1.0f;
     private static final float CHARGING_STATE_TIP_ICON_ANIMATOR_MIN_ALPHA = 0.1f;
 
+    public static final String EVENT_CHARGING_FINISH_SELF = "event_charging_finish_self";
+
     public static final String EXTRA_BOOLEAN_IS_CHARGING = "EXTRA_BOOLEAN_IS_CHARGING";
     public static final String EXTRA_BOOLEAN_IS_CHARGING_FULL = "EXTRA_BOOLEAN_IS_CHARGING_FULL";
     public static final String EXTRA_INT_BATTERY_LEVEL_PERCENT = "EXTRA_INT_BATTERY_LEVEL_PERCENT";
@@ -321,6 +323,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
         HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED, this);
         HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED, this);
+        HSGlobalNotificationCenter.addObserver(EVENT_CHARGING_FINISH_SELF, this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -849,6 +852,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 unlockTextView.setText(R.string.unlock_tint_keyguard);
                 unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                break;
+            case ChargingScreen.EVENT_CHARGING_FINISH_SELF:
+                dismiss(getContext(), true);
                 break;
             default:
                 break;
