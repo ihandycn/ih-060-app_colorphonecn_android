@@ -1058,7 +1058,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        recordSlideFlurry = false;
         long duration = (System.currentTimeMillis() - viewedStartTime) / 1000;
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
             LockerCustomConfig.getLogger().logEvent("LockScreen_News_StayTime", "time", getFlurryDuration(duration));
@@ -1113,6 +1112,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        recordSlideFlurry = false;
 
         HSApplication.getContext().unregisterReceiver(screenOnReceiver);
 

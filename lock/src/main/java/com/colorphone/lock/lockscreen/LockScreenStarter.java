@@ -52,11 +52,14 @@ public class LockScreenStarter {
                     return;
                 }
 
-                ChargingScreenSettings.increaseChargingCount();
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
-                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+                if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
+
+                    ChargingScreenSettings.increaseChargingCount();
+                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                        SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+                    }
+                    ChargingScreenUtils.startChargingScreenActivity(true, false);
                 }
-                ChargingScreenUtils.startChargingScreenActivity(true, false);
             }
         }
 
