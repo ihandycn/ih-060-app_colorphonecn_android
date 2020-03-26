@@ -152,7 +152,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private boolean isStart;
     private boolean mIsSetup = false;
     private boolean isCreateShow = true; //for charging screen show event
-    private long onStopTime = 0; //for onStop to onStart time interval
+    private long onStopTime = System.currentTimeMillis(); //for onStop to onStart time interval
 
     private String mDismissReason = "Unkown";
 
