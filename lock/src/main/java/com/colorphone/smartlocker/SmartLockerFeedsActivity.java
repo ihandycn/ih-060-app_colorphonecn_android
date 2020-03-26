@@ -973,7 +973,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             return;
         }
 
-        if (onStartTimes < 2) {
+        if (onStartTimes <= 2) {
             return;
         }
 
