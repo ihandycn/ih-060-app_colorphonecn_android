@@ -1,6 +1,5 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,7 +52,6 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
     protected void onStart() {
         super.onStart();
         HSLog.d(TAG, "onStart()");
-        Log.i("hsmhsm", "onStart activity onStart");
         mScreen.onStart();
         TimeDurationLogger.start("ChargingScreen");
     }
@@ -62,6 +60,12 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
     protected void onResume() {
         super.onResume();
         Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        mScreen.onAttachedToWindow();
+        super.onAttachedToWindow();
     }
 
     @Override

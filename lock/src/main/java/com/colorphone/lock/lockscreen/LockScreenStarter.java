@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.util.Log;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
@@ -60,7 +59,6 @@ public class LockScreenStarter {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
                     ChargingScreenUtils.startChargingScreenActivity(true, false);
-                    Log.i("hsmhsm", "Activity onChargingStateChanged");
                 }
             }
         }
@@ -132,7 +130,6 @@ public class LockScreenStarter {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
-            Log.i("hsmhsm", "Activity tryShowChargingScreen");
         }
     }
 
@@ -171,7 +168,6 @@ public class LockScreenStarter {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
-                Log.i("hsmhsm", "Activity handleStart");
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
             if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse"))

@@ -20,7 +20,6 @@ import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -448,7 +447,6 @@ public class ColorPhoneApplicationImpl {
             //
             if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
-                Log.i("hsmhsm", "Activity checkChargingOrLocker");
             }
         } else if (LockerSettings.isLockerEnabled()) {
             if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {

@@ -25,7 +25,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -151,8 +150,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private boolean isPowerConnected;
     private boolean isStart;
     private boolean mIsSetup = false;
-    private boolean isCreateShow = true; //for charging screen show event
-    private long onStopTime = System.currentTimeMillis(); //for onStop to onStart time interval
 
     private String mDismissReason = "Unkown";
 
@@ -336,15 +333,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
-        // Ad bind after view set up, so we delay start invoke.
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onStart();
-                Log.i("hsmhsm", "onStart handler");
-            }
-        }, 500);
-
         mIsSetup = true;
     }
 
@@ -360,37 +348,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             return;
         }
 
-        if (isCreateShow && System.currentTimeMillis() - onStopTime < 2000) {
-            return;
-        }
-
         // ======== onStart ========
         isStart = true;
-        Log.i("hsmhsm", "isStart = " + isStart);
         HSLog.d(TAG, "onStart()");
-
-
-        if (isCreateShow) {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
-            isCreateShow = false;
-        }
-
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
-            LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
-
-            Log.i("hsmhsm", "expressAdView != null");
-            expressAdView.switchAd();
-        }
-
-        if (expressAdView == null) {
-            requestAds();
-            showExpressAd();
-        } else if (expressAdView.getParent() == null) {
-            showExpressAd();
-        }
 
         onStartTime = System.currentTimeMillis();
 
@@ -427,15 +387,26 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             trickleChargeToolTipView = null;
         }
 
+        showExpressAd();
     }
 
+    public void onAttachedToWindow() {
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
+        AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
+        requestAds();
+
+        if (!isActivityHost()) {
+            onStart();
+        }
+    }
 
     private void requestAds() {
-        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
-        LockerCustomConfig.getLogger().logEvent("ad_chance");
-        AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+        }
 
-        Log.i("hsmhsm", "requestAds");
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
@@ -466,12 +437,20 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             }
         });
 
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
     }
 
     private void showExpressAd() {
-        if (expressAdView.getParent() == null) {
+        if (expressAdView != null && expressAdView.getParent() == null) {
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-            expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+        }
+
+        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+
+            expressAdView.switchAd();
         }
     }
 
@@ -844,7 +823,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         switch (s) {
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
                 onStart();
-                Log.i("hsmhsm", "onStart NOTIFICATION_SCREEN_ON");
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 onStop();
@@ -872,9 +850,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     @Override
     public void onStop() {
         // ======== onPause ========
-        onStopTime = System.currentTimeMillis();
         isStart = false;
-        Log.i("hsmhsm", "onStop isStart = " + isStart);
 
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();
@@ -900,11 +876,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     public void onDestroy() {
         super.onDestroy();
-        Log.i("hsmhsm", "onDestroy");
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
 
-        isCreateShow = true;
         if (mHomeKeyWatcher != null) {
             mHomeKeyWatcher.stopWatch();
         }
