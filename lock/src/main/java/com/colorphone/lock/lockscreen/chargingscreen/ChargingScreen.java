@@ -25,6 +25,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -341,6 +342,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             @Override
             public void run() {
                 onStart();
+                Log.i("hsmhsm", "onStart handler");
             }
         }, 500);
 
@@ -360,6 +362,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
         // ======== onStart ========
         isStart = true;
+        Log.i("hsmhsm", "isStart = " + isStart);
         HSLog.d(TAG, "onStart()");
 
         if (isCreateShow) {
@@ -373,6 +376,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             LockerCustomConfig.getLogger().logEvent("ad_chance");
             AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
 
+            Log.i("hsmhsm", "expressAdView != null");
             expressAdView.switchAd();
         }
 
@@ -425,6 +429,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+
+        Log.i("hsmhsm", "requestAds");
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
@@ -833,6 +839,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         switch (s) {
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
                 onStart();
+                Log.i("hsmhsm", "onStart NOTIFICATION_SCREEN_ON");
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 onStop();
@@ -861,6 +868,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     public void onStop() {
         // ======== onPause ========
         isStart = false;
+        Log.i("hsmhsm", "onStop isStart = " + isStart);
 
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();
@@ -886,6 +894,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     public void onDestroy() {
         super.onDestroy();
+        Log.i("hsmhsm", "onDestroy");
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
 
