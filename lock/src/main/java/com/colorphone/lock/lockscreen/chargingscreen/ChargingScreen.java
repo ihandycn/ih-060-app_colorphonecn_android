@@ -359,10 +359,16 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         if (isStart) {
             return;
         }
+
+        if (isCreateShow && System.currentTimeMillis() - onStopTime < 2000) {
+            return;
+        }
+
         // ======== onStart ========
         isStart = true;
         Log.i("hsmhsm", "isStart = " + isStart);
         HSLog.d(TAG, "onStart()");
+
 
         if (isCreateShow) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
@@ -371,14 +377,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            if (System.currentTimeMillis() - onStopTime > 2 * 1000) {
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
-                LockerCustomConfig.getLogger().logEvent("ad_chance");
-                AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
 
-                Log.i("hsmhsm", "expressAdView != null");
-                expressAdView.switchAd();
-            }
+            Log.i("hsmhsm", "expressAdView != null");
+            expressAdView.switchAd();
         }
 
         if (expressAdView == null) {
