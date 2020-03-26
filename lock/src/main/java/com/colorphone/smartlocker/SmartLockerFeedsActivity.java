@@ -1006,6 +1006,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                                         return;
                                     }
 
+                                    ((SmartLockerAdListItem) feedListItem).setLoadNativeAd(list.get(0));
                                     refreshAdView(list, feedListItem);
 
                                     logAdShow();
