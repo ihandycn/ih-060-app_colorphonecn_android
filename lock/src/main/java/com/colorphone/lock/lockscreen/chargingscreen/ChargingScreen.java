@@ -150,10 +150,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private boolean isPowerConnected;
     private boolean isStart;
-
     private boolean mIsSetup = false;
-
     private boolean isCreateShow = true; //for charging screen show event
+    private long onStopTime = 0; //for onStop to onStart time interval
 
     private String mDismissReason = "Unkown";
 
@@ -372,12 +371,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
-            LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+            if (System.currentTimeMillis() - onStopTime > 2 * 1000) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+                LockerCustomConfig.getLogger().logEvent("ad_chance");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
 
-            Log.i("hsmhsm", "expressAdView != null");
-            expressAdView.switchAd();
+                Log.i("hsmhsm", "expressAdView != null");
+                expressAdView.switchAd();
+            }
         }
 
         if (expressAdView == null) {
@@ -867,6 +868,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     @Override
     public void onStop() {
         // ======== onPause ========
+        onStopTime = System.currentTimeMillis();
         isStart = false;
         Log.i("hsmhsm", "onStop isStart = " + isStart);
 
