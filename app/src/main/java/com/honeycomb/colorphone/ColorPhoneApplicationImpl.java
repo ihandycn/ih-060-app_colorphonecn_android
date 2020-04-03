@@ -918,7 +918,7 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setLockerAdName(Placements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(Placements.AD_CHARGING_SCREEN);
         LockerCustomConfig.get().setSmartLockerAdName1(Placements.SMART_LOCKER_FEED1);
-        LockerCustomConfig.get().setSmartLockerAdName2(Placements.SMART_LOCKER_FEED2);
+        LockerCustomConfig.get().setSmartLockerAdName2(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
         LockerCustomConfig.get().setSmartLockerAdName3(Placements.SMART_LOCKER_FEED3);
         LockerCustomConfig.get().setSmartLockerAdName4(Placements.SMART_LOCKER_FEED4);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
