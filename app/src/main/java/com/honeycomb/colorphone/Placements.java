@@ -38,4 +38,12 @@ public class Placements {
     public static final String SMART_LOCKER_FEED2 = "CableFeed2";
     public static final String SMART_LOCKER_FEED3 = "CableFeed3";
     public static final String SMART_LOCKER_FEED4 = "CableFeed4";
+
+    public static String getAdPlacement(String ad) {
+        return getAdPrefix() + ad;
+    }
+
+    private static String getAdPrefix() {
+        return HSConfig.optString("Air", "Application", "AdPlacementPrefix");
+    }
 }
