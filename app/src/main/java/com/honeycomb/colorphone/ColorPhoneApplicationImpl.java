@@ -54,6 +54,9 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
+import com.colorphone.smartlocker.SmartLockerFeedsActivity;
+import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -301,6 +304,11 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable") ||
+                    AutoPilotUtils.getLockerMode().equals("fuse")) {
+                SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+            }
         }
     };
 
@@ -458,11 +466,11 @@ public class ColorPhoneApplicationImpl {
         }
         if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
             //
-            if (!ChargingScreenActivity.exist) {
+            if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!LockerActivity.exist) {
+            if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }
@@ -914,6 +922,10 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(Placements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(Placements.AD_CHARGING_SCREEN);
+        LockerCustomConfig.get().setSmartLockerAdName1(Placements.SMART_LOCKER_FEED1);
+        LockerCustomConfig.get().setSmartLockerAdName2(Placements.SMART_LOCKER_FEED2);
+        LockerCustomConfig.get().setSmartLockerAdName3(Placements.SMART_LOCKER_FEED3);
+        LockerCustomConfig.get().setSmartLockerAdName4(Placements.SMART_LOCKER_FEED4);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
@@ -996,24 +1008,24 @@ public class ColorPhoneApplicationImpl {
 
     private void initModules() {
         Module locker = new Module();
-        locker.setAdName(Placements.AD_LOCKER);
+        locker.setAdName(Placements.SMART_LOCKER_FEED1);
         locker.setAdType(Module.AD_EXPRESS);
         locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
         locker.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return LockerSettings.isLockerEnabled();
+                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
             }
         });
 
         Module charging = new Module();
-        charging.setAdName(Placements.AD_CHARGING_SCREEN);
+        charging.setAdName(Placements.SMART_LOCKER_FEED1);
         charging.setAdType(Module.AD_EXPRESS);
         charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
         charging.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return SmartChargingSettings.isChargingScreenEnabled();
+                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
             }
         });
 

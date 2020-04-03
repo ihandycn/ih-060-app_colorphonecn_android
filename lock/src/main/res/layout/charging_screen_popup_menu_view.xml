@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/charging_screen_popup_window_bg"
+    android:orientation="vertical">
+
+    <com.colorphone.smartlocker.view.RobotoMediumTextView
+        android:id="@+id/smart_locker_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:text="@string/side_bar_feedback"
+        android:textColor="#aa000000"
+        android:textSize="13sp" />
+
+    <com.colorphone.smartlocker.view.RobotoMediumTextView
+        android:id="@+id/txt_close_charging_boost"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:text="@string/charging_screen_menu_item"
+        android:textColor="#aa000000"
+        android:textSize="13sp" />
+</LinearLayout>

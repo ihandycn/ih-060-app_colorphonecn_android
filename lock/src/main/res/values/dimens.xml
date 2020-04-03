@@ -15,4 +15,47 @@
     <dimen name="smart_charging_spread_blister1_trans_y">30dp</dimen>
     <dimen name="smart_charging_spread_blister2_trans_y">25dp</dimen>
     <dimen name="smart_charging_spread_blister3_trans_y">21dp</dimen>
+
+    <!-- SmartLocker -->
+    <dimen name="charging_percent">83sp</dimen>
+    <dimen name="top_battery_level">10sp</dimen>
+    <dimen name="lock_screen_circle_text">16sp</dimen>
+    <dimen name="lock_screen_cpu_circle_text">10sp</dimen>
+    <dimen name="lock_screen_circle_width">3dp</dimen>
+    <dimen name="lock_screen_red_count">10sp</dimen>
+    <dimen name="lock_screen_big_time_text">55sp</dimen>
+    <dimen name="charging_screen_big_battery_level">83sp</dimen>
+    <dimen name="lock_screen_big_time_text_margin_top">40sp</dimen>
+    <dimen name="charging_screen_big_battery_level_margin_top">30dp</dimen>
+    <dimen name="three_function_circle_margin_top">40dp</dimen>
+    <dimen name="lock_screen_date_margin_top">10dp</dimen>
+    <dimen name="smart_lock_container_margin_top">35dp</dimen>
+    <dimen name="smart_lock_state_container_margin_top">40dp</dimen>
+    <dimen name="smart_lock_datetime_margin_top">0dp</dimen>
+    <dimen name="three_function_circle_margin_left_right">50dp</dimen>
+    <dimen name="charging_screen_title_height">56dp</dimen>
+    <dimen name="charging_screen_power_percentage_font_size">115sp</dimen>
+    <dimen name="charging_screen_title_margin_top">12dp</dimen>
+    <dimen name="charging_screen_power_percentage_margin_top">40dp</dimen>
+    <dimen name="charging_screen_full_charge_left_margin_top">0dp</dimen>
+    <dimen name="charging_screen_charging_state_margin_top">15dp</dimen>
+    <dimen name="charging_screen_advertisement_margin_top">16dp</dimen>
+    <dimen name="charging_screen_slid_to_unlock_margin_bottom">15dp</dimen>
+    <dimen name="battery_monitor_notification_icon_width">40dp</dimen>
+    <dimen name="battery_monitor_notification_icon_height">40dp</dimen>
+    <dimen name="battery_monitor_notification_icon_width_small">32dp</dimen>
+    <dimen name="battery_monitor_notification_icon_height_small">32dp</dimen>
+    <dimen name="charging_popmenu_margin_right">60dp</dimen>
+    <dimen name="charging_feeds_popmenu_margin_right">64dp</dimen>
+    <dimen name="charging_screen_unlock_distance_per_second">1166dp</dimen>
+    <dimen name="charging_screen_ad_height">172dp</dimen>
+    <dimen name="smart_locker_status_bar_height">24dp</dimen>
+    <dimen name="content_style_5_for_smart_lock_title_size">24sp</dimen>
+    <dimen name="smart_locker_content_view_max_trans_y">30dp</dimen>
+    <dimen name="height_toolbar">56dp</dimen>
+
+    <dimen name="progress_bar_height">2dp</dimen>
+
+    <fraction name="content_style_5_for_smart_lock_title_margin_top">5.1%</fraction>
+    <fraction name="content_style_5_for_smart_lock_first_container_margin_top">6%</fraction>
 </resources>

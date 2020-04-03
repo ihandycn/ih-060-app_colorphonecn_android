@@ -16,6 +16,8 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
+import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -28,6 +30,8 @@ import com.superapps.util.rom.RomUtils;
 import colorphone.acb.com.libweather.WeatherClockManager;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
+import static com.colorphone.smartlocker.SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF;
+import static com.colorphone.smartlocker.SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER;
 
 public class ChargingScreenUtils {
 
@@ -131,15 +135,24 @@ public class ChargingScreenUtils {
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, chargingStateChanged);
 
         if (MODE_ACTIVITY) {
-            Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.putExtras(bundle);
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+            } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("charging_should_show");
 
-            HSBundle hsBundle = new HSBundle();
-            hsBundle.getBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
-            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, hsBundle);
-            Navigations.startActivitySafely(HSApplication.getContext(),intent);
+                Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtras(bundle);
+
+                HSBundle hsBundle = new HSBundle();
+                hsBundle.getBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, hsBundle);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
+            }
         } else {
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
+            AutoPilotUtils.logLockerModeAutopilotEvent("charging_should_show");
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
     }
@@ -164,21 +177,34 @@ public class ChargingScreenUtils {
         }
         WeatherClockManager.getInstance().updateWeatherIfNeeded();
         isFromPush = fromPush;
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
-                "Brand", Build.BRAND.toLowerCase(),
-                "DeviceVersion", Locker.getDeviceInfo());
 
         if (MODE_ACTIVITY) {
             try {
-                Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse")) {
+                    SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
+                } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
+                    String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+                    LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                            "Brand", Build.BRAND.toLowerCase(),
+                            "DeviceVersion", Locker.getDeviceInfo());
+                    AutoPilotUtils.logLockerModeAutopilotEvent("lock_should_show");
+
+                    Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    HSGlobalNotificationCenter.sendNotification(ChargingScreen.EVENT_CHARGING_FINISH_SELF);
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                }
             } catch (ActivityNotFoundException ignore) {
                 // crash #749 some device report.
             }
         } else {
+            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+            LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                    "Brand", Build.BRAND.toLowerCase(),
+                    "DeviceVersion", Locker.getDeviceInfo());
+            AutoPilotUtils.logLockerModeAutopilotEvent("lock_should_show");
+
             FloatWindowController.getInstance().showLockScreen();
         }
     }

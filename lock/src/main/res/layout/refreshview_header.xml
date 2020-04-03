@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/xrefreshview_header_text"
+    android:layout_width="match_parent"
+    android:layout_height="98dp"
+    android:background="@android:color/white">
+
+    <com.colorphone.smartlocker.view.FlyLineView
+        android:id="@+id/fly_line"
+        android:layout_width="match_parent"
+        android:layout_height="98dp" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/header_rocket_shadow"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/daily_news_refresh_rocket_shadow"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/header_rocket"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/daily_news_refresh_rocket" />
+
+</RelativeLayout>

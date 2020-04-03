@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,7 +47,6 @@ import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
-import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTip;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipRelativeLayout;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
@@ -56,6 +54,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.colorphone.lock.util.ViewUtils;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -93,12 +92,13 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     public static final boolean LOG_VERBOSE = true && BuildConfig.DEBUG;
 
     private static final long DURATION_CHARGING_STATE_TIP_ICON_ANIMATOR = 2080;
-    private static final long DURATION_TIP_SHOWING = 6000;
 
     private static final float CHARGING_STATE_TIP_ICON_POSITIVE_ALPHA = 0.8f;
     private static final float CHARGING_STATE_TIP_ICON_NEGATIVE_ALPHA = 0.2f;
     private static final float CHARGING_STATE_TIP_ICON_ANIMATOR_MAX_ALPHA = 1.0f;
     private static final float CHARGING_STATE_TIP_ICON_ANIMATOR_MIN_ALPHA = 0.1f;
+
+    public static final String EVENT_CHARGING_FINISH_SELF = "event_charging_finish_self";
 
     public static final String EXTRA_BOOLEAN_IS_CHARGING = "EXTRA_BOOLEAN_IS_CHARGING";
     public static final String EXTRA_BOOLEAN_IS_CHARGING_FULL = "EXTRA_BOOLEAN_IS_CHARGING_FULL";
@@ -117,7 +117,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private TextView timeTextView;
     private TextView dateTextView;
-    private LinearLayout linearLayout;
 
     private TextView fullChargeLeftDescribeTextView;
 
@@ -127,7 +126,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private TextView tipTextView;
 
-    private ToolTipRelativeLayout toolTipContainer;
     private ToolTipView speedChargeToolTipView;
     private ToolTipView continuousChargeToolTipView;
     private ToolTipView trickleChargeToolTipView;
@@ -139,7 +137,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
-//    private CustomizeContentContainer customizeContentContainer;
 
     private ObjectAnimator chargingStateAlphaAnimator;
 
@@ -151,37 +148,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private long onStartTime;
 
     private boolean isPowerConnected;
-    private boolean mDismissed;
-    private boolean adEnabled = true;
     private boolean isStart;
-
     private boolean mIsSetup = false;
 
     private String mDismissReason = "Unkown";
-
-    private Runnable tipRemoveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (mDismissed) {
-                return;
-            }
-
-            if (speedChargeToolTipView != null) {
-                speedChargeToolTipView.remove();
-                speedChargeToolTipView = null;
-            }
-
-            if (continuousChargeToolTipView != null) {
-                continuousChargeToolTipView.remove();
-                continuousChargeToolTipView = null;
-            }
-
-            if (trickleChargeToolTipView != null) {
-                trickleChargeToolTipView.remove();
-                trickleChargeToolTipView = null;
-            }
-        }
-    };
 
     private BroadcastReceiver timeTickReceiver = new BroadcastReceiver() {
         @Override
@@ -190,7 +160,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 return;
             }
 
-            if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+            if (Intent.ACTION_TIME_TICK.equals(intent.getAction())) {
                 updateTimeAndDateView();
             }
         }
@@ -275,14 +245,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         super.setup(root, extra);
 
         if (root.getContext() instanceof Activity) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(root.getContext()));
-            }
+            root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(root.getContext()));
         } else if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
             root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
-
-//        adEnabled = CardCustomConfig.get().enableAdChard();
 
         // ======== onCreate ========
         HSLog.d(TAG, "onCreate()");
@@ -342,9 +308,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                     ? context.getString(R.string.charging_screen_charged_full) :
                     context.getString(R.string.charging_screen_charged_left_describe,
                             getChargingLeftTimeString(extra.getInt(EXTRA_INT_CHARGING_LEFT_MINUTES))));
-            if (extra.getBoolean(EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, false)) {
-//                showExpressAd();
-            }
         }
 
         updateChargingStateTipIconAnimator();
@@ -355,8 +318,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
-        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED,this);
-        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED,this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_UNLOCKED, this);
+        HSGlobalNotificationCenter.addObserver(KeyguardHandler.EVENT_KEYGUARD_LOCKED, this);
+        HSGlobalNotificationCenter.addObserver(EVENT_CHARGING_FINISH_SELF, this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -369,17 +333,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
-        // Ad bind after view set up, so we delay start invoke.
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onStart();
-            }
-        }, 500);
-
         mIsSetup = true;
     }
-
 
 
     public void onStart() {
@@ -392,29 +347,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         if (isStart) {
             return;
         }
+
         // ======== onStart ========
         isStart = true;
         HSLog.d(TAG, "onStart()");
-
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
-                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
-
-//        if (customizeContentContainer != null) {
-//            customizeContentContainer.onVisibilityChange(true);
-//        }
-        if (adEnabled) {
-            if (expressAdView == null) {
-                requestAds();
-                showExpressAd();
-            } else if (expressAdView.getParent() == null) {
-                showExpressAd();
-            }
-
-            if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                expressAdView.switchAd();
-            }
-        }
 
         onStartTime = System.currentTimeMillis();
 
@@ -451,24 +387,42 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             trickleChargeToolTipView = null;
         }
 
+        showExpressAd();
     }
 
+    public void onAttachedToWindow() {
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
+        AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
+        requestAds();
+
+        if (!isActivityHost()) {
+            onStart();
+        }
+    }
 
     private void requestAds() {
-        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getChargingExpressAdName(), "");
+        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+        }
+
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
+                LockerCustomConfig.getLogger().logEvent("ad_show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
                 LockerCustomConfig.get().onEventChargingAdShow();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
-                    advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(0));
-                }
+                advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
+                advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(0));
             }
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdClick");
                 mDismissReason = "AdClick";
                 dismiss(getContext(), true);
                 LockerCustomConfig.get().onEventChargingAdClick();
@@ -477,22 +431,31 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         });
 
         expressAdView.prepareAdPlus(new AcbExpressAdView.PrepareAdPlusListener() {
-            @Override public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
+            @Override
+            public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
 
             }
         });
 
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
     }
 
     private void showExpressAd() {
-        if (expressAdView.getParent() == null) {
+        if (expressAdView != null && expressAdView.getParent() == null) {
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-            expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+        }
+
+        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+
+            expressAdView.switchAd();
         }
     }
 
     /**
-     * TODO: handle back key
+     * handle back key
      */
     public void onBackPressed() {
         mDismissReason = "Back";
@@ -513,7 +476,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         int chargingQuantityBottomColor;
         int chargingBubbleColor;
 
-        imageBackgroundView = (ImageView) mRootView.findViewById(R.id.charging_screen_bg);
+        imageBackgroundView = mRootView.findViewById(R.id.charging_screen_bg);
         final int skinType = extra == null ? -1 : extra.getInt(EXTRA_SKIN_TYPE, -1);
         switch (skinType) {
 
@@ -596,51 +559,34 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             }
         }
 
-        menuImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_menu);
-        slidingFinishRelativeLayout = (SlidingFinishRelativeLayout) mRootView.findViewById(R.id.slidingFinishLayout);
+        menuImageView = mRootView.findViewById(R.id.charging_screen_menu);
+        slidingFinishRelativeLayout = mRootView.findViewById(R.id.slidingFinishLayout);
 
-        linearLayout = mRootView.findViewById(R.id.charging_screen_time_date);
-        timeTextView = (TextView) mRootView.findViewById(R.id.charging_screen_time);
-        dateTextView = (TextView) mRootView.findViewById(R.id.charging_screen_date);
+        timeTextView = mRootView.findViewById(R.id.charging_screen_time);
+        dateTextView = mRootView.findViewById(R.id.charging_screen_date);
 
-        chargingQuantityView = (ChargingQuantityView) mRootView.findViewById(R.id.charging_screen_battery_level_percent);
+        chargingQuantityView = mRootView.findViewById(R.id.charging_screen_battery_level_percent);
         chargingQuantityView.setMaskOpColor(chargingQuantityUpColor, chargingQuantityBottomColor);
         if (context.getResources().getDisplayMetrics().densityDpi <= DisplayMetrics.DENSITY_HIGH) {
             chargingQuantityView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 86);
         }
 
-        fullChargeLeftDescribeTextView = (TextView) mRootView.findViewById(R.id.charging_screen_full_charge_left_describe);
+        fullChargeLeftDescribeTextView = mRootView.findViewById(R.id.charging_screen_full_charge_left_describe);
 
-        speedChargeStateImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_speed_charge_state_icon);
-        continuousChargeStateImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_continuous_charge_state_icon);
-        trickleChargeStateImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_trickle_charge_state_icon);
+        speedChargeStateImageView = mRootView.findViewById(R.id.charging_screen_speed_charge_state_icon);
+        continuousChargeStateImageView = mRootView.findViewById(R.id.charging_screen_continuous_charge_state_icon);
+        trickleChargeStateImageView = mRootView.findViewById(R.id.charging_screen_trickle_charge_state_icon);
 
-        tipTextView = (TextView) mRootView.findViewById(R.id.charging_screen_tip);
+        tipTextView = mRootView.findViewById(R.id.charging_screen_tip);
         unlockTextView = mRootView.findViewById(R.id.unlock_tv);
         unlockTextView.setCompoundDrawablePadding(Dimensions.pxFromDp(4));
-        toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
+        ToolTipRelativeLayout toolTipContainer = mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
         mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
-        //mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
-        //mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
-//        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
-//        customizeContentContainer.setDismissCallback(new Runnable() {
-//            @Override
-//            public void run() {
-//                dismiss(getContext(), true);
-//            }
-//        });
-//        customizeContentContainer.addCardDisplayListener(new CustomizeContentContainer.CardDisplayListener() {
-//            @Override
-//            public void onCardDisplay(int type) {
-//                mRootView.findViewById(R.id.charging_tip_container).setVisibility(View.GONE);
-//            }
-//        });
-        chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
-        chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
 
-//        setChargingStatusIconClick();
+        chargingBubbleView = mRootView.findViewById(R.id.charging_screen_bubble_view);
+        chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
 
         toolTipContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -667,89 +613,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         });
     }
 
-    private void setChargingStatusIconClick() {
-        final Context context = getContext();
-        speedChargeStateImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToolTip toolTip = new ToolTip();
-                toolTip.withText(context.getString(R.string.charging_screen_charging_speed_charging_state_tip_view))
-                        .withColor(Color.BLACK)
-                        .withTextColor(Color.WHITE)
-                        .withAnimationType(ToolTip.ANIMATOR_TYPE_NONE);
-
-                speedChargeToolTipView = toolTipContainer.showToolTipForView(toolTip, speedChargeStateImageView);
-                speedChargeToolTipView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (speedChargeToolTipView != null) {
-                            speedChargeToolTipView.remove();
-                            speedChargeToolTipView = null;
-                        }
-                    }
-                });
-
-                handler.removeCallbacks(tipRemoveRunnable);
-                handler.postDelayed(tipRemoveRunnable, DURATION_TIP_SHOWING);
-            }
-        });
-
-        continuousChargeStateImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToolTip toolTip = new ToolTip();
-                toolTip.withText(context.getString(R.string.charging_screen_charging_continue_charging_state_tip_view))
-                        .withColor(Color.BLACK)
-                        .withTextColor(Color.WHITE)
-                        .withAnimationType(ToolTip.ANIMATOR_TYPE_NONE);
-
-                continuousChargeToolTipView = toolTipContainer.showToolTipForView(toolTip, continuousChargeStateImageView);
-                continuousChargeToolTipView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (continuousChargeToolTipView != null) {
-                            continuousChargeToolTipView.remove();
-                            continuousChargeToolTipView = null;
-                        }
-                    }
-                });
-
-                handler.removeCallbacks(tipRemoveRunnable);
-                handler.postDelayed(tipRemoveRunnable, DURATION_TIP_SHOWING);
-            }
-        });
-
-        trickleChargeStateImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToolTip toolTip = new ToolTip();
-                toolTip.withText(context.getString(R.string.charging_screen_charging_trickle_charging_state_tip_view))
-                        .withColor(Color.BLACK)
-                        .withTextColor(Color.WHITE)
-                        .withAnimationType(ToolTip.ANIMATOR_TYPE_NONE);
-
-                trickleChargeToolTipView = toolTipContainer.showToolTipForView(toolTip, trickleChargeStateImageView);
-                trickleChargeToolTipView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (trickleChargeToolTipView != null) {
-                            trickleChargeToolTipView.remove();
-                            trickleChargeToolTipView = null;
-                        }
-                    }
-                });
-
-                handler.removeCallbacks(tipRemoveRunnable);
-                handler.postDelayed(tipRemoveRunnable, DURATION_TIP_SHOWING);
-            }
-        });
-    }
-
     private void showMenuPopupWindow(Context context, View anchorView) {
         if (menuPopupView == null) {
             menuPopupView = new RipplePopupView(context, mRootView);
             View view = LayoutInflater.from(context).inflate(R.layout.charging_screen_popup_window, mRootView, false);
-            TextView txtCloseChargingBoost = (TextView) view.findViewById(R.id.tv_close);
+            TextView txtCloseChargingBoost = view.findViewById(R.id.tv_close);
             txtCloseChargingBoost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -781,10 +649,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         String leftTime = "";
         if (chargingLeftMinutes / 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes / 60) + (isChina ? "小时 " : "h ");
+            leftTime += chargingLeftMinutes / 60 + (isChina ? "小时 " : "h ");
         }
         if (chargingLeftMinutes % 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes % 60) + (isChina ? "分钟" : "m");
+            leftTime += chargingLeftMinutes % 60 + (isChina ? "分钟" : "m");
         }
 
         return leftTime;
@@ -862,12 +730,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private void updateTipTextRandomValue() {
         Context context = getContext();
         final String[] tips = new String[]{
-//                context.getString(R.string.charging_screen_charging_tip1),
                 context.getString(R.string.charging_screen_charging_tip2),
-//                context.getString(R.string.charging_screen_charging_tip3),
-//                context.getString(R.string.charging_screen_charging_tip4),
                 context.getString(R.string.charging_screen_charging_tip5),
-//                context.getString(R.string.charging_screen_charging_tip6,"")
         };
 
         tipTextView.setText(tips[new Random().nextInt(tips.length)]);
@@ -895,17 +759,15 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 }
             });
             buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                GradientDrawable mask = new GradientDrawable();
-                mask.setColor(Color.WHITE);
-                GradientDrawable shape = new GradientDrawable();
-                shape.setColor(Color.TRANSPARENT);
-                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
-                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+            GradientDrawable mask = new GradientDrawable();
+            mask.setColor(Color.WHITE);
+            GradientDrawable shape = new GradientDrawable();
+            shape.setColor(Color.TRANSPARENT);
+            Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+            Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(mRootView.getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
 
-                buttonNo.setBackground(buttonYesDrawable);
-                buttonYes.setBackground(buttonNoDrawable);
-            }
+            buttonNo.setBackground(buttonYesDrawable);
+            buttonYes.setBackground(buttonNoDrawable);
             buttonYes.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -965,19 +827,20 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
                 onStop();
                 break;
-
-
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_UNLOCKED:
                 unlockTextView.setText(R.string.unlock_tint_no_keyguard);
-                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0, 0);
                 break;
             case KeyguardHandler.EVENT_KEYGUARD_LOCKED:
                 unlockTextView.setText(R.string.unlock_tint_keyguard);
-                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                break;
+            case ChargingScreen.EVENT_CHARGING_FINISH_SELF:
+                dismiss(getContext(), true);
                 break;
             default:
                 break;
@@ -988,10 +851,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     public void onStop() {
         // ======== onPause ========
         isStart = false;
-//        if (customizeContentContainer != null) {
-//            customizeContentContainer.onVisibilityChange(false);
-//        }
-
 
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();
@@ -1000,7 +859,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         // ======== onStop ========
         HSLog.d(TAG, "onStop()");
         if (System.currentTimeMillis() - onStartTime > DateUtils.SECOND_IN_MILLIS) {
-            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
+            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getSmartLockerAdName1(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
 
@@ -1019,6 +878,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         super.onDestroy();
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
+
         if (mHomeKeyWatcher != null) {
             mHomeKeyWatcher.stopWatch();
         }
@@ -1043,7 +903,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     @Override
     public void dismiss(Context context, boolean dismissKeyguard) {
-        mDismissed = true;
+        boolean mDismissed = true;
         HSLog.i("LockManager", "C dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
 
         LockerCustomConfig.getLogger().logEvent("ColorPhone_Screen_Close",
@@ -1077,7 +937,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             int phoneHeight = Dimensions.getPhoneHeight(getContext());
             if (showNumber == 2) {
                 if (phoneHeight <= 1920) {
-                    chargingQuantityView.setTextSize(80  * phoneHeight / 1920 - 5);
+                    chargingQuantityView.setTextSize(80 * phoneHeight / 1920 - 5);
                 }
             } else {
                 chargingQuantityView.setTextSize(90);

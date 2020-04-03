@@ -8,6 +8,7 @@
     <string name="ds_digib" translatable="false">DS-DIGIB</string>
     <string name="akrobat_light" translatable="false">Akrobat-Light-simple</string>
     <string name="barlow_regular" translatable="false">Barlow-Regular</string>
+    <string name="din_medium" translatable="false">DIN-Medium</string>
     <string name="proxima_nova_regular" translatable="false">ProximaNova-Regular</string>
     <string name="proxima_nova_light" translatable="false">ProximaNova-Light</string>
     <string name="proxima_nova_thin" translatable="false">ProximaNova-Thin</string>

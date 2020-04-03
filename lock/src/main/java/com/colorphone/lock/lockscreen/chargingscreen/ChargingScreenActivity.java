@@ -63,6 +63,12 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
     }
 
     @Override
+    public void onAttachedToWindow() {
+        mScreen.onAttachedToWindow();
+        super.onAttachedToWindow();
+    }
+
+    @Override
     protected void onPause() {
         Threads.removeOnMainThread(displaySuccessChecker);
         super.onPause();

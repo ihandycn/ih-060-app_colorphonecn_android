@@ -51,6 +51,7 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.ViewUtils;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -135,6 +136,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", Locker.getDeviceInfo());
+                AutoPilotUtils.logLockerModeAutopilotEvent("lock_show");
                 logOnceFlag = true;
             }
             if (ScreenStatusReceiver.isScreenOn()) {
@@ -393,10 +395,18 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void requestAds() {
-        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName(), "");
+        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+        }
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
+                LockerCustomConfig.getLogger().logEvent("ad_show");
+                AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
                 LockerCustomConfig.get().onEventLockerAdShow();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -407,6 +417,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdClick");
                 LockerCustomConfig.get().onEventLockerAdClick();
                 HSBundle bundle = new HSBundle();
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "AdClick");
@@ -430,6 +441,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         }
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
+            LockerCustomConfig.getLogger().logEvent("ad_chance");
+            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
+
             expressAdView.switchAd();
         }
     }
@@ -462,7 +477,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             unregisterReceiverForClock();
         }
         if (System.currentTimeMillis() - mOnStartTime > DateUtils.SECOND_IN_MILLIS) {
-            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAdName(), String.valueOf(mAdShown)});
+            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getSmartLockerAdName1(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
     }
@@ -515,8 +530,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
                 if (mLockScreen != null && !mLockScreen.isActivityHost()) {
                     onStart();
-                } else {
-                    showExpressAd();
                 }
 
                 if (!mShimmer.isAnimating()) {

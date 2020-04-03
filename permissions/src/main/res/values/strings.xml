@@ -66,6 +66,7 @@
     <string name="acb_phone_oppo_notificationmanagement_permission_guide">为确保正常显示通知栏消息，请点击进入【通知管理】并允许通知</string>
     <string name="acb_phone_oppo_phone_permission_guide">为确保正常显示和接听来电，请点击进入【应用权限】，并开启【电话】</string>
     <string name="acb_phone_oppo_dangerous_permission_guide">为确保来电秀正常使用，\n1.点击进入【应用权限】; \n2.开启通讯录和存储空间权限</string>
+    <string name="acb_phone_grant_notification_onlockscreen_access_title">为确保锁屏时正常显示来电秀，请开启锁屏显示权限</string>
 
     <string name="acb_app_icon_replace">1@2$</string>
 

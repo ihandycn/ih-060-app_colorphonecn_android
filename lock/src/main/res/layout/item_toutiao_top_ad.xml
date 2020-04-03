@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_primary">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView
+            android:id="@+id/small_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="11dp"
+            app:srcCompat="@color/black_54_transparent"
+            tools:ignore="MissingRegistered" />
+
+        <TextView
+            android:id="@+id/ad_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Daily Horoscope Plus"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
+        android:id="@+id/big_view"
+        android:layout_below="@id/linear_layout"
+        android:background="@color/white_primary"
+        app:layout_aspectRatio="209%"
+        app:layout_widthPercent="100%"
+        tools:ignore="MissingRegistered" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/big_view"
+        android:background="@drawable/ad_background"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/ad_text"
+        android:textColor="@color/white_primary"
+        android:textSize="12sp" />
+
+    <FrameLayout
+        android:id="@+id/ad_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/big_view"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/ad_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/big_view"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="DailyHoroscopePlus.comDailyHoroscopePlus.com,pdesigned for …."
+        android:textColor="@color/black_54_transparent"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@id/ad_body"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="10.7dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/ad_button_bg"
+        android:gravity="center"
+        android:text="下载"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+</android.support.percent.PercentRelativeLayout>

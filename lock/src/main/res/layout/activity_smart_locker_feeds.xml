@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:ignore="RtlHardcoded,SpUsage">
+
+    <com.colorphone.smartlocker.view.SlidingFinishLayout
+        android:id="@+id/locker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_primary">
+
+        <FrameLayout
+            android:id="@+id/top_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/charging_top_container"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <com.colorphone.lock.TypefacedTextView
+                    android:id="@+id/charging_percent_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#333333"
+                    android:textSize="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="@string/din_medium"
+                    tools:text="54%" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="4dp"
+                    app:layout_constraintBottom_toBottomOf="@id/charging_percent_text_view"
+                    app:layout_constraintStart_toEndOf="@id/charging_percent_text_view"
+                    app:layout_constraintTop_toTopOf="@id/charging_percent_text_view"
+                    app:srcCompat="@drawable/ic_smart_locker_battery" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/charging_setting_image_view"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="@id/charging_percent_text_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/charging_percent_text_view"
+                    app:srcCompat="@drawable/ic_smart_locker_setting" />
+
+                <TextView
+                    android:id="@+id/charging_tip_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#333333"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="@id/charging_percent_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/charging_percent_text_view"
+                    tools:text="充满还需：45分钟" />
+
+                <TextView
+                    android:id="@+id/charging_date_week_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="11dp"
+                    android:textColor="#666666"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/charging_tip_text_view"
+                    tools:text="11/20 周三" />
+            </android.support.constraint.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/normal_top_container"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:visibility="gone">
+
+                <com.colorphone.lock.TypefacedTextView
+                    android:id="@+id/normal_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:textColor="#333333"
+                    android:textSize="24dp"
+                    app:typeface="@string/din_medium"
+                    tools:text="19:30" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/normal_setting_image_view"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="6dp"
+                    app:srcCompat="@drawable/ic_smart_locker_setting" />
+
+                <TextView
+                    android:id="@+id/normal_date_week_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/normal_setting_image_view"
+                    android:textColor="#666666"
+                    android:textSize="14dp"
+                    tools:ignore="RelativeOverlap"
+                    tools:text="11/20 周三" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <com.colorphone.smartlocker.view.RefreshView
+            android:id="@+id/refresh_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="48dp"
+            android:background="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_container">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/feeds_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_right_image" />
+        </com.colorphone.smartlocker.view.RefreshView>
+
+        <View
+            android:id="@+id/slide_unlock_cover_view"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/white_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/slide_unlock_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="@string/charging_screen_right_unlock_describe"
+            app:layout_constraintBottom_toBottomOf="@id/slide_unlock_cover_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/slide_unlock_cover_view" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/slide_unlock_icon_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/slide_unlock_cover_view"
+            app:layout_constraintEnd_toStartOf="@id/slide_unlock_text_view"
+            app:layout_constraintTop_toTopOf="@id/slide_unlock_cover_view"
+            app:srcCompat="@drawable/ic_smart_locker_unlock_arrow" />
+
+    </com.colorphone.smartlocker.view.SlidingFinishLayout>
+</RelativeLayout>
