@@ -17,7 +17,7 @@ public class AdUtils {
 
     public static void preloadResultPageAds() {
         HSLog.d(TAG, "result page preloadForExitNews ads.");
-        AcbNativeAdManager.getInstance().preload(1, Placements.BOOST_DONE);
-        AcbInterstitialAdManager.getInstance().preload(1, Placements.BOOST_WIRE);
+        AcbNativeAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.BOOST_DONE));
+        AcbInterstitialAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.BOOST_WIRE));
     }
 }

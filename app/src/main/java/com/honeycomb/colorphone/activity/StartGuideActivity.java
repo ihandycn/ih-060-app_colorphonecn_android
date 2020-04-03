@@ -84,7 +84,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private boolean directPermission;
     public boolean oneKeyFixPressed = false;
     private int confirmDialogPermission = 0;
-    private boolean isAgreePrivacy;
 
     public static @Nullable
     Intent getIntent(Context context, String from) {
@@ -131,15 +130,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
-        CheckBox agree = findViewById(R.id.start_guide_check);
-        isAgreePrivacy = agree.isChecked();
-
-        agree.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked != isAgreePrivacy) {
-                isAgreePrivacy = isChecked;
-                Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
-            }
-        });
 
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i(TAG, "onPermissionChanged onCreate");
@@ -151,22 +141,15 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             } else {
                 enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
                 enableBtn.setOnClickListener(v -> {
-                    if (agree.isChecked()) {
-                        if (directPermission) {
-                            if (!showPermissionDialog() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && Compats.IS_OPPO_DEVICE) {
-                                List<String> permissions = AutoRequestManager.getAllRuntimePermission();
-                                RuntimePermissions.requestPermissions(this, permissions.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
-                            }
-                        }
-
-                        if (!directPermission) {
-                            ModuleUtils.setAllModuleUserEnable();
-                            showAccessibilityPermissionPage();
-                        }
-                    } else {
-                        showToast();
+                    if (directPermission) {
+                        List<String> permissions = AutoRequestManager.getAllRuntimePermission();
+                        RuntimePermissions.requestPermissions(this, permissions.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
                     }
 
+                    if (!directPermission) {
+                        ModuleUtils.setAllModuleUserEnable();
+                        showAccessibilityPermissionPage();
+                    }
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show",
@@ -174,8 +157,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
-
-        setUpPrivacyTextView();
     }
 
     boolean isOnNewIntent = false;
@@ -185,24 +166,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         super.onNewIntent(intent);
         HSLog.i(TAG, "onNewIntent");
         isOnNewIntent = true;
-    }
-
-    private void setUpPrivacyTextView() {
-        final String privacyPolicyStr = Constants.getUrlPrivacy();
-        if (!TextUtils.isEmpty(privacyPolicyStr)) {
-            TextView privacyPolicy = findViewById(R.id.start_guide_policy);
-            if (privacyPolicy != null) {
-                privacyPolicy.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyStr))));
-            }
-        }
-
-        final String termServiceStr = Constants.getUrlTermServices();
-        if (!TextUtils.isEmpty(termServiceStr)) {
-            TextView termsOfService = findViewById(R.id.start_guide_service);
-            if (termsOfService != null) {
-                termsOfService.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
-            }
-        }
     }
 
     @Override
@@ -445,43 +408,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         showDialog(dialog);
     }
 
-    private boolean showPermissionDialog() {
-        List<String> reqPermission = AutoRequestManager.getNOTGrantRuntimePermissions(AutoRequestManager.getAllRuntimePermission());
-        if (reqPermission.size() == 0) {
-            directPermission = false;
-            return false;
-        }
-
-        View permissionDialog = findViewById(R.id.start_guide_confirm_permission);
-        permissionDialog.setVisibility(View.VISIBLE);
-        permissionDialog.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-
-        View layout = permissionDialog.findViewById(R.id.start_guide_confirm_permission_layout);
-        layout.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(16), false));
-
-        View action = permissionDialog.findViewById(R.id.start_guide_confirm_permission_action);
-        action.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
-        action.setOnClickListener(v -> {
-            requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
-
-            permissionDialog.setVisibility(View.GONE);
-            Analytics.logEvent("StartGuide_PermissionGuide_OK_Clicked");
-        });
-
-        layout.setScaleX(0.7f);
-        layout.setScaleY(0.7f);
-        layout.setAlpha(0.3f);
-        layout.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(300).setListener(null).start();
-        Analytics.logEvent("StartGuide_PermissionGuide_Show");
-
-        return true;
-    }
-
     private boolean showConfirmDialog(int confirmPermission) {
         if (dialog != null) {
             dialog.dismiss();
@@ -656,19 +582,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         String[] romNumbers = romVersion.split("\\.");
-        if (romNumbers.length<2){
+        if (romNumbers.length < 2) {
             return false;
         }
-        if (!(isNumeric(romNumbers[0]) && isNumeric(romNumbers[1]))){
+        if (!(isNumeric(romNumbers[0]) && isNumeric(romNumbers[1]))) {
             return false;
         }
-        if (Integer.parseInt(romNumbers[0])<3){
+        if (Integer.parseInt(romNumbers[0]) < 3) {
             return false;
         }
         return Integer.parseInt(romNumbers[0]) != 3 || Integer.parseInt(romNumbers[1]) >= 2;
     }
 
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
 
         Pattern pattern = Pattern.compile("[0-9]*");
 
@@ -677,25 +603,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private Toast toast;
-
-    public void showToast() {
-        if (toast != null) {
-            toast.cancel();
-        }
-
-        toast = new Toast(HSApplication.getContext().getApplicationContext());
-        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_start_guide_check, null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            contentView.setElevation(Dimensions.pxFromDp(8));
-        }
-        TextView textView = contentView.findViewById(R.id.start_guide_check);
-        textView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent), Dimensions.pxFromDp(8), false));
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.setView(contentView);
-        toast.show();
-
-        Analytics.logEvent("StartGuide_Privacy_Toast_Show");
-    }
 
     /**
      * Only request first launch. (if Enabled and not has permission)

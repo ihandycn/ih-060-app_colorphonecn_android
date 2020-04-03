@@ -238,7 +238,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 if (shouldShowAdIndex.contains(position)) {
                     HSLog.i("ThemeFullAd", "AcbAdNative_Viewed_In_App: " + (position == lastThemeFullAdIndex));
-                    Analytics.logAdViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
+                    Analytics.logAdViewEvent(Placements.getAdPlacement(Placements.THEME_DETAIL_NATIVE), (position == lastThemeFullAdIndex));
                     shouldShowAdIndex.remove(Integer.valueOf(position));
                 }
                 updateData(position);

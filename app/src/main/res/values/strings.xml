@@ -359,4 +359,13 @@
     <string name="upload_ing">上传中…%1$s</string>
 
     <string name="start_guide_request_accessibility_title_for_oppo_above_API24_Color32">来电秀开启遇到一些问题\n请开启无障碍服务以完成修复</string>
+
+    <string name="privacy_title_text">服务协议及隐私政策</string>
+    <string name="privacy_content_part1">我们依据最新的法律，向您说明焕彩来电秀软件的隐私政策，特向您推送本提示。请您阅读并充分理解相关条款。</string>
+    <string name="privacy_content_part2">我们承诺：</string>
+    <string name="privacy_content_part3">我们会严格按照《网络安全法》、《信息网络传播保护条例》等保护您的个人信息</string>
+    <string name="privacy_content_part4">如果未经您的授权，我们不会使用您的个人信息用于您未授权的其他途径或目的。</string>
+
+    <string name="privacy_content_part5">您点击“同意”，即表示您已阅读并同意更新后的《服务协议》及《隐私政策》</string>
+    <string name="privacy_force_agree_text">请您同意授权，否则无法使用本应用。</string>
 </resources>

@@ -1,0 +1,51 @@
+libCommons:
+  RemoteConfig:
+    PlistServerEnabled: false
+    PlistFile: "HSRemoteConfig.sp"
+    PlistUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/configs/jrtt_config_colorphone_1.3.87.sp"
+  ImageCache:
+    CacheSize: 0
+  Analytics:
+    EnableFlurry: true
+    EnableAppsFlyer: true
+    FlurryKey: "SMVNPB98M59Z86TB2HZ7"
+    FlurryStoredMaxCount: 1000
+    FacebookID: ""
+    TapjoySDKKey: ""
+    FlyerKey: "d4VKN2yBPk7gqTRBZcwkbc"
+    FlyerEvents:
+      - "App_Open_New"
+      - "App_Open_New_NonOrganic"
+      - "Call_Assistant_Can_Show"
+      - "colorphone_retention_day1"
+  Market:
+    3rdChannel: ""
+    DefaultMarket: "Google"
+    Markets:
+      Google:
+        AppPackage: "com.android.vending"
+        AppUrl: "market://details?id="
+        WebUrl: "https://play.google.com/store/apps/details?id="
+  Domain: "https://service.atcloudbox.com"
+  AppID: "21344708"
+  Connection:
+    SigKey: "K5079383"
+    HashKey: "/}#$-WbLZg)/3WD2F=SUj!?h!<D*|zi}"
+    InnerConnectEnable: false
+  Umeng:
+    AppKey: "5c651326f1f5562281001958"
+    Channel: ""
+    PushKey: "b93a2a1069e4044452cf3b72c7ad15eb"
+
+libFramework:
+  Alerts:
+    LocalFile: "alerts.sp"
+    RemoteUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/alerts/jrtt_alerts_colorphone_1.3.87.sp"
+  Push:
+    SenderID: ""
+    SendTokenToServer: false
+
+Application:
+  CashCenterURL: "https://service.atcloudbox.com/cashcenter"
+  CmGameHost: "https://hcldx-xyx-sdk-svc.beike.cn"
+  CmGameId: "huancailaidianxiu"

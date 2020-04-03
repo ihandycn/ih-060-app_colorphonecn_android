@@ -60,7 +60,7 @@ public class RewardVideoView {
 
     private void tryShowRewardVideo(Activity activity) {
         mRewardAdLoader = AcbRewardAdManager.getInstance().createLoaderWithPlacement(
-                Placements.AD_REWARD_VIDEO);
+                Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
         mRewardAdLoader.load(1, new AcbRewardAdLoader.AcbRewardAdLoadListener() {
             @Override
             public void onAdReceived(AcbRewardAdLoader acbRewardAdLoader, List<AcbRewardAd> list) {
@@ -114,7 +114,7 @@ public class RewardVideoView {
                     });
 
                     ad.show(activity, "");
-                    AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
+                    AcbRewardAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
                     if (mOnRewardedCallback != null) {
                         mOnRewardedCallback.onAdShow();
                     }

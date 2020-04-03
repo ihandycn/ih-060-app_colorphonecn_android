@@ -136,7 +136,6 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.occasion.OccasionManager;
-import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
@@ -163,8 +162,6 @@ import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -177,8 +174,6 @@ import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
-import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
-import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplicationImpl {
     private static final long TIME_NEED_LOW = 10 * 1000; // 10s
@@ -514,14 +509,14 @@ public class ColorPhoneApplicationImpl {
 
         initKuyinRingtone();
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
         CleanGuideCondition.getInstance();
 
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_DONE));
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_WIRE));
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.CASHCENTER));
         ColorPhonePermanentUtils.keepAlive();
 
         Upgrader.upgrade();
@@ -827,17 +822,17 @@ public class ColorPhoneApplicationImpl {
 
     private void updateCallFinishFullScreenAdPlacement() {
         if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
-            HSLog.d("Ad Active ： " + Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
+            HSLog.d("Ad Active ： " + Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN));
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN));
             isCallAssistantActivated = true;
         }
     }
 
     private void initChargingReport() {
         long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_CHARGING_REPORT);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT));
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
-                .adPlacement(Placements.AD_CHARGING_REPORT)
+                .adPlacement(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT))
                 .appName(mBaseApplication.getResources().getString(R.string.smart_charging))
                 .appIconResourceId(R.drawable.ic_launcher)
                 .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
@@ -1030,7 +1025,7 @@ public class ColorPhoneApplicationImpl {
         });
 
         Module sms = new Module();
-        sms.setAdName(Placements.AD_MSG);
+        sms.setAdName(Placements.getAdPlacement(Placements.AD_MSG));
         sms.setAdType(Module.AD_EXPRESS);
         sms.setChecker(new Module.Checker() {
             @Override
@@ -1070,7 +1065,7 @@ public class ColorPhoneApplicationImpl {
     }
 
     public static void checkChargingReportAdPlacement() {
-        checkExpressAd(Placements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
+        checkExpressAd(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT), SmartChargingSettings.isChargingReportEnabled());
     }
 
     private void checkModuleAdPlacement() {
