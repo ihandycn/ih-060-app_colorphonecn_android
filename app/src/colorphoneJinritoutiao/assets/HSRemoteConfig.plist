@@ -863,7 +863,7 @@
 				</array>
 			</dict>
 			<key>LockerAutoRefreshAdsEnable</key>
-			<true/>
+			<false/>
 			<key>News</key>
 			<dict>
 				<key>Category</key>
