@@ -72,6 +72,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import net.appcloudbox.UnreleasedAdWatcher;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -895,7 +896,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void tryToInsertAdToItem(AcbNativeAd nativeAd) {
-        HSLog.d(TAG, "TryToLoadAd tryToInsertAdToItem: ");
         if (linearLayoutManager == null || feedAdapter == null) {
             return;
         }
@@ -913,11 +913,27 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
+                            if (!recyclerView.isComputingLayout()) {
+                                feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
+                            } else {
+                                //没有layout完成的情况下，delay500ms后再次尝试notify 主动上报信息
+                                RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem first : recyclerView.getScrollState(): " +
+                                        recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
+                                CrashReport.postCatchedException(exception);
+
+                                recyclerView.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!recyclerView.isComputingLayout()) {
+                                            feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
+                                        }
+                                    }
+                                }, 500);
+                            }
+
                             firstWaitInsertAdPosition = -1;
                         }
                     });
-                    HSLog.d(TAG, "tryToInsertAdToItem: notifyItemChanged firstWaitInsertAdPosition = " + firstWaitInsertAdPosition);
                     return;
                 }
             }
@@ -932,10 +948,25 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            feedAdapter.notifyItemChanged(finalPos);
+                            if (!recyclerView.isComputingLayout()) {
+                                feedAdapter.notifyItemChanged(finalPos);
+                            } else {
+                                //没有layout完成的情况下，delay500ms后再次尝试notify
+                                RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem normal : recyclerView.getScrollState(): " +
+                                        recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
+                                CrashReport.postCatchedException(exception);
+
+                                recyclerView.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!recyclerView.isComputingLayout()) {
+                                            feedAdapter.notifyItemChanged(finalPos);
+                                        }
+                                    }
+                                }, 500);
+                            }
                         }
                     });
-                    HSLog.d(TAG, "tryToInsertAdToItem: notifyItemChanged pos = " + pos);
                     break;
                 }
             }
