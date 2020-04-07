@@ -926,7 +926,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                                     public void run() {
                                         if (!recyclerView.isComputingLayout()) {
                                             feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
+                                        } else {
+                                            //delay后仍失败
+                                            RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem2 first : recyclerView.getScrollState(): " +
+                                                    recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
+                                            CrashReport.postCatchedException(exception);
                                         }
+
                                     }
                                 }, 500);
                             }
@@ -961,6 +967,11 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                                     public void run() {
                                         if (!recyclerView.isComputingLayout()) {
                                             feedAdapter.notifyItemChanged(finalPos);
+                                        } else {
+                                            //delay后仍失败
+                                            RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem2 normal : recyclerView.getScrollState(): " +
+                                                    recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
+                                            CrashReport.postCatchedException(exception);
                                         }
                                     }
                                 }, 500);
