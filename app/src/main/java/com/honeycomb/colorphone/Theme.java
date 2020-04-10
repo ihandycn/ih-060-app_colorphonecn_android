@@ -208,7 +208,7 @@ public class Theme extends Type {
     }
 
     public boolean hasRingtone() {
-        return !TextUtils.isEmpty(ringtoneUrl) && Ap.Ringtone.isEnable();
+        return Ap.Ringtone.isEnable();
     }
 
     public String getRingtonePath() {

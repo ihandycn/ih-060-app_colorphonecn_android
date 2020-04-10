@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.video.VideoUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -56,7 +57,7 @@ public class RingtoneHelper {
         return mAnimThemes.contains(themeId);
     }
 
-    public static boolean isActive(int themeId ) {
+    public static boolean isActive(int themeId) {
         ensureActiveThemeList();
         return mActiveThemes.contains(themeId);
     }
@@ -145,7 +146,7 @@ public class RingtoneHelper {
     }
 
     private static void saveFirstRingtoneId(int id) {
-         HSPreferenceHelper.create(HSApplication.getContext(), "ringtone")
+        HSPreferenceHelper.create(HSApplication.getContext(), "ringtone")
                 .putInt(PREFS_KEY_FIRST_RINGTONE, id);
 
     }
@@ -338,11 +339,8 @@ public class RingtoneHelper {
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
-            TasksManagerModel ringtoneModel = TasksManager.getImpl().requestRingtoneTask(theme);
-            if (ringtoneModel != null) {
-                path = ringtoneModel.getPath();
-                theme.setRingtonePath(path);
-            }
+            path = VideoUtils.getVoiceFromVideo(theme.getFileName());
+            theme.setRingtonePath(path);
         }
         return path;
     }
@@ -360,11 +358,11 @@ public class RingtoneHelper {
         Uri mediaUri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
         Cursor cursor = null;
         try {
-            cursor = context.getContentResolver().query(mediaUri, null, MediaStore.MediaColumns.DATA + "=?", new String[] { sdfile.getAbsolutePath() }, null);
+            cursor = context.getContentResolver().query(mediaUri, null, MediaStore.MediaColumns.DATA + "=?", new String[]{sdfile.getAbsolutePath()}, null);
             if (cursor.moveToFirst()) {
                 String id = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
                 if (!TextUtils.isEmpty(id)) {
-                    Uri existUri =  Uri.withAppendedPath(mediaUri, id);
+                    Uri existUri = Uri.withAppendedPath(mediaUri, id);
                     HSLog.d("Ringtone", "Path = " + path + " has exist.\n Uri = " + existUri.toString());
                     mPathUriMaps.put(path, existUri.toString());
                     return existUri;

@@ -48,7 +48,7 @@ public class TasksManager {
         if (theme.hasRingtone()) {
             TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme);
             if (ringtoneTask == null) {
-                ringtoneTask =  addRingtoneTask(theme);
+                ringtoneTask = addRingtoneTask(theme);
             }
             downloadThemeThreadSafely(ringtoneTask, tag);
         }
@@ -263,11 +263,12 @@ public class TasksManager {
     }
 
     public TasksManagerModel requestRingtoneTask(Theme theme) {
-        TasksManagerModel mediaTask = getRingtoneTaskByThemeId(theme);
-        if (mediaTask == null) {
-            mediaTask = addRingtoneTask(theme);
-        }
-        return mediaTask;
+//        TasksManagerModel mediaTask = getRingtoneTaskByThemeId(theme);
+//        if (mediaTask == null) {
+//            mediaTask = addRingtoneTask(theme);
+//        }
+//        return mediaTask;
+        return null;
     }
 
     /**
@@ -344,23 +345,6 @@ public class TasksManager {
         return modelList.size();
     }
 
-    /**
-     * Create task model if not exist.
-     * @param theme
-     */
-    public void ensureThemeDownloadTaskModels(Theme theme) {
-        if (theme.hasRingtone()) {
-            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme);
-            if (ringtoneTask == null) {
-                addRingtoneTask(theme);
-            }
-        }
-
-        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme);
-        if (mediaTask != null) {
-            addMediaTask(theme);
-        }
-    }
 
     private TasksManagerModel addRingtoneTask(Theme theme) {
         String url = ((Theme) theme).getRingtoneUrl();
@@ -384,7 +368,6 @@ public class TasksManager {
         }
         return null;
     }
-
 
 
     private synchronized boolean getTaskExist(Theme theme) {

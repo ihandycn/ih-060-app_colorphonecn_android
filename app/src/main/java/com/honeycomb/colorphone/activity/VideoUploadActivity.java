@@ -25,7 +25,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
-import com.honeycomb.colorphone.ugc.VideoUtils;
+import com.honeycomb.colorphone.video.VideoUtils;
 import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;

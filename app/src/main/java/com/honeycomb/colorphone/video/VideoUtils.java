@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.ugc;
+package com.honeycomb.colorphone.video;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,16 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaMuxer;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+import com.acb.call.utils.FileUtils;
+import com.honeycomb.colorphone.util.Utils;
+import com.ihs.commons.utils.HSLog;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -84,6 +91,25 @@ public final class VideoUtils {
                     OPTIONS_RECYCLE_INPUT);
         }
         return bitmap;
+    }
+
+    public static String getVoiceFromVideo(String videoFileName) {
+        long startTime = System.currentTimeMillis();
+        File ringtoneFile = Utils.getRingtoneFile();
+        String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
+
+        File videoFile = FileUtils.getMediaDirectory();
+        if (videoFile == null) {
+            return null;
+        }
+        String videoFilePath = FileDownloadUtils.generateFilePath(videoFile.getAbsolutePath(), videoFileName);
+        try {
+            doExtractAudioFromVideo(videoFilePath, voiceFilePath, -1, -1);
+            HSLog.e("rango", "get voice from video, time = " + (System.currentTimeMillis() - startTime));
+            return voiceFilePath;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -197,7 +223,8 @@ public final class VideoUtils {
     }
 
     /**
-     *  Get duration of the specified video.
+     * Get duration of the specified video.
+     *
      * @param path the path of the specified video.
      * @return duration.
      */
@@ -251,6 +278,7 @@ public final class VideoUtils {
 
     /**
      * Get video list in device.
+     *
      * @param context Context.
      * @return video list.
      */
