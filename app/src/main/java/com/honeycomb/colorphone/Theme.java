@@ -12,6 +12,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.honeycomb.colorphone.theme.ThemeUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -268,32 +269,32 @@ public class Theme extends Type {
         return pendingSelected;
     }
 
-    public static ArrayList<Type> transformData(int beforeDataSize, AllThemeBean data) {
-        ArrayList<Type> dataList = new ArrayList<>();
-        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
+    public static ArrayList<Theme> transformCategoryData(int beforeDataSize, AllThemeBean data) {
+        ArrayList<Theme> dataList = new ArrayList<>();
+        for (AllThemeBean.DataBean bean : data.getData()) {
             Theme theme = new Theme();
             theme.setIndex(beforeDataSize + dataList.size());
-            theme.setId(bean.getShow_id());
-            theme.setIdName(bean.getId_name());
-            theme.setResType(bean.getRes_type());
-            theme.setItemIcon(bean.getIcon());
-            theme.setName(bean.getName());
-            theme.setAcceptIcon(bean.getIcon_accept());
-            theme.setRejectIcon(bean.getIcon_reject());
-            theme.setPreviewImage(bean.getPreview_image());
-            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
-            theme.setMp4Url(bean.getMp4());
-            theme.setGifUrl(bean.getGif());
-            theme.setHot(bean.isHot());
+            theme.setId(getThemeId(bean.getId()));
+            theme.setIdName(bean.getId());
+            theme.setResType("url");
+            theme.setItemIcon("");
+            theme.setName(bean.getNm());
+            theme.setAcceptIcon(ThemeUtils.getAcceptIconFromConfig());
+            theme.setRejectIcon(ThemeUtils.getRejectIconFromConfig());
+            theme.setPreviewImage(bean.getPvurl());
+            theme.setThemeGuideImage("");
+            theme.setMp4Url(bean.getUrl());
+            theme.setGifUrl("");
+            theme.setHot(false);
             theme.setSuggestMediaType(Type.MEDIA_MP4);
-            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
-            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
-            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
-            theme.setDownload(bean.getDownload_num());
-            theme.setRingtoneUrl(bean.getRingtone());
-            theme.setUploaderName(bean.getUser_name());
-            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
-            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
+            theme.setNotificationBigPictureUrl("");
+            theme.setNotificationLargeIconUrl("");
+            theme.setNotificationEnabled(false);
+            theme.setDownload(getDownloadNum(bean.getId()));
+            theme.setRingtoneUrl("");
+            theme.setUploaderName("");
+            theme.setLocked(false);
+            theme.setCanDownload(false);
             theme.setSpecialTopic(false);
             theme.setAvatar(R.drawable.theme_preview_avatar_default);
             theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
@@ -310,46 +311,20 @@ public class Theme extends Type {
         return dataList;
     }
 
-    public static ArrayList<Theme> transformCategoryData(int beforeDataSize, AllThemeBean data) {
-        ArrayList<Theme> dataList = new ArrayList<>();
-        for (AllThemeBean.ShowListBean bean : data.getShow_list()) {
-            Theme theme = new Theme();
-            theme.setIndex(beforeDataSize + dataList.size());
-            theme.setId(bean.getShow_id());
-            theme.setIdName(bean.getId_name());
-            theme.setResType(bean.getRes_type());
-            theme.setItemIcon(bean.getIcon());
-            theme.setName(bean.getName());
-            theme.setAcceptIcon(bean.getIcon_accept());
-            theme.setRejectIcon(bean.getIcon_reject());
-            theme.setPreviewImage(bean.getPreview_image());
-            theme.setThemeGuideImage(bean.getTheme_guide_preview_image());
-            theme.setMp4Url(bean.getMp4());
-            theme.setGifUrl(bean.getGif());
-            theme.setHot(bean.isHot());
-            theme.setSuggestMediaType(Type.MEDIA_MP4);
-            theme.setNotificationBigPictureUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushPreviewImage() : "");
-            theme.setNotificationLargeIconUrl(bean.getLocal_push() != null ? bean.getLocal_push().getLocalPushIcon() : "");
-            theme.setNotificationEnabled(bean.getLocal_push() != null && bean.getLocal_push().isEnable());
-            theme.setDownload(bean.getDownload_num());
-            theme.setRingtoneUrl(bean.getRingtone());
-            theme.setUploaderName(bean.getUser_name());
-            theme.setLocked(bean.getStatus() != null && bean.getStatus().isLock());
-            theme.setCanDownload(bean.getStatus() != null && bean.getStatus().isStaticPreview());
-            theme.setSpecialTopic(false);
-            theme.setAvatar(R.drawable.theme_preview_avatar_default);
-            theme.setAvatarName(HSApplication.getContext().getString(R.string.app_name));
 
-            if (ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == -1 &&
-                    HSPreferenceHelper.getDefault().getBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, true)) {
-                sFirstTheme = theme;
-                HSPreferenceHelper.getDefault().putBoolean(PREFS_KEY_THEME_SET_THEME_FOR_FIRST, false);
-            }
+    private static int getDownloadNum(String themeId) {
+        int downloadNum = Math.abs(themeId.hashCode());
+        return downloadNum / 10000;
+    }
 
-            dataList.add(theme);
+    private static int getThemeId(String themeId) {
+        int result;
+        try {
+            result = Math.abs(Long.valueOf(themeId).intValue());
+        } catch (Exception e) {
+            result = Math.abs(themeId.hashCode());
         }
-
-        return dataList;
+        return result;
     }
 
     public static ArrayList<Theme> transformData(AllUserThemeBean bean) {

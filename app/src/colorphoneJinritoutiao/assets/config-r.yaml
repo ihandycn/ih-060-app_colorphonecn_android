@@ -2,7 +2,7 @@ libCommons:
   RemoteConfig:
     PlistServerEnabled: false
     PlistFile: "HSRemoteConfig.sp"
-    PlistUrl: "http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/configs/jrtt_config_colorphone_1.3.87.sp"
+    PlistUrl: ""
   ImageCache:
     CacheSize: 0
   Analytics:

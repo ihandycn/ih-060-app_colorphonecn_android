@@ -197,7 +197,7 @@ public final class HttpManager {
 
     public void getCategoryThemes(String categoryId, int pageIndex, Callback<AllThemeBean> callback) {
         DEFAULT.create(IHttpRequest.class)
-                .getCategoryThemes(categoryId, IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
+                .getCategoryThemes("392e41ad9bc2a70d",categoryId, IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
                 .enqueue(callback);
     }
 

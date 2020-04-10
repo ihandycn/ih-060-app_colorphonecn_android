@@ -6,8 +6,8 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+			<key>AdPlacementPrefix</key>
+			<string>Air</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
@@ -331,7 +331,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can't deliver broadcast</string>
+					<string>can&apos;t deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -360,7 +360,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
+					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -368,7 +368,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
+					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -1094,6 +1094,40 @@
 			<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/terms-of-use.html</string>
 			<key>Theme</key>
 			<dict>
+				<key>Icon</key>
+				<dict>
+					<key>AcceptIcon</key>
+					<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
+					<key>RejectIcon</key>
+					<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
+				</dict>
+				<key>Category</key>
+				<array>
+					<dict>
+						<key>id</key>
+						<string>315917</string>
+						<key>name</key>
+						<string>最新</string>
+					</dict>
+					<dict>
+						<key>id</key>
+						<string>315917</string>
+						<key>name</key>
+						<string>最热</string>
+					</dict>
+					<dict>
+						<key>id</key>
+						<string>315917</string>
+						<key>name</key>
+						<string>厉害</string>
+					</dict>
+					<dict>
+						<key>id</key>
+						<string>315917</string>
+						<key>name</key>
+						<string>难啊</string>
+					</dict>
+				</array>
 				<key>CallThemeIntervalShowAd</key>
 				<integer>4</integer>
 				<key>DefaultTheme</key>
@@ -11185,7 +11219,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d'épice</string>
+							<string>Pain d&apos;épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -11351,7 +11385,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell'oro</string>
+							<string>Il mito dell&apos;oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>

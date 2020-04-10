@@ -5,293 +5,177 @@ import java.util.List;
 public class AllThemeBean {
 
     /**
-     * show_list : [{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"HappySanta","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HappySanta/HappySanta.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HappySanta/HappySanta_preview.jpg","show_id":57,"description":"","user_name":"尘埃之里","icon":"","created":1571645002000,"download_num":76336,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"快乐的圣诞老人","updated":1571645002000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"MiniSanta","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/MiniSanta/MiniSanta.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/minisanta/MiniSanta_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/minisanta/MiniSanta_push_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/MiniSanta/MiniSanta_preview.jpg","show_id":58,"description":"","user_name":"红颜丶格子控","icon":"","created":1571645001000,"download_num":53626,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"圣诞老人也爱跳舞","updated":1571645001000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"DancingSanta","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DancingSanta/DancingSanta.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/dancingsanta/DancingSanta_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/dancingsanta/DancingSanta_push_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DancingSanta/DancingSanta_preview.jpg","show_id":59,"description":"","user_name":"努力心酸","icon":"","created":1571645000000,"download_num":53732,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"圣诞老人在跳舞","updated":1571645000000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"MerryChristmas","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/MerryChristmas/MerryChristmas.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/merrychristmas/MerryChristmas_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/merrychristmas/MerryChristmas_push_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/MerryChristmas/MerryChristmas_preview.jpg","show_id":56,"description":"","user_name":"独行侠","icon":"","created":1571644999000,"download_num":62336,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"圣诞老人送礼来","updated":1571644999000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"RotatingSanta","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/RotatingSanta/RotatingSanta.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/rotatingsanta/RotatingSanta_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/rotatingsanta/RotatingSanta_push_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/RotatingSanta/RotatingSanta_preview.jpg","show_id":60,"description":"","user_name":"单向的爱","icon":"","created":1571644999000,"download_num":64236,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"旋转的圣诞老人","updated":1571644999000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"Luxurious","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Luxurious/Luxurious.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Romantic.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/Luxurious/Luxurious_localpush_preview_image.jpg","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/Luxurious/Luxurious_localpush_preview_icon.png","Enable":true},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Luxurious/Luxurious_preview.jpg","show_id":42,"description":"","user_name":"太美好","icon":"","created":1571644998000,"download_num":41366,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"金碧辉煌","updated":1571644998000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"BarLight","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BarLight/BarLight.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Romantic.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/BarLight/BarLight_localpush_preview_image.jpg","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/BarLight/BarLight_localpush_preview_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/BarLight/BarLight_preview.jpg","show_id":41,"description":"","user_name":"爱情的独奏","icon":"","created":1571644997000,"download_num":41366,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"酒吧灯光","updated":1571644997000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"Moon","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Romantic.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_image.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon_preview.jpg","show_id":39,"description":"","user_name":"Unfair","icon":"","created":1571644995000,"download_num":45673,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"月亮之上","updated":1571644995000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"Disc","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Disc/Disc.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Beats.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_image.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Disc/Disc_preview.jpg","show_id":37,"description":"","user_name":"夜已冷丶心如冰","icon":"","created":1571644994000,"download_num":75321,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"黄金时代","updated":1571644994000},{"res_type":"url","gif":"","hot":false,"icon_accept":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png","status":{"Lock":false,"StaticPreview":true},"id_name":"Cube","mp4":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Cube/Cube.mp4","ringtone":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Shake.mp3","local_push":{"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_image.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/santa/santa_localpush_preview_icon.png","Enable":false},"preview_image":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Cube/Cube_preview.jpg","show_id":36,"description":"","user_name":"凉辰梦瑾","icon":"","created":1571644993000,"download_num":34226,"icon_reject":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png","theme_guide_preview_image":null,"name":"指尖魔方","updated":1571644993000}]
-     * page_index : null
+     * retcode : 0000
+     * retdesc : 成功
+     * desc : 成功
+     * total : 44
+     * more : 1
+     * px : 1
+     * data : [{"id":"1203865310466146304","nm":"孙氏火焰","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/418b26910ef54983bfd9f011f1ceb964.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/2b45e69de442481fb0c69a7dbc5128ed.jpg","charge":"0","price":"0","song":{"name":"想家的爷们","singer":"王旭"}},{"id":"1203865314161328128","nm":"桃花多多","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/84d72d60216148939fedf520e141085c.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/e404ac7723784124b9e44ca87669ff39.jpg","charge":"0","price":"0","song":{"name":"逍遥客","singer":"曼殊"}},{"id":"1206733798897614848","nm":"暴富壁纸","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/c2d1b4083f0d45208df9b08fbf8d0705.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/6754fa53effc4a47b39815e5d21d2039.jpg","charge":"0","price":"0","song":{"name":"鸟儿飞","singer":"于果"}},{"id":"1206733822964531200","nm":"快接电话","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/b7b42c923011455e81a83c563e0dfb2e.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/c99d3d0241fa40de90ecf326555cfbfa.jpg","charge":"0","price":"0","song":{"name":"吃货小姐","singer":"黄文文"}},{"id":"1206733829989990400","nm":"出入平安","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/32d9b5ccb03641f293d57513758fbaba.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/e958977c3bea46d79b7b60fcfc145fd0.jpg","charge":"0","price":"0","song":{"name":"礼物（综艺推广曲）","singer":"龚子婕JessieG"}},{"id":"1203865283039592448","nm":"点开发财","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/00b70891acd1487d9e4e232657927e88.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/57f20d311705484f920e555136be7b3b.jpg","charge":"0","price":"0","song":{"name":"放开爱","singer":"艾德沃尔"}},{"id":"1202406362181533696","nm":"私密空间","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/f56812e981694b6b8ffc1f7d76ee5d9c.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/9207eabd70234e4b96a96f031df01073.jpg","charge":"0","price":"0","song":{"name":"Hello kitty爱上叮当猫","singer":"猫扑风铃"}},{"id":"1203865291881185280","nm":"帅字烙印","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/c3ab8ce805a748b38064601616a91a6e.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/88546be6670644019006d3d3d8392416.jpg","charge":"0","price":"0","song":{"name":"冷月如霜","singer":"谢凌烨"}},{"id":"1203865296947904512","nm":"赵字烙印","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/bfb02942d71b491eae93e7c9d7d89c67.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/eea8be40e52e4eddbea50c9e2acf1be7.jpg","charge":"0","price":"0","song":{"name":"爱江山更爱美人","singer":"曼殊"}},{"id":"1206733891226828800","nm":"黄氏","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/36ea763eb0884045bdf2208f6c01edce.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/55cf148dce8a4df7acb883e28a8a5df2.jpg","charge":"0","price":"0","song":{"name":"以后的那个我","singer":"陈茂源"}},{"id":"1206733892787109888","nm":"李氏","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/5631e69d5aea4529a21fb87b08c7fea6.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/bb910bf886e1411d807463a5ba016543.jpg","charge":"0","price":"0","song":{"name":"以后的那个我","singer":"陈茂源"}},{"id":"1206755467838095360","nm":"杨氏火焰","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/d7d51ea6065a4d5783a2d8abec054dff.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/efbec53dc5614aef97047428848463fc.jpg","charge":"0","price":"0","song":{"name":"爱一个人没有错","singer":"老帅"}},{"id":"1206765751302619136","nm":"财运滚滚来","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/aa3c5e2d292e473ebcd5b1f2ae0c895a.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/714bd533807a4a63aee7bdbfe6312a23.jpg","charge":"0","price":"0","song":{"name":"撞到爱","singer":"猫扑风铃"}},{"id":"1199500113196597248","nm":"不要碰我手机","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/e4dac4611d104ff39561921d709a3571.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/71acaea127db42a39b330aef8507ffaf.jpg","charge":"0","price":"0","song":{"name":"我希望在你的爱情里（原版）","singer":"张蔷"}},{"id":"1202406338789900288","nm":"有志者事竟成","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/6fc3e1ee5eca4897a10383300fd8f913.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/7553fa492112448db1c507777397e02d.jpg","charge":"0","price":"0","song":{"name":"失温","singer":"谢凌烨"}},{"id":"1206733865272475648","nm":"虎字生肖","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/331a64390c5f453897199853d2d7c540.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/7a46bb9cacc242d9b0d919247ce4e732.jpg","charge":"0","price":"0","song":{"name":"最后","singer":"郝思嘉"}},{"id":"1206733871102558208","nm":"祁氏","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/49a9c71e2d224d42b92c192261699eab.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/d4fb611125c044cf9615c3f4b5e227cb.jpg","charge":"0","price":"0","song":{"name":"曲已终人已散","singer":"黄静美"}},{"id":"1206733881441517568","nm":"郑氏","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/86fcbe61469045f5bc22b91fc3d389a8.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/e1dd3de44c244b8395aad5de7c1b011c.jpg","charge":"0","price":"0","song":{"name":"以后的那个我","singer":"陈茂源"}},{"id":"1206733885338025984","nm":"猪字生肖","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/7558464a903648a58635920a7d39f261.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/e76c4e9d9e4b4d5dbe88178e1c14912b.jpg","charge":"0","price":"0","song":{"name":"Hello kitty爱上叮当猫","singer":"猫扑风铃"}},{"id":"1202406360164073472","nm":"陈氏火焰","url":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/c8c74c8d6e1b4f98821ac1bd09dff147.mp4","pvurl":"https://oss.kuyinyun.com/11W2MYCO/rescloud1/f994d98617754c35b0a349b172a75887.jpg","charge":"0","price":"0","song":{"name":"想家的爷们","singer":"王旭"}}]
      */
 
-    private int page_index;
-    private List<ShowListBean> show_list;
+    private String retcode;
+    private String retdesc;
+    private String desc;
+    private int total;
+    private String more;
+    private String px;
+    private List<DataBean> data;
 
-    public int getPage_index() {
-        return page_index;
+    public String getRetcode() {
+        return retcode;
     }
 
-    public void setPage_index(int page_index) {
-        this.page_index = page_index;
+    public void setRetcode(String retcode) {
+        this.retcode = retcode;
     }
 
-    public List<ShowListBean> getShow_list() {
-        return show_list;
+    public String getRetdesc() {
+        return retdesc;
     }
 
-    public void setShow_list(List<ShowListBean> show_list) {
-        this.show_list = show_list;
+    public void setRetdesc(String retdesc) {
+        this.retdesc = retdesc;
     }
 
-    public static class ShowListBean {
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public String getMore() {
+        return more;
+    }
+
+    public void setMore(String more) {
+        this.more = more;
+    }
+
+    public String getPx() {
+        return px;
+    }
+
+    public void setPx(String px) {
+        this.px = px;
+    }
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * res_type : url
-         * gif :
-         * hot : false
-         * icon_accept : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png
-         * status : {"Lock":false,"StaticPreview":true}
-         * id_name : HappySanta
-         * mp4 : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HappySanta/HappySanta.mp4
-         * ringtone : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/CommonMusic/Christmas.mp3
-         * local_push : {"LocalPushPreviewImage":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_preview.png","LocalPushIcon":"http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_icon.png","Enable":false}
-         * preview_image : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HappySanta/HappySanta_preview.jpg
-         * show_id : 57
-         * description :
-         * user_name : 尘埃之里
-         * icon :
-         * created : 1571645002000
-         * download_num : 76336
-         * icon_reject : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png
-         * theme_guide_preview_image : null
-         * name : 快乐的圣诞老人
-         * updated : 1571645002000
+         * id : 1203865310466146304
+         * nm : 孙氏火焰
+         * url : https://oss.kuyinyun.com/11W2MYCO/rescloud1/418b26910ef54983bfd9f011f1ceb964.mp4
+         * pvurl : https://oss.kuyinyun.com/11W2MYCO/rescloud1/2b45e69de442481fb0c69a7dbc5128ed.jpg
+         * charge : 0
+         * price : 0
+         * song : {"name":"想家的爷们","singer":"王旭"}
          */
 
-        private String res_type;
-        private String gif;
-        private boolean hot;
-        private String icon_accept;
-        private StatusBean status;
-        private String id_name;
-        private String mp4;
-        private String ringtone;
-        private LocalPushBean local_push;
-        private String preview_image;
-        private int show_id;
-        private String description;
-        private String user_name;
-        private String icon;
-        private long created;
-        private int download_num;
-        private String icon_reject;
-        private String theme_guide_preview_image;
-        private String name;
-        private long updated;
+        private String id;
+        private String nm;
+        private String url;
+        private String pvurl;
+        private String charge;
+        private String price;
+        private SongBean song;
 
-        public String getRes_type() {
-            return res_type;
+        public String getId() {
+            return id;
         }
 
-        public void setRes_type(String res_type) {
-            this.res_type = res_type;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getGif() {
-            return gif;
+        public String getNm() {
+            return nm;
         }
 
-        public void setGif(String gif) {
-            this.gif = gif;
+        public void setNm(String nm) {
+            this.nm = nm;
         }
 
-        public boolean isHot() {
-            return hot;
+        public String getUrl() {
+            return url;
         }
 
-        public void setHot(boolean hot) {
-            this.hot = hot;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
-        public String getIcon_accept() {
-            return icon_accept;
+        public String getPvurl() {
+            return pvurl;
         }
 
-        public void setIcon_accept(String icon_accept) {
-            this.icon_accept = icon_accept;
+        public void setPvurl(String pvurl) {
+            this.pvurl = pvurl;
         }
 
-        public StatusBean getStatus() {
-            return status;
+        public String getCharge() {
+            return charge;
         }
 
-        public void setStatus(StatusBean status) {
-            this.status = status;
+        public void setCharge(String charge) {
+            this.charge = charge;
         }
 
-        public String getId_name() {
-            return id_name;
+        public String getPrice() {
+            return price;
         }
 
-        public void setId_name(String id_name) {
-            this.id_name = id_name;
+        public void setPrice(String price) {
+            this.price = price;
         }
 
-        public String getMp4() {
-            return mp4;
+        public SongBean getSong() {
+            return song;
         }
 
-        public void setMp4(String mp4) {
-            this.mp4 = mp4;
+        public void setSong(SongBean song) {
+            this.song = song;
         }
 
-        public String getRingtone() {
-            return ringtone;
-        }
-
-        public void setRingtone(String ringtone) {
-            this.ringtone = ringtone;
-        }
-
-        public LocalPushBean getLocal_push() {
-            return local_push;
-        }
-
-        public void setLocal_push(LocalPushBean local_push) {
-            this.local_push = local_push;
-        }
-
-        public String getPreview_image() {
-            return preview_image;
-        }
-
-        public void setPreview_image(String preview_image) {
-            this.preview_image = preview_image;
-        }
-
-        public int getShow_id() {
-            return show_id;
-        }
-
-        public void setShow_id(int show_id) {
-            this.show_id = show_id;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public void setIcon(String icon) {
-            this.icon = icon;
-        }
-
-        public long getCreated() {
-            return created;
-        }
-
-        public void setCreated(long created) {
-            this.created = created;
-        }
-
-        public int getDownload_num() {
-            return download_num;
-        }
-
-        public void setDownload_num(int download_num) {
-            this.download_num = download_num;
-        }
-
-        public String getIcon_reject() {
-            return icon_reject;
-        }
-
-        public void setIcon_reject(String icon_reject) {
-            this.icon_reject = icon_reject;
-        }
-
-        public String getTheme_guide_preview_image() {
-            return theme_guide_preview_image;
-        }
-
-        public void setTheme_guide_preview_image(String theme_guide_preview_image) {
-            this.theme_guide_preview_image = theme_guide_preview_image;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public long getUpdated() {
-            return updated;
-        }
-
-        public void setUpdated(long updated) {
-            this.updated = updated;
-        }
-
-        public static class StatusBean {
+        public static class SongBean {
             /**
-             * Lock : false
-             * StaticPreview : true
+             * name : 想家的爷们
+             * singer : 王旭
              */
 
-            private boolean Lock;
-            private boolean StaticPreview;
+            private String name;
+            private String singer;
 
-            public boolean isLock() {
-                return Lock;
+            public String getName() {
+                return name;
             }
 
-            public void setLock(boolean Lock) {
-                this.Lock = Lock;
+            public void setName(String name) {
+                this.name = name;
             }
 
-            public boolean isStaticPreview() {
-                return StaticPreview;
+            public String getSinger() {
+                return singer;
             }
 
-            public void setStaticPreview(boolean StaticPreview) {
-                this.StaticPreview = StaticPreview;
-            }
-        }
-
-        public static class LocalPushBean {
-            /**
-             * LocalPushPreviewImage : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_preview.png
-             * LocalPushIcon : http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/happysanta/HappySanta_push_icon.png
-             * Enable : false
-             */
-
-            private String LocalPushPreviewImage;
-            private String LocalPushIcon;
-            private boolean Enable;
-
-            public String getLocalPushPreviewImage() {
-                return LocalPushPreviewImage;
-            }
-
-            public void setLocalPushPreviewImage(String LocalPushPreviewImage) {
-                this.LocalPushPreviewImage = LocalPushPreviewImage;
-            }
-
-            public String getLocalPushIcon() {
-                return LocalPushIcon;
-            }
-
-            public void setLocalPushIcon(String LocalPushIcon) {
-                this.LocalPushIcon = LocalPushIcon;
-            }
-
-            public boolean isEnable() {
-                return Enable;
-            }
-
-            public void setEnable(boolean Enable) {
-                this.Enable = Enable;
+            public void setSinger(String singer) {
+                this.singer = singer;
             }
         }
     }

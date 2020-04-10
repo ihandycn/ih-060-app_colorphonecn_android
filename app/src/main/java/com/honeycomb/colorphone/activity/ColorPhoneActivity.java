@@ -90,6 +90,7 @@ import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.theme.ThemeUpdateListener;
+import com.honeycomb.colorphone.theme.ThemeUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.uploadview.ClassicHeader;
 import com.honeycomb.colorphone.util.ActivityUtils;
@@ -1559,39 +1560,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             Analytics.logEvent("CallFlash_Request");
         }
         hasLoggedRequestCategory = true;
-        HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
-            @Override
-            public void onFailure(String errorMsg) {
-                if (isFirstRequestData) {
-                    Analytics.logEvent("CallFlash_Request_First_Failed", "type", errorMsg);
-                    if (mMainNetWorkErrView != null) {
-                        mMainNetWorkErrView.setVisibility(VISIBLE);
-                    }
-                    isFirstRequestData = false;
-                }
-                Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
 
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
-                Toast toast = new Toast(getBaseContext());
-                toast.setGravity(Gravity.CENTER | Gravity.TOP, 0, Dimensions.pxFromDp(80));
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(layout);
-                toast.show();
-            }
-
-            @Override
-            public void onSuccess(AllCategoryBean allCategoryBean) {
-                if (allCategoryBean.getCategories() != null && allCategoryBean.getCategories().size() > 1) {
-                    categoryList = allCategoryBean.getCategories();
-                    holder.load(true);
-                    mainPagerAdapter.notifyDataSetChanged();
-                    refreshMainPageTab();
-                } else {
-                    onFailure("网络异常");
-                }
-            }
-        });
+        categoryList = ThemeUtils.getCategoryItemsFromConfig();
+        if(categoryList != null && !categoryList.isEmpty()){
+            holder.load(true);
+            mainPagerAdapter.notifyDataSetChanged();
+            refreshMainPageTab();
+        }
     }
 
     private void refreshMainPageTab() {

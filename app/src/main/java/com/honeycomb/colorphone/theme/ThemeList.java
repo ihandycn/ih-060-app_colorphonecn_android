@@ -73,49 +73,6 @@ public class ThemeList {
         return INSTANCE;
     }
 
-    /**
-     * @param isRefresh refresh or loadMore
-     */
-    public void requestThemeForMainFrame(boolean isRefresh, ThemeUpdateListener listener) {
-
-        if (mainFrameThemeData == null) {
-            mainFrameThemeData = new ThemeData();
-        }
-
-        int pageIndex;
-        if (isRefresh) {
-            mainFrameThemeData.clear();
-            pageIndex = mainFrameThemeData.getPageIndex();
-        } else {
-            pageIndex = mainFrameThemeData.getPageIndex() + 1;
-        }
-
-        HttpManager.getInstance().getAllThemes(pageIndex, new Callback<AllThemeBean>() {
-
-            @Override
-            public void onFailure(String errorMsg) {
-                listener.onFailure(errorMsg);
-            }
-
-            @Override
-            public void onSuccess(AllThemeBean allThemeBean) {
-                if (allThemeBean != null && allThemeBean.getShow_list() != null && allThemeBean.getShow_list().size() > 0) {
-                    if (mainFrameThemeData != null) {
-                        mainFrameThemeData.setPageIndex(allThemeBean.getPage_index());
-                        if (isRefresh) {
-                            mainFrameThemeData.setThemeList(Theme.transformData(0, allThemeBean));
-                        } else {
-                            mainFrameThemeData.appendTheme(Theme.transformData(mainFrameThemeData.getThemeSize(), allThemeBean));
-                        }
-                    }
-                    listener.onSuccess(true);
-                } else {
-                    listener.onSuccess(false);
-                }
-            }
-        });
-    }
-
     public void requestThemeForUserUpload(boolean isRefresh, ThemeUpdateListener listener) {
         int pageIndex;
         if (isRefresh) {
@@ -204,9 +161,9 @@ public class ThemeList {
                 Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).clear();
             }
 
-            pageIndex = Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getPageIndex();
+            pageIndex = 0;
         } else {
-            pageIndex = Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getPageIndex() + 1;
+            pageIndex = Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getPageIndex();
         }
 
         HttpManager.getInstance().getCategoryThemes(categoryId, pageIndex, new Callback<AllThemeBean>() {
@@ -217,8 +174,8 @@ public class ThemeList {
 
             @Override
             public void onSuccess(AllThemeBean allThemeBean) {
-                if (allThemeBean != null && allThemeBean.getShow_list() != null && !allThemeBean.getShow_list().isEmpty()) {
-                    Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(allThemeBean.getPage_index());
+                if (allThemeBean != null && allThemeBean.getData() != null && !allThemeBean.getData().isEmpty()) {
+                    Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(Integer.valueOf(allThemeBean.getPx()));
                     if (isRefresh) {
                         Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
                                 Theme.transformCategoryData(0, allThemeBean));
