@@ -16,6 +16,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.acb.call.utils.FileUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
@@ -94,6 +95,7 @@ public final class VideoUtils {
     }
 
     public static String getVoiceFromVideo(String videoFileName) {
+        Analytics.logEvent("CallFlash_Ringtone_extracting");
         long startTime = System.currentTimeMillis();
         File ringtoneFile = Utils.getRingtoneFile();
         String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
@@ -106,6 +108,7 @@ public final class VideoUtils {
         try {
             doExtractAudioFromVideo(videoFilePath, voiceFilePath, -1, -1);
             HSLog.e("rango", "get voice from video, time = " + (System.currentTimeMillis() - startTime));
+            Analytics.logEvent("CallFlash_Ringtone_extracted");
             return voiceFilePath;
         } catch (Exception e) {
             return null;

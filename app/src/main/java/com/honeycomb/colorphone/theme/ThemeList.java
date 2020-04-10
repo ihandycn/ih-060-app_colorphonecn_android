@@ -174,19 +174,24 @@ public class ThemeList {
 
             @Override
             public void onSuccess(AllThemeBean allThemeBean) {
-                if (allThemeBean != null && allThemeBean.getData() != null && !allThemeBean.getData().isEmpty()) {
-                    Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(Integer.valueOf(allThemeBean.getPx()));
-                    if (isRefresh) {
-                        Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
-                                Theme.transformCategoryData(0, allThemeBean));
-                    } else {
-                        Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).appendData(
-                                Theme.transformCategoryData(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getThemeSize(), allThemeBean));
-                    }
+                String HTTP_OK = "0000";
+                if (HTTP_OK.equals(allThemeBean.getRetcode())){
+                    if (allThemeBean.getData() != null && !allThemeBean.getData().isEmpty()) {
+                        Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(Integer.valueOf(allThemeBean.getPx()));
+                        if (isRefresh) {
+                            Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
+                                    Theme.transformCategoryData(0, allThemeBean));
+                        } else {
+                            Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).appendData(
+                                    Theme.transformCategoryData(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getThemeSize(), allThemeBean));
+                        }
 
-                    listener.onSuccess(true);
-                } else {
-                    listener.onSuccess(false);
+                        listener.onSuccess(true);
+                    } else {
+                        listener.onSuccess(false);
+                    }
+                }else {
+                    onFailure(allThemeBean.getRetdesc());
                 }
             }
         });
