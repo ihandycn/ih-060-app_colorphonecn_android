@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.http.lib.upload.FilesRequestBodyConverter;
 import com.honeycomb.colorphone.http.lib.upload.UploadFileCallback;
 import com.honeycomb.colorphone.http.lib.utils.HttpUtils;
 import com.honeycomb.colorphone.http.lib.utils.RetrofitFactory;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Preferences;
@@ -197,7 +198,7 @@ public final class HttpManager {
 
     public void getCategoryThemes(String categoryId, int pageIndex, Callback<AllThemeBean> callback) {
         DEFAULT.create(IHttpRequest.class)
-                .getCategoryThemes("392e41ad9bc2a70d",categoryId, IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
+                .getCategoryThemes(getIFlyTekChannelId(), categoryId, IHttpRequest.DEFAULT_PRE_PAGE, pageIndex)
                 .enqueue(callback);
     }
 
@@ -239,4 +240,7 @@ public final class HttpManager {
         HSGlobalNotificationCenter.sendNotification(NOTIFY_REFRESH_USER_INFO, bundle);
     }
 
+    private String getIFlyTekChannelId() {
+        return HSConfig.getString("Application", "IFlyTek", "ChannelId");
+    }
 }
