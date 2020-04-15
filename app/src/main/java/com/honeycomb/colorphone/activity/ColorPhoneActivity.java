@@ -404,8 +404,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    public boolean isRefreshing(){
-        return mSmartRefreshLayout!=null&&mSmartRefreshLayout.getState()== RefreshState.Refreshing;
+    public boolean isRefreshing() {
+        return mSmartRefreshLayout != null && mSmartRefreshLayout.getState() == RefreshState.Refreshing;
     }
 
     @Override
@@ -952,6 +952,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         public void updateDownloaded(boolean progressFlag) {
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
+                RingtoneHelper.setDefaultRingtoneInBackground(theme);
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
@@ -1562,7 +1563,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         hasLoggedRequestCategory = true;
 
         categoryList = ThemeUtils.getCategoryItemsFromConfig();
-        if(categoryList != null && !categoryList.isEmpty()){
+        if (categoryList != null && !categoryList.isEmpty()) {
             holder.load(true);
             mainPagerAdapter.notifyDataSetChanged();
             refreshMainPageTab();

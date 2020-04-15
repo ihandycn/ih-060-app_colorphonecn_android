@@ -193,7 +193,7 @@ public class RingtoneHelper {
         });
     }
 
-    public static void setDefaultRingtone(Theme theme) {
+    private static void setDefaultRingtone(Theme theme) {
         setDefaultRingtone(HSApplication.getContext(), getRingtonePath(theme), theme.getIdName());
     }
 
