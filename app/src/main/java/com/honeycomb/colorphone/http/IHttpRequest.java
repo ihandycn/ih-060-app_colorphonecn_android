@@ -63,8 +63,8 @@ public interface IHttpRequest {
     @GET("categories")
     Callable<AllCategoryBean> getAllCategories();
 
-    @GET("http://api.kuyinyun.com/p/q_colres_vr")
-    Callable<AllThemeBean> getCategoryThemes(@Query("a") String channelId, @Query("id") String categoryId, @Query("ps") int perPage, @Query("px") int pageIndex);
+    @GET("kyshows")
+    Callable<AllThemeBean> getCategoryThemes(@Query("channel") String channelId, @Query("column") String categoryId, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @GET
     Callable<ResponseBody> getCallerAddress(@Url String url);
