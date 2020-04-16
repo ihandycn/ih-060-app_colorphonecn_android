@@ -175,7 +175,8 @@ public class ThemeList {
             @Override
             public void onSuccess(AllThemeBean allThemeBean) {
                 String HTTP_OK = "0000";
-                if (HTTP_OK.equals(allThemeBean.getRetcode())){
+                String NO_MORE_DATA = "2000";
+                if (HTTP_OK.equals(allThemeBean.getRetcode())) {
                     if (allThemeBean.getData() != null && !allThemeBean.getData().isEmpty()) {
                         Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(Integer.valueOf(allThemeBean.getPx()));
                         if (isRefresh) {
@@ -190,7 +191,9 @@ public class ThemeList {
                     } else {
                         listener.onSuccess(false);
                     }
-                }else {
+                } else if (NO_MORE_DATA.equals(allThemeBean.getRetcode())) {
+                    listener.onSuccess(false);
+                } else {
                     onFailure(allThemeBean.getRetdesc());
                 }
             }

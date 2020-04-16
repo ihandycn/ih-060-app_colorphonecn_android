@@ -17,8 +17,11 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -318,13 +321,38 @@ public class Theme extends Type {
     }
 
     private static int getThemeId(String themeId) {
-        int result;
-        try {
-            result = Math.abs(Long.valueOf(themeId).intValue());
-        } catch (Exception e) {
-            result = Math.abs(themeId.hashCode());
-        }
+        final int result = Math.abs(themeId.hashCode());
+
+        Threads.postOnThreadPoolExecutor(() -> checkThemeId(themeId, result));
+
         return result;
+    }
+
+    private static final String CALL_FLASH_THEME_ID_CHECK = "call_flash_theme_id_check";
+
+    private static void checkThemeId(String themeOriginalId, int themeRealId) {
+        List<String> themeIdList = Preferences.getDefault().getStringList(CALL_FLASH_THEME_ID_CHECK);
+        for (String themeIdStr : themeIdList) {
+            String[] themeIdArray = themeIdStr.split(":");
+            if (themeIdArray.length != 2) {
+                continue;
+            }
+            if (themeIdArray[0].equals(String.valueOf(themeRealId))) {
+                if (!themeIdArray[1].contains(themeOriginalId)) {
+                    IllegalStateException exception = new IllegalStateException("The theme id has been repetitive!!! RealId = " + themeRealId + ", originalId = " + themeIdArray[1] + "-" + themeOriginalId);
+                    if (BuildConfig.DEBUG) {
+                        throw exception;
+                    } else {
+                        CrashReport.postCatchedException(exception);
+                    }
+                }
+
+                return;
+            }
+        }
+
+        themeIdList.add(themeRealId + ":" + themeOriginalId);
+        Preferences.getDefault().putStringList(CALL_FLASH_THEME_ID_CHECK, themeIdList);
     }
 
     public static ArrayList<Theme> transformData(AllUserThemeBean bean) {
