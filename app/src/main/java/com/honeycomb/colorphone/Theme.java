@@ -278,7 +278,7 @@ public class Theme extends Type {
             Theme theme = new Theme();
             theme.setIndex(beforeDataSize + dataList.size());
             theme.setId(getThemeId(bean.getId()));
-            theme.setIdName(bean.getId());
+            theme.setIdName(bean.getNm());
             theme.setResType("url");
             theme.setItemIcon("");
             theme.setName(bean.getNm());
