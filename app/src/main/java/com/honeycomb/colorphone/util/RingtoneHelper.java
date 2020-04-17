@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.video.VideoUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Compats;
 import com.superapps.util.Threads;
 import com.umeng.commonsdk.debug.E;
@@ -335,11 +336,18 @@ public class RingtoneHelper {
         return z;
     }
 
-
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
-            path = VideoUtils.getVoiceFromVideo(theme.getFileName());
+            File ringtoneFile = Utils.getRingtoneFile();
+            String videoFileName = theme.getFileName();
+            String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
+            File file = new File(voiceFilePath);
+            if (file.exists() && file.length() > 0) {
+                path = voiceFilePath;
+            } else {
+                path = VideoUtils.getVoiceFromVideo(voiceFilePath, videoFileName);
+            }
             theme.setRingtonePath(path);
         }
         return path;

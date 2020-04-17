@@ -30,6 +30,8 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public final class VideoUtils {
+
+    private static final String TAG = "VideoUtils";
     /**
      * Constant used to indicate we should recycle the input in
      * {@link ThumbnailUtils#extractThumbnail(Bitmap, int, int, int)} unless the output is the input.
@@ -94,11 +96,9 @@ public final class VideoUtils {
         return bitmap;
     }
 
-    public static String getVoiceFromVideo(String videoFileName) {
+    public static String getVoiceFromVideo(String voiceFilePath, String videoFileName) {
         Analytics.logEvent("CallFlash_Ringtone_extracting");
         long startTime = System.currentTimeMillis();
-        File ringtoneFile = Utils.getRingtoneFile();
-        String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
 
         File videoFile = FileUtils.getMediaDirectory();
         if (videoFile == null) {
@@ -107,7 +107,7 @@ public final class VideoUtils {
         String videoFilePath = FileDownloadUtils.generateFilePath(videoFile.getAbsolutePath(), videoFileName);
         try {
             doExtractAudioFromVideo(videoFilePath, voiceFilePath, -1, -1);
-            HSLog.e("rango", "get voice from video, time = " + (System.currentTimeMillis() - startTime));
+            HSLog.d(TAG, "get voice from video, time = " + (System.currentTimeMillis() - startTime));
             Analytics.logEvent("CallFlash_Ringtone_extracted");
             return voiceFilePath;
         } catch (Exception e) {
@@ -132,7 +132,6 @@ public final class VideoUtils {
 
     // https://gist.github.com/ArsalRaza/132a6e99d59aa80b9861ae368bc786d0#file-videoutils-java
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
-    private static final String TAG = "Audio Extractor Decoder";
 
     /**
      * @param srcPath  the path of source video file.
