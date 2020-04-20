@@ -31,17 +31,21 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
+import com.honeycomb.colorphone.feedback.XiaomiRateGuideDialog;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.view.TypefacedTextView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
@@ -148,7 +152,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private LottieAnimationView mAnimationView;
     private Cancellable mAnimationLoadTask = LottieComposition.Factory.fromAssetFileName(getContext(),
             "lottie/five_star_rating.json", new OnCompositionLoadedListener() {
-                @Override public void onCompositionLoaded(@Nullable LottieComposition lottieComposition) {
+                @Override
+                public void onCompositionLoaded(@Nullable LottieComposition lottieComposition) {
                     if (!mAnimViewShowed) {
                         mAnimViewShowed = true;
                         mAnimationView.setComposition(lottieComposition);
@@ -259,7 +264,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         return R.string.five_star_positive_text;
     }
 
-    @Override protected int getNegativeButtonStringId() {
+    @Override
+    protected int getNegativeButtonStringId() {
         return R.string.cancel;
     }
 
@@ -268,7 +274,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         if (mCurrentPosition >= 0) {
             if (mCurrentPosition == MAX_POSITION) {
                 //HSMarketUtils.browseAPP();
-                launchAppDetail(HSApplication.getContext().getPackageName(), "com.huawei.appmarket");
+                launchAppDetail(HSApplication.getContext().getPackageName(), getMarketPkg());
                 Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
 //                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
@@ -282,9 +288,22 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         }
     }
 
+    @NotNull
+    private String getMarketPkg() {
+        if (Compats.IS_HUAWEI_DEVICE) {
+            return "com.huawei.appmarket";
+        } else if (Compats.IS_XIAOMI_DEVICE) {
+            return "com.xiaomi.market";
+        } else if (Compats.IS_OPPO_DEVICE) {
+            return "com.oppo.market";
+        } else {
+            return "";
+        }
+    }
+
     private void launchAppDetail(String appPkg, String marketPkg) {
         try {
-            if (TextUtils.isEmpty(appPkg)) {
+            if (TextUtils.isEmpty(appPkg) || TextUtils.isEmpty(marketPkg)) {
                 return;
             }
 
@@ -297,7 +316,13 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             HSApplication.getContext().startActivity(intent);
 
             Threads.postOnMainThreadDelayed(() -> {
-                HuaweiRateGuideDialog.show(getContext());
+                if (Compats.IS_HUAWEI_DEVICE) {
+                    HuaweiRateGuideDialog.show(getContext());
+                } else if (Compats.IS_XIAOMI_DEVICE) {
+                    XiaomiRateGuideDialog.show(getContext());
+                } else if (Compats.IS_OPPO_DEVICE){
+
+                }
             }, 2000);
         } catch (Exception e) {
             e.printStackTrace();
@@ -424,7 +449,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         }
         if (isDelay) {
             Threads.postOnMainThreadDelayed(new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
                     if (mAnimatorSet != null) {
                         mAnimatorSet.start();
                     }
@@ -442,7 +468,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         final float total = to - from;
         ValueAnimator animator = ValueAnimator.ofFloat(from, to);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator animation) {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
                 float progress = from + total * animation.getAnimatedFraction();
                 mAnimationView.setProgress(progress);
             }
@@ -518,12 +545,12 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             case SET_THEME:
                 return DEBUG_FIVE_STAR ||
                         SessionMgr.getInstance().getCurrentSessionId() != sCurrentSessionId
-                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false)
-                        && isApplyCountValid();
+                                && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false)
+                                && isApplyCountValid();
             case END_CALL:
                 return DEBUG_FIVE_STAR ||
                         (HSConfig.optBoolean(true, "Application", "RateAlert", "CallFinished", "Enable")
-                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_END_CALL, false));
+                                && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_END_CALL, false));
         }
         return true;
     }
