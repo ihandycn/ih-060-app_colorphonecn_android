@@ -31,6 +31,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
+import com.honeycomb.colorphone.feedback.OppoRateGuideDialog;
 import com.honeycomb.colorphone.feedback.XiaomiRateGuideDialog;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
@@ -321,7 +322,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 } else if (Compats.IS_XIAOMI_DEVICE) {
                     XiaomiRateGuideDialog.show(getContext());
                 } else if (Compats.IS_OPPO_DEVICE){
-
+                    OppoRateGuideDialog.show(getContext());
                 }
             }, 2000);
         } catch (Exception e) {
