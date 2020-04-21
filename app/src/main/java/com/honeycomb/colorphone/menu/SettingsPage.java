@@ -77,7 +77,8 @@ public class SettingsPage implements View.OnClickListener {
         nameView = rootView.findViewById(R.id.setting_name);
         signView = rootView.findViewById(R.id.setting_sign);
 
-        boolean dialerEnable = ConfigEvent.dialerEnable();
+        boolean isDefaultOnApi29 = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q && DefaultPhoneUtils.isDefaultPhone();
+        boolean dialerEnable = ConfigEvent.dialerEnable() && !isDefaultOnApi29;
         rootView.findViewById(R.id.settings_default_dialer_switch)
                 .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
         defaultDialer = rootView.findViewById(R.id.default_dialer_switch);
@@ -145,6 +146,10 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {
+        boolean isDefaultOnApi29 = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q && DefaultPhoneUtils.isDefaultPhone();
+        if (rootView != null && isDefaultOnApi29) {
+            rootView.findViewById(R.id.settings_default_dialer_switch).setVisibility(View.GONE);
+        }
         if (hasFocus && defaultDialer != null) {
             defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
         }
