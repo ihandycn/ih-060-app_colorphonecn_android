@@ -942,6 +942,12 @@
 			</dict>
 			<key>RateAlert</key>
 			<dict>
+				<key>Brand</key>
+				<array>
+					<string>Huawei</string>
+					<string>Xiaomi</string>
+					<string>OPPO</string>
+				</array>
 				<key>ApplyFinished</key>
 				<dict>
 					<key>Enable</key>
