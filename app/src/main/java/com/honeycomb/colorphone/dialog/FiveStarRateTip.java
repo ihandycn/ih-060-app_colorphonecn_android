@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -515,11 +516,24 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     }
 
     public static boolean canShowWhenApplyTheme() {
-        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.SET_THEME);
+        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.SET_THEME) && isSpecificDevice();
     }
 
     public static boolean canShowWhenEndCall() {
-        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.END_CALL);
+        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.END_CALL) && isSpecificDevice();
+    }
+
+    private static boolean isSpecificDevice() {
+        List<String> brandList = (List<String>) HSConfig.getList("Application", "RateAlert", "Brand");
+        if (brandList == null){
+            return false;
+        }
+        for (String brand : brandList){
+            if (Build.BRAND.equalsIgnoreCase(brand)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isNewUser() {
