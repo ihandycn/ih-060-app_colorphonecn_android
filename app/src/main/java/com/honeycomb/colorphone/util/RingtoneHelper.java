@@ -344,21 +344,25 @@ public class RingtoneHelper {
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
-
             String videoFileName = theme.getFileName();
             File mediaDirectory = FileUtils.getMediaDirectory();
             if (mediaDirectory == null) {
-                return null;
-            }
-            String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), videoFileName);
-
-            File file = new File(voiceFilePath);
-            if (file.exists() && file.length() > 0) {
-                path = voiceFilePath;
+                path = null;
             } else {
-                path = VideoUtils.getVoiceFromVideo(voiceFilePath, videoFileName);
+                String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), videoFileName);
+
+                File file = new File(voiceFilePath);
+                if (file.exists() && file.length() > 0) {
+                    path = voiceFilePath;
+                } else {
+                    path = VideoUtils.getVoiceFromVideo(voiceFilePath, videoFileName);
+                }
+                theme.setRingtonePath(path);
             }
-            theme.setRingtonePath(path);
+        }
+
+        if (TextUtils.isEmpty(path)) {
+            Analytics.logEvent("CallFlash_Ringtone_File_Null", Analytics.FLAG_LOG_UMENG);
         }
         return path;
     }
