@@ -952,7 +952,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         public void updateDownloaded(boolean progressFlag) {
             if (isNeedSetFirstTheme && Theme.getFirstTheme() != null) {
                 Theme theme = Theme.getFirstTheme();
-                RingtoneHelper.setDefaultRingtoneInBackground(theme);
+
+                setRingtone(theme);
+
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
                 if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
@@ -962,6 +964,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             }
             FileDownloadMultiListener.getDefault().removeStateListener(model.getId());
+        }
+
+        private void setRingtone(Theme theme){
+            if (RuntimePermissions.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != RuntimePermissions.PERMISSION_GRANTED ||
+                    !Settings.System.canWrite(getBaseContext())) {
+
+                Toast.makeText(getBaseContext(), "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                return;
+            }
+            RingtoneHelper.setDefaultRingtoneInBackground(theme);
         }
 
         @Override
