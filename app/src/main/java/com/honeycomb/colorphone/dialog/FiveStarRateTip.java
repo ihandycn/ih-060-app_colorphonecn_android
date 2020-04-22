@@ -325,7 +325,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 } else if (Compats.IS_OPPO_DEVICE){
                     OppoRateGuideDialog.show(getContext());
                 }
-            }, 2000);
+            }, 1600);
         } catch (Exception e) {
             e.printStackTrace();
         }
