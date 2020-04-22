@@ -15,6 +15,7 @@ import com.colorphone.smartlocker.utils.MD5Utils;
 import com.colorphone.smartlocker.utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.connection.httplib.HttpRequest;
 import com.ihs.commons.utils.HSError;
@@ -37,10 +38,8 @@ public class BaiduFeedManager {
         void onDataBack(JSONObject response);
     }
 
-    //    private static final String TOKEN = HSConfig.getString("Application", "BaiduFeed", "Secret");
-//    private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
-    private static final String TOKEN = "73cd34c8ff2f1d3895835cdf5";
-    private static final String APPSID = "f0c1081d";
+    private static final String TOKEN = HSConfig.getString("Application", "BaiduFeed", "Secret");
+    private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
     private static final String URL = "https://cpu-openapi.baidu.com/api/v2/data/list";
 
     private static String ANDROID = Settings.Secure.getString(HSApplication.getContext().getContentResolver(),
