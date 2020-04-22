@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.feedback;
 
 import android.content.Context;
 import android.util.AttributeSet;
+
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.ihs.commons.config.HSConfig;
@@ -27,6 +28,20 @@ public class XiaomiRateGuideDialog extends FloatedRateGuideDialog {
 
     public XiaomiRateGuideDialog(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+    }
+
+    @Override
+    protected boolean hasWriteCommentIcon() {
+        return false;
+    }
+
+    protected int getRateGuideContentString() {
+        return R.string.xiaomi_rate_guide_content;
     }
 
     protected int getLayoutResId() {

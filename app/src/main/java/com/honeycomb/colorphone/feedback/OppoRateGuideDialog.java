@@ -29,6 +29,11 @@ public class OppoRateGuideDialog extends FloatedRateGuideDialog {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    protected boolean hasWriteCommentIcon() {
+        return true;
+    }
+
     protected int getLayoutResId() {
         return R.layout.oppo_rate_guide_layout;
     }
@@ -36,5 +41,10 @@ public class OppoRateGuideDialog extends FloatedRateGuideDialog {
     @Override
     protected int getRateGuideContent() {
         return R.id.oppo_rate_guide_content;
+    }
+
+    @Override
+    protected int getRateGuideContentString() {
+        return R.string.oppo_rate_guide_content;
     }
 }

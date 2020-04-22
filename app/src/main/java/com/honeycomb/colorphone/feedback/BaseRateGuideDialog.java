@@ -26,11 +26,6 @@ public abstract class BaseRateGuideDialog extends FullScreenDialog {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    protected void init() {
-        super.init();
-    }
-
     @Override public void dismiss() {
         FloatWindowManager.getInstance().removeDialog(this);
     }

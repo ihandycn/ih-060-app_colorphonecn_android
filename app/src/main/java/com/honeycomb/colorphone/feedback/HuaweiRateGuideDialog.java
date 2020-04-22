@@ -44,7 +44,7 @@ public class HuaweiRateGuideDialog extends BaseRateGuideDialog {
 
         TextView tv = findViewById(R.id.huawei_rate_guide_content);
         String content = getContext().getString(R.string.huawei_rate_guide_content);
-        String replace = getContext().getString(R.string.replace_icon_text);
+        String replace = getContext().getString(R.string.huawei_replace_icon_text);
         SpannableString string = new SpannableString(content);
         int iconIndex = content.indexOf(replace);
         ImageSpan span = new CenterImageSpan(getContext(), R.drawable.huawei_rate_guide_image, Dimensions.pxFromDp(22));
