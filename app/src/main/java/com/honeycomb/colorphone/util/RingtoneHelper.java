@@ -349,7 +349,7 @@ public class RingtoneHelper {
             if (mediaDirectory == null) {
                 path = null;
             } else {
-                String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), videoFileName);
+                String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), getRingtoneFileName(videoFileName));
 
                 File file = new File(voiceFilePath);
                 if (file.exists() && file.length() > 0) {
@@ -365,6 +365,10 @@ public class RingtoneHelper {
             Analytics.logEvent("CallFlash_Ringtone_File_Null", Analytics.FLAG_LOG_UMENG);
         }
         return path;
+    }
+
+    private static String getRingtoneFileName(String videoFileName) {
+        return videoFileName + "-ringtone";
     }
 
     private static Uri getRingtoneUri(Context context, String path, String title) {
