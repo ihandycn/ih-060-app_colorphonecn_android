@@ -3,7 +3,6 @@ package com.colorphone.smartlocker.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -51,9 +50,7 @@ public class NewsDetailView extends RelativeLayout {
         View.inflate(context, R.layout.layout_news_detail, this);
         setBackgroundColor(ContextCompat.getColor(context, R.color.clean_app_green));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setPadding(0, StatusBarUtils.getStatusBarHeight(context), 0, 0);
-        }
+        setPadding(0, StatusBarUtils.getStatusBarHeight(context), 0, 0);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(context.getString(R.string.daily_news_title_text));

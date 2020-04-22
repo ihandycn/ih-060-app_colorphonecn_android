@@ -6,11 +6,6 @@ import android.widget.TextView;
 
 import com.colorphone.lock.R;
 
-
-/**
- * Created by hao.li on 2019/4/26.
- */
-
 public class LoadMoreViewHolder extends RecyclerView.ViewHolder {
 
     public final TextView loadTextView;

@@ -2,7 +2,6 @@ package com.colorphone.smartlocker;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IntDef;
 import android.telephony.TelephonyManager;
 
 import com.colorphone.lock.LockerCustomConfig;
@@ -19,26 +18,18 @@ import com.ihs.libcharging.HSChargingManager;
 
 import org.json.JSONObject;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class SmartLockerManager {
 
     private static final String TAG = "CHARGING_SCREEN_MANAGER";
 
-    @IntDef({EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF, EXTRA_VALUE_START_BY_CHARGING_PLUG_IN, EXTRA_VALUE_START_BY_LOCKER})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface StartType {
-    }
-
     public static final int EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF = 0;
-    public static final int EXTRA_VALUE_START_BY_CHARGING_PLUG_IN = 1;
     public static final int EXTRA_VALUE_START_BY_LOCKER = 2;
 
-    public static final String EXTRA_START_TYPE = "EXTRA_START_TYPE";
+    private int showNativeCount = 0;
 
-    private int startType;
+    public static final String EXTRA_START_TYPE = "EXTRA_START_TYPE";
 
     private volatile static SmartLockerManager sInstance;
 
@@ -50,7 +41,7 @@ public class SmartLockerManager {
         return sInstance;
     }
 
-    public void tryToStartChargingScreenOrLockerActivity(@StartType int startType) {
+    public void tryToStartChargingScreenOrLockerActivity(int startType) {
         TelephonyManager telephonyManager = (TelephonyManager) HSApplication.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         switch (telephonyManager.getCallState()) {
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -68,7 +59,7 @@ public class SmartLockerManager {
         tryToStartSmartLockerFeeds(startType);
     }
 
-    private void tryToStartSmartLockerFeeds(@StartType int startType) {
+    private void tryToStartSmartLockerFeeds(int startType) {
         if (!NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
             if (startType == EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Network");
@@ -122,7 +113,7 @@ public class SmartLockerManager {
             LockerCustomConfig.getLogger().logEvent("New_Fetch", "reason", "Network");
             return;
         }
-        BaiduFeedManager.getInstance().loadNews(BaiduFeedManager.CATEGORY_ALL, BaiduFeedManager.LOAD_FIRST, new BaiduFeedManager.DataBackListener() {
+        BaiduFeedManager.getInstance().loadNews(BaiduFeedManager.CATEGORY_ALL, BaiduFeedManager.LOAD_REFRESH, new BaiduFeedManager.DataBackListener() {
             @Override
             public void onDataBack(JSONObject response) {
                 if (response != null) {
@@ -143,5 +134,13 @@ public class SmartLockerManager {
                 }
             }
         });
+    }
+
+    public void setShowAdCount(int count) {
+        showNativeCount = count;
+    }
+
+    public int getShowAdCount() {
+        return showNativeCount;
     }
 }

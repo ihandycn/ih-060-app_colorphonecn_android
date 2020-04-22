@@ -32,17 +32,12 @@ public class LoadMoreItem implements INewsListItem<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void logViewedEvent() {
-
-    }
-
-    @Override
     public void detachedFromWindow() {
 
     }
 
     @Override
-    public boolean hasViewed() {
-        return true;
+    public void attachedToWindow() {
+
     }
 }

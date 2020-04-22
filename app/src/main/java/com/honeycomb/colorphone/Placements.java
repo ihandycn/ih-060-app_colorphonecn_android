@@ -18,8 +18,6 @@ public class Placements {
     public static final String CABLE_WIRE = "CableWire";
 
     public static final String AD_CALL_OFF = "Lumen";
-    public static final String AD_CHARGING_SCREEN = "Cable";
-    public static final String AD_LOCKER = "Fuse";
     public static final String AD_CHARGING_REPORT = "ChargingReportPlus";
     public static final String AD_MSG = "Texture";
 
@@ -36,9 +34,7 @@ public class Placements {
 
     public static final String AD_NEWS_FEED = "NewsFeed";
 
-    public static final String SMART_LOCKER_FEED1 = "CableFeed1";
-    public static final String SMART_LOCKER_FEED3 = "CableFeed3";
-    public static final String SMART_LOCKER_FEED4 = "CableFeed4";
+    public static final String AD_LOCKER_AND_CHARGING = "CableFeed1";
 
     public static String getAdPlacement(String ad) {
         return getAdPrefix() + ad;

@@ -3,7 +3,6 @@ package com.colorphone.lock;
 import android.content.Context;
 
 import com.ihs.app.analytics.HSAnalytics;
-import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/9/5.
@@ -12,13 +11,9 @@ import com.ihs.commons.utils.HSLog;
 public class LockerCustomConfig {
 
     private static LockerCustomConfig INSTANCE = new LockerCustomConfig();
-    private String mChargingExpressAdName;
     private String mSPFileName;
-    private String mLockerAdName;
-    private String mSmartLockerAdName1;
-    private String mSmartLockerAdName2;
-    private String mSmartLockerAdName3;
-    private String mSmartLockerAdName4;
+    private String mLockerAndChargingAdName;
+    private String mNewsFeedNativeAdName;
     private int mLauncherIcon;
     private int mCustomScreenIcon;
     private Event mEventDelegate = new DefaultEvent();
@@ -34,52 +29,20 @@ public class LockerCustomConfig {
         return INSTANCE;
     }
 
-    public String getChargingExpressAdName() {
-        return mChargingExpressAdName;
-    }
-
-    public void setChargingExpressAdName(String chargingExpressAdName) {
-        mChargingExpressAdName = chargingExpressAdName;
-    }
-
-    public String getLockerAdName() {
-        return mLockerAdName;
-    }
-
-    public void setLockerAdName(String lockerAdName) {
-        mLockerAdName = lockerAdName;
-    }
-
     public String getSmartLockerAdName1() {
-        return mSmartLockerAdName1;
+        return mLockerAndChargingAdName;
     }
 
-    public void setSmartLockerAdName1(String mSmartLockerAdName) {
-        this.mSmartLockerAdName1 = mSmartLockerAdName;
+    public void setLockerAndChargingAdName(String mSmartLockerAdName) {
+        this.mLockerAndChargingAdName = mSmartLockerAdName;
     }
 
-    public String getSmartLockerAdName2() {
-        return mSmartLockerAdName2;
+    public String getNewsFeedAdName() {
+        return mNewsFeedNativeAdName;
     }
 
-    public void setSmartLockerAdName2(String mSmartLockerAdName2) {
-        this.mSmartLockerAdName2 = mSmartLockerAdName2;
-    }
-
-    public String getSmartLockerAdName3() {
-        return mSmartLockerAdName3;
-    }
-
-    public void setSmartLockerAdName3(String mSmartLockerAdName3) {
-        this.mSmartLockerAdName3 = mSmartLockerAdName3;
-    }
-
-    public String getSmartLockerAdName4() {
-        return mSmartLockerAdName4;
-    }
-
-    public void setSmartLockerAdName4(String mSmartLockerAdName4) {
-        this.mSmartLockerAdName4 = mSmartLockerAdName4;
+    public void setNewsFeedAdName(String newsFeedAdName) {
+        this.mNewsFeedNativeAdName = newsFeedAdName;
     }
 
     public String getSPFileName() {
@@ -230,10 +193,5 @@ public class LockerCustomConfig {
         public void logEvent(String eventID, String... vars) {
             HSAnalytics.logEvent(eventID, vars);
         }
-    }
-
-    public static void logAdViewEvent(String placementName, boolean success) {
-        HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
-        getLogger().logEvent("Colorphone_AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

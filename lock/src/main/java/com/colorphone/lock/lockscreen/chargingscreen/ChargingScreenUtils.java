@@ -135,7 +135,7 @@ public class ChargingScreenUtils {
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, chargingStateChanged);
 
         if (MODE_ACTIVITY) {
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                 SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
             } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
                 LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
@@ -180,7 +180,7 @@ public class ChargingScreenUtils {
 
         if (MODE_ACTIVITY) {
             try {
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse")) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                     SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
                 } else if (AutoPilotUtils.getLockerMode().equals("normal")) {
                     String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";

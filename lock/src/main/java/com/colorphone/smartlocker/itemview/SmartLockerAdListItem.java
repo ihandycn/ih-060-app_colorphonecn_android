@@ -8,33 +8,37 @@ import android.view.View;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
+import com.colorphone.smartlocker.SmartLockerConstants;
+import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.viewholder.AdViewHolder;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 
 import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
+import net.appcloudbox.ads.common.utils.AcbError;
+import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
+import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+
+import java.util.List;
 
 public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
+
     @Nullable
-    private AcbNativeAd fetchNativeAd, loadNativeAd;
+    private AcbNativeAd nativeAd;
 
     private AdViewHolder adViewHolder;
 
-    private boolean hasViewed = false;
     private boolean hasLogShow = false;
     private boolean isDetachedFromWindow = true;
 
-    public SmartLockerAdListItem(String appPlacement, @Nullable AcbNativeAd fetchNativeAd) {
-        this.fetchNativeAd = fetchNativeAd;
+    public SmartLockerAdListItem() {
     }
 
-    public void setLoadNativeAd(@Nullable AcbNativeAd loadNativeAd) {
-        this.loadNativeAd = loadNativeAd;
-    }
-
-    public boolean isNativeAdNull() {
-        return fetchNativeAd == null && loadNativeAd == null;
+    public void setLoadNativeAd(@Nullable AcbNativeAd nativeAd) {
+        this.nativeAd = nativeAd;
     }
 
     @Override
@@ -54,12 +58,11 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
             return;
         }
         adViewHolder = (AdViewHolder) holder;
-        if (fetchNativeAd == null && loadNativeAd == null) {
+        if (nativeAd == null) {
             adViewHolder.adContainer.findViewById(R.id.ad_container).setVisibility(View.GONE);
             return;
         }
         adViewHolder.adContainer.findViewById(R.id.ad_container).setVisibility(View.VISIBLE);
-        AcbNativeAd nativeAd = fetchNativeAd != null ? fetchNativeAd : loadNativeAd;
         adViewHolder.acbNativeAdContainerView.fillNativeAd(nativeAd, "");
         assert nativeAd != null;
         nativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
@@ -79,94 +82,91 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
 
     @Override
     public void release() {
-        if (fetchNativeAd != null) {
-            fetchNativeAd.release();
-            fetchNativeAd = null;
-        }
-        if (loadNativeAd != null) {
-            loadNativeAd.release();
-            loadNativeAd = null;
+        if (nativeAd != null) {
+            nativeAd.release();
+            nativeAd = null;
         }
     }
 
     @Override
-    public void logViewedEvent() {
-        //是否首次展示
-        if (!hasViewed) {
+    public void attachedToWindow() {
+        if (!hasLogShow) {
             logAdChance();
-            if (fetchNativeAd != null || loadNativeAd != null) {
-                logAdShow();
+            //当第二个广告展示时，记录滑动事件
+            if (SmartLockerManager.getInstance().getShowAdCount() == 1) {
+                HSGlobalNotificationCenter.sendNotification(SmartLockerConstants.NOTIFICATION_FEED_PAGE_SLIDE);
             }
-            hasViewed = true;
-        } else {
-            //再次展示时，判断是否展示过广告，展示过则不记录chance
-            if (!hasLogShow) {
-                if (isDetachedFromWindow) {
-                    logAdChance();
-                }
-                if (fetchNativeAd != null || loadNativeAd != null) {
-                    logAdShow();
-                }
-            }
+            SmartLockerManager.getInstance().setShowAdCount(SmartLockerManager.getInstance().getShowAdCount() + 1);
         }
+
+        if (nativeAd == null) {
+            List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(LockerCustomConfig.get().getNewsFeedAdName(), 1);
+            if (!adList.isEmpty()) {
+                nativeAd = adList.get(0);
+                HSBundle hsBundle = new HSBundle();
+                hsBundle.putInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID, adViewHolder.getAdapterPosition());
+                HSGlobalNotificationCenter.sendNotification(SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED, hsBundle);
+                logAdShow();
+                logAdUseRatio("True");
+            } else {
+                AcbNativeAdLoader adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(LockerCustomConfig.get().getNewsFeedAdName());
+                adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
+                    @Override
+                    public void onAdReceived(AcbNativeAdLoader acbNativeAdLoader, List<AcbNativeAd> list) {
+                        if (list == null || list.isEmpty()) {
+                            return;
+                        }
+                        nativeAd = list.get(0);
+                        HSBundle hsBundle = new HSBundle();
+                        hsBundle.putInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID, adViewHolder.getAdapterPosition());
+                        HSGlobalNotificationCenter.sendNotification(SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED, hsBundle);
+                        logAdShow();
+                        logAdUseRatio("True");
+                    }
+
+                    @Override
+                    public void onAdFinished(AcbNativeAdLoader acbNativeAdLoader, AcbError acbError) {
+                    }
+                });
+            }
+
+            AcbNativeAdManager.getInstance().preload(1, LockerCustomConfig.get().getNewsFeedAdName());
+        }
+
         isDetachedFromWindow = false;
     }
 
     @Override
     public void detachedFromWindow() {
+        //如果是从屏幕可见到屏幕不可见，并且这个view曾经展示过，并且广告没有展示时才上报false
+        //主要是为了排除该方法的回调其他的时机：
+        // 1.例如不在屏幕内，但是该item还没被recycle（曾展示过，但是被用户滑上去了），亮灭屏时会回调该方法，导致事件多报
+        // 2.例如不在屏幕内，该item还有没有展示过（已经准备好，在当前屏幕最后一条的下面），亮灭屏时时也会回调该方法，导致事件多报
+        if (!isDetachedFromWindow && !hasLogShow) {
+            logAdUseRatio("False");
+        }
         isDetachedFromWindow = true;
     }
 
-    @Override
-    public boolean hasViewed() {
-        return hasViewed;
-    }
-
     private void logAdChance() {
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "cableandfuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
-                break;
-            case "fuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Chance");
-                break;
-            case "cable":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Chance");
-                break;
-        }
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
     }
 
     private void logAdShow() {
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "cableandfuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
-                break;
-            case "fuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdView");
-                break;
-            case "cable":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdView");
-                break;
-        }
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
 
         hasLogShow = true;
     }
 
+    private void logAdUseRatio(String result) {
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_News_AcbAdNative_Viewed_In_App", LockerCustomConfig.get().getNewsFeedAdName(), result);
+    }
+
     private void logAdClick() {
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "cableandfuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
-                break;
-            case "fuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdClick");
-                break;
-            case "cable":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdClick");
-                break;
-        }
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdClick");
     }
 }
