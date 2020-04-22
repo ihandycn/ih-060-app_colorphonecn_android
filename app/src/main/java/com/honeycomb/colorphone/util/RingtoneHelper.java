@@ -344,31 +344,22 @@ public class RingtoneHelper {
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
+            File ringtoneFile = Utils.getRingtoneFile();
             String videoFileName = theme.getFileName();
-            File mediaDirectory = FileUtils.getMediaDirectory();
-            if (mediaDirectory == null) {
-                path = null;
+            String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
+            File voiceFile = new File(voiceFilePath);
+            if (voiceFile.exists() && voiceFile.length() > 0) {
+                path = voiceFilePath;
             } else {
-                String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), getRingtoneFileName(videoFileName));
-
-                File file = new File(voiceFilePath);
-                if (file.exists() && file.length() > 0) {
-                    path = voiceFilePath;
-                } else {
-                    path = VideoUtils.getVoiceFromVideo(voiceFilePath, videoFileName);
-                }
-                theme.setRingtonePath(path);
+                path = VideoUtils.getVoiceFromVideo(voiceFilePath, videoFileName);
             }
+            theme.setRingtonePath(path);
         }
 
         if (TextUtils.isEmpty(path)) {
             Analytics.logEvent("CallFlash_Ringtone_File_Null", Analytics.FLAG_LOG_UMENG);
         }
         return path;
-    }
-
-    private static String getRingtoneFileName(String videoFileName) {
-        return videoFileName + "-ringtone";
     }
 
     private static Uri getRingtoneUri(Context context, String path, String title) {
