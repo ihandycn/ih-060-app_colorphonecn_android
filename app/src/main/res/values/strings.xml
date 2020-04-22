@@ -318,7 +318,7 @@
     <string name="huawei_rate_guide_content">点击这里 ICON 给我们一个五星好评吧</string>
     <string name="huawei_replace_icon_text" translatable="false"> ICON </string>
 
-    <string name="xiaomi_rate_guide_content">点击评论，在”我要评论“处\n给我们个 FIVE_STARS 好评吧。</string>
+    <string name="xiaomi_rate_guide_content">点击评论，在”我要评论“处给\n我们个 FIVE_STARS 好评吧。</string>
     <string name="oppo_rate_guide_content">点击评论，再点击 写评论 WRITE 处\n给我们个 FIVE_STARS 好评吧。</string>
     <string name="five_starts_replace_string" translatable="false">FIVE_STARS</string>
     <string name="write_comment_replace_string" translatable="false">WRITE</string>

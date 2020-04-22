@@ -30,17 +30,22 @@ public class OppoRateGuideDialog extends FloatedRateGuideDialog {
     }
 
     @Override
+    protected void init() {
+        super.init();
+    }
+
+    @Override
     protected boolean hasWriteCommentIcon() {
         return true;
     }
 
     protected int getLayoutResId() {
-        return R.layout.oppo_rate_guide_layout;
+        return R.layout.non_acc_rate_guide_layout;
     }
 
     @Override
     protected int getRateGuideContent() {
-        return R.id.oppo_rate_guide_content;
+        return R.id.non_acc_rate_guide_content;
     }
 
     @Override

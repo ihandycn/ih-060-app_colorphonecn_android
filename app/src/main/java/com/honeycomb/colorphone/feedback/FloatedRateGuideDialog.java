@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.view.TranslatedImageSpan;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
@@ -60,6 +61,11 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
     protected abstract int getRateGuideContentString();
 
     @Override
+    protected boolean IsInitStatusBarPadding() {
+        return false;
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (isClosing) {
             return true;
@@ -67,7 +73,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
         isClosing = true;
         if (contentView != null) {
             long delay = 100;
-            contentView.setAlpha(1);
+            contentView.setAlpha(1f);
             ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(contentView, "alpha", 1f, 0f);
             alphaAnimator.setDuration(delay);
             alphaAnimator.start();
@@ -112,7 +118,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
         int iconIndex = string.indexOf(replaceString);
         drawable.setBounds(0, 0, Dimensions.pxFromDp(66), Dimensions.pxFromDp(11));
         TranslatedImageSpan imageSpan = new TranslatedImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-        imageSpan.setTranslation(0, Dimensions.pxFromDp(-1));
+        imageSpan.setTranslation(0, Dimensions.pxFromDp(Compats.IS_XIAOMI_DEVICE ? -1f : -6f));
         spanString.setSpan(imageSpan, iconIndex, iconIndex + replaceString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spanString;
     }
