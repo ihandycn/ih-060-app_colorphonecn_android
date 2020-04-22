@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.acb.call.utils.FileUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -206,6 +207,9 @@ public class RingtoneHelper {
      */
     @DebugLog
     private static void setDefaultRingtone(Context context, String path, String title) {
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
 
         Uri oldRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE); //系统当前  通知铃声
 
@@ -231,6 +235,9 @@ public class RingtoneHelper {
         HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
 
         Uri newUri = getRingtoneUri(context, path, title);
+        if (newUri == null) {
+            return;
+        }
 
         if (Compats.IS_HUAWEI_DEVICE) {
             try {
@@ -268,11 +275,9 @@ public class RingtoneHelper {
         RingtoneManager.setActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE, newUri);
 
         // Write first ringtone id.
-        if (newUri != null) {
-            String newRingtoneId = newUri.getLastPathSegment();
-            if (firstTimeRingtoneSet && TextUtils.isDigitsOnly(newRingtoneId)) {
-                saveFirstRingtoneId(Integer.parseInt(newRingtoneId));
-            }
+        String newRingtoneId = newUri.getLastPathSegment();
+        if (!TextUtils.isEmpty(newRingtoneId) && firstTimeRingtoneSet && TextUtils.isDigitsOnly(newRingtoneId)) {
+            saveFirstRingtoneId(Integer.parseInt(newRingtoneId));
         }
 
         if (BuildConfig.DEBUG) {
@@ -339,9 +344,14 @@ public class RingtoneHelper {
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
-            File ringtoneFile = Utils.getRingtoneFile();
+
             String videoFileName = theme.getFileName();
-            String voiceFilePath = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), videoFileName);
+            File mediaDirectory = FileUtils.getMediaDirectory();
+            if (mediaDirectory == null) {
+                return null;
+            }
+            String voiceFilePath = FileDownloadUtils.generateFilePath(mediaDirectory.getAbsolutePath(), videoFileName);
+
             File file = new File(voiceFilePath);
             if (file.exists() && file.length() > 0) {
                 path = voiceFilePath;
@@ -354,6 +364,10 @@ public class RingtoneHelper {
     }
 
     private static Uri getRingtoneUri(Context context, String path, String title) {
+
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
 
         // Try hint cache.
         String cachedUriString = mPathUriMaps.get(path);
@@ -417,9 +431,9 @@ public class RingtoneHelper {
         }
     }
 
-    public static void setSingleRingtone(@NonNull String name, @Nullable String path, String contactId) {
+    public static void setSingleRingtone(String name, @Nullable String path, String contactId) {
         String uri = null;
-        if (path != null && name != null) {
+        if (!TextUtils.isEmpty(path) && name != null) {
             Uri ringtoneUri = getRingtoneUri(HSApplication.getContext(), path, name);
             if (ringtoneUri != null) {
                 uri = ringtoneUri.toString();
