@@ -48,14 +48,10 @@ public class LockScreenStarter {
             if (SmartChargingSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
 
-                if (AutoPilotUtils.getLockerMode().equals("fuse")) {
-                    return;
-                }
-
                 if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
 
                     ChargingScreenSettings.increaseChargingCount();
-                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
                     ChargingScreenUtils.startChargingScreenActivity(true, false);
@@ -119,14 +115,13 @@ public class LockScreenStarter {
 
     private void tryShowChargingScreen() {
         if (((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal")) ||
-                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cableandfuse")) ||
-                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cable")))
+                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cableandfuse")))
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
                     "Brand", Build.BRAND.toLowerCase());
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
@@ -161,18 +156,18 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable"))
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse"))
                     ? !SmartLockerFeedsActivity.exist : !isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable")) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse"))
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse"))
                     ? !SmartLockerFeedsActivity.exist : !isLockScreenExist()) {
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("fuse")) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startLockerActivity(false);

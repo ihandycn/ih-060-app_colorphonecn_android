@@ -14,9 +14,7 @@ public interface INewsListItem<VH extends RecyclerView.ViewHolder> {
 
     void release();
 
-    void logViewedEvent();
-
     void detachedFromWindow();
 
-    boolean hasViewed();
+    void attachedToWindow();
 }

@@ -237,7 +237,6 @@ public class BaiduNewsRequest {
             private int pageIndex;
             private int pageSize;
             private List<Integer> catIds;
-            private List<ContentTypeInfosBean> contentTypeInfos;
 
             public int getContentType() {
                 return contentType;
@@ -279,79 +278,7 @@ public class BaiduNewsRequest {
                 this.catIds = catIds;
             }
 
-            public List<ContentTypeInfosBean> getContentTypeInfos() {
-                return contentTypeInfos;
-            }
-
-            public void setContentTypeInfos(List<ContentTypeInfosBean> contentTypeInfos) {
-                this.contentTypeInfos = contentTypeInfos;
-            }
-
-            @Keep
-            public static class ContentTypeInfosBean {
-                /**
-                 * dataType : 0
-                 * catIds : [1001,1002,1003,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018]
-                 */
-
-                private int dataType;
-                private List<Integer> catIds;
-
-                public int getDataType() {
-                    return dataType;
-                }
-
-                public void setDataType(int dataType) {
-                    this.dataType = dataType;
-                }
-
-                public List<Integer> getCatIds() {
-                    return catIds;
-                }
-
-                public void setCatIds(List<Integer> catIds) {
-                    this.catIds = catIds;
-                }
-            }
         }
-
-        @Keep
-        public static class GpsBean {
-            /**
-             * coordinateType : 1
-             * latitude : 39.97008
-             * longitude : 116.440748
-             */
-
-            private int coordinateType;
-            private String latitude;
-            private String longitude;
-
-            public int getCoordinateType() {
-                return coordinateType;
-            }
-
-            public void setCoordinateType(int coordinateType) {
-                this.coordinateType = coordinateType;
-            }
-
-            public String getLatitude() {
-                return latitude;
-            }
-
-            public void setLatitude(String latitude) {
-                this.latitude = latitude;
-            }
-
-            public String getLongitude() {
-                return longitude;
-            }
-
-            public void setLongitude(String longitude) {
-                this.longitude = longitude;
-            }
-        }
-
     }
 
     /**

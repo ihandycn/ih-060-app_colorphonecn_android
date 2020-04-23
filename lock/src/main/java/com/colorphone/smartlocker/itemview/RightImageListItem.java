@@ -18,17 +18,16 @@ import com.colorphone.smartlocker.viewholder.RightImageViewHolder;
 public class RightImageListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
     private IFeedBean feedBean;
-    private boolean hasViewed = false;
 
     @Nullable
-    private IDailyNewsClickListener clickListener;
+    private INewsItemClickListener clickListener;
 
-    public RightImageListItem(String category, IFeedBean feedBean) {
+    public RightImageListItem(IFeedBean feedBean) {
         this.feedBean = feedBean;
     }
 
     //设置ClickListener 将由外部处理Item点击事件
-    public void setClickListener(@Nullable IDailyNewsClickListener clickListener) {
+    public void setClickListener(@Nullable INewsItemClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -82,19 +81,12 @@ public class RightImageListItem implements INewsListItem<RecyclerView.ViewHolder
     }
 
     @Override
-    public void logViewedEvent() {
-        if (!hasViewed) {
-            hasViewed = true;
-        }
-    }
-
-    @Override
     public void detachedFromWindow() {
 
     }
 
     @Override
-    public boolean hasViewed() {
-        return hasViewed;
+    public void attachedToWindow() {
+
     }
 }

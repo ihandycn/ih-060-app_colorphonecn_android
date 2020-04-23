@@ -46,6 +46,13 @@
 					<string>zte</string>
 				</array>
 			</dict>
+			<key>BaiduFeed</key>
+            			<dict>
+            				<key>Appsid</key>
+            				<string>f0c1081d</string>
+            				<key>Secret</key>
+            				<string>73cd34c8ff2f1d3895835cdf5</string>
+            			</dict>
 			<key>Boost</key>
 			<dict>
 				<key>BoostApps</key>
