@@ -18,8 +18,8 @@ public class CommentReceiver extends AccCommentReceiver {
     }
 
     @Override
-    public void onCommentXiaoMiSecondStep() {
-        HSLog.d(TAG, "processName = " + HSApplication.getProcessName() + ", onCommentXiaoMiSecondStep: click");
+    public void onCommentXiaoMiSecondStep(Rect rect) {
+        HSLog.d(TAG, "processName = " + HSApplication.getProcessName() + ", onCommentXiaoMiSecondStep: click, rect = " + rect.toString());
     }
 
     @Override
