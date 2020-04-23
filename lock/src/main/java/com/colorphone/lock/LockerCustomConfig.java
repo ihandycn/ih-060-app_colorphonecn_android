@@ -29,7 +29,7 @@ public class LockerCustomConfig {
         return INSTANCE;
     }
 
-    public String getSmartLockerAdName1() {
+    public String getLockerAndChargingAdName() {
         return mLockerAndChargingAdName;
     }
 

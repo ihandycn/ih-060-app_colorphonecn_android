@@ -301,8 +301,13 @@ public class ColorPhoneApplicationImpl {
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
             if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+                AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
+
+            //等拿到分组后在进行initModule
+            initModules();
+            checkModuleAdPlacement();
         }
     };
 
@@ -516,13 +521,10 @@ public class ColorPhoneApplicationImpl {
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_DONE));
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_WIRE));
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.CASHCENTER));
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
         ColorPhonePermanentUtils.keepAlive();
 
         Upgrader.upgrade();
         addGlobalObservers();
-        initModules();
-        checkModuleAdPlacement();
 
         initChargingReport();
         initLockerCharging();
@@ -1030,8 +1032,10 @@ public class ColorPhoneApplicationImpl {
             }
         });
 
-        mModules.add(locker);
-        mModules.add(charging);
+        if (AutoPilotUtils.getLockerMode().equals("normal")) {
+            mModules.add(locker);
+            mModules.add(charging);
+        }
         mModules.add(sms);
 
     }
