@@ -1047,6 +1047,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     }
 
     private void logAdUseRatio(String result) {
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_News_AcbAdNative_Viewed_In_App", LockerCustomConfig.get().getNewsFeedAdName(), result);
+        LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", LockerCustomConfig.get().getNewsFeedAdName(), result);
     }
 }
