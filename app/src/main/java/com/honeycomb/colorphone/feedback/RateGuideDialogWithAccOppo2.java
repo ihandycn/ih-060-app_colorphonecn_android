@@ -20,6 +20,7 @@ public class RateGuideDialogWithAccOppo2 extends RateGuideDialogWithAcc {
 
     public static void show(Context context, Rect rect) {
         if (HSConfig.optBoolean(true, "Application", "ShowStoreGuide")) {
+            FloatWindowManager.getInstance().removeAllDialogs();
             FloatWindowManager.getInstance().showDialog(new RateGuideDialogWithAccOppo2(context, rect));
         } else {
             HSLog.i("RateGuideWithAccXiaomi2", "RateGuideWithAccXiaomi2 not enable");

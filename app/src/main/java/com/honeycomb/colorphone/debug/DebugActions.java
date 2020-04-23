@@ -54,15 +54,15 @@ public class DebugActions {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             HSApplication.getContext().startActivity(intent);
 
-            Threads.postOnMainThreadDelayed(() -> {
-                if (Compats.IS_HUAWEI_DEVICE) {
-                    HuaweiRateGuideDialog.show(HSApplication.getContext());
-                } else if (Compats.IS_XIAOMI_DEVICE) {
-                    XiaomiRateGuideDialog.show(HSApplication.getContext());
-                } else if (Compats.IS_OPPO_DEVICE) {
-                    OppoRateGuideDialog.show(HSApplication.getContext());
-                }
-            }, 2000);
+//            Threads.postOnMainThreadDelayed(() -> {
+//                if (Compats.IS_HUAWEI_DEVICE) {
+//                    HuaweiRateGuideDialog.show(HSApplication.getContext());
+//                } else if (Compats.IS_XIAOMI_DEVICE) {
+//                    XiaomiRateGuideDialog.show(HSApplication.getContext());
+//                } else if (Compats.IS_OPPO_DEVICE) {
+//                    OppoRateGuideDialog.show(HSApplication.getContext());
+//                }
+//            }, 2000);
         } catch (Exception e) {
             e.printStackTrace();
         }

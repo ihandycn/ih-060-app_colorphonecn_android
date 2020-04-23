@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.FullScreenDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
+import com.superapps.util.Threads;
 
 public abstract class BaseRateGuideDialog extends FullScreenDialog {
 
@@ -31,6 +32,7 @@ public abstract class BaseRateGuideDialog extends FullScreenDialog {
     }
 
     @Override public WindowManager.LayoutParams getLayoutParams() {
+
         mLayoutParams.type = getFloatWindowType();
         mLayoutParams.format = PixelFormat.RGBA_8888;
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -54,5 +56,4 @@ public abstract class BaseRateGuideDialog extends FullScreenDialog {
 
     protected abstract int getLayoutResId();
 
-    @Override public abstract void onAddedToWindow(SafeWindowManager windowManager);
 }

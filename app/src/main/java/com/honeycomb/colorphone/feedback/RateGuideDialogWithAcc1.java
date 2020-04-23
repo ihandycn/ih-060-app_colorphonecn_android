@@ -2,11 +2,14 @@ package com.honeycomb.colorphone.feedback;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.honeycomb.colorphone.R;
@@ -15,6 +18,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 @SuppressLint("ViewConstructor")
 public class RateGuideDialogWithAcc1 extends RateGuideDialogWithAcc {
@@ -48,10 +52,23 @@ public class RateGuideDialogWithAcc1 extends RateGuideDialogWithAcc {
     protected boolean hasWriteCommentIcon() {
         return false;
     }
+    @Override public WindowManager.LayoutParams getLayoutParams() {
 
+        mLayoutParams.type = getFloatWindowType();
+        mLayoutParams.format = PixelFormat.RGBA_8888;
+        mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+        mLayoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        mLayoutParams.gravity = Gravity.END | Gravity.BOTTOM;
+
+        this.setLayoutParams(mLayoutParams);
+        return mLayoutParams;
+    }
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        Threads.postOnMainThreadDelayed(this::dismiss,2200);
 
         View content = findViewById(getRateGuideContent());
         content.setBackgroundResource(R.drawable.five_star_rate_guide_bubble_middle);
