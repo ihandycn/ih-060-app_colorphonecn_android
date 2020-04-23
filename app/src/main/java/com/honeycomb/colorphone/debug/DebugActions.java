@@ -37,7 +37,7 @@ public class DebugActions {
         intentFilter.addAction(AccCommentReceiver.ACTION);
         activity.registerReceiver(commentReceiver, intentFilter);
 
-        launchAppDetail(HSApplication.getContext().getPackageName(), "com.xiaomi.market");
+        launchAppDetail(HSApplication.getContext().getPackageName(), getMarketPkg());
     }
 
     private static void launchAppDetail(String appPkg, String marketPkg) {
@@ -65,6 +65,18 @@ public class DebugActions {
             }, 2000);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static String getMarketPkg() {
+        if (Compats.IS_HUAWEI_DEVICE) {
+            return "com.huawei.appmarket";
+        } else if (Compats.IS_XIAOMI_DEVICE) {
+            return "com.xiaomi.market";
+        } else if (Compats.IS_OPPO_DEVICE) {
+            return "com.oppo.market";
+        } else {
+            return "";
         }
     }
 }

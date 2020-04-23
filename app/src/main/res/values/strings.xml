@@ -320,6 +320,9 @@
 
     <string name="xiaomi_rate_guide_content">点击评论，在”我要评论“处给\n我们个 FIVE_STARS 好评吧。</string>
     <string name="oppo_rate_guide_content">点击评论，再点击 写评论 WRITE 处\n给我们个 FIVE_STARS 好评吧。</string>
+    <string name="rate_guide_content_with_acc1">点击评论，给我们个 FIVE_STARS 好评吧。</string>
+    <string name="rate_guide_content_with_acc_xiaomi_2">点击我要评论，\n给我们个 FIVE_STARS 好评吧。</string>
+    <string name="rate_guide_content_with_acc_oppo_2">点击 写评论 WRITE \n给我们个 FIVE_STARS 好评吧。</string>
     <string name="five_starts_replace_string" translatable="false">FIVE_STARS</string>
     <string name="write_comment_replace_string" translatable="false">WRITE</string>
 
