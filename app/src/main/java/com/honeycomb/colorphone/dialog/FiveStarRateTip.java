@@ -6,9 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -31,23 +29,19 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.feedback.FeedbackActivity;
-import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
-import com.honeycomb.colorphone.feedback.OppoRateGuideDialog;
-import com.honeycomb.colorphone.feedback.XiaomiRateGuideDialog;
+import com.honeycomb.colorphone.feedback.MarketRateGuideDialogHelper;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.view.TypefacedTextView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
@@ -67,12 +61,15 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private static final String PREF_KEY_HAD_FIVE_STAR_RATE = "pref_key_had_five_star_rate";
 
     public static final String FIVE_START_TIP_DISMISS = "five_start_tip_dismiss";
+    public static final String FIVE_START_TIP_JUMPED_TO_APP_MARKET = "FIVE_START_TIP_JUMPED_TO_APP_MARKET";
 
     private static final long CHANGE_DURATION = 500;
     private static final long ONE_STEP_DURATION = 200;
     private static final long ANIM_DELAY = 200;
     private static final long ALL_STEPS_DURATION = 5 * ONE_STEP_DURATION;
     private static int sCurrentSessionId = -1;
+    private final MarketRateGuideDialogHelper marketGuideHelper;
+    private boolean hasJumpedToAppMarket = false;
 
     public enum From {
         SET_THEME(0),
@@ -172,10 +169,11 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private AnimatorSet mAnimatorSet;
     private int mAnimCount;
 
-    private FiveStarRateTip(Context context, From from) {
+    private FiveStarRateTip(Context context, From from, MarketRateGuideDialogHelper marketGuideHelper) {
         super(context);
         mMetrics = context.getResources().getDisplayMetrics();
         mFrom = from;
+        this.marketGuideHelper = marketGuideHelper;
         mStarViews = new ImageView[STAR_COUNT];
         mGuideStarViews = new ImageView[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
@@ -276,7 +274,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         if (mCurrentPosition >= 0) {
             if (mCurrentPosition == MAX_POSITION) {
                 //HSMarketUtils.browseAPP();
-                launchAppDetail(HSApplication.getContext().getPackageName(), getMarketPkg());
+                hasJumpedToAppMarket = true;
+                marketGuideHelper.tryToShowRateGuide();
                 Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
 //                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
@@ -290,46 +289,6 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         }
     }
 
-    @NotNull
-    private String getMarketPkg() {
-        if (Compats.IS_HUAWEI_DEVICE) {
-            return "com.huawei.appmarket";
-        } else if (Compats.IS_XIAOMI_DEVICE) {
-            return "com.xiaomi.market";
-        } else if (Compats.IS_OPPO_DEVICE) {
-            return "com.oppo.market";
-        } else {
-            return "";
-        }
-    }
-
-    private void launchAppDetail(String appPkg, String marketPkg) {
-        try {
-            if (TextUtils.isEmpty(appPkg) || TextUtils.isEmpty(marketPkg)) {
-                return;
-            }
-
-            Uri uri = Uri.parse("market://details?id=" + appPkg);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            if (!TextUtils.isEmpty(marketPkg)) {
-                intent.setPackage(marketPkg);
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            HSApplication.getContext().startActivity(intent);
-
-            Threads.postOnMainThreadDelayed(() -> {
-                if (Compats.IS_HUAWEI_DEVICE) {
-                    HuaweiRateGuideDialog.show(getContext());
-                } else if (Compats.IS_XIAOMI_DEVICE) {
-                    XiaomiRateGuideDialog.show(getContext());
-                } else if (Compats.IS_OPPO_DEVICE){
-                    OppoRateGuideDialog.show(getContext());
-                }
-            }, 1600);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onClickNegativeButton(View v) {
@@ -493,15 +452,17 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         }
     }
 
-    public static void show(Context context, From from) {
-        new FiveStarRateTip(context, from).show();
+    public static void show(Context context, From from, MarketRateGuideDialogHelper marketGuideHelper) {
+        new FiveStarRateTip(context, from, marketGuideHelper).show();
     }
 
     @Override
     protected void onDismissComplete() {
         super.onDismissComplete();
         cancelAnimationLoadTask();
-        HSGlobalNotificationCenter.sendNotification(FIVE_START_TIP_DISMISS);
+        HSBundle bundle = new HSBundle();
+        bundle.putBoolean(FIVE_START_TIP_JUMPED_TO_APP_MARKET, hasJumpedToAppMarket);
+        HSGlobalNotificationCenter.sendNotification(FIVE_START_TIP_DISMISS, bundle);
     }
 
     private void cancelAnimationLoadTask() {
@@ -525,11 +486,11 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
 
     private static boolean isSpecificDevice() {
         List<String> brandList = (List<String>) HSConfig.getList("Application", "RateAlert", "Brand");
-        if (brandList == null){
+        if (brandList == null) {
             return false;
         }
-        for (String brand : brandList){
-            if (Build.BRAND.equalsIgnoreCase(brand)){
+        for (String brand : brandList) {
+            if (Build.BRAND.equalsIgnoreCase(brand)) {
                 return true;
             }
         }
