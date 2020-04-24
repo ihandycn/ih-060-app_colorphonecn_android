@@ -9,12 +9,15 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.acc.AccCommentReceiver;
 import com.superapps.util.Compats;
 import com.superapps.util.Threads;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,14 +82,18 @@ public class MarketRateGuideDialogHelper {
         Threads.postOnMainThreadDelayed(() -> {
             if (broadcastReceived) {
                 broadcastReceived = false;
+                Analytics.logEvent("RateAlert_Guide_Show", false, "Acc_type", "Suc");
                 return;
             }
             unregisterReceiver(context);
             showGuideWithoutAcc(context);
+            Analytics.logEvent("RateAlert_Guide_Show", false, "Acc_type", "No Response");
+            CrashReport.postCatchedException(new Throwable("Failed to receive message from ACC!!!"));
         }, 3000);
     }
 
     private void showGuideWithoutAcc(Context context) {
+        Analytics.logEvent("RateAlert_Guide_Show", false, "Acc_type", "No");
         if (Compats.IS_HUAWEI_DEVICE) {
             showHuaweiGuideDialog(context);
         } else if (Compats.IS_XIAOMI_DEVICE) {
