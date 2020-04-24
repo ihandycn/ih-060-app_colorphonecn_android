@@ -5,14 +5,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Threads;
 
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
+
 /**
  * Abstraction for "locker screen"s.
- *
+ * <p>
  * Terminology: lock screen = locker & charging screen.
- *
+ * <p>
  * BE CONSISTENT with class and method names on this. Don't use non-standard terms like
  * "locker screen" or "charge screen". Don't use the term "locker" when referring to both
  * locker" and "charging screen". Use "lock screen" please.
@@ -20,10 +23,12 @@ import com.superapps.util.Threads;
 public abstract class LockScreen {
     protected ViewGroup mRootView;
     protected KeyguardHandler mKeyguardHandler;
+
     /**
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
+        AcbExpressAdManager.getInstance().activePlacementInProcess(LockerCustomConfig.get().getLockerAndChargingAdName());
         mRootView = root;
         mKeyguardHandler = new KeyguardHandler(getContext());
         mKeyguardHandler.onInit();
@@ -62,18 +67,21 @@ public abstract class LockScreen {
             FloatWindowController.getInstance().hideLockScreen(hideType);
         }
 
+        AcbExpressAdManager.getInstance().deactivePlacementInProcess(LockerCustomConfig.get().getLockerAndChargingAdName());
+
         Threads.postOnMainThreadDelayed(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
             }
         }, 1000);
 
     }
 
-    public void onStop(){
+    public void onStop() {
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         mKeyguardHandler.onViewDestroy();
     }
 
