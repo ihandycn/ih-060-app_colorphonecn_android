@@ -82,4 +82,10 @@ public class RateAlertActivity extends HSActivity implements INotificationObserv
             finish();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        marketGuideHelper.unregisterReceiver(this);
+    }
 }
