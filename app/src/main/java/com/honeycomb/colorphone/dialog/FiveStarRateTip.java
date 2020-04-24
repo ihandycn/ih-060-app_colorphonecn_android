@@ -484,6 +484,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.END_CALL) && isSpecificDevice();
     }
 
+    @SuppressWarnings("unchecked")
     private static boolean isSpecificDevice() {
         List<String> brandList = (List<String>) HSConfig.getList("Application", "RateAlert", "Brand");
         if (brandList == null) {
@@ -497,6 +498,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private static boolean isNewUser() {
         Locale current = Dimensions.getLocale(HSApplication.getContext());
         String myCountry = current.getCountry().toLowerCase();
