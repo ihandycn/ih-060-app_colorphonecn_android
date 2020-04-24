@@ -304,10 +304,6 @@ public class ColorPhoneApplicationImpl {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
-
-            //等拿到分组后在进行initModule
-            initModules();
-            checkModuleAdPlacement();
         }
     };
 
@@ -525,6 +521,8 @@ public class ColorPhoneApplicationImpl {
 
         Upgrader.upgrade();
         addGlobalObservers();
+        initModules();
+        checkModuleAdPlacement();
 
         initChargingReport();
         initLockerCharging();
@@ -1000,28 +998,6 @@ public class ColorPhoneApplicationImpl {
     }
 
     private void initModules() {
-        Module locker = new Module();
-        locker.setAdName(Placements.AD_LOCKER_AND_CHARGING);
-        locker.setAdType(Module.AD_EXPRESS);
-        locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
-        locker.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
-            }
-        });
-
-        Module charging = new Module();
-        charging.setAdName(Placements.AD_LOCKER_AND_CHARGING);
-        charging.setAdType(Module.AD_EXPRESS);
-        charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
-        charging.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
-            }
-        });
-
         Module sms = new Module();
         sms.setAdName(Placements.getAdPlacement(Placements.AD_MSG));
         sms.setAdType(Module.AD_EXPRESS);
@@ -1031,13 +1007,7 @@ public class ColorPhoneApplicationImpl {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
             }
         });
-
-        if (AutoPilotUtils.getLockerMode().equals("normal")) {
-            mModules.add(locker);
-            mModules.add(charging);
-        }
         mModules.add(sms);
-
     }
 
     private void systemFix() {
