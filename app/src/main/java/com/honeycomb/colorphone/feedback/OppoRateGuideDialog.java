@@ -2,10 +2,13 @@ package com.honeycomb.colorphone.feedback;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 public class OppoRateGuideDialog extends FloatedRateGuideDialog {
 
@@ -32,6 +35,13 @@ public class OppoRateGuideDialog extends FloatedRateGuideDialog {
     @Override
     protected void init() {
         super.init();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        View content = findViewById(getRateGuideContent());
+        content.setPadding(Dimensions.pxFromDp(25), Dimensions.pxFromDp(12.7f), Dimensions.pxFromDp(25), Dimensions.pxFromDp(24.7f));
     }
 
     @Override

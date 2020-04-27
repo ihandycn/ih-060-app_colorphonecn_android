@@ -48,7 +48,7 @@ public class RateGuideDialogWithAccXiaomi2 extends RateGuideDialogWithAcc {
 
         View content = findViewById(getRateGuideContent());
         content.setBackgroundResource(R.drawable.five_star_rate_guide_bubble_left);
-        content.setPadding(Dimensions.pxFromDp(26), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(26), Dimensions.pxFromDp(26.7f));
+        content.setPadding(Dimensions.pxFromDp(24), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(24), Dimensions.pxFromDp(26.7f));
 
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
         layoutParams.gravity = Gravity.BOTTOM | Gravity.START;

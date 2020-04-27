@@ -66,11 +66,11 @@ public class RateGuideDialogWithAcc1 extends RateGuideDialogWithAcc {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Threads.postOnMainThreadDelayed(this::dismiss,2200);
+        Threads.postOnMainThreadDelayed(this::dismiss,4000);
 
         View content = findViewById(getRateGuideContent());
         content.setBackgroundResource(R.drawable.five_star_rate_guide_bubble_middle);
-        content.setPadding(Dimensions.pxFromDp(26), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(26), Dimensions.pxFromDp(26.7f));
+        content.setPadding(Dimensions.pxFromDp(24), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(24), Dimensions.pxFromDp(26.7f));
 
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
         layoutParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;

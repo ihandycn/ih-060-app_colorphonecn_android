@@ -48,7 +48,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
         if (hasWriteCommentIcon()) {
             textView.setText(replaceFiveStarAndWriteComment());
         } else {
-            textView.setText(replaceFiveStar());
+            textView.setText(replaceFiveStar(false));
         }
     }
 
@@ -107,7 +107,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
     }
 
 
-    protected SpannableString replaceFiveStar() {
+    protected SpannableString replaceFiveStar(boolean hasWriteCommitIcon) {
         String string = getContext().getString(getRateGuideContentString());
         String replaceString = getContext().getString(R.string.five_starts_replace_string);
         SpannableString spanString = new SpannableString(string);
@@ -118,7 +118,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
         int iconIndex = string.indexOf(replaceString);
         drawable.setBounds(0, 0, Dimensions.pxFromDp(66), Dimensions.pxFromDp(11));
         TranslatedImageSpan imageSpan = new TranslatedImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-        imageSpan.setTranslation(0, Dimensions.pxFromDp(Compats.IS_XIAOMI_DEVICE ? -1f : -6f));
+        imageSpan.setTranslation(0, Dimensions.pxFromDp(hasWriteCommitIcon ? -6f : -1f));
         spanString.setSpan(imageSpan, iconIndex, iconIndex + replaceString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spanString;
     }
@@ -126,7 +126,7 @@ public abstract class FloatedRateGuideDialog extends BaseRateGuideDialog {
     protected SpannableString replaceFiveStarAndWriteComment() {
         String string = getContext().getString(getRateGuideContentString());
         String replaceString = getContext().getString(R.string.write_comment_replace_string);
-        SpannableString spanString = replaceFiveStar();
+        SpannableString spanString = replaceFiveStar(true);
         Drawable drawable = getContext().getDrawable(R.drawable.five_star_rate_write_icon);
         int iconIndex = string.indexOf(replaceString);
         if (drawable == null || iconIndex - 4 < 0) {
