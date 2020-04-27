@@ -7,7 +7,7 @@
 		<key>Application</key>
 		<dict>
 		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+		    <string>Ad</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
