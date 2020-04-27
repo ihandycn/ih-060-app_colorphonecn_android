@@ -41,7 +41,7 @@ public class OppoRateGuideDialog extends FloatedRateGuideDialog {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         View content = findViewById(getRateGuideContent());
-        content.setPadding(Dimensions.pxFromDp(25), Dimensions.pxFromDp(12.7f), Dimensions.pxFromDp(25), Dimensions.pxFromDp(24.7f));
+        content.setPadding(Dimensions.pxFromDp(23), Dimensions.pxFromDp(12.7f), Dimensions.pxFromDp(23), Dimensions.pxFromDp(22.7f));
     }
 
     @Override

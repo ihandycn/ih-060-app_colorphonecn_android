@@ -47,7 +47,7 @@ public class RateGuideDialogWithAccOppo2 extends RateGuideDialogWithAcc {
 
         View content = findViewById(getRateGuideContent());
         content.setBackgroundResource(R.drawable.five_star_rate_guide_bubble_right);
-        content.setPadding(Dimensions.pxFromDp(22), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(22), Dimensions.pxFromDp(22.7f));
+        content.setPadding(Dimensions.pxFromDp(20), Dimensions.pxFromDp(12.5f), Dimensions.pxFromDp(20), Dimensions.pxFromDp(20.7f));
 
         LayoutParams layoutParams = (LayoutParams) content.getLayoutParams();
         layoutParams.gravity = Gravity.BOTTOM | Gravity.END;
