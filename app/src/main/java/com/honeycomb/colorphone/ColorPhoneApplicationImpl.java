@@ -300,8 +300,8 @@ public class ColorPhoneApplicationImpl {
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") || AutoPilotUtils.getLockerMode().equals("cable") ||
-                    AutoPilotUtils.getLockerMode().equals("fuse")) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+                AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
         }
@@ -915,12 +915,8 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setLauncherIcon(R.drawable.ic_launcher);
         LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
-        LockerCustomConfig.get().setLockerAdName(Placements.AD_LOCKER);
-        LockerCustomConfig.get().setChargingExpressAdName(Placements.AD_CHARGING_SCREEN);
-        LockerCustomConfig.get().setSmartLockerAdName1(Placements.SMART_LOCKER_FEED1);
-        LockerCustomConfig.get().setSmartLockerAdName2(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
-        LockerCustomConfig.get().setSmartLockerAdName3(Placements.SMART_LOCKER_FEED3);
-        LockerCustomConfig.get().setSmartLockerAdName4(Placements.SMART_LOCKER_FEED4);
+        LockerCustomConfig.get().setLockerAndChargingAdName(Placements.AD_LOCKER_AND_CHARGING);
+        LockerCustomConfig.get().setNewsFeedAdName(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
@@ -1002,28 +998,6 @@ public class ColorPhoneApplicationImpl {
     }
 
     private void initModules() {
-        Module locker = new Module();
-        locker.setAdName(Placements.SMART_LOCKER_FEED1);
-        locker.setAdType(Module.AD_EXPRESS);
-        locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
-        locker.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
-            }
-        });
-
-        Module charging = new Module();
-        charging.setAdName(Placements.SMART_LOCKER_FEED1);
-        charging.setAdType(Module.AD_EXPRESS);
-        charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
-        charging.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return LockerSettings.isLockerEnabled() || SmartChargingSettings.isChargingScreenEnabled();
-            }
-        });
-
         Module sms = new Module();
         sms.setAdName(Placements.getAdPlacement(Placements.AD_MSG));
         sms.setAdType(Module.AD_EXPRESS);
@@ -1033,11 +1007,7 @@ public class ColorPhoneApplicationImpl {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
             }
         });
-
-        mModules.add(locker);
-        mModules.add(charging);
         mModules.add(sms);
-
     }
 
     private void systemFix() {

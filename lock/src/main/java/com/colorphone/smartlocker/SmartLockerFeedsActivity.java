@@ -27,7 +27,6 @@ import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -50,7 +49,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
-import com.colorphone.smartlocker.itemview.IDailyNewsClickListener;
+import com.colorphone.smartlocker.itemview.INewsItemClickListener;
 import com.colorphone.smartlocker.itemview.INewsListItem;
 import com.colorphone.smartlocker.itemview.LoadMoreItem;
 import com.colorphone.smartlocker.itemview.RightImageListItem;
@@ -68,11 +67,13 @@ import com.colorphone.smartlocker.view.SlidingFinishLayout;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import net.appcloudbox.UnreleasedAdWatcher;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -91,7 +92,7 @@ import java.util.Objects;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-public class SmartLockerFeedsActivity extends HSAppCompatActivity {
+public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INotificationObserver {
 
     public static final String EXTRA_INT_BATTERY_LEVEL_PERCENT = "EXTRA_INT_BATTERY_LEVEL_PERCENT";
 
@@ -136,13 +137,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private long refreshStartTime;
     private long viewedStartTime;
 
-    private boolean recordSlideFlurry;
     private boolean isLongScreen;
     private boolean isLoading;
     private boolean isFirstLoadData = true;
     private boolean isNormalFinishing = true;
     private boolean currentPowerConnected;
     public static boolean exist = false;
+    private boolean isRefreshAdShow = false; //记录广告的机会利用率使用
 
     private int startType;
     private String appPlacement;
@@ -246,7 +247,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     private BroadcastReceiver screenOnReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+            if (isResume && (newsDetailView == null || newsDetailView.getVisibility() == View.GONE)) {
                 refreshAd();
             }
         }
@@ -254,56 +255,16 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     private SafePhoneStateListener phoneStateListener = new SafePhoneStateListener();
 
-    private int firstWaitInsertAdPosition = -1;
-
     private int newsCount = 0;  //已加载的新闻数量
     private int targetNewsCount = 2;    //新闻数量达到多少条时增加广告
-    private int emptyAdItemCount = 0;
     private int adIntervalIndex = 0;
     private int[] adInterval = {2, 3};
     private int onStartTimes = 0; //新闻第一次出现时不刷新广告
+    private boolean isResume;
 
     @Nullable
     private AcbNativeAdLoader adLoader;
     private List<AcbNativeAd> nativeAdList = new ArrayList<>();
-
-    private Handler loadAdHandler = new Handler();
-    private Runnable loadAdRunnable = new Runnable() {
-        @Override
-        public void run() {
-
-            if (emptyAdItemCount <= 0) {
-                loadAdHandler.postDelayed(loadAdRunnable, 500L);
-                return;
-            }
-            if (adLoader != null) {
-                return;
-            }
-            adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
-            adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
-                @Override
-                public void onAdReceived(AcbNativeAdLoader acbNativeAdLoader, List<AcbNativeAd> list) {
-                    adLoader = null;
-                    if (list == null || list.isEmpty()) {
-                        loadAdHandler.postDelayed(loadAdRunnable, 1000L);
-                        HSLog.d(TAG, "TryToLoadAd onAdReceived: adList == null || adList.isEmpty()");
-                        return;
-                    }
-                    nativeAdList.addAll(list);
-                    tryToInsertAdToItem(list.get(0));
-                    loadAdHandler.postDelayed(loadAdRunnable, 500L);
-                }
-
-                @Override
-                public void onAdFinished(AcbNativeAdLoader acbNativeAdLoader, AcbError acbError) {
-                    adLoader = null;
-                    loadAdHandler.postDelayed(loadAdRunnable, 1000L);
-                    HSLog.d(TAG, "TryToLoadAd onAdFinished: msg = " + (acbError != null
-                            ? acbError.getMessage() : "acbError == null"));
-                }
-            });
-        }
-    };
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -321,24 +282,15 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
         registerScreenOn();
 
+        HSGlobalNotificationCenter.addObserver(SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED, this);
+        HSGlobalNotificationCenter.addObserver(SmartLockerConstants.NOTIFICATION_FEED_PAGE_SLIDE, this);
+
         context = this;
         categoryParam = BaiduFeedManager.CATEGORY_ALL;
         isLongScreen = (DisplayUtils.getScreenWithNavigationBarHeight() * 1f / DisplayUtils.getScreenWidth(this)) > 16 / 9f;
         startType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
 
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "fuse":
-                appPlacement = LockerCustomConfig.get().getSmartLockerAdName3();
-                break;
-            case "cable":
-                appPlacement = LockerCustomConfig.get().getSmartLockerAdName4();
-                break;
-            default:
-                appPlacement = LockerCustomConfig.get().getSmartLockerAdName2();
-                break;
-        }
-
-        AcbNativeAdManager.getInstance().activePlacementInProcess(appPlacement);
+        appPlacement = LockerCustomConfig.get().getNewsFeedAdName();
 
         rootLayout = findViewById(R.id.root_layout);
         smartLockerContainer = findViewById(R.id.locker_container);
@@ -400,32 +352,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 if (!recyclerView.canScrollVertically(1)) {
                     loadData(false);
                 }
-                logViewedEvent();
-            }
-        });
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            private float y;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (recordSlideFlurry) {
-                    return false;
-                }
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        y = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (!recordSlideFlurry && Math.abs(event.getY() - y) > 24f) {
-                            LockerCustomConfig.getLogger().logEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
-                                    ? "LockScreen_News_Slide" : "ChargingScreen_News_Slide");
-                            AutoPilotUtils.logLockerModeAutopilotEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
-                                    ? "lock_news_slide" : "charging_news_slide");
-                            recordSlideFlurry = true;
-                        }
-                        break;
-                }
-                return false;
             }
         });
         feedAdapter = new NewsAdapter(this, new ArrayList<INewsListItem<RecyclerView.ViewHolder>>());
@@ -503,7 +429,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     private void resetNewsAdData() {
         newsCount = 0;
-        emptyAdItemCount = 0;
         adIntervalIndex = 0;
         targetNewsCount = isLongScreen ? 2 : 1;
     }
@@ -528,14 +453,12 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         updateTimeAndDateView();
 
         updateBatteryState(HSChargingManager.getInstance().getBatteryRemainingPercent());
-
-        loadAdHandler.postDelayed(loadAdRunnable, 500L);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        isResume = true;
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
             Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
         }
@@ -547,6 +470,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             Threads.removeOnMainThread(displaySuccessChecker);
         }
         super.onPause();
+        isResume = false;
     }
 
     private void initPhoneStateListener() {
@@ -736,7 +660,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         if (jsonObject == null || !NetworkStatusUtils.isNetworkConnected(context)) {
             return;
         }
-        feedAdapter.addItems(feedAdapter.getItemCount(), parseBaiduNewsJson(jsonObject, categoryParam));
+        feedAdapter.addItems(feedAdapter.getItemCount(), parseBaiduNewsJson(jsonObject));
     }
 
     private void loadData(final boolean isPullDown) {
@@ -751,7 +675,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
         isLoading = true;
         BaiduFeedManager.getInstance().loadNews(categoryParam, isFirstLoadData
-                ? BaiduFeedManager.LOAD_FIRST : BaiduFeedManager.LOAD_MORE, new BaiduFeedManager.DataBackListener() {
+                ? BaiduFeedManager.LOAD_REFRESH : BaiduFeedManager.LOAD_MORE, new BaiduFeedManager.DataBackListener() {
             @Override
             public void onDataBack(JSONObject response) {
                 if (response == null) {
@@ -799,7 +723,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     }
 
     private void parseData(boolean isPullDown, JSONObject response) {
-        final List<INewsListItem<? extends RecyclerView.ViewHolder>> dailyNewsListItems = parseBaiduNewsJson(response, categoryParam);
+        final List<INewsListItem<? extends RecyclerView.ViewHolder>> dailyNewsListItems = parseBaiduNewsJson(response);
 
         if (isPullDown) {
             feedAdapter.removeAllItem();
@@ -813,19 +737,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
         if (isFirstLoadData) {
             feedAdapter.addItem(feedAdapter.getItemCount(), new LoadMoreItem(true));
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    logViewedEvent();
-                }
-            }, 500L);
         }
 
         feedAdapter.addItems(feedAdapter.getItemCount() - 1, dailyNewsListItems);
         isFirstLoadData = false;
     }
 
-    private List<INewsListItem<? extends RecyclerView.ViewHolder>> parseBaiduNewsJson(JSONObject response, String category) {
+    private List<INewsListItem<? extends RecyclerView.ViewHolder>> parseBaiduNewsJson(JSONObject response) {
         List<INewsListItem<? extends RecyclerView.ViewHolder>> listItems = new ArrayList<>();
         try {
             BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(response);
@@ -834,7 +752,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                 return listItems;
             }
 
-            IDailyNewsClickListener clickListener = new IDailyNewsClickListener() {
+            INewsItemClickListener clickListener = new INewsItemClickListener() {
                 @Override
                 public void onClick(String articleUrl) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
@@ -850,7 +768,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             for (int i = 0; i < baiduFeedBeanList.size(); i++) {
                 BaiduFeedBean baiduNewsItemData = baiduFeedBeanList.get(i);
                 if (baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_THREE_IMAGE) {
-                    ThreeImageListItem threeImageListItem = new ThreeImageListItem(category, baiduNewsItemData);
+                    ThreeImageListItem threeImageListItem = new ThreeImageListItem(baiduNewsItemData);
                     threeImageListItem.setClickListener(clickListener);
                     listItems.add(threeImageListItem);
                     newsCount++;
@@ -859,7 +777,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                         listItems.add(getAdItem());
                     }
                 } else if (baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_RIGHT_IMAGE) {
-                    RightImageListItem rightImageListItem = new RightImageListItem(category, baiduNewsItemData);
+                    RightImageListItem rightImageListItem = new RightImageListItem(baiduNewsItemData);
                     rightImageListItem.setClickListener(clickListener);
                     listItems.add(rightImageListItem);
                     newsCount++;
@@ -878,110 +796,9 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     @NonNull
     private SmartLockerAdListItem getAdItem() {
-        SmartLockerAdListItem adListItem;
-        List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
-        if (!adList.isEmpty()) {
-            adListItem = new SmartLockerAdListItem(appPlacement, adList.get(0));
-        } else {
-            if (newsCount == (isLongScreen ? 2 : 1)) {
-                firstWaitInsertAdPosition = (isLongScreen ? 2 : 1);
-            }
-            emptyAdItemCount++;
-            adListItem = new SmartLockerAdListItem(appPlacement, null);
-        }
-
+        SmartLockerAdListItem adListItem = new SmartLockerAdListItem();
         targetNewsCount = newsCount + adInterval[(++adIntervalIndex) % adInterval.length];
-
         return adListItem;
-    }
-
-    private void tryToInsertAdToItem(AcbNativeAd nativeAd) {
-        if (linearLayoutManager == null || feedAdapter == null) {
-            return;
-        }
-        int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastPosition = linearLayoutManager.findLastVisibleItemPosition();
-        if (firstWaitInsertAdPosition >= 0
-                && firstPosition <= firstWaitInsertAdPosition
-                && firstWaitInsertAdPosition <= lastPosition) {
-            // 第一个广告位可见且没有广告则插入广告
-            if (feedAdapter.getData().get(firstWaitInsertAdPosition) instanceof SmartLockerAdListItem) {
-                SmartLockerAdListItem adListItem = (SmartLockerAdListItem) feedAdapter.getData().get(firstWaitInsertAdPosition);
-                if (adListItem.isNativeAdNull()) {
-                    emptyAdItemCount--;
-                    adListItem.setLoadNativeAd(nativeAd);
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!recyclerView.isComputingLayout()) {
-                                feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
-                            } else {
-                                //没有layout完成的情况下，delay500ms后再次尝试notify 主动上报信息
-                                RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem first : recyclerView.getScrollState(): " +
-                                        recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
-                                CrashReport.postCatchedException(exception);
-
-                                recyclerView.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (!recyclerView.isComputingLayout()) {
-                                            feedAdapter.notifyItemChanged(firstWaitInsertAdPosition);
-                                        } else {
-                                            //delay后仍失败
-                                            RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem2 first : recyclerView.getScrollState(): " +
-                                                    recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
-                                            CrashReport.postCatchedException(exception);
-                                        }
-
-                                    }
-                                }, 500);
-                            }
-
-                            firstWaitInsertAdPosition = -1;
-                        }
-                    });
-                    return;
-                }
-            }
-        }
-        for (int pos = lastPosition + 1; pos < feedAdapter.getItemCount(); pos++) {
-            if (pos >= 0 && feedAdapter.getData().get(pos) instanceof SmartLockerAdListItem) {
-                SmartLockerAdListItem adListItem = (SmartLockerAdListItem) feedAdapter.getData().get(pos);
-                if (adListItem.isNativeAdNull()) {
-                    emptyAdItemCount--;
-                    adListItem.setLoadNativeAd(nativeAd);
-                    final int finalPos = pos;
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!recyclerView.isComputingLayout()) {
-                                feedAdapter.notifyItemChanged(finalPos);
-                            } else {
-                                //没有layout完成的情况下，delay500ms后再次尝试notify
-                                RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem normal : recyclerView.getScrollState(): " +
-                                        recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
-                                CrashReport.postCatchedException(exception);
-
-                                recyclerView.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (!recyclerView.isComputingLayout()) {
-                                            feedAdapter.notifyItemChanged(finalPos);
-                                        } else {
-                                            //delay后仍失败
-                                            RuntimeException exception = new RuntimeException("SmartLockerFeedsActivity#tryToInsertAdToItem2 normal : recyclerView.getScrollState(): " +
-                                                    recyclerView.getScrollState() + ",recyclerView.isComputingLayout(): " + recyclerView.isComputingLayout());
-                                            CrashReport.postCatchedException(exception);
-                                        }
-                                    }
-                                }, 500);
-                            }
-                        }
-                    });
-                    break;
-                }
-            }
-        }
     }
 
     private void showNewsDetail(String newsUrl) {
@@ -993,21 +810,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
         }
         newsDetailView.setVisibility(View.VISIBLE);
         newsDetailView.loadUrl(newsUrl);
-    }
-
-    private void logViewedEvent() {
-        if (linearLayoutManager != null && feedAdapter != null) {
-            int lastItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-            int firstItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-
-            if (firstItemPosition >= 0 && firstItemPosition < feedAdapter.getItemCount()
-                    && lastItemPosition < feedAdapter.getItemCount()) {
-                for (int i = firstItemPosition; i <= lastItemPosition; i++) {
-                    INewsListItem feedListItem = feedAdapter.getItem(i);
-                    feedListItem.logViewedEvent();
-                }
-            }
-        }
     }
 
     private void refreshAd() {
@@ -1030,6 +832,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                     if (feedListItem instanceof SmartLockerAdListItem) {
 
                         logAdChance();
+                        isRefreshAdShow = false;
 
                         List<AcbNativeAd> adList = AcbNativeAdManager.getInstance().fetch(appPlacement, 1);
                         if (!adList.isEmpty()) {
@@ -1038,6 +841,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                             refreshAdView(adList, feedListItem);
 
                             logAdShow();
+                            logAdUseRatio("True");
                         } else {
                             adLoader = AcbNativeAdManager.getInstance().createLoaderWithPlacement(appPlacement);
                             adLoader.load(1, new AcbNativeAdLoader.AcbNativeAdLoadListener() {
@@ -1052,11 +856,13 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
                                     refreshAdView(list, feedListItem);
 
                                     logAdShow();
+                                    isRefreshAdShow = true;
                                 }
 
                                 @Override
                                 public void onAdFinished(AcbNativeAdLoader acbNativeAdLoader, AcbError acbError) {
                                     adLoader = null;
+                                    logAdUseRatio(isRefreshAdShow ? "True" : "False");
                                 }
                             });
                         }
@@ -1115,35 +921,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
             adLoader.cancel();
             adLoader = null;
         }
-        loadAdHandler.removeCallbacks(loadAdRunnable);
-    }
-
-    private String getFlurryDuration(long duration) {
-        if (duration < 1L) {
-            return "0s-1s";
-        } else if (duration < 5L) {
-            return "1s-5s";
-        } else if (duration < 10L) {
-            return "5s-10s";
-        } else if (duration < 20L) {
-            return "10s-20s";
-        } else if (duration < 30L) {
-            return "20s-30s";
-        } else if (duration < 60L) {
-            return "20s-60s";
-        } else if (duration < 300L) {
-            return "1m-5m";
-        } else if (duration < 600L) {
-            return "5m-10m";
-        } else if (duration < 1200L) {
-            return "10m-20m";
-        } else if (duration < 1800L) {
-            return "20m-30m";
-        } else if (duration < 3600L) {
-            return "30m-60m";
-        } else {
-            return "60m+";
-        }
     }
 
     private void dismiss() {
@@ -1154,10 +931,11 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        recordSlideFlurry = false;
+        //重置滑动事件判断条件
+        SmartLockerManager.getInstance().setShowAdCount(0);
 
         HSApplication.getContext().unregisterReceiver(screenOnReceiver);
-
+        HSGlobalNotificationCenter.removeObserver(this);
         mKeyguardHandler.onViewDestroy();
 
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
@@ -1197,35 +975,78 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
 
     }
 
-    private void logAdChance() {
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "cableandfuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
-                break;
-            case "fuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "Chance");
-                break;
-            case "cable":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "Chance");
-                break;
+    @Override
+    public void onReceive(String s, final HSBundle hsBundle) {
+        if (SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED.equals(s)) {
+            if (recyclerView != null) {
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (feedAdapter != null) {
+                            int position = -1;
+                            if (hsBundle != null) {
+                                position = hsBundle.getInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID);
+                            }
+                            if (position != -1) {
+                                feedAdapter.notifyItemChanged(position);
+                            }
+                        }
+                    }
+                });
+            }
+        } else if (SmartLockerConstants.NOTIFICATION_FEED_PAGE_SLIDE.equals(s)) {
+            logViewSlide();
         }
+    }
+
+    private String getFlurryDuration(long duration) {
+        if (duration < 1L) {
+            return "0s-1s";
+        } else if (duration < 5L) {
+            return "1s-5s";
+        } else if (duration < 10L) {
+            return "5s-10s";
+        } else if (duration < 20L) {
+            return "10s-20s";
+        } else if (duration < 30L) {
+            return "20s-30s";
+        } else if (duration < 60L) {
+            return "20s-60s";
+        } else if (duration < 300L) {
+            return "1m-5m";
+        } else if (duration < 600L) {
+            return "5m-10m";
+        } else if (duration < 1200L) {
+            return "10m-20m";
+        } else if (duration < 1800L) {
+            return "20m-30m";
+        } else if (duration < 3600L) {
+            return "30m-60m";
+        } else {
+            return "60m+";
+        }
+    }
+
+    private void logViewSlide() {
+        LockerCustomConfig.getLogger().logEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
+                ? "LockScreen_News_Slide" : "ChargingScreen_News_Slide");
+        AutoPilotUtils.logLockerModeAutopilotEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
+                ? "lock_news_slide" : "charging_news_slide");
+    }
+
+    private void logAdChance() {
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
     }
 
     private void logAdShow() {
-        switch (AutoPilotUtils.getLockerMode()) {
-            case "cableandfuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
-                break;
-            case "fuse":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed3_NativeAd", "type", "AdView");
-                break;
-            case "cable":
-                LockerCustomConfig.getLogger().logEvent("SmartLockerFeed4_NativeAd", "type", "AdView");
-                break;
-        }
+        LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
         AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
+    }
+
+    private void logAdUseRatio(String result) {
+        LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", LockerCustomConfig.get().getNewsFeedAdName(), result);
     }
 }

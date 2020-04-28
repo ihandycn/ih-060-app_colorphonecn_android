@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.support.annotation.StringDef;
-import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -15,6 +14,7 @@ import com.colorphone.smartlocker.utils.MD5Utils;
 import com.colorphone.smartlocker.utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.connection.httplib.HttpRequest;
 import com.ihs.commons.utils.HSError;
@@ -37,18 +37,14 @@ public class BaiduFeedManager {
         void onDataBack(JSONObject response);
     }
 
-    //    private static final String TOKEN = HSConfig.getString("Application", "BaiduFeed", "Secret");
-//    private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
-    private static final String TOKEN = "73cd34c8ff2f1d3895835cdf5";
-    private static final String APPSID = "f0c1081d";
+    private static final String TOKEN = HSConfig.getString("Application", "BaiduFeed", "Secret");
+    private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
     private static final String URL = "https://cpu-openapi.baidu.com/api/v2/data/list";
 
-    private static String ANDROID = Settings.Secure.getString(HSApplication.getContext().getContentResolver(),
-            Settings.Secure.ANDROID_ID);
+    private static String ANDROID = Settings.Secure.getString(HSApplication.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
-    public static final int LOAD_FIRST = 0;
+    public static final int LOAD_REFRESH = 0;
     public static final int LOAD_MORE = 1;
-    public static final int LOAD_REFRESH = 2;
 
     private String category;
 
@@ -111,7 +107,6 @@ public class BaiduFeedManager {
             case LOAD_MORE:
                 pageIndex++;
                 break;
-            case LOAD_FIRST:
             case LOAD_REFRESH:
             default:
                 pageIndex = 1;
@@ -251,40 +246,5 @@ public class BaiduFeedManager {
             imei = ANDROID;
         }
         return imei;
-    }
-
-    public String getBaiduCategoryParam(int position) {
-        switch (position) {
-            case 0:
-                return CATEGORY_ALL;
-            case 1:
-                return CATEGORY_NEWS_HOT;
-            case 2:
-                return CATEGORY_NEWS_LOCAL;
-            case 3:
-                return CATEGORY_NEWS_ENTERTAINMENT;
-            case 4:
-                return CATEGORY_NEWS_TECH;
-            case 5:
-                return CATEGORY_NEWS_CAR;
-            case 6:
-                return CATEGORY_NEWS_FINANCE;
-            case 7:
-                return CATEGORY_NEWS_MILITARY;
-            case 8:
-                return CATEGORY_NEWS_SPORTS;
-            case 9:
-                return CATEGORY_NEWS_HEALTH;
-            case 10:
-                return CATEGORY_NEWS_HOUSE;
-            default:
-                break;
-        }
-
-        if (BuildConfig.DEBUG) {
-            throw new RuntimeException("参数错误 position = " + position);
-        }
-
-        return CATEGORY_ALL;
     }
 }

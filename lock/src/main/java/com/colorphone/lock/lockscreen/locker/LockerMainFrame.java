@@ -400,7 +400,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             LockerCustomConfig.getLogger().logEvent("ad_chance");
             AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
         }
-        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getSmartLockerAdName1(), "");
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAndChargingAdName(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
@@ -477,7 +477,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             unregisterReceiverForClock();
         }
         if (System.currentTimeMillis() - mOnStartTime > DateUtils.SECOND_IN_MILLIS) {
-            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getSmartLockerAdName1(), String.valueOf(mAdShown)});
+            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAndChargingAdName(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
     }

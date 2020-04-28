@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.utils.DisplayUtils;
 
-
 public class ThreeImageViewHolder extends RecyclerView.ViewHolder {
 
     public final TextView title;

@@ -7,7 +7,7 @@
 		<key>Application</key>
 		<dict>
 		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+		    <string>Ad</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
@@ -41,6 +41,13 @@
 					<string>zte</string>
 				</array>
 			</dict>
+			<key>BaiduFeed</key>
+            			<dict>
+            				<key>Appsid</key>
+            				<string>f0c1081d</string>
+            				<key>Secret</key>
+            				<string>73cd34c8ff2f1d3895835cdf5</string>
+            			</dict>
 			<key>Boost</key>
 			<dict>
 				<key>BoostApps</key>
@@ -79,7 +86,7 @@
 			<key>CashCenter</key>
 			<dict>
 				<key>Enable</key>
-				<true/>
+				<false/>
 				<key>FloatingGuide</key>
 				<false/>
 			</dict>
@@ -12803,7 +12810,7 @@
 				<key>RingtoneEnable</key>
 				<true/>
 				<key>ScrollShowAds</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>
