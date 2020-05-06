@@ -403,8 +403,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    public boolean isRefreshing(){
-        return mSmartRefreshLayout!=null&&mSmartRefreshLayout.getState()== RefreshState.Refreshing;
+    public boolean isRefreshing() {
+        return mSmartRefreshLayout != null && mSmartRefreshLayout.getState() == RefreshState.Refreshing;
     }
 
     @Override
@@ -953,11 +953,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
-                if (mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
+                if (mRecyclerViewData.size() > 0 && mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
-
             }
             FileDownloadMultiListener.getDefault().removeStateListener(model.getId());
         }
