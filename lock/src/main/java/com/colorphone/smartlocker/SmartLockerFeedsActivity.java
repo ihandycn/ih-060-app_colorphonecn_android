@@ -978,7 +978,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     @Override
     public void onReceive(String s, final HSBundle hsBundle) {
         if (SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED.equals(s)) {
-            if (recyclerView != null) {
+            if (recyclerView != null && recyclerView.isComputingLayout()) {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
