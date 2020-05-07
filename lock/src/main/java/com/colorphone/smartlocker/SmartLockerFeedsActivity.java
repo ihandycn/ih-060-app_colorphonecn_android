@@ -978,7 +978,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     @Override
     public void onReceive(String s, final HSBundle hsBundle) {
         if (SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED.equals(s)) {
-            if (recyclerView != null && recyclerView.isComputingLayout()) {
+            if (recyclerView != null) {
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
@@ -987,7 +987,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                             if (hsBundle != null) {
                                 position = hsBundle.getInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID);
                             }
-                            if (position != -1) {
+                            if (position != -1 && !recyclerView.isComputingLayout()) {
                                 feedAdapter.notifyItemChanged(position);
                             }
                         }
@@ -997,6 +997,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
         } else if (SmartLockerConstants.NOTIFICATION_FEED_PAGE_SLIDE.equals(s)) {
             logViewSlide();
         }
+
     }
 
     private String getFlurryDuration(long duration) {
