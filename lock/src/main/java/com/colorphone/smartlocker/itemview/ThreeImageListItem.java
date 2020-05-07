@@ -16,21 +16,17 @@ import com.colorphone.smartlocker.viewholder.ThreeImageViewHolder;
 
 public class ThreeImageListItem implements INewsListItem<RecyclerView.ViewHolder> {
 
-    private String category;
     private IFeedBean feedBean;
-    private boolean hasViewed = false;
-    private Context context;
 
     @Nullable
-    private IDailyNewsClickListener clickListener;
+    private INewsItemClickListener clickListener;
 
-    public ThreeImageListItem(String category, IFeedBean feedBean) {
-        this.category = category;
+    public ThreeImageListItem(IFeedBean feedBean) {
         this.feedBean = feedBean;
     }
 
     //设置ClickListener 将由外部处理Item点击事件
-    public void setClickListener(@Nullable IDailyNewsClickListener clickListener) {
+    public void setClickListener(@Nullable INewsItemClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -49,8 +45,6 @@ public class ThreeImageListItem implements INewsListItem<RecyclerView.ViewHolder
         if (!(holder instanceof ThreeImageViewHolder)) {
             return;
         }
-
-        this.context = context;
 
         ThreeImageViewHolder viewHolder = (ThreeImageViewHolder) holder;
 
@@ -92,19 +86,12 @@ public class ThreeImageListItem implements INewsListItem<RecyclerView.ViewHolder
     }
 
     @Override
-    public void logViewedEvent() {
-        if (!hasViewed) {
-            hasViewed = true;
-        }
-    }
-
-    @Override
     public void detachedFromWindow() {
 
     }
 
     @Override
-    public boolean hasViewed() {
-        return hasViewed;
+    public void attachedToWindow() {
+
     }
 }

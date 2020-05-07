@@ -7,7 +7,7 @@
 		<key>Application</key>
 		<dict>
 		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+		    <string>Ad</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
@@ -86,7 +86,7 @@
 			<key>CashCenter</key>
 			<dict>
 				<key>Enable</key>
-				<true/>
+				<false/>
 				<key>FloatingGuide</key>
 				<false/>
 			</dict>
@@ -12804,7 +12804,7 @@
 				<key>RingtoneEnable</key>
 				<true/>
 				<key>ScrollShowAds</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>

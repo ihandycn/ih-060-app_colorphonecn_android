@@ -37,6 +37,59 @@
       "name": "ad_click"
     }
   ],
+  "user_behavior_app_events": [],
+  "occasion_mgt": {
+    "archived_actions": {},
+    "custom_state_properties": [],
+    "actions": {},
+    "triggers": {
+      "unlock_screen": {
+        "trigger_id": "793"
+      },
+      "session_start": {
+        "trigger_id": "790"
+      },
+      "stop_charging_inapp": {
+        "trigger_id": "795"
+      },
+      "homepage_open": {
+        "trigger_id": "798"
+      },
+      "start_charging_inapp": {
+        "trigger_id": "794"
+      },
+      "session_end": {
+        "trigger_id": "791"
+      },
+      "start_charging_bg": {
+        "trigger_id": "796"
+      },
+      "stop_charging_bg": {
+        "trigger_id": "797"
+      },
+      "app_exit": {
+        "trigger_id": "799"
+      },
+      "screen_on": {
+        "trigger_id": "792"
+      }
+    }
+  },
+  "autopilot_id": 10102,
+  "app_meta": {
+    "remote_config_get_interval_secs": {
+      "one_time": 3600,
+      "rtot_popup": 3600
+    },
+    "is_support_languages": false,
+    "session_end_delay": 10
+  },
+  "service_url": "https://ap.appcloudbox.net",
+  "other_app_events": [],
+  "autopilot_type": "app",
+  "objects_get_url": "https://ap-obserge.appcloudbox.net",
+  "json_id": "85b325f1-6951-4363-b20e-a96530fdc3ba",
+  "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-rp-73firir8m": {
       "topic_type": "one_time",
@@ -152,11 +205,11 @@
         "cable_mode": {
           "values": [
             {
-              "value": "normal"
+              "value": "cableandfuse"
             }
           ],
           "type": "string",
-          "value": "normal",
+          "value": "cableandfuse",
           "strategy": "sole"
         }
       },
@@ -250,57 +303,5 @@
       ],
       "topic_id": "topic-73p89g8i7"
     }
-  },
-  "occasion_mgt": {
-    "archived_actions": {},
-    "custom_state_properties": [],
-    "actions": {},
-    "triggers": {
-      "unlock_screen": {
-        "trigger_id": "793"
-      },
-      "session_start": {
-        "trigger_id": "790"
-      },
-      "stop_charging_inapp": {
-        "trigger_id": "795"
-      },
-      "homepage_open": {
-        "trigger_id": "798"
-      },
-      "start_charging_inapp": {
-        "trigger_id": "794"
-      },
-      "session_end": {
-        "trigger_id": "791"
-      },
-      "start_charging_bg": {
-        "trigger_id": "796"
-      },
-      "stop_charging_bg": {
-        "trigger_id": "797"
-      },
-      "app_exit": {
-        "trigger_id": "799"
-      },
-      "screen_on": {
-        "trigger_id": "792"
-      }
-    }
-  },
-  "autopilot_id": 10102,
-  "app_meta": {
-    "remote_config_get_interval_secs": {
-      "one_time": 3600,
-      "rtot_popup": 3600
-    },
-    "is_support_languages": false,
-    "session_end_delay": 10
-  },
-  "service_url": "https://ap.appcloudbox.net",
-  "other_app_events": [],
-  "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "c9fbd04b-0b76-4e6d-979b-f81306ec0809",
-  "autopilot_name": "ColorPhone_K",
-  "autopilot_type": "app"
+  }
 }
