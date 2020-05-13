@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -91,6 +92,7 @@ import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.receiver.NetworkStateChangedReceiver;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
@@ -189,6 +191,7 @@ public class ColorPhoneApplicationImpl {
 
     private HSApplication mBaseApplication;
     private static HomeKeyWatcher homeKeyWatcher;
+    private static NetworkStateChangedReceiver networkStateChangedReceiver = new NetworkStateChangedReceiver();
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -621,6 +624,10 @@ public class ColorPhoneApplicationImpl {
         });
         homeKeyWatcher.startWatch();
         WeatherClockManager.getInstance().updateWeatherIfNeeded();
+
+        IntentFilter networkChangedFilter = new IntentFilter();
+        networkChangedFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        mBaseApplication.registerReceiver(networkStateChangedReceiver, networkChangedFilter);
     }
 
     private void initKuyinRingtone() {
@@ -1025,6 +1032,7 @@ public class ColorPhoneApplicationImpl {
     public void onTerminate() {
         HSGlobalNotificationCenter.removeObserver(mObserver);
         homeKeyWatcher.stopWatch();
+        mBaseApplication.unregisterReceiver(networkStateChangedReceiver);
     }
 
     public static void checkCallAssistantAdPlacement() {

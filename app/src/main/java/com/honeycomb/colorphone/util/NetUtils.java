@@ -13,7 +13,8 @@ public class NetUtils {
     public static final int NETWORK_2G = 2; // 2G
     public static final int NETWORK_3G = 3; // 3G
     public static final int NETWORK_4G = 4; // 4G
-    public static final int NETWORK_MOBILE = 5; // 手机流量
+    public static final int NETWORK_5G = 5; // 5G
+    public static final int NETWORK_MOBILE = 6; // 手机流量
 
     /**
      * 获取当前网络连接的类型
@@ -83,6 +84,9 @@ public class NetUtils {
             // 4G网络
             case TelephonyManager.NETWORK_TYPE_LTE:
                 return NETWORK_4G;
+            // 5G网络
+            case TelephonyManager.NETWORK_TYPE_NR:
+                return NETWORK_5G;
             default:
                 return NETWORK_MOBILE;
         }
@@ -119,6 +123,8 @@ public class NetUtils {
                 return "3G";
             case NETWORK_4G:
                 return "4G";
+            case NETWORK_5G:
+                return "5G";
             case NETWORK_NONE:
                 return "None";
             default:

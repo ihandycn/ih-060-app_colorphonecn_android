@@ -87,6 +87,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.receiver.NetworkStateChangedReceiver;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.theme.ThemeUpdateListener;
@@ -96,6 +97,7 @@ import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
+import com.honeycomb.colorphone.util.NetUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
@@ -329,6 +331,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
 
         dispatchPermissionRequest();
+
+        String networkName = NetUtils.getNetWorkStateName();
+        Preferences.getDefault().putString(NetworkStateChangedReceiver.PREF_KEY_NETWORK_STATE_NAME, networkName);
+        HSLog.d(NetworkStateChangedReceiver.TAG, "refresh network state = " + networkName);
     }
 
     public List<AllCategoryBean.CategoryItem> getCategoryList() {
