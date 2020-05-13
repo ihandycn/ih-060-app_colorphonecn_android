@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.feedback.MarketRateGuideDialogHelper;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -20,6 +21,8 @@ import com.superapps.util.Navigations;
 
 public class RateAlertActivity extends HSActivity implements INotificationObserver {
     private static final String RATE_FROM = "from";
+    private boolean hasJumpedToAppMarket = false;
+    private MarketRateGuideDialogHelper marketGuideHelper;
 
     public static void showRateFrom(Context context, FiveStarRateTip.From from) {
         Intent intent = new Intent(context, RateAlertActivity.class);
@@ -30,10 +33,12 @@ public class RateAlertActivity extends HSActivity implements INotificationObserv
         Navigations.startActivitySafely(context, intent);
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSGlobalNotificationCenter.addObserver(FiveStarRateTip.FIVE_START_TIP_DISMISS, this);
         HSAlertMgr.delayRateAlert();
+        marketGuideHelper = new MarketRateGuideDialogHelper(this);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -45,17 +50,42 @@ public class RateAlertActivity extends HSActivity implements INotificationObserv
         }
     }
 
-    @Override protected void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
     }
 
     private void showDialog(FiveStarRateTip.From from) {
-        FiveStarRateTip.show(this, from);
+        FiveStarRateTip.show(this, from, marketGuideHelper);
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(FiveStarRateTip.FIVE_START_TIP_DISMISS, s)) {
+            if (hsBundle != null) {
+                hasJumpedToAppMarket = hsBundle.getBoolean(FiveStarRateTip.FIVE_START_TIP_JUMPED_TO_APP_MARKET);
+                if (hasJumpedToAppMarket) {
+                    return;
+                }
+            } else {
+                hasJumpedToAppMarket = false;
+            }
             finish();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (hasJumpedToAppMarket) {
+            marketGuideHelper.unregisterReceiver(this);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        marketGuideHelper.unregisterReceiver(this);
     }
 }

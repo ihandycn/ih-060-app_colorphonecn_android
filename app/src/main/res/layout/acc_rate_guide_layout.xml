@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/white">
+
+    <TextView
+        android:id="@+id/acc_rate_guide_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/five_star_rate_guide_bubble_middle"
+        android:includeFontPadding="true"
+        android:lineSpacingExtra="6dp"
+        android:paddingLeft="26dp"
+        android:paddingTop="12.7dp"
+        android:paddingRight="26dp"
+        android:paddingBottom="26.7dp"
+        android:text="@string/rate_guide_content_with_acc1"
+        android:textColor="@android:color/white"
+        android:textSize="14dp"
+        tools:ignore="SpUsage" />
+
+</FrameLayout>

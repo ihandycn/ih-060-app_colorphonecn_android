@@ -1571,9 +1571,7 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
       }
 
       if (FiveStarRateTip.canShowWhenEndCall()) {
-        if (com.superapps.util.rom.RomUtils.checkIsHuaweiRom()) {
           RateAlertActivity.showRateFrom(HSApplication.getContext(), FiveStarRateTip.From.END_CALL);
-        }
       }
 
       if (externalCallNotifier != null && externalCallList != null) {

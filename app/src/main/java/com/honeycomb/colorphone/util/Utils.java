@@ -778,9 +778,7 @@ public final class Utils {
             @Override
             public void run() {
                 if (FiveStarRateTip.canShowWhenApplyTheme()) {
-                    if (com.superapps.util.rom.RomUtils.checkIsHuaweiRom()) {
-                        RateAlertActivity.showRateFrom(rootView.getContext(), FiveStarRateTip.From.SET_THEME);
-                    }
+                    RateAlertActivity.showRateFrom(rootView.getContext(), FiveStarRateTip.From.SET_THEME);
                 }
             }
         }, 1548);
