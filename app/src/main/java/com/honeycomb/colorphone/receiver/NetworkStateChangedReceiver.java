@@ -19,15 +19,15 @@ public class NetworkStateChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
-            String lastNetworkName = Preferences.getDefault().getString(PREF_KEY_NETWORK_STATE_NAME, "Unknown");
+            String lastNetworkName = Preferences.getDefault().getString(PREF_KEY_NETWORK_STATE_NAME, "Default");
             String networkName = NetUtils.getNetWorkStateName();
-            if (!TextUtils.equals(lastNetworkName, networkName)) {
+            if (!TextUtils.equals(lastNetworkName, networkName) && !TextUtils.equals(lastNetworkName, "Default")) {
                 long currentTime = System.currentTimeMillis();
                 long lastLogTime = Preferences.getDefault().getLong(PREF_KEY_LAST_NETWORK_CHANGED_TIME, 0);
                 Analytics.logEvent("Network_State_Change", false, "State", lastNetworkName + "_" + networkName, "Interval", getEventValueFromLastTime(currentTime - lastLogTime));
                 HSLog.d(TAG, "Network_State_Change : " + lastNetworkName + "_" + networkName);
                 Preferences.getDefault().putString(PREF_KEY_NETWORK_STATE_NAME, networkName);
-                HSLog.d(TAG,"refresh network state = " + networkName);
+                HSLog.d(TAG, "refresh network state = " + networkName);
                 Preferences.getDefault().putLong(PREF_KEY_LAST_NETWORK_CHANGED_TIME, currentTime);
             }
         }
