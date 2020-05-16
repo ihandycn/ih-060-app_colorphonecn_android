@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -17,13 +16,12 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +47,8 @@ public class ThemeList {
     private ThemeDataForUser uploadThemeData;
     private ThemeDataForUser publishThemeData;
     private Map<String, ThemeDataForCategory> categoryThemeDataMap = new HashMap<>();
+
+    private AllThemeBean plistThemeBean = transformPlistToAllThemeBean();
 
     private Handler mTestHandler = new Handler(Looper.getMainLooper());
     private Runnable sTestRunnable = new Runnable() {
@@ -180,9 +180,22 @@ public class ThemeList {
                     if (allThemeBean.getData() != null && !allThemeBean.getData().isEmpty()) {
                         Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).setPageIndex(Integer.valueOf(allThemeBean.getPx()));
                         if (isRefresh) {
-                            Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
-                                    Theme.transformCategoryData(0, allThemeBean));
+                            if (isShouldInsertTheme(categoryId)) {
+                                Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
+                                        Theme.transformCategoryData(0, plistThemeBean));
+
+                                deleteRepeatedData(plistThemeBean, allThemeBean);
+
+                                Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).appendData(
+                                        Theme.transformCategoryData(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getThemeSize(), allThemeBean));
+                            } else {
+                                Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).updateData(
+                                        Theme.transformCategoryData(0, allThemeBean));
+                            }
                         } else {
+                            if (isShouldInsertTheme(categoryId)) {
+                                deleteRepeatedData(plistThemeBean, allThemeBean);
+                            }
                             Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).appendData(
                                     Theme.transformCategoryData(Objects.requireNonNull(categoryThemeDataMap.get(categoryId)).getThemeSize(), allThemeBean));
                         }
@@ -367,4 +380,46 @@ public class ThemeList {
         return likes.split(",");
     }
 
+    private boolean isShouldInsertTheme(String categoryId) {
+        return ThemeUtils.getCategoryItemsFromConfig() != null && ThemeUtils.getCategoryItemsFromConfig().get(0) != null &&
+                ThemeUtils.getCategoryItemsFromConfig().get(0).getId().equals(categoryId) &&
+                plistThemeBean != null && plistThemeBean.getData() != null && plistThemeBean.getData().size() > 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    private AllThemeBean transformPlistToAllThemeBean() {
+        AllThemeBean bean = new AllThemeBean();
+        List<Map<String, ?>> listMap = (List<Map<String, ?>>) HSConfig.getList("Application", "Theme", "StickyOnTop");
+        if (listMap == null) {
+            return bean;
+        }
+        List<AllThemeBean.DataBean> dataBeanList = new ArrayList<>(listMap.size());
+        for (Map<String, ?> map : listMap) {
+            AllThemeBean.DataBean item = new AllThemeBean.DataBean();
+            item.setId((String) map.get("id"));
+            item.setNm((String) map.get("nm"));
+            item.setPvurl((String) map.get("pvurl"));
+            item.setUrl((String) map.get("url"));
+            dataBeanList.add(item);
+        }
+        bean.setData(dataBeanList);
+
+        return bean;
+    }
+
+    private void deleteRepeatedData(AllThemeBean plistThemeBean, AllThemeBean allThemeBean) {
+        if (plistThemeBean == null || plistThemeBean.getData() == null || plistThemeBean.getData().size() == 0) {
+            return;
+        }
+
+        for (AllThemeBean.DataBean plistDataBean : plistThemeBean.getData()) {
+            for (AllThemeBean.DataBean tempDataBean : allThemeBean.getData()) {
+                if (tempDataBean.getId().equals(plistDataBean.getId())) {
+                    allThemeBean.getData().remove(tempDataBean);
+                    HSLog.d(TAG, "AllThemeBean remove item");
+                    break;
+                }
+            }
+        }
+    }
 }
