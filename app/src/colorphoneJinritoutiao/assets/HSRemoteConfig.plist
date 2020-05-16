@@ -12874,6 +12874,36 @@
 				<true/>
 				<key>ScrollShowAds</key>
 				<true/>
+				<key>StickyOnTop</key>
+				<array>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1245356623015182336</string>
+						<key>nm</key>
+						<string>生命不止，学习不息</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/a3c3c51e360a4118b48d44e150dc8b79.jpg</string>
+						<key>seton</key>
+						<integer>1</integer>
+						<key>size</key>
+						<integer>350709</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>熊貓眼</string>
+							<key>singer</key>
+							<string>西米</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/98e54f70ef044d099d85e9630c0af2c8.mp4</string>
+					</dict>
+				</array>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>
