@@ -23,12 +23,12 @@ import com.acb.colorphone.permissions.PermissionUI;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.colorphone.lock.lockscreen.locker.Locker;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
@@ -36,7 +36,6 @@ import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
-import com.honeycomb.colorphone.util.StringUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -47,13 +46,10 @@ import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import okhttp3.ResponseBody;
 
 /**
  * Created by jelly on 2018/3/17.
@@ -498,7 +494,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     @Override
     public void getCallAddress(String number, RequestCallerAddressListener callerAddressListener) {
-        HttpManager.getInstance().getCallerAddressInfo(number, new Callback<ResponseBody>() {
+        HttpManager.getInstance().getCallerAddressInfo(number, new Callback<AttributionLocationBean>() {
             @Override
             public void onFailure(String errorMsg) {
                 callerAddressListener.fail();
@@ -506,31 +502,20 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             }
 
             @Override
-            public void onSuccess(ResponseBody responseBody) {
-                String string = "";
+            public void onSuccess(AttributionLocationBean attributionLocationBean) {
                 String address = "";
                 String province;
                 String city;
                 String operator;
-                try {
-                    string = responseBody.string();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                if (attributionLocationBean != null && attributionLocationBean.getStatus().equals("0") &&
+                        attributionLocationBean.getData() != null && attributionLocationBean.getData().size() > 0 && attributionLocationBean.getData().get(0) != null) {
+                    province = attributionLocationBean.getData().get(0).getProv();
+                    city = attributionLocationBean.getData().get(0).getCity();
+                    operator = attributionLocationBean.getData().get(0).getType();
+                    address = province + " " + city + " " + operator;
                 }
-                if (!TextUtils.isEmpty(string)) {
-                    province = StringUtils.getProvince(string);
-                    city = StringUtils.getCity(string);
-                    operator = StringUtils.getOperator(string);
 
-                    if (!TextUtils.isEmpty(province)) {
-                        if (province.equals(city)) {
-                            province = "";
-                        }
-
-                        address = province + " " + city + " " + operator;
-                    }
-
-                }
                 callerAddressListener.success(address);
                 if (TextUtils.isEmpty(address)) {
                     Analytics.logEvent("Acb_Screenflash_Show_Location_Details", "withlocation", "false");

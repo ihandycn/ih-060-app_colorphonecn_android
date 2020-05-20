@@ -8,6 +8,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.call.Callback;
@@ -201,8 +202,8 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void getCallerAddressInfo(String number, Callback<ResponseBody> callBack) {
-        String url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=" + number;
+    public void getCallerAddressInfo(String number, Callback<AttributionLocationBean> callBack) {
+        String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_name=guishudi&query=" + number;
 
         DEFAULT.create(IHttpRequest.class)
                 .getCallerAddress(url)

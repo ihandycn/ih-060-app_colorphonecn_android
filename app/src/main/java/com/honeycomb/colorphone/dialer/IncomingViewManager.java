@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.dialer;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.acb.call.FlashScreenPresenter;
@@ -10,14 +9,6 @@ import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
-import com.honeycomb.colorphone.http.HttpManager;
-import com.honeycomb.colorphone.http.lib.call.Callback;
-import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.StringUtils;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class IncomingViewManager implements

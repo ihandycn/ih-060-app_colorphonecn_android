@@ -20,15 +20,11 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
 import com.honeycomb.colorphone.http.HttpManager;
+import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.StringUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Threads;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class InCallCardManager implements
@@ -128,7 +124,7 @@ public class InCallCardManager implements
             mContactView.setTextDirection(nameDirection);
             mContactView.setText(TextUtils.isEmpty(nameStr) ? number : nameStr);
 
-            HttpManager.getInstance().getCallerAddressInfo(number, new Callback<ResponseBody>() {
+            HttpManager.getInstance().getCallerAddressInfo(number, new Callback<AttributionLocationBean>() {
                 @Override
                 public void onFailure(String errorMsg) {
                     if (mSecondTextView != null) {
@@ -145,30 +141,19 @@ public class InCallCardManager implements
 
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onSuccess(ResponseBody responseBody) {
+                public void onSuccess(AttributionLocationBean attributionLocationBean) {
                     if (mSecondTextView != null) {
-                        String string = "";
                         String address = "";
                         String province;
                         String city;
                         String operator;
-                        try {
-                            string = responseBody.string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (!TextUtils.isEmpty(string)) {
-                            province = StringUtils.getProvince(string);
-                            city = StringUtils.getCity(string);
-                            operator = StringUtils.getOperator(string);
 
-                            if (!TextUtils.isEmpty(province)) {
-                                if (province.equals(city)) {
-                                    province = "";
-                                }
-
-                                address = province + " " + city + " " + operator;
-                            }
+                        if (attributionLocationBean != null && attributionLocationBean.getStatus().equals("0") &&
+                                attributionLocationBean.getData() != null && attributionLocationBean.getData().size() > 0 && attributionLocationBean.getData().get(0) != null) {
+                            province = attributionLocationBean.getData().get(0).getProv();
+                            city = attributionLocationBean.getData().get(0).getCity();
+                            operator = attributionLocationBean.getData().get(0).getType();
+                            address = province + " " + city + " " + operator;
                         }
 
                         if (TextUtils.isEmpty(nameStr)) {

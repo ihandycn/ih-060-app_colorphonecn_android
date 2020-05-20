@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.http;
 import com.honeycomb.colorphone.http.bean.AllCategoryBean;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
+import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
 import com.honeycomb.colorphone.http.bean.LoginUserBean;
 import com.honeycomb.colorphone.http.lib.call.Callable;
 import com.honeycomb.colorphone.http.lib.upload.UploadMoreFiles;
@@ -68,6 +69,6 @@ public interface IHttpRequest {
     Callable<AllThemeBean> getCategoryThemes(@Path("category_id") String categoryId, @Query("per_page") int perPage, @Query("page_index") int pageIndex);
 
     @GET
-    Callable<ResponseBody> getCallerAddress(@Url String url);
+    Callable<AttributionLocationBean> getCallerAddress(@Url String url);
 }
 
