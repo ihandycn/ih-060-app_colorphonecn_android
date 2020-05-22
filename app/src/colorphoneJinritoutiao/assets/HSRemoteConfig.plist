@@ -12880,13 +12880,13 @@
 						<key>charge</key>
 						<integer>0</integer>
 						<key>id</key>
-						<string>1245356623015182336</string>
+						<string>65</string>
 						<key>nm</key>
-						<string>生命不止，学习不息</string>
+						<string>主人那家伙又来电话啦</string>
 						<key>price</key>
 						<integer>0</integer>
 						<key>pvurl</key>
-						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/a3c3c51e360a4118b48d44e150dc8b79.jpg</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog_preview.jpg</string>
 						<key>seton</key>
 						<integer>1</integer>
 						<key>size</key>
@@ -12894,14 +12894,203 @@
 						<key>song</key>
 						<dict>
 							<key>name</key>
-							<string>熊貓眼</string>
+							<string>无情统领</string>
 							<key>singer</key>
-							<string>西米</string>
+							<string>无情统领</string>
 						</dict>
 						<key>tp</key>
 						<integer>1</integer>
 						<key>url</key>
-						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/98e54f70ef044d099d85e9630c0af2c8.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1220144469488173056</string>
+						<key>nm</key>
+						<string>我爱你一分不差</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/eca777ef13924dd1b86e95c419efa939.jpg</string>
+						<key>seton</key>
+						<integer>0</integer>
+						<key>size</key>
+						<integer>3772222</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>傻瓜</string>
+							<key>singer</key>
+							<string>雪碧童鞋</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/ba1a9622d8d04b7e9bb14a019cb40eef.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1202406211652157440</string>
+						<key>nm</key>
+						<string>确认过眼神，就问你可爱不可爱</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/26031abeee4d471cb68e8d86aab5d7fe.jpg</string>
+						<key>seton</key>
+						<integer>0</integer>
+						<key>size</key>
+						<integer>4010357</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>百分百甜蜜</string>
+							<key>singer</key>
+							<string>沐可儿</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/7c26609ed8cd41e18128ae632362aec1.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1202406267331543040</string>
+						<key>nm</key>
+						<string>蜜桃姑娘</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/bb815eb395904bd9a49aa6cb34cdb12e.jpg</string>
+						<key>seton</key>
+						<integer>0</integer>
+						<key>size</key>
+						<integer>5080959</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>Hello kitty爱上叮当猫</string>
+							<key>singer</key>
+							<string>猫扑风铃</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/bd6e9378b0c4481cbc7608cec581f13e.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1209286385807130624</string>
+						<key>nm</key>
+						<string>兰花指捻红尘似水</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/52f3b54f07bd4e73b430b1f02a5eeac3.jpg</string>
+						<key>seton</key>
+						<integer>1</integer>
+						<key>size</key>
+						<integer>6453577</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>山海意难平</string>
+							<key>singer</key>
+							<string>曼殊</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/cd3c6ceccbfd4a96b9d6e5ad7b77ea56.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1202406226105729024</string>
+						<key>nm</key>
+						<string>她想成为你的小众喜好</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/f424942c02444acf95afb02530760f2a.jpg</string>
+						<key>seton</key>
+						<integer>0</integer>
+						<key>size</key>
+						<integer>1646387</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>近我者甜</string>
+							<key>singer</key>
+							<string>猫扑风铃</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/7568d1e359494658a928165074be7e04.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1213993275388592128</string>
+						<key>nm</key>
+						<string>晚安，睡了吗</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/84776758660442f1a4c088584ad1c62a.jpg</string>
+						<key>seton</key>
+						<integer>1</integer>
+						<key>size</key>
+						<integer>4146374</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>教你说情话</string>
+							<key>singer</key>
+							<string>无限火力</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/a7f415bb734341168af239196d10e3c0.mp4</string>
+					</dict>
+					<dict>
+						<key>charge</key>
+						<integer>0</integer>
+						<key>id</key>
+						<string>1202406266345881600</string>
+						<key>nm</key>
+						<string>神仙特效</string>
+						<key>price</key>
+						<integer>0</integer>
+						<key>pvurl</key>
+						<string>https://oss.kuyinyun.com/11W2MYCO/rescloud1/63ac0a3172c2432fb932ca657ba0b018.jpg</string>
+						<key>seton</key>
+						<integer>0</integer>
+						<key>size</key>
+						<integer>888137</integer>
+						<key>song</key>
+						<dict>
+							<key>name</key>
+							<string>焦糖暖冬</string>
+							<key>singer</key>
+							<string>猫扑风铃</string>
+						</dict>
+						<key>tp</key>
+						<integer>1</integer>
+						<key>url</key>
+						<string>https://video.kuyinyun.com/11W2MYCO/rescloud1/9ad95b38147a4ce59b51573c81ac34cb.mp4</string>
 					</dict>
 				</array>
 			</dict>
