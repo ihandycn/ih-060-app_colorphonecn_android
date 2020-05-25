@@ -119,6 +119,10 @@ public class Locker extends LockScreen implements INotificationObserver {
         LockScreensLifeCycleRegistry.setLockerActive(true);
 
 //        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
+
+        if (!isActivityHost()) {
+            onStart();
+        }
     }
 
     public static String getDeviceInfo() {

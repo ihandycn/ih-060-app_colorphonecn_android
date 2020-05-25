@@ -46,6 +46,7 @@ import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.KeyguardHandler;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
+import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipRelativeLayout;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
@@ -252,6 +253,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         // ======== onCreate ========
         HSLog.d(TAG, "onCreate()");
 
+        if (!isActivityHost()) {
+            LockScreenStarter.getInstance().onScreenDisplayed();
+        }
+
         final Context context = root.getContext();
 
         if (mHomeKeyWatcher == null) {
@@ -333,6 +338,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
         mIsSetup = true;
+
+        if (!isActivityHost()) {
+            onStart();
+        }
     }
 
 
@@ -722,7 +731,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             chargingStateAlphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    HSLog.v(TAG, "ANIMATING charging state tip icon");
                 }
             });
         }
