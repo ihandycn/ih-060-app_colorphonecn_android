@@ -437,7 +437,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
+            mAdContainer.removeAllViews();
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            expressAdView.switchAd();
         }
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
