@@ -303,7 +303,7 @@ public class ColorPhoneApplicationImpl {
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }

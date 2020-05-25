@@ -21,6 +21,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Commons;
+import com.superapps.util.rom.RomUtils;
 
 /**
  * Receives screen on/off events and start lock screens.
@@ -51,7 +52,7 @@ public class LockScreenStarter {
                 if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
 
                     ChargingScreenSettings.increaseChargingCount();
-                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
                     ChargingScreenUtils.startChargingScreenActivity(true, false);
@@ -115,13 +116,15 @@ public class LockScreenStarter {
 
     private void tryShowChargingScreen() {
         if (((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal")) ||
-                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cableandfuse")))
+                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) ||
+                (!isChargingScreenExist() && RomUtils.checkIsOppoRom()))
+
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
                     "Brand", Build.BRAND.toLowerCase());
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
@@ -156,18 +159,18 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse"))
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom())
                     ? !SmartLockerFeedsActivity.exist : !isChargingScreenExist()) {
                 blockWhenHasKeyGuard = true;
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse"))
+            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom())
                     ? !SmartLockerFeedsActivity.exist : !isLockScreenExist()) {
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse")) {
+                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
                     SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                 }
                 ChargingScreenUtils.startLockerActivity(false);
