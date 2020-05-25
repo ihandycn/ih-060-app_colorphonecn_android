@@ -24,7 +24,6 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -62,7 +61,6 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mHomeKeyClicked;
     private boolean mIsSetup;
     private String mDismissReason = "Unkown";
-    private boolean mActivityMode;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -289,9 +287,5 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public boolean isDestroyed() {
         return mIsDestroyed;
-    }
-
-    public void setActivityMode(boolean activityMode) {
-        mActivityMode = activityMode;
     }
 }

@@ -213,7 +213,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         }
     };
     private HomeKeyWatcher mHomeKeyWatcher;
-    private boolean mActivityMode;
     private TextView unlockTextView;
 
     private void processPowerStateChanged(boolean isPowerConnected) {
@@ -387,6 +386,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             trickleChargeToolTipView = null;
         }
 
+        // ======== onAttachedToWindow ========
+        if (!isActivityHost()) {
+            onAttachedToWindow();
+        }
+
         showExpressAd();
     }
 
@@ -394,10 +398,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
         AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
         requestAds();
-
-        if (!isActivityHost()) {
-            onStart();
-        }
     }
 
     private void requestAds() {
@@ -442,7 +442,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
+            advertisementContainer.removeAllViews();
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            expressAdView.switchAd();
         }
 
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
@@ -920,10 +922,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         mIsSetup = false;
 
         super.dismiss(context, dismissKeyguard);
-    }
-
-    public void setActivityMode(boolean activityMode) {
-        mActivityMode = activityMode;
     }
 
     @Override

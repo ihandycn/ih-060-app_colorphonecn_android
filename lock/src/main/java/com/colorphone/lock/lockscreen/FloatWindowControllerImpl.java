@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -188,6 +187,7 @@ public class FloatWindowControllerImpl {
             container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_charging_screen, null);
             isAutoUnlocked = false;
             lockScreenWindow = new ChargingScreen();
+            lockScreenWindow.setActivityMode(false);
             lockScreenWindow.setup(container, bundle);
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
@@ -213,6 +213,7 @@ public class FloatWindowControllerImpl {
             container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
             isAutoUnlocked = false;
             lockScreenWindow = new Locker();
+            lockScreenWindow.setActivityMode(false);
             lockScreenWindow.setup(container, null);
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());

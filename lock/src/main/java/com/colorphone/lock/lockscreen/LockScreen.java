@@ -23,6 +23,7 @@ import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 public abstract class LockScreen {
     protected ViewGroup mRootView;
     protected KeyguardHandler mKeyguardHandler;
+    protected boolean mActivityMode;
 
     /**
      * Initialization.
@@ -86,4 +87,8 @@ public abstract class LockScreen {
     }
 
     abstract public boolean isActivityHost();
+
+    public void setActivityMode(boolean activityMode) {
+        mActivityMode = activityMode;
+    }
 }
