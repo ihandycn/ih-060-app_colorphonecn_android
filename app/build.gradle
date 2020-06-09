@@ -64,8 +64,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 175
-            versionName "1.4.03"
+            versionCode 1067
+            versionName "1.4.04"
         }
     }
 
@@ -239,7 +239,7 @@ dependencies {
     compile project(':libRingtones')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2020.04.24.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2020.06.09.001'
 
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'
