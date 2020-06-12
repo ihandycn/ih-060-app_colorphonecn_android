@@ -11,8 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -48,6 +46,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.util.Analytics;
@@ -262,6 +261,7 @@ public class AutoRequestManager {
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
+                    AccVoiceGuide.getInstance().stop();
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
                         AutoRepairingToast.showRepairingToast();

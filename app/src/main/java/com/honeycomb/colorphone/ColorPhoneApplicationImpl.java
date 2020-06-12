@@ -80,6 +80,7 @@ import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
+import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
@@ -106,6 +107,7 @@ import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.EventUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
+import com.honeycomb.colorphone.util.SoundManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -580,6 +582,7 @@ public class ColorPhoneApplicationImpl {
             public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
+                AccVoiceGuide.getInstance().stop();
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
                 if (batteryLevel < 20) {
                     if (batteryChangeToLow) {
@@ -628,6 +631,8 @@ public class ColorPhoneApplicationImpl {
         IntentFilter networkChangedFilter = new IntentFilter();
         networkChangedFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         mBaseApplication.registerReceiver(networkStateChangedReceiver, networkChangedFilter);
+
+        SoundManager.getInstance().init(ColorPhoneApplication.getContext());
     }
 
     private void initKuyinRingtone() {

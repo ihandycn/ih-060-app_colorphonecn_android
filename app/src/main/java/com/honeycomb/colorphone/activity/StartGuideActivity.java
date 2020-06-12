@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,12 +11,8 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +24,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.startguide.StartGuideViewListHolder;
 import com.honeycomb.colorphone.util.Analytics;
@@ -169,6 +164,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        AccVoiceGuide.getInstance().stop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         HSGlobalNotificationCenter.removeObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
@@ -269,6 +270,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (AutoPermissionChecker.isPhonePermissionGranted()) {
                         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                         AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
+
+                        Threads.postOnMainThreadDelayed(() -> AccVoiceGuide.getInstance().start(), 1000);
                     } else {
                         if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)
                                 || AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.CALL_PHONE)) {
@@ -527,6 +530,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Handler handler = new Handler();
         handler.postDelayed(() -> title.animate().alpha(0f).setDuration(250).start(), 2150);
 
+        View voiceGuideView = findViewById(R.id.voice_guide_text);
+        voiceGuideView.setAlpha(0);
         View button = findViewById(R.id.start_guide_permission_fetch_btn);
         button.setAlpha(0);
         button.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
@@ -539,6 +544,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(permissionShowCount),
                     "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
+
+            Threads.postOnMainThreadDelayed(() -> AccVoiceGuide.getInstance().start(), 1000);
         });
 
         handler.postDelayed(() -> {
@@ -549,6 +556,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
             title.animate().alpha(0.8f).setDuration(750).start();
             button.animate().alpha(1f).setDuration(750).start();
+            voiceGuideView.animate().alpha(1f).setDuration(750).start();
+
         }, 2400);
         Analytics.logEvent("Accessbility_Guide_Show",
                 "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
