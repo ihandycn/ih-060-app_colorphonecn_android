@@ -582,7 +582,7 @@ public class ColorPhoneApplicationImpl {
             public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
-                AccVoiceGuide.getInstance().stop();
+                AccVoiceGuide.getInstance().stop("home");
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
                 if (batteryLevel < 20) {
                     if (batteryChangeToLow) {

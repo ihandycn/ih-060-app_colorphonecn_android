@@ -46,6 +46,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
@@ -253,15 +254,18 @@ public class AutoRequestManager {
             HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+                    AccGuideAutopilotUtils.logAccGranted();
                     Analytics.logEvent("Accessbility_Granted",
                             "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                             "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
                             "Time", String.valueOf(
-                                    Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
+                                    Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)),
+                            "Times", String.valueOf(AccVoiceGuide.getInstance().getPlayVoiceCount())
+                    );
 
-                    AccVoiceGuide.getInstance().stop();
+                    AccVoiceGuide.getInstance().stop("granted");
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
                         AutoRepairingToast.showRepairingToast();
