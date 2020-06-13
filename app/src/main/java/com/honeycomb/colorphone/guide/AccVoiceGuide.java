@@ -47,7 +47,7 @@ public class AccVoiceGuide {
         }
 
         private boolean isCouldPlay() {
-            return playVoiceCount != FORBID_PLAY_VOICE && playVoiceCount <= 3;
+            return playVoiceCount != FORBID_PLAY_VOICE && playVoiceCount < 3;
         }
     };
 
