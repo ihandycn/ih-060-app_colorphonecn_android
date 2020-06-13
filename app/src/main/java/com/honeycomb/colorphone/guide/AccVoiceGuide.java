@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class AccVoiceGuide {
 
     private static final String TAG = "AccVoiceGuide";
+    private static final int DEFAULT_DELAY_SECONDS = 10;
 
     private AudioManager audioManager;
 
@@ -36,6 +37,7 @@ public class AccVoiceGuide {
     private int playVoiceCount = FORBID_PLAY_VOICE;
 
     private int voiceStreamId;
+    private int delaySeconds = DEFAULT_DELAY_SECONDS;
     private boolean isStart = false;
 
     private Runnable playVoiceRunnable = new Runnable() {
@@ -51,7 +53,7 @@ public class AccVoiceGuide {
             }
 
             playVoice();
-            Threads.postOnMainThreadDelayed(this, TimeUnit.SECONDS.toMillis(10));
+            Threads.postOnMainThreadDelayed(this, TimeUnit.SECONDS.toMillis(delaySeconds));
         }
 
         private boolean isCouldPlay() {
@@ -99,12 +101,15 @@ public class AccVoiceGuide {
             default:
             case 1:
                 voiceStreamId = SoundManager.getInstance().playAccGuideVoice1();
+                delaySeconds = 10;
                 break;
             case 2:
                 voiceStreamId = SoundManager.getInstance().playAccGuideVoice2();
+                delaySeconds = 8;
                 break;
             case 3:
                 voiceStreamId = SoundManager.getInstance().playAccGuideVoice3();
+                delaySeconds = 9;
                 break;
         }
     }
