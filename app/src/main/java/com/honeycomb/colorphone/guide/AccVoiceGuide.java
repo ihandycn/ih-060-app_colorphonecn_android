@@ -1,5 +1,9 @@
 package com.honeycomb.colorphone.guide;
 
+import android.content.Context;
+import android.media.AudioManager;
+
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneException;
 import com.honeycomb.colorphone.util.SoundManager;
@@ -13,7 +17,10 @@ public class AccVoiceGuide {
 
     private static final String TAG = "AccVoiceGuide";
 
+    private AudioManager audioManager;
+
     private AccVoiceGuide() {
+        audioManager = (AudioManager) ColorPhoneApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
     }
 
     private static class ClassHolder {
@@ -66,7 +73,7 @@ public class AccVoiceGuide {
             return;
         }
         AccGuideAutopilotUtils.logVoiceGuideStart();
-        Analytics.logEvent("Voice_Guide_Start");
+        Analytics.logEvent("Voice_Guide_Start", "MaxVolume", String.valueOf(getMaxVolume()), "CurrentVolume", String.valueOf(getCurrentVolume()));
         isStart = true;
         playVoiceCount = 0;
         Threads.postOnMainThread(playVoiceRunnable);
@@ -99,6 +106,20 @@ public class AccVoiceGuide {
                 voiceStreamId = SoundManager.getInstance().playAccGuideVoice3();
                 break;
         }
+    }
+
+    private int getCurrentVolume() {
+        if (audioManager != null) {
+            return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        }
+        return -1;
+    }
+
+    private int getMaxVolume() {
+        if (audioManager != null) {
+            return audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        }
+        return -1;
     }
 
     private void stopVoice() {
