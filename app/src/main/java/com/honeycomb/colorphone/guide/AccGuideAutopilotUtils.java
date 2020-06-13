@@ -19,9 +19,9 @@ public class AccGuideAutopilotUtils {
         Preferences.getDefault().doOnce(() -> {
             if (isEnable) {
                 int type = getVoiceType();
-                Analytics.logEvent("Accessbility_Guide_Show", "voice_test", String.valueOf(type));
+                Analytics.logEvent("Autopilot_Voice_Test", "voice_test", String.valueOf(type));
             } else {
-                Analytics.logEvent("Accessbility_Guide_Show", "voice_test", "False");
+                Analytics.logEvent("Autopilot_Voice_Test", "voice_test", "False");
             }
         }, "Accessbility_Guide_Show");
         return isEnable;
