@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.rom.RomUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -78,6 +79,9 @@ public class PermissionsTarget22 {
     }
 
     public int checkPerm(String permName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && RomUtils.checkIsMiuiRom()) {
+            return GRANTED;
+        }
         try {
             if (opMthod != null) {
                 Field filedDefine = AppOpsManager.class.getField(permName);
