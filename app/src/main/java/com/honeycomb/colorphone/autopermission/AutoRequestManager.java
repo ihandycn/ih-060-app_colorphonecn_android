@@ -262,7 +262,7 @@ public class AutoRequestManager {
                             "Os", AutoLogger.getOSVersion(),
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)),
-                            "Times", String.valueOf(AccVoiceGuide.getInstance().getPlayVoiceCount())
+                            "VoiceTimes", String.valueOf(AccVoiceGuide.getInstance().getPlayVoiceCount())
                     );
 
                     AccVoiceGuide.getInstance().stop("granted");
