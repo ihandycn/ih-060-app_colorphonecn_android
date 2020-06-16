@@ -88,9 +88,450 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "85b325f1-6951-4363-b20e-a96530fdc3ba",
+  "json_id": "41f6d0cf-b7a9-4588-9382-634f8b375976",
   "autopilot_name": "ColorPhone_K",
   "topics": {
+    "topic-7jwfh16wh": {
+      "topic_type": "life_time",
+      "config_id": "rule-7jxmqylaj",
+      "topic_id": "topic-7jwfh16wh",
+      "topic_name": "Voice_Test",
+      "variations": {
+        "enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "type": {
+          "values": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "startguide_show"
+        },
+        {
+          "name": "acc_guide_show"
+        },
+        {
+          "name": "acc_guide_btn_click"
+        },
+        {
+          "name": "acc_granted"
+        },
+        {
+          "name": "congratulation_page_shown"
+        },
+        {
+          "name": "voice_guide_start"
+        },
+        {
+          "name": "voice_guide_end"
+        }
+      ]
+    },
+    "topic-7jz903iwk": {
+      "topic_type": "life_time",
+      "config_id": "rule-7jz94alpm",
+      "topic_id": "topic-7jz903iwk",
+      "topic_name": "Douyin test",
+      "variations": {
+        "enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "tab_video_show"
+        },
+        {
+          "name": "video_slide"
+        }
+      ]
+    },
+    "topic-7c00my1zs": {
+      "topic_type": "life_time",
+      "config_id": "rule-7cnzp02o1",
+      "topic_id": "topic-7c00my1zs",
+      "topic_name": "Start_Process_Test",
+      "variations": {
+        "set_theme_guide": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "skip_on_fixalert": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "user_rights": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "startguide_show_7"
+        },
+        {
+          "name": "startguide_show_8"
+        },
+        {
+          "name": "startguide_show_9"
+        },
+        {
+          "name": "acc_granted_from_guide_7"
+        },
+        {
+          "name": "acc_granted_from_guide_8"
+        },
+        {
+          "name": "acc_granted_from_guide_9"
+        },
+        {
+          "name": "acc_guide_show_7"
+        },
+        {
+          "name": "acc_guide_show_8"
+        },
+        {
+          "name": "acc_guide_show_9"
+        },
+        {
+          "name": "access_all_granted_7"
+        },
+        {
+          "name": "access_all_granted_8"
+        },
+        {
+          "name": "access_all_granted_9"
+        },
+        {
+          "name": "all_granted_from_auto_7"
+        },
+        {
+          "name": "all_granted_from_auto_8"
+        },
+        {
+          "name": "all_granted_from_auto_9"
+        },
+        {
+          "name": "fixalert_from_apply_7"
+        },
+        {
+          "name": "fixalert_from_apply_8"
+        },
+        {
+          "name": "fixalert_from_apply_9"
+        },
+        {
+          "name": "fixalert_all_granted_7"
+        },
+        {
+          "name": "cancel_show_from_start_7"
+        },
+        {
+          "name": "cancel_show_from_start_8"
+        },
+        {
+          "name": "cancel_show_from_start_9"
+        },
+        {
+          "name": "cancel_click_from_apply_7"
+        },
+        {
+          "name": "cancel_click_from_apply_8"
+        },
+        {
+          "name": "cancel_click_from_apply_9"
+        },
+        {
+          "name": "cancel_show_from_apply_7"
+        },
+        {
+          "name": "cancel_show_from_apply_8"
+        },
+        {
+          "name": "cancel_show_from_apply_9"
+        },
+        {
+          "name": "cancel_click_from_start_7"
+        },
+        {
+          "name": "cancel_click_from_start_8"
+        },
+        {
+          "name": "cancel_click_from_start_9"
+        },
+        {
+          "name": "retain_show_from_start_7"
+        },
+        {
+          "name": "retain_show_from_start_8"
+        },
+        {
+          "name": "retain_show_from_start_9"
+        },
+        {
+          "name": "retain_show_from_apply_7"
+        },
+        {
+          "name": "retain_show_from_apply_8"
+        },
+        {
+          "name": "retain_show_from_apply_9"
+        },
+        {
+          "name": "retain_ok_start_7"
+        },
+        {
+          "name": "retain_ok_start_8"
+        },
+        {
+          "name": "retain_ok_start_9"
+        },
+        {
+          "name": "retain_ok_apply_7"
+        },
+        {
+          "name": "retain_ok_apply_8"
+        },
+        {
+          "name": "retain_ok_apply_9"
+        },
+        {
+          "name": "retain_cancel_start_7"
+        },
+        {
+          "name": "retain_cancel_start_8"
+        },
+        {
+          "name": "retain_cancel_start_9"
+        },
+        {
+          "name": "retain_cancel_apply_7"
+        },
+        {
+          "name": "retain_cancel_apply_8"
+        },
+        {
+          "name": "retain_cancel_apply_9"
+        },
+        {
+          "name": "page_shown_7"
+        },
+        {
+          "name": "page_shown_8"
+        },
+        {
+          "name": "page_shown_9"
+        },
+        {
+          "name": "page_shown_from_guide_7"
+        },
+        {
+          "name": "page_shown_from_guide_8"
+        },
+        {
+          "name": "page_shown_from_guide_9"
+        },
+        {
+          "name": "page_shown_from_start_7"
+        },
+        {
+          "name": "page_shown_from_start_8"
+        },
+        {
+          "name": "page_shown_from_start_9"
+        },
+        {
+          "name": "page_shown_from_apply_7"
+        },
+        {
+          "name": "page_shown_from_apply_8"
+        },
+        {
+          "name": "page_shown_from_apply_9"
+        },
+        {
+          "name": "guide_mainview_show_7"
+        },
+        {
+          "name": "guide_mainview_show_8"
+        },
+        {
+          "name": "guide_mainview_show_9"
+        },
+        {
+          "name": "guide_mainview_click_7"
+        },
+        {
+          "name": "guide_mainview_click_8"
+        },
+        {
+          "name": "guide_mainview_click_9"
+        },
+        {
+          "name": "guide_detail_show_7"
+        },
+        {
+          "name": "guide_detail_show_8"
+        },
+        {
+          "name": "guide_detail_show_9"
+        },
+        {
+          "name": "guide_detail_click_7"
+        },
+        {
+          "name": "guide_detail_click_8"
+        },
+        {
+          "name": "guide_detail_click_9"
+        },
+        {
+          "name": "permission_guide_show_7"
+        },
+        {
+          "name": "permission_guide_show_8"
+        },
+        {
+          "name": "permission_guide_show_9"
+        },
+        {
+          "name": "permission_guide_grant_7"
+        },
+        {
+          "name": "permission_guide_grant_8"
+        },
+        {
+          "name": "permission_guide_grant_9"
+        },
+        {
+          "name": "acc_granted_from_start_7"
+        },
+        {
+          "name": "acc_granted_from_start_8"
+        },
+        {
+          "name": "acc_granted_from_start_9"
+        },
+        {
+          "name": "acc_granted_from_apply_7"
+        },
+        {
+          "name": "acc_granted_from_apply_8"
+        },
+        {
+          "name": "acc_granted_from_apply_9"
+        },
+        {
+          "name": "fixalert_all_granted_8"
+        },
+        {
+          "name": "fixalert_all_granted_9"
+        },
+        {
+          "name": "fixalert_from_guide_7"
+        },
+        {
+          "name": "fixalert_from_guide_8"
+        },
+        {
+          "name": "fixalert_from_guide_9"
+        },
+        {
+          "name": "cancel_show_from_guide_7"
+        },
+        {
+          "name": "cancel_show_from_guide_8"
+        },
+        {
+          "name": "cancel_show_from_guide_9"
+        },
+        {
+          "name": "cancel_click_from_guide_7"
+        },
+        {
+          "name": "cancel_click_from_guide_8"
+        },
+        {
+          "name": "cancel_click_from_guide_9"
+        },
+        {
+          "name": "retain_show_from_guide_7"
+        },
+        {
+          "name": "retain_show_from_guide_8"
+        },
+        {
+          "name": "retain_show_from_guide_9"
+        },
+        {
+          "name": "retain_ok_guide_7"
+        },
+        {
+          "name": "retain_ok_guide_8"
+        },
+        {
+          "name": "retain_ok_guide_9"
+        },
+        {
+          "name": "retain_cancel_guide_7"
+        },
+        {
+          "name": "retain_cancel_guide_8"
+        },
+        {
+          "name": "retain_cancel_guide_9"
+        }
+      ]
+    },
     "topic-rp-73firir8m": {
       "topic_type": "one_time",
       "topic_name": "RTOT Popup",
@@ -200,6 +641,8 @@
     },
     "topic-7fysxrksq": {
       "topic_type": "life_time",
+      "config_id": "rule-7h5m18b62",
+      "topic_id": "topic-7fysxrksq",
       "topic_name": "CableFeed_Test",
       "variations": {
         "cable_mode": {
@@ -289,8 +732,7 @@
         {
           "name": "lock_news_refresh"
         }
-      ],
-      "topic_id": "topic-7fysxrksq"
+      ]
     },
     "topic-73p89g8i7": {
       "topic_type": "life_time",

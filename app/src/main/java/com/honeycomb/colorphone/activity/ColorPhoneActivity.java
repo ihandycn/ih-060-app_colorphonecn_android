@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -20,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -54,6 +54,9 @@ import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.bytedance.sdk.dp.DPWidgetDrawParams;
+import com.bytedance.sdk.dp.IDPDrawListener;
+import com.bytedance.sdk.dp.IDPWidget;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.ringtones.view.RingtonePageView;
 import com.honeycomb.colorphone.AppflyerLogger;
@@ -100,6 +103,8 @@ import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.video.DPHolder;
+import com.honeycomb.colorphone.video.VideoAutopilotUtils;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
@@ -155,7 +160,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
 
-    private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
     private RelativeLayout mMainPage;
@@ -170,8 +174,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
     private boolean firstShowPager = true;
     public int mainPagerPosition = 0;
-    private boolean isPaused;
     private boolean isWindowFocus;
+    private RelativeLayout videoLoadingView;
 
     private Handler mHandler = new Handler();
 
@@ -259,18 +263,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private boolean mMainViewShowFlag;
-    private boolean showAllFeatureGuide = false;
-    private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
     private RingtonePageView mRingtoneFrame;
     private LotteryWheelLayout lotteryWheelLayout;
-
-    private static final int TAB_SIZE = 4;
-    public static final int MAIN_POSITION = 0;
-    private static final int NEWS_POSITION = 1;
-    public static final int CASH_POSITION = 2;
-    private static final int SETTING_POSITION = 3;
 
     private TabFrameLayout mTabFrameLayout;
     private Toolbar toolbar;
@@ -293,6 +289,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mainPagerScrolled;
     private View arrowContainer;
     private boolean tabScrolling = false;
+
+    private IDPWidget mIDPWidget;
+    private int currentSlideVideoCount;
 
     public static void startColorPhone(Context context, String initTabId) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -324,7 +323,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initMainFrame();
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
-        isCreate = true;
         // Transition
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
@@ -387,9 +385,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     break;
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_HOME:
-                    return true;
+            if (event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
+                return true;
             }
         }
 
@@ -403,10 +400,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             DebugActions.onVolumeUp(this);
         }
-    }
-
-    public void showRewardVideoView(String themeName) {
-
     }
 
     public boolean isRefreshing() {
@@ -471,14 +464,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
 
     }
-//
-//    private String[] titles = new String[] {"首页", "资讯", "赚现金", "设置"};
-//    private int[] drawableIds = new int[] {
-//            R.drawable.seletor_tab_main,
-//            R.drawable.seletor_tab_news,
-//            R.drawable.seletor_tab_cash_center,
-//            R.drawable.seletor_tab_settings
-//    };
 
     private List<TabItem> mTabItems = new ArrayList<>();
 
@@ -486,11 +471,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabItems.add(new TabItem(TabItem.TAB_MAIN,
                 R.drawable.seletor_tab_main, "首页", false));
 
-//        TabItem tabItemNews = new TabItem(TabItem.TAB_NEWS,
-//                R.drawable.seletor_tab_news, "资讯", true);
-//        // Coo
-//        tabItemNews.setColorReversed(true);
-//        mTabItems.add(tabItemNews);
+        if (VideoAutopilotUtils.getVideoSwitch()) {
+            mTabItems.add(new TabItem(TabItem.TAB_VIDEO,
+                    R.drawable.seletor_tab_video, "视频", false));
+        }
 
         if (HSConfig.optBoolean(true, "Application", "Ringtone", "Enable")) {
             mTabItems.add(new TabItem(TabItem.TAB_RINGTONE,
@@ -658,28 +642,45 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             guideLottie.setProgress(1f);
                         }
                         startCurrentVideo();
+                        onPauseIDPWidget();
                         Analytics.logEvent("Tab_Themes_Show");
+                        logEventWhenUserLeave();
                         break;
                     case TabItem.TAB_NEWS:
                         endCurrentVideo();
+                        onPauseIDPWidget();
+                        logEventWhenUserLeave();
                         break;
                     case TabItem.TAB_RINGTONE:
                         endCurrentVideo();
+                        onPauseIDPWidget();
                         Analytics.logEvent("Tab_RingTone_Show");
+                        logEventWhenUserLeave();
                         break;
                     case TabItem.TAB_SETTINGS:
                         if (guideLottie != null) {
                             guideLottie.setVisibility(GONE);
                         }
                         endCurrentVideo();
+                        onPauseIDPWidget();
                         Analytics.logEvent("Tab_Settings_Show");
+                        logEventWhenUserLeave();
                         break;
                     case TabItem.TAB_CASH:
                         if (lotteryWheelLayout != null) {
                             lotteryWheelLayout.refreshData();
                         }
                         endCurrentVideo();
+                        onPauseIDPWidget();
                         Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
+                        logEventWhenUserLeave();
+                        break;
+                    case TabItem.TAB_VIDEO:
+                        currentSlideVideoCount = 0;
+                        onResumeIDPWidget();
+                        endCurrentVideo();
+                        Analytics.logEvent("Tab_Video_Show");
+                        VideoAutopilotUtils.logTabVideoShow();
                         break;
                     default:
                         break;
@@ -694,7 +695,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (TabItem.TAB_NEWS.equals(mTabItems.get(pos).getId())) {
                     Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
                 }
-
             }
 
             @Override
@@ -780,11 +780,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         AcbRewardAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
 
-        if (!showAllFeatureGuide) {
-            isCreate = false;
-        }
-        showAllFeatureGuide = false;
-
         if (mRingtoneFrame != null) {
             mRingtoneFrame.onStart();
         }
@@ -816,7 +811,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
         VideoManager.get().mute(true);
-        isPaused = false;
         mHandler.postDelayed(mainViewRunnable, 1000);
 
         if (mTabLayout != null) {
@@ -841,14 +835,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (lotteryWheelLayout != null) {
             lotteryWheelLayout.onResume();
         }
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        isPaused = true;
         mHandler.removeCallbacks(mainViewRunnable);
         mHandler.removeCallbacks(cashCenterGuideRunnable);
 
@@ -858,6 +850,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (mRecyclerView != null) {
             mRecyclerView.getRecycledViewPool().clear();
+        }
+
+        if (mIDPWidget != null) {
+            mIDPWidget.getFragment().onPause();
         }
 
         endCurrentVideo();
@@ -870,7 +866,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mSettingsPage.onSaveToggleState();
         }
         saveThemeLikes();
-        // TODO: has better solution for OOM?
         Glide.get(this).clearMemory();
     }
 
@@ -1022,8 +1017,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     /**
      * Only request first launch. (if Enabled and not has permission)
-     *
-     * @param reqPermission
      */
     private void requiresPermission(List<String> reqPermission) {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
@@ -1055,7 +1048,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         onPermissionsGranted(requestCode, granted);
-        onPermissionsDenied(requestCode, denied);
     }
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
@@ -1064,17 +1056,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    public void onPermissionsDenied(int requestCode, List<String> list) {
-        // Some permissions have been denied
-        // ...
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case WELCOME_REQUEST_CODE:
-                break;
-        }
+
     }
 
     private void saveThemeLikes() {
@@ -1088,11 +1072,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSPreferenceHelper.getDefault().putString(PREFS_THEME_LIKE, sb.toString());
     }
 
-    private String[] getThemeLikes() {
-        String likes = HSPreferenceHelper.getDefault().getString(PREFS_THEME_LIKE, "");
-        return likes.split(",");
-    }
-
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);
@@ -1102,10 +1081,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(null);
         }
-
-//        if (mRewardVideoView != null) {
-//            mRewardVideoView.onCancel();
-//        }
 
         if (tabTransController != null) {
             tabTransController.release();
@@ -1240,20 +1215,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }
         });
-        // TODO: set proper view count.
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_LED, 1);
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_TECH, 1);
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
 
-        // Header
         updatePermissionHeader();
     }
 
     private void updatePermissionHeader() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                !AutoRequestManager.getInstance().isGrantAllPermission()) {
-//                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+        if (!AutoRequestManager.getInstance().isGrantAllPermission()) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);
@@ -1490,6 +1461,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
                 frame = mRingtoneFrame;
                 break;
+            case TabItem.TAB_VIDEO:
+                initDrawWidget();
+                frame = getLayoutInflater().inflate(R.layout.layout_video, container, false);
+                videoLoadingView = frame.findViewById(R.id.loading_layout);
+                showVideoFragment();
+                break;
             case TabItem.TAB_CASH:
                 if (showTabCashCenter) {
                     if (lotteryWheelLayout == null) {
@@ -1555,6 +1532,74 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         frame.setTag(position);
         return frame;
+    }
+
+    private void showVideoFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.main_page_video_view, mIDPWidget.getFragment());
+        fragmentTransaction.show(mIDPWidget.getFragment());
+        fragmentTransaction.commit();
+    }
+
+    private void initDrawWidget() {
+        mIDPWidget = DPHolder.getInstance().buildDrawWidget(DPWidgetDrawParams.obtain()
+                .adCodeId("945238539")//一定要设置代码位id，否则影响收入
+                .hideClose(true, null)
+                .listener(new IDPDrawListener() {
+                    @Override
+                    public void onDPRefreshFinish() {
+                        HSLog.d("InitDrawWidget", "onDPRefreshFinish");
+                        if (videoLoadingView != null && videoLoadingView.getVisibility() == VISIBLE) {
+                            videoLoadingView.setVisibility(GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onDPPageChange(int position) {
+                        HSLog.d("InitDrawWidget", "onDPPageChange: " + position);
+                    }
+
+                    @Override
+                    public void onDPVideoPlay(Map<String, Object> map) {
+                        HSLog.d("InitDrawWidget", "onDPVideoPlay:" + map.toString());
+                    }
+
+                    @Override
+                    public void onDPVideoOver(Map<String, Object> map) {
+                        HSLog.d("InitDrawWidget", "onDPVideoOver:" + map.toString());
+                        Analytics.logEvent("Video_Slide");
+                        VideoAutopilotUtils.logVideoSlide();
+                        currentSlideVideoCount++;
+                    }
+
+                    @Override
+                    public void onDPClose() {
+                        HSLog.d("InitDrawWidget", "onDPClose");
+                    }
+                }));
+    }
+
+    private void logEventWhenUserLeave() {
+        if (currentSlideVideoCount > 0) {
+            Analytics.logEvent("Video_Slide_Count", "Count", String.valueOf(currentSlideVideoCount));
+            currentSlideVideoCount = 0;
+        }
+    }
+
+    private void onPauseIDPWidget() {
+        if (mIDPWidget != null) {
+            mIDPWidget.getFragment().onPause();
+            mIDPWidget.getFragment().setUserVisibleHint(false);
+            mIDPWidget.getFragment().onHiddenChanged(true);
+        }
+    }
+
+    private void onResumeIDPWidget() {
+        if (mIDPWidget != null) {
+            mIDPWidget.getFragment().onResume();
+            mIDPWidget.getFragment().setUserVisibleHint(true);
+            mIDPWidget.getFragment().onHiddenChanged(false);
+        }
     }
 
     private void requestCategories(MainPagerHolder holder) {
@@ -1981,8 +2026,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 MainPageGridAdapter adapter = (MainPageGridAdapter) parent.getAdapter();
-//                ((TextView)adapter.getItem(mainPagerPosition)).setBackgroundResource(R.drawable.main_page_grid_item_bg_normal);
-//                ((TextView)adapter.getItem(position)).setBackgroundResource(R.drawable.main_page_grid_item_bg_selected);
                 mainPagerPosition = position;
                 mViewPager.setCurrentItem(position, true);
                 adapter.notifyDataSetChanged();
