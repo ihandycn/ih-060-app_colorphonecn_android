@@ -314,3 +314,7 @@
 
 -keep class com.honeycomb.colorphone.http.bean.** {*;}
 -dontwarn kotlinx.coroutines.**
+
+-keep class com.bytedance.applog.AppLog{ public *; }
+-dontwarn com.bytedance.mpaas.**
+-dontwarn android.telephony.**
