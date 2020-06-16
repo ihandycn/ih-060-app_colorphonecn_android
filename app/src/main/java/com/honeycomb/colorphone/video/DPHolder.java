@@ -48,7 +48,7 @@ public final class DPHolder {
                 .debug(BuildConfig.DEBUG)
                 .needInitAppLog(false)
                 .partner("video_hcldx_sdk")
-                .secureKey("bfa58b199aa228fa444be885782d9042")
+                .secureKey("79a9b1b53db11aabf4244de68ae92517")
                 .appId("185363")
                 .initListener(new DPSdkConfig.InitListener() {
                     @Override
