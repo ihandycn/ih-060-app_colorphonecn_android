@@ -7,6 +7,8 @@ import com.appsflyer.AFLogger;
 import com.appsflyer.AppsFlyerLib;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ChannelInfoUtil;
+import com.honeycomb.colorphone.video.DPHolder;
+import com.honeycomb.colorphone.video.TTAdManagerHolder;
 import com.ihs.app.framework.HSApplication;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -36,6 +38,12 @@ public class ColorPhoneApplication extends HSApplication {
         initAppFlyer();
         super.onCreate();
         Bugly.init(this, getString(R.string.bugly_app_id), BuildConfig.DEBUG);
+
+        //必须先初始化网盟sdk，否则可能会影响收益
+        TTAdManagerHolder.init(this);
+
+        //初始化内容合作sdk
+        DPHolder.getInstance().init(this);
 
         mColorPhoneApplicationProxy = new ColorPhoneApplicationImpl(this);
         mColorPhoneApplicationProxy.onCreate();
