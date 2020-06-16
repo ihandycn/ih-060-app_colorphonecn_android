@@ -707,6 +707,11 @@
         </provider>
 
         <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" />
+
+        <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
@@ -809,4 +814,5 @@
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>
