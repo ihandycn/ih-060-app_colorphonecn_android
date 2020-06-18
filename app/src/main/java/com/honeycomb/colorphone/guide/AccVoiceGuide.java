@@ -62,7 +62,11 @@ public class AccVoiceGuide {
     };
 
     public boolean isEnable() {
-        return (Compats.IS_HUAWEI_DEVICE || Compats.IS_OPPO_DEVICE) && AccGuideAutopilotUtils.isEnable();
+        if (Compats.IS_XIAOMI_DEVICE) {
+            return AccGuideAutopilotUtils.isXiaoMiEnable();
+        } else {
+            return AccGuideAutopilotUtils.isEnable();
+        }
     }
 
     public int getPlayVoiceCount() {
@@ -97,20 +101,25 @@ public class AccVoiceGuide {
 
     private void playVoice() {
         playVoiceCount++;
-        switch (AccGuideAutopilotUtils.getVoiceType()) {
-            default:
-            case 1:
-                voiceStreamId = SoundManager.getInstance().playAccGuideVoice1();
-                delaySeconds = 10;
-                break;
-            case 2:
-                voiceStreamId = SoundManager.getInstance().playAccGuideVoice2();
-                delaySeconds = 8;
-                break;
-            case 3:
-                voiceStreamId = SoundManager.getInstance().playAccGuideVoice3();
-                delaySeconds = 9;
-                break;
+        if (Compats.IS_XIAOMI_DEVICE) {
+            voiceStreamId = SoundManager.getInstance().playAccGuideVoiceXiaoMi();
+            delaySeconds = 9;
+        } else {
+            switch (AccGuideAutopilotUtils.getVoiceType()) {
+                default:
+                case 1:
+                    voiceStreamId = SoundManager.getInstance().playAccGuideVoice1();
+                    delaySeconds = 10;
+                    break;
+                case 2:
+                    voiceStreamId = SoundManager.getInstance().playAccGuideVoice2();
+                    delaySeconds = 8;
+                    break;
+                case 3:
+                    voiceStreamId = SoundManager.getInstance().playAccGuideVoice3();
+                    delaySeconds = 9;
+                    break;
+            }
         }
     }
 

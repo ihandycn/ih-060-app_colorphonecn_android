@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.guide.AccGuideActivity;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Compats;
@@ -34,7 +35,8 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
 
     @Override
     protected void showExitStableToast() {
-        if (Compats.IS_OPPO_DEVICE) {
+        if (Compats.IS_OPPO_DEVICE
+                || (Compats.IS_HUAWEI_DEVICE && PermissionsManager.getInstance().isShowActivityGuide())) {
             Threads.postOnMainThreadDelayed(this::startAccGuideActivity, 300);
         } else {
             int layoutId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P

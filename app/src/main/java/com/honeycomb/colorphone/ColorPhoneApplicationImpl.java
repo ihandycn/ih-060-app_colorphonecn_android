@@ -29,6 +29,8 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.PermissionsCallback;
+import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
@@ -80,6 +82,7 @@ import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
+import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
@@ -633,6 +636,13 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication.registerReceiver(networkStateChangedReceiver, networkChangedFilter);
 
         SoundManager.getInstance().init(ColorPhoneApplication.getContext());
+
+        PermissionsManager.getInstance().init(new PermissionsCallback() {
+            @Override
+            public boolean isShowActivityGuide() {
+                return AccGuideAutopilotUtils.isShowActivityGuide();
+            }
+        });
     }
 
     private void initKuyinRingtone() {

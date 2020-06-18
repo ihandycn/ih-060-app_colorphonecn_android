@@ -27,6 +27,7 @@ public class SoundManager {
     private int idAccGuideVoice1;
     private int idAccGuideVoice2;
     private int idAccGuideVoice3;
+    private int idAccGuideVoiceXiaoMi;
 
     public void init(Context context) {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -39,6 +40,7 @@ public class SoundManager {
         idAccGuideVoice1 = soundPool.load(context, R.raw.acc_voice_guide_1, 1);
         idAccGuideVoice2 = soundPool.load(context, R.raw.acc_voice_guide_2, 1);
         idAccGuideVoice3 = soundPool.load(context, R.raw.acc_voice_guide_3, 1);
+        idAccGuideVoiceXiaoMi = soundPool.load(context, R.raw.acc_voice_guide_xiaomi, 1);
 
         isSoundPoolInitFinish = true;
     }
@@ -66,6 +68,13 @@ public class SoundManager {
     public int playAccGuideVoice3() {
         if (isSoundPoolInitFinish) {
             return soundPool.play(idAccGuideVoice3, 1, 1, 1, 0, 1);
+        }
+        return 0;
+    }
+
+    public int playAccGuideVoiceXiaoMi() {
+        if (isSoundPoolInitFinish) {
+            return soundPool.play(idAccGuideVoiceXiaoMi, 1, 1, 1, 0, 1);
         }
         return 0;
     }

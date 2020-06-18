@@ -88,123 +88,46 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "cc286788-4a2c-482e-bc5f-3bfcc87af7e1",
+  "json_id": "13bba3dc-f148-4b3e-a9bd-a67c3db727f9",
   "autopilot_name": "ColorPhone_K",
   "topics": {
-    "topic-rp-73firir8m": {
-      "topic_type": "one_time",
-      "topic_name": "RTOT Popup",
-      "variations": {
-        "body": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "button1_text": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "title": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "start_time": {
-          "values": [
-            ""
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "button2_text": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "end_time": {
-          "values": [
-            ""
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "button1_url": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "button2_url": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "string",
-          "value": "",
-          "strategy": "sole"
-        },
-        "image": {
-          "values": [
-            {
-              "value": ""
-            }
-          ],
-          "type": "url",
-          "value": "",
-          "strategy": "sole"
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "show"
-        },
-        {
-          "name": "button1_click"
-        },
-        {
-          "name": "button2_click"
-        }
-      ],
-      "topic_id": "topic-rp-73firir8m"
-    },
     "topic-7jwfh16wh": {
       "topic_type": "life_time",
-      "config_id": "rule-7jxmqylaj",
+      "config_id": "rule-7k68ogasn",
       "topic_id": "topic-7jwfh16wh",
       "topic_name": "Voice_Test",
       "variations": {
+        "type": {
+          "values": [
+            {
+              "value": 2
+            }
+          ],
+          "type": "double",
+          "value": 2,
+          "strategy": "sole"
+        },
         "enable": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "guide_huawei": {
+          "values": [
+            {
+              "value": "toast"
+            }
+          ],
+          "type": "string",
+          "value": "toast",
+          "strategy": "sole"
+        },
+        "enable_xiaomi": {
           "values": [
             {
               "value": false
@@ -212,16 +135,6 @@
           ],
           "type": "boolean",
           "value": false,
-          "strategy": "sole"
-        },
-        "type": {
-          "values": [
-            {
-              "value": 1
-            }
-          ],
-          "type": "double",
-          "value": 1,
           "strategy": "sole"
         }
       },
@@ -252,16 +165,34 @@
         }
       ]
     },
-    "topic-73p89g8i7": {
+    "topic-7jz903iwk": {
       "topic_type": "life_time",
-      "topic_name": "Empty Topic",
-      "variations": {},
+      "config_id": "rule-7jz94alpm",
+      "topic_id": "topic-7jz903iwk",
+      "topic_name": "Douyin test",
+      "variations": {
+        "enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
       "events": [
         {
           "name": "test"
+        },
+        {
+          "name": "tab_video_show"
+        },
+        {
+          "name": "video_slide"
         }
-      ],
-      "topic_id": "topic-73p89g8i7"
+      ]
     },
     "topic-7c00my1zs": {
       "topic_type": "life_time",
@@ -621,6 +552,113 @@
         }
       ]
     },
+    "topic-rp-73firir8m": {
+      "topic_type": "one_time",
+      "topic_name": "RTOT Popup",
+      "variations": {
+        "body": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "button1_text": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "title": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "start_time": {
+          "values": [
+            ""
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "button2_text": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "end_time": {
+          "values": [
+            ""
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "button1_url": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "button2_url": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "string",
+          "value": "",
+          "strategy": "sole"
+        },
+        "image": {
+          "values": [
+            {
+              "value": ""
+            }
+          ],
+          "type": "url",
+          "value": "",
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "button1_click"
+        },
+        {
+          "name": "button2_click"
+        }
+      ],
+      "topic_id": "topic-rp-73firir8m"
+    },
     "topic-7fysxrksq": {
       "topic_type": "life_time",
       "config_id": "rule-7h5m18b62",
@@ -715,6 +753,17 @@
           "name": "lock_news_refresh"
         }
       ]
+    },
+    "topic-73p89g8i7": {
+      "topic_type": "life_time",
+      "topic_name": "Empty Topic",
+      "variations": {},
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-73p89g8i7"
     }
   }
 }
