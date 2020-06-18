@@ -35,9 +35,8 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
 
     @Override
     protected void showExitStableToast() {
-        if (Compats.IS_OPPO_DEVICE
-                || (Compats.IS_HUAWEI_DEVICE && PermissionsManager.getInstance().isShowActivityGuide())) {
-            Threads.postOnMainThreadDelayed(this::startAccGuideActivity, 300);
+        if (Compats.IS_OPPO_DEVICE) {
+            Threads.postOnMainThreadDelayed(() -> AccGuideActivity.start(HSApplication.getContext()), 300);
         } else {
             int layoutId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
                     ? R.layout.toast_huawei_acc
@@ -45,12 +44,5 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
 
             StableToast.showStableToast(layoutId, 0, Dimensions.pxFromDp(85), "AccessibilityPageDuration");
         }
-    }
-
-    private void startAccGuideActivity() {
-        Context context = HSApplication.getContext();
-        Intent intent = new Intent(context, AccGuideActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 }

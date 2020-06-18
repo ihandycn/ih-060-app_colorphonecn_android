@@ -71,6 +71,9 @@
     <string name="acb_phone_grant_accessibility_guide_msg_1">1. 向下滑动，点击<font color='#00FFFF'>【已下载的服务】</font>下的0o⭐<font color='#00FFFF'>【焕彩来电秀】</font>⭐o0</string>
     <string name="acb_phone_grant_accessibility_guide_msg_2">2. 在下一页打开右上角开关</string>
 
+    <string name="acb_phone_grant_accessibility_guide_msg_1_huawei">1. 下滑到底部，点击<font color='#00FFFF'>【下载服务】</font>下的0o⭐<font color='#00FFFF'>【焕彩来电秀】</font>⭐o0</string>
+    <string name="acb_phone_grant_accessibility_guide_msg_2_huawei">2. 在下一页打开右上角开关</string>
+
     <string name="acb_app_icon_replace">1@2$</string>
 
 </resources>
