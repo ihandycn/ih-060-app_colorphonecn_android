@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -56,12 +59,21 @@ public class AccGuideActivity extends Activity {
         view.setOnClickListener(v -> finish());
     }
 
-    private SpannableString getGuideMsg() {
+    private CharSequence getGuideMsg() {
+
+        String keyword1 = getString(R.string.acb_phone_grant_accessibility_guide_msg_keyword_1);
+        String keyword2 = getString(R.string.acb_phone_grant_accessibility_guide_msg_keyword_2);
 
         String msg = getString(R.string.acb_phone_grant_accessibility_guide_msg_1_huawei);
-        int index = msg.indexOf("@");
-        SpannableString spannableString = new SpannableString(msg);
+        SpannableStringBuilder spannableString = new SpannableStringBuilder(msg);
+
+        int startIndex1 = msg.indexOf(keyword1);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF00FFFF")), startIndex1, startIndex1 + keyword1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int startIndex2 = msg.indexOf(keyword2);
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF00FFFF")), startIndex2, startIndex2 + keyword2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         int drawableId = PermissionsManager.getInstance().getAppIcon();
+        int index = msg.indexOf("@");
         if (index < 0 || drawableId == 0) {
             return spannableString;
         }
