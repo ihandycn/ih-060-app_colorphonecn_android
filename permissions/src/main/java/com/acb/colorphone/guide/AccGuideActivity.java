@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -66,7 +68,7 @@ public class AccGuideActivity extends Activity {
 
         Bitmap bitmap = Bitmaps.decodeResourceWithFallback(getResources(), drawableId);
         bitmap = Bitmaps.getScaledBitmap(bitmap, Dimensions.pxFromDp(24), Dimensions.pxFromDp(24));
-        ImageSpan imageSpan = new ImageSpan(this, bitmap, ImageSpan.ALIGN_CENTER);
+        ImageSpan imageSpan = new ImageSpan(this, bitmap, ImageSpan.ALIGN_BOTTOM);
         spannableString.setSpan(imageSpan, index, index + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
