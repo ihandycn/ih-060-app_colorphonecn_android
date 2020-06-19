@@ -642,6 +642,11 @@ public class ColorPhoneApplicationImpl {
             public boolean isShowActivityGuide() {
                 return AccGuideAutopilotUtils.isShowActivityGuide();
             }
+
+            @Override
+            public int getAppIcon() {
+                return R.drawable.ic_launcher;
+            }
         });
     }
 

@@ -4,12 +4,18 @@ package com.acb.colorphone.guide;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 
+import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.R;
+import com.superapps.util.Bitmaps;
 import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 
@@ -39,13 +45,30 @@ public class AccGuideActivity extends Activity {
         View view = View.inflate(this, R.layout.activity_acc_guide, null);
         if (Compats.IS_HUAWEI_DEVICE) {
             TextView guideMsg1Text = view.findViewById(R.id.guide_msg_1);
-            guideMsg1Text.setText(R.string.acb_phone_grant_accessibility_guide_msg_1_huawei);
+            guideMsg1Text.setText(getGuideMsg());
 
             TextView guideMsg2Text = view.findViewById(R.id.guide_msg_2);
             guideMsg2Text.setText(R.string.acb_phone_grant_accessibility_guide_msg_2_huawei);
         }
         setContentView(view, layoutParams);
         view.setOnClickListener(v -> finish());
+    }
+
+    private SpannableString getGuideMsg() {
+
+        String msg = getString(R.string.acb_phone_grant_accessibility_guide_msg_1_huawei);
+        int index = msg.indexOf("@");
+        SpannableString spannableString = new SpannableString(msg);
+        int drawableId = PermissionsManager.getInstance().getAppIcon();
+        if (index < 0 || drawableId == 0) {
+            return spannableString;
+        }
+
+        Bitmap bitmap = Bitmaps.decodeResourceWithFallback(getResources(), drawableId);
+        bitmap = Bitmaps.getScaledBitmap(bitmap, Dimensions.pxFromDp(24), Dimensions.pxFromDp(24));
+        ImageSpan imageSpan = new ImageSpan(this, bitmap, ImageSpan.ALIGN_CENTER);
+        spannableString.setSpan(imageSpan, index, index + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
     @Override

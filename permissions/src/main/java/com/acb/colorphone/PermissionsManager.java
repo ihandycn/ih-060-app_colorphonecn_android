@@ -1,5 +1,9 @@
 package com.acb.colorphone;
 
+import android.support.annotation.DrawableRes;
+
+import com.acb.colorphone.permissions.R;
+
 public class PermissionsManager {
 
     private PermissionsManager() {
@@ -24,5 +28,13 @@ public class PermissionsManager {
             return permissionsCallback.isShowActivityGuide();
         }
         return false;
+    }
+
+    @DrawableRes
+    public int getAppIcon() {
+        if (permissionsCallback != null) {
+            return permissionsCallback.getAppIcon();
+        }
+        return 0;
     }
 }
