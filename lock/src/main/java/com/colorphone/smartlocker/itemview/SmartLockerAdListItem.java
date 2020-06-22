@@ -70,6 +70,11 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
             public void onAdClick(AcbAd ad) {
                 logAdClick();
             }
+
+            @Override
+            public void onAdShow() {
+
+            }
         });
     }
 
