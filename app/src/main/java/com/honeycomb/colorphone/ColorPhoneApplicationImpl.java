@@ -29,6 +29,8 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.colorphone.PermissionsCallback;
+import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
@@ -80,6 +82,8 @@ import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
+import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
+import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
@@ -106,6 +110,7 @@ import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.EventUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
+import com.honeycomb.colorphone.util.SoundManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -580,6 +585,7 @@ public class ColorPhoneApplicationImpl {
             public void onHomePressed() {
                 Analytics.logEvent("Home_Back_Tracked");
 
+                AccVoiceGuide.getInstance().stop("home");
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
                 if (batteryLevel < 20) {
                     if (batteryChangeToLow) {
@@ -628,6 +634,20 @@ public class ColorPhoneApplicationImpl {
         IntentFilter networkChangedFilter = new IntentFilter();
         networkChangedFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         mBaseApplication.registerReceiver(networkStateChangedReceiver, networkChangedFilter);
+
+        SoundManager.getInstance().init(ColorPhoneApplication.getContext());
+
+        PermissionsManager.getInstance().init(new PermissionsCallback() {
+            @Override
+            public boolean isShowActivityGuide() {
+                return AccGuideAutopilotUtils.isShowActivityGuide();
+            }
+
+            @Override
+            public int getAppIcon() {
+                return R.drawable.ic_launcher;
+            }
+        });
     }
 
     private void initKuyinRingtone() {

@@ -11,8 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -48,6 +46,8 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
+import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.util.Analytics;
@@ -254,14 +254,18 @@ public class AutoRequestManager {
             HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+                    AccGuideAutopilotUtils.logAccGranted();
                     Analytics.logEvent("Accessbility_Granted",
                             "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(HSApplication.getContext().getContentResolver(), "bluetooth_name"),
                             "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
                             "Time", String.valueOf(
-                                    Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
+                                    Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)),
+                            "VoiceTimes", String.valueOf(AccVoiceGuide.getInstance().getPlayVoiceCount())
+                    );
 
+                    AccVoiceGuide.getInstance().stop("granted");
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
                         AutoRepairingToast.showRepairingToast();
