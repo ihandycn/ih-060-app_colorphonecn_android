@@ -102,6 +102,19 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/voice_guide_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/acc_voice_guide_msg"
+            android:textColor="#66FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="@id/start_guide_permission_fetch_btn"
+            app:layout_constraintRight_toRightOf="@id/start_guide_permission_fetch_btn"
+            app:layout_constraintTop_toBottomOf="@id/start_guide_permission_fetch_btn" />
+
     </android.support.constraint.ConstraintLayout>
 
     <include

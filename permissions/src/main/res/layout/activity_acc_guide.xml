@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="7dp"
+    android:background="@drawable/shape_acc_guide_bg">
+
+    <TextView
+        android:id="@+id/guide_msg_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginRight="18dp"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/acb_phone_grant_accessibility_guide_msg_1"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guide_msg_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="18dp"
+        android:includeFontPadding="false"
+        android:text="@string/acb_phone_grant_accessibility_guide_msg_2"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guide_msg_1" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="19dp"
+        app:layout_constraintTop_toBottomOf="@id/guide_msg_2" />
+</android.support.constraint.ConstraintLayout>

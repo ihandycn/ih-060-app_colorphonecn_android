@@ -1,7 +1,7 @@
-<manifest package="com.acb.colorphone.permissions"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.acb.colorphone.permissions">
 
-    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <application>
         <activity
@@ -10,56 +10,56 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name="com.acb.colorphone.permissions.NotificationGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name="com.acb.colorphone.permissions.SettingPermissionsGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".AutoStartGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".ShowOnLockScreenGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".ShowOnLockScreenMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".AutoStartMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name="com.acb.colorphone.permissions.NotificationMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".AccessibilityMIUIGuideActivity"
@@ -67,16 +67,14 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForToast"
-            />
+            android:theme="@style/AppTranslucentForToast" />
 
         <activity
             android:name=".OverlayOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForToast"
-            />
+            android:theme="@style/AppTranslucentForToast" />
 
         <activity
             android:name=".AutoStartAboveOOppoGuideActivity"
@@ -84,8 +82,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/AppTranslucentForToast"
-            />
+            android:theme="@style/AppTranslucentForToast" />
 
         <activity
             android:name=".AutoStartOppoGuideActivity"
@@ -93,14 +90,14 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".NAOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".NotificationManagementOppoGuideActivity"
@@ -108,7 +105,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".PhoneOppoGuideActivity"
@@ -132,7 +129,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".AccessibilityHuaweiGuideActivity"
@@ -140,7 +137,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
 
         <activity
             android:name=".BackgroundPopupMIUIGuideActivity"
@@ -148,7 +145,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".ContactHuawei8GuideActivity"
             android:excludeFromRecents="true"
@@ -162,21 +159,21 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".WriteSettingsPopupGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".PhoneHuawei8GuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
         <activity
             android:name=".ContactMIUIGuideActivity"
             android:excludeFromRecents="true"
@@ -197,6 +194,14 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
-            android:theme="@style/TransparentCompatDialog"/>
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name="com.acb.colorphone.guide.AccGuideActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/Dialog.transparent" />
     </application>
 </manifest>
