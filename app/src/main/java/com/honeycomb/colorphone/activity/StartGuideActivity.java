@@ -85,7 +85,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
                 || RomUtils.checkIsHuaweiRom()
-                || RomUtils.checkIsOppoRom()) {
+                || RomUtils.checkIsOppoRom()
+                || RomUtils.checkIsVivoRom()) {
             Intent starter = new Intent(context, StartGuideActivity.class);
             starter.putExtra(INTENT_KEY_FROM, from);
             return starter;

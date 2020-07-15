@@ -426,13 +426,13 @@ public class AutoRequestManager {
     private void executeAutoTask(ArrayList<String> noNeeded) {
         ArrayList<String> permission = new ArrayList<>();
 
-        if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
+        if ((Compats.IS_XIAOMI_DEVICE || Compats.IS_VIVO_DEVICE) && !AutoPermissionChecker.hasBgPopupPermission()) {
             permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
         if (!AutoPermissionChecker.hasAutoStartPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
         }
-        if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+        if ((Compats.IS_XIAOMI_DEVICE || Compats.IS_VIVO_DEVICE) && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
         }
 

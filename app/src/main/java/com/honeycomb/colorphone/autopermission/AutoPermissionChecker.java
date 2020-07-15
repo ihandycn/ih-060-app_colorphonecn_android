@@ -2,11 +2,14 @@ package com.honeycomb.colorphone.autopermission;
 
 import android.Manifest;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
@@ -17,6 +20,7 @@ import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.rom.RomUtils;
+import com.superapps.util.rom.VivoUtils;
 
 /**
  * @author sundxing
@@ -51,6 +55,7 @@ public class AutoPermissionChecker {
         }
         return ret || Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
+
     public static void onBgPopupChange(boolean hasPermission) {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("prefs_bg_popup_permission", hasPermission);
     }
@@ -61,6 +66,8 @@ public class AutoPermissionChecker {
                 return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.BACKGROUND_START_ACTIVITY) == PermissionsTarget22.GRANTED;
             }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
+        } else if (Compats.IS_VIVO_DEVICE) {
+            return VivoUtils.checkBackgroundPopupPermission(ColorPhoneApplication.getContext());
         } else {
             // TODO
             return true;
@@ -82,7 +89,7 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasShowOnLockScreenPermission() {
-        if (Compats.IS_XIAOMI_DEVICE) {
+        if (needShowOnLockPopup()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.SHOW_WHEN_LOCKED) == PermissionsTarget22.GRANTED;
             }
@@ -92,6 +99,15 @@ public class AutoPermissionChecker {
             // TODO
             return true;
         }
+    }
+
+    private static boolean needShowOnLockPopup() {
+        if (Compats.IS_XIAOMI_DEVICE) {
+            return true;
+        } else if (Compats.IS_VIVO_DEVICE) {
+            return Build.VERSION.SDK_INT > 24;
+        }
+        return false;
     }
 
     public static boolean isAccessibilityGranted() {
@@ -124,7 +140,7 @@ public class AutoPermissionChecker {
             }
         }
         return grant && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED
-                    && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE) == RuntimePermissions.PERMISSION_GRANTED;
+                && RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.CALL_PHONE) == RuntimePermissions.PERMISSION_GRANTED;
     }
 
     public static boolean isWriteSettingsPermissionGranted() {
