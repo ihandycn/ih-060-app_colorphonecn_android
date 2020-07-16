@@ -58,6 +58,8 @@ public class DailyLogger {
             eventID = "Rom_Active_Huawei";
         } else if (Compats.IS_OPPO_DEVICE) {
             eventID = "Rom_Active_Oppo";
+        }else if (Compats.IS_VIVO_DEVICE){
+            eventID = "Rom_Active_Vivo";
         }
 
         if (!TextUtils.isEmpty(eventID)) {
