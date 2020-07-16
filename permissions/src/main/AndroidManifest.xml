@@ -203,5 +203,21 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Dialog.transparent" />
+
+        <activity
+            android:name=".VivoPermissionsGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name=".VivoNotificationGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
     </application>
 </manifest>

@@ -41,6 +41,8 @@ import com.acb.colorphone.permissions.PhoneOppoGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.colorphone.permissions.VivoNotificationGuideActivity;
+import com.acb.colorphone.permissions.VivoPermissionsGuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
@@ -733,7 +735,7 @@ public class AutoRequestManager {
                 } else {
                     Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
                 }
-            } else if (RomUtils.checkIsOppoRom()) {
+            } else if (RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityOppoGuideActivity.class);
                 Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
             } else {
@@ -746,7 +748,7 @@ public class AutoRequestManager {
     public boolean openPermission(String type) {
         clearMessage();
 
-        if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsHuaweiRom()) {
+        if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsVivoRom()) {
             return openPermissionIntent(type);
         }
 
@@ -762,6 +764,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
                         } else if (RomUtils.checkIsOppoRom()) {
                             OppoPermissionsGuideUtil.showAutoStartGuide();
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), VivoPermissionsGuideActivity.class);
                         }
                     }, GUIDE_DELAY);
                 }
@@ -785,6 +789,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
                         } else if (RomUtils.checkIsOppoRom()) {
                             OppoPermissionsGuideUtil.showNAGuide();
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), VivoNotificationGuideActivity.class);
                         } else {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
                         }
@@ -802,6 +808,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
                         }
                     }, GUIDE_DELAY);
+                } else if (RomUtils.checkIsVivoRom()) {
+                    Navigations.startActivitySafely(HSApplication.getContext(), VivoPermissionsGuideActivity.class);
                 }
                 break;
 
@@ -814,6 +822,8 @@ public class AutoRequestManager {
                             Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
                         }
                     }, GUIDE_DELAY);
+                } else if (RomUtils.checkIsVivoRom()) {
+                    Navigations.startActivitySafely(HSApplication.getContext(), VivoPermissionsGuideActivity.class);
                 }
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
@@ -958,13 +968,13 @@ public class AutoRequestManager {
                 }
                 break;
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
-                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
                     return true;
                 }
                 break;
 
             case TYPE_CUSTOM_BACKGROUND_POPUP:
-                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
+                if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) && AutoPermissionChecker.hasBgPopupPermission()) {
                     return true;
                 }
                 break;
@@ -1041,6 +1051,8 @@ public class AutoRequestManager {
                             } else {
                                 guideClass = AutoStartOppoGuideActivity.class;
                             }
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            guideClass = VivoPermissionsGuideActivity.class;
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
@@ -1049,6 +1061,8 @@ public class AutoRequestManager {
                             guideClass = NotificationMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()) {
                             guideClass = NAOppoGuideActivity.class;
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            guideClass = VivoNotificationGuideActivity.class;
                         } else {
                             guideClass = NotificationGuideActivity.class;
                         }
@@ -1057,13 +1071,19 @@ public class AutoRequestManager {
                     case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                         if (RomUtils.checkIsMiuiRom()) {
                             guideClass = ShowOnLockScreenMIUIGuideActivity.class;
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            guideClass = VivoPermissionsGuideActivity.class;
                         } else {
                             guideClass = ShowOnLockScreenGuideActivity.class;
                         }
                         break;
 
                     case TYPE_CUSTOM_BACKGROUND_POPUP:
-                        guideClass = BackgroundPopupMIUIGuideActivity.class;
+                        if (RomUtils.checkIsMiuiRom()) {
+                            guideClass = BackgroundPopupMIUIGuideActivity.class;
+                        } else {
+                            guideClass = VivoPermissionsGuideActivity.class;
+                        }
                         break;
                     case HSPermissionRequestMgr.TYPE_PHONE:
                         mHandler.sendEmptyMessageDelayed(CHECK_PHONE_PERMISSION, 2 * DateUtils.SECOND_IN_MILLIS);
@@ -1123,7 +1143,7 @@ public class AutoRequestManager {
 
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
 
-                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
+                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
                         Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
