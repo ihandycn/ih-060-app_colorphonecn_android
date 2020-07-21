@@ -28,6 +28,7 @@ import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
 import com.acb.colorphone.permissions.ContactMIUIGuideActivity;
+import com.acb.colorphone.permissions.ContactVivoGuideActivity;
 import com.acb.colorphone.permissions.DangerousOppoGuideActivity;
 import com.acb.colorphone.permissions.NAOppoGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
@@ -38,6 +39,7 @@ import com.acb.colorphone.permissions.OverlayOppoGuideActivity;
 import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
 import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.PhoneOppoGuideActivity;
+import com.acb.colorphone.permissions.PhoneVivoGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.StableToast;
@@ -1095,6 +1097,8 @@ public class AutoRequestManager {
                             guideClass = PhoneHuawei8GuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()) {
                             guideClass = PhoneOppoGuideActivity.class;
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            guideClass = PhoneVivoGuideActivity.class;
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:
@@ -1130,6 +1134,8 @@ public class AutoRequestManager {
                             }
                         } else if (RomUtils.checkIsOppoRom()) {
                             guideClass = DangerousOppoGuideActivity.class;
+                        } else if (RomUtils.checkIsVivoRom()) {
+                            guideClass = ContactVivoGuideActivity.class;
                         }
                         break;
                 }

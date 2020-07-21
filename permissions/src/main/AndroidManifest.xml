@@ -219,5 +219,19 @@
             android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog" />
+        <activity
+            android:name=".PhoneVivoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
+        <activity
+            android:name=".ContactVivoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
     </application>
 </manifest>

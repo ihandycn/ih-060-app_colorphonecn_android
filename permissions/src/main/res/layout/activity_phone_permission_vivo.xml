@@ -33,6 +33,6 @@
         android:textColor="#fff"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:text="@string/acb_phone_grant_phone_vivo_content"
-        tools:text="@string/acb_phone_grant_phone_vivo_content" />
+        android:text="@string/acb_phone_grant_contact_miui_content"
+        tools:text="@string/acb_phone_grant_contact_miui_content" />
 </RelativeLayout>
