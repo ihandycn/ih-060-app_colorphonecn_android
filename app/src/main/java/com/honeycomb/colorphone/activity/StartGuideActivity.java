@@ -279,10 +279,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (AutoPermissionChecker.isPhonePermissionGranted()) {
                         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                         AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
-
-                        if (AccVoiceGuide.getInstance().isEnable()) {
-                            Threads.postOnMainThreadDelayed(() -> AccVoiceGuide.getInstance().start(), 1000);
-                        }
                     } else {
                         if (AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.READ_PHONE_STATE)
                                 || AutoPermissionChecker.isPermissionPermanentlyDenied(Manifest.permission.CALL_PHONE)) {
