@@ -345,7 +345,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         Analytics.logEvent("FixAlert_Auto_Skipped");
                         Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
                     }
-                    showConfirmDialog(confirmPermission);
+                    if (!RomUtils.checkIsVivoRom()){
+                        showConfirmDialog(confirmPermission);
+                    }
                 }
             }
 
