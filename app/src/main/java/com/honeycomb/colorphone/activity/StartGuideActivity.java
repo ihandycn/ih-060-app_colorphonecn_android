@@ -26,6 +26,7 @@ import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
+import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.startguide.StartGuideViewListHolder;
 import com.honeycomb.colorphone.util.Analytics;
@@ -170,6 +171,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     protected void onResume() {
         super.onResume();
         AccVoiceGuide.getInstance().stop("back");
+        PermissionVoiceGuide.getInstance().stop();
     }
 
     @Override

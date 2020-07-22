@@ -84,6 +84,7 @@ import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
+import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
@@ -586,6 +587,7 @@ public class ColorPhoneApplicationImpl {
                 Analytics.logEvent("Home_Back_Tracked");
 
                 AccVoiceGuide.getInstance().stop("home");
+                PermissionVoiceGuide.getInstance().stop();
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
                 if (batteryLevel < 20) {
                     if (batteryChangeToLow) {

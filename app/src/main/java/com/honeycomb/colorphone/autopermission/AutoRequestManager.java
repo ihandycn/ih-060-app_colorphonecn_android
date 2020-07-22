@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
+import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.util.Analytics;
@@ -1151,6 +1152,9 @@ public class AutoRequestManager {
 
                     } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
                         Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                        if (RomUtils.checkIsVivoRom()) {
+                            PermissionVoiceGuide.getInstance().start(type);
+                        }
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                     }
