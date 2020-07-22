@@ -89,25 +89,18 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasShowOnLockScreenPermission() {
-        if (needShowOnLockPopup()) {
+        if (Compats.IS_XIAOMI_DEVICE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.SHOW_WHEN_LOCKED) == PermissionsTarget22.GRANTED;
             }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_show_on_lockscreen_permission",
                     false);
+        } else if (Compats.IS_VIVO_DEVICE && Build.VERSION.SDK_INT > 24) {
+            return VivoUtils.checkLockPermission(ColorPhoneApplication.getContext());
         } else {
             // TODO
             return true;
         }
-    }
-
-    private static boolean needShowOnLockPopup() {
-        if (Compats.IS_XIAOMI_DEVICE) {
-            return true;
-        } else if (Compats.IS_VIVO_DEVICE) {
-            return Build.VERSION.SDK_INT > 24;
-        }
-        return false;
     }
 
     public static boolean isAccessibilityGranted() {
