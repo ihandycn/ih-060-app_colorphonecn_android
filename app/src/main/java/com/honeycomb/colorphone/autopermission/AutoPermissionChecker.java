@@ -52,6 +52,8 @@ public class AutoPermissionChecker {
         boolean ret = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && RomUtils.checkIsMiuiRom()) {
             ret = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
+        }else if (RomUtils.checkIsVivoRom()){
+            return  VivoUtils.checkAutoStartPermission(HSApplication.getContext());
         }
         return ret || Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
