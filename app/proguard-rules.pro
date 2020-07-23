@@ -88,10 +88,6 @@
 
 -keep class net.appcloudbox.feast.**{*;}
 
--keep class com.acb.cashcenter.util.AppInfoUtils{*;}
-
--keep class com.acb.cashcenter.ads.AdUtils{*;}
-
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;
     public <methods>;
@@ -104,9 +100,6 @@
 -keepnames class com.honeycomb.colorphone.notification.NotificationServiceV18
 
 -keep public class com.android.vending.licensing.ILicensingService
--keep class com.acb.cashcenter.model.* {
-*;
-}
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);

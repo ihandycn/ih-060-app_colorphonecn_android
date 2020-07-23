@@ -19,7 +19,7 @@
         android:name="android.hardware.camera.any"
         android:required="false" />
 
-    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.trident, net.appcloudbox.autopilot, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs" />
+    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, net.appcloudbox.ads, net.appcloudbox.trident, net.appcloudbox.autopilot, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs" />
 
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />

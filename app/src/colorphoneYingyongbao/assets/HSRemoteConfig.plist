@@ -74,13 +74,6 @@
 				<key>TimeIntervalMinute</key>
 				<integer>0</integer>
 			</dict>
-			<key>CashCenter</key>
-			<dict>
-				<key>Enable</key>
-				<true/>
-				<key>FloatingGuide</key>
-				<false/>
-			</dict>
 			<key>Charging</key>
 			<dict>
 				<key>ChargingLockScreen</key>
