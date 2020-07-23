@@ -256,6 +256,11 @@ abstract class ResultController implements View.OnClickListener {
             public void onAdClick(AcbAd acbAd) {
                 logBoostDoneAdClicked();
             }
+
+            @Override
+            public void onAdShow() {
+                
+            }
         });
         AcbNativeAdContainerView adContainer = new AcbNativeAdContainerView(getContext());
         adContainer.addContentView(mResultContentView);

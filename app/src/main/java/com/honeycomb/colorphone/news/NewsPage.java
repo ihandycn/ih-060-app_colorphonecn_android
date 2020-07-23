@@ -34,6 +34,8 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
 import com.superapps.util.Toasts;
 
+import net.appcloudbox.ads.base.AcbAd;
+import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
@@ -585,8 +587,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         void bindView(NewsNativeAdBean bean) {
             adContainer.fillNativeAd(bean.acbNativeAd, "");
-            bean.acbNativeAd.setNativeClickListener(acbAd -> {
-                logger.logAdClick();
+            bean.acbNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
+                @Override
+                public void onAdClick(AcbAd acbAd) {
+                    logger.logAdClick();
+                }
+
+                @Override
+                public void onAdShow() {
+
+                }
             });
 
             mDescriptionTv.setText(bean.acbNativeAd.getTitle());
