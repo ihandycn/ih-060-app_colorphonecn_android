@@ -49,7 +49,7 @@ dependencies {
 
     compileOnly("cn.appcloudbox.autopilot:libAutoPilot.beta:5.6.2.cn.beta01")
     compileOnly 'cn.ihandy.appframework:libAppframework.beta:4.10.0.cn.beta01'
-    compileOnly 'net.appcloudbox.ads:libAcbAds.beta:5.14.4.cn.alpha08'
+    compileOnly 'cn.appcloudbox.ads:colorphone_k:2020.07.23.004'
     compileOnly "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
     implementation 'android.arch.lifecycle:extensions:1.1.1'
