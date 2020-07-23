@@ -75,6 +75,7 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
+import com.superapps.util.rom.VivoUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -682,6 +683,9 @@ public class AutoRequestManager {
     public boolean isGrantAllRuntimePermission() {
         List<String> permissions = new ArrayList<>();
         permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+        if (RomUtils.checkIsVivoRom()) {
+            permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG);
         }
