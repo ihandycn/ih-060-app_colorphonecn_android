@@ -234,7 +234,7 @@ dependencies {
     implementation project(':libRingtones')
 
     // GoldEye
-    colorphoneImplementation 'cn.appcloudbox.ads:colorphone_k:2020.07.23.003'
+    colorphoneImplementation 'cn.appcloudbox.ads:colorphone_k:2020.07.23.004'
 
     implementation 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     implementation 'com.android.volley:volley:1.1.1'
