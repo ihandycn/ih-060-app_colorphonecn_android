@@ -9,7 +9,6 @@ import android.view.View;
 public class TabItem {
     public static final String TAB_MAIN = "main";
     public static final String TAB_NEWS = "news";
-    public static final String TAB_CASH = "cash";
     public static final String TAB_RINGTONE = "ringtone";
     public static final String TAB_SETTINGS = "settings";
 

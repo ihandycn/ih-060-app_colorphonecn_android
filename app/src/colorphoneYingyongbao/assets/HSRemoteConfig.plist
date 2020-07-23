@@ -6,8 +6,6 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-		    <key>AdPlacementPrefix</key>
-            <string>Air</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>

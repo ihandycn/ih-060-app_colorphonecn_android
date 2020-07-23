@@ -86,10 +86,6 @@
 
 -keep class com.feast.nativegamecenter.withdraw.module.**{*;}
 
--keep class com.acb.cashcenter.HSCashCenterManager{*;}
-
--keep class com.acb.cashcenter.model.**{*;}
-
 -keep class net.appcloudbox.feast.**{*;}
 
 -keep class com.acb.cashcenter.util.AppInfoUtils{*;}

@@ -259,7 +259,7 @@ public class NewsManager {
     }
 
     private static String getNativeAdPlacementName() {
-        return Placements.getAdPlacement(Placements.AD_EXIT_WIRE_NEW);
+        return Placements.AD_EXIT_WIRE_NEW;
     }
 
     public AcbNativeAd getNativeAd() {
