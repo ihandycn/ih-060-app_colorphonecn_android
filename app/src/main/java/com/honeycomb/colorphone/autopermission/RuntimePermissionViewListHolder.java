@@ -11,6 +11,7 @@ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.rom.RomUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -103,7 +104,9 @@ public class RuntimePermissionViewListHolder {
     static boolean getItemGrant(@PERMISSION_TYPES String type) {
         if (TextUtils.equals(type, AutoRequestManager.TYPE_CUSTOM_NOTIFICATION)) {
             return AutoPermissionChecker.isNotificationListeningGranted();
-        } else {
+        } else if (RomUtils.checkIsVivoRom()){
+            return AutoPermissionChecker.isRuntimePermissionGrant(type);
+        }else {
             return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), type) == RuntimePermissions.PERMISSION_GRANTED;
         }
     }

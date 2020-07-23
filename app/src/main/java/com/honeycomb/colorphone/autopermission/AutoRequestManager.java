@@ -1155,7 +1155,8 @@ public class AutoRequestManager {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
 
                     } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
-                        Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+                        Threads.postOnMainThreadDelayed(() -> Navigations.startActivitySafely(HSApplication.getContext(), guideIntent), 900);
                         if (RomUtils.checkIsVivoRom()) {
                             PermissionVoiceGuide.getInstance().start(type);
                         }

@@ -163,17 +163,16 @@ public class AutoPermissionChecker {
 
     public static boolean checkVivoRuntimePermission(String permission) {
         Context context = HSApplication.getContext();
-        switch (permission) {
-            case HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ:
-                return VivoUtils.checkReadContactPermission(context);
-            case HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE:
-                return VivoUtils.checkWriteContactPermission(context);
-            case HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG:
-                return VivoUtils.checkReadCallLog(context);
-            case HSRuntimePermissions.TYPE_RUNTIME_STORAGE:
-                return VivoUtils.checkStoragePermission();
-            default:
-                return false;
+        if (permission.equals(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ) || permission.equals(Manifest.permission.READ_CONTACTS)) {
+            return VivoUtils.checkReadContactPermission(context);
+        } else if (permission.equals(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE) || permission.equals(Manifest.permission.WRITE_CONTACTS)) {
+            return VivoUtils.checkWriteContactPermission(context);
+        } else if (permission.equals(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG) || permission.equals(Manifest.permission.READ_CALL_LOG)) {
+            return VivoUtils.checkReadCallLog(context);
+        } else if (permission.equals(HSRuntimePermissions.TYPE_RUNTIME_STORAGE) || permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            return VivoUtils.checkStoragePermission();
+        } else {
+            return false;
         }
     }
 

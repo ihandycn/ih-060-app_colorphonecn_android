@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.rom.VivoUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -51,29 +52,29 @@ public class ContactVivoGuideActivity extends AppCompatActivity {
 
         String splitter = getString(R.string.acb_phone_permission_splitter);
         StringBuilder permission = new StringBuilder();
-        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != RuntimePermissions.PERMISSION_GRANTED) {
-            permission.append(getString(R.string.acb_phone_permission_write_contact));
+        if (!VivoUtils.checkWriteContactPermission(this)) {
+            permission.append(getString(R.string.acb_phone_vivo_permission_write_contact));
         }
 
-        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != RuntimePermissions.PERMISSION_GRANTED) {
+        if (!VivoUtils.checkReadContactPermission(this)) {
             if (permission.length() != 0) {
                 permission.append(splitter);
             }
-            permission.append(getString(R.string.acb_phone_permission_read_contact));
+            permission.append(getString(R.string.acb_phone_vivo_permission_read_contact));
         }
 
-        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != RuntimePermissions.PERMISSION_GRANTED) {
+        if (!VivoUtils.checkReadCallLog(this)) {
             if (permission.length() != 0) {
                 permission.append(splitter);
             }
-            permission.append(getString(R.string.acb_phone_permission_read_call_log));
+            permission.append(getString(R.string.acb_phone_vivo_permission_read_call_log));
         }
 
-        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != RuntimePermissions.PERMISSION_GRANTED) {
+        if (!VivoUtils.checkStoragePermission()) {
             if (permission.length() != 0) {
                 permission.append(splitter);
             }
-            permission.append(getString(R.string.acb_phone_permission_read_storage));
+            permission.append(getString(R.string.acb_phone_vivo_permission_read_storage));
         }
         ((TextView) findViewById(R.id.content)).setText(permission);
 
