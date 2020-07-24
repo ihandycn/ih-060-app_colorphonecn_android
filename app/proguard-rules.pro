@@ -303,3 +303,7 @@
 
 -keep class com.honeycomb.colorphone.http.bean.** {*;}
 -dontwarn kotlinx.coroutines.**
+
+-dontwarn com.heytap.instant.upgrade.**
+-dontwarn com.nearme.instant.router.**
+-dontwarn com.opos.**
