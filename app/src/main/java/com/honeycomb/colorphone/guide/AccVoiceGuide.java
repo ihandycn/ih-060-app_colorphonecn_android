@@ -106,7 +106,7 @@ public class AccVoiceGuide {
             delaySeconds = 6;
         }else if(Compats.IS_VIVO_DEVICE){
             voiceStreamId = SoundManager.getInstance().playAccGuideVoiceVivo();
-            delaySeconds = 4;
+            delaySeconds = 7;
         } else {
             switch (AccGuideAutopilotUtils.getVoiceType()) {
                 default:

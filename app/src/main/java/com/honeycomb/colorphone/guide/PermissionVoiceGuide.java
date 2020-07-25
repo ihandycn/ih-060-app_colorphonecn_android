@@ -90,22 +90,22 @@ public class PermissionVoiceGuide {
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
                 voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
-                delaySeconds = 6;
+                delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
-                delaySeconds = 4;
+                delaySeconds = 7;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playVivoPhoneGuide();
-                delaySeconds = 4;
+                delaySeconds = 7;
                 break;
             case HSPermissionRequestMgr.TYPE_CALL_LOG:
             case HSPermissionRequestMgr.TYPE_CONTACT_READ:
             case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
             case HSPermissionRequestMgr.TYPE_STORAGE:
                 voiceStreamId = SoundManager.getInstance().playVivoContactGuide();
-                delaySeconds = 6;
+                delaySeconds = 9;
                 break;
         }
     }
