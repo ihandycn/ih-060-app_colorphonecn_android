@@ -25,16 +25,49 @@
       "name": "ad_click_banner"
     },
     {
+      "name": "ad_click_splash"
+    },
+    {
+      "name": "ad_click__native__ge"
+    },
+    {
+      "name": "ad_click__interstitial__ge"
+    },
+    {
+      "name": "ad_click__rewarded_video__ge"
+    },
+    {
+      "name": "ad_click__banner__ge"
+    },
+    {
+      "name": "ad_click__splash__ge"
+    },
+    {
       "name": "ad_show"
+    },
+    {
+      "name": "ad_show__native__ge"
+    },
+    {
+      "name": "ad_show__interstitial__ge"
+    },
+    {
+      "name": "ad_show__rewarded_video__ge"
+    },
+    {
+      "name": "ad_show__banner__ge"
+    },
+    {
+      "name": "ad_show__splash__ge"
+    },
+    {
+      "name": "ad_show__customized__ge"
     },
     {
       "name": "iap"
     },
     {
       "name": "get_remote_config"
-    },
-    {
-      "name": "ad_click"
     }
   ],
   "user_behavior_app_events": [],
@@ -88,23 +121,23 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "13bba3dc-f148-4b3e-a9bd-a67c3db727f9",
+  "json_id": "3fc43491-8dd5-4156-8cb1-c82063c28b43",
   "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-7jwfh16wh": {
       "topic_type": "life_time",
-      "config_id": "rule-7k68ogasn",
+      "config_id": "rule-7kbzn1uf6",
       "topic_id": "topic-7jwfh16wh",
       "topic_name": "Voice_Test",
       "variations": {
         "type": {
           "values": [
             {
-              "value": 2
+              "value": 3
             }
           ],
           "type": "double",
-          "value": 2,
+          "value": 3,
           "strategy": "sole"
         },
         "enable": {
@@ -130,11 +163,11 @@
         "enable_xiaomi": {
           "values": [
             {
-              "value": false
+              "value": true
             }
           ],
           "type": "boolean",
-          "value": false,
+          "value": true,
           "strategy": "sole"
         }
       },
