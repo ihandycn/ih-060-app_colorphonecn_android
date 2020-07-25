@@ -234,7 +234,7 @@ dependencies {
     implementation project(':libRingtones')
 
     // GoldEye
-    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.07.24.002'){
+    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.07.25.001'){
         exclude group: 'com.android.support'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'
