@@ -9,6 +9,7 @@ import com.honeycomb.colorphone.R;
 
 public class SoundManager {
 
+
     private SoundManager() {
     }
 
@@ -32,6 +33,7 @@ public class SoundManager {
     private int idNAGuideVoiceVivo;
     private int idPhoneGuideVoiceVivo;
     private int idContactVoiceVivo;
+    private int idAutoTaskVoiceVivo;
 
     public void init(Context context) {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -50,6 +52,7 @@ public class SoundManager {
         idNAGuideVoiceVivo = soundPool.load(context, R.raw.notification_voice_guide_vivo, 1);
         idPhoneGuideVoiceVivo = soundPool.load(context, R.raw.phone_voice_guide_vivo, 1);
         idContactVoiceVivo = soundPool.load(context, R.raw.contact_voice_guide_vivo, 1);
+        idAutoTaskVoiceVivo = soundPool.load(context, R.raw.contact_voice_guide_vivo, 1);
 
         isSoundPoolInitFinish = true;
     }
@@ -119,6 +122,13 @@ public class SoundManager {
     public int playVivoContactGuide() {
         if (isSoundPoolInitFinish) {
             return soundPool.play(idContactVoiceVivo, 1, 1, 1, 0, 1);
+        }
+        return 0;
+    }
+
+    public int playVivoAutoStartGuide() {
+        if (isSoundPoolInitFinish) {
+            return soundPool.play(idAutoTaskVoiceVivo, 1, 1, 1, 0, 1);
         }
         return 0;
     }

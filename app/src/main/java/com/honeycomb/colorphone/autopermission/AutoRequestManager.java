@@ -56,6 +56,7 @@ import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.SoundManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -280,6 +281,9 @@ public class AutoRequestManager {
                         StableToast.cancelToast();
                         AutoRepairingToast.showRepairingToast();
                         onAccessibilityReady();
+                        if (RomUtils.checkIsVivoRom()) {
+                            SoundManager.getInstance().playVivoAutoStartGuide();
+                        }
                     }
                     HSApplication.getContext().unregisterReceiver(this);
                     listened = false;
