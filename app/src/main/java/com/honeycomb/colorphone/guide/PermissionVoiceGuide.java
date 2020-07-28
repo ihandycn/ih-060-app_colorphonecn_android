@@ -94,7 +94,7 @@ public class PermissionVoiceGuide {
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
-                delaySeconds = 7;
+                delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playVivoPhoneGuide();
