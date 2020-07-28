@@ -32,7 +32,7 @@ public class VivoNotificationGuideActivity extends LottiePermissionGuideActivity
 
     @Override
     protected void showExitStableToast() {
-        int yOffset = Dimensions.pxFromDp(140);
+        int yOffset = Dimensions.pxFromDp(0);
         StableToast.showStableToast(R.layout.toast_one_line_text, getTitleStringResId(), yOffset, "AutoStartPageDuration");
     }
 }

@@ -1158,12 +1158,12 @@ public class AutoRequestManager {
 
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
 
-                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
+                    } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
+                        Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                    } else if (RomUtils.checkIsVivoRom()) {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
-                        Threads.postOnMainThreadDelayed(() -> Navigations.startActivitySafely(HSApplication.getContext(), guideIntent), 900);
-                        if (RomUtils.checkIsVivoRom()) {
-                            PermissionVoiceGuide.getInstance().start(type);
-                        }
+                        Threads.postOnMainThreadDelayed(() -> Navigations.startActivitySafely(HSApplication.getContext(), guideIntent), 500);
+                        PermissionVoiceGuide.getInstance().start(type);
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                     }

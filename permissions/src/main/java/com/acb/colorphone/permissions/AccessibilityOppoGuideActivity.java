@@ -39,7 +39,7 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
                     ? R.layout.toast_huawei_acc
                     : R.layout.toast_huawei_acc_8;
 
-            StableToast.showStableToast(layoutId, 0, Dimensions.pxFromDp(85), "AccessibilityPageDuration");
+            StableToast.showStableToast(layoutId, 0, 0, "AccessibilityPageDuration");
         }
     }
 }
