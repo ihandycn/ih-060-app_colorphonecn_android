@@ -52,7 +52,7 @@ public class SoundManager {
         idNAGuideVoiceVivo = soundPool.load(context, R.raw.notification_voice_guide_vivo, 1);
         idPhoneGuideVoiceVivo = soundPool.load(context, R.raw.phone_voice_guide_vivo, 1);
         idContactVoiceVivo = soundPool.load(context, R.raw.contact_voice_guide_vivo, 1);
-        idAutoTaskVoiceVivo = soundPool.load(context, R.raw.contact_voice_guide_vivo, 1);
+        idAutoTaskVoiceVivo = soundPool.load(context, R.raw.auto_task_start_voice_vivo, 1);
 
         isSoundPoolInitFinish = true;
     }
