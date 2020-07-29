@@ -54,8 +54,8 @@ public class ResultPageManager {
         boolean hasNative = false;
         boolean hasInters = false;
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            hasNative = getAd(Placements.getAdPlacement(Placements.BOOST_DONE)) != null;
-            hasInters = getInterstitialAd(Placements.getAdPlacement(Placements.BOOST_WIRE)) != null;
+            hasNative = getAd(Placements.BOOST_DONE) != null;
+            hasInters = getInterstitialAd(Placements.BOOST_WIRE) != null;
         }
 
         if (!hasNative) {
@@ -134,19 +134,11 @@ public class ResultPageManager {
     }
 
     public String getExpressAdPlacement() {
-        return isFromBatteryImprover() ? Placements.getAdPlacement(Placements.CABLE_DOWN) : Placements.getAdPlacement(Placements.BOOST_DONE);
+        return Placements.BOOST_DONE;
     }
 
     public String getInterstitialAdPlacement() {
-        return isFromBatteryImprover() ? Placements.getAdPlacement(Placements.CABLE_WIRE) : Placements.getAdPlacement(Placements.BOOST_WIRE);
-    }
-
-    public String getFromAdPlacement() {
-        return mFromAdPlacement;
-    }
-
-    public String getFromInterstitialAdPlacement() {
-        return mFromInterstitialAdPlacement;
+        return Placements.BOOST_WIRE;
     }
 
     public boolean isFromBatteryImprover() {
@@ -161,39 +153,13 @@ public class ResultPageManager {
         this.fromOkClick = fromOkClick;
     }
 
-    public boolean isFromOkClick() {
-        return fromOkClick;
-    }
-
-    public String getFromTag() {
-        return isFromOkClick() ? "OK" : "CleanPage";
-    }
-
     private Activity mActivity;
-
-    public void addAdWaitFinishActivity(Activity activity) {
-        mActivity = activity;
-    }
-
-    public Activity getAdWaitFinishActivity() {
-        return mActivity;
-    }
-
-    public void removeAdWaitFinishActivity(Activity target) {
-        if (target == mActivity) {
-            mActivity = null;
-        }
-    }
 
     public void finishAdWaitFinishActivity() {
         if (mActivity != null && !mActivity.isFinishing()) {
             mActivity.finish();
             mActivity = null;
         }
-    }
-
-    public void setAdJustShown(boolean adJustShown) {
-        this.adJustShown = adJustShown;
     }
 
     public boolean showInterstitialAd() {

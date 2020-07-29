@@ -12,12 +12,12 @@ import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.ringtones.view.RingtoneEntranceActivity;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
-import com.honeycomb.colorphone.news.NewsManager;
-import com.superapps.util.Navigations;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
+import com.honeycomb.colorphone.lifeassistant.LifeAssistantActivity;
+import com.honeycomb.colorphone.news.NewsManager;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -59,7 +59,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
-//        CleanGuideActivity.start(CleanGuideCondition.CLEAN_GUIDE_TYPE_BOOST_APPS);
         FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(HuaweiRateGuideDialog.class));
 
     }

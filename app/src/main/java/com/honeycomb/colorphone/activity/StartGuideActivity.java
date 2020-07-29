@@ -283,7 +283,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                         AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
-                        if (AccVoiceGuide.getInstance().isEnable()) {
+                        if (AccVoiceGuide.getInstance().isEnable() && !Utils.isAccessibilityGranted()) {
                             Threads.postOnMainThreadDelayed(() -> AccVoiceGuide.getInstance().start(), 1000);
                         }
                     } else {

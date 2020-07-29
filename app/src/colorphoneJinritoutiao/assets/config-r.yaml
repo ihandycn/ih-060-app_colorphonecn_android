@@ -46,6 +46,5 @@ libFramework:
     SendTokenToServer: false
 
 Application:
-  CashCenterURL: "https://service.atcloudbox.com/cashcenter"
   CmGameHost: "https://hcldx-xyx-sdk-svc.beike.cn"
   CmGameId: "huancailaidianxiu"

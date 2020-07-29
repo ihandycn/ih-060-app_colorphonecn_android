@@ -220,9 +220,6 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
-    compile(name: 'libCashCenter/alipaySdk', ext: 'aar')
-    compile(name: 'libCashCenter/cashcenter-release-2019102501', ext: 'aar')
-    compile(name: 'libCashCenter/withdraw-release-2019070401', ext: 'aar')
 
     implementation project(':libChargingCommon')
     implementation project(':libChargingReport')
@@ -237,7 +234,11 @@ dependencies {
     implementation project(':libRingtones')
 
     // GoldEye
-    colorphoneImplementation 'cn.appcloudbox.ads:colorphone_k:2020.06.09.001'
+    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.07.25.001'){
+        exclude group: 'com.android.support'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
 
     implementation 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     implementation 'com.android.volley:volley:1.1.1'

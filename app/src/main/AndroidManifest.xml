@@ -19,7 +19,7 @@
         android:name="android.hardware.camera.any"
         android:required="false" />
 
-    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.trident, net.appcloudbox.autopilot, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs" />
+    <uses-sdk tools:overrideLibrary="com.airbnb.lottie, net.appcloudbox.ads, net.appcloudbox.trident, net.appcloudbox.autopilot, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs" />
 
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -595,11 +595,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name=".activity.CashCenterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseTheme" />
         <!-- JPush Daemon-->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -756,15 +751,6 @@
             android:launchMode="singleTask"
             android:taskAffinity=":main"
             android:theme="@style/TransparentCompatDialog" />
-
-        <activity
-            android:name=".notification.CleanGuideActivity"
-            android:excludeFromRecents="true"
-            android:icon="@drawable/clean_guide_icon"
-            android:label="@string/clean_guide_activity_label"
-            android:launchMode="singleTask"
-            android:taskAffinity=":clean"
-            android:theme="@style/AppTranslucent" />
 
         <activity
             android:name=".activity.ExitNewsActivity"

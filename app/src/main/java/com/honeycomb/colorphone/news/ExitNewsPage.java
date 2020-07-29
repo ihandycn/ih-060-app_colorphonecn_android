@@ -21,6 +21,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Toasts;
 
+import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
@@ -227,8 +228,16 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
 
             try {
                 adContainer.fillNativeAd(acbNativeAd, "");
-                acbNativeAd.setNativeClickListener(acbAd -> {
-                    Analytics.logEvent("Message_View_Wire_Ad_Click");
+                acbNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
+                    @Override
+                    public void onAdClick(AcbAd acbAd) {
+                        Analytics.logEvent("Message_View_Wire_Ad_Click");
+                    }
+
+                    @Override
+                    public void onAdShow() {
+
+                    }
                 });
 
                 mDescriptionTv.setText(acbNativeAd.getTitle());
