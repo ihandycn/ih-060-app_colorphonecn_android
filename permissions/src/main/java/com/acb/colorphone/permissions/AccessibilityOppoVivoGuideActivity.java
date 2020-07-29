@@ -5,14 +5,17 @@ import android.os.Build;
 import com.acb.colorphone.guide.AccGuideActivity;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Compats;
-import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
-public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivity {
+public class AccessibilityOppoVivoGuideActivity extends LottiePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {
-        return R.string.acb_phone_grant_accessibility_title_oppo;
+        if (Compats.IS_VIVO_DEVICE && Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            return R.string.acb_phone_grant_accessibility_title_vivo_24;
+        } else {
+            return R.string.acb_phone_grant_accessibility_title_oppo;
+        }
     }
 
     @Override
@@ -34,10 +37,10 @@ public class AccessibilityOppoGuideActivity extends LottiePermissionGuideActivit
     protected void showExitStableToast() {
         if (Compats.IS_OPPO_DEVICE) {
             Threads.postOnMainThreadDelayed(() -> AccGuideActivity.start(HSApplication.getContext()), 300);
-        } else {
-            int layoutId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                    ? R.layout.toast_huawei_acc
-                    : R.layout.toast_huawei_acc_8;
+        } else if (Compats.IS_VIVO_DEVICE){
+            int layoutId = Build.VERSION.SDK_INT <= Build.VERSION_CODES.N
+                    ? R.layout.toast_vivo_acc_7
+                    : R.layout.toast_vivo_acc;
 
             StableToast.showStableToast(layoutId, 0, 0, "AccessibilityPageDuration");
         }

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
-import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoVivoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartAboveOOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
@@ -76,7 +76,6 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
-import com.superapps.util.rom.VivoUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -747,7 +746,7 @@ public class AutoRequestManager {
                     Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
                 }
             } else if (RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
-                guideIntent = new Intent(HSApplication.getContext(), AccessibilityOppoGuideActivity.class);
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityOppoVivoGuideActivity.class);
                 Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), intent);

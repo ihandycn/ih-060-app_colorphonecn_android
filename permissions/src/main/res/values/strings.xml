@@ -84,9 +84,10 @@
 
     <string name="acb_app_icon_replace">1@2$</string>
 
-    <string name="acb_phone_grant_permissions_title_vivo">为确保来电秀正常工作，请开启以下权限：\n·自启动\n·后台弹出\n·锁屏显示 </string>
+    <string name="acb_phone_grant_permissions_title_vivo">为确保来电秀正常工作，请开启以下权限：\n·自启动\n·锁屏显示\n·后台弹出界面 </string>
     <string name="acb_phone_grant_notification_title_vivo">为确保成功读取来电时通知，请开启通知使用权 </string>
 
     <string name="acb_phone_grant_phone_vivo_content">为确保正常显示和接听来电，请开启访问手机识别码</string>
+    <string name="acb_phone_grant_accessibility_title_vivo_24">1. 向下滑动，点击【服务】下的【0o⭐焕彩来电秀⭐o0】\n2. 在下一页打开右上角开关</string>
 
 </resources>

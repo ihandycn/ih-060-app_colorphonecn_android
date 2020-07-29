@@ -33,7 +33,7 @@ import com.acb.colorphone.PermissionsCallback;
 import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
-import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoVivoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -804,7 +804,7 @@ public class ColorPhoneApplicationImpl {
                 }
                 if (activity instanceof AccessibilityHuaweiGuideActivity
                         || activity instanceof AccessibilityMIUIGuideActivity
-                        || activity instanceof AccessibilityOppoGuideActivity) {
+                        || activity instanceof AccessibilityOppoVivoGuideActivity) {
                     Analytics.logEvent("Accessbility_Alert_Show",
                             "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(mBaseApplication.getContentResolver(), "bluetooth_name"),
                             "Brand", AutoLogger.getBrand(),
@@ -837,7 +837,7 @@ public class ColorPhoneApplicationImpl {
             public void onActivityDestroyed(Activity activity) {
                 if (activity instanceof AccessibilityHuaweiGuideActivity
                         || activity instanceof AccessibilityMIUIGuideActivity
-                        || activity instanceof AccessibilityOppoGuideActivity) {
+                        || activity instanceof AccessibilityOppoVivoGuideActivity) {
                     Analytics.logEvent("Accessbility_Alert_Closed",
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),

@@ -189,7 +189,7 @@
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog" />
         <activity
-            android:name=".AccessibilityOppoGuideActivity"
+            android:name=".AccessibilityOppoVivoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
