@@ -123,7 +123,7 @@ public class AutoPermissionChecker {
 
     public static boolean isPhonePermissionGranted() {
         boolean grant = true;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !Compats.IS_VIVO_DEVICE) {
             int permission_APC = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.ANSWER_PHONE_CALLS);
             grant = permission_APC == RuntimePermissions.PERMISSION_GRANTED;
             if (HSApplication.getFirstLaunchInfo().appVersionCode != HSApplication.getCurrentLaunchInfo().appVersionCode) {
