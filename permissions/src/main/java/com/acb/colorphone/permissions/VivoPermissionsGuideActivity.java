@@ -3,6 +3,7 @@ package com.acb.colorphone.permissions;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.acb.colorphone.PermissionsManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.superapps.util.Dimensions;
 
@@ -13,7 +14,7 @@ public class VivoPermissionsGuideActivity extends LottiePermissionGuideActivity 
         super.onCreate(savedInstanceState);
         LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_anim);
         lottieAnimationView.setTranslationY(Dimensions.pxFromDp(20));
-
+        PermissionsManager.getInstance().logEvent("Autostart_Alert_Show", false);
     }
 
     @Override

@@ -35,4 +35,8 @@ public class PermissionsManager {
         }
         return 0;
     }
+
+    public void logEvent(String eventID, boolean onlyUMENG, String... vars) {
+        permissionsCallback.logEvent(eventID, onlyUMENG, vars);
+    }
 }

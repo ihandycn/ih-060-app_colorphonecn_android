@@ -1063,6 +1063,7 @@ public class AutoRequestManager {
                             }
                         } else if (RomUtils.checkIsVivoRom()) {
                             guideClass = VivoPermissionsGuideActivity.class;
+                            Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
@@ -1083,6 +1084,7 @@ public class AutoRequestManager {
                             guideClass = ShowOnLockScreenMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsVivoRom()) {
                             guideClass = VivoPermissionsGuideActivity.class;
+                            Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         } else {
                             guideClass = ShowOnLockScreenGuideActivity.class;
                         }
@@ -1093,6 +1095,7 @@ public class AutoRequestManager {
                             guideClass = BackgroundPopupMIUIGuideActivity.class;
                         } else {
                             guideClass = VivoPermissionsGuideActivity.class;
+                            Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_PHONE:
@@ -1107,6 +1110,7 @@ public class AutoRequestManager {
                             guideClass = PhoneOppoGuideActivity.class;
                         } else if (RomUtils.checkIsVivoRom()) {
                             guideClass = PhoneVivoGuideActivity.class;
+                            Analytics.logEvent("Phone_Alert_Should_Show", false);
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:

@@ -614,6 +614,12 @@ public class ColorPhoneApplicationImpl {
             public int getAppIcon() {
                 return R.drawable.ic_launcher;
             }
+
+            @Override
+            public void logEvent(String eventID, boolean onlyUMENG, String... vars) {
+                Analytics.logEvent(eventID, onlyUMENG, vars);
+            }
+
         });
     }
 
