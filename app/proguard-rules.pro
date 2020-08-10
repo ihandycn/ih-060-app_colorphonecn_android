@@ -308,5 +308,5 @@
 -dontwarn com.nearme.instant.router.**
 -dontwarn com.opos.**
 
--keepattributes Signature
 -keep class sun.misc.Unsafe { *; }
+-dontwarn com.google.protobuf.**
