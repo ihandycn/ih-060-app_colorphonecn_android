@@ -307,3 +307,5 @@
 -dontwarn com.heytap.instant.upgrade.**
 -dontwarn com.nearme.instant.router.**
 -dontwarn com.opos.**
+
+-keep class sun.misc.Unsafe { *; }
