@@ -64,8 +64,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 1076
-            versionName "1.4.16"
+            versionCode 178
+            versionName "1.4.15"
         }
     }
 
@@ -234,7 +234,7 @@ dependencies {
     implementation project(':libRingtones')
 
     // GoldEye
-    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.07.25.001'){
+    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.08.10.001'){
         exclude group: 'com.android.support'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'
