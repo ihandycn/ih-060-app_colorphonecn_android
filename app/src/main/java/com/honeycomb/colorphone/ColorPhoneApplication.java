@@ -10,6 +10,7 @@ import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
@@ -57,12 +58,14 @@ public class ColorPhoneApplication extends HSApplication {
         AcbAds.getInstance().setWaitLoadRewardedEnable(true);
         getCustomerUserID(AcbAdsProvider::setCustomerUserId);
 
+        String media = "op";
+        String channel = HSConfig.optString("", "Application", "AdChannelName");
+        Preferences.getDefault().doOnce(() ->
+                AcbAds.getInstance().setChannelInfo(media, channel, "", "", "", "", ""), "first_init_ad_channel");
         AttributionManager am = new AttributionManager(getApplicationContext());
         am.setAttributionListener(new AttributionListener() {
             @Override
             public void onAttributionInfoReceived(AttributionInfo attributionInfo) {
-                String media = "op";
-                String channel = HSConfig.optString("", "Application", "AdChannelName");
                 String agency = attributionInfo.getAgency();
                 String store = com.ihs.commons.utils.ChannelInfoUtil.getStore(getApplicationContext());
                 String custom = com.ihs.commons.utils.ChannelInfoUtil.getCustom(getApplicationContext());
