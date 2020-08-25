@@ -6,6 +6,8 @@
 	<dict>
 		<key>Application</key>
 		<dict>
+		    <key>AdChannelName</key>
+		    <string>chuanshanjia</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
