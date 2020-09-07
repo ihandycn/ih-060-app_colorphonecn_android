@@ -69,6 +69,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Threads;
 
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.text.SimpleDateFormat;
@@ -242,7 +243,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
-
+        AcbExpressAdManager.getInstance().activePlacementInProcess(LockerCustomConfig.get().getLockerAndChargingAdName());
         if (root.getContext() instanceof Activity) {
             root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(root.getContext()));
         } else if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {

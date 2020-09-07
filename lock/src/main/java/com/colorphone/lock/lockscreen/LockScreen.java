@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Threads;
 
@@ -29,14 +30,9 @@ public abstract class LockScreen {
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
-        AcbExpressAdManager.getInstance().activePlacementInProcess(LockerCustomConfig.get().getLockerAndChargingAdName());
         mRootView = root;
         mKeyguardHandler = new KeyguardHandler(getContext());
         mKeyguardHandler.onInit();
-    }
-
-    public KeyguardHandler getKeyguardHandler() {
-        return mKeyguardHandler;
     }
 
     public ViewGroup getRootView() {
@@ -47,11 +43,8 @@ public abstract class LockScreen {
         return mRootView.getContext();
     }
 
-    /**
-     * @param dismissKeyguard Whether to remove system keyguard.
-     */
     public void dismiss(Context context, boolean dismissKeyguard) {
-        if (context instanceof BaseKeyguardActivity) {
+        if (context instanceof BaseKeyguardActivity || context instanceof SmartLockerFeedsActivity) {
             if (dismissKeyguard) {
                 mKeyguardHandler.tryDismissKeyguard(true, (Activity) getContext());
             } else {
@@ -59,6 +52,7 @@ public abstract class LockScreen {
                 ((Activity) context).overridePendingTransition(0, 0);
             }
         } else {
+            onPause();
             onStop();
             onDestroy();
             if (dismissKeyguard) {
@@ -77,6 +71,9 @@ public abstract class LockScreen {
             }
         }, 1000);
 
+    }
+
+    public void onPause() {
     }
 
     public void onStop() {

@@ -22,6 +22,9 @@ import android.view.WindowManager;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
 import com.colorphone.lock.lockscreen.locker.Locker;
+import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.SmartLockerScreen;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -175,11 +178,22 @@ public class FloatWindowControllerImpl {
         HSLog.i("LockManager", "showChargingScreen");
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;
-            container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_charging_screen, null);
             isAutoUnlocked = false;
-            lockScreenWindow = new ChargingScreen();
-            lockScreenWindow.setActivityMode(false);
-            lockScreenWindow.setup(container, bundle);
+
+            if (AutoPilotUtils.isH5LockerMode()) {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
+                lockScreenWindow = new SmartLockerScreen();
+                lockScreenWindow.setActivityMode(false);
+                Bundle smartBundle = new Bundle();
+                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+                lockScreenWindow.setup(container, smartBundle);
+            } else {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_charging_screen, null);
+                lockScreenWindow = new ChargingScreen();
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, bundle);
+            }
+
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
             } catch (SecurityException e) {
@@ -199,11 +213,22 @@ public class FloatWindowControllerImpl {
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;
             isShowLockScreen = true;
-            container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
             isAutoUnlocked = false;
-            lockScreenWindow = new Locker();
-            lockScreenWindow.setActivityMode(false);
-            lockScreenWindow.setup(container, null);
+
+            if (AutoPilotUtils.isH5LockerMode()) {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
+                lockScreenWindow = new SmartLockerScreen();
+                Bundle smartBundle = new Bundle();
+                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, smartBundle);
+            } else {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
+                lockScreenWindow = new Locker();
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, null);
+            }
+
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
             } catch (SecurityException ignored) {
@@ -226,10 +251,6 @@ public class FloatWindowControllerImpl {
     public void hideLockScreen(int hideType) {
         HSLog.i("hideLockScreen(), hideType = " + hideType);
         doHideLockScreen((hideType & FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION) == 0);
-    }
-
-    public void hideUpSlideLockScreen() {
-        doHideLockScreen(false);
     }
 
     private void doHideLockScreen(boolean dismissKeyguard) {

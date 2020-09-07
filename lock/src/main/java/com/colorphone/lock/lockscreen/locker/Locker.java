@@ -38,6 +38,8 @@ import com.superapps.util.Commons;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
+
 import java.util.Calendar;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
@@ -65,6 +67,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
+        AcbExpressAdManager.getInstance().activePlacementInProcess(LockerCustomConfig.get().getLockerAndChargingAdName());
         mIsSetup = true;
         // ======== onCreate ========
         mHomeKeyWatcher = new HomeKeyWatcher(root.getContext());

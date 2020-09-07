@@ -95,7 +95,7 @@ public class SmartLockerManager {
         }
 
         Intent intent = new Intent(HSApplication.getContext(), SmartLockerFeedsActivity.class);
-        intent.putExtra(SmartLockerFeedsActivity.EXTRA_INT_BATTERY_LEVEL_PERCENT,
+        intent.putExtra(SmartLockerScreen.EXTRA_INT_BATTERY_LEVEL_PERCENT,
                 HSChargingManager.getInstance().getBatteryRemainingPercent());
         intent.putExtra(EXTRA_START_TYPE, startType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
