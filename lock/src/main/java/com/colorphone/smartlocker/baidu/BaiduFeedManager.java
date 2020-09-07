@@ -41,6 +41,7 @@ public class BaiduFeedManager {
     private static final String APPSID = HSConfig.getString("Application", "BaiduFeed", "Appsid");
     private static final String URL = "https://cpu-openapi.baidu.com/api/v2/data/list";
 
+    @SuppressLint("HardwareIds")
     private static String ANDROID = Settings.Secure.getString(HSApplication.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
     public static final int LOAD_REFRESH = 0;

@@ -55,7 +55,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
 import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.colorphone.lock.util.ViewUtils;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -405,7 +404,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     public void onAttachedToWindow() {
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show");
-        AutoPilotUtils.logLockerModeAutopilotEvent("charging_show");
         requestAds();
     }
 
@@ -413,7 +411,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
             LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
         }
 
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAndChargingAdName(), "");
@@ -422,7 +419,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
                 LockerCustomConfig.getLogger().logEvent("ad_show");
-                AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
                 mAdShown = true;
                 LockerCustomConfig.get().onEventChargingAdShow();
                 advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
@@ -459,7 +455,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
             LockerCustomConfig.getLogger().logEvent("ad_chance");
-            AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
 
             expressAdView.switchAd();
         }

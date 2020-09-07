@@ -45,11 +45,9 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.ringtones.RingtoneConfig;
@@ -57,7 +55,6 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
-import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -279,7 +276,7 @@ public class ColorPhoneApplicationImpl {
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
+            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_NEWS_FEED);
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
@@ -437,12 +434,11 @@ public class ColorPhoneApplicationImpl {
             return;
         }
         if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
-            //
-            if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
+            if (!SmartLockerManager.getInstance().isExist()) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {
+            if (!SmartLockerManager.getInstance().isExist()) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }

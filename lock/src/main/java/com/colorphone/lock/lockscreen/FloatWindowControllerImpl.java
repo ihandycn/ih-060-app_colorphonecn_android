@@ -41,7 +41,6 @@ public class FloatWindowControllerImpl {
 
     private ViewGroup container;
     private LockScreen lockScreenWindow;
-    private TelephonyManager telephonyMgr;
     private WindowManager windowMgr;
     private boolean addedToWindowMgr;
     private boolean isShowLockScreen;
@@ -58,11 +57,7 @@ public class FloatWindowControllerImpl {
         public void onReceive(Context context, Intent intent) {
             HSLog.d("onReceive(), screen broadcast receiver, intent action = " + intent.getAction());
 
-            if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-
-            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-            } else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
-            } else if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
+            if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 HSLog.i("action on reason == " + reason + "  isAuto == " + isAutoLockState());
                 if (null == reason) {
@@ -70,9 +65,6 @@ public class FloatWindowControllerImpl {
                 }
                 switch (reason) {
                     case SYSTEM_DIALOG_REASON_HOME_KEY:
-                        if (lockScreenWindow != null) {
-                            // TODO: reset
-                        }
                         if (isAutoLockState()) {
                             showLockScreen();
                         }
@@ -118,7 +110,7 @@ public class FloatWindowControllerImpl {
         }
         context.registerReceiver(broadcastReceiver, intentFilter);
 
-        telephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         telephonyMgr.listen(new PhoneStateListener() {
 
             private boolean incomingcall;
@@ -169,11 +161,10 @@ public class FloatWindowControllerImpl {
         terminalAlarmAction.add("com.android.deskclock.ALARM_SNOOZE");
     }
 
-    public boolean showChargingScreen(Bundle bundle) {
-        // If user revoked alert window permission, we just do nothing.
+    public void showChargingScreen(Bundle bundle) {
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
                 && !Permissions.isFloatWindowAllowed(context)) {
-            return false;
+            return;
         }
         if (addedToWindowMgr && isShowLockScreen) {
             doHideLockScreen(false);
@@ -192,15 +183,13 @@ public class FloatWindowControllerImpl {
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
             } catch (SecurityException e) {
-                return false;
+                return;
             }
         }
         startDismissActivity();
-        return true;
     }
 
     public void showLockScreen() {
-        // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
                 && !Permissions.isFloatWindowAllowed(context)) {
             return;
@@ -217,7 +206,7 @@ public class FloatWindowControllerImpl {
             lockScreenWindow.setup(container, null);
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
-            } catch (SecurityException e) {
+            } catch (SecurityException ignored) {
 
             }
         }
@@ -262,7 +251,6 @@ public class FloatWindowControllerImpl {
                     windowMgr.removeView(emptyView);
                 }
             } catch (Exception exception) {
-                //window operation is not sync, this exception would occur.
                 exception.printStackTrace();
             }
             if (dismissKeyguard) {
@@ -294,7 +282,7 @@ public class FloatWindowControllerImpl {
         emptyParams.width = 1;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             emptyParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else  {
+        } else {
             emptyParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
         emptyParams.format = PixelFormat.TRANSPARENT;
@@ -302,14 +290,14 @@ public class FloatWindowControllerImpl {
         return emptyParams;
     }
 
-    // Permission check.
     public static boolean hasPermission(String permission) {
         boolean granted = false;
         if (!TextUtils.isEmpty(permission)) {
             try {
                 granted = ContextCompat.checkSelfPermission(HSApplication.getContext(), permission)
                         == PackageManager.PERMISSION_GRANTED;
-            } catch (RuntimeException e) {}
+            } catch (RuntimeException ignored) {
+            }
         }
         return granted;
     }

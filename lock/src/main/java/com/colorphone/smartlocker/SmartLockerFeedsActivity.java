@@ -49,6 +49,8 @@ import com.colorphone.lock.util.ViewUtils;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
+import com.colorphone.smartlocker.h5.BaiduH5Config;
+import com.colorphone.smartlocker.h5.ProgressWebView;
 import com.colorphone.smartlocker.itemview.INewsItemClickListener;
 import com.colorphone.smartlocker.itemview.INewsListItem;
 import com.colorphone.smartlocker.itemview.LoadMoreItem;
@@ -142,7 +144,6 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     private boolean isFirstLoadData = true;
     private boolean isNormalFinishing = true;
     private boolean currentPowerConnected;
-    public static boolean exist = false;
     private boolean isRefreshAdShow = false; //记录广告的机会利用率使用
 
     private int startType;
@@ -168,6 +169,9 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     private RecyclerView recyclerView;
     private NewsAdapter feedAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    @Nullable
+    private ProgressWebView webView;
 
     @Nullable
     private PopupWindow menuPopupWindow;
@@ -337,7 +341,47 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
         chargingTopContainer.setVisibility(currentPowerConnected ? View.VISIBLE : View.GONE);
         normalTopContainer.setVisibility(currentPowerConnected ? View.GONE : View.VISIBLE);
 
+        if (AutoPilotUtils.isH5LockerMode()) {
+            initNewsWebView();
+        } else {
+            initNewsNativeView();
+        }
+
+        initPhoneStateListener();
+
+        viewedStartTime = System.currentTimeMillis();
+
+        LockerCustomConfig.getLogger().logEvent("news_show");
+        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
+            LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
+        } else {
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Show");
+        }
+
+        SmartLockerManager.getInstance().setExist(true);
+
+        if (BuildConfig.DEBUG) {
+            UnreleasedAdWatcher.getInstance().setEnabled(false);
+        }
+
+    }
+
+    private void initNewsWebView() {
+        webView = findViewById(R.id.webview);
+        webView.setVisibility(View.VISIBLE);
+        webView.initWebView();
+        webView.setWebViewStatusChangedListener(new ProgressWebView.WebViewStatusChangedListener() {
+            @Override
+            public void onWebUrlChange(boolean canGoForward, String currentUrl) {
+                super.onWebUrlChange(canGoForward, currentUrl);
+            }
+        });
+        webView.loadUrl(BaiduH5Config.getH5UrlConfig());
+    }
+
+    private void initNewsNativeView() {
         refreshView = findViewById(R.id.refresh_view);
+        refreshView.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.feeds_recycler_view);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -376,37 +420,14 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                 if (isPullDown) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                         LockerCustomConfig.getLogger().logEvent("LockScreen_News_Refresh ");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_refresh");
                     } else {
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Refresh");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_refresh");
                     }
                 }
             }
         });
         resetNewsAdData();
         loadOldData();
-
-        initPhoneStateListener();
-
-        viewedStartTime = System.currentTimeMillis();
-
-        LockerCustomConfig.getLogger().logEvent("news_show");
-        AutoPilotUtils.logLockerModeAutopilotEvent("news_show");
-        if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
-            LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
-            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");
-        } else {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Show");
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_show");
-        }
-
-        exist = true;
-
-        if (BuildConfig.DEBUG) {
-            UnreleasedAdWatcher.getInstance().setEnabled(false);
-        }
-
     }
 
     @Override
@@ -419,10 +440,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
         if (newType != startType) {
             if (newType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
-                AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_show");
             } else {
                 LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Show");
-                AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_show");
             }
         }
     }
@@ -588,11 +607,9 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                         LockerSettings.setLockerEnabled(false);
                         LockerCustomConfig.getLogger().logEvent("LockScreen_Disabled");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("lock_disabled");
                     } else {
                         ChargingScreenSettings.setChargingScreenEnabled(false);
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Disabled");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("charging_disabled");
                     }
                     HSLog.d(TAG, "activity finish by turn off");
                     isNormalFinishing = true;
@@ -691,10 +708,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                     if (!isPullDown) {
                         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                             LockerCustomConfig.getLogger().logEvent("LockScreen_News_Loadmore", "result", "no");
-                            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_loadmore");
                         } else if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
                             LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Loadmore", "result", "no");
-                            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_loadmore");
                         }
                     }
                     return;
@@ -709,10 +724,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                 if (!isPullDown) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                         LockerCustomConfig.getLogger().logEvent("LockScreen_News_Loadmore", "result", "yes");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_loadmore");
                     } else if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Loadmore", "result", "yes");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_loadmore");
                     }
                 }
 
@@ -757,10 +770,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                 public void onClick(String articleUrl) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                         LockerCustomConfig.getLogger().logEvent("LockScreen_News_Click");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_click");
                     } else {
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Click");
-                        AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_click");
                     }
                     showNewsDetail(articleUrl);
                 }
@@ -899,6 +910,10 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
                 newsDetailView.closeNewsDetailPage();
             }
         }
+
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        }
     }
 
     @Override
@@ -940,10 +955,8 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
 
         if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
             LockerCustomConfig.getLogger().logEvent("LockScreen_News_Close");
-            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_close");
         } else if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Close");
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_close");
         }
 
         sendBroadcast(new Intent("ACTION_CHARGING_SCREEN_ON_DESTROY")
@@ -971,8 +984,14 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
         for (AcbNativeAd ad : nativeAdList) {
             ad.release();
         }
-        exist = false;
 
+        if (null != webView) {
+            //百度H5新闻流不允许清除cookie
+            webView.onDestroy(false);
+            webView = null;
+        }
+
+        SmartLockerManager.getInstance().setExist(false);
     }
 
     @Override
@@ -1031,20 +1050,16 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity implements INo
     private void logViewSlide() {
         LockerCustomConfig.getLogger().logEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
                 ? "LockScreen_News_Slide" : "ChargingScreen_News_Slide");
-        AutoPilotUtils.logLockerModeAutopilotEvent(startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER
-                ? "lock_news_slide" : "charging_news_slide");
     }
 
     private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
-        AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
     }
 
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
-        AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
     }
 
     private void logAdUseRatio(String result) {
