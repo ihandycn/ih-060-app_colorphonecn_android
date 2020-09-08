@@ -7,7 +7,7 @@ public class AutoPilotUtils {
     private static final String TOPIC_ID_LOCKER = "topic-7nec8s2as";
 
     public static boolean isH5LockerMode() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_LOCKER, "switch", false);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_LOCKER, "h5enable", false);
     }
 
     public static void logOldAdCpm(double ecpm) {
