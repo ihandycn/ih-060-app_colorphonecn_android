@@ -219,7 +219,7 @@ public class FloatWindowControllerImpl {
                 container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
                 lockScreenWindow = new SmartLockerScreen();
                 Bundle smartBundle = new Bundle();
-                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
                 lockScreenWindow.setActivityMode(false);
                 lockScreenWindow.setup(container, smartBundle);
             } else {
