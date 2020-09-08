@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
@@ -27,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +34,7 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
+import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -145,7 +144,7 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
     private ProgressWebView webView;
 
     @Nullable
-    private PopupWindow menuPopupWindow;
+    private RipplePopupView menuPopupWindow;
 
     private PopupView mCloseLockerPopupView;
 
@@ -394,12 +393,11 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
 
     private void showMenuPopupWindow(Context context, View parentView) {
         if (menuPopupWindow == null) {
-            View view = LayoutInflater.from(context).inflate(R.layout.charging_screen_popup_menu_view, null);
+            menuPopupWindow = new RipplePopupView(context, mRootView);
+            View view = LayoutInflater.from(context).inflate(R.layout.charging_screen_popup_window, mRootView, false);
             view.setBackground(ContextCompat.getDrawable(context, R.drawable.charging_screen_feeds_popup_window_bg));
-            View feedbackView = view.findViewById(R.id.smart_locker_feedback);
-            feedbackView.setVisibility(View.GONE);
 
-            View smartLockerCloseView = view.findViewById(R.id.txt_close_charging_boost);
+            View smartLockerCloseView = view.findViewById(R.id.tv_close);
             smartLockerCloseView.setOnClickListener(new View.OnClickListener() {
                 private long lastClickTime;
 
@@ -425,18 +423,16 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
                 }
             });
 
-            menuPopupWindow = new PopupWindow(view);
-            menuPopupWindow.setWidth(WRAP_CONTENT);
-            menuPopupWindow.setHeight(WRAP_CONTENT);
-            menuPopupWindow.setFocusable(true);
-            menuPopupWindow.setOutsideTouchable(true);
-            menuPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-            menuPopupWindow.update();
+            menuPopupWindow.setOutSideBackgroundColor(Color.TRANSPARENT);
+            menuPopupWindow.setContentView(view);
+            menuPopupWindow.setOutSideClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuPopupWindow.dismiss();
+                }
+            });
         }
 
-        if (menuPopupWindow.isShowing()) {
-            return;
-        }
         menuPopupWindow.showAsDropDown(parentView, -context.getResources().getDimensionPixelSize(R.dimen.charging_feeds_popmenu_margin_right),
                 -(context.getResources().getDimensionPixelOffset(R.dimen.charging_screen_menu_to_top_height) + parentView.getHeight()) >> 1);
     }
