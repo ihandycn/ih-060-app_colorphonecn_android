@@ -6,14 +6,14 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-		    <key>CableFeedTest</key>
+		    <key>NewsH5Locker</key>
 			<dict>
 				<key>CableH5RSAKeySize</key>
 				<integer>2048</integer>
 				<key>CableH5RSAKey</key>
 				<string>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvz5XO+wDhxUaIDOtrp72fUeIfTYXUSkZXNbA0REQzFGXPFqeMvKEOacgixdfeb/1jWif6dE2pzX1kwMAaOCenIjP9MSw8ZRgR3bZmRq8IuiBPDLI68tFDE6jpA8WjTlcaSkBy06iPtPckAT3LQiPFQroz4Dsoxnrw1QFO82QyWoFfUhGZjj895BQSjfjJjZajOoEY6GBtcRmI30XlVUwMJT9JAqf8GjyvoOMDR3Tjp226UepBIF/NhJKMrW3M5a0SHWo6r+KiAuG6pSVCHPXdP6MaQ/6W2W62wxRqrf24hi407qyKOu4MiEAPbEP3UjdIV3AW1nADjUzg2nxSjRFKQIDAQAB</string>
 				<key>CableH5Url</key>
-				<string>https://cpu.baidu.com/1022/f0c1081d?scid=68733</string>
+				<string>https://cpu.baidu.com/1022/af04b057?scid=69014</string>
 			</dict>
 		    <key>AdChannelName</key>
 		    <string>chuanshanjia</string>

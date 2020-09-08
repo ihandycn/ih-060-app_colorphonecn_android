@@ -33,10 +33,10 @@ public class BaiduH5Config {
      * 2. OAID: https://cpu.baidu.com/1001/d77e414?oaid=${OAID}&oaidMd5=${oaidMd5}
      */
     public static String getH5UrlConfig() {
-        int keySize = HSConfig.optInteger(2048, "Application", "CableFeedTest", "CableH5RSAKeySize");
-        String publicKey = HSConfig.optString("", "Application", "CableFeedTest", "CableH5RSAKey");
-        String url = HSConfig.optString("https://cpu.baidu.com/1022/f0c1081d?scid=68733",
-                "Application", "CableFeedTest", "CableH5Url");
+        int keySize = HSConfig.optInteger(2048, "Application", "NewsH5Locker", "CableH5RSAKeySize");
+        String publicKey = HSConfig.optString("", "Application", "NewsH5Locker", "CableH5RSAKey");
+        String url = HSConfig.optString("https://cpu.baidu.com/1022/af04b057?scid=69014",
+                "Application", "NewsH5Locker", "CableH5Url");
 
         if (TextUtils.isEmpty(publicKey)) {
             return url;

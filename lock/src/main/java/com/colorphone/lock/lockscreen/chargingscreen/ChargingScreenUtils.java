@@ -15,6 +15,7 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.libcharging.HSChargingManager;
@@ -92,6 +93,8 @@ public class ChargingScreenUtils {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
+
+        AutoPilotUtils.logNewsChance();
     }
 
     public static int getBatteryPercentage(Context context) {
@@ -123,6 +126,8 @@ public class ChargingScreenUtils {
                     "DeviceVersion", Locker.getDeviceInfo());
             FloatWindowController.getInstance().showLockScreen();
         }
+
+        AutoPilotUtils.logNewsChance();
     }
 
     private static boolean isCalling() {

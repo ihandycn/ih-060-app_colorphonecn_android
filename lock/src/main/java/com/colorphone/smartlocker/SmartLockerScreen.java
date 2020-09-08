@@ -364,7 +364,7 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
 
                 if (isPullDown) {
                     if (startType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
-                        LockerCustomConfig.getLogger().logEvent("LockScreen_News_Refresh ");
+                        LockerCustomConfig.getLogger().logEvent("LockScreen_News_Refresh");
                     } else {
                         LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Refresh");
                     }
