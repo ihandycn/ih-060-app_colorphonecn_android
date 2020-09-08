@@ -16,6 +16,7 @@ import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
+import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.libcharging.HSChargingManager;
@@ -90,8 +91,15 @@ public class ChargingScreenUtils {
         if (MODE_ACTIVITY) {
             SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
         } else {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
-            FloatWindowController.getInstance().showChargingScreen(bundle);
+            if (AutoPilotUtils.isH5LockerMode()) {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Network");
+                if (NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
+                    FloatWindowController.getInstance().showChargingScreen(bundle);
+                }
+            } else {
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_Should_Show");
+                FloatWindowController.getInstance().showChargingScreen(bundle);
+            }
         }
 
         AutoPilotUtils.logNewsChance();
@@ -120,11 +128,19 @@ public class ChargingScreenUtils {
         if (MODE_ACTIVITY) {
             SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
         } else {
-            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-            LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
-                    "Brand", Build.BRAND.toLowerCase(),
-                    "DeviceVersion", Locker.getDeviceInfo());
-            FloatWindowController.getInstance().showLockScreen();
+
+            if (AutoPilotUtils.isH5LockerMode()) {
+                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Network");
+                if (NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
+                    FloatWindowController.getInstance().showLockScreen();
+                }
+            } else {
+                String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Locker.getDeviceInfo());
+                FloatWindowController.getInstance().showLockScreen();
+            }
         }
 
         AutoPilotUtils.logNewsChance();
