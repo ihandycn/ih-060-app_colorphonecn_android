@@ -45,7 +45,7 @@ public class SmartLockerFeedsActivity extends HSAppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         HSLog.d(TAG, "SmartLockerFeedsActivity onNewIntent");
-        smartLockerScreen.onNewIntent();
+        smartLockerScreen.onNewIntent(intent);
     }
 
     @Override

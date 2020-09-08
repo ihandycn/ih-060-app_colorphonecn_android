@@ -87,7 +87,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.colorphone.lock.lockscreen.LockScreenService.getIntent;
 import static com.ihs.device.common.utils.Utils.getPackageName;
 
 public class SmartLockerScreen extends LockScreen implements INotificationObserver {
@@ -777,11 +776,11 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
         }
     }
 
-    protected void onNewIntent() {
+    protected void onNewIntent(Intent intent) {
         HSLog.d(TAG, "SmartLockerScreen onNewIntent");
         viewedStartTime = System.currentTimeMillis();
 
-        int newType = getIntent().getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
+        int newType = intent.getIntExtra(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
         if (newType != startType) {
             if (newType == SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Show");
