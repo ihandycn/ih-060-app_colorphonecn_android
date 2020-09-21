@@ -22,6 +22,9 @@ import android.view.WindowManager;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
 import com.colorphone.lock.lockscreen.locker.Locker;
+import com.colorphone.smartlocker.SmartLockerManager;
+import com.colorphone.smartlocker.SmartLockerScreen;
+import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -41,7 +44,6 @@ public class FloatWindowControllerImpl {
 
     private ViewGroup container;
     private LockScreen lockScreenWindow;
-    private TelephonyManager telephonyMgr;
     private WindowManager windowMgr;
     private boolean addedToWindowMgr;
     private boolean isShowLockScreen;
@@ -58,11 +60,7 @@ public class FloatWindowControllerImpl {
         public void onReceive(Context context, Intent intent) {
             HSLog.d("onReceive(), screen broadcast receiver, intent action = " + intent.getAction());
 
-            if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-
-            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-            } else if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
-            } else if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
+            if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 HSLog.i("action on reason == " + reason + "  isAuto == " + isAutoLockState());
                 if (null == reason) {
@@ -70,9 +68,6 @@ public class FloatWindowControllerImpl {
                 }
                 switch (reason) {
                     case SYSTEM_DIALOG_REASON_HOME_KEY:
-                        if (lockScreenWindow != null) {
-                            // TODO: reset
-                        }
                         if (isAutoLockState()) {
                             showLockScreen();
                         }
@@ -118,7 +113,7 @@ public class FloatWindowControllerImpl {
         }
         context.registerReceiver(broadcastReceiver, intentFilter);
 
-        telephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         telephonyMgr.listen(new PhoneStateListener() {
 
             private boolean incomingcall;
@@ -169,11 +164,10 @@ public class FloatWindowControllerImpl {
         terminalAlarmAction.add("com.android.deskclock.ALARM_SNOOZE");
     }
 
-    public boolean showChargingScreen(Bundle bundle) {
-        // If user revoked alert window permission, we just do nothing.
+    public void showChargingScreen(Bundle bundle) {
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
                 && !Permissions.isFloatWindowAllowed(context)) {
-            return false;
+            return;
         }
         if (addedToWindowMgr && isShowLockScreen) {
             doHideLockScreen(false);
@@ -184,23 +178,32 @@ public class FloatWindowControllerImpl {
         HSLog.i("LockManager", "showChargingScreen");
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;
-            container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_charging_screen, null);
             isAutoUnlocked = false;
-            lockScreenWindow = new ChargingScreen();
-            lockScreenWindow.setActivityMode(false);
-            lockScreenWindow.setup(container, bundle);
+
+            if (AutoPilotUtils.isH5LockerMode()) {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
+                lockScreenWindow = new SmartLockerScreen();
+                lockScreenWindow.setActivityMode(false);
+                Bundle smartBundle = new Bundle();
+                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
+                lockScreenWindow.setup(container, smartBundle);
+            } else {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_charging_screen, null);
+                lockScreenWindow = new ChargingScreen();
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, bundle);
+            }
+
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
             } catch (SecurityException e) {
-                return false;
+                return;
             }
         }
         startDismissActivity();
-        return true;
     }
 
     public void showLockScreen() {
-        // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
                 && !Permissions.isFloatWindowAllowed(context)) {
             return;
@@ -210,14 +213,25 @@ public class FloatWindowControllerImpl {
         if (!addedToWindowMgr) {
             addedToWindowMgr = true;
             isShowLockScreen = true;
-            container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
             isAutoUnlocked = false;
-            lockScreenWindow = new Locker();
-            lockScreenWindow.setActivityMode(false);
-            lockScreenWindow.setup(container, null);
+
+            if (AutoPilotUtils.isH5LockerMode()) {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
+                lockScreenWindow = new SmartLockerScreen();
+                Bundle smartBundle = new Bundle();
+                smartBundle.putInt(SmartLockerManager.EXTRA_START_TYPE, SmartLockerManager.EXTRA_VALUE_START_BY_LOCKER);
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, smartBundle);
+            } else {
+                container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
+                lockScreenWindow = new Locker();
+                lockScreenWindow.setActivityMode(false);
+                lockScreenWindow.setup(container, null);
+            }
+
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
-            } catch (SecurityException e) {
+            } catch (SecurityException ignored) {
 
             }
         }
@@ -239,10 +253,6 @@ public class FloatWindowControllerImpl {
         doHideLockScreen((hideType & FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION) == 0);
     }
 
-    public void hideUpSlideLockScreen() {
-        doHideLockScreen(false);
-    }
-
     private void doHideLockScreen(boolean dismissKeyguard) {
         DismissActivity.hide();
         if (addedToWindowMgr) {
@@ -262,7 +272,6 @@ public class FloatWindowControllerImpl {
                     windowMgr.removeView(emptyView);
                 }
             } catch (Exception exception) {
-                //window operation is not sync, this exception would occur.
                 exception.printStackTrace();
             }
             if (dismissKeyguard) {
@@ -294,7 +303,7 @@ public class FloatWindowControllerImpl {
         emptyParams.width = 1;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             emptyParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else  {
+        } else {
             emptyParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
         emptyParams.format = PixelFormat.TRANSPARENT;
@@ -302,14 +311,14 @@ public class FloatWindowControllerImpl {
         return emptyParams;
     }
 
-    // Permission check.
     public static boolean hasPermission(String permission) {
         boolean granted = false;
         if (!TextUtils.isEmpty(permission)) {
             try {
                 granted = ContextCompat.checkSelfPermission(HSApplication.getContext(), permission)
                         == PackageManager.PERMISSION_GRANTED;
-            } catch (RuntimeException e) {}
+            } catch (RuntimeException ignored) {
+            }
         }
         return granted;
     }

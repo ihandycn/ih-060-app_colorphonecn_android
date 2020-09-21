@@ -8,13 +8,10 @@ import android.os.BatteryManager;
 import android.os.Build;
 
 import com.colorphone.lock.LockerCustomConfig;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
@@ -49,12 +46,11 @@ public class LockScreenStarter {
             if (SmartChargingSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
 
-                if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
-
-                    ChargingScreenSettings.increaseChargingCount();
-                    if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
+                if (!SmartLockerManager.getInstance().isExist()) {
+                    if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
+                    ChargingScreenSettings.increaseChargingCount();
                     ChargingScreenUtils.startChargingScreenActivity(true, false);
                 }
             }
@@ -115,16 +111,13 @@ public class LockScreenStarter {
     }
 
     private void tryShowChargingScreen() {
-        if (((!isChargingScreenExist() && AutoPilotUtils.getLockerMode().equals("normal")) ||
-                (!SmartLockerFeedsActivity.exist && AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) ||
-                (!isChargingScreenExist() && RomUtils.checkIsOppoRom()))
-
+        if (!isChargingScreenExist()
                 && blockWhenHasKeyGuard
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
                     "Brand", Build.BRAND.toLowerCase());
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
+            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
@@ -159,31 +152,39 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom())
-                    ? !SmartLockerFeedsActivity.exist : !isChargingScreenExist()) {
-                blockWhenHasKeyGuard = true;
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
-                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
-                }
-                ChargingScreenUtils.startChargingScreenActivity(false, false);
+
+            if (isChargingScreenExist()) {
+                return;
             }
+
+            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+                SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+            }
+
+            blockWhenHasKeyGuard = true;
+            ChargingScreenUtils.startChargingScreenActivity(false, false);
+
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            if ((AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom())
-                    ? !SmartLockerFeedsActivity.exist : !isLockScreenExist()) {
-                if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
-                    SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
-                }
-                ChargingScreenUtils.startLockerActivity(false);
+
+            if (isLockScreenExist()) {
+                return;
             }
+
+            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+                SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
+            }
+
+            ChargingScreenUtils.startLockerActivity(false);
+
         }
     }
 
     private boolean isLockScreenExist() {
-        return LockerActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
+        return SmartLockerManager.getInstance().isExist() || FloatWindowController.getInstance().isLockScreenShown();
     }
 
     private boolean isChargingScreenExist() {
-        return ChargingScreenActivity.exist || FloatWindowController.getInstance().isLockScreenShown();
+        return SmartLockerManager.getInstance().isExist() || FloatWindowController.getInstance().isLockScreenShown();
     }
 
     private boolean isCharging() {

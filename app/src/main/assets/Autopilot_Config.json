@@ -68,8 +68,33 @@
     },
     {
       "name": "get_remote_config"
+    },
+    {
+      "name": "earnings"
+    },
+    {
+      "name": "earnings_rmb"
+    },
+    {
+      "name": "cost"
+    },
+    {
+      "name": "cost_rmb"
+    },
+    {
+      "name": "pay_actual"
+    },
+    {
+      "name": "pay_actual_rmb"
+    },
+    {
+      "name": "pay_ought"
+    },
+    {
+      "name": "pay_ought_rmb"
     }
   ],
+  "integration_submit_url": "https://ap-orsersu.atcloudbox.com/integration/autopilot/v5/submit",
   "user_behavior_app_events": [],
   "occasion_mgt": {
     "archived_actions": {},
@@ -108,6 +133,7 @@
       }
     }
   },
+  "integration_get_url": "https://ap-orserge.atcloudbox.com/integration/autopilot/v5/get",
   "autopilot_id": 10102,
   "app_meta": {
     "remote_config_get_interval_secs": {
@@ -121,7 +147,7 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "3fc43491-8dd5-4156-8cb1-c82063c28b43",
+  "json_id": "b69a01c5-ee5d-48fa-8d93-abfa2d4fcb9c",
   "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-7jwfh16wh": {
@@ -224,6 +250,101 @@
         },
         {
           "name": "video_slide"
+        }
+      ]
+    },
+    "topic-7fysxrksq": {
+      "topic_type": "life_time",
+      "config_id": "rule-7h5m18b62",
+      "topic_id": "topic-7fysxrksq",
+      "topic_name": "CableFeed_Test",
+      "variations": {
+        "cable_mode": {
+          "values": [
+            {
+              "value": "cableandfuse"
+            }
+          ],
+          "type": "string",
+          "value": "cableandfuse",
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "news_show"
+        },
+        {
+          "name": "news_chance"
+        },
+        {
+          "name": "ad_chance"
+        },
+        {
+          "name": "ad_show"
+        },
+        {
+          "name": "charging_should_show"
+        },
+        {
+          "name": "charging_show"
+        },
+        {
+          "name": "charging_news_should_show"
+        },
+        {
+          "name": "charging_news_show"
+        },
+        {
+          "name": "charging_news_slide"
+        },
+        {
+          "name": "charging_news_click"
+        },
+        {
+          "name": "charging_news_loadmore"
+        },
+        {
+          "name": "charging_news_close"
+        },
+        {
+          "name": "charging_disabled"
+        },
+        {
+          "name": "lock_should_show"
+        },
+        {
+          "name": "lock_show"
+        },
+        {
+          "name": "lock_news_should_show"
+        },
+        {
+          "name": "lock_news_show"
+        },
+        {
+          "name": "lock_news_slide"
+        },
+        {
+          "name": "lock_news_click"
+        },
+        {
+          "name": "lock_news_loadmore"
+        },
+        {
+          "name": "lock_news_close"
+        },
+        {
+          "name": "lock_disabled"
+        },
+        {
+          "name": "charging_news_refresh"
+        },
+        {
+          "name": "lock_news_refresh"
         }
       ]
     },
@@ -585,6 +706,38 @@
         }
       ]
     },
+    "topic-7nec8s2as": {
+      "topic_type": "life_time",
+      "config_id": "rule-7nedl8e1y",
+      "topic_id": "topic-7nec8s2as",
+      "topic_name": "LockScreenNewsH5 test",
+      "variations": {
+        "h5enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "cpm_collection_news"
+        },
+        {
+          "name": "lockscreen_should_show"
+        },
+        {
+          "name": "lockscreen_show"
+        }
+      ]
+    },
     "topic-rp-73firir8m": {
       "topic_type": "one_time",
       "topic_name": "RTOT Popup",
@@ -692,20 +845,20 @@
       ],
       "topic_id": "topic-rp-73firir8m"
     },
-    "topic-7fysxrksq": {
+    "topic-7k7nf7x6b": {
       "topic_type": "life_time",
-      "config_id": "rule-7h5m18b62",
-      "topic_id": "topic-7fysxrksq",
-      "topic_name": "CableFeed_Test",
+      "config_id": "rule-7k7nmjgt0",
+      "topic_id": "topic-7k7nf7x6b",
+      "topic_name": "Kuaishou Test",
       "variations": {
-        "cable_mode": {
+        "enable": {
           "values": [
             {
-              "value": "cableandfuse"
+              "value": false
             }
           ],
-          "type": "string",
-          "value": "cableandfuse",
+          "type": "boolean",
+          "value": false,
           "strategy": "sole"
         }
       },
@@ -714,76 +867,13 @@
           "name": "test"
         },
         {
-          "name": "news_show"
+          "name": "tab_video_show"
         },
         {
-          "name": "news_chance"
+          "name": "video_play"
         },
         {
-          "name": "ad_chance"
-        },
-        {
-          "name": "ad_show"
-        },
-        {
-          "name": "charging_should_show"
-        },
-        {
-          "name": "charging_show"
-        },
-        {
-          "name": "charging_news_should_show"
-        },
-        {
-          "name": "charging_news_show"
-        },
-        {
-          "name": "charging_news_slide"
-        },
-        {
-          "name": "charging_news_click"
-        },
-        {
-          "name": "charging_news_loadmore"
-        },
-        {
-          "name": "charging_news_close"
-        },
-        {
-          "name": "charging_disabled"
-        },
-        {
-          "name": "lock_should_show"
-        },
-        {
-          "name": "lock_show"
-        },
-        {
-          "name": "lock_news_should_show"
-        },
-        {
-          "name": "lock_news_show"
-        },
-        {
-          "name": "lock_news_slide"
-        },
-        {
-          "name": "lock_news_click"
-        },
-        {
-          "name": "lock_news_loadmore"
-        },
-        {
-          "name": "lock_news_close"
-        },
-        {
-          "name": "lock_disabled"
-        },
-        {
-          "name": "charging_news_refresh"
-        },
-        {
-          "name": "lock_news_refresh"
+          "name": "video_error"
         }
       ]
     },

@@ -23,26 +23,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".lockscreen.chargingscreen.ChargingScreenActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".cp_charging_screen"
-            android:theme="@style/ChargingScreenTransparentTheme" />
-
-        <activity
-            android:name=".lockscreen.locker.LockerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".cp_locker"
-            android:theme="@style/ChargingScreenTransparentTheme" />
-
-        <activity
             android:name="com.colorphone.smartlocker.SmartLockerFeedsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:excludeFromRecents="true"

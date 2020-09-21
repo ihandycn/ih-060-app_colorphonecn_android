@@ -735,18 +735,6 @@
             tools:replace="android:label" />
 
         <activity
-            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
-            android:excludeFromRecents="true"
-            android:icon="@drawable/shape_empty"
-            android:label="@string/title_locker_activity" />
-
-        <activity
-            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
-            android:excludeFromRecents="true"
-            android:icon="@drawable/shape_empty"
-            android:label="@string/title_locker_activity" />
-
-        <activity
             android:name=".autopermission.RuntimePermissionActivity"
             android:launchMode="singleTask"
             android:taskAffinity=":main"

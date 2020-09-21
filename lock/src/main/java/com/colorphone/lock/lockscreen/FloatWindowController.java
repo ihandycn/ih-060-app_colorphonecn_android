@@ -55,11 +55,10 @@ public class FloatWindowController {
         }
     }
 
-    public boolean showChargingScreen(Bundle bundle) {
+    public void showChargingScreen(Bundle bundle) {
         if (null != floatWindowControllerImpl) {
-            return floatWindowControllerImpl.showChargingScreen(bundle);
+            floatWindowControllerImpl.showChargingScreen(bundle);
         }
-        return false;
     }
 
     public void hideLockScreen(int closeType) {
