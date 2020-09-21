@@ -20,6 +20,8 @@ public class RomUtils {
             return  getRomVersion(KEY_VERSION_EMUI);
         } else if (Compats.IS_OPPO_DEVICE) {
             return  getRomVersion(KEY_VERSION_OPPO);
+        }else if (Compats.IS_VIVO_DEVICE){
+            return getRomVersion(KEY_VERSION_VIVO);
         }
         return "Unknown";
     }

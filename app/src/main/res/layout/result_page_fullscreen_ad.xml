@@ -29,10 +29,10 @@
             android:id="@+id/result_ad_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/result_image_container_charging_screen"
-            android:layout_marginRight="6dp"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="6dp"
+            android:layout_marginRight="6dp"
             tools:background="@android:color/holo_orange_dark"
             tools:layout_height="10dp"
             tools:layout_width="30dp" />
@@ -40,10 +40,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/result_image_container_charging_screen"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <View
@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginRight="24dp"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="titlettttttt"
@@ -78,8 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="24dp"
                 android:gravity="center"
                 android:lineSpacingExtra="1dp"
                 android:lines="2"
@@ -94,15 +94,27 @@
 
             <Button
                 android:id="@+id/result_action_btn"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginBottom="8dp"
                 android:textColor="#fff"
                 android:textSize="18sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/ad_tag_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="#999999"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="广告"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
 
     </android.support.percent.PercentRelativeLayout>
 </FrameLayout>

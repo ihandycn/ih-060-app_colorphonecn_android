@@ -23,7 +23,8 @@ public class TabFrameLayout extends FrameLayout {
     private SparseArray<View> mTabContentLayoutList = new SparseArray<>();
     private List<TabItem> mTabItems;
 
-    private @Nullable View getFrameItem(int pos) {
+    private @Nullable
+    View getFrameItem(int pos) {
         if (pos < 0) {
             return null;
         }
@@ -61,14 +62,7 @@ public class TabFrameLayout extends FrameLayout {
         if (changed && tabPos >= 0) {
             View oldFrame = getFrameItem(mSelectedFramePos);
             if (oldFrame != null) {
-                TabItem tabItem = mTabItems.get(mSelectedFramePos);
-                boolean needRemove = TabItem.TAB_CASH.equals(tabItem.getId());
-                if (needRemove) {
-                    mTabContentLayoutList.remove(mSelectedFramePos);
-                    removeView(oldFrame);
-                } else {
-                    oldFrame.setVisibility(GONE);
-                }
+                oldFrame.setVisibility(GONE);
             }
 
             mSelectedFramePos = tabPos;
@@ -83,14 +77,6 @@ public class TabFrameLayout extends FrameLayout {
         }
     }
 
-    public int getSelectedFramePos() {
-        return mSelectedFramePos;
-    }
-
-    public FrameChangeListener getFrameChangeListener() {
-        return mFrameChangeListener;
-    }
-
     public void setFrameChangeListener(FrameChangeListener frameChangeListener) {
         mFrameChangeListener = frameChangeListener;
     }
@@ -103,13 +89,10 @@ public class TabFrameLayout extends FrameLayout {
         mTabItems = tabItems;
     }
 
-    public List<TabItem> getTabItems() {
-        return mTabItems;
-    }
-
     public interface FrameChangeListener {
         /**
          * Notify frame item change
+         *
          * @param pos
          */
         void onFrameChanged(int pos);
@@ -118,6 +101,7 @@ public class TabFrameLayout extends FrameLayout {
     public interface FrameProvider {
         /**
          * 提供内部内容View
+         *
          * @param viewGroup
          * @param pos
          * @return

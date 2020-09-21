@@ -6,8 +6,8 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+		    <key>AdChannelName</key>
+		    <string>chuanshanjia</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
@@ -82,13 +82,6 @@
 				<integer>10</integer>
 				<key>TimeIntervalMinute</key>
 				<integer>0</integer>
-			</dict>
-			<key>CashCenter</key>
-			<dict>
-				<key>Enable</key>
-				<false/>
-				<key>FloatingGuide</key>
-				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>

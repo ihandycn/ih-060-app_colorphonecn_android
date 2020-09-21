@@ -8,7 +8,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
-import com.superappscommon.util.Strings;
+import com.superapps.util.Strings;
 
 import java.util.Calendar;
 import java.util.List;

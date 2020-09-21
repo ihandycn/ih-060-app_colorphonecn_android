@@ -21,7 +21,7 @@ import java.util.List;
 public class ConfigEvent {
 
     public static boolean dialerEnable() {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG && false) {
             return true;
         }
         String path = null;
@@ -32,7 +32,7 @@ public class ConfigEvent {
         } else {
             return false;
         }
-        boolean masterConfig = HSConfig.optBoolean(false,"Application", "Dialer", path, "Enable");
+        boolean masterConfig = HSConfig.optBoolean(false, "Application", "Dialer", path, "Enable");
 
         return masterConfig || enabledOnOSVersion("Application", "Dialer", path, "EnabledOsVersion");
     }

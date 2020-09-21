@@ -57,7 +57,7 @@ public class WelcomeActivity extends Activity {
 
         setContentView(R.layout.activity_welcome);
 
-        if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
+        if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom() || RomUtils.checkIsVivoRom()) {
             mVidView = findViewById(R.id.welcome_video);
             View cover = findViewById(R.id.welcome_cover);
 

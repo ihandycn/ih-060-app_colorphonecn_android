@@ -41,7 +41,6 @@ import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.BoostIcon;
 import com.honeycomb.colorphone.boost.DeviceManager;
-import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
@@ -268,12 +267,6 @@ public class NotificationManager implements FlashlightStatusListener {
             mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         }
 
-        // Settings or Cash-center
-        if (CashUtils.checkGlobalSwitch()) {
-            mRemoteViews.setImageViewResource(R.id.iv_clock, R.drawable.cash_icon_toolbar);
-            mRemoteViews.setTextViewText(R.id.tv_clock, context.getString(R.string.spin));
-        }
-
         boolean isForceUpdate = (mRemoteViews == null);
 
         initCpuCoolerView(mRemoteViews == null, isForceUpdate);
@@ -394,7 +387,7 @@ public class NotificationManager implements FlashlightStatusListener {
             }
             dx = Math.round((vwidth - dwidth * scale) * 0.5f);
             dy = Math.round((vheight - dheight * scale) * 0.5f);
-            Matrix matrix  = new Matrix();
+            Matrix matrix = new Matrix();
             matrix.setScale(scale, scale);
             matrix.postTranslate(dx, dy);
 
@@ -518,7 +511,7 @@ public class NotificationManager implements FlashlightStatusListener {
                 Analytics.logEvent("Notification_Toolbar_Boost_Clicked");
                 Analytics.logEvent("Notification_Toolbar_Clicked");
                 DeviceManager.getInstance().setRunningAppsRandom();
-                BoostActivity.start(context,  ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
+                BoostActivity.start(context, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
                 AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
             case NotificationManager.ACTION_MOBILE_DATA:
@@ -526,15 +519,9 @@ public class NotificationManager implements FlashlightStatusListener {
                 break;
             case NotificationManager.ACTION_SETTINGS_CLICK:
                 // com.android.alarm.permission.SET_ALARM
-                if (CashUtils.checkGlobalSwitch()) {
-                    CashUtils.startWheelActivity(null, CashUtils.Source.Toolbar);
-                    CashUtils.Event.logEvent("colorphone_earncash_icon_click_on_toolbar");
-                } else {
-                    Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
-                    Analytics.logEvent("Notification_Toolbar_Settings_Clicked");
-                    AutoPilotUtils.logNotificationToolbarSettingClick();
-                }
-
+                Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
+                Analytics.logEvent("Notification_Toolbar_Settings_Clicked");
+                AutoPilotUtils.logNotificationToolbarSettingClick();
                 break;
             case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
                 Analytics.logEvent("Notification_Toolbar_CPU_Clicked");

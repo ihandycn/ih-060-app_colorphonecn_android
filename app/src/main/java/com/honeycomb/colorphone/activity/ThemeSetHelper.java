@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import com.colorphone.ringtones.module.Ringtone;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -77,15 +76,6 @@ public class ThemeSetHelper {
                 if (ConfigSettings.showAdOnApplyTheme()) {
                     if (!ThemeGuide.isFromThemeGuide()) {
                         Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_should_show");
-                    }
-                    boolean show = AdManager.getInstance().showInterstitialAd();
-                    if (show) {
-                        if (!ThemeGuide.isFromThemeGuide()) {
-                            Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
-                        }
-                        if (ThemeGuide.isFromThemeGuide()) {
-                            Analytics.logEvent("ThemeWireAd_Show_FromThemeGuide");
-                        }
                     }
                 }
 
