@@ -51,7 +51,6 @@ import com.colorphone.smartlocker.itemview.LoadMoreItem;
 import com.colorphone.smartlocker.itemview.RightImageListItem;
 import com.colorphone.smartlocker.itemview.SmartLockerAdListItem;
 import com.colorphone.smartlocker.itemview.ThreeImageListItem;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.utils.DisplayUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.colorphone.smartlocker.utils.NewsUtils;
@@ -282,7 +281,7 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
         chargingTopContainer.setVisibility(currentPowerConnected ? View.VISIBLE : View.GONE);
         normalTopContainer.setVisibility(currentPowerConnected ? View.GONE : View.VISIBLE);
 
-        if (AutoPilotUtils.isH5LockerMode()) {
+        if (SmartLockerManager.isShowH5NewsLocker()) {
             initNewsWebView(root);
         } else {
             initNewsNativeView(root);

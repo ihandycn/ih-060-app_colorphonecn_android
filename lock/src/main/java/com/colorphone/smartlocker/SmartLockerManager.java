@@ -17,11 +17,11 @@ import com.colorphone.lock.R;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.colorphone.smartlocker.utils.NewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 
@@ -81,7 +81,7 @@ public class SmartLockerManager {
             return;
         }
 
-        if (!AutoPilotUtils.isH5LockerMode()) {
+        if (!SmartLockerManager.isShowH5NewsLocker()) {
             JSONObject jsonObject = NewsUtils.getLastNews(BaiduFeedManager.CATEGORY_ALL);
             BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(jsonObject);
             List<BaiduFeedBean> baiduFeedBeanList = baiduFeedItemsBean.getBaiduFeedBeans();
@@ -219,5 +219,9 @@ public class SmartLockerManager {
             notificationChannel.setBypassDnd(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
+    }
+
+    public static boolean isShowH5NewsLocker() {
+        return HSConfig.optBoolean(true, "Application", "NewsH5Locker", "CableH5Enable");
     }
 }

@@ -10,8 +10,6 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.SmartLockerConstants;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
-import com.colorphone.smartlocker.utils.NumberUtils;
 import com.colorphone.smartlocker.viewholder.AdViewHolder;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
@@ -162,10 +160,6 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
-
-        double ecpm = nativeAd.getEcpm() / 1000d;
-        ecpm = Double.parseDouble(NumberUtils.reserveFiveDecimals(ecpm));
-        AutoPilotUtils.logOldAdCpm(ecpm);
 
         hasLogShow = true;
     }

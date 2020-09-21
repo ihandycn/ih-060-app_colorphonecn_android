@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.smartlocker.SmartLockerFeedsActivity;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Threads;
 
@@ -34,8 +33,6 @@ public abstract class LockScreen {
         mRootView = root;
         mKeyguardHandler = new KeyguardHandler(getContext());
         mKeyguardHandler.onInit();
-
-        AutoPilotUtils.logNewsShow();
     }
 
     public ViewGroup getRootView() {

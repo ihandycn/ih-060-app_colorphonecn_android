@@ -56,7 +56,6 @@ import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
@@ -276,7 +275,7 @@ public class ColorPhoneApplicationImpl {
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
-            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+            if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_NEWS_FEED);
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }

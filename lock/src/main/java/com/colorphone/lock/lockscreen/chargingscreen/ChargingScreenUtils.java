@@ -15,7 +15,6 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -91,7 +90,7 @@ public class ChargingScreenUtils {
         if (MODE_ACTIVITY) {
             SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF);
         } else {
-            if (AutoPilotUtils.isH5LockerMode()) {
+            if (SmartLockerManager.isShowH5NewsLocker()) {
                 LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Network");
                 if (NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
                     FloatWindowController.getInstance().showChargingScreen(bundle);
@@ -101,8 +100,6 @@ public class ChargingScreenUtils {
                 FloatWindowController.getInstance().showChargingScreen(bundle);
             }
         }
-
-        AutoPilotUtils.logNewsChance();
     }
 
     public static int getBatteryPercentage(Context context) {
@@ -129,7 +126,7 @@ public class ChargingScreenUtils {
             SmartLockerManager.getInstance().tryToStartChargingScreenOrLockerActivity(EXTRA_VALUE_START_BY_LOCKER);
         } else {
 
-            if (AutoPilotUtils.isH5LockerMode()) {
+            if (SmartLockerManager.isShowH5NewsLocker()) {
                 LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Network");
                 if (NetworkStatusUtils.isNetworkConnected(HSApplication.getContext())) {
                     FloatWindowController.getInstance().showLockScreen();
@@ -142,8 +139,6 @@ public class ChargingScreenUtils {
                 FloatWindowController.getInstance().showLockScreen();
             }
         }
-
-        AutoPilotUtils.logNewsChance();
     }
 
     private static boolean isCalling() {

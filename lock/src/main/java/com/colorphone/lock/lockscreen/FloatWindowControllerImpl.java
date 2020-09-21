@@ -24,7 +24,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.SmartLockerScreen;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -180,7 +179,7 @@ public class FloatWindowControllerImpl {
             addedToWindowMgr = true;
             isAutoUnlocked = false;
 
-            if (AutoPilotUtils.isH5LockerMode()) {
+            if (SmartLockerManager.isShowH5NewsLocker()) {
                 container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
                 lockScreenWindow = new SmartLockerScreen();
                 lockScreenWindow.setActivityMode(false);
@@ -215,7 +214,7 @@ public class FloatWindowControllerImpl {
             isShowLockScreen = true;
             isAutoUnlocked = false;
 
-            if (AutoPilotUtils.isH5LockerMode()) {
+            if (SmartLockerManager.isShowH5NewsLocker()) {
                 container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_smart_locker_feeds, null);
                 lockScreenWindow = new SmartLockerScreen();
                 Bundle smartBundle = new Bundle();

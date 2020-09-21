@@ -51,8 +51,6 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.ViewUtils;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
-import com.colorphone.smartlocker.utils.NumberUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -405,10 +403,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
                 LockerCustomConfig.getLogger().logEvent("ad_show");
-
-                double ecpm = acbExpressAdView.getAdDisplayedEcpm() / 1000d;
-                ecpm = Double.parseDouble(NumberUtils.reserveFiveDecimals(ecpm));
-                AutoPilotUtils.logOldAdCpm(ecpm);
 
                 mAdShown = true;
                 LockerCustomConfig.get().onEventLockerAdShow();

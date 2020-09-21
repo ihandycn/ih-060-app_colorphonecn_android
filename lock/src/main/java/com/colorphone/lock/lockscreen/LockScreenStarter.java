@@ -13,7 +13,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
@@ -47,7 +46,7 @@ public class LockScreenStarter {
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
 
                 if (!SmartLockerManager.getInstance().isExist()) {
-                    if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+                    if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                         SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
                     }
                     ChargingScreenSettings.increaseChargingCount();
@@ -117,7 +116,7 @@ public class LockScreenStarter {
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
                     "Brand", Build.BRAND.toLowerCase());
-            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+            if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
             ChargingScreenUtils.startChargingScreenActivity(false, false);
@@ -157,7 +156,7 @@ public class LockScreenStarter {
                 return;
             }
 
-            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+            if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
 
@@ -170,7 +169,7 @@ public class LockScreenStarter {
                 return;
             }
 
-            if (!AutoPilotUtils.isH5LockerMode() && !RomUtils.checkIsOppoRom()) {
+            if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
 

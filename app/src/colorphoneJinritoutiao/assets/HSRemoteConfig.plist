@@ -8,6 +8,8 @@
 		<dict>
 		    <key>NewsH5Locker</key>
 			<dict>
+				<key>CableH5Enable</key>
+				<false/>
 				<key>CableH5RSAKeySize</key>
 				<integer>2048</integer>
 				<key>CableH5RSAKey</key>
