@@ -195,6 +195,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private TextView mThemeLikeCount;
     private TextView mThemeTitle;
     private TextView mThemeSelected;
+    private TextView mWeChatThemeSelected;
 
     private PercentRelativeLayout rootView;
 
@@ -531,6 +532,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mThemeSettingsViewHolder = new ThemeSettingsViewHolder();
         mThemeSelected = findViewById(R.id.card_selected);
+        mWeChatThemeSelected = findViewById(R.id.we_chat_selected);
+        mWeChatThemeSelected.setVisibility(GONE);
         mThemeSelected.setVisibility(GONE);
 
         rootView = findViewById(R.id.root);
@@ -919,6 +922,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             mThemeSelected.setVisibility(GONE);
         }
+        if (isWeChatThemeSelected()) {
+            mWeChatThemeSelected.setVisibility(VISIBLE);
+        } else {
+            mWeChatThemeSelected.setVisibility(GONE);
+        }
 
         fadeInActionView(needAnim);
         mTransitionEnjoyLayout.show(needAnim);
@@ -1027,6 +1035,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private boolean ifThemeSelected() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
+    }
+    private boolean isWeChatThemeSelected() {
+        return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1) == mTheme.getId();
     }
 
     @DebugLog
@@ -1884,26 +1895,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private class ThemeSettingsViewHolder {
         private TextView mEnjoyApplyBtn;
+        private TextView mEnjoyWeChatApplyBtn;
         private TextView mEnjoyApplyDefault;
         private TextView mEnjoyApplyForOne;
         private ImageView mEnjoyClose;
 
         public ThemeSettingsViewHolder() {
             mEnjoyApplyBtn = findViewById(R.id.theme_setting);
+            mEnjoyWeChatApplyBtn = findViewById(R.id.we_chat_theme_setting);
             mEnjoyApplyBtn.setTextColor(Color.WHITE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
-            mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
-                            && AutoPermissionChecker.isNotificationListeningGranted()) {
-                        Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
-                        unFoldView();
-                    } else {
-                        Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
-                    }
+            mEnjoyApplyBtn.setOnClickListener(v -> {
+                if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()
+                        && AutoPermissionChecker.isNotificationListeningGranted()) {
+                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                    unFoldView();
+                } else {
+                    Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
                 }
+            });
+
+            mEnjoyWeChatApplyBtn.setOnClickListener(v -> {
+                ThemeApplyManager.getInstance().applyWeChatInCallTheme(mTheme);
+                Utils.showApplySuccessToastView(rootView, mTransitionNavView);
             });
 
             mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);

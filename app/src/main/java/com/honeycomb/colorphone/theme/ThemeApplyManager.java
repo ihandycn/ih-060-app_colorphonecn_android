@@ -2,8 +2,14 @@ package com.honeycomb.colorphone.theme;
 
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.call.wechat.WeChatInCallManager;
+import com.honeycomb.colorphone.ScreenFlashInit;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.superapps.util.Preferences;
 
 import java.util.List;
@@ -11,6 +17,8 @@ import java.util.List;
 public class ThemeApplyManager {
 
     private static final String PREFS_SCREEN_FLASH_APPLiED_THEME_STRING = "screen_flash_applied_theme_string";
+    public static final String PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID = "prefs_screen_flash_we_chat_theme_id";
+    public static final String PREFS_SCREEN_FLASH_WE_CHAT_THEME_PATH = "prefs_screen_flash_we_chat_theme_path";
 
     private ThemeApplyManager() {
     }
@@ -60,6 +68,21 @@ public class ThemeApplyManager {
         }
         themeList.add(themeStr);
         Preferences.getDefault().putStringList(PREFS_SCREEN_FLASH_APPLiED_THEME_STRING, themeList);
+    }
+
+    public void applyWeChatInCallTheme(Theme theme){
+        addAppliedTheme(theme.toPrefString());
+        TasksManagerModel tasksManagerModel = TasksManager.getImpl().requestRingtoneTask(theme);
+        if (tasksManagerModel != null) {
+            String path = tasksManagerModel.getPath();
+            Preferences.getDefault().putString(WeChatInCallManager.PREFS_SCREEN_FLASH_WE_CHAT_RING_TONE_PATH, path);
+        }
+        Preferences.getDefault().putInt(PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, theme.getId());
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,theme.getId());
+    }
+
+    public int getWeChatInCallThemeId(){
+        return Preferences.getDefault().getInt(PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,-1);
     }
 
     private String getThemeId(String themeStr) {

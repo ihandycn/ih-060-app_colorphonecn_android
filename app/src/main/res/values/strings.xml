@@ -377,4 +377,5 @@
     <string name="privacy_content_part5">您点击“同意”，即表示您已阅读并同意更新后的《服务协议》及《隐私政策》</string>
     <string name="privacy_force_agree_text">请您同意授权，否则无法使用本应用。</string>
     <string name="acc_voice_guide_msg">即将开始语音引导</string>
+    <string name="we_chat_theme_setting">设为微信来电秀</string>
 </resources>

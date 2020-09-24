@@ -10,9 +10,13 @@ import android.os.Build;
 import android.os.Process;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
 
 import com.acb.call.CallIntentManager;
+import com.acb.call.wechat.WeChatInCallManager;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
+import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterManager;
 
@@ -48,6 +52,24 @@ public class NotificationServiceV18 extends NotificationListenerService {
         MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
         LockNotificationManager.getInstance().onNotificationPosted(statusBarNotification);
         HSLog.e(TAG, "New notification: " + statusBarNotification);
+
+        //we chat in call
+        NotificationInfoBean notificationInfoBean = NotificationInfoBean.valueOf(statusBarNotification);
+        String packageName = notificationInfoBean.packageId;
+        String text = notificationInfoBean.text;
+        String title = notificationInfoBean.title;
+
+        HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
+        if (WeChatInCallManager.WE_CHAT_IN_CALL.equals(packageName)) {
+            WeChatInCallManager.getInstance().checkAndShow(text,title,getWeChatThemeFileName());
+        }
+
+    }
+
+    private String getWeChatThemeFileName() {
+        int themeID = ThemeApplyManager.getInstance().getWeChatInCallThemeId();
+        Theme weChatTheme = ThemeApplyManager.getInstance().getAppliedThemeByThemeId(themeID);
+        return weChatTheme == null ? null : weChatTheme.getFileName();
     }
 
     @Override

@@ -647,13 +647,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public static class ThemeStatusView {
 
             private TextView mThemeSelected;
+            private TextView mWeChatThemeSelected;
 
             public ThemeStatusView(View rootView) {
 
-                View itemView = rootView;
-
-                mThemeSelected = itemView.findViewById(R.id.card_selected);
+                mThemeSelected = rootView.findViewById(R.id.card_selected);
                 mThemeSelected.setVisibility(VISIBLE);
+                mWeChatThemeSelected = rootView.findViewById(R.id.we_chat_selected);
+                mWeChatThemeSelected.setVisibility(VISIBLE);
 
             }
 
@@ -664,16 +665,26 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     mThemeSelected.setVisibility(View.GONE);
                 }
+
+                if (theme.isWeChatSelected()) {
+                    mWeChatThemeSelected.setVisibility(VISIBLE);
+                } else {
+                    mWeChatThemeSelected.setVisibility(View.GONE);
+                }
             }
 
-            public void switchToReadyState(boolean ready, boolean isSelected) {
+            public void switchToReadyState(boolean ready, boolean isSelected, boolean isWeChatSelected) {
 
-                boolean showSelected = ready && isSelected;
-                if (showSelected) {
-                    mThemeSelected.setVisibility(VISIBLE);
-                }
                 if (!ready) {
                     mThemeSelected.setVisibility(View.GONE);
+                    mWeChatThemeSelected.setVisibility(View.GONE);
+                    return;
+                }
+                if (isSelected) {
+                    mThemeSelected.setVisibility(VISIBLE);
+                }
+                if (isWeChatSelected) {
+                    mWeChatThemeSelected.setVisibility(VISIBLE);
                 }
             }
         }
@@ -681,7 +692,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void setSelected(Theme theme) {
             mThemeStatusView.setSelected(theme);
 
-            if (theme.isSelected()) {
+            if (theme.isSelected() || theme.isWeChatSelected()) {
 
                 HSLog.d(TAG, "selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.playAnimation(theme);
@@ -761,7 +772,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             setSelected(theme);
-            switchToReadyState(fileExist, theme.isSelected());
+            switchToReadyState(fileExist, theme.isSelected(), theme.isWeChatSelected());
             setHotBadge(theme.isHot());
             setRingtoneBadge(theme.hasRingtone());
             setLike(theme, false);
@@ -809,9 +820,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
-        public void switchToReadyState(boolean ready, boolean isSelected) {
+        public void switchToReadyState(boolean ready, boolean isSelected, boolean isWeChatSelected) {
 
-            mThemeStatusView.switchToReadyState(ready, isSelected);
+            mThemeStatusView.switchToReadyState(ready, isSelected, isWeChatSelected);
         }
 
         public void setLikeClick(View.OnClickListener onClickListener) {
