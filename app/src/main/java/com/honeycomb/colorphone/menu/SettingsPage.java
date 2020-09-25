@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.call.customize.ScreenFlashSettings;
+import com.acb.call.wechat.WeChatInCallManager;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
@@ -37,6 +38,8 @@ import com.honeycomb.colorphone.uploadview.UploadAndPublishActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;
@@ -48,6 +51,7 @@ public class SettingsPage implements View.OnClickListener {
     private Context context;
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
+    private SwitchCompat weChatThemeSwitch;
     private boolean initCheckState;
     private SwitchCompat defaultDialer;
     private SwitchCompat ledSwitch;
@@ -107,6 +111,16 @@ public class SettingsPage implements View.OnClickListener {
                 Analytics.logEvent("Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
+
+        View weChatThemeContainerView = rootView.findViewById(R.id.we_chat_theme_switch_container);
+        if (WeChatInCallAutopilot.isEnable()) {
+            weChatThemeContainerView.setVisibility(View.VISIBLE);
+        } else {
+            weChatThemeContainerView.setVisibility(View.GONE);
+        }
+        weChatThemeSwitch = rootView.findViewById(R.id.we_chat_theme_switch);
+        weChatThemeSwitch.setChecked(WeChatInCallUtils.isWeChatThemeEnable());
+        weChatThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> WeChatInCallUtils.setWeChatThemeSwitch(isChecked));
 
         ledSwitch = rootView.findViewById(R.id.led_flash_call_switch);
         ledSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));

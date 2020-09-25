@@ -92,6 +92,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
 import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -786,18 +787,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private void onWeChatThemeApply() {
+    private void onWeChatAppliedWithScreenFlashTheme(boolean isVideoSound){
+        if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallAutopilot.isEnable() && !WeChatInCallAutopilot.isHasButton()){
+            onWeChatThemeApply(isVideoSound);
+        }
+    }
+
+    private void onWeChatThemeApply(boolean isVideoSound) {
         if (isFromUploadAndPublish()) {
             return;
         }
-        WeChatInCallUtils.applyWeChatInCallTheme(mTheme);
+        WeChatInCallUtils.applyWeChatInCallTheme(mTheme, isVideoSound);
 
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, mTheme.getId(), mTheme.getName());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
         HSGlobalNotificationCenter.sendNotification(NOTIFY_WE_CHAT_THEME_SELECT, bundle);
-        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
 
         changeModeToEnjoy(true);
     }
@@ -1866,6 +1872,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     hideRingtoneSettings();
                     if (mApplyForAll) {
                         onThemeApply();
+                        onWeChatAppliedWithScreenFlashTheme(false);
                     } else {
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
@@ -1907,6 +1914,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
 
                 onThemeApply();
+                onWeChatAppliedWithScreenFlashTheme(true);
+
             } else {
                 ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                 setAsRingtone(true);
@@ -1941,7 +1950,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             });
 
             mEnjoyWeChatApplyBtn.setOnClickListener(v -> {
-                onWeChatThemeApply();
+                onWeChatThemeApply(true);
+                Utils.showApplySuccessToastView(rootView, mTransitionNavView, getString(R.string.we_chat_theme_set_successfully).toString());
             });
 
             mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
@@ -2005,8 +2015,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
 
-        private void showWeChatApplyBtn(){
-            if (isFromUploadAndPublish()){
+        private void showWeChatApplyBtn() {
+            if (!WeChatInCallAutopilot.isEnable() || !WeChatInCallAutopilot.isHasButton() || !WeChatInCallUtils.isWeChatThemeEnable()) {
+                return;
+            }
+            if (isFromUploadAndPublish()) {
                 return;
             }
             mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);

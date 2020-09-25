@@ -378,4 +378,6 @@
     <string name="privacy_force_agree_text">请您同意授权，否则无法使用本应用。</string>
     <string name="acc_voice_guide_msg">即将开始语音引导</string>
     <string name="we_chat_theme_setting">设为微信来电秀</string>
+    <string name="we_chat_theme_set_successfully">收到微信语音通话邀请时就会看到精美的来电秀啦</string>
+    <string name="setting_we_chat_theme_switch_msg">微信语音来电秀</string>
 </resources>
