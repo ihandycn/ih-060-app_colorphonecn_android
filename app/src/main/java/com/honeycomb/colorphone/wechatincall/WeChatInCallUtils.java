@@ -13,7 +13,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Preferences;
 
 import com.acb.call.utils.PermissionHelper;
-import com.honeycomb.colorphone.util.Analytics;
 import com.superapps.util.Permissions;
 
 public class WeChatInCallUtils {
@@ -55,43 +54,22 @@ public class WeChatInCallUtils {
         return Preferences.getDefault().getBoolean(PREFS_WE_CHAT_THEME_SWITCH, true);
     }
 
-    public static void checkPermissionAndRequest(Context context, Runnable afterSuccess) {
-        if(!Permissions.isFloatWindowAllowed(context)){
+    public static void checkPermissionAndRequest(Context context, Runnable successAction) {
+        if (!Permissions.isFloatWindowAllowed(context)) {
             Permissions.requestFloatWindowPermission(context);
             return;
         }
 
-        if(Permissions.isNotificationAccessGranted()){
-            if(afterSuccess !=  null){
-                afterSuccess.run();
+        if (Permissions.isNotificationAccessGranted()) {
+            if (successAction != null) {
+                successAction.run();
             }
-        }else {
+        } else {
             PermissionHelper.requestNotificationPermission(() -> {
-                if(afterSuccess !=  null){
-                    afterSuccess.run();
+                if (successAction != null) {
+                    successAction.run();
                 }
             });
-        }
-    }
-
-    public static class Event{
-
-        public static final String WE_CHAT_IN_CALL_BUTTON_SHOW = "WechatFlash_Button_Show";
-        public static final String WE_CHAT_IN_CALL_BUTTON_CLICK = "WechatFlash_Button_Click";
-        public static final String WE_CHAT_IN_CALL_SET_SUCCESS = "WechatFlash_Set_Success";
-
-        public static void log(String eventName){
-            log(eventName, (String) null);
-        }
-
-        public static void log(String eventName,String...vars){
-            if(vars == null){
-                Analytics.logEvent(eventName);
-            }else {
-                Analytics.logEvent(eventName,vars);
-            }
-            eventName = eventName.toLowerCase();
-            WeChatInCallAutopilot.logEvent(eventName);
         }
     }
 }

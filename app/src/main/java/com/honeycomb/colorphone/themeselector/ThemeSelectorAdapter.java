@@ -778,7 +778,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void setSelected(Theme theme) {
             mThemeStatusView.setSelected(theme);
 
-            if (theme.isSelected() || theme.isWeChatSelected()) {
+            if (theme.isSelected()) {
 
                 HSLog.d(TAG, "selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.playAnimation(theme);
