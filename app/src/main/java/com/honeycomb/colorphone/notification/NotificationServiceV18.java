@@ -61,10 +61,9 @@ public class NotificationServiceV18 extends NotificationListenerService {
         String title = notificationInfoBean.title;
 
         HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
-        if (WeChatInCallManager.WE_CHAT_IN_CALL.equals(packageName)) {
+        if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallManager.WE_CHAT_IN_CALL.equals(packageName)) {
             WeChatInCallManager.getInstance().checkAndShow(text, title, WeChatInCallUtils.getWeChatInCallThemeName());
         }
-
     }
 
     @Override

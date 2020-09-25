@@ -42,6 +42,8 @@ import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
 import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
@@ -120,7 +122,9 @@ public class SettingsPage implements View.OnClickListener {
         }
         weChatThemeSwitch = rootView.findViewById(R.id.we_chat_theme_switch);
         weChatThemeSwitch.setChecked(WeChatInCallUtils.isWeChatThemeEnable());
-        weChatThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> WeChatInCallUtils.setWeChatThemeSwitch(isChecked));
+        weChatThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            WeChatInCallUtils.setWeChatThemeSwitch(isChecked);
+        });
 
         ledSwitch = rootView.findViewById(R.id.led_flash_call_switch);
         ledSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));

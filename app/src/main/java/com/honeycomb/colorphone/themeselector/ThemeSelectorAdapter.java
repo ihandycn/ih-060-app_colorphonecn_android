@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -46,6 +48,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -133,6 +136,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             }
                         }
                     }
+                }
+            } else if (WeChatInCallUtils.NOTIFICATION_REFRESH_WE_CHAT_UI.equals(s)) {
+                if (hsBundle != null){
+                    refreshWeChatUi(hsBundle.getBoolean(WeChatInCallUtils.HS_BUNDLE_WE_CHAT_THEME_ENABLE));
                 }
             } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
                 if (hsBundle != null) {
@@ -265,6 +272,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_WE_CHAT_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(WeChatInCallUtils.NOTIFICATION_REFRESH_WE_CHAT_UI, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, observer);
@@ -492,6 +500,45 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return true;
     }
 
+    private void refreshWeChatUi(boolean isWeChatEnable) {
+        if (isWeChatEnable) {
+            showWeChatUi();
+        } else {
+            clearWeChatUi();
+        }
+    }
+
+    private void clearWeChatUi() {
+        int position = -1;
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.isWeChatSelected()) {
+                position = i;
+                break;
+            }
+        }
+
+        if (position != -1) {
+            Theme t = data.get(position);
+            t.setWeChatSelected(false);
+            notifyItemSelected(position, t);
+        }
+    }
+
+    private void showWeChatUi() {
+        int weChatThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1);
+        if (weChatThemeId == -1) {
+            return;
+        }
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.getId() == weChatThemeId) {
+                t.setWeChatSelected(true);
+                notifyItemSelected(i, t);
+                break;
+            }
+        }
+    }
 
     public void notifyItemSelected(int pos, Theme theme) {
         int adapterPos = themePositionToAdapterPosition(pos);
@@ -694,8 +741,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mThemeSelected = rootView.findViewById(R.id.card_selected);
                 mThemeSelected.setVisibility(VISIBLE);
                 mWeChatThemeSelected = rootView.findViewById(R.id.we_chat_selected);
-                mWeChatThemeSelected.setVisibility(VISIBLE);
-
+                mWeChatThemeSelected.setVisibility(View.GONE);
             }
 
             public void setSelected(Theme theme) {
@@ -706,7 +752,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     mThemeSelected.setVisibility(View.GONE);
                 }
 
-                if (theme.isWeChatSelected()) {
+                if (theme.isWeChatSelected() && WeChatInCallUtils.isWeChatThemeEnable()) {
                     mWeChatThemeSelected.setVisibility(VISIBLE);
                 } else {
                     mWeChatThemeSelected.setVisibility(View.GONE);
@@ -723,7 +769,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (isSelected) {
                     mThemeSelected.setVisibility(VISIBLE);
                 }
-                if (isWeChatSelected) {
+                if (isWeChatSelected && WeChatInCallUtils.isWeChatThemeEnable()) {
                     mWeChatThemeSelected.setVisibility(VISIBLE);
                 }
             }

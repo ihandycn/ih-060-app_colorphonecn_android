@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
@@ -383,7 +384,7 @@ public class ThemeList {
                 theme.setSelected(true);
             }
 
-            if (theme.getId() == selectedWeChatThemeId){
+            if (WeChatInCallUtils.isWeChatThemeEnable() && theme.getId() == selectedWeChatThemeId){
                 theme.setWeChatSelected(true);
             }else {
                 theme.setWeChatSelected(false);

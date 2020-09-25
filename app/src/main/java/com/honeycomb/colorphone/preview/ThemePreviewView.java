@@ -789,8 +789,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private void onWeChatAppliedWithScreenFlashTheme(boolean isVideoSound){
-        if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallAutopilot.isEnable() && !WeChatInCallAutopilot.isHasButton()){
+    private void onWeChatAppliedWithScreenFlashTheme(boolean isVideoSound) {
+        if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallAutopilot.isEnable() && !WeChatInCallAutopilot.isHasButton()) {
             onWeChatThemeApply(isVideoSound);
         }
     }
@@ -801,7 +801,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         WeChatInCallUtils.applyWeChatInCallTheme(mTheme, isVideoSound);
 
-        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, mTheme.getId());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
@@ -1068,7 +1067,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private boolean isWeChatThemeSelected() {
-        return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1) == mTheme.getId();
+        return WeChatInCallUtils.isWeChatThemeEnable() && ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1) == mTheme.getId();
     }
 
     @DebugLog
