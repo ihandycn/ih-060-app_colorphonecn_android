@@ -790,11 +790,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onWeChatAppliedWithScreenFlashTheme(boolean isVideoSound) {
         if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallAutopilot.isEnable() && !WeChatInCallAutopilot.isHasButton()) {
-            checkPermissionAndApplyWeChatTheme(isVideoSound);
+            applyWeChatTheme(isVideoSound);
         }
     }
 
-    private void checkPermissionAndApplyWeChatTheme(boolean isVideoSound) {
+    private void applyWeChatTheme(boolean isVideoSound) {
         if (isFromUploadAndPublish()) {
             return;
         }
@@ -803,13 +803,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         String logStr = isHasNAPermission ? "yes" : "no";
         Analytics.logEvent("WechatFlash_Button_Click", "NA", logStr);
         WeChatInCallAutopilot.logEvent("wechatflash_button_click");
-
-        WeChatInCallUtils.checkPermissionAndRequest(getContext(), () -> {
-            applyWeChatTheme(isVideoSound);
-        });
-    }
-
-    private void applyWeChatTheme(boolean isVideoSound) {
         WeChatInCallUtils.applyWeChatInCallTheme(mTheme, isVideoSound);
 
         HSBundle bundle = new HSBundle();
@@ -1964,7 +1957,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             });
 
             mEnjoyWeChatApplyBtn.setOnClickListener(v -> {
-                checkPermissionAndApplyWeChatTheme(true);
+                applyWeChatTheme(true);
                 Utils.showApplySuccessToastView(rootView, mTransitionNavView, getString(R.string.we_chat_theme_set_successfully).toString());
             });
 
