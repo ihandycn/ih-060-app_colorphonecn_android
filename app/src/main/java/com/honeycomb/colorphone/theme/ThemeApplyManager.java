@@ -81,8 +81,10 @@ public class ThemeApplyManager {
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,theme.getId());
     }
 
-    public int getWeChatInCallThemeId(){
-        return Preferences.getDefault().getInt(PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,-1);
+    public String getWeChatInCallThemeName(){
+        int themeID = Preferences.getDefault().getInt(PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,-1);
+        Theme weChatTheme = getAppliedThemeByThemeId(themeID);
+        return weChatTheme == null ? null : weChatTheme.getFileName();
     }
 
     private String getThemeId(String themeStr) {

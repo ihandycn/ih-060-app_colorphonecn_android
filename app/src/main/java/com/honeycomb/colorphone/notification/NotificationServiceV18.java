@@ -61,15 +61,9 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
         HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
         if (WeChatInCallManager.WE_CHAT_IN_CALL.equals(packageName)) {
-            WeChatInCallManager.getInstance().checkAndShow(text,title,getWeChatThemeFileName());
+            WeChatInCallManager.getInstance().checkAndShow(text,title,ThemeApplyManager.getInstance().getWeChatInCallThemeName());
         }
 
-    }
-
-    private String getWeChatThemeFileName() {
-        int themeID = ThemeApplyManager.getInstance().getWeChatInCallThemeId();
-        Theme weChatTheme = ThemeApplyManager.getInstance().getAppliedThemeByThemeId(themeID);
-        return weChatTheme == null ? null : weChatTheme.getFileName();
     }
 
     @Override

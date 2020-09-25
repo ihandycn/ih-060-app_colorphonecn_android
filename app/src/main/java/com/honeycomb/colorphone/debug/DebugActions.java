@@ -44,9 +44,7 @@ public class DebugActions {
 //        WindowManager windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 //        windowManager.removeView(view);
 
-        int weChatInCallThemeId = ThemeApplyManager.getInstance().getWeChatInCallThemeId();
-        Theme theme = ThemeApplyManager.getInstance().getAppliedThemeByThemeId(weChatInCallThemeId);
-        WeChatInCallManager.getInstance().checkAndShow("语⾳通话中","textTitle",theme.getFileName());
+        WeChatInCallManager.getInstance().checkAndShow("语⾳通话中","textTitle",ThemeApplyManager.getInstance().getWeChatInCallThemeName());
     }
 
     public static void onVolumeUp(Activity activity) {
