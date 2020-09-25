@@ -380,4 +380,6 @@
     <string name="we_chat_theme_setting">设为微信来电秀</string>
     <string name="we_chat_theme_set_successfully">收到微信语音通话邀请时就会看到精美的来电秀啦</string>
     <string name="setting_we_chat_theme_switch_msg">微信语音来电秀</string>
+    <string name="current_theme">当前主题</string>
+    <string name="current_we_chat_theme">当前微信主题</string>
 </resources>
