@@ -13,7 +13,7 @@ public class WeChatInCallAutopilot {
     public static boolean isEnable(){
         boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "switch", false);
         HSLog.d(TAG, "switch = " + result);
-        return true;
+        return result;
     }
 
     public static boolean isSetDefault(){
