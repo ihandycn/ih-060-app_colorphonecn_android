@@ -45,6 +45,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.call.wechat.WeChatInCallManager;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
@@ -103,6 +104,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -2023,6 +2025,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 return;
             }
             mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
+        }
+
+        public void tryToShowWeChatApplyBtn(){
+            if( WeChatInCallAutopilot.isHasButton()){
+                mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
+                WeChatInCallUtils.Event.log(WeChatInCallUtils.Event.WE_CHAT_IN_CALL_BUTTON_SHOW);
+                mEnjoyWeChatApplyBtn.setOnClickListener(v -> {
+                    boolean isHasNAPermission = Permissions.isNotificationAccessGranted();
+                    String logStr = isHasNAPermission ? "yes" : "no";
+                    WeChatInCallUtils.Event.log(WeChatInCallUtils.Event.WE_CHAT_IN_CALL_BUTTON_CLICK,"NA",logStr);
+                    WeChatInCallUtils.checkPermissionAndRequest(getContext(), () -> {
+                        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+//                        WeChatInCallUtils.applyWeChatInCallTheme(mTheme);
+                        WeChatInCallUtils.Event.log(WeChatInCallUtils.Event.WE_CHAT_IN_CALL_SET_SUCCESS);
+                    });
+                });
+            }
         }
 
         private void reset() {

@@ -37,6 +37,8 @@ import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -45,6 +47,8 @@ import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
+
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
@@ -470,6 +474,12 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         } else if ("Acb_Screenflash_DisplayFail".equalsIgnoreCase(eventID)) {
             isScreenFlashShow = false;
         }
+    }
+
+    @Override
+    public void logWeChatEvent(String eventName, String...vars) {
+        Analytics.logEvent(eventName,vars);
+        WeChatInCallAutopilot.logEvent(eventName.toLowerCase());
     }
 
     public boolean isScreenFlashNotShown() {
