@@ -799,7 +799,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         WeChatInCallUtils.applyWeChatInCallTheme(mTheme, isVideoSound);
 
-        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, mTheme.getId(), mTheme.getName());
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, mTheme.getId());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
