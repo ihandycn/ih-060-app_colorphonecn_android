@@ -17,6 +17,7 @@ import com.acb.call.wechat.WeChatInCallManager;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterManager;
 
@@ -61,7 +62,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
         HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
         if (WeChatInCallManager.WE_CHAT_IN_CALL.equals(packageName)) {
-            WeChatInCallManager.getInstance().checkAndShow(text,title,ThemeApplyManager.getInstance().getWeChatInCallThemeName());
+            WeChatInCallManager.getInstance().checkAndShow(text, title, WeChatInCallUtils.getWeChatInCallThemeName());
         }
 
     }
@@ -98,9 +99,9 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
     /**
      * Try fix service not active.
-     *
-     *  https://gist.github.com/xinghui/b2ddd8cffe55c4b62f5d8846d5545bf9
-     *  https://www.zhihu.com/question/33540416
+     * <p>
+     * https://gist.github.com/xinghui/b2ddd8cffe55c4b62f5d8846d5545bf9
+     * https://www.zhihu.com/question/33540416
      */
     public static void ensureCollectorRunning(Context context) {
         ComponentName collectorComponent = new ComponentName(context, /*NotificationListenerService Inheritance*/ NotificationServiceV18.class);
@@ -108,7 +109,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         boolean collectorRunning = false;
         List<ActivityManager.RunningServiceInfo> runningServices = manager.getRunningServices(Integer.MAX_VALUE);
-        if (runningServices == null ) {
+        if (runningServices == null) {
             HSLog.w(TAG, "ensureCollectorRunning() runningServices is NULL");
             return;
         }

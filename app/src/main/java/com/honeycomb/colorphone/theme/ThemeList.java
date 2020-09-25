@@ -363,6 +363,7 @@ public class ThemeList {
     @MainThread
     public List<Theme> updateThemes(ArrayList<Theme> themeList) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
+        int selectedWeChatThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,-1);
 
         final List<Theme> bgThemes = new ArrayList<>(themeList);
 
@@ -380,6 +381,12 @@ public class ThemeList {
             // Selected ?
             if (theme.getId() == selectedThemeId) {
                 theme.setSelected(true);
+            }
+
+            if (theme.getId() == selectedWeChatThemeId){
+                theme.setWeChatSelected(true);
+            }else {
+                theme.setWeChatSelected(false);
             }
         }
         return bgThemes;

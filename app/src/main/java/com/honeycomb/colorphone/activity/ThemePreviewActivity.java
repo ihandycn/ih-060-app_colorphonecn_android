@@ -56,6 +56,7 @@ import java.util.List;
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
+    public static final String NOTIFY_WE_CHAT_THEME_SELECT = "notify_we_chat_theme_select";
     public static final String NOTIFY_THEME_UPLOAD_SELECT = "notify_theme_upload_select";
     public static final String NOTIFY_THEME_PUBLISH_SELECT = "notify_theme_publish_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";

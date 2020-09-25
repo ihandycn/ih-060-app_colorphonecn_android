@@ -168,6 +168,7 @@
             android:layout_above="@id/theme_setting"
             android:text="@string/we_chat_theme_setting"
             android:letterSpacing="0.3"
+            android:visibility="gone"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold" />

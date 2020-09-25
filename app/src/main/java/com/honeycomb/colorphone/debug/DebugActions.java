@@ -22,6 +22,7 @@ import com.acb.call.wechat.WeChatInCallManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.theme.ThemeApplyManager;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Compats;
 import com.superapps.util.Preferences;
@@ -44,7 +45,7 @@ public class DebugActions {
 //        WindowManager windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 //        windowManager.removeView(view);
 
-        WeChatInCallManager.getInstance().checkAndShow("语⾳通话中","textTitle",ThemeApplyManager.getInstance().getWeChatInCallThemeName());
+        WeChatInCallManager.getInstance().checkAndShow("语⾳通话中","textTitle", WeChatInCallUtils.getWeChatInCallThemeName());
     }
 
     public static void onVolumeUp(Activity activity) {

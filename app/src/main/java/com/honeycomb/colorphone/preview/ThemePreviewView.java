@@ -92,6 +92,7 @@ import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -113,6 +114,7 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEM
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_WE_CHAT_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.DOWNLOADING_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.INVALID_MODE;
@@ -782,8 +784,28 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
             }
         }
-
     }
+
+    private void onWeChatThemeApply() {
+        if (isFromUploadAndPublish()) {
+            return;
+        }
+        WeChatInCallUtils.applyWeChatInCallTheme(mTheme);
+
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, mTheme.getId(), mTheme.getName());
+        // notify
+        HSBundle bundle = new HSBundle();
+        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WE_CHAT_THEME_SELECT, bundle);
+        Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+
+        changeModeToEnjoy(true);
+    }
+
+    private boolean isFromUploadAndPublish() {
+        return "upload".equals(mFrom) || "publish".equals(mFrom);
+    }
+
 
     private boolean checkVerticalScrollGuide() {
         if (Preferences.getDefault().getBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, true)) {
@@ -1036,6 +1058,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean ifThemeSelected() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
     }
+
     private boolean isWeChatThemeSelected() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1) == mTheme.getId();
     }
@@ -1903,6 +1926,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public ThemeSettingsViewHolder() {
             mEnjoyApplyBtn = findViewById(R.id.theme_setting);
             mEnjoyWeChatApplyBtn = findViewById(R.id.we_chat_theme_setting);
+            showWeChatApplyBtn();
             mEnjoyApplyBtn.setTextColor(Color.WHITE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
@@ -1917,8 +1941,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             });
 
             mEnjoyWeChatApplyBtn.setOnClickListener(v -> {
-                ThemeApplyManager.getInstance().applyWeChatInCallTheme(mTheme);
-                Utils.showApplySuccessToastView(rootView, mTransitionNavView);
+                onWeChatThemeApply();
             });
 
             mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
@@ -1982,6 +2005,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
 
+        private void showWeChatApplyBtn(){
+            if (isFromUploadAndPublish()){
+                return;
+            }
+            mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
+        }
+
         private void reset() {
             mEnjoyClose.setVisibility(GONE);
             mEnjoyApplyDefault.setVisibility(GONE);
@@ -1994,7 +2024,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void unFoldView() {
-
+            mEnjoyWeChatApplyBtn.setVisibility(GONE);
             int startCoordinateDefault = Dimensions.pxFromDp(110);
             int endCoordinate = 0;
             mEnjoyApplyDefault.setTranslationY(startCoordinateDefault);
@@ -2114,6 +2144,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         public void onAnimationStart(Animator animation) {
                             mEnjoyApplyBtn.setVisibility(VISIBLE);
                             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+                            showWeChatApplyBtn();
                         }
                     })
                     .start();
