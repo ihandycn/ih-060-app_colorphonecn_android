@@ -18,12 +18,12 @@ public class WeChatInCallAutopilot {
 
     public static boolean isSetDefault(){
         boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "defaultswitch", false);
-        HSLog.d(TAG, "switch = " + result);
+        HSLog.d(TAG, "defaultswitch = " + result);
         return result;
     }
     public static boolean isHasButton(){
         boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wechatbuttonenable", false);
-        HSLog.d(TAG, "switch = " + result);
+        HSLog.d(TAG, "wechatbuttonenable = " + result);
         return result;
     }
 
