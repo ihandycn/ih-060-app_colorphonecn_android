@@ -1942,7 +1942,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public ThemeSettingsViewHolder() {
             mEnjoyApplyBtn = findViewById(R.id.theme_setting);
             mEnjoyWeChatApplyBtn = findViewById(R.id.we_chat_theme_setting);
-            showWeChatApplyBtn();
+            if (showWeChatApplyBtn()){
+                Analytics.logEvent("WechatFlash_Button_Show");
+                WeChatInCallAutopilot.logEvent("wechatflash_button_show");
+            }
             mEnjoyApplyBtn.setTextColor(Color.WHITE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
@@ -2022,14 +2025,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
 
-        private void showWeChatApplyBtn() {
+        private boolean showWeChatApplyBtn() {
             if (!WeChatInCallAutopilot.isEnable() || !WeChatInCallAutopilot.isHasButton() || !WeChatInCallUtils.isWeChatThemeEnable()) {
-                return;
+                return false;
             }
             if (isFromUploadAndPublish()) {
-                return;
+                return false;
             }
             mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
+            return true;
         }
 
         private void reset() {

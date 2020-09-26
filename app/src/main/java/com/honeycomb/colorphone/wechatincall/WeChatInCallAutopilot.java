@@ -21,6 +21,7 @@ public class WeChatInCallAutopilot {
         HSLog.d(TAG, "defaultswitch = " + result);
         return result;
     }
+
     public static boolean isHasButton(){
         boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wechatbuttonenable", false);
         HSLog.d(TAG, "wechatbuttonenable = " + result);
