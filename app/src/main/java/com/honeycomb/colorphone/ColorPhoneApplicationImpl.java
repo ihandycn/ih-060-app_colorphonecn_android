@@ -29,6 +29,7 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.acb.call.wechat.WeChatInCallManager;
 import com.acb.colorphone.PermissionsCallback;
 import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
@@ -648,6 +649,8 @@ public class ColorPhoneApplicationImpl {
                 return R.drawable.ic_launcher;
             }
         });
+
+        WeChatInCallManager.getInstance().init();
     }
 
     private void initKuyinRingtone() {
