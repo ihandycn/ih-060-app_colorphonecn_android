@@ -1530,6 +1530,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             if (themeReady) {
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
+                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE){
+                    mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.animate().alpha(0).setDuration(200).start();
+                }
+
                 // TODO
 //                mNavBack.animate().alpha(0).setDuration(200).start();
                 mRingtoneViewHolder.imageView.animate().alpha(0.1f)
@@ -1553,6 +1557,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (themeReady) {
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.setAlpha(0.01f);
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
+
+                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE){
+                    mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.setAlpha(0.01f);
+                    mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.animate().alpha(1f).setDuration(200).start();
+                }
 
                 mRingtoneViewHolder.imageView.setTranslationX(Dimensions.pxFromDp(28));
                 mRingtoneViewHolder.imageView.setTranslationY(-Dimensions.pxFromDp(28));

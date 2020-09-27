@@ -51,7 +51,7 @@ public class WeChatInCallUtils {
     }
 
     public static boolean isWeChatThemeEnable() {
-        return Preferences.getDefault().getBoolean(PREFS_WE_CHAT_THEME_SWITCH, true);
+        return Preferences.getDefault().getBoolean(PREFS_WE_CHAT_THEME_SWITCH, true) && WeChatInCallManager.getInstance().isSupported();
     }
 
     public static void checkPermissionAndRequest(Context context, Runnable successAction) {
