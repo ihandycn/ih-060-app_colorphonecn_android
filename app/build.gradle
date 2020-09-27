@@ -64,8 +64,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 1071
-            versionName "1.4.09"
+            versionCode 1078
+            versionName "1.4.18"
         }
     }
 
@@ -195,7 +195,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 
     // Fix crash on Android O background service
-    implementation 'com.liulishuo.filedownloader:library:1.7.5'
+    implementation 'com.liulishuo.filedownloader:library:1.7.7'
     compile("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
@@ -220,9 +220,6 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
-    compile(name: 'libCashCenter/alipaySdk', ext: 'aar')
-    compile(name: 'libCashCenter/cashcenter-release-2019102501', ext: 'aar')
-    compile(name: 'libCashCenter/withdraw-release-2019070401', ext: 'aar')
 
     implementation project(':libChargingCommon')
     implementation project(':libChargingReport')
@@ -237,7 +234,11 @@ dependencies {
     implementation project(':libRingtones')
 
     // GoldEye
-    colorphoneImplementation 'cn.appcloudbox.ads:colorphone_k:2020.06.09.001'
+    colorphoneImplementation ('cn.appcloudbox.ads:colorphone_k:2020.08.10.001'){
+        exclude group: 'com.android.support'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
 
     implementation 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     implementation 'com.android.volley:volley:1.1.1'

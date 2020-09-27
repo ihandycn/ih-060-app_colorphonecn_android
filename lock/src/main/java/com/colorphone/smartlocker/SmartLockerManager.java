@@ -17,11 +17,11 @@ import com.colorphone.lock.R;
 import com.colorphone.smartlocker.baidu.BaiduFeedManager;
 import com.colorphone.smartlocker.bean.BaiduFeedBean;
 import com.colorphone.smartlocker.bean.BaiduFeedItemsBean;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.utils.NetworkStatusUtils;
 import com.colorphone.smartlocker.utils.NewsUtils;
 import com.colorphone.smartlocker.utils.TouTiaoFeedUtils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 
@@ -35,6 +35,7 @@ public class SmartLockerManager {
 
     public static final int EXTRA_VALUE_START_BY_CHARGING_SCREEN_OFF = 0;
     public static final int EXTRA_VALUE_START_BY_LOCKER = 2;
+    private boolean exist = false;
 
     private int showNativeCount = 0;
 
@@ -50,6 +51,14 @@ public class SmartLockerManager {
         return sInstance;
     }
 
+    public boolean isExist() {
+        return exist;
+    }
+
+    public void setExist(boolean exist) {
+        this.exist = exist;
+    }
+
     public void tryToStartChargingScreenOrLockerActivity(int startType) {
         TelephonyManager telephonyManager = (TelephonyManager) HSApplication.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         switch (telephonyManager.getCallState()) {
@@ -59,12 +68,6 @@ public class SmartLockerManager {
         }
 
         LockerCustomConfig.getLogger().logEvent("news_chance");
-        AutoPilotUtils.logLockerModeAutopilotEvent("news_chance");
-        if (startType == EXTRA_VALUE_START_BY_LOCKER) {
-            AutoPilotUtils.logLockerModeAutopilotEvent("lock_news_should_show");
-        } else {
-            AutoPilotUtils.logLockerModeAutopilotEvent("charging_news_should_show");
-        }
         tryToStartSmartLockerFeeds(startType);
     }
 
@@ -77,24 +80,27 @@ public class SmartLockerManager {
             }
             return;
         }
-        JSONObject jsonObject = NewsUtils.getLastNews(BaiduFeedManager.CATEGORY_ALL);
-        BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(jsonObject);
-        List<BaiduFeedBean> baiduFeedBeanList = baiduFeedItemsBean.getBaiduFeedBeans();
-        int newsCount = 0;
-        for (BaiduFeedBean baiduNewsItemData : baiduFeedBeanList) {
-            if (baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_THREE_IMAGE
-                    || baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_RIGHT_IMAGE) {
-                newsCount++;
+
+        if (!SmartLockerManager.isShowH5NewsLocker()) {
+            JSONObject jsonObject = NewsUtils.getLastNews(BaiduFeedManager.CATEGORY_ALL);
+            BaiduFeedItemsBean baiduFeedItemsBean = new BaiduFeedItemsBean(jsonObject);
+            List<BaiduFeedBean> baiduFeedBeanList = baiduFeedItemsBean.getBaiduFeedBeans();
+            int newsCount = 0;
+            for (BaiduFeedBean baiduNewsItemData : baiduFeedBeanList) {
+                if (baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_THREE_IMAGE
+                        || baiduNewsItemData.getNewsType() == TouTiaoFeedUtils.COVER_MODE_RIGHT_IMAGE) {
+                    newsCount++;
+                }
             }
-        }
-        if (newsCount < 5) {
-            if (startType == EXTRA_VALUE_START_BY_LOCKER) {
-                LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Count");
-            } else {
-                LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Count");
+            if (newsCount < 5) {
+                if (startType == EXTRA_VALUE_START_BY_LOCKER) {
+                    LockerCustomConfig.getLogger().logEvent("LockScreen_News_Should_Show", "reason", "Count");
+                } else {
+                    LockerCustomConfig.getLogger().logEvent("ChargingScreen_News_Should_Show", "reason", "Count");
+                }
+                HSLog.d(TAG, "baiduFeedBeanList news count < 5");
+                return;
             }
-            HSLog.d(TAG, "baiduFeedBeanList news count < 5");
-            return;
         }
 
         showLockerActivity(startType);
@@ -153,7 +159,7 @@ public class SmartLockerManager {
         Context context = HSApplication.getContext();
 
         Intent intent = new Intent(HSApplication.getContext(), SmartLockerFeedsActivity.class);
-        intent.putExtra(SmartLockerFeedsActivity.EXTRA_INT_BATTERY_LEVEL_PERCENT,
+        intent.putExtra(SmartLockerScreen.EXTRA_INT_BATTERY_LEVEL_PERCENT,
                 HSChargingManager.getInstance().getBatteryRemainingPercent());
         intent.putExtra(EXTRA_START_TYPE, startType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -213,5 +219,9 @@ public class SmartLockerManager {
             notificationChannel.setBypassDnd(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
+    }
+
+    public static boolean isShowH5NewsLocker() {
+        return HSConfig.optBoolean(true, "Application", "NewsH5Locker", "CableH5Enable");
     }
 }

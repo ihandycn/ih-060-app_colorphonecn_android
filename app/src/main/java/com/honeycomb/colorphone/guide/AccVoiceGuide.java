@@ -104,6 +104,9 @@ public class AccVoiceGuide {
         if (Compats.IS_XIAOMI_DEVICE) {
             voiceStreamId = SoundManager.getInstance().playAccGuideVoiceXiaoMi();
             delaySeconds = 6;
+        }else if(Compats.IS_VIVO_DEVICE){
+            voiceStreamId = SoundManager.getInstance().playAccGuideVoiceVivo();
+            delaySeconds = 7;
         } else {
             switch (AccGuideAutopilotUtils.getVoiceType()) {
                 default:

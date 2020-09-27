@@ -10,7 +10,6 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.smartlocker.SmartLockerConstants;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.colorphone.smartlocker.viewholder.AdViewHolder;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
@@ -69,6 +68,11 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
             @Override
             public void onAdClick(AcbAd ad) {
                 logAdClick();
+            }
+
+            @Override
+            public void onAdShow() {
+
             }
         });
     }
@@ -151,13 +155,11 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
     private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
-        AutoPilotUtils.logLockerModeAutopilotEvent("ad_chance");
     }
 
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
-        AutoPilotUtils.logLockerModeAutopilotEvent("ad_show");
 
         hasLogShow = true;
     }

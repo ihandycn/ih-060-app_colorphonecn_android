@@ -64,7 +64,6 @@ import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
-import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
@@ -781,10 +780,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (ConfigSettings.showAdOnApplyTheme()) {
             Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
-            boolean show = AdManager.getInstance().showInterstitialAd();
-            if (show) {
-                Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
-            }
         }
     }
 

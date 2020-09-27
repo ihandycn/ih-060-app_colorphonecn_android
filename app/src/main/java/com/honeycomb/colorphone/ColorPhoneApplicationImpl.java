@@ -34,7 +34,7 @@ import com.acb.colorphone.PermissionsCallback;
 import com.acb.colorphone.PermissionsManager;
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
-import com.acb.colorphone.permissions.AccessibilityOppoGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityOppoVivoGuideActivity;
 import com.acb.colorphone.permissions.PermissionConstants;
 import com.acb.colorphone.permissions.StableToast;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -46,11 +46,9 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.ringtones.RingtoneConfig;
@@ -58,23 +56,16 @@ import com.colorphone.ringtones.RingtoneImageLoader;
 import com.colorphone.ringtones.RingtoneSetter;
 import com.colorphone.ringtones.WebLauncher;
 import com.colorphone.ringtones.module.Ringtone;
-import com.colorphone.smartlocker.SmartLockerFeedsActivity;
 import com.colorphone.smartlocker.SmartLockerManager;
-import com.colorphone.smartlocker.utils.AutoPilotUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsRingtoneSelectActivity;
-import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
-import com.honeycomb.colorphone.boost.FloatWindowDialog;
-import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
-import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
@@ -85,15 +76,14 @@ import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
+import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
-import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.WebViewActivity;
-import com.honeycomb.colorphone.notification.CleanGuideCondition;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -103,7 +93,6 @@ import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
@@ -118,12 +107,6 @@ import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
-import com.ihs.app.framework.HSSessionMgr;
-import com.ihs.chargingimprover.ChargingImproverManager;
-import com.ihs.chargingreport.ChargingReportCallback;
-import com.ihs.chargingreport.ChargingReportConfiguration;
-import com.ihs.chargingreport.ChargingReportManager;
-import com.ihs.chargingreport.DismissType;
 import com.ihs.chargingreport.utils.ChargingReportUtils;
 import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
@@ -160,11 +143,9 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
-import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
-import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.feast.call.HSFeast;
@@ -261,18 +242,6 @@ public class ColorPhoneApplicationImpl {
                     }
                 }
             } else if (TextUtils.equals(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS, notificationName)) {
-                if (CashCenterGuideDialog.isPeriod(HSApplication.getContext())) {
-                    CashCenterGuideDialog.showCashCenterGuideDialog(HSApplication.getContext());
-
-                    Threads.postOnMainThreadDelayed(() -> {
-                        FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
-                        FloatWindowManager.getInstance().removeDialog(dialog);
-                    }, 3 * DateUtils.MINUTE_IN_MILLIS);
-
-                } else {
-                    HSLog.i("CCTest", "not time");
-                }
-
                 NewsManager.getInstance().preloadForLifeAssistant(null);
                 LifeAssistantConfig.recordLifeAssistantCheck();
                 OccasionManager.getInstance().handleOccasion(new LifeAssistantOccasion());
@@ -303,14 +272,12 @@ public class ColorPhoneApplicationImpl {
     private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            updateCallFinishFullScreenAdPlacement();
-            AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
-            if (AutoPilotUtils.getLockerMode().equals("cableandfuse") && !RomUtils.checkIsOppoRom()) {
-                AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
+            if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
+                AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_NEWS_FEED);
                 SmartLockerManager.getInstance().tryToPreLoadBaiduNews();
             }
         }
@@ -321,8 +288,6 @@ public class ColorPhoneApplicationImpl {
      */
     public static int mWidth;
     public static int mHeight;
-
-    private boolean isCallAssistantActivated;
 
     public static long launchTime;
 
@@ -469,12 +434,11 @@ public class ColorPhoneApplicationImpl {
             return;
         }
         if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
-            //
-            if (!ChargingScreenActivity.exist && !SmartLockerFeedsActivity.exist) {
+            if (!SmartLockerManager.getInstance().isExist()) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!LockerActivity.exist && !SmartLockerFeedsActivity.exist) {
+            if (!SmartLockerManager.getInstance().isExist()) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }
@@ -504,12 +468,6 @@ public class ColorPhoneApplicationImpl {
         copyMediaFromAssertToFile();
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
-        AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
-            @Override
-            public void onInitialized() {
-
-            }
-        });
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
@@ -518,14 +476,11 @@ public class ColorPhoneApplicationImpl {
 
         initKuyinRingtone();
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
-        CleanGuideCondition.getInstance();
 
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_DONE));
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.BOOST_WIRE));
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.CASHCENTER));
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
         ColorPhonePermanentUtils.keepAlive();
 
         Upgrader.upgrade();
@@ -533,7 +488,6 @@ public class ColorPhoneApplicationImpl {
         initModules();
         checkModuleAdPlacement();
 
-        initChargingReport();
         initLockerCharging();
 
         Threads.postOnMainThreadDelayed(new Runnable() {
@@ -587,6 +541,7 @@ public class ColorPhoneApplicationImpl {
                 Analytics.logEvent("Home_Back_Tracked");
 
                 AccVoiceGuide.getInstance().stop("home");
+                PermissionVoiceGuide.getInstance().stop();
                 int batteryLevel = DeviceManager.getInstance().getBatteryLevel();
                 if (batteryLevel < 20) {
                     if (batteryChangeToLow) {
@@ -648,6 +603,12 @@ public class ColorPhoneApplicationImpl {
             public int getAppIcon() {
                 return R.drawable.ic_launcher;
             }
+
+            @Override
+            public void logEvent(String eventID, boolean onlyUMENG, String... vars) {
+                Analytics.logEvent(eventID, onlyUMENG, vars);
+            }
+
         });
 
         WeChatInCallManager.getInstance().init();
@@ -805,7 +766,7 @@ public class ColorPhoneApplicationImpl {
                 }
                 if (activity instanceof AccessibilityHuaweiGuideActivity
                         || activity instanceof AccessibilityMIUIGuideActivity
-                        || activity instanceof AccessibilityOppoGuideActivity) {
+                        || activity instanceof AccessibilityOppoVivoGuideActivity) {
                     Analytics.logEvent("Accessbility_Alert_Show",
                             "Model", Build.MODEL, "bluetooth_name", Settings.Secure.getString(mBaseApplication.getContentResolver(), "bluetooth_name"),
                             "Brand", AutoLogger.getBrand(),
@@ -838,7 +799,7 @@ public class ColorPhoneApplicationImpl {
             public void onActivityDestroyed(Activity activity) {
                 if (activity instanceof AccessibilityHuaweiGuideActivity
                         || activity instanceof AccessibilityMIUIGuideActivity
-                        || activity instanceof AccessibilityOppoGuideActivity) {
+                        || activity instanceof AccessibilityOppoVivoGuideActivity) {
                     Analytics.logEvent("Accessbility_Alert_Closed",
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
@@ -848,90 +809,6 @@ public class ColorPhoneApplicationImpl {
             }
         });
 
-    }
-
-    private void updateCallFinishFullScreenAdPlacement() {
-        if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
-            HSLog.d("Ad Active ： " + Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN));
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN));
-            isCallAssistantActivated = true;
-        }
-    }
-
-    private void initChargingReport() {
-        long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT));
-        ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
-                .adPlacement(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT))
-                .appName(mBaseApplication.getResources().getString(R.string.smart_charging))
-                .appIconResourceId(R.drawable.ic_launcher)
-                .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
-                .lockerConflic(new ChargingReportConfiguration.LockScreenConflict() {
-                    @Override
-                    public boolean hasChargingScreen() {
-                        return SmartChargingSettings.isChargingScreenEnabled();
-                    }
-                })
-                .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {
-
-                    // TODO 库添加总开关。删除此代码
-                    @Override
-                    public boolean sceneUnlockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Unlocked");
-                    }
-
-                    @Override
-                    public boolean sceneLockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Locked");
-                    }
-
-                    // 解锁出现的充电报告
-                    @Override
-                    public boolean sceneChargingEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Charging");
-                    }
-
-                    @Override
-                    public boolean sceneUnlockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Unlocked");
-                    }
-
-                    @Override
-                    public boolean sceneLockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled() &&
-                                HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Locked");
-                    }
-                })
-                .build();
-        ChargingReportManager.getInstance().init(configuration);
-        ChargingReportManager.getInstance().setChargingReportCallback(new ChargingReportCallback() {
-            @Override
-            public void logEvent(String s, boolean logToFlurry, String... strings) {
-                Analytics.logEvent(s, strings);
-
-            }
-
-            @Override
-            public void logAdEvent(String s, boolean b) {
-                Analytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
-            }
-
-            @Override
-            public void onChargingReportShown() {
-
-            }
-
-            @Override
-            public void onChargingReportDismiss(DismissType dismissType) {
-
-            }
-        });
-
-        ChargingImproverManager.getInstance().init(new ChargingImproverCallbackImpl());
     }
 
     private void initLockerCharging() {
@@ -946,7 +823,7 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAndChargingAdName(Placements.AD_LOCKER_AND_CHARGING);
-        LockerCustomConfig.get().setNewsFeedAdName(Placements.getAdPlacement(Placements.AD_NEWS_FEED));
+        LockerCustomConfig.get().setNewsFeedAdName(Placements.AD_NEWS_FEED);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
@@ -1005,18 +882,6 @@ public class ColorPhoneApplicationImpl {
                         }
                     }
 
-                    if (CashCenterGuideDialog.isPeriod(context)) {
-                        CashCenterGuideDialog.showCashCenterGuideDialog(context);
-
-                        Threads.postOnMainThreadDelayed(() -> {
-                            FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
-                            FloatWindowManager.getInstance().removeDialog(dialog);
-                        }, 3 * DateUtils.MINUTE_IN_MILLIS);
-
-                    } else {
-                        HSLog.i("CCTest", "not time");
-                    }
-
                     NewsManager.getInstance().preloadForLifeAssistant(null);
                     if (!MessageCenterManager.getInstance().getConfig().waitForLocker()) {
                         LifeAssistantConfig.recordLifeAssistantCheck();
@@ -1029,7 +894,7 @@ public class ColorPhoneApplicationImpl {
 
     private void initModules() {
         Module sms = new Module();
-        sms.setAdName(Placements.getAdPlacement(Placements.AD_MSG));
+        sms.setAdName(Placements.AD_MSG);
         sms.setAdType(Module.AD_EXPRESS);
         sms.setChecker(new Module.Checker() {
             @Override
@@ -1065,13 +930,8 @@ public class ColorPhoneApplicationImpl {
 
     }
 
-    public static void checkChargingReportAdPlacement() {
-        checkExpressAd(Placements.getAdPlacement(Placements.AD_CHARGING_REPORT), SmartChargingSettings.isChargingReportEnabled());
-    }
-
     private void checkModuleAdPlacement() {
         checkCallAssistantAdPlacement();
-        checkChargingReportAdPlacement();
         for (Module module : mModules) {
             if (module.getAdType() == Module.AD_EXPRESS) {
                 checkExpressAd(module.getAdName(), module.getChecker().isEnable());
@@ -1081,9 +941,6 @@ public class ColorPhoneApplicationImpl {
         }
 
         ColorPhonePermanentUtils.checkAliveForProcess();
-
-        updateCallFinishFullScreenAdPlacement();
-        AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
     }
 
     private static void checkExpressAd(String adName, boolean enable) {

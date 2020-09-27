@@ -11,11 +11,13 @@ import com.honeycomb.colorphone.boost.FullScreenDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
 
 public class RequestPermissionDialog extends FullScreenDialog {
     private final WindowManager mWindowManager;
     private StartGuideViewListHolder holder;
+
     public RequestPermissionDialog(Context context) {
         this(context, null);
     }
@@ -36,11 +38,13 @@ public class RequestPermissionDialog extends FullScreenDialog {
         holder.setCircleAnimView(R.id.start_guide_request_ball);
     }
 
-    @Override protected int getLayoutResId() {
+    @Override
+    protected int getLayoutResId() {
         return R.layout.start_guide_request;
     }
 
-    @Override public WindowManager.LayoutParams getLayoutParams() {
+    @Override
+    public WindowManager.LayoutParams getLayoutParams() {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.width = Dimensions.getPhoneWidth(HSApplication.getContext());
         lp.height = Dimensions.getPhoneHeight(HSApplication.getContext());
@@ -58,6 +62,9 @@ public class RequestPermissionDialog extends FullScreenDialog {
         lp.flags |= WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN
                 | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        if (Compats.IS_VIVO_DEVICE) {
+            lp.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+        }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             lp.type = WindowManager.LayoutParams.TYPE_TOAST;
         } else {
@@ -66,11 +73,13 @@ public class RequestPermissionDialog extends FullScreenDialog {
         return lp;
     }
 
-    @Override public boolean shouldDismissOnLauncherStop() {
+    @Override
+    public boolean shouldDismissOnLauncherStop() {
         return false;
     }
 
-    @Override public void onAddedToWindow(SafeWindowManager windowManager) {
+    @Override
+    public void onAddedToWindow(SafeWindowManager windowManager) {
         HSLog.i("AutoPermission", "RequestPermissionDialog onAddedToWindow" + holder);
         if (holder != null) {
             holder.startCircleAnimation();
@@ -78,7 +87,8 @@ public class RequestPermissionDialog extends FullScreenDialog {
         }
     }
 
-    @Override protected void onDetachedFromWindow() {
+    @Override
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
     }
 }

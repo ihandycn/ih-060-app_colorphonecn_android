@@ -8,9 +8,19 @@ import com.appsflyer.AppsFlyerLib;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
+
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.AcbAdsProvider;
+import net.appcloudbox.ads.adserver.attribution.AttributionListener;
+import net.appcloudbox.ads.adserver.attribution.AttributionManager;
+import net.appcloudbox.ads.adserver.model.AttributionInfo;
+import net.appcloudbox.ads.common.utils.AcbError;
 
 import hugo.weaving.DebugLog;
 
@@ -39,6 +49,38 @@ public class ColorPhoneApplication extends HSApplication {
 
         mColorPhoneApplicationProxy = new ColorPhoneApplicationImpl(this);
         mColorPhoneApplicationProxy.onCreate();
+
+        initAd();
+    }
+
+    private void initAd() {
+        AcbAds.getInstance().initializeFromGoldenEye(this, null);
+        AcbAds.getInstance().setWaitLoadRewardedEnable(true);
+        getCustomerUserID(AcbAdsProvider::setCustomerUserId);
+
+        String media = "op";
+        String channel = HSConfig.optString("", "Application", "AdChannelName");
+        Preferences.getDefault().doOnce(() ->
+                AcbAds.getInstance().setChannelInfo(media, channel, "", "", "", "", ""), "first_init_ad_channel");
+        AttributionManager am = new AttributionManager(getApplicationContext());
+        am.setAttributionListener(new AttributionListener() {
+            @Override
+            public void onAttributionInfoReceived(AttributionInfo attributionInfo) {
+                String agency = attributionInfo.getAgency();
+                String store = com.ihs.commons.utils.ChannelInfoUtil.getStore(getApplicationContext());
+                String custom = com.ihs.commons.utils.ChannelInfoUtil.getCustom(getApplicationContext());
+                String campaignId = attributionInfo.getCampaign_id();
+                String adSetId = attributionInfo.getAdset_id();
+                AcbAds.getInstance().setChannelInfo(media, channel, store, agency, custom, campaignId, adSetId);
+                HSLog.i("AttributionInfo", media + "|" + channel + "|" + agency + "|" + store + "|" + custom + "|" + campaignId + "|" + adSetId);
+            }
+
+            @Override
+            public void onAttributionInfoFailed(AcbError acbError) {
+                HSLog.i("AttributionInfo", "fail to get attribution info: " + acbError.getMessage());
+            }
+        });
+        am.getAttributionInfo();
     }
 
     private void initAppFlyer() {

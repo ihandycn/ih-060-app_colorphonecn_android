@@ -22,11 +22,8 @@ import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.Placements;
-import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
-import com.honeycomb.colorphone.cashcenter.CashUtils;
-import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
@@ -61,14 +58,14 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     public boolean isCallAssistantOpenDefault() {
         return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "DefaultEnabled")
                 && !(HSConfig.optBoolean(false, "Application", "AdProtection", "CallAssistantEnableAfterInstallMinutes")
-                        && ConfigUtils.isNewUserInAdBlockStatus());
+                && ConfigUtils.isNewUserInAdBlockStatus());
     }
 
     @Override
     public boolean isCallAssistantConfigEnabled() {
         return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
                 && !(HSConfig.optBoolean(false, "Application", "AdProtection", "CallAssistantEnableAfterInstallMinutes")
-                        && ConfigUtils.isNewUserInAdBlockStatus());
+                && ConfigUtils.isNewUserInAdBlockStatus());
     }
 
     @Override
@@ -102,7 +99,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         };
     }
 
-    private  boolean isShowNotificationAccessOutAppGuide(Context context) {
+    private boolean isShowNotificationAccessOutAppGuide(Context context) {
         boolean isAcceptCallFailed = HSPreferenceHelper.getDefault().getBoolean(PREFS_ACCEPT_FAIL, false);
         boolean isEnabled = NotificationConfig.isOutsideAppAccessAlertOpen();
         boolean isAtValidTime =
@@ -115,12 +112,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
     private static volatile boolean isADShown = false;
+
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
         return new CallIdleAlert.FlurryEvent() {
 
             private long mTimeReadyToShow;
-
 
 
             @Override
@@ -130,9 +127,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 Analytics.logEvent("CallFinished_View_Should_Show",
                         "callType", getCallTypeStr(callType),
                         "Brand", Build.BRAND.toLowerCase(),
-                "Lock", String.valueOf(isLocked));
+                        "Lock", String.valueOf(isLocked));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND.toUpperCase() + getDeviceInfo());
+                    Analytics.logEvent("Test_CallAssistantShouldShow" + Build.BRAND.toUpperCase() + getDeviceInfo());
                 }
 
             }
@@ -160,7 +157,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             private String formatTime(long l) {
-                if (l > 1000  * 60) {
+                if (l > 1000 * 60) {
                     return "1m+";
                 }
                 if (l > 8000 * 2) {
@@ -176,7 +173,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                Analytics.logEvent( "ColorPhone_Call_Finished");
+                Analytics.logEvent("ColorPhone_Call_Finished");
             }
 
             @Override
@@ -194,17 +191,17 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinishedCallAssistantShow() {
-                Analytics.logEvent( "Call_Finished_Call_Assistant_Show");
+                Analytics.logEvent("Call_Finished_Call_Assistant_Show");
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
-                Analytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
+                Analytics.logEvent("ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
-                Analytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+                Analytics.logEvent("ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
                     Analytics.logEvent("ColorPhone_CallFinishWire_Show");
@@ -212,7 +209,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 isADShown = true;
             }
 
-            @Override public void onInsteadViewShown(View view) {
+            @Override
+            public void onInsteadViewShown(View view) {
                 ThemeGuide.parser(view);
             }
 
@@ -228,11 +226,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new ThemeViewConfig() {
             @Override
             public CallIdleAlertView getCallIdleAlertView(CallIdleAlertActivity callIdleAlertActivity, CallIdleAlertActivity.Data data) {
-                if (CashUtils.showEntranceAtCallAlert()) {
-                    return new CustomCallIdleAlert(callIdleAlertActivity, data);
-                }  else {
-                    return super.getCallIdleAlertView(callIdleAlertActivity, data);
-                }
+                return super.getCallIdleAlertView(callIdleAlertActivity, data);
             }
         };
     }
@@ -282,13 +276,15 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             screenOffObserver = new INotificationObserver() {
-                @Override public void onReceive(String s, HSBundle hsBundle) {
+                @Override
+                public void onReceive(String s, HSBundle hsBundle) {
                     stopFlashIfProper();
                 }
             };
 
             screenOffReceiver = new BroadcastReceiver() {
-                @Override public void onReceive(Context context, Intent intent) {
+                @Override
+                public void onReceive(Context context, Intent intent) {
                     stopFlashIfProper();
                 }
             };
@@ -351,11 +347,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
 
-
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
         @Override
         public String getAdPlaceName() {
-            return Placements.getAdPlacement(Placements.AD_CALL_OFF);
+            return Placements.AD_CALL_OFF;
         }
 
         @Override
@@ -363,34 +358,33 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             return true;
         }
 
-        public int getAppNameDrawable() {
-            return R.drawable.color_phone_logo;
-        }
-
         @Override
         public String getFullScreenAdPlacement() {
-            return Placements.getAdPlacement(Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
+            return "";
         }
-
 
         @Override
         public boolean enableFullScreenAd() {
             return CallFinishUtils.isCallFinishFullScreenAdEnabled();
         }
 
-        @Override public int getFullScreenAdShowTimesEachDay() {
+        @Override
+        public int getFullScreenAdShowTimesEachDay() {
             return ADAutoPilotUtils.getCallFinishWireShowMaxTime();
         }
 
-        @Override public long getFullScreenAdShowIntervalTime() {
+        @Override
+        public long getFullScreenAdShowIntervalTime() {
             return ADAutoPilotUtils.getCallFinishWireTimeInterval();
         }
 
-        @Override public int getAdRefreshInterval() {
+        @Override
+        public int getAdRefreshInterval() {
             return super.getAdRefreshInterval();
         }
 
-        @Override public int getInsteadLayoutID() {
+        @Override
+        public int getInsteadLayoutID() {
             return ThemeGuide.getInsteadLayoutID();
         }
 
@@ -419,7 +413,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public String getTextureWirePlacement() {
-            return Placements.getAdPlacement(Placements.AD_EXIT_TEXTURE_WIRE);
+            return "";
         }
 
         @Override

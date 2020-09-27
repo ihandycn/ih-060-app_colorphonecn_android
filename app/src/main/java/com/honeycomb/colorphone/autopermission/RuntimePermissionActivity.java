@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -24,6 +25,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
+import com.superapps.util.rom.VivoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +57,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.runtime_permission_activity);
         View root = findViewById(R.id.permission_list);
@@ -81,7 +84,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         for (String p : permissions) {
             if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
+                if (AutoPermissionChecker.isPermissionPermanentlyDenied(p) || (RomUtils.checkIsVivoRom() && !AutoPermissionChecker.isRuntimePermissionGrant(p))) {
                     deniedPermissions.add(p);
                 } else {
                     runtimePermissions.add(p);
@@ -116,7 +119,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         action = findViewById(R.id.action_btn);
         action.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
         action.setOnClickListener(v -> {
-            if (runtimePermissions.size() > 0) {
+            if (runtimePermissions.size() > 0 && !RomUtils.checkIsVivoRom()) {
                 for (String p : runtimePermissions) {
                     switch (p) {
                         case Manifest.permission.READ_CONTACTS:
@@ -204,7 +207,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         Analytics.logEvent(eventID, "Permission", getDeniedPermissionString(), "occasion", from);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         if (toast.isShown()) {
             super.onBackPressed();
         } else {
@@ -212,7 +216,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         if (needRefresh) {
             needRefresh = false;
@@ -243,7 +248,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 success.setVisibility(View.VISIBLE);
                 success.playAnimation();
                 success.addAnimatorListener(new AnimatorListenerAdapter() {
-                    @Override public void onAnimationEnd(Animator animation) {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         Threads.postOnMainThreadDelayed(() -> {
                             finish();
@@ -268,12 +274,20 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PermissionVoiceGuide.getInstance().stop();
+    }
+
+    @Override
+    protected void onStop() {
         super.onStop();
         needRefresh = true;
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
 
         if (requested && deniedPermissions.size() > 0) {
@@ -282,7 +296,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
     }
 
-    @Override public boolean onTouchEvent(MotionEvent event) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         return true;
     }
 
@@ -340,7 +355,8 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 success.setVisibility(View.VISIBLE);
                 success.playAnimation();
                 success.addAnimatorListener(new AnimatorListenerAdapter() {
-                    @Override public void onAnimationEnd(Animator animation) {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         Threads.postOnMainThreadDelayed(() -> {
                             finish();

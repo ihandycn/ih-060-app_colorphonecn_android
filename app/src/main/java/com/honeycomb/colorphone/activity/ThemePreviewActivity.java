@@ -26,7 +26,6 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.PreviewAdManager;
@@ -239,7 +238,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 if (shouldShowAdIndex.contains(position)) {
                     HSLog.i("ThemeFullAd", "AcbAdNative_Viewed_In_App: " + (position == lastThemeFullAdIndex));
-                    Analytics.logAdViewEvent(Placements.getAdPlacement(Placements.THEME_DETAIL_NATIVE), (position == lastThemeFullAdIndex));
+                    Analytics.logAdViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
                     shouldShowAdIndex.remove(Integer.valueOf(position));
                 }
                 updateData(position);
@@ -256,21 +255,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
         if (ConfigSettings.showAdOnDetailView() && TextUtils.equals(from, FROM_MAIN)) {
-            AdManager.getInstance().preload(this);
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (!ThemeGuide.isFromThemeGuide()) {
                         Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
-                    }
-                    boolean show = AdManager.getInstance().showInterstitialAd();
-                    if (show) {
-                        if (!ThemeGuide.isFromThemeGuide()) {
-                            Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
-                        }
-                        if (ThemeGuide.isFromThemeGuide()) {
-                            Analytics.logEvent("ThemeWireAd_Show_FromThemeGuide");
-                        }
                     }
                 }
             }, 200);

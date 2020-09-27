@@ -27,7 +27,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -49,9 +48,6 @@ import com.acb.call.VideoManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
-import com.acb.cashcenter.HSCashCenterManager;
-import com.acb.cashcenter.OnIconClickListener;
-import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -61,10 +57,8 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
@@ -131,7 +125,6 @@ import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
-import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -236,49 +229,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
      */
     private MediaSharedElementCallback sharedElementCallback;
 
-    private Runnable cashCenterGuideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-                tabCashCenterGuide.setVisibility(VISIBLE);
-                tabCashCenterGuide.useHardwareAcceleration();
-                tabCashCenterGuide.playAnimation();
+    private ConfigChangeManager.Callback configChangeCallback = type -> {
 
-                Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_GUIDE_SHOW, true);
-                Analytics.logEvent("Tab_CashCenter_Guide_Show");
-
-                tabTransController.setInterceptView(tabCashCenterGuide);
-                tabTransController.showNow();
-            }
-        }
-    };
-
-    private ConfigChangeManager.Callback configChangeCallback = new ConfigChangeManager.Callback() {
-        @Override
-        public void onChange(int type) {
-
-        }
     };
 
     private boolean mMainViewShowFlag;
-    private boolean showAllFeatureGuide = false;
-    private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
     private RingtonePageView mRingtoneFrame;
-    private LotteryWheelLayout lotteryWheelLayout;
-
-    private static final int TAB_SIZE = 4;
-    public static final int MAIN_POSITION = 0;
-    private static final int NEWS_POSITION = 1;
-    public static final int CASH_POSITION = 2;
-    private static final int SETTING_POSITION = 3;
 
     private TabFrameLayout mTabFrameLayout;
     private Toolbar toolbar;
     private MainTabLayout mTabLayout;
-    private LottieAnimationView tabCashCenterGuide;
-    private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
     private LottieAnimationView guideLottie;
 
@@ -324,9 +286,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Utils.setupTransparentStatusBarsForLmp(this);
 
         initMainFrame();
-        AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
-        isCreate = true;
         // Transition
         sharedElementCallback = new MediaSharedElementCallback();
         sharedElementCallback.setClearAfterConsume(true);
@@ -357,16 +317,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         isWindowFocus = true;
-
-        if (lotteryWheelLayout != null) {
-            HSLog.i("CashCenter", "lotteryWheelLayout != null");
-            lotteryWheelLayout.onWindowFocusChanged(true);
-            if (lotteryWheelLayout.getLotterySpinView() != null) {
-                lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
-            }
-        } else {
-            HSLog.i("CashCenter", "not onWindowFocusChanged");
-        }
     }
 
     @Override
@@ -504,15 +454,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mTabFrameLayout = findViewById(R.id.tab_frame_container);
         mTabFrameLayout.setTabItems(mTabItems);
-        showTabCashCenter = HSConfig.optBoolean(true, "Application", "CashCenter", "Enable");
-
-        if (showTabCashCenter) {
-            int index = Math.max(1, mTabItems.size() - 1);
-            mTabItems.add(index, new TabItem(TabItem.TAB_CASH,
-                    R.drawable.seletor_tab_cash_center, "赚现金", false));
-            CashCenterUtil.init(this);
-            Analytics.logEvent("Tab_CashCenter_Icon_Show");
-        }
 
         final int colorPrimary = ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null);
 
@@ -528,13 +469,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
             mTabLayout.addTab(view);
         }
-        tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide_four);
-        tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTabFrameLayout.setCurrentItem(getTabPos(TabItem.TAB_CASH));
-            }
-        });
 
         boolean needRingtoneRemind = !Preferences.getDefault().getBoolean(PREFS_RINGTONE_SHOW, false);
         if (needRingtoneRemind) {
@@ -560,12 +494,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
-        mTabFrameLayout.setFrameProvider(new TabFrameLayout.FrameProvider() {
-            @Override
-            public View getFrame(ViewGroup viewGroup, int pos) {
-                return createFrameItem(viewGroup, pos);
-            }
-        });
+        mTabFrameLayout.setFrameProvider((viewGroup, pos) -> createFrameItem(viewGroup, pos));
 
         mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
             TabItem lastItem = null;
@@ -581,9 +510,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
                 updateTitle(pos);
                 tabTransController.showNow();
-
-                HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
-
                 // Hide red point for Ringtone Tab
                 if (TabItem.TAB_RINGTONE.equals(tabItem.getId())) {
                     Preferences.getDefault().putBoolean(PREFS_RINGTONE_SHOW, true);
@@ -620,27 +546,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         toolbar.setVisibility(GONE);
                     }
 
-                    // Cash tab
-                    if (tabItem.getId().equals(TabItem.TAB_CASH)) {
-                        Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
-                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(GONE);
-                        tabCashCenterGuide.setVisibility(GONE);
-
-                        tabTransController.setInterceptView(null);
-
-                        boolean show = HSCashCenterManager.getInstance().startFirstReward();
-                        if (!show) {
-                            HSCashCenterManager.getInstance().setAutoFirstRewardFlag(true);
-                        }
-
-                        if (newsLayout != null) {
-                            newsLayout.onSelected(false);
-                        }
-                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, 0xffb62121);
-                    } else {
-                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
-                    }
-
+                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
 
                     if (lastItem == null || lastItem.isColorReversed()) {
                         toolbar.setBackgroundColor(colorPrimary);
@@ -675,13 +581,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         }
                         endCurrentVideo();
                         Analytics.logEvent("Tab_Settings_Show");
-                        break;
-                    case TabItem.TAB_CASH:
-                        if (lotteryWheelLayout != null) {
-                            lotteryWheelLayout.refreshData();
-                        }
-                        endCurrentVideo();
-                        Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
                         break;
                     default:
                         break;
@@ -780,12 +679,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("List_Page_Permission_Alert_Show");
             }
         }
-        AcbRewardAdManager.getInstance().preload(1, Placements.getAdPlacement(Placements.AD_REWARD_VIDEO));
-
-        if (!showAllFeatureGuide) {
-            isCreate = false;
-        }
-        showAllFeatureGuide = false;
 
         if (mRingtoneFrame != null) {
             mRingtoneFrame.onStart();
@@ -833,17 +726,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (tabTransController != null) {
             tabTransController.show();
         }
-
-        if (showTabCashCenter
-                && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_GUIDE_SHOW, false)
-                && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-            mHandler.postDelayed(cashCenterGuideRunnable, 10 * DateUtils.SECOND_IN_MILLIS);
-        }
-
-        if (lotteryWheelLayout != null) {
-            lotteryWheelLayout.onResume();
-        }
-
     }
 
     @Override
@@ -852,7 +734,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         isPaused = true;
         mHandler.removeCallbacks(mainViewRunnable);
-        mHandler.removeCallbacks(cashCenterGuideRunnable);
 
         if (tabTransController != null) {
             tabTransController.hide();
@@ -1098,11 +979,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSPreferenceHelper.getDefault().putString(PREFS_THEME_LIKE, sb.toString());
     }
 
-    private String[] getThemeLikes() {
-        String likes = HSPreferenceHelper.getDefault().getString(PREFS_THEME_LIKE, "");
-        return likes.split(",");
-    }
-
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);
@@ -1113,39 +989,25 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRecyclerView.setAdapter(null);
         }
 
-//        if (mRewardVideoView != null) {
-//            mRewardVideoView.onCancel();
-//        }
-
         if (tabTransController != null) {
             tabTransController.release();
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
-        if (showTabCashCenter) {
-            CashCenterUtil.cleanAds(this);
-            HSCashCenterManager.getInstance().releaseWheelAds();
-        }
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
         if ((mRingtoneFrame != null && mRingtoneFrame.onBackPressed())) {
-            // Block
             return;
         }
-        boolean blockBackPress = mTabLayout.getSelectedTabPosition() == getTabPos(TabItem.TAB_CASH)
-                && (lotteryWheelLayout != null && lotteryWheelLayout.isSpining());
 
-        if (!blockBackPress) {
-            if (mDoubleBackHandler.interceptBackPressed()) {
-                mDoubleBackHandler.toast();
-            } else {
-                super.onBackPressed();
-                // Stop all download tasks;
-                TasksManager.getImpl().stopAllTasks();
-            }
+        if (mDoubleBackHandler.interceptBackPressed()) {
+            mDoubleBackHandler.toast();
+        } else {
+            super.onBackPressed();
+            TasksManager.getImpl().stopAllTasks();
         }
     }
 
@@ -1499,65 +1361,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mRingtoneFrame = new RingtonePageView(this);
                 }
                 frame = mRingtoneFrame;
-                break;
-            case TabItem.TAB_CASH:
-                if (showTabCashCenter) {
-                    if (lotteryWheelLayout == null) {
-                        lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.cashcenter_layout, container, false);
-                        lotteryWheelLayout.setBackToCashCenterPage(false);
-                        HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + mTabLayout.getHeight());
-
-                        lotteryWheelLayout.setLeftCornerIconResource(R.drawable.cash_center_icon);
-                        lotteryWheelLayout.setTvLeftCornerTextRes(R.string.cash_center);
-                        lotteryWheelLayout.setIconClickListener(new OnIconClickListener() {
-                            @Override
-                            public void onRightCornerIcClick() {
-                            }
-
-                            @Override
-                            public void onLeftCornerIcClick() {
-                                if (!lotteryWheelLayout.isSpining()) {
-                                    Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
-                                    Analytics.logEvent("CashCenter_Clicked");
-                                }
-                            }
-                        });
-
-                        TextView title = lotteryWheelLayout.findViewById(com.acb.cashcenter.R.id.cash_center_left_corner_text);
-                        title.setVisibility(VISIBLE);
-                        title.setText(R.string.cash_center);
-                        title.setTextColor(0xffffffff);
-                        title.setTextSize(14);
-
-                        frame = lotteryWheelLayout;
-                    } else {
-                        frame = lotteryWheelLayout;
-                    }
-
-                    lotteryWheelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            lotteryWheelLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                            if (isWindowFocus) {
-                                HSLog.i("CashCenter", "isWindowFocus true");
-                                lotteryWheelLayout.onWindowFocusChanged(true);
-                                if (lotteryWheelLayout.getLotterySpinView() != null) {
-                                    lotteryWheelLayout.getLotterySpinView().onWindowFocusChanged(true);
-                                }
-                            } else {
-                                HSLog.i("CashCenter", "not isWindowFocus");
-                            }
-                        }
-                    });
-                } else {
-                    if (!mSettingsPage.isInit()) {
-                        frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
-                        mSettingsPage.initPage(frame, this);
-                    } else {
-                        frame = mSettingsPage.getRootView();
-                    }
-                }
                 break;
             default:
                 throw new IllegalStateException("Pager index out of bounds");

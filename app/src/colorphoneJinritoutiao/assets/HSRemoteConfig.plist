@@ -6,8 +6,19 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-		    <key>AdPlacementPrefix</key>
-		    <string>Air</string>
+		    <key>NewsH5Locker</key>
+			<dict>
+				<key>CableH5Enable</key>
+				<false/>
+				<key>CableH5RSAKeySize</key>
+				<integer>2048</integer>
+				<key>CableH5RSAKey</key>
+				<string>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvz5XO+wDhxUaIDOtrp72fUeIfTYXUSkZXNbA0REQzFGXPFqeMvKEOacgixdfeb/1jWif6dE2pzX1kwMAaOCenIjP9MSw8ZRgR3bZmRq8IuiBPDLI68tFDE6jpA8WjTlcaSkBy06iPtPckAT3LQiPFQroz4Dsoxnrw1QFO82QyWoFfUhGZjj895BQSjfjJjZajOoEY6GBtcRmI30XlVUwMJT9JAqf8GjyvoOMDR3Tjp226UepBIF/NhJKMrW3M5a0SHWo6r+KiAuG6pSVCHPXdP6MaQ/6W2W62wxRqrf24hi407qyKOu4MiEAPbEP3UjdIV3AW1nADjUzg2nxSjRFKQIDAQAB</string>
+				<key>CableH5Url</key>
+				<string>https://cpu.baidu.com/1022/af04b057?scid=69014</string>
+			</dict>
+		    <key>AdChannelName</key>
+		    <string>chuanshanjia</string>
 			<key>AdProtection</key>
 			<dict>
 				<key>CallAssistantEnableAfterInstallMinutes</key>
@@ -42,12 +53,12 @@
 				</array>
 			</dict>
 			<key>BaiduFeed</key>
-            			<dict>
-            				<key>Appsid</key>
-            				<string>f0c1081d</string>
-            				<key>Secret</key>
-            				<string>73cd34c8ff2f1d3895835cdf5</string>
-            			</dict>
+            	<dict>
+            	<key>Appsid</key>
+            	<string>f4b2fb56</string>
+            	<key>Secret</key>
+            	<string>db2ccba77d7f7cf10a195947f</string>
+            </dict>
 			<key>Boost</key>
 			<dict>
 				<key>BoostApps</key>
@@ -82,13 +93,6 @@
 				<integer>10</integer>
 				<key>TimeIntervalMinute</key>
 				<integer>0</integer>
-			</dict>
-			<key>CashCenter</key>
-			<dict>
-				<key>Enable</key>
-				<false/>
-				<key>FloatingGuide</key>
-				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>

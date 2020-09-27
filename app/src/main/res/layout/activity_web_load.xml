@@ -20,7 +20,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#000"
-        android:text="@string/cash_center_network_error"
+        android:text="网络异常"
         android:textSize="16dp" />
 
 

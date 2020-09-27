@@ -8,4 +8,6 @@ public interface PermissionsCallback {
 
     @DrawableRes
     int getAppIcon();
+
+    void logEvent(String eventID, boolean onlyUMENG, String... vars);
 }

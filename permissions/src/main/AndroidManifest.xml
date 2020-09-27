@@ -189,7 +189,7 @@
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog" />
         <activity
-            android:name=".AccessibilityOppoGuideActivity"
+            android:name=".AccessibilityOppoVivoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
@@ -203,5 +203,35 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Dialog.transparent" />
+
+        <activity
+            android:name=".VivoPermissionsGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
+            android:name=".VivoNotificationGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+        <activity
+            android:name=".PhoneVivoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
+        <activity
+            android:name=".ContactVivoGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForToast" />
     </application>
 </manifest>
