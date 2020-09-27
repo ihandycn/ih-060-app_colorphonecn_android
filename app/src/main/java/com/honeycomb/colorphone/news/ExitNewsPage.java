@@ -26,6 +26,7 @@ import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListener {
 
@@ -37,13 +38,15 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
         super(context, attrs);
     }
 
-    @Override protected void init() {
+    @Override
+    protected void init() {
         super.init();
         onSelected(true);
         logger = new ExitEventLogger();
     }
 
-    @Override protected void onFinishInflate() {
+    @Override
+    protected void onFinishInflate() {
         super.onFinishInflate();
         setEnabled(false);
 
@@ -78,7 +81,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
 
         boolean isNoNews = false;
 
-        @Override public int getItemViewType(int position) {
+        @Override
+        public int getItemViewType(int position) {
             if (position == 0) {
                 return NEWS_TYPE_HEAD_AD;
             }
@@ -104,7 +108,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             return 2;
         }
 
-        @NonNull @Override
+        @NonNull
+        @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = null;
             if (viewType == NEWS_TYPE_HEAD_AD) {
@@ -151,7 +156,8 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             onBindNewsHolder(holder, position - getHeadCount(), viewType);
         }
 
-        @Override public int getItemCount() {
+        @Override
+        public int getItemCount() {
             int size = super.getItemCount();
             if (size == 0) {
                 size = 1;
@@ -227,6 +233,9 @@ public class ExitNewsPage extends NewsPage implements NewsManager.NewsLoadListen
             }
 
             try {
+                double ecpm = acbNativeAd.getEcpm() / 1000D;
+                AutopilotEvent.logAppEvent("cpm_collection_other",ecpm);
+
                 adContainer.fillNativeAd(acbNativeAd, "");
                 acbNativeAd.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
                     @Override

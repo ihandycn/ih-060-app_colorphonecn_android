@@ -6,6 +6,8 @@ import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.NetUtils;
 
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ public class ConfigLogDefault implements ConfigLog {
             Analytics.logEvent("ColorPhone_MainView_Opened",
                     "Brand", Build.BRAND.toLowerCase(),
                     "Permission", AutoRequestManager.getMainOpenGrantPermissionString());
+            AutopilotEvent.logAppEvent("mainview_opened");
         }
 
         @Override

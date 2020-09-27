@@ -19,6 +19,7 @@ import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.List;
 
@@ -110,6 +111,8 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
                 HSBundle hsBundle = new HSBundle();
                 hsBundle.putInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID, adViewHolder.getAdapterPosition());
                 HSGlobalNotificationCenter.sendNotification(SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED, hsBundle);
+                double ecpm = nativeAd.getEcpm() / 1000D;
+                AutopilotEvent.logAppEvent("cpm_collection_news", ecpm);
                 logAdShow();
                 logAdUseRatio("True");
             } else {
@@ -121,6 +124,8 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
                             return;
                         }
                         nativeAd = list.get(0);
+                        double ecpm = nativeAd.getEcpm() / 1000D;
+                        AutopilotEvent.logAppEvent("cpm_collection_news", ecpm);
                         HSBundle hsBundle = new HSBundle();
                         hsBundle.putInt(SmartLockerConstants.NOTIFICATION_AD_ITEM_ID, adViewHolder.getAdapterPosition());
                         HSGlobalNotificationCenter.sendNotification(SmartLockerConstants.NOTIFICATION_AD_ITEM_CHANGED, hsBundle);
