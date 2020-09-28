@@ -806,8 +806,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         changeModeToEnjoy(true);
 
-        Analytics.logEvent("WechatFlash_Set_Success");
-        WeChatInCallAutopilot.logEvent("screenflash_set_success");
+        String isHasFloatPermission = Permissions.isFloatWindowAllowed(HSApplication.getContext()) ? "yes" : "no";
+        String isHasNa = Permissions.isNotificationAccessGranted() ? "yes" : "no";
+        Analytics.logEvent("WechatFlash_Set_Success","NA",isHasNa,"Float",isHasFloatPermission);
     }
 
     private boolean isFromUploadAndPublish() {

@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ThemeSetHelper {
         Analytics.logEvent("ColorPhone_Set_Successed", "SetType", "SetForSomeone",
                 "Theme", theme.getName(),
                 "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
+        WeChatInCallAutopilot.logEvent("screenflash_set_success");
 
         ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
 
