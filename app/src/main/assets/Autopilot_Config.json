@@ -162,7 +162,7 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "2c09a856-ff3f-4518-a0eb-169a8306e23d",
+  "json_id": "25ae665b-bbea-4993-8d2b-79ba3b09b005",
   "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-7jwfh16wh": {
@@ -958,6 +958,9 @@
         },
         {
           "name": "screenflash_set_success"
+        },
+        {
+          "name": "wechatflash_set_success"
         }
       ]
     }
