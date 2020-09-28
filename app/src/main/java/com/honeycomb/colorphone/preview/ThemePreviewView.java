@@ -794,10 +794,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return;
         }
 
-        boolean isHasNAPermission = Permissions.isNotificationAccessGranted();
-        String logStr = isHasNAPermission ? "yes" : "no";
-        Analytics.logEvent("WechatFlash_Button_Click", "NA", logStr);
-        WeChatInCallAutopilot.logEvent("wechatflash_button_click");
+        if(WeChatInCallAutopilot.isHasButton()){
+            boolean isHasNAPermission = Permissions.isNotificationAccessGranted();
+            String logStr = isHasNAPermission ? "yes" : "no";
+            Analytics.logEvent("WechatFlash_Button_Click", "NA", logStr);
+            WeChatInCallAutopilot.logEvent("wechatflash_button_click");
+        }
         WeChatInCallUtils.applyWeChatInCallTheme(mTheme, isVideoSound);
 
         HSBundle bundle = new HSBundle();
@@ -809,6 +811,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         String isHasFloatPermission = Permissions.isFloatWindowAllowed(HSApplication.getContext()) ? "yes" : "no";
         String isHasNa = Permissions.isNotificationAccessGranted() ? "yes" : "no";
         Analytics.logEvent("WechatFlash_Set_Success","NA",isHasNa,"Float",isHasFloatPermission);
+        WeChatInCallAutopilot.logEvent("wechatflash_set_success");
     }
 
     private boolean isFromUploadAndPublish() {
