@@ -1447,6 +1447,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
             }
+
+            if (WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton() && WeChatInCallUtils.isWeChatThemeEnable() && !isFromUploadAndPublish()) {
+                Analytics.logEvent("WechatFlash_Button_Show");
+                WeChatInCallAutopilot.logEvent("wechatflash_button_show");
+            }
         }
         triggerPageChangeWhenIdle = true;
     }
@@ -1531,7 +1536,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             if (themeReady) {
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
-                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE){
+                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE) {
                     mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.animate().alpha(0).setDuration(200).start();
                 }
 
@@ -1559,7 +1564,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.setAlpha(0.01f);
                 mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
 
-                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE){
+                if (mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.getVisibility() == VISIBLE) {
                     mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.setAlpha(0.01f);
                     mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.animate().alpha(1f).setDuration(200).start();
                 }
@@ -1766,7 +1771,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         super.onAnimationEnd(animation);
                         ringtoneSetLayout.setVisibility(GONE);
                         dimCover.setVisibility(INVISIBLE);
-                        if(WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton()){
+                        if (WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton()) {
                             mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
                         }
                     }
@@ -1949,10 +1954,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public ThemeSettingsViewHolder() {
             mEnjoyApplyBtn = findViewById(R.id.theme_setting);
             mEnjoyWeChatApplyBtn = findViewById(R.id.we_chat_theme_setting);
-            if (showWeChatApplyBtn()){
-                Analytics.logEvent("WechatFlash_Button_Show");
-                WeChatInCallAutopilot.logEvent("wechatflash_button_show");
-            }
+            showWeChatApplyBtn();
             mEnjoyApplyBtn.setTextColor(Color.WHITE);
             mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
@@ -2032,15 +2034,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
 
-        private boolean showWeChatApplyBtn() {
+        private void showWeChatApplyBtn() {
             if (!WeChatInCallAutopilot.isEnable() || !WeChatInCallAutopilot.isHasButton() || !WeChatInCallUtils.isWeChatThemeEnable()) {
-                return false;
+                return;
             }
             if (isFromUploadAndPublish()) {
-                return false;
+                return;
             }
             mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
-            return true;
         }
 
         private void reset() {
