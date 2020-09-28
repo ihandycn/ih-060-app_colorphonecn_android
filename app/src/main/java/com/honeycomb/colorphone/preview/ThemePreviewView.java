@@ -1765,7 +1765,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         super.onAnimationEnd(animation);
                         ringtoneSetLayout.setVisibility(GONE);
                         dimCover.setVisibility(INVISIBLE);
-
+                        if(WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton()){
+                            mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
+                        }
                     }
                 });
             }

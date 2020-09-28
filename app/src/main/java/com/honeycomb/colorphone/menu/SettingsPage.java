@@ -115,7 +115,7 @@ public class SettingsPage implements View.OnClickListener {
         });
 
         View weChatThemeContainerView = rootView.findViewById(R.id.we_chat_theme_switch_container);
-        if (WeChatInCallAutopilot.isEnable()) {
+        if (WeChatInCallAutopilot.isEnable() && WeChatInCallManager.getInstance().isSupported()) {
             weChatThemeContainerView.setVisibility(View.VISIBLE);
         } else {
             weChatThemeContainerView.setVisibility(View.GONE);
