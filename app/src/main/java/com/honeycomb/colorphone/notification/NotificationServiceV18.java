@@ -10,13 +10,10 @@ import android.os.Build;
 import android.os.Process;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
 import com.acb.call.CallIntentManager;
 import com.acb.call.wechat.WeChatInCallManager;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
-import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterManager;
@@ -59,6 +56,8 @@ public class NotificationServiceV18 extends NotificationListenerService {
         String packageName = notificationInfoBean.packageId;
         String text = notificationInfoBean.text;
         String title = notificationInfoBean.title;
+
+        WeChatInCallManager.getInstance().checkCallAndHideLockScreen(text, packageName);
 
         HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
         if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallManager.getInstance().isWeChat(packageName)) {
