@@ -23,14 +23,7 @@ public class WeChatInCallUtils {
     public static final String HS_BUNDLE_WE_CHAT_THEME_ENABLE = "hs_bundle_we_chat_theme_enable";
 
     public static void applyWeChatInCallTheme(Theme theme, boolean isVideoSound) {
-        TasksManagerModel tasksManagerModel = TasksManager.getImpl().requestRingtoneTask(theme);
-        if (isVideoSound && tasksManagerModel != null) {
-            String path = tasksManagerModel.getPath();
-            Preferences.getDefault().putString(WeChatInCallManager.PREFS_SCREEN_FLASH_WE_CHAT_RING_TONE_PATH, path);
-        } else {
-            Preferences.getDefault().putString(WeChatInCallManager.PREFS_SCREEN_FLASH_WE_CHAT_RING_TONE_PATH, "");
-        }
-
+        Preferences.getDefault().putBoolean(WeChatInCallManager.PREFS_IS_VIDEO_SOUND, isVideoSound);
         Preferences.getDefault().putString(PREFS_SCREEN_FLASH_WE_CHAT_THEME_VIDEO_FILE_NAME, theme.getFileName());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, theme.getId());
     }
