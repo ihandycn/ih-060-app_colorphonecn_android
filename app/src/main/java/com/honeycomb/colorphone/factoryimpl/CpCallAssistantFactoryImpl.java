@@ -234,11 +234,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
     @Override
-    public void logAppEvent(String eventName) {
-        AutopilotEvent.logAppEvent(eventName);
-    }
-
-    @Override
     public void logAppEvent(String eventName, double value) {
         AutopilotEvent.logAppEvent(eventName, value);
     }
