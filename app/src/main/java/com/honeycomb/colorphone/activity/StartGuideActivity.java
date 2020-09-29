@@ -32,6 +32,7 @@ import com.honeycomb.colorphone.startguide.StartGuideViewListHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
@@ -49,6 +50,7 @@ import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
+import com.superapps.view.TypefacedTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,6 +158,15 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
+
+        setContentText();
+    }
+
+    private void setContentText(){
+        TypefacedTextView textView = findViewById(R.id.guide_first_page_title_new);
+        if(WeChatInCallAutopilot.isEnable()){
+            textView.setText(getResources().getString(R.string.guide_first_page_title_new_we_chat_in_call));
+        }
     }
 
     boolean isOnNewIntent = false;
