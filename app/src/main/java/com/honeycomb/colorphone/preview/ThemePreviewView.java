@@ -45,6 +45,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.call.wechat.WeChatInCallManager;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
@@ -765,6 +766,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 "Theme", mTheme.getName(),
                 "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
 
+        WeChatInCallAutopilot.logEvent("screenflash_set_success");
+
         setButtonState(true);
         for (ThemePreviewView preV : mActivity.getViews()) {
             int viewPos = (int) preV.getTag();
@@ -794,7 +797,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return;
         }
 
-        if(WeChatInCallAutopilot.isHasButton()){
+        if (WeChatInCallAutopilot.isHasButton()) {
             boolean isHasNAPermission = Permissions.isNotificationAccessGranted();
             String logStr = isHasNAPermission ? "yes" : "no";
             Analytics.logEvent("WechatFlash_Button_Click", "NA", logStr);
@@ -810,7 +813,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         String isHasFloatPermission = Permissions.isFloatWindowAllowed(HSApplication.getContext()) ? "yes" : "no";
         String isHasNa = Permissions.isNotificationAccessGranted() ? "yes" : "no";
-        Analytics.logEvent("WechatFlash_Set_Success","NA",isHasNa,"Float",isHasFloatPermission);
+        Analytics.logEvent("WechatFlash_Set_Success", "NA", isHasNa, "Float", isHasFloatPermission);
         WeChatInCallAutopilot.logEvent("wechatflash_set_success");
     }
 
@@ -1774,7 +1777,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         super.onAnimationEnd(animation);
                         ringtoneSetLayout.setVisibility(GONE);
                         dimCover.setVisibility(INVISIBLE);
-                        if (WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton()) {
+                        if (WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton() && WeChatInCallManager.getInstance().isSupported()) {
                             mThemeSettingsViewHolder.mEnjoyWeChatApplyBtn.setVisibility(VISIBLE);
                         }
                     }
