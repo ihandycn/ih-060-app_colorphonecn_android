@@ -159,14 +159,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
 
-        setContentText();
-    }
-
-    private void setContentText(){
-        TypefacedTextView textView = findViewById(R.id.guide_first_page_title_new);
-        if(WeChatInCallAutopilot.isEnable()){
-            textView.setText(getResources().getString(R.string.guide_first_page_title_new_we_chat_in_call));
-        }
     }
 
     boolean isOnNewIntent = false;
