@@ -33,13 +33,13 @@ public class NotificationServiceV18 extends NotificationListenerService {
     @Override
     public void onCreate() {
         super.onCreate();
-        HSLog.i(TAG, "NotificationListenerService created");
+        HSLog.d(TAG, "NotificationListenerService created");
     }
 
     @Override
     public void onListenerConnected() {
         inServiceRunning = true;
-        HSLog.i(TAG, "NotificationListenerService onListenerConnected");
+        HSLog.d(TAG, "NotificationListenerService onListenerConnected");
     }
 
     @SuppressLint("NewApi")
@@ -49,7 +49,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
         CallIntentManager.getInstance().recordAnswerCallIntent(statusBarNotification);
         MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
         LockNotificationManager.getInstance().onNotificationPosted(statusBarNotification);
-        HSLog.e(TAG, "New notification: " + statusBarNotification);
+        HSLog.d(TAG, "New notification: " + statusBarNotification);
 
         //we chat in call
         NotificationInfoBean notificationInfoBean = NotificationInfoBean.valueOf(statusBarNotification);
@@ -59,7 +59,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
         WeChatInCallManager.getInstance().checkCallAndHideLockScreen(text, packageName);
 
-        HSLog.e(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
+        HSLog.d(TAG, "onNotificationPosted: packageName = " + packageName + " text = " + text + " title = " + title);
         if (WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallManager.getInstance().isWeChat(packageName)) {
             WeChatInCallManager.getInstance().checkAndShow(text, title, WeChatInCallUtils.getWeChatInCallThemeName());
         }
@@ -67,15 +67,23 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        NotificationInfoBean notificationInfoBean = NotificationInfoBean.valueOf(sbn);
+        String packageName = notificationInfoBean.packageId;
+        String text = notificationInfoBean.text;
+        String title = notificationInfoBean.title;
+        HSLog.d(TAG, "Removed notification: packageName = " + packageName + " text = " + text + " title = " + title);
+
         MessageCenterManager.getInstance().removeMessage(sbn);
         HSLog.d(TAG, "Removed notification: " + sbn);
+
+        WeChatInCallManager.getInstance().removeWeChatNotification(packageName, text);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         inServiceRunning = false;
-        HSLog.i(TAG, "NotificationListenerService destroyed");
+        HSLog.d(TAG, "NotificationListenerService destroyed");
     }
 
     @Override
@@ -103,17 +111,17 @@ public class NotificationServiceV18 extends NotificationListenerService {
      */
     public static void ensureCollectorRunning(Context context) {
         ComponentName collectorComponent = new ComponentName(context, /*NotificationListenerService Inheritance*/ NotificationServiceV18.class);
-        HSLog.v(TAG, "ensureCollectorRunning collectorComponent: " + collectorComponent);
+        HSLog.d(TAG, "ensureCollectorRunning collectorComponent: " + collectorComponent);
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         boolean collectorRunning = false;
         List<ActivityManager.RunningServiceInfo> runningServices = manager.getRunningServices(Integer.MAX_VALUE);
         if (runningServices == null) {
-            HSLog.w(TAG, "ensureCollectorRunning() runningServices is NULL");
+            HSLog.d(TAG, "ensureCollectorRunning() runningServices is NULL");
             return;
         }
         for (ActivityManager.RunningServiceInfo service : runningServices) {
             if (service.service.equals(collectorComponent)) {
-                HSLog.w(TAG, "ensureCollectorRunning service - pid: " + service.pid + ", currentPID: " + Process.myPid() + ", clientPackage: " + service.clientPackage + ", clientCount: " + service.clientCount
+                HSLog.d(TAG, "ensureCollectorRunning service - pid: " + service.pid + ", currentPID: " + Process.myPid() + ", clientPackage: " + service.clientPackage + ", clientCount: " + service.clientCount
                         + ", clientLabel: " + ((service.clientLabel == 0) ? "0" : "(" + context.getResources().getString(service.clientLabel) + ")"));
                 if (service.pid == Process.myPid() /*&& service.clientCount > 0 && !TextUtils.isEmpty(service.clientPackage)*/) {
                     collectorRunning = true;

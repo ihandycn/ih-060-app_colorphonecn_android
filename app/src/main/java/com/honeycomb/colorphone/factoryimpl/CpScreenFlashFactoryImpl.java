@@ -23,10 +23,15 @@ import com.acb.colorphone.permissions.PermissionUI;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.Locker;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.smartlocker.SmartLockerManager;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
@@ -483,6 +488,19 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public void hideLockScreen() {
         FloatWindowController.getInstance().hideLockScreen(false);
+    }
+
+    @Override
+    public void showLockScreen() {
+        if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+            if (!SmartLockerManager.getInstance().isExist()) {
+                ChargingScreenUtils.startChargingScreenActivity(false, false);
+            }
+        } else if (LockerSettings.isLockerEnabled()) {
+            if (!SmartLockerManager.getInstance().isExist()) {
+                ChargingScreenUtils.startLockerActivity(false);
+            }
+        }
     }
 
     public boolean isScreenFlashNotShown() {
