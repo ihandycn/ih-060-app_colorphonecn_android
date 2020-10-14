@@ -45,7 +45,8 @@ public class StartGuidePermissionFactory {
     @interface PERMISSION_TYPES {
     }
 
-    @StringRes static int getItemTitle(@PERMISSION_TYPES int type) {
+    @StringRes
+    static int getItemTitle(@PERMISSION_TYPES int type) {
         int id = 0;
         switch (type) {
             case PERMISSION_TYPE_BG_POP:
@@ -78,7 +79,8 @@ public class StartGuidePermissionFactory {
         return id;
     }
 
-    @DrawableRes static int getItemDrawable(@PERMISSION_TYPES int type) {
+    @DrawableRes
+    static int getItemDrawable(@PERMISSION_TYPES int type) {
         int id = 0;
         switch (type) {
             case PERMISSION_TYPE_BG_POP:
@@ -159,7 +161,11 @@ public class StartGuidePermissionFactory {
                 AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
                 break;
             case PERMISSION_TYPE_SCREEN_FLASH:
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
+                if (AutoPermissionChecker.useVivoSystemAutoStart()) {
+                    AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM);
+                } else {
+                    AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
+                }
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 break;
             case PERMISSION_TYPE_PHONE:

@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.permission.HSRuntimePermissions;
 import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
@@ -21,6 +22,8 @@ import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.rom.RomUtils;
 import com.superapps.util.rom.VivoUtils;
+
+import java.util.List;
 
 /**
  * @author sundxing
@@ -56,6 +59,15 @@ public class AutoPermissionChecker {
             return VivoUtils.checkAutoStartPermission(HSApplication.getContext());
         }
         return ret || Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static boolean useVivoSystemAutoStart() {
+        if (!Compats.IS_VIVO_DEVICE) {
+            return false;
+        }
+        List<String> list = (List<String>) HSConfig.getList("Application", "AutoPermission", "VivoModel");
+        return list != null && list.contains(Build.MODEL);
     }
 
     public static void onBgPopupChange(boolean hasPermission) {

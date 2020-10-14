@@ -439,14 +439,8 @@ public class AutoRequestManager {
             permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
         if (!AutoPermissionChecker.hasAutoStartPermission()) {
-            if (Compats.IS_VIVO_DEVICE) {
-                List<String> list = (List<String>) HSConfig.getList(
-                        "Application", "AutoPermission", "VivoModel");
-                if (list!=null&&list.contains(Build.MODEL)){
-                    permission.add(HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM);
-                }else {
-                    permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
-                }
+            if (AutoPermissionChecker.useVivoSystemAutoStart()) {
+                permission.add(HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM);
             } else {
                 permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
             }
