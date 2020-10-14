@@ -439,7 +439,17 @@ public class AutoRequestManager {
             permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
         if (!AutoPermissionChecker.hasAutoStartPermission()) {
-            permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
+            if (Compats.IS_VIVO_DEVICE) {
+                List<String> list = (List<String>) HSConfig.getList(
+                        "Application", "AutoPermission", "VivoModel");
+                if (list!=null&&list.contains(Build.MODEL)){
+                    permission.add(HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM);
+                }else {
+                    permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
+                }
+            } else {
+                permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
+            }
         }
         if ((Compats.IS_XIAOMI_DEVICE || Compats.IS_VIVO_DEVICE) && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
