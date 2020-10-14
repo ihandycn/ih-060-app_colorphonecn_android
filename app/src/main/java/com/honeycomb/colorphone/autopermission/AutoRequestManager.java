@@ -962,6 +962,7 @@ public class AutoRequestManager {
         String permissionString = type;
         switch (type) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
+            case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
                 if (AutoPermissionChecker.hasAutoStartPermission()) {
                     return true;
                 }
@@ -1037,7 +1038,8 @@ public class AutoRequestManager {
                 HSLog.d(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
                 if (isSucceed) {
                     // already has permission.
-                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(permission)) {
+                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(permission)
+                            ||HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM.equals(permission)) {
                         AutoPermissionChecker.onAutoStartChange(true);
                     } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(permission)) {
                         AutoPermissionChecker.onShowOnLockScreenChange(true);
@@ -1069,6 +1071,10 @@ public class AutoRequestManager {
                             guideClass = VivoPermissionsGuideActivity.class;
                             Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         }
+                        break;
+                    case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
+                        guideClass = VivoPermissionsGuideActivity.class;
+                        Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                     case TYPE_CUSTOM_NOTIFICATION:

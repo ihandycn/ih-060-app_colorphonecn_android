@@ -92,6 +92,10 @@ public class PermissionVoiceGuide {
                 voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
                 delaySeconds = 9;
                 break;
+            case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
+                voiceStreamId = SoundManager.getInstance().playVivoAutoStartSystemPermissionGuide();
+                delaySeconds = 9;
+                break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
                 delaySeconds = 9;
