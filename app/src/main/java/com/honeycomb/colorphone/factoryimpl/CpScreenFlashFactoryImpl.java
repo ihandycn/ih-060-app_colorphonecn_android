@@ -492,15 +492,17 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     @Override
     public void showLockScreen() {
-        if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
-            if (!SmartLockerManager.getInstance().isExist()) {
-                ChargingScreenUtils.startChargingScreenActivity(false, false);
+        Threads.postOnMainThreadDelayed(() -> {
+            if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+                if (!SmartLockerManager.getInstance().isExist()) {
+                    ChargingScreenUtils.startChargingScreenActivity(false, false);
+                }
+            } else if (LockerSettings.isLockerEnabled()) {
+                if (!SmartLockerManager.getInstance().isExist()) {
+                    ChargingScreenUtils.startLockerActivity(false);
+                }
             }
-        } else if (LockerSettings.isLockerEnabled()) {
-            if (!SmartLockerManager.getInstance().isExist()) {
-                ChargingScreenUtils.startLockerActivity(false);
-            }
-        }
+        }, 2500);
     }
 
     public boolean isScreenFlashNotShown() {
