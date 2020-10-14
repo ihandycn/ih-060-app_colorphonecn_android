@@ -162,7 +162,7 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "25ae665b-bbea-4993-8d2b-79ba3b09b005",
+  "json_id": "0c15cf0e-d94f-448b-a54a-36e8e0803605",
   "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-7jwfh16wh": {
@@ -905,10 +905,30 @@
     },
     "topic-7o3oh4k7t": {
       "topic_type": "life_time",
-      "config_id": "rule-7o3ohwbsk",
+      "config_id": "rule-7ouxst5ai",
       "topic_id": "topic-7o3oh4k7t",
       "topic_name": "WeChat Show Test",
       "variations": {
+        "lockscreen_destroy": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "lockscreen_create": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
         "switch": {
           "values": [
             {
