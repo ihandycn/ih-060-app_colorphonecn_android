@@ -531,6 +531,7 @@ public class AutoRequestManager {
 
                 switch (type) {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
+                    case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
                         if (isSucceed) alreadyGot.add(type);
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
                         break;

@@ -26,6 +26,11 @@ public class AutoLogger {
                 "Os", getOSVersion(),
                 "Version", RomUtils.getRomVersion());
 
+        if (typeName.equals(HSPermissionRequestMgr.TYPE_AUTO_START) ||
+                typeName.equals(HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM)) {
+            String autoStartEvent = isSucceed ? "Automatic_Autostart_Success" : "Automatic_Autostart_Failed";
+            Analytics.logEvent(autoStartEvent, false, "model", Build.MODEL);
+        }
     }
 
     public static void logEvent(String EventID, String... values) {
