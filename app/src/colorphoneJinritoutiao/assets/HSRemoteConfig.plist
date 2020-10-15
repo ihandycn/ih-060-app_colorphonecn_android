@@ -29,8 +29,40 @@
 				<integer>18</integer>
 				<key>VivoModel</key>
 				<array>
+					<string>vivo Y85A</string>
+					<string>vivo Y71A</string>
+					<string>V1816A</string>
+					<string>vivo NEX A</string>
 					<string>V1818CT</string>
 					<string>V1818T</string>
+					<string>vivo Y85</string>
+					<string>V1813T</string>
+					<string>V1813BT</string>
+					<string>V1732T</string>
+					<string>vivo X20</string>
+					<string>vivo Y83</string>
+					<string>vivo Y71</string>
+					<string>V1809T</string>
+					<string>vivo X21</string>
+					<string>vivo X9s L</string>
+					<string>vivo X9s Plus L</string>
+					<string>vivo X20Plus</string>
+					<string>V1813T</string>
+					<string>V1809T</string>
+					<string>vivo X21</string>
+					<string>V1814A</string>
+					<string>V1816T</string>
+					<string>V1836A</string>
+					<string>vivo X21i</string>
+					<string>V1901T</string>
+					<string>vivo NEX</string>
+					<string>V1829T</string>
+					<string>V1831T</string>
+					<string>V1913T</string>
+					<string>V1838T</string>
+					<string>V1832T</string>
+					<string>V1916A</string>
+					<string>vivo X21UD</string>
 				</array>
 				<key>WaitListScroll</key>
 				<true/>
