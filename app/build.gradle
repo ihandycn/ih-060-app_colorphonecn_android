@@ -64,8 +64,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 1077
-            versionName "1.4.17"
+            versionCode 178
+            versionName "1.4.15"
         }
     }
 
