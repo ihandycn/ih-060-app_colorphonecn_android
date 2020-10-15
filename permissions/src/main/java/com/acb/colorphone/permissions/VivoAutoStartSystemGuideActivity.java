@@ -34,7 +34,7 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acb_phone_permission_guide_lottie);
+        setContentView(R.layout.acb_phone_auto_start_guide_lottie);
         View content = findViewById(R.id.container_view);
         if (content != null) {
             content.setBackgroundDrawable(null);
@@ -88,19 +88,16 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
             lottieAnimationView.enableMergePathsForKitKatAndAbove(true);
         }
 
-        setDescText();
+//        setDescText();
 
         View action = findViewById(R.id.action_btn);
-        action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF448AFF, Dimensions.pxFromDp(6), true));
+        action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF448AFF, Dimensions.pxFromDp(21.35f), true));
         action.setOnClickListener(v -> finish());
 
-        View close = findViewById(R.id.close_btn);
-        close.setOnClickListener(v -> finish());
-
         View view = findViewById(R.id.content_view);
-        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFFFFFFFF, 0x0, 0, 0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), false, false));
+        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFFFFFFFF, 0x0, 0, 0, Dimensions.pxFromDp(12), Dimensions.pxFromDp(12), false, false));
         view = findViewById(R.id.lottie_anim_bg);
-        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF5EB4ED, 0x0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), 0, 0, false, false));
+        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF5EB4ED, 0x0, Dimensions.pxFromDp(12), Dimensions.pxFromDp(12), 0, 0, false, false));
 
         if (playAnimation) {
             lottieAnimationView.playAnimation();
@@ -110,7 +107,6 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        showExitStableToast();
         homeKeyWatcher.stopWatch();
     }
 
@@ -126,34 +122,5 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
         return "lottie/vivo_autostart_system_guide/data.json";
     }
 
-    protected void showExitStableToast() {
-        int yOffset = Dimensions.pxFromDp(0);
-        StableToast.showStableToast(R.layout.toast_one_line_text, getTitleStringResId(), yOffset, "AutoStartPageDuration");
-    }
 
-    private void setDescText() {
-        String descText = getString(getTitleStringResId());
-        String icon_replace = getString(R.string.acb_app_icon_replace);
-        TextView descTv = findViewById(R.id.description);
-
-        if (descText.contains(icon_replace)) {
-            int appIconIndex = descText.indexOf(icon_replace);
-            if (appIconIndex >= 0) {
-                int identifier = HSApplication.getContext().getResources().getIdentifier("ic_launcher", "mipmap", getPackageName());
-                Drawable appIcon = ContextCompat.getDrawable(HSApplication.getContext(), identifier);
-                if (appIcon != null) {
-                    SpannableString highlighted = new SpannableString(descText);
-
-                    int size = Dimensions.pxFromDp(24);
-                    appIcon.setBounds(0, 0, size, size);
-                    ImageSpan span = new ImageSpan(appIcon, ImageSpan.ALIGN_BOTTOM);
-                    highlighted.setSpan(span, appIconIndex, appIconIndex + icon_replace.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    descTv.setText(highlighted);
-                    return;
-                }
-            }
-
-        }
-        descTv.setText(descText);
-    }
 }
