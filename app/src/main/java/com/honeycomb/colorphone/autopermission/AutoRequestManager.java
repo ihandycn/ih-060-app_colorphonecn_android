@@ -43,6 +43,8 @@ import com.acb.colorphone.permissions.PhoneVivoGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.StableToast;
+import com.acb.colorphone.permissions.VivoAutoStartSystemGuideActivity;
+import com.acb.colorphone.permissions.VivoGuideNoAutoStartActivity;
 import com.acb.colorphone.permissions.VivoNotificationGuideActivity;
 import com.acb.colorphone.permissions.VivoPermissionsGuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -1039,7 +1041,7 @@ public class AutoRequestManager {
                 if (isSucceed) {
                     // already has permission.
                     if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(permission)
-                            ||HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM.equals(permission)) {
+                            || HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM.equals(permission)) {
                         AutoPermissionChecker.onAutoStartChange(true);
                     } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(permission)) {
                         AutoPermissionChecker.onShowOnLockScreenChange(true);
@@ -1073,7 +1075,7 @@ public class AutoRequestManager {
                         }
                         break;
                     case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
-                        guideClass = VivoPermissionsGuideActivity.class;
+                        guideClass = VivoAutoStartSystemGuideActivity.class;
                         Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         break;
                     case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
@@ -1093,7 +1095,9 @@ public class AutoRequestManager {
                         if (RomUtils.checkIsMiuiRom()) {
                             guideClass = ShowOnLockScreenMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsVivoRom()) {
-                            guideClass = VivoPermissionsGuideActivity.class;
+                            guideClass = AutoPermissionChecker.useVivoSystemAutoStart() ?
+                                    VivoGuideNoAutoStartActivity.class
+                                    : VivoPermissionsGuideActivity.class;
                             Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         } else {
                             guideClass = ShowOnLockScreenGuideActivity.class;
@@ -1104,7 +1108,9 @@ public class AutoRequestManager {
                         if (RomUtils.checkIsMiuiRom()) {
                             guideClass = BackgroundPopupMIUIGuideActivity.class;
                         } else {
-                            guideClass = VivoPermissionsGuideActivity.class;
+                            guideClass = AutoPermissionChecker.useVivoSystemAutoStart() ?
+                                    VivoGuideNoAutoStartActivity.class
+                                    : VivoPermissionsGuideActivity.class;
                             Analytics.logEvent("Autostart_Alert_Should_Show", false);
                         }
                         break;

@@ -85,6 +85,7 @@
     <string name="acb_app_icon_replace">1@2$</string>
 
     <string name="acb_phone_grant_permissions_title_vivo">为确保来电秀正常工作，请开启以下权限：\n·自启动\n·锁屏显示\n·后台弹出界面 </string>
+    <string name="acb_phone_grant_permissions_no_autostart_vivo">为确保来电秀正常工作，请开启以下权限：\n·锁屏显示\n·后台弹出界面 </string>
     <string name="acb_phone_grant_notification_title_vivo">为确保成功读取来电时通知，请开启通知使用权 </string>
 
     <string name="acb_phone_grant_phone_vivo_content">为确保正常显示和接听来电，请开启访问手机识别码</string>
