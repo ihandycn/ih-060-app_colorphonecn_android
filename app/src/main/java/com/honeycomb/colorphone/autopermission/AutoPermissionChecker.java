@@ -67,7 +67,15 @@ public class AutoPermissionChecker {
             return false;
         }
         List<String> list = (List<String>) HSConfig.getList("Application", "AutoPermission", "VivoModel");
-        return list != null && list.contains(Build.MODEL);
+        if (list == null) {
+            return false;
+        }
+        for (String model : list) {
+            if (Build.MODEL.equalsIgnoreCase(model)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void onBgPopupChange(boolean hasPermission) {
