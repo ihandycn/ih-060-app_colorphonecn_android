@@ -634,6 +634,11 @@ public class AutoRequestManager {
             AutoLogger.logEventWithBrandAndOS("Automatic_Finished_From_FixAlert");
         }
 
+        if (Compats.IS_VIVO_DEVICE) {
+            String autoStartEvent = AutoPermissionChecker.hasAutoStartPermission() ? "Automatic_Autostart_Success" : "Automatic_Autostart_Failed";
+            Analytics.logEvent(autoStartEvent, false, "model", Build.MODEL);
+        }
+
         if (isGrantAllPermission()) {
             if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
                 AutoLogger.logEventWithBrandAndOS("All_Granted_From_Accessbility");
