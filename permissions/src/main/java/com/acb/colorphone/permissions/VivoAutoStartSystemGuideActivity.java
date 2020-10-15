@@ -47,11 +47,13 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
 
         homeKeyWatcher = new HomeKeyWatcher(this);
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
-            @Override public void onHomePressed() {
+            @Override
+            public void onHomePressed() {
                 finish();
             }
 
-            @Override public void onRecentsPressed() {
+            @Override
+            public void onRecentsPressed() {
                 finish();
             }
         });
@@ -105,13 +107,20 @@ public class VivoAutoStartSystemGuideActivity extends AppCompatActivity {
         }
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
+        showExitStableToast();
         homeKeyWatcher.stopWatch();
     }
 
+    protected void showExitStableToast() {
+        int yOffset = Dimensions.pxFromDp(0);
+        StableToast.showStableToast(R.layout.toast_one_line_text, getTitleStringResId(), yOffset, "AutoStartPageDuration");
+    }
+
     protected int getTitleStringResId() {
-        return R.string.acb_phone_grant_permissions_no_autostart_vivo;
+        return R.string.acb_phone_grant_autostart_sys_vivo;
     }
 
     protected String getImageAssetFolder() {
