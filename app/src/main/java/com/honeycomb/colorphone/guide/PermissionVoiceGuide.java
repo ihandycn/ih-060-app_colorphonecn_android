@@ -92,7 +92,7 @@ public class PermissionVoiceGuide {
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
                 if (AutoPermissionChecker.useVivoSystemAutoStart()){
                     voiceStreamId = SoundManager.getInstance().playVivoNoAutoStartGuide();
-                    delaySeconds = 9;
+                    delaySeconds = 6;
                 }else {
                     voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
                     delaySeconds = 9;
@@ -100,7 +100,7 @@ public class PermissionVoiceGuide {
                 break;
             case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
                 voiceStreamId = SoundManager.getInstance().playVivoAutoStartSystemPermissionGuide();
-                delaySeconds = 9;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
