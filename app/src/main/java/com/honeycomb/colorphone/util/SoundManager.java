@@ -30,6 +30,7 @@ public class SoundManager {
     private int idAccGuideVoiceXiaoMi;
     private int idAccGuideVoiceVivo;
     private int idPermissionGuideVoiceVivo;
+    private int idPermissionNoAutoStartVoiceVivo;
     private int idAutoStartSystemGuideVivo;
     private int idNAGuideVoiceVivo;
     private int idPhoneGuideVoiceVivo;
@@ -50,6 +51,7 @@ public class SoundManager {
         idAccGuideVoiceXiaoMi = soundPool.load(context, R.raw.acc_voice_guide_xiaomi, 1);
         idAccGuideVoiceVivo = soundPool.load(context, R.raw.acc_voice_guide_vivo, 1);
         idPermissionGuideVoiceVivo = soundPool.load(context, R.raw.auto_start_voice_guide_vivo, 1);
+        idPermissionNoAutoStartVoiceVivo = soundPool.load(context, R.raw.no_auto_start_voice_guide_vivo, 1);
         idAutoStartSystemGuideVivo = soundPool.load(context, R.raw.auto_start_system_voice_guide_vivo, 1);
         idNAGuideVoiceVivo = soundPool.load(context, R.raw.notification_voice_guide_vivo, 1);
         idPhoneGuideVoiceVivo = soundPool.load(context, R.raw.phone_voice_guide_vivo, 1);
@@ -103,6 +105,13 @@ public class SoundManager {
     public int playVivoPermissionGuide() {
         if (isSoundPoolInitFinish) {
             return soundPool.play(idPermissionGuideVoiceVivo, 1, 1, 1, 0, 1);
+        }
+        return 0;
+    }
+
+    public int playVivoNoAutoStartGuide() {
+        if (isSoundPoolInitFinish) {
+            return soundPool.play(idPermissionNoAutoStartVoiceVivo, 1, 1, 1, 0, 1);
         }
         return 0;
     }

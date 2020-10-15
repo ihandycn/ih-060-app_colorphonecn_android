@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneException;
 import com.honeycomb.colorphone.util.NumberUtils;
@@ -89,8 +90,13 @@ public class PermissionVoiceGuide {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
-                voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
-                delaySeconds = 9;
+                if (AutoPermissionChecker.useVivoSystemAutoStart()){
+                    voiceStreamId = SoundManager.getInstance().playVivoNoAutoStartGuide();
+                    delaySeconds = 9;
+                }else {
+                    voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
+                    delaySeconds = 9;
+                }
                 break;
             case HSPermissionRequestMgr.TYPE_AUTO_START_VIVO_SYSTEM:
                 voiceStreamId = SoundManager.getInstance().playVivoAutoStartSystemPermissionGuide();
