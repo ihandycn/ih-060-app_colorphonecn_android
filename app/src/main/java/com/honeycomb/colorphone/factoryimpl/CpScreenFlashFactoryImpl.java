@@ -487,22 +487,26 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     @Override
     public void hideLockScreen() {
-        FloatWindowController.getInstance().hideLockScreen(false);
+        if (WeChatInCallAutopilot.isHideLockScreen()) {
+            FloatWindowController.getInstance().hideLockScreen(false);
+        }
     }
 
     @Override
     public void showLockScreen() {
-        Threads.postOnMainThreadDelayed(() -> {
-            if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
-                if (!SmartLockerManager.getInstance().isExist()) {
-                    ChargingScreenUtils.startChargingScreenActivity(false, false);
+        if (WeChatInCallAutopilot.isHideLockScreen() && WeChatInCallAutopilot.isReCreateLockScreen()) {
+            Threads.postOnMainThreadDelayed(() -> {
+                if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+                    if (!SmartLockerManager.getInstance().isExist()) {
+                        ChargingScreenUtils.startChargingScreenActivity(false, false);
+                    }
+                } else if (LockerSettings.isLockerEnabled()) {
+                    if (!SmartLockerManager.getInstance().isExist()) {
+                        ChargingScreenUtils.startLockerActivity(false);
+                    }
                 }
-            } else if (LockerSettings.isLockerEnabled()) {
-                if (!SmartLockerManager.getInstance().isExist()) {
-                    ChargingScreenUtils.startLockerActivity(false);
-                }
-            }
-        }, 2500);
+            }, 2500);
+        }
     }
 
     public boolean isScreenFlashNotShown() {

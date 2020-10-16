@@ -28,6 +28,18 @@ public class WeChatInCallAutopilot {
         return result;
     }
 
+    public static boolean isHideLockScreen() {
+        boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "lockscreen_destroy", false);
+        HSLog.d(TAG, "lockscreen_destroy = " + result);
+        return result;
+    }
+
+    public static boolean isReCreateLockScreen() {
+        boolean result = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "lockscreen_create", false);
+        HSLog.d(TAG, "lockscreen_create = " + result);
+        return result;
+    }
+
     public static void logEvent(String eventName) {
         AutopilotEvent.logTopicEvent(TOPIC_ID, eventName);
     }
