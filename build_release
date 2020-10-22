@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+mkdir outputs
+
+python ./multiproduct/package_modifier.py com.honeycomb.colorphone com.colorphone.smooth.dialer.cn
+./gradlew :app:clean :app:assembleColorphoneJinritoutiaoRelease --stacktrace
+python ./multiproduct/package_modifier.py com.colorphone.smooth.dialer.cn com.honeycomb.colorphone
+
+./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
+
+cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
+
+for file in `find app/build/outputs/mapping/colorphoneJinritoutiao/release`
+do
+    echo $file
+    cp $file outputs/$(basename "$file")
+done
+
+cp app/build/intermediates/merged_assets/colorphoneJinritoutiaoRelease/mergeColorphoneJinritoutiaoReleaseAssets/out/HSRemoteConfig.sp outputs/
+cp app/build/intermediates/merged_assets/colorphoneJinritoutiaoRelease/mergeColorphoneJinritoutiaoReleaseAssets/out/alerts.sp outputs/
+cp app/build/intermediates/symbols/colorphoneJinritoutiao/release/R.txt outputs/
