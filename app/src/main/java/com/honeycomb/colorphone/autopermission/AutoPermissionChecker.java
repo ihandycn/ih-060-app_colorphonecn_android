@@ -50,7 +50,9 @@ public class AutoPermissionChecker {
 
     public static boolean hasAutoStartPermission() {
         boolean ret = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && RomUtils.checkIsMiuiRom()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+                && RomUtils.checkIsMiuiRom()) {
             ret = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
         } else if (RomUtils.checkIsVivoRom()) {
             return VivoUtils.checkAutoStartPermission(HSApplication.getContext());
@@ -64,7 +66,8 @@ public class AutoPermissionChecker {
 
     public static boolean hasBgPopupPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                    && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.BACKGROUND_START_ACTIVITY) == PermissionsTarget22.GRANTED;
             }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
@@ -92,7 +95,8 @@ public class AutoPermissionChecker {
 
     public static boolean hasShowOnLockScreenPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                    && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.SHOW_WHEN_LOCKED) == PermissionsTarget22.GRANTED;
             }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_show_on_lockscreen_permission",
