@@ -310,5 +310,3 @@
 
 -keep class sun.misc.Unsafe { *; }
 -dontwarn com.google.protobuf.**
-
--dontpreverify
