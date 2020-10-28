@@ -93,6 +93,14 @@
             android:theme="@style/TransparentCompatDialog" />
 
         <activity
+            android:name=".AutoStartSystemGuideActivityOppo10"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog" />
+
+        <activity
             android:name=".NAOppoGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"

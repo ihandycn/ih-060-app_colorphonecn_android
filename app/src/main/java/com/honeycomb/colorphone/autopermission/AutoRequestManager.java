@@ -24,6 +24,7 @@ import com.acb.colorphone.permissions.AutoStartAboveOOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartOppoGuideActivity;
+import com.acb.colorphone.permissions.AutoStartSystemGuideActivityOppo10;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
@@ -1065,7 +1066,9 @@ public class AutoRequestManager {
                         } else if (RomUtils.checkIsMiuiRom()) {
                             guideClass = AutoStartMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                guideClass = AutoStartSystemGuideActivityOppo10.class;
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 guideClass = AutoStartAboveOOppoGuideActivity.class;
                             } else {
                                 guideClass = AutoStartOppoGuideActivity.class;
