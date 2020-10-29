@@ -87,6 +87,11 @@ public class PermissionVoiceGuide {
         playVoiceCount++;
         switch (permission) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
+                if (Compats.IS_OPPO_DEVICE){
+                    voiceStreamId = SoundManager.getInstance().playOppoAutoStartGuide();
+                    delaySeconds = 10;
+                    break;
+                }
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
                 voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();

@@ -34,6 +34,7 @@ public class SoundManager {
     private int idPhoneGuideVoiceVivo;
     private int idContactVoiceVivo;
     private int idAutoTaskVoiceVivo;
+    private int idAutoStartVoiceOppo;
 
     public void init(Context context) {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -53,6 +54,7 @@ public class SoundManager {
         idPhoneGuideVoiceVivo = soundPool.load(context, R.raw.phone_voice_guide_vivo, 1);
         idContactVoiceVivo = soundPool.load(context, R.raw.contact_voice_guide_vivo, 1);
         idAutoTaskVoiceVivo = soundPool.load(context, R.raw.auto_task_start_voice_vivo, 1);
+        idAutoStartVoiceOppo = soundPool.load(context, R.raw.auto_start_voice_oppo, 1);
 
         isSoundPoolInitFinish = true;
     }
@@ -129,6 +131,13 @@ public class SoundManager {
     public int playVivoAutoStartGuide() {
         if (isSoundPoolInitFinish) {
             return soundPool.play(idAutoTaskVoiceVivo, 1, 1, 1, 0, 1);
+        }
+        return 0;
+    }
+
+    public int playOppoAutoStartGuide() {
+        if (isSoundPoolInitFinish) {
+            return soundPool.play(idAutoStartVoiceOppo, 1, 1, 1, 0, 1);
         }
         return 0;
     }
