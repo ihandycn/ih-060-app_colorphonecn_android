@@ -10,6 +10,7 @@ import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,6 +195,8 @@ public class ResultPageManager {
             }
         });
         mInterstitialAd.show(mActivity, "");
+        double ecpm = mInterstitialAd.getEcpm() / 1000D;
+        AutopilotEvent.logAppEvent("cpm_collection_other", ecpm);
         return true;
     }
 }

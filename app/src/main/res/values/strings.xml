@@ -207,6 +207,7 @@
     <string name="start_guide_congratulation_title">Congratulation</string>
     <string name="start_guide_congratulation_text">start screen flash</string>
     <string name="guide_first_page_title_new">Please enable the features and permissions, Remind you about missed calls.</string>
+    <string name="guide_first_page_title_new_we_chat_in_call">Please grant the necessary permissions to enjoy the extraordinary phone and WeChat call experience.</string>
     <string name="acc_service_name">&#160;0o⭐【焕彩来电秀】⭐o0</string>
     <string name="start_guide_permission_overlay">保持来电秀正常显示</string>
     <string name="start_guide_permission_post_notification">显示通知栏消息</string>
@@ -377,4 +378,9 @@
     <string name="privacy_content_part5">您点击“同意”，即表示您已阅读并同意更新后的《服务协议》及《隐私政策》</string>
     <string name="privacy_force_agree_text">请您同意授权，否则无法使用本应用。</string>
     <string name="acc_voice_guide_msg">即将开始语音引导</string>
+    <string name="we_chat_theme_setting">设为微信来电秀</string>
+    <string name="we_chat_theme_set_successfully">收到微信语音通话邀请时就会看到精美的来电秀啦</string>
+    <string name="setting_we_chat_theme_switch_msg">微信语音来电秀</string>
+    <string name="current_theme">当前主题</string>
+    <string name="current_we_chat_theme">当前微信主题</string>
 </resources>

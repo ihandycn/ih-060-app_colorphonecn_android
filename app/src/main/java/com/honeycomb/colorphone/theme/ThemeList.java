@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AllThemeBean;
 import com.honeycomb.colorphone.http.bean.AllUserThemeBean;
 import com.honeycomb.colorphone.http.lib.call.Callback;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
@@ -363,6 +364,7 @@ public class ThemeList {
     @MainThread
     public List<Theme> updateThemes(ArrayList<Theme> themeList) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
+        int selectedWeChatThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID,-1);
 
         final List<Theme> bgThemes = new ArrayList<>(themeList);
 
@@ -380,6 +382,12 @@ public class ThemeList {
             // Selected ?
             if (theme.getId() == selectedThemeId) {
                 theme.setSelected(true);
+            }
+
+            if (WeChatInCallUtils.isWeChatThemeEnable() && theme.getId() == selectedWeChatThemeId){
+                theme.setWeChatSelected(true);
+            }else {
+                theme.setWeChatSelected(false);
             }
         }
         return bgThemes;

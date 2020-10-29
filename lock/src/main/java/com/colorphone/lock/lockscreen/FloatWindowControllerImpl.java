@@ -164,8 +164,7 @@ public class FloatWindowControllerImpl {
     }
 
     public void showChargingScreen(Bundle bundle) {
-        if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                && !Permissions.isFloatWindowAllowed(context)) {
+        if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW) && !Permissions.isFloatWindowAllowed(context)) {
             return;
         }
         if (addedToWindowMgr && isShowLockScreen) {
@@ -195,16 +194,13 @@ public class FloatWindowControllerImpl {
 
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
-            } catch (SecurityException e) {
-                return;
+            } catch (SecurityException ignored) {
             }
         }
-        startDismissActivity();
     }
 
     public void showLockScreen() {
-        if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                && !Permissions.isFloatWindowAllowed(context)) {
+        if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW) && !Permissions.isFloatWindowAllowed(context)) {
             return;
         }
         Navigations.startActivity(context, DismissActivity.class);
@@ -234,12 +230,6 @@ public class FloatWindowControllerImpl {
 
             }
         }
-    }
-
-    private void startDismissActivity() {
-        Intent intentActivity = new Intent(context, DismissActivity.class);
-        intentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Navigations.startActivitySafely(context, intentActivity);
     }
 
     public void hideLockScreen(boolean dismissKeyguard) {

@@ -1,20 +1,34 @@
 package com.honeycomb.colorphone.debug;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 
-import com.honeycomb.colorphone.feedback.HuaweiRateGuideDialog;
-import com.honeycomb.colorphone.feedback.OppoRateGuideDialog;
-import com.honeycomb.colorphone.feedback.XiaomiRateGuideDialog;
+import com.acb.call.themes.GifAnimationView;
+import com.acb.call.themes.ThemeBaseView;
+import com.acb.call.utils.FileUtils;
+import com.acb.call.views.InCallActionView;
+import com.acb.call.views.VideoPlayerView;
+import com.acb.call.wechat.WeChatInCallManager;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeApplyManager;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.utils.HSLog;
-import com.ihs.permission.Utils;
-import com.ihs.permission.acc.AccCommentReceiver;
 import com.superapps.util.Compats;
-import com.superapps.util.Threads;
+import com.superapps.util.Preferences;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DebugActions {
 
@@ -23,21 +37,29 @@ public class DebugActions {
     private static CommentReceiver commentReceiver;
 
     public static void onVolumeDown(Activity activity) {
-        boolean isGranted = Utils.isAccessibilityGranted();
-        HSLog.e("rango", " isGranted = " + isGranted);
+//        boolean isGranted = Utils.isAccessibilityGranted();
+//        HSLog.e("rango", " isGranted = " + isGranted);
+//
+//        activity.unregisterReceiver(commentReceiver);
 
-        activity.unregisterReceiver(commentReceiver);
+//        WindowManager windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+//        windowManager.removeView(view);
+
+        WeChatInCallManager.getInstance().checkAndShow("语⾳通话中","textTitle", WeChatInCallUtils.getWeChatInCallThemeName());
     }
 
     public static void onVolumeUp(Activity activity) {
 
-        commentReceiver = new CommentReceiver();
+//        commentReceiver = new CommentReceiver();
+//
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(AccCommentReceiver.ACTION);
+//        activity.registerReceiver(commentReceiver, intentFilter);
+//
+//        launchAppDetail(HSApplication.getContext().getPackageName(), getMarketPkg());
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(AccCommentReceiver.ACTION);
-        activity.registerReceiver(commentReceiver, intentFilter);
+        //openWeChatInCallActivity(activity);
 
-        launchAppDetail(HSApplication.getContext().getPackageName(), getMarketPkg());
     }
 
     private static void launchAppDetail(String appPkg, String marketPkg) {

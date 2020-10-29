@@ -71,6 +71,7 @@ import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -425,6 +426,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 LockerCustomConfig.get().onEventChargingAdShow();
                 advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
                 advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(0));
+
+                double ecpm = acbExpressAdView.getAdDisplayedEcpm() / 1000D;
+                AutopilotEvent.logAppEvent("cpm_collection_news", ecpm);
             }
 
             @Override

@@ -2,8 +2,14 @@ package com.honeycomb.colorphone.theme;
 
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.call.wechat.WeChatInCallManager;
+import com.honeycomb.colorphone.ScreenFlashInit;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.superapps.util.Preferences;
 
 import java.util.List;

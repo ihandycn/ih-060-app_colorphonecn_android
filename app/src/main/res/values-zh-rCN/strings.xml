@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
     <!--Need Translate-->
 
     <string name="settings">设置</string>
@@ -141,6 +141,7 @@
     <string name="start_guide_congratulation_title">恭喜你</string>
     <string name="start_guide_congratulation_text">欢迎来到焕彩世界~</string>
     <string name="guide_first_page_title_new">请授予必要权限，享受非凡的来电体验</string>
+    <string name="guide_first_page_title_new_we_chat_in_call">请授予必要权限，享受非凡的电话和微信来电体验</string>
 
     <string name="start_guide_skip_dialog_title">来电秀部分功能失效</string>
     <string name="start_guide_skip_dialog_content">权限未全部开启，可能导致无法正常展示来电秀功能</string>

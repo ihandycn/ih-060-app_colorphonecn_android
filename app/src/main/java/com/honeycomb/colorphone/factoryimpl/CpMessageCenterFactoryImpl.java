@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.factoryimpl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.colorphone.lock.lockscreen.FloatWindowController;
@@ -20,6 +21,7 @@ import com.messagecenter.notification.NotificationMessageAlertActivity;
 import com.superapps.util.Navigations;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 /**
  * Created by jelly on 2018/3/17.
@@ -229,6 +231,16 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public void onAdClick() {
 //                Analytics.logEvent("Message_View_AD_Clicked");
+            }
+
+            @Override
+            public void logAppEvent(String eventName) {
+                AutopilotEvent.logAppEvent(eventName);
+            }
+
+            @Override
+            public void logAppEvent(String eventName, double value) {
+                AutopilotEvent.logAppEvent(eventName, value);
             }
 
             @Override

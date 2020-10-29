@@ -43,8 +43,8 @@ public class FloatWindowCompat {
             layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
             int phoneWidth = Dimensions.getPhoneWidth(HSApplication.getContext());
             int phoneHeight = Dimensions.getPhoneHeight(HSApplication.getContext());
-            layoutParams.width = phoneWidth < phoneHeight ? phoneWidth : phoneHeight;
-            layoutParams.height = phoneWidth > phoneHeight ? phoneWidth : phoneHeight;
+            layoutParams.width = Math.min(phoneWidth, phoneHeight);
+            layoutParams.height = Math.max(phoneWidth, phoneHeight);
         }
         layoutParams.format = PixelFormat.TRANSPARENT;
         layoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -55,10 +55,8 @@ public class FloatWindowCompat {
                 | WindowManager.LayoutParams.FLAG_FULLSCREEN
                 | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        }
+        layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+        layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
         return layoutParams;
     }
 
