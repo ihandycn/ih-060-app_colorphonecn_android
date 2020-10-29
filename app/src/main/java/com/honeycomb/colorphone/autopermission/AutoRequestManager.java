@@ -1175,8 +1175,7 @@ public class AutoRequestManager {
                     } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
                         Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
                         if (RomUtils.checkIsOppoRom()
-                                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                                && type.equals(HSPermissionRequestMgr.TYPE_AUTO_START)) {
+                                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             PermissionVoiceGuide.getInstance().start(type);
                         }
                     } else if (RomUtils.checkIsVivoRom()) {
