@@ -22,10 +22,16 @@ import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
+import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.Locker;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.smartlocker.SmartLockerManager;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.http.HttpManager;
 import com.honeycomb.colorphone.http.bean.AttributionLocationBean;
@@ -37,6 +43,7 @@ import com.honeycomb.colorphone.theme.ThemeApplyManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -469,6 +476,36 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             isScreenFlashShow = true;
         } else if ("Acb_Screenflash_DisplayFail".equalsIgnoreCase(eventID)) {
             isScreenFlashShow = false;
+        }
+    }
+
+    @Override
+    public void logWeChatEvent(String eventName, String... vars) {
+        Analytics.logEvent(eventName, vars);
+        WeChatInCallAutopilot.logEvent(eventName.toLowerCase());
+    }
+
+    @Override
+    public void hideLockScreen() {
+        if (WeChatInCallAutopilot.isHideLockScreen()) {
+            FloatWindowController.getInstance().hideLockScreen(false);
+        }
+    }
+
+    @Override
+    public void showLockScreen() {
+        if (WeChatInCallAutopilot.isHideLockScreen() && WeChatInCallAutopilot.isReCreateLockScreen()) {
+            Threads.postOnMainThreadDelayed(() -> {
+                if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+                    if (!SmartLockerManager.getInstance().isExist()) {
+                        ChargingScreenUtils.startChargingScreenActivity(false, false);
+                    }
+                } else if (LockerSettings.isLockerEnabled()) {
+                    if (!SmartLockerManager.getInstance().isExist()) {
+                        ChargingScreenUtils.startLockerActivity(false);
+                    }
+                }
+            }, 2500);
         }
     }
 

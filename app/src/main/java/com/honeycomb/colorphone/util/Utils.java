@@ -636,6 +636,10 @@ public final class Utils {
     }
 
     public static void showApplySuccessToastView(PercentRelativeLayout rootView, TransitionView backTransition) {
+        showApplySuccessToastView(rootView,backTransition,null);
+    }
+
+    public static void showApplySuccessToastView(PercentRelativeLayout rootView, TransitionView backTransition,String successMsg) {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
@@ -656,6 +660,9 @@ public final class Utils {
         LottieAnimationView lottieThemeApply = contentView.findViewById(R.id.lottie_theme_apply);
         TextView applySuccessText = contentView.findViewById(R.id.apply_success_text);
         TextView applyText = contentView.findViewById(R.id.apply_text);
+        if (!TextUtils.isEmpty(successMsg)){
+            applyText.setText(successMsg);
+        }
 
         themeChange.animate().alpha(1f)
                 .setDuration(166)

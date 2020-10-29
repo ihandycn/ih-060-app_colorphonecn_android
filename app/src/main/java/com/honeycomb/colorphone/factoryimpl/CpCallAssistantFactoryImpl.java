@@ -44,6 +44,8 @@ import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
 import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME;
 import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT;
@@ -229,6 +231,11 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 return super.getCallIdleAlertView(callIdleAlertActivity, data);
             }
         };
+    }
+
+    @Override
+    public void logAppEvent(String eventName, double value) {
+        AutopilotEvent.logAppEvent(eventName, value);
     }
 
     @Override

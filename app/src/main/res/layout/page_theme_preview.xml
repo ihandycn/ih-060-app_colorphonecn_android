@@ -153,23 +153,36 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="16dp"
             />
 
         <TextView
-            android:id="@+id/theme_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/we_chat_theme_setting"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_we_chat_theme_setting"
+            android:gravity="center"
+            android:layout_above="@id/theme_setting"
+            android:text="@string/we_chat_theme_setting"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/theme_setting"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/shape_theme_setting"
             android:gravity="center"
             android:text="@string/theme_setting"
-            android:letterSpacing="0.3"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold" />

@@ -31,6 +31,7 @@ import com.superapps.util.Dimensions;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 
 /**
@@ -137,6 +138,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
 
 
     FrameLayout adLayout;
+
     private void initNativeAdView() {
         adLayout = findViewById(R.id.preview_ad_layout);
         View adView = LayoutInflater.from(getContext()).inflate(R.layout.page_theme_ad_layout, adLayout, false);
@@ -166,7 +168,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
     }
 
     private void showNavView(boolean show) {
-        float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
+        float offsetX = Dimensions.isRtl() ? -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
         float targetX = show ? 0 : -offsetX;
         // State already right.
         if (Math.abs(mNavBack.getTranslationX() - targetX) <= 1) {
@@ -236,7 +238,8 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         HSGlobalNotificationCenter.removeObserver(this);
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
     }
 
     @Override
@@ -296,6 +299,8 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         ad.indeedNeedShowFullAd(mAdContainer);
         mAdContainer.fillNativeAd(ad, "");
 
+        double ecpm = ad.getEcpm() / 1000D;
+        AutopilotEvent.logAppEvent("cpm_collection_other", ecpm);
         clickView.setOnClickListener(v -> {
             mEnjoyApplyBtn.performClick();
         });

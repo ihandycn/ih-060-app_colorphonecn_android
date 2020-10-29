@@ -67,6 +67,12 @@ public class FloatWindowController {
         }
     }
 
+    public void hideLockScreen(boolean dismissKeyguard) {
+        if (null != floatWindowControllerImpl) {
+            floatWindowControllerImpl.hideLockScreen(dismissKeyguard);
+        }
+    }
+
     public boolean isLockScreenShown() {
         if (null == floatWindowControllerImpl) {
             return false;

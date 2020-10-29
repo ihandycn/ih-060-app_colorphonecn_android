@@ -37,6 +37,7 @@ import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.List;
 
@@ -247,7 +248,8 @@ abstract class ResultController implements View.OnClickListener {
 
     public void showAd(AcbNativeAd ad) {
 
-        logBoostDoneAdShow();
+        double ecpm = ad.getEcpm() /1000D;
+        logBoostDoneAdShow(ecpm);
 
         mAdShown = true;
         mAd = ad;
@@ -568,7 +570,7 @@ abstract class ResultController implements View.OnClickListener {
         }
     }
 
-    private void logBoostDoneAdShow() {
+    private void logBoostDoneAdShow(double ecpm) {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
@@ -586,19 +588,23 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
+                AutopilotEvent.logAppEvent("cpm_collection_other",ecpm);
                 Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_CLEAN_GUIDE:
                 Analytics.logEvent("CleanDone_Ad_Shown_FromPush", "Type", "Boost");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                AutopilotEvent.logAppEvent("cpm_collection_other",ecpm);
                 Analytics.logEvent("BoostDone_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
+                AutopilotEvent.logAppEvent("cpm_collection_other",ecpm);
                 Analytics.logEvent("BoostDone_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                AutopilotEvent.logAppEvent("cpm_collection_other",ecpm);
                 Analytics.logEvent("BoostDone_Ad_Shown_FromShortcut");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_LOCKER:

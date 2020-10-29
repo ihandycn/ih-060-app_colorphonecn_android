@@ -40,6 +40,8 @@ import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -55,6 +57,7 @@ import java.util.List;
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
+    public static final String NOTIFY_WE_CHAT_THEME_SELECT = "notify_we_chat_theme_select";
     public static final String NOTIFY_THEME_UPLOAD_SELECT = "notify_theme_upload_select";
     public static final String NOTIFY_THEME_PUBLISH_SELECT = "notify_theme_publish_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
@@ -132,6 +135,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             return;
         }
 
+        if (WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isHasButton() && WeChatInCallUtils.isWeChatThemeEnable() && !("upload".equals(from) || "publish".equals(from))) {
+            Analytics.logEvent("WechatFlash_Button_Show");
+            WeChatInCallAutopilot.logEvent("wechatflash_button_show");
+        }
+
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         lastThemeFullAdIndex = pos;
@@ -141,52 +149,46 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         setContentView(R.layout.activity_theme_preview);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this);
-        } else {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-        }
+        NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-                    HSLog.d("SharedElement start");
-                    for (ThemePreviewView previewView : mViews) {
-                        previewView.setBlockAnimationForPageChange(false);
-                        if (previewView.isSelectedPos()) {
-                            previewView.onWindowTransitionStart();
-                        }
+        getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                HSLog.d("SharedElement start");
+                for (ThemePreviewView previewView : mViews) {
+                    previewView.setBlockAnimationForPageChange(false);
+                    if (previewView.isSelectedPos()) {
+                        previewView.onWindowTransitionStart();
                     }
                 }
+            }
 
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    HSLog.d("SharedElement end");
-                    for (ThemePreviewView previewView : mViews) {
-                        previewView.setBlockAnimationForPageChange(false);
-                        if (previewView.isSelectedPos()) {
-                            previewView.onWindowTransitionEnd();
-                        }
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                HSLog.d("SharedElement end");
+                for (ThemePreviewView previewView : mViews) {
+                    previewView.setBlockAnimationForPageChange(false);
+                    if (previewView.isSelectedPos()) {
+                        previewView.onWindowTransitionEnd();
                     }
                 }
+            }
 
-                @Override
-                public void onTransitionCancel(Transition transition) {
+            @Override
+            public void onTransitionCancel(Transition transition) {
 
-                }
+            }
 
-                @Override
-                public void onTransitionPause(Transition transition) {
+            @Override
+            public void onTransitionPause(Transition transition) {
 
-                }
+            }
 
-                @Override
-                public void onTransitionResume(Transition transition) {
+            @Override
+            public void onTransitionResume(Transition transition) {
 
-                }
-            });
-        }
+            }
+        });
 
         mViewPager = findViewById(R.id.preview_view_pager);
         mAdapter = new ThemePagerAdapter();
@@ -254,12 +256,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
         if (ConfigSettings.showAdOnDetailView() && TextUtils.equals(from, FROM_MAIN)) {
-            Threads.postOnMainThreadDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!ThemeGuide.isFromThemeGuide()) {
-                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
-                    }
+            Threads.postOnMainThreadDelayed(() -> {
+                if (!ThemeGuide.isFromThemeGuide()) {
+                    Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
                 }
             }, 200);
         }
@@ -267,12 +266,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         AcbAds.getInstance().setActivity(this);
         AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(), false);
-            }
-        });
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(visibility -> NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(), false));
 
         PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
@@ -419,11 +413,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (intercept) {
             return;
         }
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            supportFinishAfterTransition();
-        } else {
-            super.onBackPressed();
-        }
+        supportFinishAfterTransition();
     }
 
     @Override

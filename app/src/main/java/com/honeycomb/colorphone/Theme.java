@@ -37,6 +37,7 @@ public class Theme extends Type {
 
     private long download;
     private boolean isSelected;
+    private boolean isWeChatSelected;
     private boolean isLike;
     private boolean isNotificationEnabled;
     private boolean isLocked;
@@ -84,6 +85,14 @@ public class Theme extends Type {
 
     public boolean isSelected() {
         return isSelected;
+    }
+
+    public boolean isWeChatSelected() {
+        return isWeChatSelected;
+    }
+
+    public void setWeChatSelected(boolean weChatSelected) {
+        isWeChatSelected = weChatSelected;
     }
 
     public void setSelected(boolean selected) {

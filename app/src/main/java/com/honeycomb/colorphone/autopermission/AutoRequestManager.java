@@ -472,20 +472,11 @@ public class AutoRequestManager {
                 permission.add(HSPermissionRequestMgr.TYPE_POST_NOTIFICATION);
             }
 
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(HSRuntimePermissions.TYPE_RUNTIME_PHONE)) {
-                permission.add(HSPermissionRequestMgr.TYPE_PHONE);
-            }
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE)) {
-                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
-            }
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ)) {
-                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
-            }
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(HSRuntimePermissions.TYPE_RUNTIME_STORAGE)) {
-                permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
-                    !AutoPermissionChecker.isRuntimePermissionGrant(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG)) {
+            permission.add(HSPermissionRequestMgr.TYPE_PHONE);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
+            permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 permission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
             }
         }

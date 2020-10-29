@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -46,6 +48,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -98,71 +101,86 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private INotificationObserver observer = new INotificationObserver() {
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
-            if (pageIndex != ((ColorPhoneActivity) activity).mainPagerPosition){
+            if (pageIndex != ((ColorPhoneActivity) activity).mainPagerPosition) {
                 return;
             }
-                if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
-                    if (hsBundle != null) {
-                        notifyItemChanged(getAdapterPos(hsBundle));
-                    }
-                } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
-                    // TODO unclear
-                    if (hsBundle != null) {
-                        int pos = getDataPos(hsBundle);
-                        if (data != null && data.size() > pos) {
-                            Theme selectedTheme = data.get(pos);
+            if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
+                if (hsBundle != null) {
+                    notifyItemChanged(getAdapterPos(hsBundle));
+                }
+            } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+                // TODO unclear
+                if (hsBundle != null) {
+                    int pos = getDataPos(hsBundle);
+                    if (data != null && data.size() > pos) {
+                        Theme selectedTheme = data.get(pos);
 
-                            if (!selectTheme(pos)) {
-                                if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
-                                    notifyDataSetChanged();
-                                }
-                            }
-
-                            ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                                    selectedTheme.getIdName().toLowerCase(),
-                                    ConfigLog.FROM_DETAIL);
-                        }
-                    }
-                } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
-                    if (hsBundle != null) {
-                        notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
-                    }
-                } else if (ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE.equals(s)) {
-                    if (hsBundle != null) {
-                        int pos = getDataPos(hsBundle);
-                        Theme theme = data.get(pos);
-                        int adapterPos = themePositionToAdapterPosition(pos);
-                        RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
-
-                        if (holder instanceof ThemeCardViewHolder) {
-                            ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
-                            cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
-                            if (theme.isLike()) {
-                                cardViewHolder.mThemeLikeAnim.setProgress(1f);
-                            } else {
-                                cardViewHolder.mThemeLikeAnim.setProgress(0f);
+                        if (!selectTheme(pos)) {
+                            if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
+                                notifyDataSetChanged();
                             }
                         }
 
+                        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                                selectedTheme.getIdName().toLowerCase(),
+                                ConfigLog.FROM_DETAIL);
                     }
-                } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
-                    //user selected theme on the upload page, so delete current theme tip of home page
-                    if (data != null && data.size() > 0) {
-                        int prePos = -1;
-                        for (int i = 0; i < data.size(); i++) {
-                            Theme t = data.get(i);
-                            if (t.isSelected()) {
-                                prePos = i;
-                                break;
+                }
+            } else if (ThemePreviewActivity.NOTIFY_WE_CHAT_THEME_SELECT.equals(s)) {
+                if (hsBundle != null) {
+                    int pos = getDataPos(hsBundle);
+                    if (data != null && data.size() > pos) {
+                        if (!selectWeChatTheme(pos)) {
+                            if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
+                                notifyDataSetChanged();
                             }
-                        }
-                        if (prePos != -1) {
-                            Theme t = data.get(prePos);
-                            t.setSelected(false);
-                            notifyItemSelected(prePos, t);
                         }
                     }
                 }
+            } else if (WeChatInCallUtils.NOTIFICATION_REFRESH_WE_CHAT_UI.equals(s)) {
+                if (hsBundle != null){
+                    refreshWeChatUi(hsBundle.getBoolean(WeChatInCallUtils.HS_BUNDLE_WE_CHAT_THEME_ENABLE));
+                }
+            } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
+                if (hsBundle != null) {
+                    notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
+                }
+            } else if (ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE.equals(s)) {
+                if (hsBundle != null) {
+                    int pos = getDataPos(hsBundle);
+                    Theme theme = data.get(pos);
+                    int adapterPos = themePositionToAdapterPosition(pos);
+                    RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
+
+                    if (holder instanceof ThemeCardViewHolder) {
+                        ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
+                        cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
+                        if (theme.isLike()) {
+                            cardViewHolder.mThemeLikeAnim.setProgress(1f);
+                        } else {
+                            cardViewHolder.mThemeLikeAnim.setProgress(0f);
+                        }
+                    }
+
+                }
+            } else if (ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT.equals(s) || ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT.equals(s)) {
+                //user selected theme on the upload page, so delete current theme tip of home page
+                if (data != null && data.size() > 0) {
+                    int prePos = -1;
+                    for (int i = 0; i < data.size(); i++) {
+                        Theme t = data.get(i);
+                        if (t.isSelected()) {
+                            prePos = i;
+                            break;
+                        }
+                    }
+                    if (prePos != -1) {
+                        Theme t = data.get(prePos);
+                        t.setSelected(false);
+                        notifyItemSelected(prePos, t);
+                    }
+                }
+            }
         }
 
         private int unlockThemeAndGetDatePos(HSBundle hsBundle) {
@@ -253,6 +271,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.addOnScrollListener(new WatchedScrollListener());
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_WE_CHAT_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(WeChatInCallUtils.NOTIFICATION_REFRESH_WE_CHAT_UI, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_PUBLISH_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_UPLOAD_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, observer);
@@ -406,7 +426,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                     );
             ColorPhoneActivity colorPhoneActivity = (ColorPhoneActivity) activity;
-            if (!colorPhoneActivity.isRefreshing()&&colorPhoneActivity.getCategoryList() != null && colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition) != null) {
+            if (!colorPhoneActivity.isRefreshing() && colorPhoneActivity.getCategoryList() != null && colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition) != null) {
                 ThemePreviewActivity.start(activity, pos, "main", colorPhoneActivity.getCategoryList().get(colorPhoneActivity.mainPagerPosition).getId(), activityOptionsCompat.toBundle());
             }
         }
@@ -451,6 +471,73 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         selectedTheme.setSelected(true);
         notifyItemSelected(pos, selectedTheme);
         return true;
+    }
+
+    private boolean selectWeChatTheme(final int pos) {
+        int prePos = -1;
+        // Clear before.
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.isWeChatSelected()) {
+                prePos = i;
+                break;
+            }
+        }
+
+        if (prePos == pos) {
+            return false;
+        } else {
+            if (prePos != -1) {
+                Theme t = data.get(prePos);
+                t.setWeChatSelected(false);
+                notifyItemSelected(prePos, t);
+            }
+        }
+        // Reset current.
+        Theme selectedTheme = data.get(pos);
+        selectedTheme.setWeChatSelected(true);
+        notifyItemSelected(pos, selectedTheme);
+        return true;
+    }
+
+    private void refreshWeChatUi(boolean isWeChatEnable) {
+        if (isWeChatEnable) {
+            showWeChatUi();
+        } else {
+            clearWeChatUi();
+        }
+    }
+
+    private void clearWeChatUi() {
+        int position = -1;
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.isWeChatSelected()) {
+                position = i;
+                break;
+            }
+        }
+
+        if (position != -1) {
+            Theme t = data.get(position);
+            t.setWeChatSelected(false);
+            notifyItemSelected(position, t);
+        }
+    }
+
+    private void showWeChatUi() {
+        int weChatThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_WE_CHAT_THEME_ID, -1);
+        if (weChatThemeId == -1) {
+            return;
+        }
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.getId() == weChatThemeId) {
+                t.setWeChatSelected(true);
+                notifyItemSelected(i, t);
+                break;
+            }
+        }
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
@@ -647,14 +734,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public static class ThemeStatusView {
 
             private TextView mThemeSelected;
+            private TextView mWeChatThemeSelected;
 
             public ThemeStatusView(View rootView) {
 
-                View itemView = rootView;
-
-                mThemeSelected = itemView.findViewById(R.id.card_selected);
+                mThemeSelected = rootView.findViewById(R.id.card_selected);
                 mThemeSelected.setVisibility(VISIBLE);
-
+                mWeChatThemeSelected = rootView.findViewById(R.id.we_chat_selected);
+                mWeChatThemeSelected.setVisibility(View.GONE);
             }
 
             public void setSelected(Theme theme) {
@@ -664,16 +751,26 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     mThemeSelected.setVisibility(View.GONE);
                 }
+
+                if (theme.isWeChatSelected() && WeChatInCallUtils.isWeChatThemeEnable()) {
+                    mWeChatThemeSelected.setVisibility(VISIBLE);
+                } else {
+                    mWeChatThemeSelected.setVisibility(View.GONE);
+                }
             }
 
-            public void switchToReadyState(boolean ready, boolean isSelected) {
+            public void switchToReadyState(boolean ready, boolean isSelected, boolean isWeChatSelected) {
 
-                boolean showSelected = ready && isSelected;
-                if (showSelected) {
-                    mThemeSelected.setVisibility(VISIBLE);
-                }
                 if (!ready) {
                     mThemeSelected.setVisibility(View.GONE);
+                    mWeChatThemeSelected.setVisibility(View.GONE);
+                    return;
+                }
+                if (isSelected) {
+                    mThemeSelected.setVisibility(VISIBLE);
+                }
+                if (isWeChatSelected && WeChatInCallUtils.isWeChatThemeEnable()) {
+                    mWeChatThemeSelected.setVisibility(VISIBLE);
                 }
             }
         }
@@ -761,7 +858,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             setSelected(theme);
-            switchToReadyState(fileExist, theme.isSelected());
+            switchToReadyState(fileExist, theme.isSelected(), theme.isWeChatSelected());
             setHotBadge(theme.isHot());
             setRingtoneBadge(theme.hasRingtone());
             setLike(theme, false);
@@ -809,9 +906,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
-        public void switchToReadyState(boolean ready, boolean isSelected) {
+        public void switchToReadyState(boolean ready, boolean isSelected, boolean isWeChatSelected) {
 
-            mThemeStatusView.switchToReadyState(ready, isSelected);
+            mThemeStatusView.switchToReadyState(ready, isSelected, isWeChatSelected);
         }
 
         public void setLikeClick(View.OnClickListener onClickListener) {

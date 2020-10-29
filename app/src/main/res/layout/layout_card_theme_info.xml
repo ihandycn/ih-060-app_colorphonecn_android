@@ -11,25 +11,42 @@
     app:layout_constraintVertical_bias="1.0">
 
     <TextView
+        android:id="@+id/we_chat_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_we_chat_card_selected"
+        android:lineSpacingExtra="10sp"
+        android:text="@string/current_we_chat_theme"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/card_selected"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:ignore="SmallSp" />
+
+    <TextView
         android:id="@+id/card_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/shape_card_selected"
         android:lineSpacingExtra="10sp"
-        android:text="当前主题"
+        android:text="@string/current_theme"
         android:textColor="#000000"
         android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/uploader_name"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/uploader_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:textSize="14sp"

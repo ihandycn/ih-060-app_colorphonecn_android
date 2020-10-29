@@ -99,6 +99,8 @@ import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.HomePageRefreshFooter;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.TabFrameLayout;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallAutopilot;
+import com.honeycomb.colorphone.wechatincall.WeChatInCallUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -840,8 +842,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Theme theme = Theme.getFirstTheme();
                 ThemeApplyManager.getInstance().addAppliedTheme(theme.toPrefString());
                 ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+                boolean isShouldSetWeChatTheme = WeChatInCallUtils.isWeChatThemeEnable() && WeChatInCallAutopilot.isEnable() && WeChatInCallAutopilot.isSetDefault();
+                if (isShouldSetWeChatTheme) {
+                    WeChatInCallUtils.applyWeChatInCallTheme(theme, true);
+                }
+
                 if (mRecyclerViewData.size() > 0 && mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
+                    if (isShouldSetWeChatTheme){
+                        mRecyclerViewData.get(0).setWeChatSelected(true);
+                    }
                     mAdapter.notifyDataSetChanged();
                 }
             }
