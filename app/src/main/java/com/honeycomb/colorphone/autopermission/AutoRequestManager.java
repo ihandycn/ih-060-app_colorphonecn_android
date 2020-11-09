@@ -281,8 +281,8 @@ public class AutoRequestManager {
                         StableToast.cancelToast();
                         AutoRepairingToast.showRepairingToast();
                         onAccessibilityReady();
-                        SoundManager.getInstance().playAutoTaskGuide();
                     }
+                    SoundManager.getInstance().playAutoTaskGuide();
                     HSApplication.getContext().unregisterReceiver(this);
                     listened = false;
                 }
