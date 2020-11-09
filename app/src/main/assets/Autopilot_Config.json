@@ -162,7 +162,7 @@
   "other_app_events": [],
   "autopilot_type": "app",
   "objects_get_url": "https://ap-obserge.appcloudbox.net",
-  "json_id": "dd829aa2-e0ad-44b9-ad69-72ddc725fb58",
+  "json_id": "b18738af-b157-4689-a6c9-be484a42f5b9",
   "autopilot_name": "ColorPhone_K",
   "topics": {
     "topic-7jwfh16wh": {
@@ -239,11 +239,11 @@
         }
       ]
     },
-    "topic-7prjndmw7": {
+    "topic-7jz903iwk": {
       "topic_type": "life_time",
-      "config_id": "rule-7prnz0que",
-      "topic_id": "topic-7prjndmw7",
-      "topic_name": "Voice_Test 2.0",
+      "config_id": "rule-7jz94alpm",
+      "topic_id": "topic-7jz903iwk",
+      "topic_name": "Douyin test",
       "variations": {
         "enable": {
           "values": [
@@ -261,10 +261,10 @@
           "name": "test"
         },
         {
-          "name": "voice_guide_start"
+          "name": "tab_video_show"
         },
         {
-          "name": "voice_guide_end"
+          "name": "video_slide"
         }
       ]
     },
@@ -363,12 +363,22 @@
         }
       ]
     },
-    "topic-7jz903iwk": {
+    "topic-7prjndmw7": {
       "topic_type": "life_time",
-      "config_id": "rule-7jz94alpm",
-      "topic_id": "topic-7jz903iwk",
-      "topic_name": "Douyin test",
+      "config_id": "rule-7pvtnt6yk",
+      "topic_id": "topic-7prjndmw7",
+      "topic_name": "Voice_Test and news_ad_refresh",
       "variations": {
+        "refreshenable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
         "enable": {
           "values": [
             {
@@ -385,10 +395,22 @@
           "name": "test"
         },
         {
-          "name": "tab_video_show"
+          "name": "voice_guide_start"
         },
         {
-          "name": "video_slide"
+          "name": "voice_guide_end"
+        },
+        {
+          "name": "cablefeed1_ad_chance"
+        },
+        {
+          "name": "cablefeed1_ad_show"
+        },
+        {
+          "name": "airnewsfeedad_chance"
+        },
+        {
+          "name": "airnewsfeedad_show"
         }
       ]
     },
@@ -931,41 +953,6 @@
         }
       ],
       "topic_id": "topic-73p89g8i7"
-    },
-    "topic-7prp1hmp8": {
-      "topic_type": "life_time",
-      "config_id": "rule-7prpbuq0f",
-      "topic_id": "topic-7prp1hmp8",
-      "topic_name": "CableFeed Test 2.0",
-      "variations": {
-        "refreshenable": {
-          "values": [
-            {
-              "value": false
-            }
-          ],
-          "type": "boolean",
-          "value": false,
-          "strategy": "sole"
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "cablefeed1_ad_chance"
-        },
-        {
-          "name": "cablefeed1_ad_show"
-        },
-        {
-          "name": "airnewsfeedad_chance"
-        },
-        {
-          "name": "airnewsfeedad_show"
-        }
-      ]
     },
     "topic-7o3oh4k7t": {
       "topic_type": "life_time",
