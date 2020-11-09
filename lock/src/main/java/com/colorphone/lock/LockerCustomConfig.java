@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.ihs.app.analytics.HSAnalytics;
 
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 /**
  * Created by sundxing on 17/9/5.
  */
@@ -24,6 +26,7 @@ public class LockerCustomConfig {
             // Ignore
         }
     };
+    NewsLockerManager newsLockerManager;
 
     public static LockerCustomConfig get() {
         return INSTANCE;
@@ -121,6 +124,13 @@ public class LockerCustomConfig {
         mGameCallback = gameCallback;
     }
 
+    public NewsLockerManager getNewsLockerManager() {
+        return newsLockerManager;
+    }
+
+    public void setNewsLockerManager(NewsLockerManager newsLockerManager) {
+        this.newsLockerManager = newsLockerManager;
+    }
 
     public static abstract class Event {
         public abstract void onEventLockerAdShow();
@@ -193,5 +203,17 @@ public class LockerCustomConfig {
         public void logEvent(String eventID, String... vars) {
             HSAnalytics.logEvent(eventID, vars);
         }
+    }
+
+    public interface NewsLockerManager {
+        boolean isRefresh();
+
+        void logCableFeed1AdChance();
+
+        void logCableFeed1AdShow();
+
+        void logAirNewsFeedAdChance();
+
+        void logAirNewsFeedAdShow();
     }
 }

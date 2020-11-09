@@ -77,6 +77,7 @@ import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
+import com.honeycomb.colorphone.guide.VoiceGuideAutopilotUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.LockerEvent;
@@ -839,6 +840,32 @@ public class ColorPhoneApplicationImpl {
 
         FloatWindowCompat.initLockScreen(mBaseApplication);
         HSChargingManager.getInstance().start();
+        LockerCustomConfig.get().setNewsLockerManager(new LockerCustomConfig.NewsLockerManager() {
+            @Override
+            public boolean isRefresh() {
+                return VoiceGuideAutopilotUtils.isRefreshEnable();
+            }
+
+            @Override
+            public void logCableFeed1AdChance() {
+                VoiceGuideAutopilotUtils.logCableFeed1AdChance();
+            }
+
+            @Override
+            public void logCableFeed1AdShow() {
+                VoiceGuideAutopilotUtils.logCableFeed1AdShow();
+            }
+
+            @Override
+            public void logAirNewsFeedAdChance() {
+                VoiceGuideAutopilotUtils.logAirNewsFeedAdChance();
+            }
+
+            @Override
+            public void logAirNewsFeedAdShow() {
+                VoiceGuideAutopilotUtils.logAirNewsFeedAdShow();
+            }
+        });
 
     }
 

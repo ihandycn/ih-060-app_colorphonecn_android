@@ -680,8 +680,14 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
     }
 
     private void refreshAd() {
-        if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            return;
+        if (mActivityMode) {
+            if (!LockerCustomConfig.get().getNewsLockerManager().isRefresh()) {
+                return;
+            }
+        } else {
+            if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                return;
+            }
         }
 
         if (onStartTimes <= 2) {
@@ -974,11 +980,21 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
     private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
+        if (mActivityMode) {
+            LockerCustomConfig.get().getNewsLockerManager().logAirNewsFeedAdChance();
+        } else {
+            LockerCustomConfig.get().getNewsLockerManager().logCableFeed1AdChance();
+        }
     }
 
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
+        if (mActivityMode) {
+            LockerCustomConfig.get().getNewsLockerManager().logAirNewsFeedAdShow();
+        } else {
+            LockerCustomConfig.get().getNewsLockerManager().logCableFeed1AdShow();
+        }
     }
 
     private void logAdUseRatio(String result) {
