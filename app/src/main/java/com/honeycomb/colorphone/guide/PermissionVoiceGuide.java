@@ -110,8 +110,13 @@ public class PermissionVoiceGuide {
                 delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
-                delaySeconds = 9;
+                if (Compats.IS_OPPO_DEVICE) {
+                    voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
+                    delaySeconds = 8;
+                } else {
+                    voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
+                    delaySeconds = 9;
+                }
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playVivoPhoneGuide();
@@ -154,11 +159,11 @@ public class PermissionVoiceGuide {
                 } else {
                     voiceStreamId = SoundManager.getInstance().playOppoAutoStartGuide();
                 }
-                delaySeconds = 10;
+                delaySeconds = 7;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
-                delaySeconds = 9;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_CALL_LOG:
             case HSPermissionRequestMgr.TYPE_CONTACT_READ:
@@ -169,15 +174,15 @@ public class PermissionVoiceGuide {
                 break;
             case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
                 voiceStreamId = SoundManager.getInstance().playOppoDrawOverlayGuide();
-                delaySeconds = 10;
+                delaySeconds = 7;
                 break;
             case HSPermissionRequestMgr.TYPE_POST_NOTIFICATION:
                 voiceStreamId = SoundManager.getInstance().playOppoPNGuide();
-                delaySeconds = 10;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playOppoPhoneGuide();
-                delaySeconds = 7;
+                delaySeconds = 8;
                 break;
         }
     }
@@ -212,23 +217,23 @@ public class PermissionVoiceGuide {
         switch (permission) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 voiceStreamId = SoundManager.getInstance().playXiaomiAutoStartGuide();
-                delaySeconds = 10;
+                delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
-                delaySeconds = 9;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playXiaomiPhoneGuide();
-                delaySeconds = 7;
+                delaySeconds = 6;
                 break;
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                 voiceStreamId = SoundManager.getInstance().playXiaomiLockGuide();
-                delaySeconds = 7;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
                 voiceStreamId = SoundManager.getInstance().playXiaomiBackgroundGuide();
-                delaySeconds = 7;
+                delaySeconds = 9;
                 break;
         }
     }
@@ -237,15 +242,15 @@ public class PermissionVoiceGuide {
         switch (permission) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 voiceStreamId = SoundManager.getInstance().playHuaweiAutoStartGuide();
-                delaySeconds = 10;
+                delaySeconds = 11;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
-                delaySeconds = 9;
+                delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playHuaweiPhoneGuide();
-                delaySeconds = 7;
+                delaySeconds = 8;
                 break;
         }
     }
