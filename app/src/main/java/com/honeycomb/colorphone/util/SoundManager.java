@@ -198,7 +198,7 @@ public class SoundManager {
         return 0;
     }
 
-    public int playCommonNAGuide() {
+    public int playOppoNAGuide() {
         if (isSoundPoolInitFinish) {
             return soundPool.play(idNAGuideVoiceOppo, 1, 1, 1, 0, 1);
         }

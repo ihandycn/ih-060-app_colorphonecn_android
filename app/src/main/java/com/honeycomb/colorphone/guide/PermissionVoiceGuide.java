@@ -111,7 +111,7 @@ public class PermissionVoiceGuide {
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
                 if (Compats.IS_OPPO_DEVICE) {
-                    voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
+                    voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
                     delaySeconds = 8;
                 } else {
                     voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
@@ -156,13 +156,14 @@ public class PermissionVoiceGuide {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     voiceStreamId = SoundManager.getInstance().playOppo10AutoStartGuide();
+                    delaySeconds = 10;
                 } else {
                     voiceStreamId = SoundManager.getInstance().playOppoAutoStartGuide();
+                    delaySeconds = 7;
                 }
-                delaySeconds = 7;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
+                voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
                 delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_CALL_LOG:
@@ -220,7 +221,7 @@ public class PermissionVoiceGuide {
                 delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
+                voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
                 delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
@@ -245,7 +246,7 @@ public class PermissionVoiceGuide {
                 delaySeconds = 11;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playCommonNAGuide();
+                voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
                 delaySeconds = 8;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
