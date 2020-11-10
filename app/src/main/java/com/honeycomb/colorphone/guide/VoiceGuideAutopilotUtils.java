@@ -39,23 +39,13 @@ public class VoiceGuideAutopilotUtils {
         AutopilotEvent.logTopicEvent(TOPIC_ID, "voice_guide_end");
     }
 
-    public static void logCableFeed1AdChance() {
+    public static void logAdChance() {
         isEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "cablefeed1_ad_chance");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "ad_chance");
     }
 
-    public static void logCableFeed1AdShow() {
+    public static void logAdShow() {
         isEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "cablefeed1_ad_show");
-    }
-
-    public static void logAirNewsFeedAdChance() {
-        isEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "airnewsfeedad_chance");
-    }
-
-    public static void logAirNewsFeedAdShow() {
-        isEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "airnewsfeedad_show");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "ad_show");
     }
 }

@@ -160,11 +160,14 @@ public class SmartLockerAdListItem implements INewsListItem<RecyclerView.ViewHol
     private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
+        LockerCustomConfig.get().getNewsLockerManager().logAdChance();
+
     }
 
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
+        LockerCustomConfig.get().getNewsLockerManager().logAdShow();
 
         hasLogShow = true;
     }

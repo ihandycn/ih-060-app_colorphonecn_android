@@ -847,23 +847,13 @@ public class ColorPhoneApplicationImpl {
             }
 
             @Override
-            public void logCableFeed1AdChance() {
-                VoiceGuideAutopilotUtils.logCableFeed1AdChance();
+            public void logAdChance() {
+                VoiceGuideAutopilotUtils.logAdChance();
             }
 
             @Override
-            public void logCableFeed1AdShow() {
-                VoiceGuideAutopilotUtils.logCableFeed1AdShow();
-            }
-
-            @Override
-            public void logAirNewsFeedAdChance() {
-                VoiceGuideAutopilotUtils.logAirNewsFeedAdChance();
-            }
-
-            @Override
-            public void logAirNewsFeedAdShow() {
-                VoiceGuideAutopilotUtils.logAirNewsFeedAdShow();
+            public void logAdShow() {
+                VoiceGuideAutopilotUtils.logAdShow();
             }
         });
 

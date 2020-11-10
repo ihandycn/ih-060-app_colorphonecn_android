@@ -208,12 +208,8 @@ public class LockerCustomConfig {
     public interface NewsLockerManager {
         boolean isRefresh();
 
-        void logCableFeed1AdChance();
+        void logAdChance();
 
-        void logCableFeed1AdShow();
-
-        void logAirNewsFeedAdChance();
-
-        void logAirNewsFeedAdShow();
+        void logAdShow();
     }
 }

@@ -980,21 +980,13 @@ public class SmartLockerScreen extends LockScreen implements INotificationObserv
     private void logAdChance() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "Chance");
         LockerCustomConfig.getLogger().logEvent("ad_chance");
-        if (mActivityMode) {
-            LockerCustomConfig.get().getNewsLockerManager().logAirNewsFeedAdChance();
-        } else {
-            LockerCustomConfig.get().getNewsLockerManager().logCableFeed1AdChance();
-        }
+        LockerCustomConfig.get().getNewsLockerManager().logAdChance();
     }
 
     private void logAdShow() {
         LockerCustomConfig.getLogger().logEvent("SmartLockerFeed2_NativeAd", "type", "AdView");
         LockerCustomConfig.getLogger().logEvent("ad_show");
-        if (mActivityMode) {
-            LockerCustomConfig.get().getNewsLockerManager().logAirNewsFeedAdShow();
-        } else {
-            LockerCustomConfig.get().getNewsLockerManager().logCableFeed1AdShow();
-        }
+        LockerCustomConfig.get().getNewsLockerManager().logAdShow();
     }
 
     private void logAdUseRatio(String result) {
