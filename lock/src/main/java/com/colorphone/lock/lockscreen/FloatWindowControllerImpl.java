@@ -24,6 +24,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.smartlocker.SmartLockerManager;
 import com.colorphone.smartlocker.SmartLockerScreen;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -194,6 +195,8 @@ public class FloatWindowControllerImpl {
 
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
+                HSLog.d("manual_flurry", "Locker: start flurry .......");
+                HSAnalytics.startFlurry();
             } catch (SecurityException ignored) {
             }
         }
@@ -226,6 +229,8 @@ public class FloatWindowControllerImpl {
 
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
+                HSLog.d("manual_flurry", "Locker: start flurry .......");
+                HSAnalytics.startFlurry();
             } catch (SecurityException ignored) {
 
             }
@@ -247,6 +252,8 @@ public class FloatWindowControllerImpl {
         if (addedToWindowMgr) {
             try {
                 windowMgr.removeView(container);
+                HSLog.d("manual_flurry", "Locker: stop flurry .......");
+                HSAnalytics.stopFlurry();
                 container = null;
             } catch (IllegalStateException exception) {
                 exception.printStackTrace();

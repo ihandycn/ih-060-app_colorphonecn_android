@@ -150,6 +150,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_CASH_CENTER_GUIDE_SHOW = "prefs_cash_center_guide_show";
     private static final String PREFS_RINGTONE_SHOW = "prefs_ringtone_frame_show";
 
+    private static final String PREFS_CALLFLASH_REQUEST_FIRST = "prefs_callflash_request_first";
+    private static final String PREFS_CALLFLASH_RESPONSE_FIRST = "prefs_callflash_response_first";
+
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
@@ -773,6 +776,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     isFirstRequestData = false;
                 }
                 Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
+                Preferences.getDefault().doOnce(() -> Analytics.logEvent("CallFlash_Request_FirstSession_Failed"), PREFS_CALLFLASH_RESPONSE_FIRST);
 
                 LayoutInflater inflater = getLayoutInflater();
                 View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
@@ -799,6 +803,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     isFirstRequestData = false;
                 }
                 Analytics.logEvent("CallFlash_Request_Success");
+                Preferences.getDefault().doOnce(() -> Analytics.logEvent("CallFlash_Request_FirstSession_Success"), PREFS_CALLFLASH_RESPONSE_FIRST);
 
                 if (isRefresh) {
                     mSmartRefreshLayout.finishRefresh();
@@ -849,7 +854,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 if (mRecyclerViewData.size() > 0 && mRecyclerViewData.get(0) != null && mRecyclerViewData.get(0).getId() == Theme.getFirstTheme().getId()) {
                     mRecyclerViewData.get(0).setSelected(true);
-                    if (isShouldSetWeChatTheme){
+                    if (isShouldSetWeChatTheme) {
                         mRecyclerViewData.get(0).setWeChatSelected(true);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -1382,6 +1387,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             Analytics.logEvent("CallFlash_Request");
         }
+        Preferences.getDefault().doOnce(() -> Analytics.logEvent("CallFlash_Request_FirstSession"), PREFS_CALLFLASH_REQUEST_FIRST);
         hasLoggedRequestCategory = true;
         HttpManager.getInstance().getAllCategories(new Callback<AllCategoryBean>() {
             @Override
@@ -1394,6 +1400,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     isFirstRequestData = false;
                 }
                 Analytics.logEvent("CallFlash_Request_Failed", "type", errorMsg);
+                Preferences.getDefault().doOnce(() -> Analytics.logEvent("CallFlash_Request_FirstSession_Failed"), PREFS_CALLFLASH_RESPONSE_FIRST);
 
                 LayoutInflater inflater = getLayoutInflater();
                 View layout = inflater.inflate(R.layout.theme_page_not_network_toast, findViewById(R.id.toast_layout));
