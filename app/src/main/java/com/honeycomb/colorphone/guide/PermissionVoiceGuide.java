@@ -221,8 +221,8 @@ public class PermissionVoiceGuide {
                 delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
-                delaySeconds = 8;
+                voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
+                delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playXiaomiPhoneGuide();
@@ -246,8 +246,8 @@ public class PermissionVoiceGuide {
                 delaySeconds = 11;
                 break;
             case HSPermissionRequestMgr.TYPE_ACCESS_NOTIFICATIONS:
-                voiceStreamId = SoundManager.getInstance().playOppoNAGuide();
-                delaySeconds = 8;
+                voiceStreamId = SoundManager.getInstance().playVivoNAGuide();
+                delaySeconds = 9;
                 break;
             case HSPermissionRequestMgr.TYPE_PHONE:
                 voiceStreamId = SoundManager.getInstance().playHuaweiPhoneGuide();
