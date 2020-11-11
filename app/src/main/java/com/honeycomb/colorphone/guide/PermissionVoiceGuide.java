@@ -87,6 +87,11 @@ public class PermissionVoiceGuide {
         playVoiceCount++;
         switch (permission) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
+                if (Compats.IS_OPPO_DEVICE) {
+                    voiceStreamId = SoundManager.getInstance().playOppoAutoStartGuide();
+                    delaySeconds = 10;
+                    break;
+                }
             case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
             case HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP:
                 voiceStreamId = SoundManager.getInstance().playVivoPermissionGuide();
@@ -104,8 +109,13 @@ public class PermissionVoiceGuide {
             case HSPermissionRequestMgr.TYPE_CONTACT_READ:
             case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
             case HSPermissionRequestMgr.TYPE_STORAGE:
-                voiceStreamId = SoundManager.getInstance().playVivoContactGuide();
-                delaySeconds = 9;
+                if (Compats.IS_OPPO_DEVICE) {
+                    voiceStreamId = SoundManager.getInstance().playOppoRuntimeGuide();
+                    delaySeconds = 10;
+                } else {
+                    voiceStreamId = SoundManager.getInstance().playVivoContactGuide();
+                    delaySeconds = 9;
+                }
                 break;
         }
     }

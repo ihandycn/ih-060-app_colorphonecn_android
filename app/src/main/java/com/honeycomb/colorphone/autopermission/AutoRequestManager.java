@@ -24,6 +24,7 @@ import com.acb.colorphone.permissions.AutoStartAboveOOppoGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartOppoGuideActivity;
+import com.acb.colorphone.permissions.AutoStartSystemGuideActivityOppo10;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
 import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
@@ -370,11 +371,15 @@ public class AutoRequestManager {
             } else {
                 permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
             }
+
+            if (Compats.IS_OPPO_DEVICE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+            }
             HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
                 @Override
                 public void onFinished(int succeedCount, int totalCount) {
                     HSLog.d(TAG, "Overlay : onFinished " + succeedCount);
-                    if (succeedCount == 1) {
+                    if (succeedCount == 1 || succeedCount == 2) {
                         onFloatWindowPermissionReady();
                         AutoPermissionChecker.onFloatPermissionChange(true);
                         AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Success");
@@ -457,10 +462,12 @@ public class AutoRequestManager {
         }
 
         if (!AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+            if (!(Compats.IS_OPPO_DEVICE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
+                permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+            }
         }
 
-        if (Compats.IS_OPPO_DEVICE) {
+        if (Compats.IS_OPPO_DEVICE && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             if (!AutoPermissionChecker.isPostNotificationPermissionGrant()) {
                 permission.add(HSPermissionRequestMgr.TYPE_POST_NOTIFICATION);
             }
@@ -677,8 +684,10 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isPhonePermissionGranted();
         if (Compats.IS_OPPO_DEVICE) {
-            ret &= AutoPermissionChecker.hasFloatWindowPermission()
-                    && AutoPermissionChecker.isPostNotificationPermissionGrant();
+            ret &= AutoPermissionChecker.hasFloatWindowPermission();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                ret &= AutoPermissionChecker.isPostNotificationPermissionGrant();
+            }
         }
         return ret;
     }
@@ -1056,7 +1065,9 @@ public class AutoRequestManager {
                         } else if (RomUtils.checkIsMiuiRom()) {
                             guideClass = AutoStartMIUIGuideActivity.class;
                         } else if (RomUtils.checkIsOppoRom()) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                guideClass = AutoStartSystemGuideActivityOppo10.class;
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 guideClass = AutoStartAboveOOppoGuideActivity.class;
                             } else {
                                 guideClass = AutoStartOppoGuideActivity.class;
@@ -1163,6 +1174,10 @@ public class AutoRequestManager {
 
                     } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
                         Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
+                        if (RomUtils.checkIsOppoRom()
+                                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            PermissionVoiceGuide.getInstance().start(type);
+                        }
                     } else if (RomUtils.checkIsVivoRom()) {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                         Threads.postOnMainThreadDelayed(() -> Navigations.startActivitySafely(HSApplication.getContext(), guideIntent), 500);

@@ -1011,6 +1011,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mDoubleBackHandler.interceptBackPressed()) {
             mDoubleBackHandler.toast();
         } else {
+            Preferences.getDefault().doOnce(() ->
+                    Analytics.logEvent(
+                            "ColorPhone_MainView_Exit_First"
+                            ,"Permission"
+                            , AutoLogger.getGrantRuntimePermissions())
+                    ,"ColorPhone_MainView_Exit_First");
             super.onBackPressed();
             TasksManager.getImpl().stopAllTasks();
         }

@@ -71,7 +71,7 @@
     <string name="acb_phone_oppo_na_permission_guide">为确保成功读取来电时通知，请找到【焕彩来电秀】并点击允许</string>
     <string name="acb_phone_oppo_notificationmanagement_permission_guide">为确保正常显示通知栏消息，请点击进入【通知管理】并允许通知</string>
     <string name="acb_phone_oppo_phone_permission_guide">为确保正常显示和接听来电，请点击进入【应用权限】，并开启【电话】</string>
-    <string name="acb_phone_oppo_dangerous_permission_guide">为确保来电秀正常使用，\n1.点击进入【应用权限】; \n2.开启通讯录和存储空间权限</string>
+    <string name="acb_phone_oppo_dangerous_permission_guide">为确保来电秀正常使用，\n1.点击进入【应用权限】; \n2.开启通话记录、通讯录和存储空间权限</string>
     <string name="acb_phone_grant_notification_onlockscreen_access_title">为确保锁屏时正常显示来电秀，请开启锁屏显示权限</string>
 
     <string name="acb_phone_grant_accessibility_guide_msg_1">1. 向下滑动，点击<font color='#00FFFF'>【已下载的服务】</font>下的0o⭐<font color='#00FFFF'>【焕彩来电秀】</font>⭐o0</string>
@@ -89,5 +89,7 @@
 
     <string name="acb_phone_grant_phone_vivo_content">为确保正常显示和接听来电，请开启访问手机识别码</string>
     <string name="acb_phone_grant_accessibility_title_vivo_24">1. 向下滑动，点击【服务】下的【0o⭐焕彩来电秀⭐o0】\n2. 在下一页打开右上角开关</string>
+
+    <string name="acb_phone_oppo_guide_i_know">我知道了</string>
 
 </resources>

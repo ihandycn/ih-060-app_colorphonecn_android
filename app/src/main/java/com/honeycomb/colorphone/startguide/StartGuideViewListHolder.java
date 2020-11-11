@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.startguide;
 
 import android.animation.ValueAnimator;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -61,7 +62,8 @@ public class StartGuideViewListHolder implements INotificationObserver {
     private SparseArray<StartGuideItemHolder> permissionList = new SparseArray<>();
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override public void handleMessage(Message msg) {
+        @Override
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case EVENT_UPGRADE:
@@ -107,7 +109,9 @@ public class StartGuideViewListHolder implements INotificationObserver {
 
         if (Compats.IS_OPPO_DEVICE) {
             permissions.add(0, PERMISSION_TYPE_OVERLAY);
-            permissions.add(4, PERMISSION_TYPE_POST_NOTIFICATION);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                permissions.add(4, PERMISSION_TYPE_POST_NOTIFICATION);
+            }
         }
 
         permissionLayout = container.findViewById(R.id.start_guide_permission_list);
@@ -219,7 +223,8 @@ public class StartGuideViewListHolder implements INotificationObserver {
         }
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(s, AutoRequestManager.NOTIFICATION_PERMISSION_RESULT)) {
             String pType = hsBundle.getString(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
@@ -290,6 +295,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
     }
 
     private long startAutoRequestAnimation;
+
     void startAutoRequestAnimation() {
         if (isConfirmPage) {
             return;

@@ -12,6 +12,10 @@ public class OppoPermissionsGuideUtil {
     }
 
     public static void showAutoStartGuide() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartSystemGuideActivityOppo10.class);
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartAboveOOppoGuideActivity.class);
             return;
