@@ -276,6 +276,7 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+            VoiceGuideAutopilotUtils.isEnable();
 
             if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_NEWS_FEED);
