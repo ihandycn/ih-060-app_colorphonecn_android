@@ -100,7 +100,7 @@ public class PermissionVoiceGuide {
         switch (permission) {
             case HSPermissionRequestMgr.TYPE_AUTO_START:
                 if (Compats.IS_OPPO_DEVICE) {
-                    voiceStreamId = SoundManager.getInstance().playOppoAutoStartGuide();
+                    voiceStreamId = SoundManager.getInstance().playOppo10AutoStartGuide();
                     delaySeconds = 10;
                     break;
                 }
