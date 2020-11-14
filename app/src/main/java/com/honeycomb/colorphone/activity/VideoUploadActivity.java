@@ -112,6 +112,10 @@ public class VideoUploadActivity extends HSAppCompatActivity implements View.OnC
         layoutParams.topMargin = statusBarHeight;
 
         mVideoInfo = (VideoUtils.VideoInfo) getIntent().getSerializableExtra(KEY_VIDEO_INFORMATION);
+        if (mVideoInfo == null) {
+            finish();
+            return;
+        }
         mVideoView = findViewById(R.id.video_view);
         mVideoView.setVideoPath(mVideoInfo.data);
         mVideoView.setOnClickListener(this);
