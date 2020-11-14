@@ -78,6 +78,7 @@ public class UserInfoEditorActivity extends HSAppCompatActivity implements View.
             userInfoEdited = cloneUserInfoBean(userInfo);
         } else {
             finish();
+            return;
         }
         initView();
         initListener();
