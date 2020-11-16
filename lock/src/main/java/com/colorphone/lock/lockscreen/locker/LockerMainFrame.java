@@ -397,6 +397,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (!HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
             LockerCustomConfig.getLogger().logEvent("ad_chance");
+            LockerCustomConfig.get().getNewsLockerManager().logAdChance();
         }
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAndChargingAdName(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
@@ -404,6 +405,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "AdView");
                 LockerCustomConfig.getLogger().logEvent("ad_show");
+                LockerCustomConfig.get().getNewsLockerManager().logAdShow();
 
                 mAdShown = true;
                 LockerCustomConfig.get().onEventLockerAdShow();
@@ -446,6 +448,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             LockerCustomConfig.getLogger().logEvent("SmartLockerFeed1_NativeAd", "type", "Chance");
             LockerCustomConfig.getLogger().logEvent("ad_chance");
+            LockerCustomConfig.get().getNewsLockerManager().logAdChance();
 
             expressAdView.switchAd();
         }

@@ -281,10 +281,8 @@ public class AutoRequestManager {
                         StableToast.cancelToast();
                         AutoRepairingToast.showRepairingToast();
                         onAccessibilityReady();
-                        if (RomUtils.checkIsVivoRom()) {
-                            SoundManager.getInstance().playVivoAutoStartGuide();
-                        }
                     }
+                    SoundManager.getInstance().playAutoTaskGuide();
                     HSApplication.getContext().unregisterReceiver(this);
                     listened = false;
                 }
@@ -1174,17 +1172,14 @@ public class AutoRequestManager {
 
                     } else if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsOppoRom()) {
                         Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[]{intent, guideIntent});
-                        if (RomUtils.checkIsOppoRom()
-                                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            PermissionVoiceGuide.getInstance().start(type);
-                        }
                     } else if (RomUtils.checkIsVivoRom()) {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                         Threads.postOnMainThreadDelayed(() -> Navigations.startActivitySafely(HSApplication.getContext(), guideIntent), 500);
-                        PermissionVoiceGuide.getInstance().start(type);
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), intent);
                     }
+                    PermissionVoiceGuide.getInstance().start(type);
+
                 } else {
                     Navigations.startActivitySafely(HSApplication.getContext(), intent);
                 }

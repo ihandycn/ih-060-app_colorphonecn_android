@@ -77,6 +77,7 @@ import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.guide.AccGuideAutopilotUtils;
 import com.honeycomb.colorphone.guide.AccVoiceGuide;
 import com.honeycomb.colorphone.guide.PermissionVoiceGuide;
+import com.honeycomb.colorphone.guide.VoiceGuideAutopilotUtils;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantConfig;
 import com.honeycomb.colorphone.lifeassistant.LifeAssistantOccasion;
 import com.honeycomb.colorphone.module.LockerEvent;
@@ -275,6 +276,7 @@ public class ColorPhoneApplicationImpl {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+            VoiceGuideAutopilotUtils.isEnable();
 
             if (!SmartLockerManager.isShowH5NewsLocker() && !RomUtils.checkIsOppoRom()) {
                 AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_NEWS_FEED);
@@ -839,6 +841,22 @@ public class ColorPhoneApplicationImpl {
 
         FloatWindowCompat.initLockScreen(mBaseApplication);
         HSChargingManager.getInstance().start();
+        LockerCustomConfig.get().setNewsLockerManager(new LockerCustomConfig.NewsLockerManager() {
+            @Override
+            public boolean isRefresh() {
+                return VoiceGuideAutopilotUtils.isRefreshEnable();
+            }
+
+            @Override
+            public void logAdChance() {
+                VoiceGuideAutopilotUtils.logAdChance();
+            }
+
+            @Override
+            public void logAdShow() {
+                VoiceGuideAutopilotUtils.logAdShow();
+            }
+        });
 
     }
 
